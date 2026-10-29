@@ -131,6 +131,97 @@ const diagnostic = value => String(value).replace(/https?:\/\/[^\s"'<>]+/g, '<ur
 
 export const requiresConsent = text => /(?:sign[ -]+in|log[ -]+in|authentication required|license agreement|terms and conditions|Apple (?:Account|ID)|accept.{0,80}(?:licen[sc]e|agreement)|(?:licen[sc]e|agreement).{0,80}(?:required|accept))/is.test(text)
 
+// Keep the original recursive reduction, including its order and treatment of non-files.
+export function ownedLogicalBytes(folder, observe = null, io = fs) {
+  return io.readdirSync(folder).reduce((sum, name) => {
+    const file = path.join(folder, name), st = io.lstatSync(file)
+    if (st.isSymbolicLink()) return sum + 0
+    if (st.isDirectory()) return sum + ownedLogicalBytes(file, observe, io)
+    const size = st.size
+    try { observe?.(file, st, size) } catch { /* Optional metadata cannot change the numeric probe. */ }
+    return sum + size
+  }, 0)
+}
+const ownedBreakdownBytes = value => Buffer.byteLength(JSON.stringify({ owned_size_breakdown: value }, null, 2) + '\n')
+const ownedPath = (root, file) => {
+  const relative = path.relative(root, file)
+  if (!relative || path.isAbsolute(relative) || relative === '..' || relative.startsWith('..' + path.sep)) return { path: null, path_omitted: 'outside-root' }
+  // Omit the whole name instead of displaying a truncated or invalid destination.
+  if (relative.length > 160 || Buffer.byteLength(relative) > 160) return { path: null, path_omitted: 'long' }
+  if (!relative.isWellFormed() || /[\u0000-\u001f\u007f-\u009f\\]/u.test(relative)) return { path: null, path_omitted: 'unsafe' }
+  if (diagnostic(relative) !== relative) return { path: null, path_omitted: 'redacted' }
+  return { path: relative.split(path.sep).join('/') }
+}
+const ownedKind = st => {
+  try { return ({ 32768: 'file', 4096: 'fifo', 49152: 'socket', 8192: 'character', 24576: 'block' })[st.mode & 61440] ?? 'other' }
+  catch { return 'other' }
+}
+const rawBlocks = st => {
+  try { const blocks = st.blocks; return Number.isFinite(blocks) && blocks >= 0 ? blocks : null } catch { return null }
+}
+export function ownedSizeProbe(root, io = fs) {
+  let current = null
+  const collector = () => {
+    const top = []; let seen = 0, complete = false, selectionComplete = true, total = null
+    return {
+      observe(file, st, size) {
+        try {
+          seen++
+          if (!Number.isFinite(size) || size < 0) { selectionComplete = false; return }
+          const index = top.findIndex(row => size > row.logical_bytes)
+          if (index < 0 && top.length === 8) return
+          const row = { ...ownedPath(root, file), kind: ownedKind(st), logical_bytes: size, blocks_raw: rawBlocks(st) }
+          if (index < 0) top.push(row)
+          else { if (top.length === 8) top.pop(); top.splice(index, 0, row) }
+        } catch { selectionComplete = false }
+      },
+      finish(value) { complete = true; total = Number.isFinite(value) ? value : null },
+      snapshot() {
+        try {
+          const entries = top.map(row => ({ ...row }))
+          const result = { same_monitor_walk: true, complete, selection_complete: complete && selectionComplete,
+            atomic: false, blocks_unit: null, total_logical_bytes: total, counted_entries_seen: seen,
+            top_limit: 8, omitted_by_budget: 0, unlisted_entries_seen: 0,
+            listed_logical_bytes: null, unlisted_logical_bytes: null, entries }
+          for (;;) {
+            const listed = entries.reduce((sum, row) => sum + row.logical_bytes, 0)
+            result.listed_logical_bytes = Number.isFinite(listed) ? listed : null
+            result.unlisted_logical_bytes = total !== null && result.listed_logical_bytes !== null ? total - listed : null
+            result.omitted_by_budget = top.length - entries.length; result.unlisted_entries_seen = seen - entries.length
+            // The wrapper includes the same nested pretty indentation as the real command exit put.
+            if (ownedBreakdownBytes(result) <= 2048) {
+              entries.forEach(Object.freeze); Object.freeze(entries); return Object.freeze(result)
+            }
+            if (!entries.length) return null
+            entries.pop()
+          }
+        } catch { return null }
+      }
+    }
+  }
+  return {
+    read() {
+      current = null
+      try { current = collector() } catch {}
+      const total = ownedLogicalBytes(root, current?.observe, io)
+      try { current?.finish(total) } catch {}
+      return total
+    },
+    snapshot() { return current?.snapshot() ?? null }
+  }
+}
+export function withOwnedSizeBreakdown(receipt, breakdown, budget) {
+  // If optional evidence does not fit, preserve the pre-existing receipt and its original put guard.
+  try {
+    const candidate = { ...receipt, owned_size_breakdown: breakdown }
+    const fits = () => Buffer.byteLength(JSON.stringify(candidate, null, 2) + '\n') <= budget
+    if (fits()) return candidate
+    candidate.owned_size_breakdown = null
+    if (fits()) return candidate
+  } catch {}
+  return receipt
+}
+
 export function evaluateResourceThresholds(readFree, readOwned, sample) {
   Object.assign(sample, { free_bytes: null, owned_bytes: null, free_completed: false, owned_completed: false,
     active_probe: 'free', violated_check: null })
@@ -143,8 +234,9 @@ export function evaluateResourceThresholds(readFree, readOwned, sample) {
   sample.active_probe = null; return violated
 }
 
-export function resourceThresholdMonitor({ command, stage, readFree, readOwned, kill, stopReason, elapsedMs }) {
+export function resourceThresholdMonitor({ command, stage, readFree, readOwned, kill, stopReason, elapsedMs, readOwnedBreakdown = () => null }) {
   let first = null, observedFailure = false
+  let firstOwnedBreakdown = null
   const label = (value, max) => typeof value === 'string' ? value.slice(0, max) : null
   const number = value => typeof value === 'number' && Number.isFinite(value) ? value : null
   const priorStop = () => { try { return stopReason() } catch { return null } }
@@ -168,9 +260,16 @@ export function resourceThresholdMonitor({ command, stage, readFree, readOwned, 
         observation_error_probe: observationError ? sample.active_probe : null, observation_error_code: observationError ? code : null,
         stop_already_set: label(previousStop, 64), measurement: 'non-atomic logical bytes; symlinks contribute zero' })
     } catch { /* Telemetry must not replace the already-requested original stop. */ }
+    try {
+      if (sample.owned_completed || sample.active_probe === 'owned') {
+        const value = readOwnedBreakdown()
+        if (value !== null && typeof value === 'object' && ownedBreakdownBytes(value) <= 2048) firstOwnedBreakdown = value
+      }
+    } catch { /* Optional same-walk evidence must not replace the original stop. */ }
   }
   return {
     get firstFailure() { return first },
+    get ownedSizeBreakdown() { return firstOwnedBreakdown },
     poll(cleanup = false) {
       if (cleanup) return
       const sample = {}
@@ -369,10 +468,7 @@ export async function runPilot(env = process.env) {
     assert.ok(bytes.length <= 512 * 1024 && evidenceBytes + bytes.length <= PILOT.evidenceBytes - (final ? 0 : PILOT.evidenceReserve))
     fs.writeFileSync(path.join(evidence, name), bytes, { flag: 'wx', mode: 0o600 }); evidenceBytes += bytes.length
   }
-  const ownedBytes = folder => fs.readdirSync(folder).reduce((sum, name) => {
-    const file = path.join(folder, name), st = fs.lstatSync(file)
-    return sum + (st.isSymbolicLink() ? 0 : st.isDirectory() ? ownedBytes(file) : st.size)
-  }, 0)
+  const ownedBytes = folder => ownedLogicalBytes(folder)
   const free = () => { const st = fs.statfsSync(root); return st.bavail * st.bsize }
   const run = async (name, binary, args, cap, cleanup = false, fullCapFailure = null) => {
     if (!cleanup) cancellation.assertWorkAllowed()
@@ -390,8 +486,9 @@ export async function runPilot(env = process.env) {
       if (reason.startsWith('resource-')) resourceFailure = true
       stop ??= reason; try { process.kill(-child.pid, 'SIGKILL') } catch {}
     }
-    const resourceMonitor = resourceThresholdMonitor({ command: name, stage, readFree: free, readOwned: () => ownedBytes(root),
-      kill, stopReason: () => stop, elapsedMs: () => performance.now() - begin })
+    const ownedProbe = ownedSizeProbe(root)
+    const resourceMonitor = resourceThresholdMonitor({ command: name, stage, readFree: free, readOwned: () => ownedProbe.read(),
+      kill, stopReason: () => stop, elapsedMs: () => performance.now() - begin, readOwnedBreakdown: () => ownedProbe.snapshot() })
     const output = commandOutputCapture(name, kill)
     cancellation.bindOwnedStop(kill)
     child.stdout.on('data', output.stdout); child.stderr.on('data', output.stderr); child.on('error', error => { spawnError = diagnostic(error.message) })
@@ -411,7 +508,9 @@ export async function runPilot(env = process.env) {
       cancelled_signal: cancellation.signal, elapsed_ms: performance.now() - begin, ...outputReceipt,
       captured_output_complete: stop === null && spawnError === null && outputReceipt.captured_output_complete,
       stdout_diagnostic_tail: diagnostic(stdout.toString('utf8')), stderr_diagnostic_tail: diagnostic(stderr.toString('utf8')) }
-    put(name + '.exit.json', receipt)
+    const exitReceipt = withOwnedSizeBreakdown(receipt, resourceMonitor.ownedSizeBreakdown,
+      Math.min(512 * 1024, PILOT.evidenceBytes - PILOT.evidenceReserve - evidenceBytes))
+    put(name + '.exit.json', exitReceipt)
     try {
       if (!cleanup) cancellation.assertWorkAllowed()
       assert.equal(spawnError, null); assert.equal(stop, null); assert.equal(result.signal, null); assert.equal(result.code, 0, name)

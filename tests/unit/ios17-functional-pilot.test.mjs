@@ -704,3 +704,273 @@ test('production monitor kills an actual owned fixture before retaining its firs
   { skip: process.platform === 'win32' }, async t => ownedResourceFixture(t, false))
 test('actual fixture cancellation remains the original stop when the monitor also observes a resource violation',
   { skip: process.platform === 'win32' }, async t => ownedResourceFixture(t, true))
+
+import { ownedLogicalBytes, ownedSizeProbe, withOwnedSizeBreakdown } from '../../ios/tests/ios17-functional-pilot.mjs'
+const breakdownRoot = path.resolve(os.tmpdir(), 'ailibrary-owned-size-fixture')
+const fakeOwnedStat = (size, kind = 'file', blocks = 1) => ({ size, blocks,
+  mode: { file: 32768, directory: 16384, symlink: 40960, fifo: 4096, socket: 49152, character: 8192, block: 24576, other: 0 }[kind],
+  isSymbolicLink: () => kind === 'symlink', isDirectory: () => kind === 'directory' })
+function fakeOwnedTree(spec, root = breakdownRoot) {
+  const operations = [], folders = new Map(), stats = new Map()
+  const add = (folder, rows) => {
+    folders.set(folder, rows.map(row => row.name))
+    for (const row of rows) {
+      const file = path.join(folder, row.name)
+      stats.set(file, row.error ?? row.stat ?? fakeOwnedStat(row.size ?? 0, row.kind ?? (row.children ? 'directory' : 'file'), row.blocks ?? 1))
+      if (row.children) add(file, row.children)
+    }
+  }
+  add(root, spec)
+  const io = {
+    readdirSync(folder) { operations.push(['readdir', folder]); if (!folders.has(folder)) throw new Error('unexpected directory read'); return folders.get(folder) },
+    lstatSync(file) { operations.push(['lstat', file]); const st = stats.get(file); if (st instanceof Error) throw st; assert.ok(st); return st }
+  }
+  return { root, io, operations, stats, folders }
+}
+function originalOwnedReduction(folder, io) {
+  return io.readdirSync(folder).reduce((sum, name) => {
+    const file = path.join(folder, name), st = io.lstatSync(file)
+    return sum + (st.isSymbolicLink() ? 0 : st.isDirectory() ? originalOwnedReduction(file, io) : st.size)
+  }, 0)
+}
+const breakdownPrettyBytes = value => Buffer.byteLength(JSON.stringify({ owned_size_breakdown: value }, null, 2) + '\n')
+function ownedMonitorHarness(tree, { free = PILOT.freeBytes, previous = null } = {}) {
+  let stop = previous, killed = false, monitor, freeValue = free
+  const probe = ownedSizeProbe(tree.root, tree.io), events = []
+  monitor = resourceThresholdMonitor({ command: 'functional', stage: 'functional',
+    readFree: () => { events.push('free'); return freeValue },
+    readOwned: () => { events.push('owned'); return probe.read() },
+    kill: reason => { if (!killed) assert.equal(monitor.ownedSizeBreakdown, null); events.push(['kill', reason]); killed = true; stop ??= reason },
+    stopReason: () => stop, elapsedMs: () => 7,
+    readOwnedBreakdown: () => { assert.equal(killed, true); events.push('format'); return probe.snapshot() } })
+  return { monitor, probe, events, get stop() { return stop }, free(value) { freeValue = value } }
+}
+
+test('owned production walker retains original recursive total and exact FS operation order for all counted kinds', () => {
+  const sameInode = { ...fakeOwnedStat(11), ino: 42, dev: 9, nlink: 2 }
+  const spec = [{ name: 'first', size: 2 }, { name: 'dir', stat: fakeOwnedStat(9000, 'directory'), children: [
+    { name: 'hard-a', stat: sameInode }, { name: 'hard-b', stat: sameInode }, { name: 'pipe', size: 3, kind: 'fifo' }] },
+    { name: 'link', size: 8000, kind: 'symlink' }, { name: 'last', size: 5, kind: 'socket' }]
+  const old = fakeOwnedTree(spec), next = fakeOwnedTree(spec), expected = originalOwnedReduction(old.root, old.io)
+  const probe = ownedSizeProbe(next.root, next.io)
+  assert.equal(probe.read(), expected); assert.equal(expected, 32)
+  assert.deepEqual(next.operations, old.operations)
+  const beforeSnapshot = JSON.stringify(next.operations), r = probe.snapshot()
+  assert.equal(JSON.stringify(next.operations), beforeSnapshot)
+  assert.equal(r.total_logical_bytes, expected); assert.equal(r.counted_entries_seen, 5)
+  assert.ok(r.entries.some(row => row.path === 'dir/hard-a')); assert.ok(r.entries.some(row => row.path === 'dir/hard-b'))
+  assert.ok(!r.entries.some(row => row.path === 'dir' || row.path === 'link'))
+})
+
+test('numeric walker preserves nested reduction grouping rather than flattening floating additions', () => {
+  const spec = [{ name: 'big', size: 2 ** 53 }, { name: 'nested', children: [{ name: 'negative', size: -(2 ** 53) }, { name: 'one', size: 1 }] }]
+  const old = fakeOwnedTree(spec), next = fakeOwnedTree(spec)
+  assert.equal(ownedLogicalBytes(next.root, null, next.io), originalOwnedReduction(old.root, old.io))
+  assert.deepEqual(next.operations, old.operations)
+})
+
+test('same-walk collector keeps largest eight entries in descending order with encounter-order ties', () => {
+  const sizes = [1, 12, 3, 11, 5, 10, 7, 9, 8, 6, 4, 2, 12, 0]
+  const tree = fakeOwnedTree(sizes.map((size, i) => ({ name: 'f' + i, size, blocks: 100 + i }))), probe = ownedSizeProbe(tree.root, tree.io)
+  const total = probe.read(), r = probe.snapshot()
+  const expected = sizes.map((size, i) => ({ size, i })).sort((a, b) => b.size - a.size || a.i - b.i).slice(0, 8)
+  assert.equal(r.entries.length, 8); assert.deepEqual(r.entries.map(row => row.path), expected.map(row => 'f' + row.i))
+  assert.deepEqual(r.entries.map(row => row.logical_bytes), expected.map(row => row.size))
+  assert.deepEqual(r.entries.map(row => row.blocks_raw), expected.map(row => 100 + row.i))
+  assert.equal(r.listed_logical_bytes + r.unlisted_logical_bytes, total)
+  assert.equal(r.unlisted_entries_seen, sizes.length - 8); assert.equal(r.omitted_by_budget, 0)
+  assert.equal(r.complete, true); assert.equal(r.selection_complete, true); assert.equal(r.atomic, false); assert.equal(r.blocks_unit, null)
+})
+
+test('walker performs exactly one lstat and one size read per counted entry without extra metadata FS calls', () => {
+  let sizeReads = 0, blocksReads = 0
+  const st = { ...fakeOwnedStat(0), get size() { sizeReads++; return 123 }, get blocks() { blocksReads++; return 7 } }
+  const tree = fakeOwnedTree([{ name: 'only', stat: st }]), probe = ownedSizeProbe(tree.root, tree.io)
+  assert.equal(probe.read(), 123); const operations = tree.operations.slice()
+  for (let i = 0; i < 3; i++) assert.equal(probe.snapshot().entries[0].blocks_raw, 7)
+  assert.equal(sizeReads, 1); assert.equal(blocksReads, 1); assert.deepEqual(tree.operations, operations)
+  assert.equal(operations.filter(x => x[0] === 'lstat').length, 1)
+})
+
+test('original lstat exception identity survives and a partial walk never invents total or remainder', () => {
+  const error = Object.assign(new Error('private path in original error'), { code: 'EACCES' })
+  const tree = fakeOwnedTree([{ name: 'known', size: 10 }, { name: 'missing', error }]), probe = ownedSizeProbe(tree.root, tree.io)
+  let caught; try { probe.read() } catch (value) { caught = value }
+  assert.equal(caught, error); const before = tree.operations.slice(), r = probe.snapshot()
+  assert.equal(r.complete, false); assert.equal(r.selection_complete, false); assert.equal(r.total_logical_bytes, null)
+  assert.equal(r.unlisted_logical_bytes, null); assert.equal(r.listed_logical_bytes, 10)
+  assert.equal(r.counted_entries_seen, 1); assert.equal(r.entries[0].path, 'known'); assert.deepEqual(tree.operations, before)
+  assert.ok(!JSON.stringify(r).includes('private path'))
+})
+
+test('nested directory enumeration failure remains the original throw with only previously observed entries', () => {
+  const tree = fakeOwnedTree([{ name: 'a', size: 1 }, { name: 'd', children: [{ name: 'b', size: 2 }] }])
+  const original = tree.io.readdirSync, error = new Error('rename race')
+  tree.io.readdirSync = folder => { if (folder === path.join(tree.root, 'd')) throw error; return original(folder) }
+  const probe = ownedSizeProbe(tree.root, tree.io)
+  assert.throws(() => probe.read(), value => value === error)
+  const r = probe.snapshot(); assert.equal(r.complete, false); assert.equal(r.total_logical_bytes, null)
+  assert.deepEqual(r.entries.map(row => row.path), ['a'])
+})
+
+test('relative path display omits long, unsafe, outside and redacted names without retaining absolute paths', () => {
+  const names = ['x'.repeat(10000), '猫'.repeat(1000), 'line\nname', 'bad\ud800name', 'back\\name', '../outside', 'private@example.com', 'token=secret']
+  const tree = fakeOwnedTree(names.map((name, i) => ({ name, size: i + 1 }))), probe = ownedSizeProbe(tree.root, tree.io)
+  probe.read(); const r = probe.snapshot(), text = JSON.stringify(r)
+  assert.ok(r.entries.length <= 8); assert.ok(r.entries.every(row => row.path === null && typeof row.path_omitted === 'string'))
+  assert.ok(!text.includes(tree.root)); assert.ok(!text.includes('secret')); assert.ok(!text.includes('example.com'))
+  assert.ok(!text.includes('outside"')); assert.ok(breakdownPrettyBytes(r) <= 2048)
+})
+
+test('valid UTF8 paths are kept whole and pretty nested UTF8 byte cap can omit lowest candidates honestly', () => {
+  const tree = fakeOwnedTree(Array.from({ length: 8 }, (_, i) => ({ name: '猫'.repeat(30) + i, size: 100 - i,
+    blocks: Number.MAX_VALUE }))), probe = ownedSizeProbe(tree.root, tree.io)
+  const total = probe.read(), r = probe.snapshot()
+  assert.ok(r.entries.length > 0 && r.entries.length < 8); assert.equal(r.omitted_by_budget, 8 - r.entries.length)
+  assert.ok(r.entries.every(row => row.path?.isWellFormed() && row.path.startsWith('猫'.repeat(30))))
+  assert.ok(breakdownPrettyBytes(r) <= 2048); assert.equal(r.listed_logical_bytes + r.unlisted_logical_bytes, total)
+  assert.equal(r.complete, true); assert.equal(r.selection_complete, true)
+  assert.equal(r.unlisted_entries_seen, 8 - r.entries.length)
+})
+
+test('raw blocks stay raw or null and special kinds do not become allocated or sparse metrics', () => {
+  const kinds = ['file', 'fifo', 'socket', 'character', 'block', 'other']
+  const tree = fakeOwnedTree(kinds.map((kind, i) => ({ name: kind, size: 20 - i, kind, blocks: i === 1 ? Infinity : i === 2 ? -1 : i })))
+  Object.defineProperty(tree.stats.get(path.join(tree.root, 'other')), 'blocks', { get() { throw new Error('unsupported') } })
+  const probe = ownedSizeProbe(tree.root, tree.io); probe.read(); const r = probe.snapshot()
+  assert.deepEqual(r.entries.map(row => row.kind), kinds); assert.deepEqual(r.entries.map(row => row.blocks_raw), [0, null, null, 3, 4, null])
+  const text = JSON.stringify(r); assert.ok(!text.includes('allocated')); assert.ok(!text.includes('sparse')); assert.equal(r.blocks_unit, null)
+})
+
+test('nonfinite or unusual size metadata preserves original numeric values without inventing valid totals', () => {
+  for (const size of [NaN, Infinity, -1]) {
+    const old = fakeOwnedTree([{ name: 'odd', size }]), tree = fakeOwnedTree([{ name: 'odd', size }]), probe = ownedSizeProbe(tree.root, tree.io)
+    assert.equal(probe.read(), originalOwnedReduction(old.root, old.io))
+    const r = probe.snapshot(); assert.equal(r.total_logical_bytes, Number.isFinite(size) ? size : null)
+    assert.equal(r.selection_complete, false); assert.equal(r.entries.length, 0)
+  }
+})
+
+test('empty and zero-sized trees distinguish measured zero from an unavailable breakdown', () => {
+  for (const spec of [[], [{ name: 'zero', size: 0 }]]) {
+    const tree = fakeOwnedTree(spec), probe = ownedSizeProbe(tree.root, tree.io)
+    assert.equal(probe.snapshot(), null); assert.equal(probe.read(), 0)
+    const r = probe.snapshot(); assert.equal(r.total_logical_bytes, 0); assert.equal(r.listed_logical_bytes, 0)
+    assert.equal(r.unlisted_logical_bytes, 0); assert.equal(r.complete, true); assert.equal(r.entries.length, spec.length)
+  }
+})
+
+test('healthy then free-floor or cleanup poll cannot attach a stale prior owned walk', () => {
+  const tree = fakeOwnedTree([{ name: 'healthy', size: 1 }]), h = ownedMonitorHarness(tree)
+  h.monitor.poll(); assert.equal(h.monitor.ownedSizeBreakdown, null); assert.deepEqual(h.events, ['free', 'owned'])
+  const oldOps = tree.operations.slice(); h.free(0); h.monitor.poll()
+  assert.deepEqual(tree.operations, oldOps); assert.equal(h.monitor.ownedSizeBreakdown, null)
+  assert.deepEqual(h.events, ['free', 'owned', 'free', ['kill', 'resource-floor-or-cap']])
+  const cleanup = ownedMonitorHarness(fakeOwnedTree([])); cleanup.monitor.poll(true)
+  assert.deepEqual(cleanup.events, []); assert.equal(cleanup.monitor.ownedSizeBreakdown, null)
+})
+
+test('production monitor formats only after original kill from the same failing numeric walk', () => {
+  const tree = fakeOwnedTree([{ name: 'large', size: PILOT.ownedBytes + 1, blocks: 8 }]), h = ownedMonitorHarness(tree)
+  h.monitor.poll(); const r = h.monitor.ownedSizeBreakdown
+  assert.deepEqual(h.events, ['free', 'owned', ['kill', 'resource-floor-or-cap'], 'format'])
+  assert.equal(r.total_logical_bytes, h.monitor.firstFailure.owned_bytes)
+  assert.equal(r.same_monitor_walk, true); assert.equal(r.complete, true); assert.equal(h.stop, 'resource-floor-or-cap')
+  assert.equal(tree.operations.filter(row => row[0] === 'lstat').length, 1)
+  assert.ok(breakdownPrettyBytes(r) <= 2048)
+  assert.ok(Buffer.byteLength(JSON.stringify({ resource_observation: h.monitor.firstFailure }, null, 2) + '\n') <= 2048)
+})
+
+test('a partial monitor-owned exception keeps the original separate classification and first partial walk', () => {
+  const error = Object.assign(new Error('original error'), { code: 'EIO' })
+  const tree = fakeOwnedTree([{ name: 'before-error', size: 7 }, { name: 'race', error }]), h = ownedMonitorHarness(tree)
+  h.monitor.poll(); assert.equal(h.stop, 'resource-observation-failed')
+  assert.equal(h.monitor.firstFailure.observation_error_probe, 'owned')
+  const r = h.monitor.ownedSizeBreakdown; assert.equal(r.complete, false); assert.equal(r.total_logical_bytes, null)
+  assert.equal(r.entries[0].path, 'before-error'); assert.deepEqual(h.events.at(-1), 'format')
+})
+
+test('first breakdown stays deeply frozen through later polls and plain post-command numeric walks', () => {
+  const tree = fakeOwnedTree([{ name: 'initial', size: PILOT.ownedBytes + 1 }]), h = ownedMonitorHarness(tree)
+  h.monitor.poll(); const first = h.monitor.ownedSizeBreakdown, original = JSON.stringify(first)
+  tree.stats.set(path.join(tree.root, 'initial'), fakeOwnedStat(PILOT.ownedBytes + 900))
+  assert.equal(ownedLogicalBytes(tree.root, null, tree.io), PILOT.ownedBytes + 900)
+  // The original monitor may keep running until child close; it must not replace first evidence.
+  h.monitor.poll(); assert.equal(h.monitor.ownedSizeBreakdown, first); assert.equal(JSON.stringify(first), original)
+  assert.equal(h.events.filter(row => row === 'format').length, 1)
+  assert.equal(Object.isFrozen(first), true); assert.equal(Object.isFrozen(first.entries), true); assert.equal(Object.isFrozen(first.entries[0]), true)
+  assert.throws(() => first.entries.push({}), TypeError); assert.throws(() => { first.entries[0].logical_bytes = 0 }, TypeError)
+})
+
+test('prior cancellation retains stop priority while same-walk breakdown records a resource violation', () => {
+  const tree = fakeOwnedTree([{ name: 'large', size: PILOT.ownedBytes + 1 }]), h = ownedMonitorHarness(tree, { previous: 'cancelled-SIGTERM' })
+  h.monitor.poll(); assert.equal(h.stop, 'cancelled-SIGTERM'); assert.equal(h.monitor.firstFailure.stop_already_set, 'cancelled-SIGTERM')
+  assert.equal(h.monitor.ownedSizeBreakdown.total_logical_bytes, PILOT.ownedBytes + 1)
+})
+
+test('optional snapshot failure or oversize cannot mask original stop or be replaced by a later snapshot', () => {
+  for (const first of [() => { throw new Error('metadata only') }, () => ({ path: 'x'.repeat(3000) }), () => undefined]) {
+    let stops = 0, calls = 0, read = first
+    const monitor = resourceThresholdMonitor({ command: 'functional', stage: 'functional', readFree: () => PILOT.freeBytes,
+      readOwned: () => PILOT.ownedBytes + 1, kill: () => { stops++ }, stopReason: () => null, elapsedMs: () => 1,
+      readOwnedBreakdown: () => { calls++; return read() } })
+    monitor.poll(); assert.equal(monitor.ownedSizeBreakdown, null); assert.equal(monitor.firstFailure.violated_check, 'owned-cap')
+    read = () => ({ later: true }); monitor.poll(); assert.equal(monitor.ownedSizeBreakdown, null); assert.equal(calls, 1); assert.equal(stops, 2)
+  }
+})
+
+test('optional sibling respects exact existing put budget or falls back to null then the unchanged receipt', () => {
+  const receipt = { stop: 'resource-floor-or-cap', resource_failure: true, resource_observation: { phase: 'monitor' } }
+  const breakdown = { entries: [{ path: 'a', logical_bytes: 9 }] }
+  const bytes = value => Buffer.byteLength(JSON.stringify(value, null, 2) + '\n')
+  const full = { ...receipt, owned_size_breakdown: breakdown }, nil = { ...receipt, owned_size_breakdown: null }
+  assert.deepEqual(withOwnedSizeBreakdown(receipt, breakdown, bytes(full)), full)
+  assert.deepEqual(withOwnedSizeBreakdown(receipt, breakdown, bytes(full) - 1), nil)
+  assert.deepEqual(withOwnedSizeBreakdown(receipt, breakdown, bytes(nil)), nil)
+  assert.equal(withOwnedSizeBreakdown(receipt, breakdown, bytes(nil) - 1), receipt)
+  assert.equal(withOwnedSizeBreakdown(receipt, breakdown, bytes(receipt) - 1), receipt)
+  assert.equal(receipt.owned_size_breakdown, undefined)
+  const circular = {}; circular.self = circular
+  assert.equal(withOwnedSizeBreakdown(receipt, circular, 2048), receipt)
+})
+
+test('small actual filesystem fixture uses original logical semantics and never follows its symlink', { skip: process.platform === 'win32' }, t => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'ailibrary-owned-small-'))
+  t.after(() => fs.rmSync(root, { recursive: true, force: true }))
+  fs.mkdirSync(path.join(root, 'nested')); fs.writeFileSync(path.join(root, 'one'), 'abc')
+  fs.writeFileSync(path.join(root, 'nested/two'), 'defg'); fs.symlinkSync('nested', path.join(root, 'link'))
+  const calls = [], io = { readdirSync: folder => { calls.push(['readdir', folder]); return fs.readdirSync(folder) },
+    lstatSync: file => { calls.push(['lstat', file]); return fs.lstatSync(file) } }
+  const probe = ownedSizeProbe(root, io); assert.equal(probe.read(), 7)
+  const r = probe.snapshot(); assert.equal(r.counted_entries_seen, 2); assert.equal(r.entries.length, 2)
+  assert.equal(calls.filter(row => row[0] === 'lstat').length, 4)
+  assert.ok(!calls.some(row => row[0] === 'readdir' && row[1] === path.join(root, 'link')))
+  assert.equal(r.total_logical_bytes, originalOwnedReduction(root, fs))
+})
+
+test('optional observer and stat-metadata failures cannot change numeric walker totals or add FS probes', () => {
+  const tree = fakeOwnedTree([{ name: 'known', size: 9 }])
+  assert.equal(ownedLogicalBytes(tree.root, () => { throw new Error('observer only') }, tree.io), 9)
+  const st = tree.stats.get(path.join(tree.root, 'known'))
+  Object.defineProperty(st, 'mode', { get() { throw new Error('mode metadata only') } })
+  Object.defineProperty(st, 'blocks', { get() { throw new Error('blocks metadata only') } })
+  tree.operations.length = 0
+  const probe = ownedSizeProbe(tree.root, tree.io); assert.equal(probe.read(), 9)
+  const r = probe.snapshot(); assert.equal(r.entries[0].kind, 'other'); assert.equal(r.entries[0].blocks_raw, null)
+  assert.equal(tree.operations.filter(row => row[0] === 'lstat').length, 1)
+})
+
+test('known105-byte SDKStatCache path is retained whole for a synthetic largest entry without proving actual attribution', () => {
+  const name = 'iphonesimulator18.5-22F76-96ae0914227b19deccb34b33ba7b5dea.sdkstatcache'
+  const relative = 'DerivedData/SDKStatCaches.noindex/' + name
+  assert.equal(Buffer.byteLength(relative), 105)
+  const tree = fakeOwnedTree([{ name: 'runtime-download', children: [{ name: 'runtime.dmg', size: 7559529352 }] },
+    { name: 'DerivedData', children: [{ name: 'SDKStatCaches.noindex', children: [{ name, size: 26846424772, blocks: 19 }] }] }])
+  const h = ownedMonitorHarness(tree); h.monitor.poll()
+  const r = h.monitor.ownedSizeBreakdown
+  assert.equal(r.entries[0].path, relative); assert.equal(r.entries[0].path_omitted, undefined)
+  assert.equal(r.entries[0].logical_bytes, 26846424772); assert.equal(r.entries[0].blocks_raw, 19)
+  assert.equal(r.total_logical_bytes, 34405954124); assert.equal(r.listed_logical_bytes + r.unlisted_logical_bytes, r.total_logical_bytes)
+  assert.equal(r.same_monitor_walk, true); assert.ok(breakdownPrettyBytes(r) <= 2048)
+  assert.equal(tree.operations.filter(row => row[0] === 'lstat' && row[1].endsWith(name)).length, 1)
+})

@@ -1,5 +1,7 @@
 # iOS完成版に向けたTODO
 
+iOS17の[同じ走査による所有領域内訳](../../records/2026-10-30/ios17-owned-size-breakdown.md)を、logical上位最大8件・追加観測部分2KiBの候補として準備する。Node70件・構文2file・Source独立レビューと共通1,242件中1,227成功・15skip・失敗0を確認し、容量上限の変更や追加走査を行わない。App0.2.23（25）・TODO32行／完了13行と実機等の未完了を保ち、new headの47件・必要CI・通常統合は後続とする。
+
 Fullの[単体失敗後の診断](../../records/2026-10-29/ios-full-core-failure-inventory.md)を、当該unit失敗・非cancel時の読取2回に限定して準備する。元pipelineの失敗結果、既存上限とApp0.2.23（25）を保持し、実Hostedの失敗時経路・共通検査・通常main統合は未確認として、TODO32行／完了13行とIOS-15未完了を保つ。
 
 iOS17の[資源閾値の観測改善](../../records/2026-10-29/ios17-resource-threshold-observation.md)は、monitorの最初の違反だけを既存の値から保存する候補である。Node49件・構文2fileまでを確認し、閾値の緩和や追加走査を行わず、新headの機能47件・必要CI・通常main反映を後続へ残す。App0.2.23（25）・TODO32行／完了13行と実機等の未完了を保持し、後続の各段落を作成時点の履歴として扱う。

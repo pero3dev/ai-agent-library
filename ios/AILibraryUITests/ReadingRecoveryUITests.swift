@@ -109,6 +109,51 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
         requireBookmarkedArticle("Agent ループ", id: "01-concepts/agent-loop")
     }
 
+    func testConfirmedRecoveryPreservesCurrentPositionAndBookmarkAfterRelaunch() throws {
+        requireRecoveryNotice()
+        open("Transformer アーキテクチャ詳解", articleID: "11-llm-internals/transformer-architecture")
+        let addBookmark = app.buttons["しおりを追加"]
+        XCTAssertTrue(addBookmark.waitForExistence(timeout: 10))
+        requireHittable(addBookmark)
+        addBookmark.tap()
+        XCTAssertTrue(app.buttons["しおりを削除"].waitForExistence(timeout: 10))
+        goToContents("自己注意の数式", headingID: "自己注意の数式")
+        returnToLibrary()
+
+        let clear = app.buttons["library-clear-filters"]
+        for _ in 0..<8 where !isHittableOnScreen(clear) { app.swipeDown(velocity: .slow) }
+        requireHittable(clear)
+        clear.tap()
+        // Resume has no heading/search route. Prove the live saved position
+        // before recovery; a visible TOC destination alone is not a writer ack.
+        let liveResume = element("library-resume")
+        requireHittable(liveResume)
+        liveResume.tap()
+        requireNativeBody()
+        XCTAssertTrue(app.buttons["しおりを削除"].waitForExistence(timeout: 10))
+        requireHittable(app.staticTexts["native-heading-自己注意の数式"],
+                        inside: app.scrollViews["native-reader"], fullyVisible: true)
+        returnToLibrary()
+
+        let dialog = presentRecoveryConfirmation()
+        let confirm = dialog.buttons[confirmLabel]
+        requireHittable(confirm)
+        confirm.tap()
+        waitForRecoveryDialogToClose()
+        requireNoRecoveryNotice()
+
+        relaunchSameSuite()
+        requireNoRecoveryNotice()
+        // Open no other article and issue no TOC request after confirmation.
+        let savedResume = element("library-resume")
+        requireHittable(savedResume)
+        savedResume.tap()
+        requireNativeBody()
+        XCTAssertTrue(app.buttons["しおりを削除"].waitForExistence(timeout: 10))
+        requireHittable(app.staticTexts["native-heading-自己注意の数式"],
+                        inside: app.scrollViews["native-reader"], fullyVisible: true)
+    }
+
     /// The observed system picker must be new; background search cancellation is excluded.
     private func requireNewReadingRestorePicker(after previousIDs: Set<String>) throws
         -> (bar: XCUIElement, cancel: XCUIElement) {

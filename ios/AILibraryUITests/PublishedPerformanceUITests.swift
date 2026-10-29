@@ -231,7 +231,28 @@ final class PublishedPerformanceUITests: XCTestCase {
                 userInfo: [NSLocalizedDescriptionKey: message])
     }
 
-    private func longScrollWait(_ message: String, condition: @escaping () -> Bool) throws {
+    private func longScrollWait(_ message: String, trace: PublishedLongScrollPreparationWaitTrace? = nil,
+                                condition: @escaping () -> Bool) throws {
+        if let trace {
+            defer { trace.emit() }
+            trace.markExpectationStarted()
+            let expectation = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+                let poll = trace.beginPoll()
+                let satisfied = condition()
+                trace.endPoll(poll, satisfied: satisfied)
+                return satisfied
+            }, object: nil)
+            trace.markExpectationReturned()
+            trace.markWaitStarted()
+            let result = XCTWaiter.wait(for: [expectation], timeout: 15)
+            trace.markWaitReturned(resultCode: Int(result.rawValue), completed: result == .completed)
+            guard result == .completed else {
+                trace.markOutcome(.waitNotCompletedThrown)
+                throw longScrollError(message)
+            }
+            trace.markOutcome(.completed)
+            return
+        }
         let expectation = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in condition() }, object: nil)
         guard XCTWaiter.wait(for: [expectation], timeout: 15) == .completed else {
             throw longScrollError(message)
@@ -279,11 +300,15 @@ final class PublishedPerformanceUITests: XCTestCase {
             guard summaries.count == 1, summaries[0].label == "検索: " + title else { return [] }
             return rows.allElementsBoundByIndex.filter { isUsableOnScreen($0) }
         }
+        let preparationWaitTrace = PublishedLongScrollPreparationWaitTrace()
         for _ in 0..<12 {
-            if preparedRows().count == 1 { break }
+            let prepared = preparedRows().count == 1
+            preparationWaitTrace.recordPrecheck(satisfied: prepared)
+            if prepared { break }
             app.swipeUp(velocity: .slow)
         }
-        try longScrollWait("One foreground exact-title article row is required before opening") { preparedRows().count == 1 }
+        try longScrollWait("One foreground exact-title article row is required before opening",
+                           trace: preparationWaitTrace) { preparedRows().count == 1 }
         let readyRows = preparedRows()
         guard readyRows.count == 1 else { throw longScrollError("The prepared article row became ambiguous.") }
         readyRows[0].tap()
@@ -719,5 +744,147 @@ private final class PublishedMemoryPhaseTrace {
         totalBytes += line.count
         writeLine(line)
         return true
+    }
+}
+
+
+/// Preparation-only boundaries: reads no App/UI property and prints once after the waiter returns.
+/// A callback may finish after the waiter; its returned time remains separate from that boundary.
+private final class PublishedLongScrollPreparationWaitTrace {
+    enum Outcome: String {
+        case pending
+        case completed
+        case waitNotCompletedThrown = "wait-not-completed-thrown"
+    }
+
+    private struct Poll {
+        let sequence: UInt64
+        let started: UInt64
+        var returned: UInt64?
+        var satisfied: Bool?
+    }
+
+    private static let prefix = "AILIBRARY_LONG_SCROLL_PREPARATION "
+    private let lock = NSLock()
+    private let origin = DispatchTime.now().uptimeNanoseconds
+    private var expectationStarted: UInt64?
+    private var expectationReturned: UInt64?
+    private var waitStarted: UInt64?
+    private var waitReturned: UInt64?
+    private var resultCode: Int?
+    private var waiterCompleted: Bool?
+    private var startedAtWaitReturn: UInt64?
+    private var returnedAtWaitReturn: UInt64?
+    private var inflightAtWaitReturn: UInt64?
+    private var totalStarted: UInt64 = 0
+    private var totalReturned: UInt64 = 0
+    private var polls: [Poll] = []
+    private var precheckEvaluations = 0
+    private var precheckLastSatisfied: Bool?
+    private var outcome: Outcome = .pending
+    private var outcomeRecorded: UInt64?
+    private var emitted = false
+
+    private func locked<T>(_ body: () -> T) -> T {
+        lock.lock()
+        defer { lock.unlock() }
+        return body()
+    }
+
+    func recordPrecheck(satisfied: Bool) {
+        locked {
+            if precheckEvaluations < 12 { precheckEvaluations += 1 }
+            precheckLastSatisfied = satisfied
+        }
+    }
+
+    func markExpectationStarted() { locked { expectationStarted = DispatchTime.now().uptimeNanoseconds } }
+    func markExpectationReturned() { locked { expectationReturned = DispatchTime.now().uptimeNanoseconds } }
+    func markWaitStarted() { locked { waitStarted = DispatchTime.now().uptimeNanoseconds } }
+
+    func beginPoll() -> UInt64 {
+        locked {
+            totalStarted += 1
+            if polls.count == 8 { polls.removeFirst() }
+            polls.append(Poll(sequence: totalStarted, started: DispatchTime.now().uptimeNanoseconds,
+                              returned: nil, satisfied: nil))
+            return totalStarted
+        }
+    }
+
+    func endPoll(_ sequence: UInt64, satisfied: Bool) {
+        locked {
+            totalReturned += 1
+            if let index = polls.firstIndex(where: { $0.sequence == sequence }) {
+                polls[index].returned = DispatchTime.now().uptimeNanoseconds
+                polls[index].satisfied = satisfied
+            }
+        }
+    }
+
+    func markWaitReturned(resultCode: Int, completed: Bool) {
+        locked {
+            waitReturned = DispatchTime.now().uptimeNanoseconds
+            self.resultCode = resultCode
+            waiterCompleted = completed
+            startedAtWaitReturn = totalStarted
+            returnedAtWaitReturn = totalReturned
+            inflightAtWaitReturn = totalStarted - totalReturned
+        }
+    }
+
+    func markOutcome(_ value: Outcome) {
+        locked {
+            outcome = value
+            outcomeRecorded = DispatchTime.now().uptimeNanoseconds
+        }
+    }
+
+    private func nullable<T>(_ value: T?) -> Any {
+        if let value { return value }
+        return NSNull()
+    }
+
+    private func milliseconds(_ value: UInt64?) -> Any {
+        guard let value, value >= origin else { return NSNull() }
+        return Double(value - origin) / 1_000_000
+    }
+
+    func emit() {
+        let payload: [String: Any]? = locked {
+            guard !emitted else { return nil }
+            emitted = true
+            return [
+                "schema_version": 1, "phase": "prepared-article-row",
+                "scenario": "long-article-bounded-scroll", "article_id": "03-implementation/openai-prompting",
+                "sampling": "after-wait-return-sequential", "wait_timeout_seconds": 15,
+                "expectation_init_started_ms": milliseconds(expectationStarted),
+                "expectation_init_returned_ms": milliseconds(expectationReturned),
+                "wait_started_ms": milliseconds(waitStarted), "wait_returned_ms": milliseconds(waitReturned),
+                "wait_result_code": nullable(resultCode), "waiter_completed": nullable(waiterCompleted),
+                "polls_started_at_wait_return": nullable(startedAtWaitReturn),
+                "polls_returned_at_wait_return": nullable(returnedAtWaitReturn),
+                "inflight_at_wait_return": nullable(inflightAtWaitReturn),
+                "polls_started_at_snapshot": totalStarted, "polls_returned_at_snapshot": totalReturned,
+                "last_poll_starts": polls.map { poll -> [String: Any] in
+                    ["sequence": poll.sequence, "started_ms": milliseconds(poll.started),
+                     "returned_ms": milliseconds(poll.returned), "satisfied": nullable(poll.satisfied)]
+                },
+                "precheck_evaluations": precheckEvaluations, "precheck_last_satisfied": nullable(precheckLastSatisfied),
+                "helper_outcome": outcome.rawValue, "outcome_recorded_ms": milliseconds(outcomeRecorded),
+                "snapshot_ms": milliseconds(DispatchTime.now().uptimeNanoseconds)
+            ]
+        }
+        guard let payload else { return }
+        // JSON serialization and console I/O never hold the callback-state lock.
+        let maximumJSONBytes = 8192 - Self.prefix.utf8.count - 1
+        let text: String
+        if let data = try? JSONSerialization.data(withJSONObject: payload, options: [.sortedKeys]),
+           data.count <= maximumJSONBytes {
+            text = String(decoding: data, as: UTF8.self)
+        } else {
+            text = #"{"schema_version":1,"phase":"prepared-article-row","snapshot_unavailable":"encoding-or-size-limit"}"#
+        }
+        print(Self.prefix + text)
     }
 }

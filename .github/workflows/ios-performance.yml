@@ -233,15 +233,17 @@ jobs:
         if: always()
         run: |
           set -euo pipefail
-          protocol_args=()
+          # Bash 3.2 with nounset cannot expand an empty array.
+          export_args=(
+            --result .local/ios-performance/evidence/performance.xcresult
+            --output .local/ios-performance/evidence/export
+            --context .local/ios-performance/evidence/context.json
+            --scenario "$PERFORMANCE_SCENARIO"
+          )
           if [[ "$PERFORMANCE_SCENARIO" == 'long-article-bounded-scroll' ]]; then
-            protocol_args=(--protocol-log .local/ios-performance/evidence/performance.log)
+            export_args+=(--protocol-log .local/ios-performance/evidence/performance.log)
           fi
-          node ios/tests/export-performance.mjs \
-            --result .local/ios-performance/evidence/performance.xcresult \
-            --output .local/ios-performance/evidence/export \
-            --context .local/ios-performance/evidence/context.json \
-            --scenario "$PERFORMANCE_SCENARIO" "${protocol_args[@]}"
+          node ios/tests/export-performance.mjs "${export_args[@]}"
       - name: Retain observation results and extraction failures
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1

@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { spawnSync } from 'node:child_process';
+import { load as loadYaml } from 'js-yaml';
 import { existsSync, linkSync, lstatSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, realpathSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -747,5 +748,37 @@ test('scroll CLI refuses a context alias or symlink/hardlink protocol input befo
     assert.equal(value.run.status, 1, mode); assert.equal(existsSync(value.output), false, mode);
     assert.equal(existsSync(path.join(value.root, 'commands.jsonl')), false, mode);
     assert.equal(readFileSync(value.context, 'utf8'), value.contextBytes, mode);
+  }
+});
+
+
+test('the actual workflow export shell forwards exact arguments under nounset for all scenarios', {
+  skip: process.platform === 'win32' ? 'The hosted macOS Bash workflow and POSIX executable argv fixture require /bin/bash' : false,
+}, t => {
+  const workflow = loadYaml(readFileSync(new URL('../../.github/workflows/ios-performance.yml', import.meta.url), 'utf8'));
+  const steps = workflow.jobs['ios-published-readiness'].steps.filter(step => step.name === 'Export typed samples and retain raw unvalidated CSV');
+  assert.equal(steps.length, 1);
+  assert.equal(steps[0].if, 'always()');
+  assert.equal(typeof steps[0].run, 'string');
+  const root = temporary(t), bin = path.join(root, 'bin');
+  mkdirSync(bin);
+  // Only capture argv from the actual YAML shell block; do not run the exporter or Xcode.
+  writeFileSync(path.join(bin, 'node'), '#!/bin/sh\nprintf \'%s\\0\' "$@"\n', { mode: 0o755 });
+  for (const scenario of ['launch-to-published-readiness', 'search-query-to-visible-witness', 'long-article-bounded-scroll']) {
+    const run = spawnSync('/bin/bash', ['--noprofile', '--norc', '-e', '-u', '-o', 'pipefail', '-c', steps[0].run], {
+      cwd: root, encoding: 'utf8', timeout: 5000, maxBuffer: 4096,
+      env: { PATH: bin, LC_ALL: 'C', PERFORMANCE_SCENARIO: scenario },
+    });
+    assert.equal(run.error, undefined, scenario);
+    assert.equal(run.signal, null, scenario);
+    assert.equal(run.status, 0, scenario + ': ' + run.stderr);
+    assert.equal(run.stderr, '', scenario);
+    assert.ok(run.stdout.endsWith('\0'), scenario);
+    const expected = ['ios/tests/export-performance.mjs',
+      '--result', '.local/ios-performance/evidence/performance.xcresult',
+      '--output', '.local/ios-performance/evidence/export',
+      '--context', '.local/ios-performance/evidence/context.json', '--scenario', scenario];
+    if (scenario === 'long-article-bounded-scroll') expected.push('--protocol-log', '.local/ios-performance/evidence/performance.log');
+    assert.deepEqual(run.stdout.slice(0, -1).split('\0'), expected, scenario);
   }
 });

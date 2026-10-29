@@ -1,5 +1,7 @@
 # project — 計画と実施記録
 
+[長文の固定区間スクロールClock](records/2026-10-30/ios-long-scroll-clock.md)の候補を、PR #303を通常統合した実main6bfへ全2813 mode／blob一致で結ぶ。Source4のNode57・独立レビュー・SDK型検査と、文書候補時点の共通1185件中1170成功／15skipを再利用する。最大16縦dragの実Hosted・4 invocations／Clock3とCSV、Source8の必要CI／main採用は未完了である。App0.2.23（25）・自分用checkpoint・TODO32行／完了13行を保ち、IOS-15やPR #301のiOS17 UI失敗の解消は主張しない。
+
 [自分用候補の現況](records/2026-10-30/ios-personal-use-candidate-checkpoint.md)に、採用main ca595／App0.2.23（25）の署名候補と期限2026-10-31 14:32:21 JST、既存の更新・復元手順をまとめる。未採用Draft #301のa4dでは10分枠の停止と別のAX UI失敗を確認し、47件は未受入のまま保留する。Runtime26の成功とiOS17受入を区別し、接続端末未確認の実機操作は未完了でスキップした。19:23:02 UTCに他6系統は成功・Pilot失敗で全終了し、既知11成功は旧body時点の履歴とする。SourceとTODO32行／完了13行、旧記録の履歴を保持する。
 
 Fullの[単体失敗後のinventory収集](records/2026-10-29/ios-full-core-failure-inventory.md)は、元の失敗を保持し、非cancel時だけ同VMで2つの読取を追加する候補である。Source3のfixture15件と独立レビューを確認し、自然なHosted失敗時経路・共通検査・main反映は後続として、IOS-15全体を未完了に保つ。

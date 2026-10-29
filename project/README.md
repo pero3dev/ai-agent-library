@@ -1,5 +1,7 @@
 # project — 計画と実施記録
 
+[iOS17取得後のruntime状態](records/2026-10-29/ios17-functional-ci-pilot.md#取得後のruntime状態と明示importの条件分岐)では、取得・起動後のpretest曖昧判定による停止を記録し、既に利用可能ならimportを省く候補と、guard前の識別情報保存を準備する。機能47件とmain反映は未確認のままとする。
+
 [iOS17のdownload進捗と収集上限](records/2026-10-29/ios17-functional-ci-pilot.md#ダウンロード進捗による収集上限の停止)に、head003の初回停止とquietを1個指定する限定候補を記録する。機能検査・最低OS全体の成功には広げない。
 
 [iOS17.0機能CIの初回失敗と限定復旧](records/2026-10-29/ios17-functional-ci-pilot.md#初回hostedの失敗と端末一覧だけの限定復旧)では、取得・import・bootstatusまでのCLI成功と、未実行の機能検査を区別する。起動後の端末一覧だけを既存の時間枠で1回再取得する候補を準備し、元の失敗を保持する。

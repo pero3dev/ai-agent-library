@@ -1,5 +1,7 @@
 # iOS完成版に向けたTODO
 
+iOS17.0試行の[取得後のruntime曖昧判定](../../records/2026-10-29/ios17-functional-ci-pilot.md#取得後のruntime状態と明示importの条件分岐)を受け、利用可能な場合のimport省略とguard前の識別情報保存を準備する。新候補の実Hosted・機能47件は未確認で、App0.2.23（25）・実機等の未完了・TODO32行／完了13行を保つ。
+
 iOS17.0専用試行は、新head003の初回で[download進捗の出力上限](../../records/2026-10-29/ios17-functional-ci-pilot.md#ダウンロード進捗による収集上限の停止)に達し、機能検査の前に停止した。上限を保ったまま取得コマンドへquietを1個指定する候補を準備し、Hostedでの効果を後続に残す。App0.2.23（25）・実機等の未完了・TODO32行／完了13行は変えない。
 
 iOS17.0の[専用機能CI試行](../../records/2026-10-29/ios17-functional-ci-pilot.md#初回hostedの失敗と端末一覧だけの限定復旧)は、初回Hostedでdownload・import・bootstatusが成功した後、端末一覧の60秒制限で失敗した。機能47件は未実行で、同じ共有枠内の一覧取得だけ1回回復する候補を準備する。親main cc2のpush検査3系統は初回API成功、自分用0.2.23（25）の既存無料Team署名済み候補と独立監査を保持した。実機・最低OS全体・IOS-15は未完了、TODO32行／完了13行を維持する。

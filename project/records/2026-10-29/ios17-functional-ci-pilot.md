@@ -1,5 +1,21 @@
 # iOS 17.0の機能CI試行
 
+## 取得後のruntime状態と明示importの条件分岐
+
+本人のメール確認完了を受け、Rootは2026-10-29 11:15:05ZにPR #299の本文更新を成功させ、11:17:26Zに同じDraftを再開した。新しい7系統の実行は同じhead `11ea9663147600824c5d286eb685fe0b2f1e6181`で始まったが、全CIの受入ではない。このheadはPR候補であり、採用済みmain `cc2f0aec9e6d741a431dd1fc02250439b8dd0c27`とは区別する。以下はその専用pilotの初回失敗と、次のSource2候補である。
+
+run `40864239322`／job `123414823525`のattempt 1では、quiet付きdownloadが115.364秒・exit 0、stdout 3,818,979 byteだった。末尾には進捗とInstalling（registering download）・Mounting・Done・Exportedが残る。今回4MiBの上限を超えなかった一方、quietが進捗を消した、以前のoutput-cap問題を確実に直したとは扱わない。続く明示importも32.862秒・exit 0で、取得前16行のinventoryにはexact17.0がなく、import後17行には17.0／21A328のavailableな1行があった。
+
+bootstatusは205.809秒・exit 0。その後の最初の端末一覧は名目60秒のdeadlineにより92.263秒で停止したが、既存の限定した再取得1回が25.788秒・78,033 byte・exit 0となり、厳密なBooted確認と本文資源監査まで進んだ。この再取得は今回実際に使われ、成功した。その後、pretestのruntime一覧commandは4.406秒・exit 0・163,685 byteを返したが、厳密な選択guardが`Ambiguous exact17.0 runtime`で停止した。summaryのstage名はfunctionalでも、ケース契約とXCTest起動intentはなく、機能47件は未実行、functionalはnull、受入falseである。所有deviceの削除は成功し、全体755.688秒だった。
+
+保持されたpretestの証拠はbyte数・hashと末尾4KiBで、全行のprojected snapshotはない。曖昧な行のbuild・保存場所・architectureは不明である。download自体が登録・mountを報告した後に明示importしたことと、後の曖昧さの因果関係は証明できない。次のSource2はこの仮説だけに依存せず、所有DMGの検証後、取得直後のinventoryを記録してから元の厳密guardで選び、exact17.0が既にavailableなら明示importを省く。見つからない場合だけ既存importを1回行い、元のDMG stat／symlink guardとimport後の記録・厳密選択を通す。曖昧さや不正metadataにはimportを足さず失敗し、行の重複排除・17.5へのfallback・reset・一般的な再試行は追加しない。
+
+さらにpretestでも選択guardの前にprojected snapshotを残す。行を除外せずidentifier・name・version・build・availableとplatform・bundlePath・runtimeRoot・architectureを保持し、巨大なsupportedDeviceTypes付随表だけを省く。これは全raw JSONの保存ではなく、outer構造や行自体が不正でprojectionできない場合はsnapshotなしで失敗する。1ファイル512KiB・証拠総量2MiB、command出力4MiB、work19分・cleanup最大2分などの既存上限、signal／resource／所有／機能集合・判定を維持する。追加の読取も同じ共有枠内である。
+
+Source2の合成Node検査は旧17件の全文をprefixとして保ち、新8件を加えた25件が約0.580秒・失敗0で成功し、両ファイルの構文検査も成功した。4箇所の逆変換で元driverへ戻ることと、厳密なruntime選択・取得時のquiet・DMG guard・限定postboot回復・XCTest／cleanupの保持を確認した。Source2だけの独立レビューはP1／P2なしで受入済みである。今回の記録準備ではこれらの検査を再実行せず、凍結hashを照合した。Rootは親11eaの全2,810 blobを照合した隔離コピーで、共通1182件中1167成功・15skip・失敗0、約40.297秒を確認した。lockfile不変で準備済み依存を再利用し、外部IP通信を禁止してlocalhost試験だけを許可した。Source2は不変で、追記した記録4だけを限定静的検査する。最終6ファイルレビュー、正確な新headでの実runtime・Hosted機能検査・必要CI・通常main統合は後続であり、Source2の受入を機能47件や最低OS全体の成功へ広げない。
+
+本増分は既存6ファイルだけ、PR #299の累積範囲はworkflowを含む7ファイルのままとする。別作業の読書位置UI候補は含めない。App0.2.23（25）、TODO32行・完了13行と全行の内容を保持し、実機上書き・保存維持・VoiceOver・最低OS全体は未完了として進める。詳細なhashと初回失敗の票は[機械可読記録](ios17-functional-ci-pilot.json)のlatest_acquisition_updateに残す。以降の記述とJSONの既存項目は、それぞれの作成時点の履歴である。
+
 ## ダウンロード進捗による収集上限の停止
 
 起動後の一覧を限定回復するhead `003de3ea2c7f796f6a7a8c19a569b58064a13937`の初回専用run `40795867714`／job `123192082726`は、別の箇所で失敗した。downloadの通常進捗がCRで繰り返され、観測4,194,565 byte、保持stdout 4,194,293 byte・stderr 0となった時点で、元の4MiB出力guardが`output-cap`としてSIGKILLした。107.576秒はdownloadの10分枠より前で、全体125.561秒も19分内だった。取得処理が終端エラーを返した証拠ではなく、保持した末尾4,096 byteでは78.3／78.4%の進捗反復が確認できる。全4MiBが重複だったとは扱わない。

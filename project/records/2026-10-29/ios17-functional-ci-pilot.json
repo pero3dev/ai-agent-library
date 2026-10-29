@@ -1,4 +1,164 @@
 {
+  "latest_acquisition_update": {
+    "state": "Source2 review and actual common1182 completed; final6/new-head Hosted and ordinary integration pending",
+    "historical_fields_below": "Existing state, unknown, pending, and prior checks are preserved as snapshots of their earlier preparation stages; this latest_acquisition_update describes the current candidate.",
+    "objective": "Avoid unnecessary explicit import after download, and retain projectable runtime identities before strict selection fails",
+    "authority": "Human ongoing autonomous iOS implementation and ordinary protected PR/main integration; device checks may remain unfinished. Parent delegated private6 publication preparation only; no new contract, payment, local OS install or distribution.",
+    "source_author_base": {
+      "head": "11ea9663147600824c5d286eb685fe0b2f1e6181",
+      "tree": "9e76cb7ac08b36002808f0f56e6e2dff8a73c495",
+      "tracked_tuples": 2810,
+      "is_merged_main": false,
+      "actual_adopted_main": "cc2f0aec9e6d741a431dd1fc02250439b8dd0c27",
+      "App": "0.2.23 (25)"
+    },
+    "path_scope": {
+      "increment_existing_files": 6,
+      "new_files": 0,
+      "cumulative_PR_files": 7,
+      "prospective_tracked_files": 2810,
+      "recovery_UI_candidate_included": false
+    },
+    "email_and_restart": {
+      "human_email_confirmation": true,
+      "Root_PR_body_update_UTC": "2026-10-29T11:15:05Z",
+      "same_Draft_reopened_UTC": "2026-10-29T11:17:26Z",
+      "head": "11ea9663147600824c5d286eb685fe0b2f1e6181",
+      "new_runs_triggered": 7,
+      "all_CI_accepted": false,
+      "provenance": "human session reply and Root-reported successful API operations; no new API query in this preparation"
+    },
+    "actual_first_resumed_Hosted": {
+      "schema_version": 1,
+      "head": "11ea9663147600824c5d286eb685fe0b2f1e6181",
+      "run": 40864239322,
+      "job": 123414823525,
+      "attempt": 1,
+      "stage_label": "functional",
+      "actual_failure": "strict pretest runtime guard reported Ambiguous exact17.0 runtime before XCTest command/case contract",
+      "functional": null,
+      "functional_acceptance": false,
+      "quiet_download": {
+        "exit": 0,
+        "elapsed_ms": 115363.65495800001,
+        "captured_stdout_bytes": 3818979,
+        "progress_still_present": true,
+        "terminal_tail": "Installing/registering, Mounting, Done, Exported",
+        "quiet_eliminated_progress": false,
+        "old_outputcap_P2_proven_fixed": false,
+        "raw4MiB_cap_not_exceeded_this_run": true
+      },
+      "explicit_import": {
+        "exit": 0,
+        "elapsed_ms": 32861.606415999995
+      },
+      "runtime_snapshots": {
+        "before_count": 16,
+        "before_exact17": 0,
+        "after_import_count": 17,
+        "after_import_exact17_available": 1,
+        "build": "21A328",
+        "full_pretest_projection_retained": false,
+        "pretest_command_exit": 0,
+        "pretest_stdout_bytes": 163685,
+        "pretest_stdout_SHA256": "58d5575b29b4813e0baf82640a6831f63a9dafc332593625adbc6de92d1b8731",
+        "actual_ambiguous_row_builds_locations_architectures": "unknown; full stdout was not retained, only last diagnostic tail plus byte count/hash"
+      },
+      "postboot": {
+        "bootstatus_exit": 0,
+        "bootstatus_elapsed_ms": 205808.890375,
+        "first_inventory_stop": "command-or-shared-deadline",
+        "first_inventory_elapsed_ms": 92263.45250000001,
+        "one_recovery_exit": 0,
+        "one_recovery_elapsed_ms": 25787.730792000017,
+        "one_recovery_captured_stdout_bytes": 78033,
+        "recovery_was_exercised_and_StrictBooted_passed_before_content": true
+      },
+      "cleanup": "owned-device-deleted",
+      "summary_elapsed_ms": 755688.051291,
+      "hypothesis_not_causality": "Download terminal progress reports installation/registration before explicit import; redundant import may contribute to later asynchronous registration ambiguity, but no after-download/pretest full identity witness exists in this run to prove that cause.",
+      "new_external_fetches_or_runtime_execution": false
+    },
+    "actual_retained_evidence": {
+      "compact_files": 83,
+      "compact_bytes": 176500,
+      "ZIP_bytes": 58363,
+      "ZIP_SHA256": "2fa3198e88b839a673eae60dd7b615c1509db293fecd7f7eea97327ef9453002",
+      "raw_bytes": 26637,
+      "raw_SHA256": "6a053dd93a79325b17e187ac33ccb2279d2eb7b4e2df19f703f5340e6c7161de",
+      "new_downloads_in_this_preparation": 0
+    },
+    "Source2": {
+      "manifest_SHA256": "bac87ca7fd31cbfdb791bce9571569fb9578914588426d028a9864fd4e6ff0de",
+      "files": [
+        {
+          "path": "ios/tests/ios17-functional-pilot.mjs",
+          "bytes": 27791,
+          "SHA256": "a2e73e64c10f4bbc16dd73fce61d74a58fd98223f6d1d3e09a1d236e288ba603"
+        },
+        {
+          "path": "tests/unit/ios17-functional-pilot.test.mjs",
+          "bytes": 24932,
+          "SHA256": "30f763bb019992017d417371d37fd1d0dabbf88855c8f2f1d01d4c1d8c2a48cc"
+        }
+      ],
+      "policy": "query and record bounded projected inventory after ownedDMG export, then unchanged strict selector; available exact17 skips import, missing permits one old import plus unchanged DMG identity guards and second recorded selection; ambiguity/invalid metadata/query/write/import/missing result fail terminal; no dedupe, extra import, OS fallback or reset",
+      "pretest_witness": "projected snapshot before exact17 guard; retain duplicate rows, identity/platform/location/architecture; omit supportedDeviceTypes bulk. Malformed outer shape or rows may fail projection without snapshot; no full raw claim.",
+      "protected": "strict selector, default query budget, all original caps, cancellation, ownership, limited postboot recovery, functional cases and XCTest/cleanup tail held by four-region inverse; old17 test file exact prefix"
+    },
+    "local_validation": {
+      "synthetic_Node": {
+        "exit_code": 0,
+        "tests": 25,
+        "old": 17,
+        "added": 8,
+        "pass": 25,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "seconds": 0.579771,
+        "actual_runtime_SDK_network": false
+      },
+      "syntax_exit_codes": [
+        0,
+        0
+      ],
+      "source_review_manifest_SHA256": "a9ea24aaa32cef4d7b0ad1370aac5d485180ca7b4256d2f85f8bb230c79fcc74",
+      "review_P1": 0,
+      "review_P2": 0,
+      "this_preparation_reran_tests": false,
+      "common_for_this_Source2": "Root executed npm run check over exactparent11ea+Source2:1182tests/1167pass15skip0fail/40.297s; details inRoot_common"
+    },
+    "unfinished": [
+      "final6 independent review",
+      "new exact-head Hosted acquisition and functional47",
+      "necessary CI and ordinary main integration",
+      "full minimumOS acceptance",
+      "physical overwrite and data preservation",
+      "VoiceOver and visual/performance acceptance"
+    ],
+    "TODO": {
+      "rows": 32,
+      "completed": 13,
+      "all_rows_byte_held": true
+    },
+    "publication_boundary": "Private candidate only. Six existing paths over exact author11ea; frozen Source2 not edited. Root owns common checks, final publication, new PR head and normal integration. Private artifact paths are omitted from public records.",
+    "Root_common": {
+      "tests": 1182,
+      "pass": 1167,
+      "fail": 0,
+      "skipped": 15,
+      "exit_code": 0,
+      "seconds": 40.297,
+      "manifest_SHA256": "a8870b9f4556014777ce1cf1b44c347e19b81fb8f18cb3f8a9a715d2af707b31",
+      "parent11ea_all2810_blob_verified": true,
+      "Source2_held_after_common": true,
+      "same_lock_prepared_npm_ci_reused": true,
+      "externalIP_denied_localhost_allowed": true,
+      "record4_only_after_common": true,
+      "actualruntime47acceptance": false
+    }
+  },
   "schema_version": 1,
   "date": "2026-10-29",
   "state": "quiet-download single-argument candidate after003firstoutput-cap; actualfunctional stillunknown",

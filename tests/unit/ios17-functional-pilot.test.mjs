@@ -246,3 +246,102 @@ test('postboot cancellation before or after the recovery plan prevents the fresh
   await assert.rejects(after.run(), /Pilot cancelled/)
   assert.equal(after.reads.length, 1); assert.equal(after.plans.length, 1)
 })
+
+
+import { runtimeReceipt, readRuntimeSnapshot, ensureDownloadedRuntime } from '../../ios/tests/ios17-functional-pilot.mjs'
+function acquisitionHarness({ downloaded = { runtimes: [runtime] }, imported = { runtimes: [runtime] }, importError = null, recordError = null } = {}) {
+  const calls = [], snapshots = [], plans = []
+  const record = (name, value) => {
+    calls.push(['record', name])
+    if (recordError) throw recordError
+    if (name === 'runtime-import-plan.json') plans.push(structuredClone(value))
+    else snapshots.push({ name, value: structuredClone(value) })
+  }
+  const run = () => ensureDownloadedRuntime({ record,
+    query: async label => {
+      calls.push(['query', label])
+      const value = label === 'runtimes-after-download' ? downloaded : imported
+      if (value instanceof Error) throw value
+      return value
+    },
+    importRuntime: async () => { calls.push(['import']); if (importError) throw importError } })
+  return { run, calls, snapshots, plans }
+}
+test('runtime snapshots preserve distinct available identities and locations without copying device-type bulk', async () => {
+  const rows = { runtimes: [
+    { ...runtime, platform: 'iOS Simulator', platformIdentifier: 'com.apple.platform.iphonesimulator', bundlePath: '/runtime-a.simruntime',
+      runtimeRoot: '/runtime-a/RuntimeRoot', architectures: ['arm64'], supportedArchitectures: ['arm64', 'x86_64'], supportedDeviceTypes: ['omitted'] },
+    { ...runtime, bundlePath: '/runtime-b.simruntime', runtimeRoot: '/runtime-b/RuntimeRoot', supportedDeviceTypes: ['omitted'] }
+  ] }
+  const copy = structuredClone(rows), events = [], recorded = []
+  const actual = await readRuntimeSnapshot('runtimes-before-test', async label => { events.push(label); return rows },
+    (name, value) => { events.push(name); recorded.push(value) })
+  assert.equal(actual, rows); assert.deepEqual(rows, copy)
+  assert.deepEqual(events, ['runtimes-before-test', 'runtimes-before-test.json'])
+  assert.deepEqual(recorded[0], runtimeReceipt(rows)); assert.equal(recorded[0].runtimes.length, 2)
+  assert.equal(recorded[0].runtimes[0].runtimeRoot, '/runtime-a/RuntimeRoot')
+  assert.equal(recorded[0].runtimes[1].bundlePath, '/runtime-b.simruntime')
+  assert.deepEqual(recorded[0].runtimes[0].supportedArchitectures, ['arm64', 'x86_64'])
+  assert.equal(recorded[0].runtimes[0].platformIdentifier, 'com.apple.platform.iphonesimulator')
+  assert.ok(recorded[0].runtimes.every(row => !Object.hasOwn(row, 'supportedDeviceTypes')))
+  assert.throws(() => selectExact17(actual), /Ambiguous exact17.0 runtime/)
+})
+test('runtime already available after download is recorded and does not issue explicit import', async () => {
+  const h = acquisitionHarness()
+  assert.deepEqual(await h.run(), runtime)
+  assert.deepEqual(h.calls, [['query', 'runtimes-after-download'], ['record', 'runtimes-after-download.json'], ['record', 'runtime-import-plan.json']])
+  assert.equal(h.snapshots.length, 1); assert.equal(h.plans[0].explicit_import_planned, false)
+  assert.equal(h.plans[0].exact17_available_after_download, true)
+  assert.equal(h.plans[0].maximum_explicit_imports, 1); assert.equal(h.plans[0].plan_is_not_execution_proof, true)
+})
+test('missing runtime after download permits one import and records both inventories before selection', async () => {
+  const h = acquisitionHarness({ downloaded: { runtimes: [] } })
+  assert.deepEqual(await h.run(), runtime)
+  assert.deepEqual(h.calls, [['query', 'runtimes-after-download'], ['record', 'runtimes-after-download.json'],
+    ['record', 'runtime-import-plan.json'], ['import'], ['query', 'runtimes-after-import'], ['record', 'runtimes-after-import.json']])
+  assert.equal(h.plans[0].explicit_import_planned, true); assert.equal(h.snapshots.length, 2)
+})
+test('ambiguous downloaded runtime identities are persisted and rejected before any import', async () => {
+  const downloaded = { runtimes: [{ ...runtime, runtimeRoot: '/first' }, { ...runtime, runtimeRoot: '/second' }] }
+  const h = acquisitionHarness({ downloaded })
+  await assert.rejects(h.run(), /Ambiguous exact17.0 runtime/)
+  assert.deepEqual(h.calls, [['query', 'runtimes-after-download'], ['record', 'runtimes-after-download.json']])
+  assert.equal(h.plans.length, 0); assert.equal(h.snapshots[0].value.runtimes.length, 2)
+  assert.deepEqual(h.snapshots[0].value.runtimes.map(row => row.runtimeRoot), ['/first', '/second'])
+})
+test('an import that leaves runtime missing or unavailable fails without a second import', async () => {
+  for (const imported of [{ runtimes: [] }, { runtimes: [{ ...runtime, isAvailable: false }] }]) {
+    const h = acquisitionHarness({ downloaded: { runtimes: [] }, imported })
+    await assert.rejects(h.run(), /Exact17.0 unavailable after import/)
+    assert.equal(h.calls.filter(row => row[0] === 'import').length, 1)
+    assert.deepEqual(h.snapshots.map(row => row.name), ['runtimes-after-download.json', 'runtimes-after-import.json'])
+  }
+})
+test('ambiguous post-import identities are recorded and rejected with no deduplication or retry', async () => {
+  const h = acquisitionHarness({ downloaded: { runtimes: [] }, imported: { runtimes: [runtime, { ...runtime, runtimeRoot: '/other' }] } })
+  await assert.rejects(h.run(), /Ambiguous exact17.0 runtime/)
+  assert.equal(h.calls.filter(row => row[0] === 'import').length, 1)
+  assert.equal(h.snapshots.length, 2); assert.equal(h.snapshots[1].value.runtimes.length, 2)
+})
+test('acquisition read, evidence-write, or import failures remain terminal without more work', async () => {
+  const readFailure = new Error('inventory command failed'), recordFailure = new Error('evidence cap reached'), importFailure = new Error('import failed')
+  const first = acquisitionHarness({ downloaded: readFailure }); await assert.rejects(first.run(), error => error === readFailure)
+  assert.deepEqual(first.calls, [['query', 'runtimes-after-download']])
+  const evidence = acquisitionHarness({ downloaded: { runtimes: [] }, recordError: recordFailure }); await assert.rejects(evidence.run(), error => error === recordFailure)
+  assert.equal(evidence.calls.some(row => row[0] === 'import'), false)
+  const imported = acquisitionHarness({ downloaded: { runtimes: [] }, importError: importFailure }); await assert.rejects(imported.run(), error => error === importFailure)
+  assert.equal(imported.calls.filter(row => row[0] === 'query').length, 1)
+  const after = acquisitionHarness({ downloaded: { runtimes: [] }, imported: readFailure }); await assert.rejects(after.run(), error => error === readFailure)
+  assert.equal(after.calls.filter(row => row[0] === 'import').length, 1); assert.equal(after.snapshots.length, 1)
+})
+test('acquisition preserves exact-version and metadata validation rather than accepting a fallback', async () => {
+  const other = { runtimes: [{ ...runtime, version: '17.5', name: 'iOS 17.5' }] }
+  const h = acquisitionHarness({ downloaded: other, imported: other })
+  await assert.rejects(h.run(), /Exact17.0 unavailable after import/)
+  assert.equal(h.calls.filter(row => row[0] === 'import').length, 1)
+  for (const patch of [{ name: 'wrong' }, { identifier: 'wrong' }, { isAvailable: undefined }, { buildversion: '' }]) {
+    const invalid = acquisitionHarness({ downloaded: { runtimes: [{ ...runtime, ...patch }] } })
+    await assert.rejects(invalid.run()); assert.equal(invalid.snapshots.length, 1)
+    assert.equal(invalid.calls.some(row => row[0] === 'import'), false)
+  }
+})

@@ -12,8 +12,9 @@ export const PILOT = Object.freeze({ version: '17.0', runtime: 'com.apple.CoreSi
   outputBytes: 4 * 1024 ** 2, evidenceBytes: 2 * 1024 ** 2, evidenceReserve: 65536 })
 const UUID = /^[A-F0-9]{8}(?:-[A-F0-9]{4}){3}-[A-F0-9]{12}$/
 const sha = bytes => createHash('sha256').update(bytes).digest('hex')
-const runtimeReceipt = value => ({ runtimes: value.runtimes.map(row => Object.fromEntries(
-  ['identifier', 'name', 'version', 'buildversion', 'isAvailable'].map(key => [key, row[key]]))) })
+export const runtimeReceipt = value => ({ runtimes: value.runtimes.map(row => Object.fromEntries(
+  ['identifier', 'name', 'version', 'buildversion', 'isAvailable', 'platform', 'platformIdentifier',
+    'bundlePath', 'runtimeRoot', 'architectures', 'supportedArchitectures'].map(key => [key, row[key]]))) })
 const deviceReceipt = value => ({ devices: Object.fromEntries(Object.entries(value.devices).map(([runtime, rows]) =>
   [runtime, rows.map(row => Object.fromEntries(['udid', 'name', 'state', 'deviceTypeIdentifier', 'isAvailable'].map(key => [key, row[key]])))])) })
 const diagnostic = value => String(value).replace(/https?:\/\/[^\s"'<>]+/g, '<url>')
@@ -92,6 +93,25 @@ export function selectExact17(inventory) {
   const available = exact.filter(row => row.isAvailable)
   assert.ok(available.length <= 1, 'Ambiguous exact17.0 runtime')
   return available[0] ?? null
+}
+export async function readRuntimeSnapshot(label, query, record) {
+  const inventory = await query(label)
+  // Persist the projected identities before strict selection can reject ambiguity.
+  record(label + '.json', runtimeReceipt(inventory))
+  return inventory
+}
+export async function ensureDownloadedRuntime({ query, record, importRuntime }) {
+  const afterDownload = await readRuntimeSnapshot('runtimes-after-download', query, record)
+  const alreadyAvailable = selectExact17(afterDownload)
+  record('runtime-import-plan.json', { exact17_available_after_download: alreadyAvailable !== null,
+    explicit_import_planned: alreadyAvailable === null, maximum_explicit_imports: 1,
+    plan_is_not_execution_proof: true })
+  if (alreadyAvailable) return alreadyAvailable
+  await importRuntime()
+  const afterImport = await readRuntimeSnapshot('runtimes-after-import', query, record)
+  const selected = selectExact17(afterImport)
+  assert.ok(selected, 'Exact17.0 unavailable after import, no17.5 fallback')
+  return selected
 }
 export function deviceRows(inventory) {
   assert.ok(inventory.devices && typeof inventory.devices === 'object')
@@ -266,12 +286,14 @@ export async function runPilot(env = process.env) {
       const dmg = ownedDMG(download), beforeFile = fs.statSync(dmg)
       put('runtime-export.json', { relative_path: diagnostic(path.relative(root, dmg)), bytes: beforeFile.size, dev: beforeFile.dev, ino: beforeFile.ino,
         catalog_or_signature_independently_verified: false, export_command_exit0: true })
-      stage = 'runtime-import'; await run('runtime-import', 'xcodebuild', ['-importPlatform', dmg], PILOT.importMs)
-      assert.ok(!fs.lstatSync(dmg).isSymbolicLink()); assert.equal(fs.realpathSync(dmg), dmg)
-      const afterFile = fs.statSync(dmg); assert.equal(afterFile.ino, beforeFile.ino); assert.equal(afterFile.dev, beforeFile.dev)
-      assert.equal(afterFile.size, beforeFile.size); assert.equal(afterFile.mtimeMs, beforeFile.mtimeMs)
-      const after = await inventory('runtimes-after-import'); put('runtimes-after-import.json', runtimeReceipt(after)); selected = selectExact17(after)
-      assert.ok(selected, 'Exact17.0 unavailable after import, no17.5 fallback')
+      selected = await ensureDownloadedRuntime({ query: inventory,
+        record: (name, value) => put(name, { ...context, stage, ...value }),
+        importRuntime: async () => {
+          stage = 'runtime-import'; await run('runtime-import', 'xcodebuild', ['-importPlatform', dmg], PILOT.importMs)
+          assert.ok(!fs.lstatSync(dmg).isSymbolicLink()); assert.equal(fs.realpathSync(dmg), dmg)
+          const afterFile = fs.statSync(dmg); assert.equal(afterFile.ino, beforeFile.ino); assert.equal(afterFile.dev, beforeFile.dev)
+          assert.equal(afterFile.size, beforeFile.size); assert.equal(afterFile.mtimeMs, beforeFile.mtimeMs)
+        } })
     }
     const typeInventory = JSON.parse(await run('device-types', 'xcrun', ['simctl', 'list', 'devicetypes', '--json'], 60000))
     const types = typeInventory.devicetypes?.filter(row => row.identifier === PILOT.device && row.name === PILOT.model)
@@ -300,7 +322,10 @@ export async function runPilot(env = process.env) {
     await run('package-audit', 'bash', ['ios/tests/check-package.sh', 'ios/AILibrary/Content', '3'], 90000)
     await run('fixture-package-audit', 'bash', ['ios/tests/check-package.sh', 'ios/AILibrary/TestContent', '4'], 90000)
     stage = 'functional'
-    await sameHead('pretest-head'); await run('pretest-clean-source', 'git', ['diff', '--exit-code'], 15000); assert.ok(selectExact17(await inventory('runtimes-before-test')))
+    await sameHead('pretest-head'); await run('pretest-clean-source', 'git', ['diff', '--exit-code'], 15000)
+    const beforeTest = await readRuntimeSnapshot('runtimes-before-test', inventory,
+      (name, value) => put(name, { ...context, stage, ...value }))
+    assert.ok(selectExact17(beforeTest))
     assert.equal(proveOwner(owner, context, await devices('devices-before-test'))?.state, 'Booted')
     const source = fs.readFileSync(path.join(repo, 'ios/AILibraryTests/NativeInlineTests.swift'), 'utf8'), expected = expectedCases(source)
     put('case-contract.json', { ...context, source_sha256: sha(source), expected, NativeInline_methods: expected.length - 1,

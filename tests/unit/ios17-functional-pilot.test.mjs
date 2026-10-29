@@ -1051,7 +1051,7 @@ test('initial runtime planner binds exact silent full60s metadata and a separate
   const receipt = initialRuntimeFailureReceipt(), plan = initialRuntimeRecoveryPlan(receipt, 30000, null)
   assert.equal(plan.failed_read, 'runtimes-before'); assert.equal(plan.fresh_read, 'runtimes-before-recovery')
   assert.equal(plan.required_timeout_ms, 30000); assert.equal(plan.first_timeout_ms, 60000)
-  assert.equal(plan.maximum_fresh_reads, 1); assert.equal(plan.shared_work_budget_ms, 19 * 60000)
+  assert.equal(plan.maximum_fresh_reads, 1); assert.equal(plan.shared_work_budget_ms, 23 * 60000)
   assert.equal(plan.shared_remaining_ms, 30000); assert.equal(plan.read_only, true)
   assert.equal(plan.result_snapshot, 'runtimes-before.json'); assert.equal(plan.snapshot_source_read, 'runtimes-before-recovery')
   assert.equal(plan.snapshot_before_download, true); assert.equal(plan.first_failure_preserved, true)

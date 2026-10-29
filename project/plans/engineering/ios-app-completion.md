@@ -1,5 +1,7 @@
 # iOS完成版に向けたTODO
 
+iOS17の[時間予算の限定見直し](../../records/2026-10-30/ios17-measured-time-budget.md)では、07eのfull8分停止とUI到達を根拠に、次の1回をfunctional10分・共有23分（cleanup2分保持、probe26分／job29分）とする。期待47件・厳密選択・容量と他guardを維持し、成功保証や製品性能目標とはしない。再び未完なら未受入Draftを残して自用候補を優先し、App0.2.23（25）と全TODO行を保つ。
+
 iOS17の[初回runtime一覧回復](../../records/2026-10-30/ios17-initial-runtime-query-recovery.md)を、exactなsilent full60秒失敗後だけのfresh30秒・1回へ限定する。Node89件・構文2file・Source独立レビューと共通1,261件中1,246成功・15skip・失敗0を確認し、全19分・owned39GiB・free2GiBと他guardを保つ。実回復／39GiB効果・新headの47件と必要CIは未受入で、App0.2.23（25）・TODO32行／完了13行と実機等の未完了を保持する。
 
 iOS17の[CompilationCache予算](../../records/2026-10-30/ios17-compilation-cache-budget.md)は、旧14GiBに実観測25GiBを加えた総logical39GiBの次回試行である。metric・free下限・時間を変えず、将来の容量や47件成功を保証しない。Node73件・構文2file・Source独立レビューと共通1,245件中1,230成功・15skip・失敗0を確認し、App0.2.23（25）・TODO32行／完了13行と実機等の未完了を保持する。

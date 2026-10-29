@@ -21,7 +21,7 @@ jobs:
     if: github.repository == 'pero3dev/ai-agent-library' && github.event.repository.private == false
     runs-on: macos-15
     # Proposed resource ceilings, not measured runtime availability or duration.
-    timeout-minutes: 25
+    timeout-minutes: 29
     env:
       DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
       EXPECTED_SOURCE_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
@@ -44,7 +44,7 @@ jobs:
             package-lock.json
             ios/tools/package-lock.json
       - name: Probe exact runtime and attempt bounded functional subset
-        timeout-minutes: 22
+        timeout-minutes: 26
         run: node ios/tests/ios17-functional-pilot.mjs
       - name: Retain only bounded receipts and functional JSON
         if: always()

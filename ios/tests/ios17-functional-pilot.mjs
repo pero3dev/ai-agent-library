@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url'
 
 export const PILOT = Object.freeze({ version: '17.0', runtime: 'com.apple.CoreSimulator.SimRuntime.iOS-17-0',
   device: 'com.apple.CoreSimulator.SimDeviceType.iPhone-15', model: 'iPhone 15',
-  workMs: 19 * 60000, cleanupMs: 2 * 60000, downloadMs: 10 * 60000, importMs: 5 * 60000,
+  workMs: 23 * 60000, cleanupMs: 2 * 60000, downloadMs: 10 * 60000, importMs: 5 * 60000,
   bootMs: 240000, freeBytes: 2 * 1024 ** 3, ownedBytes: 39 * 1024 ** 3,
   outputBytes: 4 * 1024 ** 2, evidenceBytes: 2 * 1024 ** 2, evidenceReserve: 65536 })
 
@@ -650,7 +650,7 @@ export async function runPilot(env = process.env) {
     await run('functional', 'xcodebuild', ['-project', 'ios/AILibrary.xcodeproj', '-scheme', 'AILibrary', '-configuration', 'Debug',
       '-destination', 'platform=iOS Simulator,id=' + owner.UUID, '-destination-timeout', '60', '-derivedDataPath', path.join(root, 'DerivedData'),
       '-resultBundlePath', result, '-parallel-testing-enabled', 'NO', '-jobs', '2', '-only-testing:AILibraryTests/NativeInlineTests',
-      '-only-testing:AILibraryUITests/NativeReaderUITests/testThreeArticlesHaveNativeBodyText', 'CODE_SIGNING_ALLOWED=NO', 'test'], 8 * 60000)
+      '-only-testing:AILibraryUITests/NativeReaderUITests/testThreeArticlesHaveNativeBodyText', 'CODE_SIGNING_ALLOWED=NO', 'test'], 10 * 60000)
     const actualInfo = JSON.parse(await run('actual-app-info', 'plutil', ['-convert', 'json', '-o', '-',
       path.join(root, 'DerivedData/Build/Products/Debug-iphonesimulator/AILibrary.app/Info.plist')], 15000))
     assert.equal(actualInfo.MinimumOSVersion, '17.0'); assert.equal(actualInfo.CFBundleIdentifier, 'dev.pero3.aiagentlibrary.prototype')

@@ -1,5 +1,7 @@
 # project — 計画と実施記録
 
+iOS17の[実測に基づく時間予算](records/2026-10-30/ios17-measured-time-budget.md)は、07eでUI試験中に8分が尽きた結果を保存し、次の1回だけfunctional10分・共有23分（probe26分／job29分）を試す。47件と容量・取消等の合格条件を保ち、未完ならDraftを残して自用候補の仕上げへ進む。下の段落は各準備時点の履歴である。
+
 iOS17の[初回runtime一覧だけの回復候補](records/2026-10-30/ios17-initial-runtime-query-recovery.md)は、276のfull60秒・無出力停止を保持し、初回metadata読取に限り最大1回・full30秒を既存19分内で追加する。cold原因・実回復・39GiB効果と47件は未確認で、postbootと厳密なOS選択を保つ。下の予算・内訳等の段落は元の準備時点の履歴として保持する。
 
 iOS17の[compiler cacheを含む次回予算](records/2026-10-30/ios17-compilation-cache-budget.md)では、8aの同じ走査で25GiBのlogical reservationを確認し、総owned logicalを次回試行用39GiBへ明示変更する。free2GiBと他guardを保ち、物理quotaや独立した非cache14GiB枠とは扱わない。新headの47件・必要CIと通常統合は未受入で、下の各段落は元の準備時点の履歴として保持する。

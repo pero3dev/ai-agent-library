@@ -1,5 +1,7 @@
 # project — 計画と実施記録
 
+Fullの[単体失敗後のinventory収集](records/2026-10-29/ios-full-core-failure-inventory.md)は、元の失敗を保持し、非cancel時だけ同VMで2つの読取を追加する候補である。Source3のfixture15件と独立レビューを確認し、自然なHosted失敗時経路・共通検査・main反映は後続として、IOS-15全体を未完了に保つ。
+
 iOS17の[最初の資源違反を記録する候補](records/2026-10-29/ios17-resource-threshold-observation.md)では、取得・起動後の機能buildが資源閾値で停止した初回を保持し、既存monitorの観測値と違反側だけを追加する。上限・短絡・killを保ち、機能47件・Runtime26の別失敗・新headのCIと通常統合は未完了のまま進める。後続の取得進捗や復旧UIの段落は準備時点の履歴として保持する。
 
 iOS17の[取得進捗を分離する候補](records/2026-10-29/ios17-download-progress-capture.md)は、quiet後の収集上限再発を保持し、downloadだけ既知の同一進捗を限定して間引く。raw64MiBと保持4MiBを分け、機能47件・runtime曖昧さ・main反映は未確認として進める。

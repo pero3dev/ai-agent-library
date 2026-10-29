@@ -119,6 +119,7 @@ jobs:
       # Synthetic unit fixtures remain independent of the real bundled article count.
       # CoreSmoke's no-flag profile is fixed to three articles and is not used here.
       - name: Run all native XCTest units on the iPhone Simulator
+        id: native_units
         run: |
           set -euo pipefail
           xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary \
@@ -130,6 +131,15 @@ jobs:
             -parallel-testing-enabled NO -jobs 2 \
             -only-testing:AILibraryTests CODE_SIGNING_ALLOWED=NO test \
             2>&1 | tee .local/ios-published-candidate/evidence/xctest.log
+      - name: Capture Simulator inventory after unit failure
+        if: ${{ failure() && !cancelled() && steps.native_units.outcome == 'failure' }}
+        continue-on-error: true
+        timeout-minutes: 2
+        env:
+          UNIT_STEP_OUTCOME: ${{ steps.native_units.outcome }}
+          DIAGNOSTIC_JOB_STATUS: ${{ job.status }}
+          EXPECTED_SOURCE_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: node ios/tests/capture-simulator-unit-failure.mjs
       - name: Audit the actual Debug app resources
         run: |
           set -euo pipefail

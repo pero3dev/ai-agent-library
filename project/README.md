@@ -1,5 +1,7 @@
 # project — 計画と実施記録
 
+Fullの[単体失敗後のinventory収集](records/2026-10-29/ios-full-core-failure-inventory.md)は、元の失敗を保持し、非cancel時だけ同VMで2つの読取を追加する候補である。Source3のfixture15件と独立レビューを確認し、自然なHosted失敗時経路・共通検査・main反映は後続として、IOS-15全体を未完了に保つ。
+
 [読書位置としおりの明示復旧UI回帰](records/2026-10-29/ios-reading-recovery-position-ui.md)では、既存の部分復旧画面から確認操作を通し、他の記事や目次を挟まず再起動直後に非先頭の見出しへ戻る1ケースを準備した。既存3件・全helperを保ったSource1のSDK18.2型検査と独立レビューを確認し、現在のmain cc2へ結び付け、共通1157件中1142成功・15skip・失敗0を確認し、実UI・Hostedと必要CIは後続へ残す。App0.2.23（25）とTODO32行／完了13行を保持し、IOS-22／25と実機・VoiceOver・上書き確認は未完了である。
 
 本文図の[表示サイズ別プレビュー](records/2026-10-29/ios-figure-preview-images.md)を0.2.23（25）の候補として準備した。基準はPR #297を通常統合したmain9a2で、同PRの3系統・Ready後11検査とMemoryのraw／typed／CSV照合を確認済みである。本文図だけを表示サイズに合わせ、拡大と数式の経路を保つ。回帰9メソッドの追加とSDK型検査、共通1157件中1142成功・15skip・失敗0、新版unsigned Releaseと199記事の同梱監査を確認した。最終8ファイルレビューと新headの実XCTest・必要CI・通常統合は後続で確認する。実機・VoiceOver・性能比較とIOS-15全体は未完了、TODO32行／完了13行を保持する。後続の旧時点の記述は履歴として保持する。

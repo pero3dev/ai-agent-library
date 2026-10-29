@@ -966,11 +966,53 @@ test('known105-byte SDKStatCache path is retained whole for a synthetic largest 
   assert.equal(Buffer.byteLength(relative), 105)
   const tree = fakeOwnedTree([{ name: 'runtime-download', children: [{ name: 'runtime.dmg', size: 7559529352 }] },
     { name: 'DerivedData', children: [{ name: 'SDKStatCaches.noindex', children: [{ name, size: 26846424772, blocks: 19 }] }] }])
-  const h = ownedMonitorHarness(tree); h.monitor.poll()
-  const r = h.monitor.ownedSizeBreakdown
+  const probe = ownedSizeProbe(tree.root, tree.io)
+  probe.read()
+  const r = probe.snapshot()
   assert.equal(r.entries[0].path, relative); assert.equal(r.entries[0].path_omitted, undefined)
   assert.equal(r.entries[0].logical_bytes, 26846424772); assert.equal(r.entries[0].blocks_raw, 19)
   assert.equal(r.total_logical_bytes, 34405954124); assert.equal(r.listed_logical_bytes + r.unlisted_logical_bytes, r.total_logical_bytes)
   assert.equal(r.same_monitor_walk, true); assert.ok(breakdownPrettyBytes(r) <= 2048)
   assert.equal(tree.operations.filter(row => row[0] === 'lstat' && row[1].endsWith(name)).length, 1)
+})
+
+test('next-trial39GiB logical allowance permits the observed8a sample without functional or physical acceptance', () => {
+  const free = 31598936064, owned = 34425496060, calls = [], sample = {}
+  assert.equal(evaluateResourceThresholds(() => { calls.push('free'); return free },
+    () => { calls.push('owned'); return owned }, sample), false)
+  assert.deepEqual(calls, ['free', 'owned']); assert.equal(sample.free_bytes, free); assert.equal(sample.owned_bytes, owned)
+  assert.equal(sample.violated_check, null); assert.equal(sample.owned_completed, true)
+  const monitor = resourceThresholdMonitor({ command: 'functional', stage: 'functional', readFree: () => free, readOwned: () => owned,
+    kill: () => assert.fail('observed sample fits next-trial allowance'), stopReason: () => null,
+    elapsedMs: () => assert.fail('healthy sample not retained'), readOwnedBreakdown: () => assert.fail('healthy sample not snapshotted') })
+  monitor.poll(); assert.equal(monitor.firstFailure, null); assert.equal(monitor.ownedSizeBreakdown, null)
+})
+
+test('production evaluator and monitor retain a strict39GiB owned boundary and reject one extra byte', () => {
+  const boundary = 41875931136
+  for (const owned of [boundary - 1, boundary, boundary + 1]) {
+    const sample = {}, expected = owned === boundary + 1, stops = []
+    assert.equal(evaluateResourceThresholds(() => PILOT.freeBytes, () => owned, sample), expected)
+    const monitor = resourceThresholdMonitor({ command: 'functional', stage: 'functional', readFree: () => PILOT.freeBytes, readOwned: () => owned,
+      kill: reason => stops.push(reason), stopReason: () => null, elapsedMs: () => 1 })
+    monitor.poll(); assert.deepEqual(stops, expected ? ['resource-floor-or-cap'] : [])
+    if (expected) {
+      assert.equal(monitor.firstFailure.violated_check, 'owned-cap'); assert.equal(monitor.firstFailure.owned_bytes, boundary + 1)
+      assert.equal(monitor.firstFailure.owned_cap_bytes, boundary)
+    } else assert.equal(monitor.firstFailure, null)
+  }
+})
+
+test('independent2GiB free floor still short-circuits owned under the larger logical allowance', () => {
+  const floor = 2147483648, sample = {}, calls = []
+  assert.equal(evaluateResourceThresholds(() => { calls.push('free'); return floor - 1 },
+    () => assert.fail('low free must skip even a39GiB owned probe'), sample), true)
+  assert.deepEqual(calls, ['free']); assert.equal(sample.violated_check, 'free-floor'); assert.equal(sample.owned_completed, false)
+  const stops = [], monitor = resourceThresholdMonitor({ command: 'functional', stage: 'functional', readFree: () => floor - 1,
+    readOwned: () => assert.fail('low free must skip owned'), readOwnedBreakdown: () => assert.fail('no owned walk snapshot'),
+    kill: reason => stops.push(reason), stopReason: () => null, elapsedMs: () => 1 })
+  monitor.poll(); assert.deepEqual(stops, ['resource-floor-or-cap'])
+  assert.equal(monitor.firstFailure.violated_check, 'free-floor'); assert.equal(monitor.firstFailure.free_floor_bytes, floor)
+  assert.equal(monitor.firstFailure.owned_bytes, null); assert.equal(monitor.firstFailure.owned_cap_bytes, 41875931136)
+  assert.equal(monitor.ownedSizeBreakdown, null)
 })

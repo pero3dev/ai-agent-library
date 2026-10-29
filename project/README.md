@@ -1,5 +1,7 @@
 # project — 計画と実施記録
 
+iOS17の[compiler cacheを含む次回予算](records/2026-10-30/ios17-compilation-cache-budget.md)では、8aの同じ走査で25GiBのlogical reservationを確認し、総owned logicalを次回試行用39GiBへ明示変更する。free2GiBと他guardを保ち、物理quotaや独立した非cache14GiB枠とは扱わない。新headの47件・必要CIと通常統合は未受入で、下の各段落は元の準備時点の履歴として保持する。
+
 iOS17の[所有領域内訳を残す候補](records/2026-10-30/ios17-owned-size-breakdown.md)は、5faの最初の監視で空き容量ではなくowned logical上限の違反を確認したことを受け、同じlstat走査の上位最大8件を追加する。上限・計測・killを保ち、実file原因・機能47件と新headのCIは未受入とする。下の各段落は元の準備・採用時点の履歴として保持する。
 
 Fullの[単体失敗後のinventory収集](records/2026-10-29/ios-full-core-failure-inventory.md)は、元の失敗を保持し、非cancel時だけ同VMで2つの読取を追加する候補である。Source3のfixture15件と独立レビューを確認し、自然なHosted失敗時経路・共通検査・main反映は後続として、IOS-15全体を未完了に保つ。

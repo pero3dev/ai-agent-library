@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url'
 export const PILOT = Object.freeze({ version: '17.0', runtime: 'com.apple.CoreSimulator.SimRuntime.iOS-17-0',
   device: 'com.apple.CoreSimulator.SimDeviceType.iPhone-15', model: 'iPhone 15',
   workMs: 19 * 60000, cleanupMs: 2 * 60000, downloadMs: 10 * 60000, importMs: 5 * 60000,
-  bootMs: 240000, freeBytes: 2 * 1024 ** 3, ownedBytes: 14 * 1024 ** 3,
+  bootMs: 240000, freeBytes: 2 * 1024 ** 3, ownedBytes: 39 * 1024 ** 3,
   outputBytes: 4 * 1024 ** 2, evidenceBytes: 2 * 1024 ** 2, evidenceReserve: 65536 })
 
 // A proposed wire budget for this progress channel, not a measured download requirement.

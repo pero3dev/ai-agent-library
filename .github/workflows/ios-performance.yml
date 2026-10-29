@@ -11,6 +11,7 @@ on:
         options:
           - launch-to-published-readiness
           - search-query-to-visible-witness
+          - long-article-bounded-scroll
   push:
     branches: [main]
     paths:
@@ -61,6 +62,11 @@ jobs:
               method='testSearchQueryToVisibleWitness'
               artifact='ios-published-search-evidence'
               ;;
+            long-article-bounded-scroll)
+              scenario='long-article-bounded-scroll'
+              method='testLongArticleBoundedScroll'
+              artifact='ios-published-long-scroll-evidence'
+              ;;
             *) echo 'Unknown performance scenario' >&2; exit 1 ;;
           esac
           printf 'PERFORMANCE_SCENARIO=%s\nPERFORMANCE_TEST_METHOD=%s\nPERFORMANCE_ARTIFACT_PREFIX=%s\n' \
@@ -96,6 +102,7 @@ jobs:
             echo 'Simulator: iPhone 16 / iOS 18.5 / Debug'
             printf 'Scenario: %s; test method: %s\n' "$PERFORMANCE_SCENARIO" "$PERFORMANCE_TEST_METHOD"
             echo 'One dedicated Clock case; automatic runs select launch only; search requires explicit manual selection.'
+            echo 'Long-scroll requires explicit selection, a fixed source/document hash binding and at most16 vertical drags; Clock includes gesture, idle and AX checks, not FPS/hitches/frame time or pure rendering.'
             echo 'Search measures public query replacement through a visible article witness, including keyboard and AX waits; it does not count all results.'
             echo 'Three recorded iterations after one discarded warm-up; no product baseline or threshold adopted.'
             echo 'Bootstrap rejects an unidentified clock metric until the first retained Xcode 16.4 raw result is reviewed.'
@@ -166,7 +173,7 @@ jobs:
           import { createHash } from 'node:crypto';
           import { execFileSync } from 'node:child_process';
           import { readFileSync, writeFileSync } from 'node:fs';
-          import { performanceScenario } from './ios/tests/export-performance.mjs';
+          import { performanceScenario, bindLongScrollInput } from './ios/tests/export-performance.mjs';
           const selected = performanceScenario(process.env.PERFORMANCE_SCENARIO);
           if (selected.method !== process.env.PERFORMANCE_TEST_METHOD) throw new Error('Selected scenario and test method differ');
           const read = (binary, args) => execFileSync(binary, args, { encoding: 'utf8' }).trim();
@@ -194,6 +201,13 @@ jobs:
             test_source_sha256: createHash('sha256').update(readFileSync('ios/AILibraryUITests/PublishedPerformanceUITests.swift')).digest('hex'),
             limits: 'The package audit warmed file caches before launches. No disk-cold, first-install, Release, physical-device or product-target claim.'
           };
+          if (selected.name === 'long-article-bounded-scroll') {
+            context.scroll_witness = selected.scroll_witness;
+            context.scroll_input_binding = bindLongScrollInput(
+              readFileSync(selected.scroll_witness.source_path),
+              readFileSync(app + '/Content/manifest.json'),
+              readFileSync(app + '/Content/' + selected.scroll_witness.document_path), packageAudit);
+          }
           writeFileSync('.local/ios-performance/evidence/context.json', JSON.stringify(context, null, 2) + '\n');
           NODE
       - name: Measure only the selected dedicated UI case
@@ -219,11 +233,15 @@ jobs:
         if: always()
         run: |
           set -euo pipefail
+          protocol_args=()
+          if [[ "$PERFORMANCE_SCENARIO" == 'long-article-bounded-scroll' ]]; then
+            protocol_args=(--protocol-log .local/ios-performance/evidence/performance.log)
+          fi
           node ios/tests/export-performance.mjs \
             --result .local/ios-performance/evidence/performance.xcresult \
             --output .local/ios-performance/evidence/export \
             --context .local/ios-performance/evidence/context.json \
-            --scenario "$PERFORMANCE_SCENARIO"
+            --scenario "$PERFORMANCE_SCENARIO" "${protocol_args[@]}"
       - name: Retain observation results and extraction failures
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1

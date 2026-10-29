@@ -6,7 +6,7 @@ import { existsSync, linkSync, lstatSync, mkdirSync, mkdtempSync, readFileSync, 
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { exportPerformance, metricReference, normalizeMetrics, validateClockCSV, verifiedCase, verifiedDetails, performanceScenario, verifiedScenarioContext } from '../../ios/tests/export-performance.mjs';
+import { exportPerformance, metricReference, normalizeMetrics, validateClockCSV, verifiedCase, verifiedDetails, performanceScenario, verifiedScenarioContext, bindLongScrollInput, parseLongScrollProtocol, performanceNotMeasured } from '../../ios/tests/export-performance.mjs';
 
 const exporter = fileURLToPath(new URL('../../ios/tests/export-performance.mjs', import.meta.url));
 const identifier = 'PublishedPerformanceUITests/testLaunchToPublishedReadiness()';
@@ -77,6 +77,10 @@ function runFixtureCLI(t, mode = 'complete', fixtureOptions = {}) {
   const databaseBytes = 'synthetic immutable xcresult bytes';
   writeFileSync(database, databaseBytes);
   const output = path.join(root, 'export');
+  const protocolLog = path.join(root, 'protocol.log');
+  if (fixtureOptions.protocolInput === 'symlink') symlinkSync(context, protocolLog);
+  else if (fixtureOptions.protocolInput === 'hardlink') linkSync(context, protocolLog);
+  else if (fixtureOptions.protocolBytes !== undefined) writeFileSync(protocolLog, fixtureOptions.protocolBytes);
   const outputs = {
     report: report('Passed'),
     details: { ...detailsFixture(), hasPerformanceMetrics: mode !== 'missing-flag' },
@@ -127,7 +131,9 @@ else if (args.includes('object')) {
 `;
   writeFileSync(path.join(bin, 'xcrun'), mockSource, { mode: 0o755 });
   const scenarioArgs = fixtureOptions.scenario === undefined ? [] : ['--scenario', fixtureOptions.scenario];
-  const run = spawnSync(process.execPath, [exporter, '--result', result, '--output', output, '--context', context, ...scenarioArgs], {
+  const protocolArgs = fixtureOptions.protocolBytes === undefined ? [] :
+    ['--protocol-log', fixtureOptions.protocolInput === 'context' ? context : protocolLog];
+  const run = spawnSync(process.execPath, [exporter, '--result', result, '--output', output, '--context', context, ...scenarioArgs, ...protocolArgs], {
     encoding: 'utf8', timeout: 15000,
     env: { ...process.env, PATH: [bin, path.dirname(process.execPath), process.env.PATH ?? ''].join(path.delimiter) },
   });
@@ -565,4 +571,181 @@ test('an unrecognized CLI scenario is rejected before creating output or invokin
   assert.equal(value.run.status, 1);
   assert.equal(existsSync(value.output), false);
   assert.equal(existsSync(path.join(value.root, 'commands.jsonl')), false);
+});
+
+const scrollName = 'long-article-bounded-scroll';
+const scrollID = 'PublishedPerformanceUITests/testLongArticleBoundedScroll()';
+// The source hash is pinned to an existing article. The JSON/CSV/protocol and
+// subprocesses below are synthetic, never a Simulator timing observation.
+const scrollSource = readFileSync(new URL('../../docs/03-implementation/openai-prompting.md', import.meta.url));
+const scrollWorkload = () => ({ ...performanceScenario(scrollName).scroll_witness });
+function scrollInputFixture() {
+  const fixed = scrollWorkload();
+  const document = { schema_version: 1, article_id: fixed.article_id, source_sha256: fixed.expected_source_sha256,
+    blocks: [{ type: 'heading', heading_id: fixed.start_heading_id, inlines: [{ type: 'text', text: fixed.start_label }] },
+      { type: 'paragraph', inlines: [{ type: 'text', text: 'Synthetic fixture, not generated article text' }] },
+      { type: 'heading', heading_id: fixed.end_heading_id, inlines: [{ type: 'text', text: fixed.end_label }] }] };
+  const documentBytes = Buffer.from(JSON.stringify(document));
+  const audit = { status: 'passed', articles: 4 };
+  const manifest = { schema_version: 2, articles: [{ id: fixed.article_id, title: fixed.article_title,
+    source_path: fixed.source_path, source_sha256: fixed.expected_source_sha256, document_path: fixed.document_path },
+    ...['a', 'b', 'c'].map(id => ({ id }))],
+    files: { [fixed.document_path]: createHash('sha256').update(documentBytes).digest('hex') } };
+  return { document, documentBytes, audit, manifest, manifestBytes: Buffer.from(JSON.stringify(manifest)) };
+}
+const scrollContext = () => {
+  const input = scrollInputFixture();
+  return { expected_articles: 4, configuration: 'Debug', actual_app_package: input.audit,
+    scenario: scrollName, test_method: 'testLongArticleBoundedScroll', scroll_witness: scrollWorkload(),
+    scroll_input_binding: bindLongScrollInput(scrollSource, input.manifestBytes, input.documentBytes, input.audit) };
+};
+const scrollProtocol = () => ({ schema_version: 1, scenario: scrollName, metric: 'XCTClockMetric', expected_articles: 4,
+  workload: scrollWorkload(), declared_recorded_iterations: 3, block_invocations: 4, discarded_warmup_invocations: 1,
+  invocations: [1, 2, 3, 4].map(index => ({ index, swipes: index + 3, start_fully_visible: true,
+    end_initially_fully_visible: false, end_fully_visible: true, start_offset_points: 8, end_offset_points: 140.5 })) });
+const protocolBytes = (value = scrollProtocol()) => Buffer.from('synthetic Xcode prefix AILIBRARY_LONG_SCROLL_PROTOCOL ' + JSON.stringify(value) + '\n');
+const scrollFixture = () => ({ scenario: scrollName, caseID: scrollID, context: scrollContext(), protocolBytes: protocolBytes() });
+
+test('long-scroll is explicit while launch/search selection and not-measured semantics stay distinct', () => {
+  assert.equal(performanceScenario().method, 'testLaunchToPublishedReadiness');
+  assert.equal(performanceScenario(searchName).method, 'testSearchQueryToVisibleWitness');
+  assert.equal(performanceScenario(scrollName).method, 'testLongArticleBoundedScroll');
+  assert.equal(performanceNotMeasured().includes('scrolling'), true);
+  assert.deepEqual(performanceNotMeasured(), performanceNotMeasured(searchName));
+  const omitted = performanceNotMeasured(scrollName);
+  assert.equal(omitted.includes('scrolling'), false);
+  for (const item of ['FPS', 'hitches', 'frame time', 'pure rendering time', 'image decoding', 'memory', 'Release', 'physical device', 'p95', 'product performance budgets']) assert.ok(omitted.includes(item), item);
+  assert.throws(() => performanceScenario('long-scroll'), /Unknown/);
+});
+
+test('actual input binding hashes source/document/manifest bytes and checks the audited generated heading order', () => {
+  const input = scrollInputFixture();
+  const binding = bindLongScrollInput(scrollSource, input.manifestBytes, input.documentBytes, input.audit);
+  assert.equal(binding.source_sha256, createHash('sha256').update(scrollSource).digest('hex'));
+  assert.equal(binding.document_sha256, createHash('sha256').update(input.documentBytes).digest('hex'));
+  assert.equal(binding.document_source_sha256, binding.source_sha256);
+  assert.equal(binding.manifest_document_sha256, binding.document_sha256);
+  assert.equal(binding.manifest_sha256, createHash('sha256').update(input.manifestBytes).digest('hex'));
+  assert.equal(verifiedScenarioContext(scrollContext(), scrollName).name, scrollName);
+});
+
+test('source changes, wrong manifest identity/hash and an unpassed or wrong-count package audit fail input binding', () => {
+  const input = scrollInputFixture();
+  assert.throws(() => bindLongScrollInput(Buffer.concat([scrollSource, Buffer.from('\n')]), input.manifestBytes, input.documentBytes, input.audit));
+  for (const change of [m => { m.articles[0].source_path = 'other.md'; }, m => { m.articles[0].title = 'Other'; },
+    m => { m.articles[0].source_sha256 = '0'.repeat(64); }, m => { m.files = {}; },
+    m => { m.articles.push({ ...m.articles[0] }); }, m => { m.schema_version = 1; }]) {
+    const manifest = structuredClone(input.manifest); change(manifest);
+    assert.throws(() => bindLongScrollInput(scrollSource, Buffer.from(JSON.stringify(manifest)), input.documentBytes, input.audit));
+  }
+  for (const audit of [undefined, { status: 'failed', articles: 4 }, { status: 'passed', articles: 3 }, { status: 'passed', articles: 5 }]) {
+    assert.throws(() => bindLongScrollInput(scrollSource, input.manifestBytes, input.documentBytes, audit));
+  }
+});
+
+test('a correctly rehashed document still fails if its fixed headings are missing, duplicated, reversed or renamed', () => {
+  for (const change of [d => { d.blocks.shift(); }, d => { d.blocks.push(d.blocks[0]); }, d => { d.blocks.reverse(); },
+    d => { d.blocks[0].inlines[0].text = 'another label'; }, d => { d.article_id = 'other'; },
+    d => { d.source_sha256 = '1'.repeat(64); }]) {
+    const input = scrollInputFixture(); change(input.document); const bytes = Buffer.from(JSON.stringify(input.document));
+    input.manifest.files[scrollWorkload().document_path] = createHash('sha256').update(bytes).digest('hex');
+    assert.throws(() => bindLongScrollInput(scrollSource, Buffer.from(JSON.stringify(input.manifest)), bytes, input.audit));
+  }
+});
+
+test('scroll context requires exact workload, generated binding, configuration, article count and explicit matching method', () => {
+  for (const change of [c => { delete c.scenario; }, c => { c.test_method = 'testLaunchToPublishedReadiness'; },
+    c => { c.configuration = 'Release'; }, c => { c.expected_articles = '4'; }, c => { c.expected_articles = 3; },
+    c => { c.scroll_witness.maximum_swipes = 17; }, c => { c.scroll_witness.extra = true; },
+    c => { c.scroll_input_binding.source_sha256 = '0'.repeat(64); }, c => { delete c.scroll_input_binding; },
+    c => { c.scroll_input_binding.document_sha256 = 'a'.repeat(64); }, c => { c.scroll_input_binding.manifest_sha256 = ''; },
+    c => { c.scroll_input_binding.actual_Debug_package_audit = 'unavailable'; }, c => { c.actual_app_package.articles = 5; }]) {
+    const context = scrollContext(); change(context); assert.throws(() => verifiedScenarioContext(context, scrollName));
+  }
+});
+
+test('one complete bounded protocol retains four ordered actual counts, source expectation and raw log digest', () => {
+  const bytes = protocolBytes(), context = scrollContext(); const value = parseLongScrollProtocol(bytes, context);
+  assert.deepEqual(value.protocol.invocations.map(item => item.swipes), [4, 5, 6, 7]);
+  assert.equal(value.protocol.workload.expected_source_sha256, context.scroll_input_binding.source_sha256);
+  assert.equal(value.log_bytes, bytes.length);
+  assert.equal(value.log_sha256, createHash('sha256').update(bytes).digest('hex'));
+  assert.match(value.scope, /expected source hash/);
+  assert.equal(parseLongScrollProtocol(Buffer.from(bytes.toString().replace(/\n/g, '\r\n')), context).protocol.block_invocations, 4);
+});
+
+test('missing, duplicate, truncated, malformed, oversized and invalid-UTF8 protocols are not measurements', () => {
+  const bytes = protocolBytes(), context = scrollContext();
+  for (const value of [Buffer.from('no protocol\n'), Buffer.concat([bytes, bytes]), bytes.subarray(0, bytes.length - 1),
+    Buffer.from('AILIBRARY_LONG_SCROLL_PROTOCOL {}broken\n'), Buffer.from('AILIBRARY_LONG_SCROLL_PROTOCOL ' + ' '.repeat(8193) + '\n'),
+    Buffer.concat([Buffer.from([0xff]), bytes]), Buffer.alloc(16 * 1024 * 1024 + 1, 32)]) {
+    assert.throws(() => parseLongScrollProtocol(value, context));
+  }
+});
+
+test('extra/missing/reordered invocations, mismatched declarations and foreign protocols fail closed', () => {
+  for (const change of [p => { p.invocations.pop(); }, p => { p.invocations.push(p.invocations[3]); },
+    p => { p.invocations.reverse(); }, p => { p.invocations[1].index = 1; }, p => { p.block_invocations = 3; },
+    p => { p.declared_recorded_iterations = 4; }, p => { p.discarded_warmup_invocations = 0; },
+    p => { p.expected_articles = 199; }, p => { p.metric = 'XCTMemoryMetric'; }, p => { p.scenario = searchName; },
+    p => { p.workload.end_heading_id = 'other'; }, p => { p.extra = true; }, p => { delete p.schema_version; }]) {
+    const value = scrollProtocol(); change(value); assert.throws(() => parseLongScrollProtocol(protocolBytes(value), scrollContext()));
+  }
+});
+
+test('the exact16-drag bound and start tolerance accept their boundaries and reject overflow, zero or invalid witnesses', () => {
+  const value = scrollProtocol(); value.invocations[0].swipes = 16; value.invocations[0].start_offset_points = 64;
+  assert.equal(parseLongScrollProtocol(protocolBytes(value), scrollContext()).protocol.invocations[0].swipes, 16);
+  for (const change of [p => { p.swipes = 0; }, p => { p.swipes = 17; }, p => { p.swipes = 1.5; },
+    p => { p.start_offset_points = 64.001; }, p => { p.start_offset_points = -0.1; },
+    p => { p.end_offset_points = -1; }, p => { p.end_offset_points = '140'; },
+    p => { p.start_fully_visible = false; }, p => { p.end_initially_fully_visible = true; },
+    p => { p.end_fully_visible = false; }, p => { delete p.swipes; }, p => { p.extra = true; }]) {
+    const record = scrollProtocol(); change(record.invocations[0]); assert.throws(() => parseLongScrollProtocol(protocolBytes(record), scrollContext()));
+  }
+});
+
+test('explicit scroll CLI combines its validated protocol with the same strict typed Clock and CSV contract', posixOnly, t => {
+  const value = runFixtureCLI(t, 'complete', scrollFixture());
+  assert.equal(value.run.status, 0, value.run.stderr);
+  assert.equal(value.summary.scenario, scrollName); assert.equal(value.summary.test_id, scrollID);
+  assert.deepEqual(value.summary.metrics[0].samples, [3, 1, 2]);
+  assert.equal(value.summary.csv_validation.status, 'matched-clock-and-typed-values');
+  assert.deepEqual(value.summary.scroll_observation.protocol.invocations.map(item => item.swipes), [4, 5, 6, 7]);
+  assert.ok(existsSync(path.join(value.output, 'long-scroll-protocol.json')));
+  assert.ok(!value.summary.not_measured.includes('scrolling'));
+  assert.equal(value.summary.acceptance_status, 'unadopted');
+  assert.ok(value.commands().filter(args => args.includes('--test-id')).every(args => args[args.indexOf('--test-id') + 1] === scrollID));
+});
+
+test('scroll CLI rejects a wrong case, bad types/counts/units and CSV disagreements without inventing zero values', posixOnly, t => {
+  for (const mode of ['missing-sample', 'wrong-unit', 'foreign-metric', 'different-samples', 'bad-rounding']) {
+    const value = runFixtureCLI(t, mode, scrollFixture());
+    assert.equal(value.run.status, 1, mode); assert.equal(value.summary.measurements, null, mode);
+    assert.ok(value.rawCSV().length > 0, mode);
+  }
+  const fixture = scrollFixture(); fixture.caseID = identifier;
+  const wrongCase = runFixtureCLI(t, 'complete', fixture);
+  assert.equal(wrongCase.run.status, 1); assert.equal(wrongCase.summary.measurements, null);
+});
+
+test('malformed or missing scroll protocol stops before any xcresult command, and a log cannot be passed to launch', posixOnly, t => {
+  const duplicate = scrollFixture(); duplicate.protocolBytes = Buffer.concat([protocolBytes(), protocolBytes()]);
+  const value = runFixtureCLI(t, 'complete', duplicate);
+  assert.equal(value.run.status, 1); assert.equal(existsSync(path.join(value.root, 'commands.jsonl')), false);
+  const absent = scrollFixture(); delete absent.protocolBytes;
+  const noLog = runFixtureCLI(t, 'complete', absent);
+  assert.equal(noLog.run.status, 1); assert.equal(existsSync(noLog.output), false);
+  const launchLog = runFixtureCLI(t, 'complete', { protocolBytes: protocolBytes() });
+  assert.equal(launchLog.run.status, 1); assert.equal(existsSync(launchLog.output), false);
+});
+
+test('scroll CLI refuses a context alias or symlink/hardlink protocol input before creating output', posixOnly, t => {
+  for (const mode of ['context', 'symlink', 'hardlink']) {
+    const fixture = scrollFixture(); fixture.protocolInput = mode;
+    const value = runFixtureCLI(t, 'complete', fixture);
+    assert.equal(value.run.status, 1, mode); assert.equal(existsSync(value.output), false, mode);
+    assert.equal(existsSync(path.join(value.root, 'commands.jsonl')), false, mode);
+    assert.equal(readFileSync(value.context, 'utf8'), value.contextBytes, mode);
+  }
 });

@@ -1,5 +1,7 @@
 # iOS完成版に向けたTODO
 
+iOS17の[取得進捗収集](../../records/2026-10-29/ios17-download-progress-capture.md)を、download限定の既知進捗間引きとraw64MiB／保持4MiBへ分ける候補として準備する。新headの取得・機能47件・main反映は未確認で、App0.2.23（25）・実機等の未完了・TODO32行／完了13行を保つ。
+
 [読書位置としおりの明示復旧UI回帰](../../records/2026-10-29/ios-reading-recovery-position-ui.md)の候補では、復旧確認後に他のreaderや目次を挟まず終了・再起動し、直ちに「続きを読む」で非先頭の見出しとしおりを確認する1ケースを追加する。Source1の型検査・独立レビューまでで、現在のmain cc2へ結び付け、共通1157件は失敗0で、実UI／Hosted・必要CIは後続。復旧前の再開は公開UIの準備確認であり、保存完了の厳密な証明とはしない。App0.2.23（25）・TODO32行／完了13行を保ち、IOS-22／25は未完了のままとする。
 
 iOS17.0試行の[取得後のruntime曖昧判定](../../records/2026-10-29/ios17-functional-ci-pilot.md#取得後のruntime状態と明示importの条件分岐)を受け、利用可能な場合のimport省略とguard前の識別情報保存を準備する。新候補の実Hosted・機能47件は未確認で、App0.2.23（25）・実機等の未完了・TODO32行／完了13行を保つ。

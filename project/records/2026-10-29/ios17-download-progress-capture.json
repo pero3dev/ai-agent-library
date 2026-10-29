@@ -1,0 +1,174 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-29",
+  "state": "private Source2 and publication6 preparation; independent review/common/new-head Hosted and ordinary integration pending",
+  "objective": "Bound repeated exact known download progress separately while preserving unknown stdout and all stderr within retained limit",
+  "owned_paths": [
+    "ios/tests/ios17-functional-pilot.mjs",
+    "tests/unit/ios17-functional-pilot.test.mjs",
+    "project/records/2026-10-29/ios17-download-progress-capture.md",
+    "project/records/2026-10-29/ios17-download-progress-capture.json",
+    "project/README.md",
+    "project/plans/engineering/ios-app-completion.md"
+  ],
+  "authority": "Direct human ongoing autonomous iOS implementation and ordinary protected PR/main integration; physical checks may remain incomplete; Root delegated private preparation only. No new contract, payment, local OS installation or distribution.",
+  "author_base": {
+    "head": "cd5be5ba4225a5f24509e172bf20e7f2ac20efc7",
+    "tree": "c5e09425a2c6c28c4dea348ef35b7e7c9ff9d314",
+    "tracked_files": 2810,
+    "is_merged_main": false,
+    "increment_existing": 4,
+    "increment_new_records": 2,
+    "prospective_tracked_files_before_future_main_union": 2812,
+    "final_adopted_main_rebinding": "Root later unions with fresh accepted main including independent PR300 work; this author baseline is not that integration binding",
+    "App": "0.2.23 (25)"
+  },
+  "observed_first_cd5_Hosted": {
+    "schema_version": 1,
+    "head": "cd5be5ba4225a5f24509e172bf20e7f2ac20efc7",
+    "run": 40872101000,
+    "job": 123441489687,
+    "attempt": 1,
+    "stage": "runtime-download",
+    "command_exit": null,
+    "signal": "SIGKILL",
+    "stop": "output-cap",
+    "error": null,
+    "resource_failure": false,
+    "cancelled_signal": null,
+    "elapsed_ms": 107010.39975000001,
+    "observed_stream_bytes": 4194523,
+    "captured_stdout_bytes": 4194251,
+    "captured_stdout_SHA256": "4fc696f50d5bd10ae3028ccb8db7f165f0231b88688fda989c1d57372230e1e0",
+    "captured_stderr_bytes": 0,
+    "not_retained_observed_bytes": 272,
+    "tail_bytes": 4096,
+    "tail_observation": "Repeated identical CR-delimited77.6percent records; quantity changes5.86to5.87GB. Whole captured4MiB was not retained independently; no terminal download result.",
+    "quiet_argument_present": true,
+    "quiet_progress_suppression_failed_this_run": true,
+    "after_download_import_owner_cases_reached": false,
+    "summary_elapsed_ms": 132045.25620799998,
+    "cleanup": "not-created",
+    "functional": null,
+    "functional_acceptance": false,
+    "artifact": {
+      "members": 22,
+      "uncompressed_bytes": 30549,
+      "ZIP_bytes": 11150,
+      "ZIP_SHA256": "1a6f5e874be32094340b183fb51914d188c82966e964196387261463e551ad54",
+      "raw_bytes": 20932,
+      "raw_SHA256": "94db14a4c80b43b5f0b0f4f16140e0bbdf26535e7b8cbf0086bfac6e8662ad97"
+    },
+    "limits": "Observed collector output-cap, not a demonstrated terminal downloader error. Future collector runtime effect and sufficient64MiB wire budget remain unverified.",
+    "new_external_downloads_in_this_preparation": 0
+  },
+  "separate_unresolved": "head11ea pretest Ambiguous exact17.0 runtime and actual effects of conditional import remain unaccepted; current cd5 stopped before import/owner/cases",
+  "output_policy": {
+    "download_stdout_only": "Complete max256B known ASCII CR/LF/CRLF progress, exact byte consecutive comparison, retain first occurrence and first repeat, drop third+; bounded17.0 prefix/build/percent/quantity/Installing/registering/Mounting/Done grammar",
+    "reset_matching": "unknown stdout or any nonempty stderr",
+    "unknown_stdout_stderr": "byte-preserved within combined retained cap, including warning/auth/error/binary/invalidUTF8/unterminated and long passthrough records",
+    "download_raw_wire_cap_bytes": 67108864,
+    "other_command_raw_wire_cap_bytes": 4194304,
+    "combined_retained_cap_bytes": 4194304,
+    "retained_arena_bytes": 4194304,
+    "pending_buffer_bytes": 256,
+    "wire64MiB_is_explicit_new_proposal_not_observed_requirement": true,
+    "not_all_old_raw_caps_unchanged": true,
+    "retained_limit_reason": "output-cap",
+    "download_wire_limit_reason": "download-wire-cap",
+    "digests": "streaming raw stdout/stderr SHA/counts before filtering; captured hashes refer to retained bytes; dropped progress and uncaptured bytes separated; observed_stream_bytes remains raw",
+    "captured_output_complete": "false whenever any bytes are deduplicated, including command exit0; no full raw retention or functional acceptance claim",
+    "time_resource_cancel_owner_OS_case_cleanup_guards_held": true
+  },
+  "Source2": {
+    "manifest_SHA256": "6fe8fd60161662e25ac303e453193e14000f5f18a945f58a9fe87c022692a2cc",
+    "files": [
+      {
+        "path": "ios/tests/ios17-functional-pilot.mjs",
+        "before_bytes": 27791,
+        "before_SHA256": "a2e73e64c10f4bbc16dd73fce61d74a58fd98223f6d1d3e09a1d236e288ba603",
+        "after_bytes": 33863,
+        "after_SHA256": "a86e1226eb964481fccf6bc34f29d44e82d5c86c3986f221aa61be532f12d109"
+      },
+      {
+        "path": "tests/unit/ios17-functional-pilot.test.mjs",
+        "before_bytes": 24932,
+        "before_SHA256": "30f763bb019992017d417371d37fd1d0dabbf88855c8f2f1d01d4c1d8c2a48cc",
+        "after_bytes": 39071,
+        "after_SHA256": "9a7a1d46c5fbd63a841301d5517d0d97b1fab9cba2a7f22d98404594a3bbabc2"
+      }
+    ],
+    "old25_test_fullfile_prefix": true,
+    "inverse": "new helper plus five capture integrations removed yields exact original driver; protected slices byte-held",
+    "copy_in_this_preparation": "byte unchanged"
+  },
+  "validation": {
+    "Node": {
+      "exit_code": 0,
+      "tests": 37,
+      "old": 25,
+      "added": 12,
+      "pass": 37,
+      "fail": 0,
+      "skip": 0,
+      "cancelled": 0,
+      "seconds": 2.495528666
+    },
+    "syntax_exit_codes": [
+      0,
+      0
+    ],
+    "this_preparation_reran_Node_or_SDK": false,
+    "consumer_static": {
+      "base": "cd5be5ba4225a5f24509e172bf20e7f2ac20efc7",
+      "scope": [
+        ".github",
+        "scripts",
+        "ios",
+        "tests",
+        "harness"
+      ],
+      "lookup_SHA256": "e3fb49c92327f3ff20bd48db1af37739d3914139b9b1609b4a3170eb9f63c81a",
+      "findings": [
+        "The only production receipt-field consumer found in these exact execution surfaces is the unchanged postbootRecoveryAllowed function. It requires the exact devices-after-boot name/stage/argv plus silent raw and captured counts of0; runtime-download success with filtered capture cannot qualify or broaden recovery.",
+        "run does not require captured_output_complete=true for download success; unchanged assertions require no stop/spawn error/signal and exit0, then unchanged DMG/runtime/owner/case guards. The new receipt deliberately reports false when safe progress bytes were removed. This is not evidence that all raw bytes were retained, nor functional acceptance.",
+        "The unchanged always-upload step retains only bounded evidence JSON for90days and does not enforce observed_stream_bytes<=4MiB or captured_output_complete=true. The put function still enforces512KiB per file/2MiB total; raw wire is represented only by counts/hashes and a retained4KiB diagnostic tail.",
+        "The generic structure retention contract validates90days/500MiB inventory threshold/no automatic deletion; structure inventory counts regular-file sizes without reading their contents. It does not interpret command raw byte counters or completeness fields. No new cap-dependent consumer change was found."
+      ],
+      "external_or_Hosted_validation": false
+    },
+    "recipe_failures": "Private inverse reconstruction LF and two protected-range anchors corrected only in validator recipe; Source held and passed Node not repeated for these corrections",
+    "independent_Source2_review": "delegated by Root, not yet accepted in this candidate",
+    "common_and_final6_review": "Root later; not run or counted as passed here"
+  },
+  "ordinary_Draft_replacement_plan": {
+    "old_PR": 299,
+    "reason": "Root observed hidden pull ref11ea vs branchcd5 mismatch even after ordinary reopening",
+    "state": "planned, not executed in this preparation",
+    "maximum_replacement_Drafts": 1,
+    "preconditions": [
+      "Source2 complete and independently reviewed",
+      "common/final publication checks",
+      "fresh accepted main and target blobs bound",
+      "new published head confirmed"
+    ],
+    "required": "ordinary CI at exact new head, Ready required checks, normal protected integration; preserve old PR history",
+    "bypass_admin_or_protection_change": false
+  },
+  "TODO": {
+    "rows": 32,
+    "completed": 13,
+    "all_rows_byte_held": true
+  },
+  "unfinished": [
+    "Source2 and final6 independent review",
+    "new exact-head download and actual functional47",
+    "64MiB wire budget sufficiency",
+    "runtime ambiguity cause and actual conditional import effect",
+    "full minimumOS acceptance",
+    "necessary CI and ordinary main integration",
+    "physical overwrite/data preservation",
+    "VoiceOver/visual/performance acceptance"
+  ],
+  "private_operation_boundary": "No shared writes/Git/API/network/runtime/SDK/common tests. Public records omit private absolute user paths and large logs."
+}

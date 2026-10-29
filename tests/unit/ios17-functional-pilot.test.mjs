@@ -345,3 +345,192 @@ test('acquisition preserves exact-version and metadata validation rather than ac
     assert.equal(invalid.calls.some(row => row[0] === 'import'), false)
   }
 })
+
+import { createHash } from 'node:crypto'
+import { DOWNLOAD_OUTPUT_LIMITS, commandOutputCapture } from '../../ios/tests/ios17-functional-pilot.mjs'
+const progressLine = (value = '77.6', ending = '\r') => `Downloading iOS 17.0 Simulator (21A328): ${value}% (5.86 GB of 7.56 GB)${ending}`
+const wireHash = bytes => createHash('sha256').update(bytes).digest('hex')
+const captureHarness = (name = 'runtime-download') => {
+  const stops = [], capture = commandOutputCapture(name, reason => stops.push(reason))
+  return { capture, stops }
+}
+const feedInPieces = (capture, bytes, size) => {
+  for (let i = 0; i < bytes.length; i += size) capture.stdout(bytes.subarray(i, i + size))
+}
+
+test('download keeps first two exact progress records and hashes more than4MiB of complete wire', () => {
+  const { capture, stops } = captureHarness(), line = Buffer.from(progressLine())
+  const count = Math.ceil(PILOT.outputBytes / line.length) + 100, raw = createHash('sha256')
+  const batch = Buffer.from(progressLine().repeat(1000)); let remaining = count
+  while (remaining) {
+    const take = Math.min(1000, remaining), chunk = batch.subarray(0, take * line.length)
+    capture.stdout(chunk); raw.update(chunk); remaining -= take
+  }
+  const result = capture.finish(), r = result.receipt
+  assert.deepEqual(stops, []); assert.deepEqual(result.stdout, Buffer.concat([line, line]))
+  assert.equal(r.observed_stream_bytes, count * line.length); assert.ok(r.observed_stream_bytes > PILOT.outputBytes)
+  assert.equal(r.raw_stdout_bytes, r.observed_stream_bytes); assert.equal(r.raw_stdout_sha256, raw.digest('hex'))
+  assert.equal(r.captured_stdout_sha256, wireHash(result.stdout)); assert.equal(r.deduplicated_progress_records, count - 2)
+  assert.equal(r.deduplicated_progress_bytes, (count - 2) * line.length); assert.equal(r.uncaptured_stream_bytes, 0)
+  assert.equal(r.raw_stderr_bytes, 0); assert.equal(r.raw_stderr_sha256, wireHash(Buffer.alloc(0)))
+  assert.equal(r.captured_output_complete, false); assert.ok(r.max_pending_stdout_bytes <= 256)
+})
+
+test('changed progress is retained and unknown stdout or any stderr resets exact consecutive matching', () => {
+  const a = progressLine(), b = progressLine('77.7'), unknown = 'warning: repeated message\r'
+  const first = captureHarness(); first.capture.stdout(Buffer.from(a.repeat(4) + b.repeat(3) + unknown.repeat(3) + b.repeat(3)))
+  const one = first.capture.finish()
+  assert.equal(one.stdout.toString(), a.repeat(2) + b.repeat(2) + unknown.repeat(3) + b.repeat(2))
+  assert.equal(one.receipt.deduplicated_progress_records, 4); assert.deepEqual(first.stops, [])
+  const second = captureHarness(), stderr = Buffer.from('authentication required\nSign in with Apple Account\n')
+  second.capture.stdout(Buffer.from(a.repeat(4))); second.capture.stderr(stderr.subarray(0, 11))
+  second.capture.stderr(stderr.subarray(11)); second.capture.stdout(Buffer.from(a.repeat(4)))
+  const two = second.capture.finish()
+  assert.equal(two.stdout.toString(), a.repeat(4)); assert.deepEqual(two.stderr, stderr)
+  assert.equal(two.receipt.raw_stderr_sha256, wireHash(stderr)); assert.equal(two.receipt.captured_stderr_sha256, wireHash(stderr))
+  assert.equal(requiresConsent(two.stdout + '\n' + two.stderr), true)
+  assert.equal(two.receipt.uncaptured_stream_bytes, 0); assert.deepEqual(second.stops, [])
+})
+
+test('only the bounded complete known ASCII grammar qualifies and every other byte is preserved', () => {
+  const payloads = [
+    'Downloading iOS 17.5 Simulator (21A328): 77.6% (5.86 GB of 7.56 GB)\r',
+    'Downloading iOS 17.0 Simulator (21A328): 100.1% (5.86 GB of 7.56 GB)\r',
+    'Downloading iOS 17.0 Simulator (21A328): -1% (5.86 GB of 7.56 GB)\r',
+    'Downloading iOS 17.0 Simulator (21A328): Done. Accept license agreement\n',
+    'Downloading iOS 17.0 Simulator (21A328): Installing (Authentication required)...\r',
+    'Downloading iOS 17.0 Simulator (' + 'A'.repeat(33) + '): Done.\n',
+    'Downloading iOS 17.0 Simulator (21A328): Done.' + ' '.repeat(65) + '\n',
+    '\t' + progressLine(), 'warning: ' + progressLine(),
+    progressLine().replace('GB of', 'TB of'), progressLine().replace('21A328', '21A_328'),
+    progressLine().replace('77.6', '77.600'),
+    '日本語の警告\r', 'unknown\x00binary\xff\xfe\r'
+  ]
+  for (const value of payloads) {
+    const bytes = Buffer.from(value, value.includes('\xff') ? 'latin1' : 'utf8'), h = captureHarness()
+    h.capture.stdout(Buffer.concat([bytes, bytes, bytes, bytes])); const result = h.capture.finish()
+    assert.deepEqual(result.stdout, Buffer.concat([bytes, bytes, bytes, bytes]), JSON.stringify(value))
+    assert.equal(result.receipt.deduplicated_progress_bytes, 0); assert.equal(result.receipt.captured_output_complete, true)
+    assert.deepEqual(h.stops, [])
+  }
+  const binary = Buffer.from([0xff, 0xfe, 0xc3, 0x28, 0, 13, 10]), h = captureHarness()
+  h.capture.stdout(Buffer.concat([binary, binary, binary])); assert.deepEqual(h.capture.finish().stdout, Buffer.concat([binary, binary, binary]))
+})
+
+test('CRLF split across one-byte and varied chunk boundaries produces identical retained bytes and hashes', () => {
+  const known = progressLine('77.6', '\r\n'), changed = progressLine('78', '\n')
+  const bytes = Buffer.from(known.repeat(5) + '日本語\r\n' + changed.repeat(4) + progressLine('77.6', ''))
+  const expected = captureHarness(); expected.capture.stdout(bytes); const baseline = expected.capture.finish()
+  for (const size of [1, 2, 3, 7, 31, 256, 257, bytes.length]) {
+    const h = captureHarness(); feedInPieces(h.capture, bytes, size); const result = h.capture.finish()
+    assert.deepEqual(result.stdout, baseline.stdout, 'chunk=' + size)
+    assert.deepEqual(result.receipt, baseline.receipt, 'chunk=' + size); assert.deepEqual(h.stops, [])
+  }
+  assert.ok(baseline.stdout.toString().endsWith(progressLine('77.6', '')))
+  assert.equal(baseline.receipt.deduplicated_progress_records, 5)
+})
+
+test('known Installing, Mounting and Done records retain changes, exact whitespace and delimiter identity', () => {
+  const prefix = 'Downloading iOS 17.0 Simulator (21A328): '
+  const lines = ['Installing (registering download)...\r', 'Installing (Mounting)...            \r',
+    'Installing (Mounting)...\r', 'Done.                   \n', 'Done.\r\n', 'Done.\r']
+  const h = captureHarness(), bytes = Buffer.from(lines.map(line => (prefix + line).repeat(4)).join(''))
+  h.capture.stdout(bytes); const result = h.capture.finish()
+  assert.equal(result.stdout.toString(), lines.map(line => (prefix + line).repeat(2)).join(''))
+  assert.equal(result.receipt.deduplicated_progress_records, 2 * lines.length)
+  assert.equal(result.receipt.raw_stdout_sha256, wireHash(bytes)); assert.deepEqual(h.stops, [])
+})
+
+test('long and unterminated records pass through without unbounded pending memory or false matching', () => {
+  const line = Buffer.from('x'.repeat(1025) + '\r\n'), known = Buffer.from(progressLine().repeat(4))
+  const tail = Buffer.from(progressLine('77.6', '').repeat(7)), bytes = Buffer.concat([line, known, tail])
+  const h = captureHarness(); feedInPieces(h.capture, bytes, 1); const result = h.capture.finish()
+  assert.deepEqual(result.stdout, Buffer.concat([line, Buffer.from(progressLine().repeat(2)), tail]))
+  assert.equal(result.receipt.max_pending_stdout_bytes, DOWNLOAD_OUTPUT_LIMITS.recordBytes)
+  assert.equal(result.receipt.deduplicated_progress_records, 2); assert.equal(result.receipt.uncaptured_stream_bytes, 0)
+  assert.deepEqual(h.stops, [])
+  const exact256 = Buffer.from('x'.repeat(255) + '\r\n'), boundary = captureHarness()
+  feedInPieces(boundary.capture, exact256, 1)
+  assert.deepEqual(boundary.capture.finish().stdout, exact256)
+})
+
+test('unknown unterminated stdout still hits the4MiB retained cap with bounded pending bytes', () => {
+  const h = captureHarness(), chunk = Buffer.alloc(65536, 120), raw = createHash('sha256')
+  for (let i = 0; i < PILOT.outputBytes / chunk.length; i++) { h.capture.stdout(chunk); raw.update(chunk) }
+  const extra = Buffer.from('y'); h.capture.stdout(extra); raw.update(extra)
+  const result = h.capture.finish(), r = result.receipt
+  assert.deepEqual(h.stops, ['output-cap']); assert.equal(result.stdout.length, PILOT.outputBytes)
+  assert.ok(result.stdout.every(byte => byte === 120)); assert.equal(r.observed_stream_bytes, PILOT.outputBytes + 1)
+  assert.equal(r.raw_stdout_sha256, raw.digest('hex')); assert.equal(r.uncaptured_stream_bytes, 1)
+  assert.equal(r.deduplicated_progress_bytes, 0); assert.equal(r.captured_output_complete, false)
+  assert.equal(r.retained_output_cap_exceeded, true); assert.equal(r.raw_wire_cap_exceeded, false)
+  assert.equal(r.max_pending_stdout_bytes, 256)
+})
+
+test('non-download command names preserve the original combined4MiB raw cap without any progress filtering', () => {
+  for (const name of ['devices-after-boot', 'runtime-import', 'runtime-download-recovery', 'first-launch-status']) {
+    const h = captureHarness(name), bytes = Buffer.from(progressLine().repeat(4)); h.capture.stdout(bytes)
+    const result = h.capture.finish(); assert.deepEqual(result.stdout, bytes)
+    assert.equal(result.receipt.raw_wire_cap_bytes, PILOT.outputBytes); assert.equal(result.receipt.output_capture_policy, 'raw-v1')
+    assert.equal(result.receipt.deduplicated_progress_bytes, 0); assert.equal(result.receipt.captured_output_complete, true)
+  }
+  const h = captureHarness('devices-after-boot'), out = Buffer.alloc(PILOT.outputBytes - 3, 65), err = Buffer.from('xyz')
+  h.capture.stdout(out); h.capture.stderr(err.subarray(0, 1)); h.capture.stderr(err.subarray(1))
+  assert.deepEqual(h.stops, []); h.capture.stderr(Buffer.from('!'))
+  const result = h.capture.finish(); assert.deepEqual(result.stdout, out); assert.deepEqual(result.stderr, err)
+  assert.deepEqual(h.stops, ['output-cap']); assert.equal(result.receipt.raw_stderr_bytes, 4)
+  assert.equal(result.receipt.raw_stderr_sha256, wireHash(Buffer.from('xyz!')))
+  assert.equal(result.receipt.retained_stream_bytes, PILOT.outputBytes); assert.equal(result.receipt.uncaptured_stream_bytes, 1)
+})
+
+test('download stderr has no filtering and shares exactly the4MiB retained budget with stdout', () => {
+  const h = captureHarness(), out = Buffer.from('prefix\n'), err = Buffer.alloc(PILOT.outputBytes - out.length, 69)
+  h.capture.stdout(out); h.capture.stderr(err); assert.deepEqual(h.stops, [])
+  h.capture.stderr(Buffer.from('!')); const result = h.capture.finish()
+  assert.deepEqual(result.stdout, out); assert.deepEqual(result.stderr, err)
+  assert.deepEqual(h.stops, ['output-cap']); assert.equal(result.receipt.retained_stream_bytes, PILOT.outputBytes)
+  assert.equal(result.receipt.deduplicated_progress_bytes, 0); assert.equal(result.receipt.uncaptured_stream_bytes, 1)
+})
+
+test('download raw wire has an independent explicit64MiB cap, including stderr, with a distinct terminal reason', () => {
+  assert.equal(DOWNLOAD_OUTPUT_LIMITS.wireBytes, 64 * 1024 ** 2)
+  const batch = Buffer.from(progressLine().repeat(1024))
+  const feed = (capture, total) => {
+    let remaining = total
+    while (remaining) { const chunk = batch.subarray(0, Math.min(batch.length, remaining)); capture.stdout(chunk); remaining -= chunk.length }
+  }
+  const exact = captureHarness(); feed(exact.capture, DOWNLOAD_OUTPUT_LIMITS.wireBytes - 1)
+  exact.capture.stderr(Buffer.from('!')); assert.deepEqual(exact.stops, [])
+  const one = exact.capture.finish(); assert.equal(one.receipt.observed_stream_bytes, DOWNLOAD_OUTPUT_LIMITS.wireBytes)
+  assert.ok(one.receipt.retained_stream_bytes < 1024); assert.equal(one.stderr.toString(), '!')
+  assert.equal(one.receipt.uncaptured_stream_bytes, 0)
+  const exceeded = captureHarness(); feed(exceeded.capture, DOWNLOAD_OUTPUT_LIMITS.wireBytes)
+  exceeded.capture.stderr(Buffer.from('!')); const two = exceeded.capture.finish()
+  assert.deepEqual(exceeded.stops, ['download-wire-cap']); assert.equal(two.receipt.observed_stream_bytes, DOWNLOAD_OUTPUT_LIMITS.wireBytes + 1)
+  assert.ok(two.receipt.retained_stream_bytes < 1024); assert.equal(two.receipt.output_limit_reason, 'download-wire-cap')
+  assert.equal(two.receipt.raw_wire_cap_exceeded, true); assert.equal(two.receipt.retained_output_cap_exceeded, false)
+  assert.equal(two.receipt.uncaptured_stream_bytes, 1); assert.equal(two.receipt.captured_output_complete, false)
+})
+
+test('all observed bytes remain hashed after the first output limit without any additional retention or limit callbacks', () => {
+  const h = captureHarness(), first = Buffer.alloc(PILOT.outputBytes + 10, 120), last = Buffer.from('unknown after stop\n')
+  h.capture.stdout(first); h.capture.stdout(last); h.capture.stderr(Buffer.from('stderr after stop'))
+  const result = h.capture.finish()
+  assert.deepEqual(h.stops, ['output-cap']); assert.equal(result.stdout.length, PILOT.outputBytes); assert.equal(result.stderr.length, 0)
+  assert.equal(result.receipt.raw_stdout_sha256, wireHash(Buffer.concat([first, last])))
+  assert.equal(result.receipt.raw_stderr_sha256, wireHash(Buffer.from('stderr after stop')))
+  assert.equal(result.receipt.uncaptured_stream_bytes, 10 + last.length + Buffer.byteLength('stderr after stop'))
+})
+
+test('finish preserves a pending partial diagnostic, is idempotent, and cannot clear cancellation state', t => {
+  const h = captureHarness(), events = new EventEmitter(), state = pilotCancellation(events), reasons = []
+  t.after(() => state.close()); state.bindOwnedStop(reason => reasons.push(reason))
+  const bytes = Buffer.from('authentication required: Apple Account')
+  h.capture.stdout(bytes.subarray(0, 9)); events.emit('SIGTERM'); h.capture.stdout(bytes.subarray(9))
+  const result = h.capture.finish()
+  assert.deepEqual(result.stdout, bytes); assert.equal(result.receipt.captured_output_complete, true)
+  assert.equal(requiresConsent(result.stdout.toString()), true); assert.equal(h.capture.finish(), result)
+  assert.throws(() => h.capture.stdout(Buffer.from('late')), /already finished/)
+  assert.equal(state.signal, 'SIGTERM'); assert.deepEqual(reasons, ['cancelled-SIGTERM'])
+  assert.throws(() => state.assertWorkAllowed()); assert.deepEqual(h.stops, [])
+})

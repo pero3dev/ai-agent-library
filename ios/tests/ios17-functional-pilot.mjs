@@ -10,6 +10,114 @@ export const PILOT = Object.freeze({ version: '17.0', runtime: 'com.apple.CoreSi
   workMs: 19 * 60000, cleanupMs: 2 * 60000, downloadMs: 10 * 60000, importMs: 5 * 60000,
   bootMs: 240000, freeBytes: 2 * 1024 ** 3, ownedBytes: 14 * 1024 ** 3,
   outputBytes: 4 * 1024 ** 2, evidenceBytes: 2 * 1024 ** 2, evidenceReserve: 65536 })
+
+// A proposed wire budget for this progress channel, not a measured download requirement.
+export const DOWNLOAD_OUTPUT_LIMITS = Object.freeze({ wireBytes: 64 * 1024 ** 2, recordBytes: 256 })
+const downloadProgress = frame => {
+  let end = frame.length
+  if (frame[end - 1] === 10) end--
+  if (frame[end - 1] === 13) end--
+  for (let i = 0; i < end; i++) if (frame[i] < 32 || frame[i] > 126) return false
+  // Only bounded complete ASCII records reach this expression; no warnings or arbitrary text.
+  return /^ {0,8}Downloading iOS 17\.0 Simulator \([A-Za-z0-9]{1,32}\): (?:(?:100(?:\.0{1,2})?|(?:0|[1-9][0-9]?)(?:\.[0-9]{1,2})?)% \([0-9]{1,6}(?:\.[0-9]{1,3})? (?:KB|MB|GB) of [0-9]{1,6}(?:\.[0-9]{1,3})? (?:KB|MB|GB)\)|Installing \((?:registering download|Mounting)\)\.\.\.|Done\.) {0,64}$/.test(frame.toString('latin1', 0, end))
+}
+export function commandOutputCapture(name, onLimit) {
+  const download = name === 'runtime-download', wireCap = download ? DOWNLOAD_OUTPUT_LIMITS.wireBytes : PILOT.outputBytes
+  // stdout grows from the front, stderr grows backwards from the back: one shared 4MiB arena.
+  const arena = Buffer.allocUnsafe(PILOT.outputBytes), pending = Buffer.allocUnsafe(DOWNLOAD_OUTPUT_LIMITS.recordBytes)
+  const rawOutHash = createHash('sha256'), rawErrHash = createHash('sha256')
+  let outBytes = 0, errBytes = 0, rawOutBytes = 0, rawErrBytes = 0, pendingBytes = 0, pendingCR = false,
+    passthrough = false, lastSafe = null, keptInRun = 0, droppedRecords = 0, droppedBytes = 0,
+    maxPending = 0, retainedCapExceeded = false, limitReason = null, finished = null
+  const resetMatch = () => { lastSafe = null; keptInRun = 0 }
+  const limit = reason => { if (limitReason === null) { limitReason = reason; onLimit(reason) } }
+  const retain = (bytes, stderr = false) => {
+    if (limitReason !== null) return false
+    const size = Math.min(bytes.length, PILOT.outputBytes - outBytes - errBytes)
+    if (stderr) {
+      for (let i = 0; i < size; i++) arena[PILOT.outputBytes - 1 - errBytes - i] = bytes[i]
+      errBytes += size
+    } else { bytes.copy(arena, outBytes, 0, size); outBytes += size }
+    if (size !== bytes.length) { retainedCapExceeded = true; limit('output-cap') }
+    return size === bytes.length
+  }
+  const complete = () => {
+    const frame = pending.subarray(0, pendingBytes)
+    if (downloadProgress(frame)) {
+      if (lastSafe?.equals(frame) && keptInRun >= 2) { droppedRecords++; droppedBytes += frame.length }
+      else {
+        const same = lastSafe?.equals(frame), start = outBytes
+        if (retain(frame)) { lastSafe = arena.subarray(start, outBytes); keptInRun = same ? keptInRun + 1 : 1 }
+      }
+    } else { resetMatch(); retain(frame) }
+    pendingBytes = 0; pendingCR = false
+  }
+  const flushTail = () => {
+    // An unterminated record never qualifies for deduplication, even if its text looks known.
+    if (pendingBytes) { resetMatch(); retain(pending.subarray(0, pendingBytes)) }
+    pendingBytes = 0; pendingCR = false
+  }
+  const progress = bytes => {
+    let i = 0
+    while (i < bytes.length && limitReason === null) {
+      if (pendingCR) {
+        if (bytes[i] === 10) {
+          if (pendingBytes < pending.length) { pending[pendingBytes++] = bytes[i++]; maxPending = Math.max(maxPending, pendingBytes); complete() }
+          else { flushTail(); retain(bytes.subarray(i, i + 1)); i++ }
+        } else complete()
+        continue
+      }
+      if (passthrough) {
+        const cr = bytes.indexOf(13, i), lf = bytes.indexOf(10, i)
+        const end = cr < 0 ? lf : lf < 0 ? cr : Math.min(cr, lf)
+        const next = end < 0 ? bytes.length : end + 1
+        retain(bytes.subarray(i, next)); i = next
+        if (end >= 0) passthrough = false
+        continue
+      }
+      if (pendingBytes === pending.length) { flushTail(); passthrough = true; continue }
+      const byte = bytes[i++]; pending[pendingBytes++] = byte; maxPending = Math.max(maxPending, pendingBytes)
+      if (byte === 13) pendingCR = true
+      else if (byte === 10) complete()
+    }
+  }
+  const take = (bytes, stderr) => {
+    assert.equal(finished, null, 'Output capture already finished'); assert.ok(Buffer.isBuffer(bytes))
+    const before = rawOutBytes + rawErrBytes
+    if (stderr) { rawErrBytes += bytes.length; rawErrHash.update(bytes); if (bytes.length) resetMatch() }
+    else { rawOutBytes += bytes.length; rawOutHash.update(bytes) }
+    if (limitReason !== null) return
+    const allowed = bytes.subarray(0, Math.max(0, wireCap - before))
+    if (stderr || !download) retain(allowed, stderr)
+    else progress(allowed)
+    if (rawOutBytes + rawErrBytes > wireCap) {
+      flushTail()
+      limit(download ? 'download-wire-cap' : 'output-cap')
+    }
+  }
+  return {
+    stdout: bytes => take(bytes, false), stderr: bytes => take(bytes, true),
+    finish() {
+      if (finished) return finished
+      if (pendingCR && limitReason === null) complete()
+      else flushTail()
+      const stdout = arena.subarray(0, outBytes), stderr = arena.subarray(PILOT.outputBytes - errBytes).reverse()
+      const receipt = { output_capture_policy: download ? 'known-progress-consecutive-third-plus-v1' : 'raw-v1',
+        raw_wire_cap_bytes: wireCap, retained_output_cap_bytes: PILOT.outputBytes,
+        known_progress_record_cap_bytes: download ? DOWNLOAD_OUTPUT_LIMITS.recordBytes : null,
+        observed_stream_bytes: rawOutBytes + rawErrBytes, raw_stdout_bytes: rawOutBytes, raw_stderr_bytes: rawErrBytes,
+        raw_stdout_sha256: rawOutHash.digest('hex'), raw_stderr_sha256: rawErrHash.digest('hex'),
+        captured_stdout_bytes: outBytes, captured_stdout_sha256: sha(stdout),
+        captured_stderr_bytes: errBytes, captured_stderr_sha256: sha(stderr),
+        retained_stream_bytes: outBytes + errBytes, deduplicated_progress_records: droppedRecords,
+        deduplicated_progress_bytes: droppedBytes, uncaptured_stream_bytes: rawOutBytes + rawErrBytes - outBytes - errBytes - droppedBytes,
+        raw_wire_cap_exceeded: rawOutBytes + rawErrBytes > wireCap, retained_output_cap_exceeded: retainedCapExceeded,
+        max_pending_stdout_bytes: maxPending, output_limit_reason: limitReason,
+        captured_output_complete: limitReason === null && droppedBytes === 0 }
+      finished = { stdout, stderr, receipt }; return finished
+    }
+  }
+}
 const UUID = /^[A-F0-9]{8}(?:-[A-F0-9]{4}){3}-[A-F0-9]{12}$/
 const sha = bytes => createHash('sha256').update(bytes).digest('hex')
 export const runtimeReceipt = value => ({ runtimes: value.runtimes.map(row => Object.fromEntries(
@@ -218,7 +326,7 @@ export async function runPilot(env = process.env) {
     if (!cleanup) assert.ok(free() >= PILOT.freeBytes && ownedBytes(root) <= PILOT.ownedBytes, 'Resource floor/cap')
     if (fullCapFailure && deadline - performance.now() < cap) throw fullCapFailure
     put(name + '.intent.json', { ...context, stage, binary, arguments: args.map(value => diagnostic(value)), timeout_ms: timeout })
-    const begin = performance.now(), out = [], err = []; let bytes = 0, stop = null, spawnError = null, resourceFailure = false
+    const begin = performance.now(); let stop = null, spawnError = null, resourceFailure = false
     const childEnv = Object.fromEntries(['PATH', 'HOME', 'LANG', 'LC_ALL', 'TMPDIR', 'DEVELOPER_DIR', 'CI', 'GITHUB_ACTIONS']
       .filter(key => typeof env[key] === 'string').map(key => [key, env[key]]))
     const child = spawn(binary, args, { cwd: repo, env: childEnv, stdio: ['ignore', 'pipe', 'pipe'], detached: true })
@@ -226,9 +334,9 @@ export async function runPilot(env = process.env) {
       if (reason.startsWith('resource-')) resourceFailure = true
       stop ??= reason; try { process.kill(-child.pid, 'SIGKILL') } catch {}
     }
+    const output = commandOutputCapture(name, kill)
     cancellation.bindOwnedStop(kill)
-    const take = list => chunk => { bytes += chunk.length; if (bytes > PILOT.outputBytes) kill('output-cap'); else list.push(chunk) }
-    child.stdout.on('data', take(out)); child.stderr.on('data', take(err)); child.on('error', error => { spawnError = diagnostic(error.message) })
+    child.stdout.on('data', output.stdout); child.stderr.on('data', output.stderr); child.on('error', error => { spawnError = diagnostic(error.message) })
     const timer = setTimeout(() => kill('command-or-shared-deadline'), timeout)
     const monitor = setInterval(() => { try {
       if (!cleanup && (free() < PILOT.freeBytes || ownedBytes(root) > PILOT.ownedBytes)) kill('resource-floor-or-cap')
@@ -237,14 +345,14 @@ export async function runPilot(env = process.env) {
       cancellation.releaseOwnedStop(kill); resolve({ code, signal })
     }))
     clearTimeout(timer); clearInterval(monitor)
-    const stdout = Buffer.concat(out), stderr = Buffer.concat(err)
+    const { stdout, stderr, receipt: outputReceipt } = output.finish()
     if (!cleanup && (free() < PILOT.freeBytes || ownedBytes(root) > PILOT.ownedBytes)) {
       resourceFailure = true; stop ??= 'post-command-resource-floor-or-cap'
     }
     if (['runtime-download', 'runtime-import', 'first-launch-status'].includes(name) && requiresConsent(stdout + '\n' + stderr)) stop ??= 'auth-or-new-consent-required'
     const receipt = { ...context, stage, ...result, error: spawnError, stop, resource_failure: resourceFailure,
-      cancelled_signal: cancellation.signal, elapsed_ms: performance.now() - begin, captured_output_complete: stop === null && spawnError === null, observed_stream_bytes: bytes, captured_stdout_bytes: stdout.length,
-      captured_stdout_sha256: sha(stdout), captured_stderr_bytes: stderr.length, captured_stderr_sha256: sha(stderr),
+      cancelled_signal: cancellation.signal, elapsed_ms: performance.now() - begin, ...outputReceipt,
+      captured_output_complete: stop === null && spawnError === null && outputReceipt.captured_output_complete,
       stdout_diagnostic_tail: diagnostic(stdout.toString('utf8')), stderr_diagnostic_tail: diagnostic(stderr.toString('utf8')) }
     put(name + '.exit.json', receipt)
     try {

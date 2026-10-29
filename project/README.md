@@ -1,5 +1,7 @@
 # project — 計画と実施記録
 
+[読書位置としおりの明示復旧UI回帰](records/2026-10-29/ios-reading-recovery-position-ui.md)では、既存の部分復旧画面から確認操作を通し、他の記事や目次を挟まず再起動直後に非先頭の見出しへ戻る1ケースを準備した。既存3件・全helperを保ったSource1のSDK18.2型検査と独立レビューを確認し、現在のmain cc2へ結び付け、共通1157件中1142成功・15skip・失敗0を確認し、実UI・Hostedと必要CIは後続へ残す。App0.2.23（25）とTODO32行／完了13行を保持し、IOS-22／25と実機・VoiceOver・上書き確認は未完了である。
+
 [iOS17取得後のruntime状態](records/2026-10-29/ios17-functional-ci-pilot.md#取得後のruntime状態と明示importの条件分岐)では、取得・起動後のpretest曖昧判定による停止を記録し、既に利用可能ならimportを省く候補と、guard前の識別情報保存を準備する。機能47件とmain反映は未確認のままとする。
 
 [iOS17のdownload進捗と収集上限](records/2026-10-29/ios17-functional-ci-pilot.md#ダウンロード進捗による収集上限の停止)に、head003の初回停止とquietを1個指定する限定候補を記録する。機能検査・最低OS全体の成功には広げない。

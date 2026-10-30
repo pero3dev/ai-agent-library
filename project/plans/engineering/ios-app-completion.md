@@ -1,5 +1,7 @@
 # iOS完成版に向けたTODO
 
+2026-10-30の[自用初版の記事更新方式](../../records/2026-10-30/ios-personal-bundled-update-policy.md)では、Rootが既採択baselineの同梱更新を主経路、信頼する手動importを補助として明示採択し、IOS-05の方式決定だけを完了とする。現行集計は14/32で、他31行と後続の旧12/32・13/32の履歴を保持する。IOS-20〜22、発行者真正性、自動整理と実機・署名更新の受入は未完了のままとする。
+
 2026-10-30追記。[読書UI待機の診断候補](../../records/2026-10-30/ios-reader-wait-diagnostics.md)は、PR #306の初回head c6c793fでNative6／Full23成功とRecoveryの9open・90記録を観測したが、必須buildは既存Web検査で失敗した。凍結Source3を完全保持し、PR #307を通常採用したmain7708371を同じbranchへ通常mergeした後、記録・索引4本を同期する。初回結果は旧headだけの履歴で、最終同期headのNative6／Full23・実診断・必要CIは未確認。App25／PBX／記事とTODO32行・13完了、原因・性能・実機等の未受入を保つ。
 
 [長文の固定区間スクロールClock](../../records/2026-10-30/ios-long-scroll-clock.md)の候補を、PR #303を通常統合した実main6bfへ全2813 mode／blob一致で結ぶ。Source4のNode57・独立レビュー・SDK型検査と、文書候補時点の共通1185件中1170成功／15skipを再利用する。最大16縦dragの実Hosted・4 invocations／Clock3とCSV、Source8の必要CI／main採用は未完了である。App0.2.23（25）・自分用checkpoint・TODO32行／完了13行を保ち、IOS-15やPR #301のiOS17 UI失敗の解消は主張しない。
@@ -112,7 +114,7 @@ P0は方針決定・公開条件、P1は完成版に向けた実装と品質、P
 | [x] | IOS-02 | 提出できる開発・ビルド環境を用意する | 公開時点のSDK条件に合うXcodeとmacOSでArchiveを作れる。今のMacの更新、別Mac、対応するCIのいずれを使うか決め、SDK・Simulator・実機symbol cacheを含む空き容量を確保する |
 | [ ] | IOS-03 | 配布用アカウントと識別子を整える | App Store案ではDeveloper Programの加入、配布Team、正式Bundle ID、署名管理、App Store Connectの権限を整える。契約・支払いは採択後に本人が行う |
 | [ ] | IOS-04 | 記事・音声・素材の配布条件を確定する | CC BY・MIT・KaTeX等の出典とNOTICEを同梱。音声・台本・合成音声の利用条件を採用音声ごとに確認し、ストリーミング／同梱／保存の可否を記録する |
-| [ ] | IOS-05 | 初版の更新方式と信頼境界を決める | 記事をアプリ更新で同梱する方式／記事データを独立更新する方式を選ぶ。後者や手動importを公開する場合、配信元・形式互換性・真正性・容量管理の条件をIOS-19〜22へ渡す |
+| [x] | IOS-05 | 初版の更新方式と信頼境界を決める | 記事をアプリ更新で同梱する方式／記事データを独立更新する方式を選ぶ。後者や手動importを公開する場合、配信元・形式互換性・真正性・容量管理の条件をIOS-19〜22へ渡す |
 
 現在の提出最低条件は**Xcode 26以上・iOS 26 SDK以上**。例としてXcode 26の対応環境はmacOS 15.6〜26.xであり、採用するXcodeの対応範囲を確認する。2027年4月以降はiOS 27 SDK以上への引き上げ予定があるため、公開予定日に再確認する。ビルドSDKと利用者の最低OSは別に決める。[提出要件](https://developer.apple.com/news/upcoming-requirements/)、[互換表](https://developer.apple.com/xcode/system-requirements/)、[2027年の変更告知](https://developer.apple.com/news/?id=k1mtkt1k)
 

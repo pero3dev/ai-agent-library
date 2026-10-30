@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 import UniformTypeIdentifiers
 
 /// Validated JSON data for backup exports; importing is handled by the restore engine.
@@ -303,7 +304,7 @@ struct LibraryView: View {
                     if store.isTestLibrary {
                         Text("表示確認用の記事です。通常のしおりや読書位置とは別に保存します。")
                     } else if let snapshot = store.snapshot {
-                        Text("\(articles.count)件表示・全\(snapshot.manifest.articles.count)記事・オフライン試作")
+                        Text("\(articles.count)件表示・全\(snapshot.manifest.articles.count)記事・オフライン閲覧")
                     }
                 }
                 if store.snapshot != nil, articles.isEmpty {
@@ -574,6 +575,17 @@ private struct ReaderTestLibrarySheet: View {
 private struct LibraryAboutView: View {
     let snapshot: ContentSnapshot?
     @Environment(\.dismiss) private var dismiss
+    @State private var copiedDiagnostics = false
+
+    private var appVersion: String? { Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String }
+    private var appBuild: String? { Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String }
+
+    private func copyDiagnostics() {
+        let report = LibraryDiagnostics.report(appVersion: appVersion, buildNumber: appBuild, manifest: snapshot?.manifest)
+        UIPasteboard.general.string = report.text
+        copiedDiagnostics = true
+        UIAccessibility.post(notification: .announcement, argument: "診断情報をコピーしました")
+    }
 
     private func license(_ path: String) -> String? {
         guard let root = snapshot?.root else { return nil }
@@ -584,15 +596,31 @@ private struct LibraryAboutView: View {
         NavigationStack {
             List {
                 Section("AI Agent Library") {
-                    Text("ソフトウェアエンジニア向けAI Agent学習ライブラリのiOS試作です。本文・図・数式・検索を端末内で利用できます。")
+                    Text("ソフトウェアエンジニア向けAI Agent学習ライブラリのiOS版です。本文・図・数式・検索を端末内で利用できます。")
+                    Text(LibraryDiagnostics.versionLabel(appVersion: appVersion, buildNumber: appBuild))
+                        .font(.caption)
+                        .accessibilityIdentifier("library-about-app-version")
                     if let snapshot = snapshot {
                         Text("コンテンツ版: \(snapshot.manifest.revision)").font(.caption).textSelection(.enabled)
                     }
                     Link("記事の原本とプロジェクト", destination: URL(string: "https://github.com/pero3dev/ai-agent-library")!)
                 }
+                Section("診断情報") {
+                    Button(action: copyDiagnostics) {
+                        Label(copiedDiagnostics ? "診断情報をコピーしました" : "診断情報をコピー",
+                              systemImage: copiedDiagnostics ? "checkmark" : "doc.on.doc")
+                    }
+                    .accessibilityIdentifier("library-copy-diagnostics")
+                    .accessibilityLabel("診断情報をコピー")
+                    .accessibilityValue(copiedDiagnostics ? "コピー済み" : "未コピー")
+                    Text("コピーには読書記録や端末情報を含めません。")
+                        .font(.footnote)
+                }
                 Section("データと通信") {
-                    Text("しおり、読書位置、音声の再生位置をこの端末に保存します。アカウント登録やアクセス解析、クラウド同期はありません。")
-                    Text("音声の再生時はGitHubの配信先へ接続します。本文の外部リンクはSafariで開きます。コンテンツ更新は選択したフォルダだけを読み込みます。")
+                    Text("本文・図・数式は端末内で表示し、しおり・読書位置・音声の再生位置や設定を端末内に保存します。アカウント登録はありません。")
+                    Text("音声の再生時はGitHubの配信先へ、外部リンクを開くとリンク先へ通信します。外部リンクはiOSが選ぶブラウザや対応アプリで開きます。通信先での接続情報の扱いは各サービスの方針によります。")
+                    Text("読書バックアップは、しおりや読書位置を含む暗号化されていないJSONです。音声の再生位置や設定は含みません。")
+                    Text("記事を取り込むときは、選択したフォルダを読み込みます。")
                 }
                 Section("記事・コードのライセンス") {
                     Text("記事: AI Agent Library contributors / CC BY 4.0。アプリ用に構造化データへ変換し、SwiftUIで表示しています。図・数式はビルド時に画像化しています。")

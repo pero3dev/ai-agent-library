@@ -1,5 +1,7 @@
 # project — 計画と実施記録
 
+[Aboutの版情報・診断・通信と保存説明](records/2026-10-30/ios-safe-diagnostics.md)は、実parent `8a0efdb62a9a1e9c7605e40de3fc552ff5a77344`へ結合した提出候補である。PBXへApp0.2.26（28）を反映し、明示操作の固定8行/512Bの診断、通信と読書backupの説明、通常表示の「試作」表記を整理する。最終文言のApp17 SDK moduleは確認済み。修正後の6ケース・新test型検査は成功。最終共通・9パスレビュー・新Hosted・実Bundle・署名・実About/VoiceOver/実機は後続で確認する。host literalとPBX設定、実Bundleを区別し、IOS-27/28未完了・TODO14/32を維持する。
+
 [本文リンクと健全な旧読書記録のUI回帰](records/2026-10-30/ios-native-body-link-regression.md)は、同記事の到着、別記事から戻った実測位置・しおり、旧heading記録からの「続きを読む」と再保存後の復帰を3ケースで検査する候補である。Full26・Native7を予定し、copy374B・job50分・既存上限を保つ。Source2／Source3の独立静的レビューとNative単独SDK型検査は確認したが、Publishedの60秒timeout、最終13パスの共通検査・新Hosted・通常統合は未完了である。末尾clampと完全表示判定の限界、IOS-25未完了・TODO14/32を維持する。 補助CIの旧2件契約とSDK27失敗診断を3件へ同期し、初回iOS26のactual3／expected2の失敗を保持する。最初の失敗ケースだけを出力scopeにし、既存の複数PNG・全上限を保つ。 共通検査の初回5失敗を分類し、productionを保って診断timeout試験1ケースのI/O時間仮定を分離した。修正後の共通検査と最終13パスの受入は後続で確認する。
 
 [保存記事版の参照保持](records/2026-10-30/ios-snapshot-lease-accounting.md)では、保存先・UUIDごとの取得と解放を共有tokenで数える基盤を準備する。現行AppのSDK型検査とmacOSの新9件成功を確認し、iOS予定258件・共通検査・CI・通常main採用は後続で確認する。App0.2.25（27）で削除・容量改善を追加せず、IOS-21未完了・TODO14/32を維持する。

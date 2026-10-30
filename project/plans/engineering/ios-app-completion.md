@@ -1,5 +1,7 @@
 # iOS完成版に向けたTODO
 
+IOS-27/28の[About版情報・診断・通信と保存説明](../../records/2026-10-30/ios-safe-diagnostics.md)は、実main `8a0efdb62a9a1e9c7605e40de3fc552ff5a77344`へ最終9パスを結合した提出候補である。PBXのApp0.2.26（28）と4object/4membershipを反映し、版情報・固定8行/512Bの明示診断・通信/保存説明と表示文言を整理する。最終文言のApp17 SDK moduleは確認済みだが、修正後の6ケース・新test型検査は成功し、最終共通/レビュー・新264/Native7/Full26・実About/VoiceOver/実機/provider・新署名/実Bundle・通常main統合は後続で確認する。IOS-27/28未完了・TODO32行/14完了を維持する。
+
 IOS-25の[本文リンクと健全な旧読書記録のUI回帰](../../records/2026-10-30/ios-native-body-link-regression.md)は、tap後の補正なしで同記事の到着・別記事からのBackと実測位置・しおりを検査し、旧heading記録の公開「続きを読む」A→通常TOCでB→seedを外した再起動後のBを追加する。Source9と記録・索引4本を最終13パスの小PRにまとめ、Full26（Native3＋Published17＋geometry6）・Native7を予定する。copy374B・job50分・selectorsと全上限を保持し、Native単独SDK成功、Published60秒timeout未確認、別々のSource2／3レビューを区別する。実parentへの結合、App module・最終共通検査／レビュー・新Hosted・通常main統合は後続とし、実機・VoiceOver・最低OSとオフライン受入、末尾clamp等の限界、IOS-25未完了・TODO14/32を残す。 補助CIの旧2件契約とSDK27失敗診断を3件へ同期し、初回iOS26のactual3／expected2の失敗を保持する。最初の失敗ケースだけを出力scopeにし、既存の複数PNG・全上限を保つ。 共通検査の初回5失敗を分類し、productionを保って診断timeout試験1ケースのI/O時間仮定を分離した。修正後の共通検査と最終13パスの受入は後続で確認する。
 
 IOS-21の[保存記事版の参照保持](../../records/2026-10-30/ios-snapshot-lease-accounting.md)では、字句保存先とUUIDごとの取得を共有tokenで数える。現行AppのSDK型検査とmacOS新9件成功を、未実施のiOS予定258件・UIと区別する。App0.2.25（27）で削除を追加せず、共通検査・必要CI・通常統合と容量整理の保護条件は後続に残し、IOS-21未完了・TODO14/32を維持する。
@@ -277,7 +279,7 @@ IOS-25の[絞り込み中の追加UI回帰2件](../../records/2026-10-25/ios-fil
 
 IOS-10・25の[本文検索ヒットと復帰の追加2件](../../records/2026-10-26/ios-search-hit-ui-regression.md)では、入れ子leafへの即到着と、本文Aの検索後に保存したBへ再起動復帰する公開動作を確認する。旧head a88では単体127成功・2skip、機能UI14件とReleaseが成功したが、別headの到着判定失敗も保持している。一時診断で観測したgeometryの重複取得を減らす修正は、完全表示・先頭ID一致・15秒を維持する。picker追加前のsnapshot基線の機能14件＋純粋geometry6件・全target build・Releaseは正確な新headのHosted待ちである。過去の失敗原因・安定性、VoiceOver/最大文字/実機とIOS-10・25全体は未完了を維持する。
 
-現在のPrivacy ManifestにはUserDefaultsの利用理由がある。最終版では対象API・依存SDKを再監査し、Archiveへの同梱も確認する。プライバシーポリシーとApp Privacyは、無料・アカウントなしでも必要な申請項目として扱う。[プライバシー規約](https://developer.apple.com/app-store/review/guidelines/#privacy)、[App Privacy](https://developer.apple.com/help/app-store-connect/manage-app-information/manage-app-privacy/)、[required reason API](https://developer.apple.com/documentation/bundleresources/describing-use-of-required-reason-api)
+現在のPrivacy ManifestはUserDefaults/CA92.1、SystemBootTime/35F9.1、FileTimestamp/3B52.1・C617.1を宣言している。最終版では対象API・依存SDKを再監査し、Archiveへの同梱も確認する。プライバシーポリシーとApp Privacyは、無料・アカウントなしでも必要な申請項目として扱う。[プライバシー規約](https://developer.apple.com/app-store/review/guidelines/#privacy)、[App Privacy](https://developer.apple.com/help/app-store-connect/manage-app-information/manage-app-privacy/)、[required reason API](https://developer.apple.com/documentation/bundleresources/describing-use-of-required-reason-api)
 
 [時計由来APIのPrivacy候補](../../records/2026-10-26/ios-privacy-clock-reason-candidate.md)は、main142のApp16 Swift・時計7箇所と新しいApple公式DocC JSONの照合を記録しました。現mainのUserDefaultsのみ591Bと、SystemBootTime/35F9.1辞書211Bを追加する私有802B候補を区別します。wrapperへの適用は保守的な推論で、FileTimestamp理由は追加しません。Copy・Audio後の実mainへの結合・独立レビュー・新headのCI/Archive一致、配信先ログ・公開policy・問い合わせ先・Store回答を残し、IOS-27は未完了です。
 

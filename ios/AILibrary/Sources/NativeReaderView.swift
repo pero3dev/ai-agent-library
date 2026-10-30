@@ -32,22 +32,29 @@ enum NativeReaderScrollBounds {
     static func offset(targetMinY: CGFloat, topInset: CGFloat, bottomInset: CGFloat,
                        contentHeight: CGFloat, viewportHeight: CGFloat,
                        visibleTopInset: CGFloat? = nil,
-                       targetMaxY: CGFloat? = nil, intraBlockFraction: Double? = nil) -> CGFloat? {
+                       targetMaxY: CGFloat? = nil, intraBlockFraction: Double? = nil,
+                       readingStartClearance: CGFloat = 0) -> CGFloat? {
         let alignmentTop = visibleTopInset ?? topInset
-        guard [targetMinY, topInset, bottomInset, contentHeight, viewportHeight, alignmentTop].allSatisfy(\.isFinite),
+        guard [targetMinY, topInset, bottomInset, contentHeight, viewportHeight, alignmentTop,
+               readingStartClearance].allSatisfy(\.isFinite),
               topInset >= 0, bottomInset >= 0, contentHeight >= 0, viewportHeight > 0,
-              alignmentTop >= 0 else { return nil }
+              alignmentTop >= 0, readingStartClearance >= 0 else { return nil }
         var targetY = targetMinY
+        var startClearance = readingStartClearance
         if let intraBlockFraction {
             guard let fraction = NativeReadingAnchor.validFraction(intraBlockFraction),
                   let targetMaxY, targetMaxY.isFinite,
                   targetMaxY > targetMinY, (targetMaxY - targetMinY).isFinite else { return nil }
+            // A positive saved position has an exact inverse at the reading line.
+            // Moving it upward on each restore would accumulate position drift.
+            if fraction > 0 { startClearance = 0 }
             targetY += CGFloat(fraction) * (targetMaxY - targetMinY)
             guard targetY.isFinite else { return nil }
         }
         let minimum = -topInset
         let maximum = max(minimum, contentHeight - viewportHeight + bottomInset)
-        let desired = targetY - alignmentTop
+        var desired = targetY - alignmentTop
+        if startClearance > 0 { desired -= startClearance }
         guard maximum.isFinite, desired.isFinite else { return nil }
         return min(maximum, max(minimum, desired))
     }
@@ -228,12 +235,15 @@ final class NativeReaderScrollAnchors: NSObject {
         }
         let insets = scroll.adjustedContentInset
         let safeArea = scroll.safeAreaInsets
+        // Leave reading starts inside the visible top even when the existing
+        // half-point convergence check accepts a subpixel offset difference.
         guard let visibleTop = NativeReaderScrollBounds.visibleTopInset(
                 adjustedTopInset: insets.top, safeAreaTopInset: safeArea.top),
               let offset = NativeReaderScrollBounds.offset(targetMinY: targetY,
             topInset: insets.top, bottomInset: insets.bottom,
             contentHeight: scroll.contentSize.height, viewportHeight: scroll.bounds.height,
-            visibleTopInset: visibleTop, targetMaxY: endY, intraBlockFraction: intraBlockFraction) else { return .unavailable }
+            visibleTopInset: visibleTop, targetMaxY: endY, intraBlockFraction: intraBlockFraction,
+            readingStartClearance: 1) else { return .unavailable }
         #if DEBUG
         recordGeometry(scroll: scroll, target: target, targetY: targetY, adjusted: insets,
                        safeArea: safeArea, visibleTop: visibleTop, goalOffset: offset)

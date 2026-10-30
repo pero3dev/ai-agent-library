@@ -1,5 +1,7 @@
 # iOS完成版に向けたTODO
 
+[本文検索の着地点修正](../../records/2026-10-30/ios-native-search-reading-start-clearance.md)では、PR309初回FullのAX上端欠けを保持し、nil/zeroの読書開始だけ1pt余白を明示する。0.5pt収束・clamp・正のfractionのinverse・厳密UIと全上限は保持する。App0.2.24（26）で新4件と既存期待値11行を同期し、SDK型検査は成功。新XCTest・Full23/copy374B/Release・通常統合、実機・最低OS17 UI・VoiceOver・性能は未完了で、IOS-11/15/25とTODO14/32を維持する。 初回修正版の単体249件ではfixtureの境界確認1件が失敗したため、Appと判定を保って内部点と実readbackの確認へ修正し、新headの受入を待つ。
+
 IOS-04の[同梱ライセンス検査](../../records/2026-10-30/ios-native-upstream-license-audit.md)では、KaTeXとMermaidを固定toolingの実ライセンスに独立照合し、manifestを再計算した改変も拒否する。関連56試験と全199記事の静的監査を確認した。共通検査・通常CI・main統合、音声の制作証拠と配布条件、実機受入は別に残し、IOS-04未完了・TODO14/32を維持する。
 
 2026-10-30の[自用初版の記事更新方式](../../records/2026-10-30/ios-personal-bundled-update-policy.md)では、Rootが既採択baselineの同梱更新を主経路、信頼する手動importを補助として明示採択し、IOS-05の方式決定だけを完了とする。現行集計は14/32で、他31行と後続の旧12/32・13/32の履歴を保持する。IOS-20〜22、発行者真正性、自動整理と実機・署名更新の受入は未完了のままとする。

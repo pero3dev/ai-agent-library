@@ -1058,6 +1058,136 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
     }
 
 
+    /// Use the existing Debug library and its native navigation stack. The
+    /// normal published catalog is not routed through a test-only destination.
+    private func openFixtureForBodyLinks(query: String? = nil) throws {
+        try setLearningTagAndArticleQuery(tag: "transformer", query: "Transformer")
+        try openFilteredMoreActionsSheet()
+        let action = app.buttons["本文表示テスト"]
+        requireHittable(action)
+        action.tap()
+        XCTAssertTrue(app.navigationBars["本文表示テスト"].waitForExistence(timeout: 45))
+        let count = try singleHittableControl(app.staticTexts.matching(identifier: "library-article-count"),
+                                              name: "fixture article count")
+        XCTAssertEqual(count.label, "全1記事")
+        if let query { try setForegroundArticleQuery(query) }
+        let article = element("library-article-test-fixtures/native-reader")
+        requireHittable(article)
+        article.tap()
+        requireNativeBody()
+        XCTAssertTrue(app.navigationBars["ネイティブ本文テスト専用記事"].waitForExistence(timeout: 10))
+    }
+
+    /// Every selected fixture paragraph consists of one link spanning all its
+    /// text. Select the existing identifier without assuming an XCUI Link type.
+    private func fixtureBodyLinkParagraph(_ identifier: String, label: String) -> XCUIElement {
+        let reader = app.scrollViews["native-reader"]
+        let matches = reader.descendants(matching: .any).matching(identifier: identifier)
+        let paragraph = matches.firstMatch
+        for _ in 0..<8 where !isHittableOnScreen(paragraph, inside: reader, fullyVisible: true) {
+            reader.swipeUp(velocity: .slow)
+        }
+        requireHittable(paragraph, inside: reader, fullyVisible: true)
+        XCTAssertEqual(matches.count, 1, "The public paragraph identifier must be unambiguous")
+        XCTAssertEqual(paragraph.label, label, "Only the one-link fixture paragraph may receive the tap")
+        return paragraph
+    }
+
+    func testFixtureBodyLinksShowFragmentFilenameFarAndDuplicateWitnesses() throws {
+        try openFixtureForBodyLinks()
+        let reader = app.scrollViews["native-reader"]
+        let fixtureBar = app.navigationBars["ネイティブ本文テスト専用記事"]
+        for (identifier, label, heading, witness) in [
+            ("native-text-paragraph-5422cd96391ab3acc78b0196", "近くの本文へ", "case-inline-01", "通常の文、斜体の文、太字の文"),
+            ("native-text-paragraph-15bc0b673273bb6dca3d00a2", "同じファイル名で近くの本文へ", "case-inline-01", "通常の文、斜体の文、太字の文"),
+            ("native-text-paragraph-584a2949a732810afaea162f", "末尾の到着地点へ", "case-end-01", "END-ARRIVAL"),
+            ("native-text-paragraph-7b03d67eb075781fbd15a853", "二つ目の同じ見出しへ", "同じ見出し-1", "DUPLICATE-SECOND")
+        ] {
+            // Reset only before the next independent link operation. After the
+            // tap, visibility must be achieved by nativeURL navigation itself.
+            goToContents("CASE-LINK-01", headingID: "case-link-01")
+            let link = fixtureBodyLinkParagraph(identifier, label: label)
+            link.tap()
+            XCTAssertTrue(fixtureBar.waitForExistence(timeout: 10))
+            XCTAssertFalse(app.navigationBars["目次"].exists)
+            requireHittable(app.staticTexts["native-heading-" + heading], inside: reader, fullyVisible: true)
+            let arrival = reader.staticTexts.matching(NSPredicate(format:
+                "identifier BEGINSWITH %@ AND label CONTAINS %@", "native-text-", witness))
+            requireHittable(arrival.firstMatch, inside: reader, fullyVisible: true)
+            XCTAssertEqual(arrival.count, 1, "The destination must expose its unique native paragraph witness")
+            XCTAssertFalse(hasVisibleFrame(link, inside: reader), "The tap must leave the source link list")
+            capture("Fixture-body-link-" + label)
+        }
+        fixtureBar.buttons.element(boundBy: 0).tap()
+        XCTAssertTrue(app.navigationBars["本文表示テスト"].waitForExistence(timeout: 10))
+        closePublicSheet("本文表示テスト")
+    }
+
+    func testFixtureCrossArticleBodyLinkReturnsToMeasuredSourcePositionAndBookmark() throws {
+        // Retain an initial search route and a later TOC request. Neither may
+        // replay over the subsequently measured position when the reader returns.
+        try openFixtureForBodyLinks(query: "CASE-END-01")
+        goToContents("CASE-LINK-01", headingID: "case-link-01")
+        let reader = app.scrollViews["native-reader"]
+        let fixtureBar = app.navigationBars["ネイティブ本文テスト専用記事"]
+        let link = fixtureBodyLinkParagraph("native-text-paragraph-0a99905bfa6bffa944bfadb3",
+                                            label: "Transformerの自己注意へ")
+        let heading = app.staticTexts["native-heading-case-link-01"]
+        let top = max(reader.frame.minY, fixtureBar.frame.maxY)
+        let shift = link.frame.minY - top - 24
+        XCTAssertGreaterThan(shift, link.frame.height,
+                             "The source position must differ from the previous TOC landing")
+        let visibleReader = reader.frame.intersection(app.frame)
+        let startY = visibleReader.maxY - 44
+        XCTAssertGreaterThan(startY - shift, top + 44)
+        let origin = app.coordinate(withNormalizedOffset: .zero)
+        let start = origin.withOffset(CGVector(dx: visibleReader.midX, dy: startY))
+        let end = origin.withOffset(CGVector(dx: visibleReader.midX, dy: startY - shift))
+        // One measured drag establishes the user's source position before the
+        // link tap; there is no gesture to repair either destination or return.
+        start.press(forDuration: 0.05, thenDragTo: end, withVelocity: .slow, thenHoldForDuration: 0.2)
+        requireHittable(link, inside: reader, fullyVisible: true)
+        XCTAssertFalse(hasVisibleFrame(heading, inside: reader))
+        let add = fixtureBar.buttons["しおりを追加"]
+        if add.exists {
+            requireHittable(add)
+            add.tap()
+        }
+        let remove = fixtureBar.buttons["しおりを削除"]
+        requireHittable(remove)
+        let originalY = link.frame.minY
+        let paragraphHeight = link.frame.height
+        XCTAssertTrue(originalY.isFinite && paragraphHeight.isFinite && paragraphHeight > 0)
+        capture("Fixture-crossarticle-link-before")
+        link.tap()
+        let transformerBar = app.navigationBars["Transformer アーキテクチャ詳解"]
+        XCTAssertTrue(transformerBar.waitForExistence(timeout: 10))
+        requireNativeBody()
+        requireHittable(app.staticTexts["native-heading-自己注意の数式"], inside: reader, fullyVisible: true)
+        XCTAssertFalse(app.navigationBars["目次"].exists)
+        capture("Fixture-crossarticle-link-destination")
+        let back = transformerBar.buttons.element(boundBy: 0)
+        requireHittable(back)
+        back.tap()
+        XCTAssertTrue(fixtureBar.waitForExistence(timeout: 10))
+        requireHittable(link, inside: reader, fullyVisible: true)
+        XCTAssertEqual(link.label, "Transformerの自己注意へ")
+        requireHittable(remove)
+        XCTAssertLessThanOrEqual(abs(link.frame.minY - originalY), paragraphHeight,
+                                "Back must restore the actual link-before position within one measured paragraph height")
+        XCTAssertFalse(hasVisibleFrame(heading, inside: reader), "The old TOC request must not replay on return")
+        XCTAssertFalse(hasVisibleFrame(app.staticTexts["native-heading-case-end-01"], inside: reader),
+                       "The initial search route must not replay on return")
+        capture("Fixture-crossarticle-link-return")
+        fixtureBar.buttons.element(boundBy: 0).tap()
+        let libraryBar = app.navigationBars["本文表示テスト"]
+        XCTAssertTrue(libraryBar.waitForExistence(timeout: 10))
+        let cancel = try singleHittableControl(libraryBar.buttons.matching(NSPredicate(format: "label == %@", "キャンセル")),
+                                              name: "fixture search cancellation")
+        cancel.tap()
+        closePublicSheet("本文表示テスト")
+    }
+
     // IOS-11 prototype regressions; SDK compilation/execution remain pending.
     func testFixtureTallSingleBlockResumesNearItsMeasuredInternalRowAfterRelaunch() throws {
         func openFixtureLibrary() throws {

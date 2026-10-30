@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-30",
+  "status": "submission-candidate",
+  "publication_parent": "1c7e10cb1bff81bcc5251a58c820e3de3a7ed6a7",
+  "byte_contract_base": "cb66343ddc18f28f780b8f240c07910839e7cc6a",
+  "authority": "User requested autonomous priority TODO work and ordinary protected integration",
+  "source_paths": [
+    "ios/tests/verify-core-performance.mjs",
+    "tests/unit/ios-core-performance-acceptance.test.mjs",
+    "tests/unit/ios-core-performance-private-temp.test.mjs",
+    "ios/tests/core-performance.md"
+  ],
+  "targeted_node": {
+    "total": 15,
+    "pass": 15,
+    "fail": 0,
+    "scope": "synthetic policy/observation and sparse module fixture; not production measurement"
+  },
+  "protocol": {
+    "raw_invocations": 19,
+    "timed_warmup_and_samples": 18,
+    "measured_samples": 15,
+    "combined_output_bytes_each": 1048576,
+    "total_deadline_seconds": 900
+  },
+  "common_check": "pending",
+  "first_rebound_common": {
+    "total": 1203,
+    "pass": 1187,
+    "fail": 1,
+    "skip": 15,
+    "cause": "Existing fixture did not guarantee child marker readiness before its150ms deadline; marker read failed"
+  },
+  "private_temp_readiness_correction": {
+    "targeted_pass": 6,
+    "parallel_timeout_pass": 8,
+    "local_node": "24.19.0",
+    "node22_runtime": "pending CI",
+    "production_runner": "byte unchanged",
+    "clock_scope": "only isolated fixture parent setTimeout controlled after actual child readiness; not150ms wall measurement",
+    "real_process_and_cleanup": "preserved; outer real watchdog cannot satisfy inner timeout witness",
+    "boundary_signal_witness": "passthrough OS kill spy: zero groupSIGKILL at149ms, one at150ms",
+    "outer_watchdog_negative_control": "private forced parent stall fails expected inner witness and confirms owned child/root cleanup"
+  },
+  "independent_final_review": "pending",
+  "hosted_ci": "pending",
+  "ordinary_main": "pending",
+  "performance_budget": "unadopted",
+  "production_cli_real_saved_result_acceptance": "unconfirmed",
+  "new_measurement": "not performed",
+  "todo": {
+    "complete": 14,
+    "total": 32,
+    "IOS-15": "incomplete"
+  },
+  "limits": [
+    "Caller binds expected revision to frozen bytes independently",
+    "Fixed CLI policy; explicit JS fixture factory is trusted operator authority, never candidate metadata",
+    "No iOS Release/device/FPS/p95/SLO acceptance",
+    "Requires separately audited preserved Content; inventory is not Swift consumer audit",
+    "Consistency verification is not execution or producer authentication"
+  ],
+  "independent_static_review": {
+    "source": "review3; P1/P2=0",
+    "record": "Root private record review; P1/P2=0",
+    "actual_parent_binding": "matches preceding approved main; final fact review pending"
+  }
+}

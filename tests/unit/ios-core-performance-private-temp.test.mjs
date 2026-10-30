@@ -81,12 +81,75 @@ test('relative/symlink/preexisting/forged/changed ownership contexts reject with
 test('actual Node parent timeout path removes its owned private temp and terminated child', async () => {
   await fixture(async root => {
     const owner = path.join(root, 'owner'); await mkdir(owner); const marker = path.join(root, 'child.json');
-    const childCode = `const fs=require('node:fs'),os=require('node:os'),path=require('node:path');fs.writeFileSync(path.join(os.tmpdir(),'timeout-payload'),'fixture');fs.writeFileSync(process.argv[1],JSON.stringify({pid:process.pid,tmp:os.tmpdir()}));setInterval(()=>{},1000);`;
-    const parentCode = `import {createPrivateTempRoot,cleanupPrivateTempRoot,runBounded,installProcessCleanup} from ${JSON.stringify(runnerURL)};installProcessCleanup();const context=createPrivateTempRoot(process.argv[1]);try{await runBounded(process.execPath,['-e',${JSON.stringify(childCode)},process.argv[2]],{timeoutMs:150,privateTempRoot:context});}finally{cleanupPrivateTempRoot(context);}`;
-    await assert.rejects(runBounded(process.execPath, ['--input-type=module', '-e', parentCode, owner, marker], { timeoutMs: 3000 }), /time limit/);
-    const child = JSON.parse(await readFile(marker)); assert.equal(child.tmp, path.join(owner, '.process-tmp'));
-    assert(await absent(child.tmp)); await waitFor(() => !alive(child.pid), 'Timeout child survived');
-    assert((await lstat(owner)).isDirectory(), 'Only private temp was removed');
+    const childCode = `const fs=require('node:fs'),os=require('node:os'),path=require('node:path');fs.writeFileSync(path.join(os.tmpdir(),'timeout-payload'),'fixture');fs.writeFileSync(process.argv[1]+'.pending',JSON.stringify({pid:process.pid,tmp:os.tmpdir()}));fs.renameSync(process.argv[1]+'.pending',process.argv[1]);setInterval(()=>{},1000);`;
+    // Advance only this isolated parent's timeout clock after the real child is
+    // ready. A 150 ms wall-clock deadline could expire during Node startup under
+    // parallel suite load, leaving no child witness. Real process creation,
+    // process-group termination, close events, and private-temp cleanup remain live.
+    const parentCode = `
+      import assert from 'node:assert/strict';
+      import { mock } from 'node:test';
+      import { existsSync, readFileSync } from 'node:fs';
+      import { createPrivateTempRoot, cleanupPrivateTempRoot, runBounded, installProcessCleanup } from ${JSON.stringify(runnerURL)};
+      installProcessCleanup();
+      const context = createPrivateTempRoot(process.argv[1]);
+      mock.timers.enable({ apis: ['setTimeout'] });
+      try {
+        let settled = false;
+        const outcome = runBounded(process.execPath, ['-e', ${JSON.stringify(childCode)}, process.argv[2]], { timeoutMs: 150, privateTempRoot: context })
+          .then(value => { settled = true; return { value }; }, error => { settled = true; return { error }; });
+        await new Promise((resolve, reject) => {
+          const readinessDeadline = Date.now() + 3000;
+          const poll = setInterval(() => {
+            if (existsSync(process.argv[2])) { clearInterval(poll); resolve(); }
+            else if (Date.now() >= readinessDeadline) { clearInterval(poll); reject(new Error('Private child did not start')); }
+          }, 20);
+        });
+        const child = JSON.parse(readFileSync(process.argv[2], 'utf8'));
+        assert.equal(child.tmp, context.root);
+        assert.equal(readFileSync(context.root + '/timeout-payload', 'utf8'), 'fixture');
+        process.kill(child.pid, 0);
+        const killSpy = mock.method(process, 'kill'); // Default implementation calls through to the real OS signal.
+        const timeoutKills = () => killSpy.mock.calls.filter(call => call.arguments[0] === -child.pid && call.arguments[1] === 'SIGKILL').length;
+        mock.timers.tick(149);
+        await Promise.resolve();
+        assert.equal(timeoutKills(), 0, 'The 150 ms timeout must not signal its child group at 149 ms');
+        assert.equal(settled, false, 'The 150 ms timeout must not fire at 149 ms');
+        process.kill(child.pid, 0);
+        mock.timers.tick(1);
+        assert.equal(timeoutKills(), 1, 'The timeout must issue one real child-group SIGKILL at 150 ms');
+        const result = await outcome;
+        assert.equal(result.error?.message, 'Subprocess time limit exceeded');
+        throw result.error;
+      } finally {
+        cleanupPrivateTempRoot(context);
+        mock.timers.reset();
+        mock.restoreAll();
+      }
+    `;
+    let child;
+    try {
+      await assert.rejects(runBounded(process.execPath, ['--input-type=module', '-e', parentCode, owner, marker], { timeoutMs: 3000 }), error => {
+        assert.match(error.message, /^Subprocess failed \(1\):/, 'The real outer watchdog must not be the timeout witness');
+        assert.match(error.message, /Error: Subprocess time limit exceeded/);
+        return true;
+      });
+      child = JSON.parse(await readFile(marker)); assert.equal(child.tmp, path.join(owner, '.process-tmp'));
+      assert(await absent(child.tmp)); await waitFor(() => !alive(child.pid), 'Timeout child survived');
+      assert((await lstat(owner)).isDirectory(), 'Only private temp was removed');
+    } finally {
+      // An outer watchdog/early assertion failure can kill the parent before its
+      // synchronous exit hook runs. Reap only the child identified by this
+      // fixture's atomically published marker before fixture() removes the root.
+      if (!child && !(await absent(marker))) child = JSON.parse(await readFile(marker));
+      if (child) {
+        assert(Number.isSafeInteger(child.pid) && child.pid > 0, 'The fixture marker must identify one positive child PID');
+        if (alive(child.pid)) {
+          try { process.kill(process.platform === 'win32' ? child.pid : -child.pid, 'SIGKILL'); } catch (error) { if (error.code !== 'ESRCH') throw error; }
+          await waitFor(() => !alive(child.pid), 'Timeout fallback child survived');
+        }
+      }
+    }
   });
 });
 

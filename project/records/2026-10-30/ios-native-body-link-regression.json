@@ -2,7 +2,7 @@
   "schema_version": 1,
   "date": "2026-10-30",
   "title": "本文リンクと健全な旧読書記録のUI回帰",
-  "state": "submission candidate; current full common/Hosted/final8/main pending",
+  "state": "submission candidate v3 after ancillary strict-three correction and isolated timeout fixture; common/CI/main pending",
   "known_current_main": "467902e4301ecc7a3aa4918ef9fbc87eb0841fe3",
   "static_source_bases": {
     "body_links": "cb66343ddc18f28f780b8f240c07910839e7cc6a",
@@ -14,7 +14,12 @@
     "ios/AILibraryUITests/PublishedReaderUITests.swift",
     "ios/AILibrary/Sources/AILibraryApp.swift",
     "ios/AILibraryUITests/NativeReaderUITests.swift",
-    ".github/workflows/ios-published-candidate.yml"
+    ".github/workflows/ios-published-candidate.yml",
+    ".github/workflows/ios-runtime26-smoke.yml",
+    ".github/workflows/ios-sdk27-compatibility.yml",
+    "ios/tests/capture-reader-failure-diagnostics.mjs",
+    "tests/unit/ios-reader-failure-diagnostics.test.mjs",
+    "tests/unit/ios-simulator-unit-failure.test.mjs"
   ],
   "source_candidates": [
     {
@@ -40,6 +45,36 @@
       "base_git_blob": "f2510bcceef8be8236f3e4fe8046eb1429c28863",
       "bytes": 26407,
       "sha256": "1ce89ca0f5fdc5d0864d5f0d7b1779d5afc76e5bdbf41b1e6369860616b41868"
+    },
+    {
+      "path": ".github/workflows/ios-runtime26-smoke.yml",
+      "base_git_blob": "ed0e17ef14958c9d567834518fe08357fe39beac",
+      "bytes": 36068,
+      "sha256": "9875fbe8b107ecb11859be3cb018e7f60b98e155604eb28fc1828973f77941e8"
+    },
+    {
+      "path": ".github/workflows/ios-sdk27-compatibility.yml",
+      "base_git_blob": "9c39fe5d235478274aa8f8e18b6aadde6bb9e3c0",
+      "bytes": 72543,
+      "sha256": "1d49387e1f775a9046bc032676116fce40be816c4336198c91bcd4efbe2f9ee1"
+    },
+    {
+      "path": "ios/tests/capture-reader-failure-diagnostics.mjs",
+      "base_git_blob": "b78ba1a5ba7e6c78db2bc5bf6e5c62dcd83382e5",
+      "bytes": 33178,
+      "sha256": "215212016f2ba404a999c99fa2b576fbfba43a6477b881c9fc9cf3f7fd8375cf"
+    },
+    {
+      "path": "tests/unit/ios-reader-failure-diagnostics.test.mjs",
+      "base_git_blob": "255299819a61d459306bbe673db2f4e8fecfe13d",
+      "bytes": 46986,
+      "sha256": "1217c8ae43d40fa3843b1d9d6d4defd85cfa66202e1d4e8b34bbe5eab0745998"
+    },
+    {
+      "path": "tests/unit/ios-simulator-unit-failure.test.mjs",
+      "bytes": 16520,
+      "sha256": "3c90a4fc53411a05569c0702e6a4ceedb01b4f671f7c17df06d8b10d28b3b453",
+      "base_sha256": "df497b41a0ff4afe4fb145cd648d8272af2129e19c808c5e889c9a706e003443"
     }
   ],
   "proposed_repository_paths": [
@@ -47,6 +82,11 @@
     "ios/AILibrary/Sources/AILibraryApp.swift",
     "ios/AILibraryUITests/NativeReaderUITests.swift",
     ".github/workflows/ios-published-candidate.yml",
+    ".github/workflows/ios-runtime26-smoke.yml",
+    ".github/workflows/ios-sdk27-compatibility.yml",
+    "ios/tests/capture-reader-failure-diagnostics.mjs",
+    "tests/unit/ios-reader-failure-diagnostics.test.mjs",
+    "tests/unit/ios-simulator-unit-failure.test.mjs",
     "project/records/2026-10-30/ios-native-body-link-regression.md",
     "project/records/2026-10-30/ios-native-body-link-regression.json",
     "project/README.md",
@@ -118,7 +158,14 @@
       "review_sha256": "b98117f2b455f46347367f0b2396887e36a095f6868ba684110133ce051e07ef",
       "scope": "App/Native/workflow healthy delta after body2; not body2 semantic re-review or runtime"
     },
-    "final8": "pending"
+    "previous_final8": "independent binding P1/P2 zero; frozen initial8 source; not final13 acceptance",
+    "timeout_fixture": {
+      "P1": 0,
+      "P2": 0,
+      "review_sha256": "153ef48bbe3079072499dff88bff661ce5c48ad73b97a705810eab280943292c",
+      "scope": "single fixture; not production runtime"
+    },
+    "final13": "pending"
   },
   "verification": {
     "body_static_source_and_fixture_parser": "passed; 5 unique one-link paragraphs and targets",
@@ -151,13 +198,35 @@
       "current_final_Source4_SDK_acceptance": false
     },
     "full_App_module": "pending",
-    "current_full_common_check": "pending",
+    "current_full_common_check": "pending exact new13tree after capacity recovery",
     "new_Hosted_Full26_and_Native7": "not performed",
     "required_CI": "pending",
     "ordinary_PR_main_integration": "pending",
-    "physical_VoiceOver_minimumOS_offline": "incomplete; user allows skip"
+    "physical_VoiceOver_minimumOS_offline": "incomplete; user allows skip",
+    "prior_eight_path_common": {
+      "head": "b48400b3c2a6fdb017914c68a7570f164d8157e3",
+      "tree": "06d7c3ff86d57ef5986af695e1f4f368b3484418",
+      "total": 1203,
+      "pass": 1188,
+      "skip": 15,
+      "fail": 0,
+      "scope": "before ancillary contract correction"
+    },
+    "first_twelve_path_common": {
+      "total": 1206,
+      "pass": 1186,
+      "fail": 5,
+      "skip": 15,
+      "tree": "d885a84d42cc2bbf1eb54b7f9e1498b3e1ec4976",
+      "elapsed_seconds": 49.677,
+      "causes": {
+        "disk_2GiB_floor": 4,
+        "timeout_fixture_IO_consumed_30ms": 1
+      },
+      "production_failure_proved": false
+    }
   },
-  "commit_PR_main_plan": "After actual preceding lease main, bind Source4 originals and inherited version, synchronize2records+2indices, independently review final8, run common and affected actualHosted checks, then ordinary protected merge; no admin exception reused",
+  "commit_PR_main_plan": "After actual preceding lease main, bind Source9 originals and inherited version, synchronize2records+2indices, independently review final13, run common and affected actualHosted checks, then ordinary protected merge; no admin exception reused",
   "limits": [
     "Duplicate bottomclamp can make wrongfirstanchor share viewport; visible secondwitness does not uniquely prove anchorselection; staticparser target separate",
     "Positive A/B requires fullvisibility; negative excludes only oppositeFULLvisibility, not all partialintersection; actualUI remains needed",
@@ -178,5 +247,79 @@
     "build": 27,
     "status": "actual parent0.2.25(27) held; this unit changes no PBX/version",
     "version_or_PBX_change_in_this_unit": false
+  },
+  "update_date": "2026-10-31",
+  "ancillary_strict_three": {
+    "paths": [
+      ".github/workflows/ios-runtime26-smoke.yml",
+      ".github/workflows/ios-sdk27-compatibility.yml",
+      "ios/tests/capture-reader-failure-diagnostics.mjs",
+      "tests/unit/ios-reader-failure-diagnostics.test.mjs"
+    ],
+    "expected_cases": 3,
+    "old_two_retained": true,
+    "whole_class_selectors_held": true,
+    "writer_reader_status": "exact-three-cases-passed",
+    "SDK27_selected_failure_export_scope_count": 1,
+    "selected_case_multiple_PNGs": "existing limits held; not universal one-PNG guarantee",
+    "other_failed_cases": "omissions",
+    "parent_containers_device_one_and_all_other_limits": "held",
+    "targeted_Node24": {
+      "total": 122,
+      "pass": 122,
+      "skip": 0,
+      "fail": 0,
+      "scope": "SDK27 diagnostic mocks; not real SDK27"
+    },
+    "first_targeted": {
+      "total": 122,
+      "pass": 121,
+      "fail": 1,
+      "cause": "existing workflow display-name regex mismatched actual caller; corrected expectation only"
+    },
+    "new_head_UI_and_SDK27_runtime": "unconfirmed"
+  },
+  "initial_Runtime26_failure": {
+    "head": "b48400b3c2a6fdb017914c68a7570f164d8157e3",
+    "run": 41082784325,
+    "job": 124155984409,
+    "UI_unique": 3,
+    "UI_pass": 3,
+    "UI_skip": 0,
+    "UI_fail": 0,
+    "acceptance": "failed actual3 expected2",
+    "raw_bytes": 513045,
+    "raw_sha256": "ebd1c9d5a265552e327914bd26c0e86b808f534f449cb85f0e82c314b69d286d",
+    "scope": "initial head only; not new head acceptance"
+  },
+  "timeout_fixture_correction": {
+    "path": "tests/unit/ios-simulator-unit-failure.test.mjs",
+    "targeted_Node24": {
+      "total": 15,
+      "pass": 15,
+      "skip": 0,
+      "fail": 0
+    },
+    "clock": "injected fixed zero only in one case; not wall-time acceptance",
+    "real_timer_ms": 30,
+    "real_SIGKILL_and_close_order": "first close, second spawn, second close",
+    "outside_case_and_production": "byte held",
+    "resource_limits": "unchanged"
+  },
+  "prior_main_picker_failure": {
+    "head": "467902e4301ecc7a3aa4918ef9fbc87eb0841fe3",
+    "run": 41081230853,
+    "job": 124151960784,
+    "case": "PublishedReaderUITests/testCancelContentFolderPickerPreservesFiltersAndReadingAndAllowsMoreActions",
+    "raw_bytes": 1723927,
+    "raw_sha256": "6d2d2f8c67157111143f6e86b46bedcf3cdd1e4fd306382c40d9a0832c52c063",
+    "last_readiness": {
+      "new_bars": 1,
+      "scoped_cancel": 0
+    },
+    "later_snapshot_scoped_cancel": 1,
+    "different_instants": true,
+    "root_cause": "unconfirmed; saved attachments inspection pending",
+    "limits_and_predicates": "held; not an unchanged retry"
   }
 }

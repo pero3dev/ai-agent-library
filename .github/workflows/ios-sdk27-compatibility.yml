@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       run_smoke:
-        description: 'Also run the owned iOS27 Native2 preview smoke job'
+        description: 'Also run the owned iOS27 Native3 preview smoke job'
         type: boolean
         default: false
   pull_request:
@@ -675,7 +675,7 @@ jobs:
           assert.equal(matches[0].device.name, name); assert.equal(matches[0].device.state, 'Booted');
           assert.equal(matches[0].device.isAvailable, true);
           NODE
-      - name: Run only the existing two native UI smoke cases
+      - name: Run exactly the three native UI smoke cases
         timeout-minutes: 12
         id: ui
         run: |
@@ -848,7 +848,7 @@ jobs:
           bash ios/tests/check-package.sh "$debug_app/Content" 3 2>&1 | tee "$EVIDENCE_DIR/debug-app-package.json"
           cmp ios/AILibrary/TestContent/manifest.json "$debug_app/TestContent/manifest.json"
           bash ios/tests/check-package.sh "$debug_app/TestContent" 4 2>&1 | tee "$EVIDENCE_DIR/debug-fixture-package.json"
-      - name: Require exactly two passed UI cases from the raw result
+      - name: Require exactly three passed UI cases from the raw result
         timeout-minutes: 1
         id: results
         if: always() && !cancelled() && steps.ui.outcome != 'skipped' && steps.evidence.outcome == 'success'
@@ -881,7 +881,7 @@ jobs:
           const bundles = container(tree.testNodes[0], 'Test Plan', 'AILibrary', 1);
           const suites = container(bundles[0], 'UI test bundle', 'AILibraryUITests', 1);
           assert.equal(bundles[0].nodeIdentifierURL, bundleURL);
-          const leaves = container(suites[0], 'Test Suite', 'NativeReaderUITests', 2);
+          const leaves = container(suites[0], 'Test Suite', 'NativeReaderUITests', 3);
           assert.equal(suites[0].nodeIdentifierURL, bundleURL + '/NativeReaderUITests');
           for (const node of leaves) {
             assert.ok(node && typeof node === 'object' && !Array.isArray(node));
@@ -894,8 +894,9 @@ jobs:
           }
           assert.equal(new Set(tests.map(test => test.nodeIdentifier)).size, tests.length, 'No selected case may repeat');
           const expected = ['NativeReaderUITests/testContentsBookmarkAndResumeAfterRelaunch()',
+            'NativeReaderUITests/testHealthyLegacyHeadingPositionAndBookmarkPersistAfterNativeResumeAndRelaunch()',
             'NativeReaderUITests/testThreeArticlesHaveNativeBodyText()'].sort();
-          assert.equal(tests.length, 2, 'No skipped, extra, repeated or unknown UI cases may be accepted');
+          assert.equal(tests.length, 3, 'No skipped, extra, repeated or unknown UI cases may be accepted');
           assert.deepEqual(tests.map(test => test.nodeIdentifier).sort(), expected);
           for (const test of tests) {
             assert.equal(test.result, 'Passed');
@@ -907,7 +908,7 @@ jobs:
           assert.equal(devices[0].deviceId.toUpperCase(), owned.UUID);
           assert.equal(devices[0].osVersion, '27.0'); assert.equal(devices[0].platform, 'iOS Simulator');
           if (devices[0].modelName !== undefined) assert.equal(devices[0].modelName, 'iPhone 17');
-          put('ui-acceptance.json', JSON.stringify({ schema_version: 1, status: 'exact-two-cases-passed',
+          put('ui-acceptance.json', JSON.stringify({ schema_version: 1, status: 'exact-three-cases-passed',
             cases: tests.map(({ nodeIdentifier, result }) => ({ nodeIdentifier, result })), devices,
             scope: 'Representative public UI only; fixture resources audited separately. No minimum-iOS17 runtime, physical, VoiceOver or performance acceptance.' }, null, 2) + '\n');
           NODE
@@ -948,14 +949,14 @@ jobs:
           try {
             assert.ok(completed, 'Skipped, failed, cancelled or unknown stages are not successful acceptance');
             const accepted = JSON.parse(readFileSync(path.join(process.env.EVIDENCE_DIR, 'ui-acceptance.json'), 'utf8'));
-            assert.equal(accepted.status, 'exact-two-cases-passed');
+            assert.equal(accepted.status, 'exact-three-cases-passed');
             const cleanup = JSON.parse(readFileSync(path.join(process.env.EVIDENCE_DIR, 'cleanup.json'), 'utf8'));
             assert.ok(['owned-simulator-deleted', 'already-absent'].includes(cleanup.status));
           } catch (error) { failure = String(error); }
           const result = { schema_version: 1, status: failure === null ? 'representative-new-runtime-smoke-passed' : 'not-completed',
             source_head: process.env.EXPECTED_SOURCE_HEAD, outcomes,
             failure,
-            coverage: 'Existing NativeReaderUITests exact2 on iOS27.0/iPhone17 only; separate representative3/fixture4 resource audits',
+            coverage: 'Existing NativeReaderUITests exact3 on iOS27.0/iPhone17 only; separate representative3/fixture4 resource audits',
             minimum_iOS17_physical_VoiceOver_performance: 'not-verified' };
           writeFileSync(path.join(process.env.EVIDENCE_DIR, 'summary.json'), JSON.stringify(result, null, 2) + '\n', { flag: 'wx', mode: 0o600 });
           assert.equal(failure, null);

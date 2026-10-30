@@ -716,14 +716,45 @@ class NativeReaderUITestCase: XCTestCase {
     }
 
     func goToContents(_ title: String, headingID: String) {
+        let precheckStarted = DispatchTime.now().uptimeNanoseconds
         app.buttons["目次"].tap()
         XCTAssertTrue(app.navigationBars["目次"].waitForExistence(timeout: 5))
         let target = app.buttons[title].firstMatch
+        var positiveObserved = false
+        var checkCount = 0
+        var gestures = 0
         for _ in 0..<18 {
-            if isHittableOnScreen(target) { break }
+            let ready = isHittableOnScreen(target)
+            checkCount += 1
+            if ready {
+                positiveObserved = true
+                break
+            }
             app.swipeUp(velocity: .slow)
+            gestures += 1
         }
-        requireHittable(target)
+        let finalWaitRequired = !positiveObserved
+        let precheckReturned = DispatchTime.now().uptimeNanoseconds
+        let elapsed = precheckReturned >= precheckStarted ? precheckReturned - precheckStarted : 0
+        // One bounded precheck record only; no additional AX reads or final-wait result claim.
+        let prefix = "AILibraryContentsReadiness "
+        let headingLimit = 96
+        let boundedHeading = String(decoding: Array(headingID.utf8.prefix(headingLimit)), as: UTF8.self)
+        let payload: [String: Any] = ["schemaVersion": 1, "phase": "precheck-finished",
+            "checkCount": checkCount, "gestures": gestures, "positiveObserved": positiveObserved,
+            "finalWaitRequired": finalWaitRequired, "elapsedNanoseconds": elapsed,
+            "headingID": boundedHeading, "headingIDTruncated": headingID.utf8.count > headingLimit]
+        let json: String
+        if let data = try? JSONSerialization.data(withJSONObject: payload, options: [.sortedKeys]),
+           data.count <= 1024 - prefix.utf8.count - 1 {
+            json = String(decoding: data, as: UTF8.self)
+        } else {
+            json = #"{"schemaVersion":1,"phase":"precheck-finished","checkCount":\#(checkCount),"gestures":\#(gestures),"positiveObserved":\#(positiveObserved),"finalWaitRequired":\#(finalWaitRequired),"elapsedNanoseconds":\#(elapsed),"headingID":"","headingIDTruncated":true,"encodingError":"json-unavailable-or-cap"}"#
+        }
+        print(prefix + json)
+        // The first positive uses the identical readiness predicate. Its second
+        // observation is intentionally omitted; an unobserved positive still waits.
+        if finalWaitRequired { requireHittable(target) }
         target.tap()
         requireHittable(app.staticTexts["native-heading-" + headingID],
                         inside: app.scrollViews["native-reader"], fullyVisible: true)

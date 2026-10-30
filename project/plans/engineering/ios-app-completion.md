@@ -1,5 +1,7 @@
 # iOS完成版に向けたTODO
 
+IOS-21の[保存記事版の参照保持](../../records/2026-10-30/ios-snapshot-lease-accounting.md)では、字句保存先とUUIDごとの取得を共有tokenで数える。現行AppのSDK型検査とmacOS新9件成功を、未実施のiOS予定258件・UIと区別する。App0.2.25（27）で削除を追加せず、共通検査・必要CI・通常統合と容量整理の保護条件は後続に残し、IOS-21未完了・TODO14/32を維持する。
+
 IOS-15の[保存結果検証器](../../records/2026-10-30/ios-core-observation-verification.md)は、19回のrawと15標本の統計をオフラインで再検証する。合成fixture15件と疎な構成の試験を確認した。production CLIの実保存結果受入、新観測・性能予算・実機は未完了で、IOS-15とTODO14/32を維持する。
 
 [本文検索の着地点修正](../../records/2026-10-30/ios-native-search-reading-start-clearance.md)では、PR309初回FullのAX上端欠けを保持し、nil/zeroの読書開始だけ1pt余白を明示する。0.5pt収束・clamp・正のfractionのinverse・厳密UIと全上限は保持する。App0.2.24（26）で新4件と既存期待値11行を同期し、SDK型検査は成功。新XCTest・Full23/copy374B/Release・通常統合、実機・最低OS17 UI・VoiceOver・性能は未完了で、IOS-11/15/25とTODO14/32を維持する。 初回修正版の単体249件ではfixtureの境界確認1件が失敗したため、Appと判定を保って内部点と実readbackの確認へ修正し、新headの受入を待つ。

@@ -33,7 +33,7 @@ final class ContentRepository {
         if let data = try? Data(contentsOf: pointerURL), let pointer = try? JSONDecoder().decode(Pointer.self, from: data),
            UUID(uuidString: pointer.directory) != nil,
            let current = try? validate(root: storageRoot.appendingPathComponent("versions").appendingPathComponent(pointer.directory)) {
-            return current
+            return retainingGenerationLease(current, directory: pointer.directory)
         }
         return try validate(root: bundledRoot)
     }
@@ -85,7 +85,19 @@ final class ContentRepository {
         try writePointer(pointer, storageRoot.appendingPathComponent("current.json"))
         activated = true
         // Keep earlier versions for this prototype; an open reader may still reference one.
-        return snapshot
+        return retainingGenerationLease(snapshot, directory: id)
+    }
+
+    /// Live acquisitions only; persistent current, staging, path identity and
+    /// delayed image reads need separate protection before any future cleanup.
+    var advisorySnapshotAcquisitions: [UUID: Int] {
+        ContentSnapshotLease.advisoryAcquisitions(in: storageRoot)
+    }
+
+    private func retainingGenerationLease(_ snapshot: ContentSnapshot, directory: String) -> ContentSnapshot {
+        guard let generation = UUID(uuidString: directory),
+              let lease = ContentSnapshotLease.acquire(storageRoot: storageRoot, generation: generation) else { return snapshot }
+        return snapshot.retainingGenerationLease(lease)
     }
 
     private func validate(root: URL) throws -> ContentSnapshot {

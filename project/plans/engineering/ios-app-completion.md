@@ -1,5 +1,7 @@
 # iOS完成版に向けたTODO
 
+IOS-25の[本文リンクと健全な旧読書記録のUI回帰](../../records/2026-10-30/ios-native-body-link-regression.md)は、tap後の補正なしで同記事の到着・別記事からのBackと実測位置・しおりを検査し、旧heading記録の公開「続きを読む」A→通常TOCでB→seedを外した再起動後のBを追加する。Source9と記録・索引4本を最終13パスの小PRにまとめ、Full26（Native3＋Published17＋geometry6）・Native7を予定する。copy374B・job50分・selectorsと全上限を保持し、Native単独SDK成功、Published60秒timeout未確認、別々のSource2／3レビューを区別する。実parentへの結合、App module・最終共通検査／レビュー・新Hosted・通常main統合は後続とし、実機・VoiceOver・最低OSとオフライン受入、末尾clamp等の限界、IOS-25未完了・TODO14/32を残す。 補助CIの旧2件契約とSDK27失敗診断を3件へ同期し、初回iOS26のactual3／expected2の失敗を保持する。最初の失敗ケースだけを出力scopeにし、既存の複数PNG・全上限を保つ。 共通検査の初回5失敗を分類し、productionを保って診断timeout試験1ケースのI/O時間仮定を分離した。修正後の共通検査と最終13パスの受入は後続で確認する。
+
 IOS-21の[保存記事版の参照保持](../../records/2026-10-30/ios-snapshot-lease-accounting.md)では、字句保存先とUUIDごとの取得を共有tokenで数える。現行AppのSDK型検査とmacOS新9件成功を、未実施のiOS予定258件・UIと区別する。App0.2.25（27）で削除を追加せず、共通検査・必要CI・通常統合と容量整理の保護条件は後続に残し、IOS-21未完了・TODO14/32を維持する。
 
 IOS-15の[保存結果検証器](../../records/2026-10-30/ios-core-observation-verification.md)は、19回のrawと15標本の統計をオフラインで再検証する。合成fixture15件と疎な構成の試験を確認した。production CLIの実保存結果受入、新観測・性能予算・実機は未完了で、IOS-15とTODO14/32を維持する。

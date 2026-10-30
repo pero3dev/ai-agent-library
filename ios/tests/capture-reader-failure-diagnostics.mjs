@@ -192,7 +192,7 @@ export function readCachedUIResults(env, evidence, io = fs) {
     UI_command_exit: ui, fresh_query_count: 0 } };
 }
 
-// Bind the known SDK27 Native2 raw hierarchy before selecting any PNG export.
+// Bind the known SDK27 raw hierarchy to the source-selected Native3 cases before any PNG export.
 // Failed parents are evidence of a failed run, never primary acceptance.
 export function failedNativeCases(value, { owned, runtime, workspace }) {
   const keys = (item, expected) => {
@@ -221,15 +221,16 @@ export function failedNativeCases(value, { owned, runtime, workspace }) {
   assert.ok(Array.isArray(value.testNodes) && value.testNodes.length === 1);
   const plan = value.testNodes[0], bundles = container(plan, 'Test Plan', 'AILibrary', 1);
   const suites = container(bundles[0], 'UI test bundle', 'AILibraryUITests', 1, bundle);
-  const cases = container(suites[0], 'Test Suite', 'NativeReaderUITests', 2, bundle + '/NativeReaderUITests');
+  const cases = container(suites[0], 'Test Suite', 'NativeReaderUITests', 3, bundle + '/NativeReaderUITests');
   const allowed = ['NativeReaderUITests/testContentsBookmarkAndResumeAfterRelaunch()',
-    'NativeReaderUITests/testThreeArticlesHaveNativeBodyText()'];
+    'NativeReaderUITests/testThreeArticlesHaveNativeBodyText()',
+    'NativeReaderUITests/testHealthyLegacyHeadingPositionAndBookmarkPersistAfterNativeResumeAndRelaunch()'];
   const selected = cases.map(node => {
     const failed = node?.result === 'Failed';
     const fields = ['duration', 'durationInSeconds', 'name', 'nodeIdentifier', 'nodeIdentifierURL', 'nodeType', 'result'];
     keys(node, failed ? [...fields, 'children'] : fields);
     assert.equal(node.nodeType, 'Test Case'); assert.ok(['Passed', 'Failed'].includes(node.result));
-    assert.ok(allowed.includes(node.nodeIdentifier), 'Failed scope must be an existing Native2 case');
+    assert.ok(allowed.includes(node.nodeIdentifier), 'Failed scope must be an existing Native3 case');
     assert.equal(node.nodeIdentifier, 'NativeReaderUITests/' + node.name);
     assert.equal(node.nodeIdentifierURL, bundle + '/' + node.nodeIdentifier.slice(0, -2));
     assert.equal(typeof node.duration, 'string'); assert.ok(node.duration.length <= 40);
@@ -248,9 +249,9 @@ export function failedNativeCases(value, { owned, runtime, workspace }) {
   });
   assert.deepEqual(selected.map(row => row.id).sort(), [...allowed].sort(), 'No extra, duplicate or missing selected case');
   const failed = selected.filter(row => row.result === 'Failed').map(row => row.id);
-  assert.ok(failed.length >= 1 && failed.length <= 2, 'UI failure must have an actual failed Native2 case');
+  assert.ok(failed.length >= 1 && failed.length <= 3, 'UI failure must have an actual failed Native3 case');
   for (const parent of [plan, bundles[0], suites[0]]) assert.equal(parent.result, 'Failed', 'Parent/result inconsistency');
-  return { schema: 'observed-SDK27-Native2-v1', cases: selected, failed,
+  return { schema: 'source-selected-SDK27-Native3-v1', cases: selected, failed,
     capture: failed[0], not_captured: failed.slice(1), selection: 'first failed case in the known raw result order' };
 }
 
@@ -440,7 +441,7 @@ export async function captureDiagnostics(env, dependencies = {}) {
         requireHealthy(exported);
         verifyTempIdentity();
         const inventory = inspectExport(temp, io); report.exported = { files: inventory.files.length, bytes: inventory.bytes,
-          scope: 'one-actual-failed-Native2-case-PNG-only', test_id: scope.capture, filter: '*.png', failure_association_filter: false };
+          scope: 'one-actual-failed-Native3-case-PNG-only', test_id: scope.capture, filter: '*.png', failure_association_filter: false };
         assert.ok(inventory.files.every(entry => path.extname(entry.file).toLowerCase() === '.png' || entry.relative === 'manifest.json'),
           'Exporter returned a file outside the PNG filter and its manifest');
         for (const entry of inventory.files) {

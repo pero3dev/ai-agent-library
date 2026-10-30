@@ -19,6 +19,15 @@ struct AILibraryApp: App {
                 let partial = Data(#"{"bookmarks":["01-concepts/agent-loop",7],"positions":{}}"#.utf8)
                 defaults.set(partial, forKey: "library.reading.v1")
             }
+            // A healthy old-format record is a separate request from damaged recovery.
+            // An existing domain or any recovery request must never be overwritten.
+            if ProcessInfo.processInfo.environment["AILIBRARY_UI_TEST_READING_LEGACY"] == "heading-v1",
+               ProcessInfo.processInfo.environment["AILIBRARY_UI_TEST_READING_RECOVERY"] == nil,
+               UUID(uuidString: suffix)?.uuidString == suffix,
+               (defaults.persistentDomain(forName: suite)?.isEmpty ?? true) {
+                let legacy = Data(#"{"bookmarks":["11-llm-internals/transformer-architecture"],"positions":{"11-llm-internals/transformer-architecture":{"heading":"自己注意の数式","fraction":0}},"lastArticleID":"11-llm-internals/transformer-architecture"}"#.utf8)
+                defaults.set(legacy, forKey: "library.reading.v1")
+            }
             _store = StateObject(wrappedValue: LibraryStore(reading: ReadingStore(defaults: defaults)))
             return
         }

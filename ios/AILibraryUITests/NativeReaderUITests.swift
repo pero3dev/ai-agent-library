@@ -697,6 +697,59 @@ final class NativeReaderUITests: NativeReaderUITestCase {
                         inside: app.scrollViews["native-reader"], fullyVisible: true)
         capture("Native-resume")
     }
+    func testHealthyLegacyHeadingPositionAndBookmarkPersistAfterNativeResumeAndRelaunch() throws {
+        // This case alone replaces the base setup's unused empty domain with a
+        // fresh DEBUG legacy record. The seed contains no native block or anchor.
+        app.terminate()
+        XCTAssertEqual(app.state, .notRunning)
+        let suite = "ailibrary-uitest-" + UUID().uuidString
+        app.launchEnvironment["AILIBRARY_UI_TEST_SUITE"] = suite
+        app.launchEnvironment["AILIBRARY_UI_TEST_READING_LEGACY"] = "heading-v1"
+        XCTAssertNil(app.launchEnvironment["AILIBRARY_UI_TEST_READING_RECOVERY"])
+        app.launch()
+
+        let initialResume = element("library-resume")
+        XCTAssertTrue(initialResume.waitForExistence(timeout: 45))
+        requireHittable(initialResume)
+        initialResume.tap()
+        requireNativeBody()
+        XCTAssertTrue(app.buttons["しおりを削除"].waitForExistence(timeout: 10))
+        let reader = app.scrollViews["native-reader"]
+        let originalHeading = app.staticTexts["native-heading-自己注意の数式"]
+        let laterHeading = app.staticTexts["native-heading-ffn-と残差ストリーム"]
+        // Do not issue a search, TOC request or gesture to repair this legacy arrival.
+        requireHittable(originalHeading, inside: reader, fullyVisible: true)
+        XCTAssertFalse(hasVisibleFrame(laterHeading, inside: reader, fullyVisible: true),
+                       "The two saved positions must not share the witnessed viewport")
+        capture("Healthy-legacy-native-resume-A")
+
+        // An ordinary new read must supersede the old heading, then persist.
+        goToContents("FFN と残差ストリーム", headingID: "ffn-と残差ストリーム")
+        XCTAssertFalse(hasVisibleFrame(originalHeading, inside: reader, fullyVisible: true))
+        returnToLibrary()
+        app.terminate()
+        XCTAssertEqual(app.state, .notRunning)
+        app.launchEnvironment.removeValue(forKey: "AILIBRARY_UI_TEST_READING_LEGACY")
+        XCTAssertEqual(app.launchEnvironment["AILIBRARY_UI_TEST_SUITE"], suite)
+        app.launch()
+        XCTAssertNil(app.launchEnvironment["AILIBRARY_UI_TEST_READING_LEGACY"])
+
+        let savedResume = element("library-resume")
+        XCTAssertTrue(savedResume.waitForExistence(timeout: 45))
+        requireHittable(savedResume)
+        savedResume.tap()
+        requireNativeBody()
+        XCTAssertTrue(app.buttons["しおりを削除"].waitForExistence(timeout: 10))
+        // The first post-relaunch arrival must be B, without replaying seed A or
+        // adding a corrective navigation/scroll operation after Continue.
+        let resumedReader = app.scrollViews["native-reader"]
+        requireHittable(app.staticTexts["native-heading-ffn-と残差ストリーム"],
+                        inside: resumedReader, fullyVisible: true)
+        XCTAssertFalse(hasVisibleFrame(app.staticTexts["native-heading-自己注意の数式"],
+                                       inside: resumedReader, fullyVisible: true))
+        capture("Healthy-legacy-native-resume-B")
+    }
+
 }
 
 /// Pure CGRect regressions; these tests do not launch the application.

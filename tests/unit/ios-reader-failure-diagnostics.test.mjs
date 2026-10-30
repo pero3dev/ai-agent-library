@@ -93,7 +93,7 @@ function fixture() {
   const primary = new Map([...memory.nodes].filter(([file]) => !file.endsWith('/ui.xcresult')).map(([file, node]) => [file, Buffer.from(node.data)]));
   const calls = [];
   const current = { devices: { [runtimeID]: [{ udid: uuid, name: intent.name, deviceTypeIdentifier: typeID, state: 'Booted', isAvailable: true }] } };
-  // Observed SDK27 result hierarchy with generic paths, fake IDs and synthetic failure text.
+  // Known SDK27 hierarchy with the three source-selected cases, generic paths, fake IDs and synthetic failure text.
   const bundle = 'test://com.apple.xcode/AILibrary/AILibraryUITests';
   const makeCase = (name, result) => {
     const row = { duration: '1s', durationInSeconds: 1, name: name + '()', nodeIdentifier: 'NativeReaderUITests/' + name + '()',
@@ -107,7 +107,8 @@ function fixture() {
     testNodes: [{ name: 'AILibrary', nodeType: 'Test Plan', result: 'Failed', children: [
       { name: 'AILibraryUITests', nodeType: 'UI test bundle', nodeIdentifierURL: bundle, result: 'Failed', children: [
         { name: 'NativeReaderUITests', nodeType: 'Test Suite', nodeIdentifierURL: bundle + '/NativeReaderUITests', result: 'Failed',
-          children: [makeCase('testContentsBookmarkAndResumeAfterRelaunch', 'Failed'), makeCase('testThreeArticlesHaveNativeBodyText', 'Passed')] }
+          children: [makeCase('testContentsBookmarkAndResumeAfterRelaunch', 'Failed'), makeCase('testThreeArticlesHaveNativeBodyText', 'Passed'),
+            makeCase('testHealthyLegacyHeadingPositionAndBookmarkPersistAfterNativeResumeAndRelaunch', 'Passed')] }
       ] }
     ] }], testPlanConfigurations: [{ configurationId: '1', configurationName: 'Test Scheme Action' }] };
   const exit = { exit_code: 0, signal: null, error: null };
@@ -300,6 +301,7 @@ for (const [label, change] of [
   ['unknown parent result', f => { parentRows(f)[0].result = 'Skipped'; }],
   ['passed parent over failed leaf', f => { parentRows(f)[1].result = 'Passed'; }],
   ['extra case', f => { caseRows(f).push(f.makeCase('testOther', 'Failed')); }],
+  ['missing healthy case', f => { caseRows(f).pop(); }],
   ['duplicate case', f => { caseRows(f)[1] = structuredClone(caseRows(f)[0]); }],
   ['unselected failed case', f => { caseRows(f)[0] = f.makeCase('testOther', 'Failed'); }],
   ['unknown leaf schema', f => { caseRows(f)[0].details = {}; }],
@@ -334,6 +336,37 @@ test('two failed cases capture the first only and explicitly omit the second', a
   assert.ok(report.omissions.some(row => row.test_id === 'NativeReaderUITests/testThreeArticlesHaveNativeBodyText()'
     && row.reason === 'additional-failed-case-not-captured'));
   assert.ok(report.attachments.some(row => row.name.endsWith('.png')));
+});
+test('healthy legacy case can be the sole actual failed PNG scope', async () => {
+  const f = fixture(); caseRows(f)[0] = f.makeCase('testContentsBookmarkAndResumeAfterRelaunch', 'Passed');
+  caseRows(f)[2] = f.makeCase('testHealthyLegacyHeadingPositionAndBookmarkPersistAfterNativeResumeAndRelaunch', 'Failed');
+  const id = 'NativeReaderUITests/testHealthyLegacyHeadingPositionAndBookmarkPersistAfterNativeResumeAndRelaunch()';
+  const report = await f.capture(); assert.equal(report.status, 'partial');
+  assert.equal(report.failed_test_scope.schema, 'source-selected-SDK27-Native3-v1');
+  assert.deepEqual(report.failed_test_scope.failed, [id]); assert.equal(report.failed_test_scope.capture, id);
+  assert.deepEqual(report.failed_test_scope.not_captured, []); assert.deepEqual(report.omissions, []);
+  assert.equal(report.failure_attachments, 'bounded-selected-failed-case-PNGs-captured');
+  assert.equal(report.exported.scope, 'one-actual-failed-Native3-case-PNG-only');
+  const exports = f.calls.filter(call => call.args[1] === 'export'); assert.equal(exports.length, 1);
+  assert.deepEqual(exports[0].args.slice(-4), ['--test-id', id, '--filter', '*.png']);
+  assert.equal(report.attachments.filter(row => row.name.endsWith('.png')).length, 1);
+  assert.equal(report.temporary_export_removed, true); assert.equal(report.primary_acceptance_modified, false);
+});
+test('three failed cases export only the first scope and explicitly omit both later cases', async () => {
+  const f = fixture(); caseRows(f)[1] = f.makeCase('testThreeArticlesHaveNativeBodyText', 'Failed');
+  caseRows(f)[2] = f.makeCase('testHealthyLegacyHeadingPositionAndBookmarkPersistAfterNativeResumeAndRelaunch', 'Failed');
+  const first = 'NativeReaderUITests/testContentsBookmarkAndResumeAfterRelaunch()';
+  const omitted = ['NativeReaderUITests/testThreeArticlesHaveNativeBodyText()',
+    'NativeReaderUITests/testHealthyLegacyHeadingPositionAndBookmarkPersistAfterNativeResumeAndRelaunch()'];
+  const report = await f.capture(); assert.equal(report.status, 'partial');
+  assert.deepEqual(report.failed_test_scope.failed, [first, ...omitted]);
+  assert.equal(report.failed_test_scope.capture, first); assert.deepEqual(report.failed_test_scope.not_captured, omitted);
+  assert.deepEqual(report.omissions, omitted.map(test_id => ({ test_id, reason: 'additional-failed-case-not-captured' })));
+  const exports = f.calls.filter(call => call.args[1] === 'export'); assert.equal(exports.length, 1);
+  assert.deepEqual(exports[0].args.slice(-4), ['--test-id', first, '--filter', '*.png']);
+  assert.ok(!exports[0].args.includes('--all')); assert.ok(!exports[0].args.includes('--only-failures'));
+  assert.equal(report.attachments.filter(row => row.name.endsWith('.png')).length, 1);
+  assert.equal(report.temporary_export_removed, true); assert.equal(report.primary_acceptance_modified, false);
 });
 test('help must demonstrate a PNG filename filter before export', async () => {
   const f = fixture(), run = f.run;
@@ -565,7 +598,7 @@ test('workflow places cached PNG diagnostics after primary results without gatin
   const text = readFileSync(new URL('../../.github/workflows/ios-sdk27-compatibility.yml', import.meta.url), 'utf8');
   const runtime = text.slice(text.indexOf('  ios-runtime27-smoke:'));
   assert.match(runtime, /timeout-minutes: 40/);
-  assert.match(runtime, /name: Run only the existing two native UI smoke cases\n        timeout-minutes: 12/);
+  assert.match(runtime, /name: Run exactly the three native UI smoke cases\n        timeout-minutes: 12/);
   assert.match(runtime, /name: Create and boot this job's dedicated Simulator\n        timeout-minutes: 6/);
   assert.match(runtime, /\['bootstatus', uuid, '-b'\], 240000/);
   assert.ok(runtime.indexOf('id: ui') < runtime.indexOf('id: cleanup'));
@@ -578,7 +611,7 @@ test('workflow places cached PNG diagnostics after primary results without gatin
   assert.match(diagnostic, /if: always\(\) && !cancelled\(\) && steps\.ui\.outcome != 'skipped' && steps\.evidence\.outcome == 'success'/);
   assert.ok(!diagnostic.includes('steps.results.outcome'));
   assert.match(runtime, /Failed or skipped parents are not acceptance/);
-  assert.match(runtime, /assert\.equal\(tests\.length, 2,/);
+  assert.match(runtime, /assert\.equal\(tests\.length, 3,/);
   assert.match(runtime, /const budget = 16 \* 1024 \* 1024, reserved = 128 \* 1024, rawCap = 256 \* 1024, metadataCap = 1024 \* 1024/);
   assert.match(runtime, /const diagnosticCap = 4 \* 1024 \* 1024/);
   assert.match(runtime, /omitted-binary-result-directory/);

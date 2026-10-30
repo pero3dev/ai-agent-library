@@ -102,11 +102,46 @@ test('per-probe combined1MiB cap kills the fixture while preserving all in-budge
 })
 
 test('command timeout is distinct from command exit and its child closes before later diagnostics', async t => {
-  const h = fixture(t, ['setInterval(()=>{},1000)']), limits = { ...fixtureLimits, commandMs: 30 }
-  const result = await collectUnitFailureInventory({ ...h.options, limits }), r = result.probes[0]
+  const children = [], closed = new Set(), events = []
+  let firstClose
+  t.after(async () => {
+    for (const child of children) {
+      if (!child.pid || closed.has(child)) continue
+      let timer
+      const closing = new Promise((resolve, reject) => {
+        child.once('close', resolve)
+        timer = setTimeout(() => reject(new Error('Owned timeout fixture did not close after cleanup')), 1000)
+      })
+      try {
+        try { if (process.platform === 'win32') child.kill('SIGKILL'); else process.kill(-child.pid, 'SIGKILL') }
+        catch { child.kill('SIGKILL') }
+        await closing
+      } finally { clearTimeout(timer) }
+    }
+  })
+  const start = (options, code, label) => {
+    const child = spawn(process.execPath, ['-e', code], options); children.push(child)
+    child.once('close', (code, signal) => {
+      closed.add(child); events.push(label + '-close')
+      if (label === 'first') firstClose = { code, signal }
+    })
+    return child
+  }
+  const h = fixture(t, [options => start(options, 'setInterval(()=>{},1000)', 'first'), options => {
+    assert.deepEqual(events, ['first-close'], 'The timed-out child must close before the second spawn')
+    events.push('second-spawn')
+    return start(options, 'process.stdout.write(JSON.stringify({ devices: {} }))', 'second')
+  }]), limits = { ...fixtureLimits, commandMs: 30 }
+  // Keep the real30ms timer; fixture receipt/path I/O must not consume its injected command clock.
+  const result = await collectUnitFailureInventory({ ...h.options, now: () => 0, limits }), r = result.probes[0]
   assert.equal(r.stop, 'command-timeout'); assert.equal(r.code, null); assert.equal(r.signal, 'SIGKILL')
   assert.equal(r.timeout_scope, 'command'); assert.equal(r.timeout_ms, 30); assert.equal(r.captured_output_complete, false)
   assert.equal(h.calls.length, 2); assert.equal(result.status, 'diagnostic-incomplete')
+  assert.equal(children.length, 2); assert.ok(children.every(child => Number.isInteger(child.pid) && child.pid > 0))
+  assert.deepEqual(firstClose, { code: null, signal: 'SIGKILL' })
+  assert.deepEqual(events, ['first-close', 'second-spawn', 'second-close'])
+  assert.equal(closed.size, 2); assert.equal(result.probes[1].process_created, true)
+  assert.equal(h.json('devices.intent.json').timeout_ms, 30); assert.equal(h.json('devices.intent.json').timeout_scope, 'command')
 })
 
 test('shared deadline clips a probe timeout and never grants an extra full command budget', async t => {

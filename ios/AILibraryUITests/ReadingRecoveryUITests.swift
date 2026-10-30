@@ -2,6 +2,7 @@ import XCTest
 
 final class ReadingRecoveryUITests: NativeReaderUITestCase {
     override var seedsPartialReadingRecovery: Bool { true }
+    override var recordsReadingRecoveryOpenBoundaries: Bool { true }
 
     private let partialMessage = "保存した読書記録の一部を読み取れません。読み取れるしおりと読書位置を表示しています。"
     private let recoveryNoticeMessage = "復旧するまで、今回のしおりや読書位置の変更はアプリ終了後に残りません。"

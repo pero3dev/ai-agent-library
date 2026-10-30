@@ -594,7 +594,7 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         for _ in 0..<8 where !isHittableOnScreen(resume) { app.swipeDown(velocity: .slow) }
         requireHittable(resume)
         resume.tap()
-        requireNativeBody()
+        try requireResumedNativeBody(expectedTitle: "Agent ループ")
         XCTAssertTrue(app.navigationBars["Agent ループ"].waitForExistence(timeout: 10))
         // No reader scroll or TOC action is allowed after resume: B, not the
         // old query hit A, must already be visible through the public UI.
@@ -861,7 +861,7 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
 
     /// Failure-only public AX evidence, not an application route introspection.
     /// Bound the attachment bodies; AX property retrieval itself is best effort.
-    private func captureNormalResumeFailure(_ reason: String) {
+    private func captureNormalResumeFailure(_ reason: String, expectedTitle: String = "Transformer アーキテクチャ詳解") {
         func frameJSON(_ frame: CGRect?) -> [String: Any] {
             guard let frame else { return ["state": "absent"] }
             func number(_ value: CGFloat) -> Any { value.isFinite ? Double(value) as Any : NSNull() }
@@ -885,8 +885,8 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         let search = app.searchFields.allElementsBoundByIndex
         let bars = app.navigationBars.allElementsBoundByIndex
         let route: [String: Any] = [
-            "expectedTitle": "Transformer アーキテクチャ詳解",
-            "expectedArticleBarExists": app.navigationBars["Transformer アーキテクチャ詳解"].exists,
+            "expectedTitle": expectedTitle,
+            "expectedArticleBarExists": app.navigationBars[expectedTitle].exists,
             "libraryBarExists": app.navigationBars["AI Agent Library"].exists,
             "libraryCountExists": app.staticTexts["library-article-count"].exists,
             "nativeReaderCount": app.scrollViews.matching(identifier: "native-reader").count,
@@ -952,22 +952,22 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         return control
     }
 
-    private func requireResumedNativeBody() throws {
+    private func requireResumedNativeBody(expectedTitle: String = "Transformer アーキテクチャ詳解") throws {
         // Match requireNativeBody's 20s reader, 10s paragraph and nonempty checks.
         // Do not add a second reader wait or any corrective navigation after tap.
         guard app.scrollViews["native-reader"].waitForExistence(timeout: 20) else {
-            captureNormalResumeFailure("native-reader did not appear within the existing 20-second wait after the one resume tap")
+            captureNormalResumeFailure("native-reader did not appear within the existing 20-second wait after the one resume tap", expectedTitle: expectedTitle)
             XCTFail("The resumed native-reader must appear")
             throw NSError(domain: "PublishedReaderUITests", code: 92)
         }
         let paragraph = app.staticTexts.matching(NSPredicate(format: "identifier BEGINSWITH %@", "native-text-")).firstMatch
         guard paragraph.waitForExistence(timeout: 10) else {
-            captureNormalResumeFailure("Native body text did not appear within the existing 10-second paragraph wait")
+            captureNormalResumeFailure("Native body text did not appear within the existing 10-second paragraph wait", expectedTitle: expectedTitle)
             XCTFail("Native body text must appear, beyond the navigation title")
             throw NSError(domain: "PublishedReaderUITests", code: 93)
         }
         let empty = paragraph.label.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-        if empty { captureNormalResumeFailure("The resumed native paragraph is empty") }
+        if empty { captureNormalResumeFailure("The resumed native paragraph is empty", expectedTitle: expectedTitle) }
         XCTAssertFalse(empty)
     }
 

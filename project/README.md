@@ -1,6 +1,6 @@
 # project — 計画と実施記録
 
-[本文検索の読書開始余白](records/2026-10-30/ios-native-search-reading-start-clearance.md)は、PR309初回Fullの約0.070175ptの上端欠けを対象に、productionのnil/zero着地点だけ1ptの余白を置く候補である。0.5pt収束・厳密UI・上限・正のfractionのinverseを保つ。4回帰を追加し、App0.2.24（26）へ版上げした。SDK型検査のみ成功で、実XCTest・Full23・copy374B・Release・通常CI/mainと実機等は未確認、TODO14/32を維持する。
+[本文検索の読書開始余白](records/2026-10-30/ios-native-search-reading-start-clearance.md)は、PR309初回Fullの約0.070175ptの上端欠けを対象に、productionのnil/zero着地点だけ1ptの余白を置く候補である。0.5pt収束・厳密UI・上限・正のfractionのinverseを保つ。4回帰を追加し、App0.2.24（26）へ版上げした。SDK型検査のみ成功で、実XCTest・Full23・copy374B・Release・通常CI/mainと実機等は未確認、TODO14/32を維持する。 初回修正版の単体249件ではfixtureの境界確認1件が失敗したため、Appと判定を保って内部点と実readbackの確認へ修正し、新headの受入を待つ。
 
 [同梱ライセンスの生成元照合](records/2026-10-30/ios-native-upstream-license-audit.md)では、KaTeXとMermaidの実ライセンスを固定toolingから独立照合し、manifestを再計算した改変も拒否する。関連56試験と全199記事の静的監査を確認した。共通検査・通常CI・main統合は後続で、音声の制作証拠と配布条件、実機受入とIOS-04全体は未完了、TODO14/32を維持する。
 

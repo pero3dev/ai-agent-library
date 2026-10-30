@@ -1146,11 +1146,14 @@ extension NativeInlineTests {
             XCTAssertEqual(anchors.placeTarget("selected", intraBlockFraction: 0), .aligned)
             XCTAssertEqual(scroll.contentOffset.y, nilGoal)
             XCTAssertEqual(anchors.intraBlockFraction(for: "selected"), 0)
-            // Exercise the unchanged inclusive convergence edge with integer
-            // marker geometry, without loosening any public UI predicate.
-            scroll.contentOffset.y = nilGoal + 0.5
+            // Use a read-back-verified interior point for the UIKit marker path.
+            // The pure geometry case above separately covers both +/-0.5pt edges.
+            scroll.contentOffset.y = nilGoal + 0.125
+            let actualOffset = scroll.contentOffset.y
+            XCTAssertLessThan(abs(actualOffset - nilGoal), 0.5,
+                              "Read-back offset \(actualOffset) must stay inside the convergence interval around \(nilGoal)")
             XCTAssertEqual(anchors.placementObservation(of: "selected", intraBlockFraction: 0), .aligned)
-            XCTAssertGreaterThan(marker.convert(marker.bounds, to: scroll).minY - scroll.contentOffset.y, 103)
+            XCTAssertGreaterThan(marker.convert(marker.bounds, to: scroll).minY - actualOffset, 103)
         }
     }
 

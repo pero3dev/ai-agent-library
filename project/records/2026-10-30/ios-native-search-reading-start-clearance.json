@@ -116,5 +116,38 @@
     "total": 32,
     "complete": 14
   },
-  "authority": "User: autonomous TODO, ordinary commits/PR/main; physical checks may skip"
+  "authority": "User: autonomous TODO, ordinary commits/PR/main; physical checks may skip",
+  "first_fix_unit_failure": {
+    "head": "184da64e6de765f5886a64473f93b9a3c725c8a9",
+    "full_run": 41055444043,
+    "full_job": 124061691303,
+    "raw_bytes": 858238,
+    "raw_sha256": "34d1ab6afd3afb533c6a2b8e3603ccc6ace65f6c22fae1620e6f3cf2d9f3e109",
+    "unit_total": 249,
+    "unit_skipped": 2,
+    "unit_failed": 1,
+    "failed_case": "NativeInlineTests/testReadingStartClearanceKeepsZeroFractionAndSelectedBlockAcrossRepeatedRestores",
+    "line": 1152,
+    "UI_copy_Release": "not reached",
+    "native_run": "also unit phase failed; detailed raw not fetched",
+    "retry": false
+  },
+  "fixture_v2": {
+    "request_offset_points": 0.125,
+    "readback_precondition": "absolute difference from original goal strictly below0.5",
+    "production_App_criterion_and_UI_unchanged": true,
+    "pure_half_point_edges_unchanged": true,
+    "actual_rounding_cause": "unobserved; exact-boundary fixture precondition did not hold",
+    "runtime_acceptance": "pending",
+    "SDK": {
+      "exit": 0,
+      "seconds": 1.833,
+      "scope": "v2 XCTest typecheck only; no runtime",
+      "reused_exact_app_source_inputs": 16,
+      "new_test_sha256": "b747c3f91799a5b02d3dc83f794d5a96985f38aceea4e18c100fe3cf3ff657a0",
+      "SDK": "18.2",
+      "target": "arm64-apple-ios17.0",
+      "no_source_changes_during_check": true
+    }
+  }
 }

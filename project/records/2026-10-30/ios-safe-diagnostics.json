@@ -1,0 +1,316 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-30",
+  "proposal_updated_on": "2026-10-31",
+  "title": "Aboutの版情報・診断・通信と保存説明",
+  "state": "actual-parent-bound corrected9 submission candidate; current test6+type passed; new common/final9/CI/main/signing/manual pending",
+  "scope": {
+    "IOS27": "limited About communication/storage/backup wording only; Store/public-policy acceptance incomplete",
+    "IOS28": "self-use diagnostic copy and operation runbook preparation; manual/operational acceptance incomplete"
+  },
+  "source_preparation_base": "184da64e6de765f5886a64473f93b9a3c725c8a9",
+  "publication_parent": "8a0efdb62a9a1e9c7605e40de3fc552ff5a77344",
+  "publication_parent_status": "ordinary adopted main after lease and body/healthy UI",
+  "publication_app_version": "0.2.25(27)",
+  "proposed_app_version": "0.2.26",
+  "proposed_build": "28",
+  "proposed_version_applied_to_PBX": true,
+  "owned_paths": [
+    "ios/AILibrary/Sources/LibraryDiagnostics.swift",
+    "ios/AILibraryTests/LibraryDiagnosticsTests.swift",
+    "ios/AILibrary/Sources/LibraryView.swift",
+    "ios/AILibrary.xcodeproj/project.pbxproj",
+    "project/records/2026-10-30/ios-safe-diagnostics.md",
+    "project/records/2026-10-30/ios-safe-diagnostics.json",
+    "project/README.md",
+    "project/plans/engineering/ios-app-completion.md",
+    "ios/README.md"
+  ],
+  "source_candidates": [
+    {
+      "path": "ios/AILibrary/Sources/LibraryDiagnostics.swift",
+      "bytes": 7696,
+      "sha256": "8d8f1ee4bac7dca073da493eec4180094865dd784accffb91708542198f9a998",
+      "new_file": true
+    },
+    {
+      "path": "ios/AILibraryTests/LibraryDiagnosticsTests.swift",
+      "bytes": 8057,
+      "sha256": "17e9730aadee308c53b874f8dc1e882a2b35047bf554eb1acc436b85e1f67f9c",
+      "new_file": true,
+      "previous_sha256": "89c6f1b886b7a6158bac514159abcee2b0bcdac1a8e529e9d86ab6011b69e296"
+    },
+    {
+      "path": "ios/AILibrary/Sources/LibraryView.swift",
+      "bytes": 49498,
+      "sha256": "a8ae8dc75696b855f510947c65260887708f2a212d7373e2e252ef26e8b48e2e",
+      "new_file": false
+    },
+    {
+      "path": "ios/AILibrary.xcodeproj/project.pbxproj",
+      "sha256": "5fb9e8948673accfc180003260fd3b134767750edad3d86c20b6b240610d359f",
+      "new_file": false,
+      "state": "four object and membership additions plus27to28version bound; other bytes held",
+      "old_private_preview_sha256": "24e0de082633bb52d4a8495510b435ab0f244683e7dfe3486981955cf3490473",
+      "membership_delta": "four objects plus four memberships",
+      "future_parent_build": "27",
+      "proposed_version": "0.2.26",
+      "proposed_build": "28",
+      "nonowned_PBX_and_signing": "must preserve actual-parent bytes",
+      "bytes": 21807
+    }
+  ],
+  "binding": {
+    "old_Source4_IR": "historical independent static P1/P2 zero for pre-fixture-data candidate; production helper unchanged; two test data literals corrected and validated separately",
+    "privacy_wording_IR": "separate privacy Text-only delta P1/P2 zero for a3c1 plus separate two display-label delta to final a8ae; no runtime acceptance",
+    "final_composite_Source4_binding": "final App17 source matches saved final-wording SDK17 source subset; test17e973 current Host6/typecheck passed separately; original Core4/helper and App17 modules reused with all source/artifact hashes held; actual PBX27to28/four object/four memberships bound; final9 pending",
+    "SDK_composition_baseline_recorded_PR312": "f1c47da0ba6a0717eb89f13531a08c076861dc23",
+    "SDK_known_main_recorded": "d321bc1a83fe7d17c0217718c4923499d1f9feb2",
+    "healthy_App_overlay_sha256": "ec9fb110ae186ada5ca5e56424024c917ea22d9af8081176e4cd18eb7cfdabb8",
+    "source17_input_is_future_composition": false
+  },
+  "report": {
+    "fixed_lines": 8,
+    "maximum_bytes": 512,
+    "keys": [
+      "diagnostic_format",
+      "app_version",
+      "app_build",
+      "manifest_state",
+      "manifest_schema",
+      "article_count",
+      "listed_file_count",
+      "manifest_semantic_sha256"
+    ],
+    "semantic_hash": "SHA256 of typed whole manifest JSONEncoder sortedKeys representation; strings are digest input, not directly copied",
+    "direct_raw_output_excluded": [
+      "revision including64hex",
+      "title",
+      "article ID",
+      "URL",
+      "path",
+      "error/log"
+    ],
+    "not_inputs": [
+      "reading raw/bookmarks/positions",
+      "runtime query",
+      "OS/device",
+      "account/environment",
+      "current date/time"
+    ],
+    "not_equivalent_to": [
+      "raw-file SHA",
+      "publisher authentication",
+      "anonymization proof",
+      "reading backup",
+      "ContentValidator or Swift consumer audit"
+    ],
+    "validated_snapshot_caller_required": true,
+    "clipboard": "explicit button only; UI runtime pending",
+    "automatic_send": false,
+    "maximum_encoded_manifest_bytes": 8388608,
+    "budget_scope": "Diagnostic bounds only; distinct from production Core CLI resource bounds and unadopted product performance budget"
+  },
+  "privacy": {
+    "existing_manifest_bytes": 1035,
+    "existing_manifest_sha256": "29da7723de101f74115e6b6af6ad3a7afecbaaf6cc101c86ad0a50edae587f5e",
+    "existing_categories": {
+      "UserDefaults": [
+        "CA92.1"
+      ],
+      "SystemBootTime": [
+        "35F9.1"
+      ],
+      "FileTimestamp": [
+        "3B52.1",
+        "C617.1"
+      ]
+    },
+    "new_manifest_or_reason": false,
+    "About": "native local display and local reading/audio storage; explicit audio/external-link communication; iOS chooses browser/app; selected folder describes manual import only",
+    "reading_backup": "personal bookmarks/positions in recoverable unencrypted JSON; separate audio state/preferences excluded",
+    "unknown": [
+      "provider request/log/retention/use",
+      "Store collection/tracking answers",
+      "public policy/contact/legal/distribution decision",
+      "actual provider/OS backup behavior"
+    ],
+    "NoDataCollected_asserted": false,
+    "official_sources_checked_on": "2026-10-30",
+    "official_sources": [
+      "https://developer.apple.com/documentation/bundleresources/app-privacy-configuration/nsprivacyaccessedapitypes/nsprivacyaccessedapitype",
+      "https://developer.apple.com/app-store/app-privacy-details/",
+      "https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement"
+    ]
+  },
+  "verification": {
+    "actual199": {
+      "raw_manifest_bytes": 3120173,
+      "raw_manifest_sha256": "08a15cc89043a6c4610fd3348b5a3c90f7ec786f9bbd49fbb0e4a33f9ddb7831",
+      "articles": 199,
+      "listed_files": 625,
+      "report_lines": 8,
+      "report_bytes": 231,
+      "semantic_sha256": "9f9c7766dfa6c7929a518ca404fa059d3edcf605102a8ae54ba426f2bb4a3482",
+      "app_version_literal": "0.2.26",
+      "build_literal": "28",
+      "actual_Bundle_inspected": false,
+      "new_Content_or_Swift_consumer_audit": false
+    },
+    "bounds": "saved configuration SDK90s/Host60s; sampled resource observations, not hard peak or filesystem isolation proof",
+    "cleanup": "recorded owned groups none alive; preferences empty, two compiler-postrun TMP entries and build artifacts retained; no universal cleanup/authenticity proof",
+    "future_planned_only": {
+      "App_unit_tests": 264,
+      "Native": 7,
+      "Full": 26
+    },
+    "pending": [
+      "common and required CI/normal main adoption",
+      "planned App264/Native7/Full26 execution",
+      "actual About copy/clipboard/VoiceOver",
+      "new signed build/actual Bundle",
+      "physical update/data retention/Files provider/signing-expiry operation"
+    ],
+    "previous_17_composition_SDK": {
+      "sdk": "iPhoneOS18.2",
+      "target": "arm64-apple-ios17.0",
+      "language_mode": "5",
+      "DEBUG": true,
+      "App_input_count": 17,
+      "module_seconds": 14.395,
+      "module_exit": 0,
+      "DiagnosticsTests_typecheck_seconds": 3.411,
+      "DiagnosticsTests_typecheck_exit": 0,
+      "phase_seconds": 18.462,
+      "not_scope": [
+        "linked Release",
+        "actual iOS runtime",
+        "actual Bundle version"
+      ]
+    },
+    "final_wording_SDK_spec_sha256": "de75e979823cf293e1884e72a74fd7ad35f38a6c04038879d0a5e5323d6cf10e",
+    "historical_composite_and_Host6_manifest_sha256": "8915ecef53d8c08f241e374955ba780b1691bf3c32c5b90b3d84b58280e3d4de",
+    "historical_Host6_and_previous_SDK_evidence_IR": "independent evidence-only P1/P2 zero; original runner/spec/21 inputs and receipts consistent; no semantic self-review",
+    "final_wording_SDK_evidence_IR": {
+      "P1": 0,
+      "P2": 0,
+      "scope": "saved18-source SDK module/typecheck binding only; separate from Host6 and runtime",
+      "review_sha256": "e22df5efcf19a2cce5fa1c046697a3c9b02ae1460a393c4f35ef6080b42c6e5f"
+    },
+    "actual_parent_bound_App_source_count": 17,
+    "final_common": "pending corrected9tree; initial exit1 retained",
+    "final9_review": "pending corrected9 after initial P2three",
+    "before_fixture_data_change_SDK": {
+      "sdk": "iPhoneOS18.2",
+      "target": "arm64-apple-ios17.0",
+      "language_mode": "5",
+      "DEBUG": true,
+      "App_input_count": 17,
+      "module_seconds": 20.85,
+      "module_exit": 0,
+      "DiagnosticsTests_typecheck_seconds": 2.918,
+      "DiagnosticsTests_typecheck_exit": 0,
+      "phase_seconds": 23.775,
+      "not_scope": [
+        "linked Release",
+        "actual iOS runtime",
+        "actual Bundle version"
+      ],
+      "final_View_sha256": "a8ae8dc75696b855f510947c65260887708f2a212d7373e2e252ef26e8b48e2e",
+      "scope": "final display wording; module and typecheck only, no iOS runtime or signed Bundle"
+    },
+    "before_fixture_data_change_host": {
+      "new_leased_Models_Core4_plus_helper": true,
+      "test_source_unchanged": true,
+      "separate_Darwin_harness": true,
+      "actual_test_count": 6,
+      "unique_pass_names": 6,
+      "skip": 0,
+      "failure": 0,
+      "phase_seconds": 14.626
+    },
+    "current_DiagnosticsTests_validation": {
+      "test_sha256": "17e9730aadee308c53b874f8dc1e882a2b35047bf554eb1acc436b85e1f67f9c",
+      "actual_Host6": {
+        "total": 6,
+        "unique": 6,
+        "skip": 0,
+        "fail": 0,
+        "new_test_build_seconds": 59.607,
+        "runtime_seconds": 0.967
+      },
+      "current_SDK_typecheck": {
+        "sdk": "iPhoneOS18.2",
+        "target": "arm64-apple-ios17.0",
+        "exit": 0,
+        "seconds": 12.721
+      },
+      "phase_seconds": 73.395,
+      "runtime_spec_unique_inputs": 54,
+      "reviewed_inventory_entries": 70,
+      "all_inputs_held": true,
+      "App17_module_recompiled": false,
+      "Host_Core4_helper_module_recompiled": false,
+      "old_modules": "input source hashes and retained artifacts held; reuse not a fresh module build",
+      "result_sha256": "46a2f10f48fd9d4d237cfd3a767497425a0137d757d7ddb04d3d1477b1ae3526",
+      "spec_sha256": "e38025f75d3c35227b54770d3e53e9765e70e6742194609677dd36aaf8c5113e",
+      "monitor_guard_IR": {
+        "P1": 0,
+        "P2": 0,
+        "review_sha256": "26def8da15bb91cfa626933617852435849cf2ae1ad75c5c892d7e641d5dc9cc"
+      },
+      "first_guard_failure": "generated compiler-cache link rejected before test runtime/SDK typecheck; saved, not a product/test failure",
+      "scope": "Host pure formatter tests and current SDK test typecheck only; real iOS/App/Bundle/clipboard/signing unconfirmed"
+    },
+    "first9_common": {
+      "total": 1206,
+      "pass": 1191,
+      "skip": 15,
+      "fail": 0,
+      "exit": 1,
+      "cause": "structure check rejects two synthetic profile-shaped path literals in new test; not personal actual values",
+      "tree": "62956ee137389f29a791f574ff3995e5e79c00e7",
+      "seconds": 38.536
+    }
+  },
+  "ops_update": {
+    "operator": "own user",
+    "version_binding": "adopted commit, App version/build, bundled/saved content identity/schema/semantic hash, exact verification scope",
+    "normal_update": "app-bundled rebuild primary; trusted manual folder import supplementary",
+    "distinct_operations": [
+      "App overwrite",
+      "explicit bundled-content switch",
+      "personal reading JSON restore"
+    ],
+    "incidents": [
+      "App/source defect",
+      "incoming rejection or saved article failure",
+      "reading backup restore",
+      "audio retry",
+      "profile expiry"
+    ],
+    "retention": "No app deletion, manual saved-folder deletion, downgrade compatibility promise or GC safety inference",
+    "maintenance_role": "existing normal repository review/CI; no new public support or automation decision",
+    "old13of32": "dated adoption-time history; current TODO link",
+    "historical_profile": {
+      "candidate_version": "0.2.23",
+      "expiry_JST": "2026-10-31 14:32",
+      "historical_only": true,
+      "new_builder_or_renewal_executed": false
+    },
+    "new_paid_program_contract_distribution_support_automation": false
+  },
+  "todo": {
+    "rows": 32,
+    "complete": 14,
+    "IOS27": "incomplete",
+    "IOS28": "incomplete",
+    "all_existing_TODO_rows_must_be_held": true
+  },
+  "authority": "Existing autonomous TODO/normal commit-PR-main scope; this draft author performs private docs writes only",
+  "display_wording": {
+    "scope": "two prototype display strings to neutral iOS/offline wording; no completion or distribution claim",
+    "inverse_to_a3c1": true,
+    "IOS29": "partial; checkbox held"
+  }
+}

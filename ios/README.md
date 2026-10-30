@@ -6,7 +6,7 @@
 
 0.2.13（15）の[標準生成の記録](../project/records/2026-10-25/ios-published-development-default.md)で、通常npmの全記事生成・原文監査・実consumer監査、代表版との互換性を追跡します。一般公開・配布用登録・費用・音声権利の採択と、開発時の生成入口の変更は別の工程です。
 
-[自分用初版の方針](../project/records/2026-10-28/ios-personal-use-scope.md)では、本人の「まず自分用を完成させる」という直接回答と、Rootが既存自律依頼に基づき現行baselineを採択したことを分けます。iPhone/iOS17以降・全published199記事のnative同梱・アカウントなし・既存streaming音声1本、音声画面を開いた間の背景/ロック操作と閉じる時の停止、キュー/ダウンロード追加なし、同梱更新は再ビルドを基準とします。新課金なし・既存無料Personal Teamで自用し、Store価格・新契約・外部配布は未選択です。IOS-01だけ完了し現行13/32、旧12件のcheckpointは履歴のまま保ちます。profileの発行7日期限と証明書を区別し、期限前後の更新、上書き後の保存・読書backup復元は実機未完了です。範囲記録→検索観測→読書export→復元を小単位のcommit・PR・通常main mergeへ分けます。
+[自分用初版の方針](../project/records/2026-10-28/ios-personal-use-scope.md)では、本人の「まず自分用を完成させる」という直接回答と、Rootが既存自律依頼に基づき現行baselineを採択したことを分けます。iPhone/iOS17以降・全published199記事のnative同梱・アカウントなし・既存streaming音声1本、音声画面を開いた間の背景/ロック操作と閉じる時の停止、キュー/ダウンロード追加なし、同梱更新は再ビルドを基準とします。新課金なし・既存無料Personal Teamで自用し、Store価格・新契約・外部配布は未選択です。IOS-01完了・13/32はこの方針の採択時点の集計です。最新の完了数と残件は[完成版TODO](../project/plans/engineering/ios-app-completion.md)で確認し、旧12件のcheckpointも各時点の履歴として保ちます。profileの発行7日期限と証明書を区別し、期限前後の更新、上書き後の保存・読書backup復元は実機未完了です。範囲記録→検索観測→読書export→復元を小単位のcommit・PR・通常main mergeへ分けます。
 
 ## これまでの実機・基準確認
 
@@ -307,6 +307,26 @@ IOS_SIMULATOR_ID='<simulator-id>' npm run ios:test:reader
 開発時の標準同梱対象は全published記事と既存音声1本のmetadataです。音声はストリーミングで、専用テスト記事はDebugの別画面へ限定します。音声保存、独立したネットワーク更新、アカウント、課金、プッシュ通知、端末間同期は実装していません。正常な取り込み済み版と以前のパッケージは保持し、旧版の容量整理は未完了です。読書復帰はblock ID・見出し・割合を使い、block内の厳密な文字位置までは保存しません。大きな記事改訂や見出し変更後の同一位置への復帰は保証しません。
 
 数式の読み上げ文は自動生成し、図には手動の流れの説明と抽出ラベルを含めます。代表3記事の指定箇所はVoiceOverで理解できるとユーザーから確認を得ました。追加記事・未収録形式の代替文は引き続き実機受入が必要です。行内数式の独立した画像拡大操作は未実装です。全記事と新しい画面の実機・VoiceOver・最大文字・性能の全体受入、公開用SDK26環境、アイコン、配布用メタデータ、App Store向けの最終ポリシーと公開申請は[完成版TODO](../project/plans/engineering/ios-app-completion.md)で追跡します。
+
+## 自分用の版確認と障害対応
+
+[Aboutの版情報・診断・通信と保存説明](../project/records/2026-10-30/ios-safe-diagnostics.md)は準備中の候補です。SDK型検査とMacの純粋診断6件は、実About操作・実機上書き・VoiceOverの受入とは別です。導入する際は採用commit、App版/build、同梱または保存contentの版/schema/semantic hashと、その版で実施した検査を対応付けます。通常更新は同梱版の再buildを基本とし、手動folder importを補助とします。Appの上書きと「同梱コンテンツへ切り替える」、読書JSONの復元を分けます。
+
+候補では「その他の操作」→「このアプリについて」でApp版を表示します。「診断情報をコピー」は明示操作でだけ固定8行・512B以内をコピーし、コピー済み表示が出る構成です。版/build、manifest状態/schema、記事数、掲載ファイル数、manifest全体のsortedKeys表現のSHAを含みます。読書raw、記事ID/URL/path/raw revision等の直接値、OS/端末・アカウント・環境・現在日時・任意error/logは含めず、自動送信もしません。semantic SHAはraw file SHA・発行元認証・匿名化の保証・読書backupではなく、Content監査、Core観測production CLIの資源上限、未採択の性能予算にも代用しません。
+
+本文・図・数式はnativeで端末内表示し、読書/audio stateは端末内へ保存します。音声再生はGitHub配信先、外部リンクを開く操作はリンク先と通信します。外部リンクはiOSが選ぶbrowser/対応appへ渡し、配信先の接続情報の扱いを保証しません。読書backupはしおりや読書位置を含む非暗号化JSONで、別キーの音声位置/設定を含みません。本人が選ぶ保存/共有先providerやOS backupまで端末内限定と保証する意味ではありません。
+
+既存PrivacyInfoは1035BでUserDefaults/CA92.1、SystemBootTime/35F9.1、FileTimestamp/3B52.1・C617.1を既に宣言しています。旧時計候補は当時の履歴です。今回新しい理由は追加せず、配信先logs・Store回答・公開policyの受入は別に残します。
+
+| 状況 | 本人が既存手順に沿って行う対応 |
+| --- | --- |
+| 新App/sourceで問題が出た | App版/buildと採用commit、content識別、実施済み検査を対応付け、修正を通常review/CIへ回す。旧Appへのdowngradeを互換保証にせず、アプリを削除しない |
+| 記事importの拒否／保存記事版の読込失敗 | incoming拒否と保存版の検証失敗を区別する。必要な場合だけ既存の明示同梱切替で版/件数を確認する。記事版の切替を読書JSON復元と混同せず、保存folderを手作業で削除しない |
+| 読書記録を戻したい | 入口がある導入版で読書JSONを選び、日時/件数と置換対象を確認して既存の明示復元を行う。復元前1世代の保全は既存手順に従い、書き出しだけを永続保存/復元成功の保証にしない |
+| 音声が再生されない | 通信を確認し「続きから再試行」を使う。offline本文と音声通信を分けて確認する |
+| profile期限で起動できない | 開ける間の読書JSON取得と、下記の同じBundle ID/Teamでの上書き手順を使う。取得不能は未完了と記録し、アプリ削除で対処しない |
+
+旧0.2.23候補で確認したprofile期限2026-10-31 14:32 JSTは履歴です。この新候補を署名buildした、profileを更新/延長したという意味ではありません。操作主体は本人で、依存・SDKの提案者とリポジトリ保守者は通常review/CIで対応環境・形式互換を確認します。参照保持からGC安全性を推定せず、新課金・外部配布・公開support・automationの方針も追加しません。実機の上書き保持・実provider・VoiceOver・期限前後の手動操作は、実施した結果だけを別に記録します。
 
 ## 自分用iPhoneの更新と署名期限
 

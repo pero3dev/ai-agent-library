@@ -142,3 +142,80 @@ this host run does not complete them. Keep `PackageAudit.swift`, its consumer
 contract, and the strict launchClock exporter unchanged. This CLI does not
 complete IOS-15: input-to-visible-results latency, scrolling/image decode,
 Release/device/app memory and adopted acceptance budgets remain open.
+
+## Preregistered offline acceptance of saved observations
+
+Before a future rerun, `verify-core-performance.mjs` fixes the Source4,
+runner/harness, production test-query source, exact 16-query bytes and independent
+199-published-source digest to the `cb66343ddc18f28f780b8f240c07910839e7cc6a`
+snapshot. That snapshot includes newer `ContentValidator.swift` and
+`ReadingStore.swift`; older host measurements cannot be relabelled as its result.
+The caller supplies the expected full revision independently and must retain a
+frozen checkout or equivalent proof binding that revision to these bytes. A later
+documentation-only revision can qualify with the same byte contract. The verifier
+does not consult Git, authenticate the producer, or treat a self-claimed revision
+or checksum as provenance proof.
+
+The CLI always uses the builtin frozen byte contract and its adjacent runner
+artifact. Only trusted JavaScript callers can explicitly construct
+`createObservationVerifier({ trustedByteContract, trustedRunnerDirectory })`.
+Construction checks exact keys, SHA types and bounded counts/strings, then clones
+and freezes the policy before reading candidate files. Candidate identity/summary
+data, CLI flags and environment variables cannot select a policy or runner proof.
+Policy limits are 2000 articles and 4096 queries. Ordinary library article/Core
+edits do not require changing the historical builtin contract to keep fixtures
+passing; a new actual observation of changed bytes needs its own reviewed policy.
+
+```bash
+node ios/tests/verify-core-performance.mjs --help
+node ios/tests/verify-core-performance.mjs \
+  --observation "<absolute-saved-output-directory>" \
+  --corpus "<absolute-preserved-Content>" --revision "<expected-full-commit>"
+node --test tests/unit/ios-core-performance-acceptance.test.mjs
+```
+
+Fixture tests explicitly inject three synthetic articles/queries and small
+synthetic Source4/harness/query/runner identity bytes. They do not scan live docs
+or copy the current production inputs. A single guarded child Node replay in a
+sparse verifier/runner/test tree checks this independence. Synthetic observations
+must be rejected by the builtin API and CLI; successful production CLI acceptance
+against a real saved observation is unverified in this source-only unit.
+
+This read-only replay uses the existing runner schema and exported inventory,
+record validation and statistics functions. It requires `identity.json`,
+`summary.json`, frozen Source4/harness/query/binary bytes, compiler stderr and all
+19 raw JSON/stderr pairs. It rehashes the preserved corpus, checks the fixed
+source-path/SHA set and article order, verifies the correctness oracle against
+indexed query results, enforces unique fresh PIDs/UUIDs and exact invocation order,
+and recalculates median/minimum/maximum/range from each five recorded samples.
+One warmup per scenario is excluded. Raw records and summary copies must agree;
+missing or inconsistent records, statistics, typed compiler flags/commands,
+toolchain/spawn metadata and nonfinite numbers fail closed. The accepted profile
+is Swift5 `-O -whole-module-optimization` on a Darwin macOS host. The 60-second
+subprocess lifetime remains a runner resource bound, not a performance target.
+The 18 sequential timed regions include all discarded warmups and recorded
+samples; correctness has no timed region. Their sum must fit the 900-second
+runner deadline and saved overall elapsed time. The latter allows at most 1 ms
+for the difference of two integer-millisecond `Date.now()` readings, plus
+binary64 division/sum roundoff. The watchdog's shutdown second adds no timed
+work allowance. Clock adjustments cannot be reconstructed from the saved schema;
+an inconsistent clock/timing claim is rejected, without inventing a correction.
+
+Only normalized absolute input directories and fixed artifact basenames are read.
+Symlink ancestors, linked/special artifacts, traversal names and overlapping
+inputs are rejected. Artifact reads are bounded to 1 MiB each, except a 2 MiB
+summary and 64 MiB binary. Corpus inventory retains the runner's 4096-file and
+256 MiB bounds and is repeated after replay. Module-cache contents and unrelated
+output files are not traversed; saved command/compiler/SDK paths are compared as
+metadata and are never opened or executed. No compiler, SDK, benchmark, network
+or external resource guard runs during verification. Corpus checksum/provenance
+audit uses the existing inventory; this is not a new Swift package consumer audit.
+For each of the 19 invocations, raw stdout JSON bytes plus stderr bytes must also
+fit the runner's combined 1 MiB output bound; the individual file limits do not
+double that allowance.
+
+Success prints `status: "accepted-host-observation"` and
+`performance_budget: "unadopted"`. This is acceptance of saved host-observation
+consistency, with no new measurement, timing threshold, p95 estimate, SLO or iOS
+Release/device acceptance. IOS-15 stays unchecked; the completion TODO remains
+14 of 32, and the independent execution resource guard remains separate.

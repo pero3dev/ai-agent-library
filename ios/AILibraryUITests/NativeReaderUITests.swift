@@ -209,12 +209,111 @@ private final class ReaderWaitBoundaryTrace {
     }
 }
 
+/// Recovery-only open diagnostics: fixed public fixture IDs and existing Bool results.
+/// The per-open context owns no UI element; callback state stays in ReaderWaitBoundaryTrace.
+final class ReaderRecoveryOpenTrace {
+    enum Phase: String {
+        case openStarted = "open-started"
+        case libraryCountReturned = "library-count-returned"
+        case queryInputStarted = "query-input-started"
+        case queryInputReturned = "query-input-returned"
+        case rowPrecheckStarted = "row-precheck-started"
+        case rowPrecheckReturned = "row-precheck-returned"
+        case rowFinalWaitStarted = "row-final-wait-started"
+        case rowFinalWaitReturned = "row-final-wait-returned"
+        case openReturned = "open-returned"
+    }
+
+    private let lock = NSLock()
+    private let articleID: String
+    private let origin = DispatchTime.now().uptimeNanoseconds
+    private var phases: Set<Phase> = []
+    private var waitEvents: Set<String> = []
+    private var precheckCount = 0
+    private var lastPrecheck: Bool?
+
+    init?(articleID: String) {
+        guard ["01-concepts/agent-loop", "01-concepts/tool-use",
+               "11-llm-internals/transformer-architecture"].contains(articleID) else { return nil }
+        self.articleID = articleID
+    }
+
+    func recordPrecheck(_ result: Bool) {
+        lock.lock()
+        defer { lock.unlock() }
+        if precheckCount < 12 {
+            precheckCount += 1
+            lastPrecheck = result
+        }
+    }
+
+    func emit(_ phase: Phase, observed: Bool? = nil) {
+        lock.lock()
+        guard phases.insert(phase).inserted else { lock.unlock(); return }
+        var payload = context(event: phase.rawValue)
+        payload["observedBoolean"] = observed.map { $0 as Any } ?? NSNull()
+        lock.unlock()
+        output(payload)
+    }
+
+    /// Reuse the existing bounded waiter snapshot without exporting its UUID or old scope.
+    /// The nested milliseconds are relative to that wait; top-level time is relative to open.
+    func emitWait(_ json: String) {
+        let snapshot: [String: Any]?
+        if let data = json.data(using: .utf8), data.count <= 8192 {
+            snapshot = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any]
+        } else { snapshot = nil }
+        let keys = ["schemaVersion", "sampling", "event", "callsiteLine", "fullyVisible",
+                    "timeoutSeconds", "snapshotMilliseconds", "expectation", "wait", "polls", "failureGeometry"]
+        let event: String
+        var boundary: [String: Any] = [:]
+        if let snapshot, let name = snapshot["event"] as? String,
+           ["wait-returned", "failure-geometry-started", "failure-geometry-returned"].contains(name) {
+            event = name
+            for key in keys { boundary[key] = snapshot[key] }
+        } else {
+            event = "snapshot-unavailable"
+            boundary["encodingError"] = "existing-wait-snapshot-unavailable"
+        }
+        lock.lock()
+        guard waitEvents.count < 3, waitEvents.insert(event).inserted else { lock.unlock(); return }
+        var payload = context(event: "row-final-" + event)
+        payload["waitBoundary"] = boundary
+        lock.unlock()
+        output(payload)
+    }
+
+    /// Called under the lock. At most nine phase and three boundary lines per open.
+    private func context(event: String) -> [String: Any] {
+        let timestamp = DispatchTime.now().uptimeNanoseconds
+        return [
+            "schemaVersion": 1, "sampling": "open-boundaries-no-extra-AX",
+            "scope": "ReadingRecoveryUITests-open-row", "articleID": articleID,
+            "openStartedUptimeNanoseconds": origin, "event": event,
+            "elapsedMilliseconds": Double(timestamp >= origin ? timestamp - origin : 0) / 1_000_000,
+            "rowPrecheck": ["observations": precheckCount, "limit": 12,
+                "lastBoolean": lastPrecheck.map { $0 as Any } ?? NSNull()]
+        ]
+    }
+
+    private func output(_ payload: [String: Any]) {
+        let json: String
+        if let data = try? JSONSerialization.data(withJSONObject: payload, options: [.sortedKeys]), data.count <= 8192 {
+            json = String(decoding: data, as: UTF8.self)
+        } else {
+            json = #"{"schemaVersion":1,"sampling":"open-boundaries-no-extra-AX","encodingError":"serialization-or-8192-byte-output-limit"}"#
+        }
+        print("AILibraryRecoveryOpen " + json)
+    }
+}
+
 /// Shared public-UI actions for both the three-article baseline and the full catalog.
 /// Waits and gesture limits synchronize tests; they are not performance targets.
 class NativeReaderUITestCase: XCTestCase {
     private(set) var app: XCUIApplication!
     var seedsPartialReadingRecovery: Bool { false }
     var recordsRuntime26WaitBoundaries: Bool { false }
+    var recordsReadingRecoveryOpenBoundaries: Bool { false }
 
     override func setUpWithError() throws {
         continueAfterFailure = false
@@ -395,11 +494,18 @@ class NativeReaderUITestCase: XCTestCase {
 
     func requireHittable(_ element: XCUIElement, inside container: XCUIElement? = nil,
                          fullyVisible: Bool = false, timeout: TimeInterval = 15,
+                         recoveryOpenTrace: ReaderRecoveryOpenTrace? = nil,
                          file: StaticString = #filePath, line: UInt = #line) {
         let trace: ReaderWaitBoundaryTrace?
-        if #available(iOS 26.0, *), recordsRuntime26WaitBoundaries {
+        if recoveryOpenTrace != nil {
+            trace = ReaderWaitBoundaryTrace(callsiteLine: line, fullyVisible: fullyVisible, timeout: timeout)
+        } else if #available(iOS 26.0, *), recordsRuntime26WaitBoundaries {
             trace = ReaderWaitBoundaryTrace(callsiteLine: line, fullyVisible: fullyVisible, timeout: timeout)
         } else { trace = nil }
+        let emitTrace: (String) -> Void = { json in
+            if let recoveryOpenTrace { recoveryOpenTrace.emitWait(json) }
+            else { print("AILibraryReaderWait " + json) }
+        }
         let predicate = NSPredicate { _, _ in
             let poll = trace?.beginPoll()
             let satisfied = self.isHittableOnScreen(element, inside: container, fullyVisible: fullyVisible)
@@ -411,11 +517,11 @@ class NativeReaderUITestCase: XCTestCase {
         trace?.markExpectationReturned()
         trace?.markWaitStarted()
         let result = XCTWaiter.wait(for: [visible], timeout: timeout)
-        if let trace { print("AILibraryReaderWait " + trace.json(at: .waitReturned, completed: result == .completed)) }
+        if let trace { emitTrace(trace.json(at: .waitReturned, completed: result == .completed)) }
         if result != .completed {
-            if let trace { print("AILibraryReaderWait " + trace.json(at: .geometryStarted)) }
+            if let trace { emitTrace(trace.json(at: .geometryStarted)) }
             captureReaderGeometry(element, inside: container, fullyVisible: fullyVisible)
-            if let trace { print("AILibraryReaderWait " + trace.json(at: .geometryReturned)) }
+            if let trace { emitTrace(trace.json(at: .geometryReturned)) }
             capture("Public-UI-target-not-visible")
             let hierarchy = XCTAttachment(string: app.debugDescription)
             hierarchy.name = "Public-UI-target-not-visible-hierarchy"
@@ -483,9 +589,13 @@ class NativeReaderUITestCase: XCTestCase {
     }
 
     func open(_ title: String, articleID: String, query: String? = nil) {
+        let openTrace = recordsReadingRecoveryOpenBoundaries ? ReaderRecoveryOpenTrace(articleID: articleID) : nil
+        openTrace?.emit(.openStarted)
         let libraryCountAppeared = app.staticTexts["library-article-count"].waitForExistence(timeout: 45)
+        openTrace?.emit(.libraryCountReturned, observed: libraryCountAppeared)
         if !libraryCountAppeared { captureLibraryCountTimeout() }
         XCTAssertTrue(libraryCountAppeared)
+        openTrace?.emit(.queryInputStarted)
         let search = app.searchFields.firstMatch
         for _ in 0..<8 where !isHittableOnScreen(search) { app.swipeDown(velocity: .slow) }
         requireHittable(search)
@@ -496,15 +606,23 @@ class NativeReaderUITestCase: XCTestCase {
             clear.tap()
         }
         search.typeText((query ?? title) + "\n")
+        openTrace?.emit(.queryInputReturned)
 
+        openTrace?.emit(.rowPrecheckStarted)
         let row = element("library-article-" + articleID)
         for _ in 0..<12 {
-            if isHittableOnScreen(row) { break }
+            let rowHittable = isHittableOnScreen(row)
+            openTrace?.recordPrecheck(rowHittable)
+            if rowHittable { break }
             app.swipeUp(velocity: .slow)
         }
-        requireHittable(row)
+        openTrace?.emit(.rowPrecheckReturned)
+        openTrace?.emit(.rowFinalWaitStarted)
+        requireHittable(row, recoveryOpenTrace: openTrace)
+        openTrace?.emit(.rowFinalWaitReturned)
         row.tap()
         requireNativeBody()
+        openTrace?.emit(.openReturned)
     }
 
     func requireNativeBody() {

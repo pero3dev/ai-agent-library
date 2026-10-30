@@ -1,5 +1,7 @@
 # iOS完成版に向けたTODO
 
+2026-10-30追記。[読書UI待機の診断候補](../../records/2026-10-30/ios-reader-wait-diagnostics.md)は、PR #306の初回head c6c793fでNative6／Full23成功とRecoveryの9open・90記録を観測したが、必須buildは既存Web検査で失敗した。凍結Source3を完全保持し、PR #307を通常採用したmain7708371を同じbranchへ通常mergeした後、記録・索引4本を同期する。初回結果は旧headだけの履歴で、最終同期headのNative6／Full23・実診断・必要CIは未確認。App25／PBX／記事とTODO32行・13完了、原因・性能・実機等の未受入を保つ。
+
 [長文の固定区間スクロールClock](../../records/2026-10-30/ios-long-scroll-clock.md)の候補を、PR #303を通常統合した実main6bfへ全2813 mode／blob一致で結ぶ。Source4のNode57・独立レビュー・SDK型検査と、文書候補時点の共通1185件中1170成功／15skipを再利用する。最大16縦dragの実Hosted・4 invocations／Clock3とCSV、Source8の必要CI／main採用は未完了である。App0.2.23（25）・自分用checkpoint・TODO32行／完了13行を保ち、IOS-15やPR #301のiOS17 UI失敗の解消は主張しない。
 
 [自分用候補の現況](../../records/2026-10-30/ios-personal-use-candidate-checkpoint.md)に、採用main ca595／App0.2.23（25）の署名候補と期限2026-10-31 14:32:21 JST、既存の更新・復元手順をまとめる。未採用Draft #301のa4dでは10分枠の停止と別のAX UI失敗を確認し、47件は未受入のまま保留する。Runtime26の成功とiOS17受入を区別し、接続端末未確認の実機操作は未完了でスキップした。19:23:02 UTCに他6系統は成功・Pilot失敗で全終了し、既知11成功は旧body時点の履歴とする。SourceとTODO32行／完了13行、旧記録の履歴を保持する。

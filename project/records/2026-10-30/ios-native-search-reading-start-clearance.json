@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-30",
+  "state": "candidate; new Hosted/main pending",
+  "author_base": "e6e1d81fe3df17cebe0173fbd1e3a175cd4e3236",
+  "app_version": "0.2.24(26)",
+  "owned_paths": [
+    "ios/AILibrary/Sources/NativeReaderView.swift",
+    "ios/AILibraryTests/NativeInlineTests.swift",
+    "ios/AILibrary.xcodeproj/project.pbxproj",
+    "project/records/2026-10-30/ios-native-search-reading-start-clearance.md",
+    "project/records/2026-10-30/ios-native-search-reading-start-clearance.json",
+    "project/README.md",
+    "project/plans/engineering/ios-app-completion.md"
+  ],
+  "source_manifest_sha256": "35d71a08475cb956af6c5d535f6d5386611e47d2e6b1d49b2821bcc9f1a522c2",
+  "source_candidates": [
+    {
+      "path": "ios/AILibrary/Sources/NativeReaderView.swift",
+      "sha256": "1d417e8508d5a8b5e242915533605ee1e33736c5df996cf082c9127e88e38b24"
+    },
+    {
+      "path": "ios/AILibraryTests/NativeInlineTests.swift",
+      "sha256": "f15d5d732fa573303ad39fb271519c1323c90ab37930895cc1fb4a038cda2a98"
+    }
+  ],
+  "PBX": {
+    "path": "ios/AILibrary.xcodeproj/project.pbxproj",
+    "sha256": "8f544e5f9fb5256e4cdd0084cac60b681b00e51dae2634615dfec145dd720aee",
+    "exact_version_replacements": 4,
+    "signing_or_team_changes": false
+  },
+  "prior_PR309": {
+    "head": "813e6078fe13e8b15e8e7547ec9f8f94a9ff3763",
+    "common_Native": "Root-confirmed old-source success",
+    "first_Full": {
+      "run": 41047541115,
+      "job": 124035221371,
+      "core": {
+        "total": 245,
+        "skipped": 2,
+        "failed": 0
+      },
+      "selected_cases": {
+        "total": 23,
+        "failed": 1,
+        "NativeReader": 2,
+        "PublishedReader": 15,
+        "geometry": 6
+      },
+      "failed_case": "PublishedReaderUITests/testBodySearchArrivesAtNestedParagraphContainingAllTermsWithoutReaderGestures()",
+      "assertion_path": "ios/AILibraryUITests/PublishedReaderUITests.swift:561",
+      "target_top": 97.59649122806938,
+      "viewport_top": 97.66666666666667,
+      "clipped_top_points": 0.07017543859728903,
+      "app_marker_samples": 0,
+      "Release": "skipped",
+      "independent_374B_copy_guard": "not reached",
+      "raw": {
+        "bytes": 1746712,
+        "sha256": "7537390b2c3b129eb3bae290f8b98ec0b40eebe787c66a8367de6aff643128a2",
+        "GETs": 1
+      }
+    }
+  },
+  "fix": {
+    "production_reading_start_clearance_pt": 1,
+    "applies_to": "nil or zero intraBlockFraction only",
+    "pure_function_default_pt": 0,
+    "convergence_pt": 0.5,
+    "positive_fraction_old_arithmetic_and_inverse": "held",
+    "clamps_strict_UI_selectors_bounds_retry_schema": "unchanged",
+    "new_methods": 4,
+    "existing_file_methods": 46,
+    "existing_expected_lines_synced": 11,
+    "scope": "AX-coordinate arithmetic counterexample; not full marker/root-cause proof"
+  },
+  "verification": {
+    "limited_inverse_and_Swift_syntax": "passed; static preparation",
+    "SDK_guard": {
+      "status": "typecheck passed only",
+      "Xcode": "16.2",
+      "SDK": "18.2",
+      "target": "arm64-apple-ios17.0",
+      "steps": [
+        {
+          "name": "app-module",
+          "exit": 0,
+          "seconds": 18.45,
+          "resource_abort": null
+        },
+        {
+          "name": "XCTest-typecheck",
+          "exit": 0,
+          "seconds": 4.198,
+          "resource_abort": null
+        }
+      ],
+      "seconds": 22.649,
+      "receipt_sha256": "48128728ee7f68cb795f67caa6d185e21322e4b51f0e5c2f23d5946d29779e94",
+      "binary_or_new4_runtime": "not executed"
+    },
+    "new_XCTest": "pending",
+    "Full23": "pending",
+    "independent_copy374B": "pending",
+    "unsigned_Release_audit": "pending",
+    "common_check": "pending",
+    "required_CI": "pending",
+    "ordinary_PR_main": "pending"
+  },
+  "remaining": [
+    "Physical device, minimum-iOS17 UI, VoiceOver and performance acceptance",
+    "IOS-11/15/25 incomplete; old results do not transfer"
+  ],
+  "todo": {
+    "total": 32,
+    "complete": 14
+  },
+  "authority": "User: autonomous TODO, ordinary commits/PR/main; physical checks may skip"
+}

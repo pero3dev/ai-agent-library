@@ -128,19 +128,19 @@ final class NativeInlineTests: XCTestCase {
                 scroll.contentOffset.y = offset
                 XCTAssertEqual(selected.convert(selected.bounds, to: scroll).minY, 1600)
                 XCTAssertEqual(anchors.placeTarget("selected"), .aligned)
-                XCTAssertEqual(scroll.contentOffset.y, 1484)
-                XCTAssertEqual(selected.convert(selected.bounds, to: scroll).minY - scroll.contentOffset.y, 116)
+                XCTAssertEqual(scroll.contentOffset.y, 1483)
+                XCTAssertEqual(selected.convert(selected.bounds, to: scroll).minY - scroll.contentOffset.y, 117)
                 XCTAssertEqual(anchors.placementObservation(of: "selected"), .aligned)
                 XCTAssertEqual(anchors.readingBlockID(in: ["previous", "selected", "next"]), "selected")
             }
             // An inset already included by UIKit is not counted a second time.
             scroll.contentInset.top = 116
             XCTAssertEqual(anchors.placeTarget("selected"), .aligned)
-            XCTAssertEqual(scroll.contentOffset.y, 1484)
+            XCTAssertEqual(scroll.contentOffset.y, 1483)
             // Moving the root on screen must not be added to the local inset.
             scroll.frame.origin.y = 59
             XCTAssertEqual(anchors.placeTarget("selected"), .aligned)
-            XCTAssertEqual(scroll.contentOffset.y, 1484)
+            XCTAssertEqual(scroll.contentOffset.y, 1483)
         }
     }
 
@@ -152,15 +152,15 @@ final class NativeInlineTests: XCTestCase {
             anchors.registerTarget(marker, id: "selected")
             scroll.contentInset.top = 0
             XCTAssertEqual(anchors.placeTarget("selected"), .aligned)
-            XCTAssertEqual(scroll.contentOffset.y, 1484)
+            XCTAssertEqual(scroll.contentOffset.y, 1483)
             supplied.suppliedSafeAreaInsets.top = 140
             XCTAssertEqual(anchors.placementObservation(of: "selected"), .needsAlignment)
             XCTAssertEqual(anchors.placeTarget("selected"), .aligned)
-            XCTAssertEqual(scroll.contentOffset.y, 1460)
+            XCTAssertEqual(scroll.contentOffset.y, 1459)
             supplied.suppliedSafeAreaInsets.top = 116
             scroll.contentInset.top = 140
             XCTAssertEqual(anchors.placeTarget("selected"), .aligned)
-            XCTAssertEqual(scroll.contentOffset.y, 1460)
+            XCTAssertEqual(scroll.contentOffset.y, 1459)
         }
     }
 
@@ -175,11 +175,11 @@ final class NativeInlineTests: XCTestCase {
                 scroll.contentOffset = CGPoint(x: 0, y: offset)
                 XCTAssertEqual(marker.convert(marker.bounds, to: scroll).minY, 1600)
                 XCTAssertEqual(anchors.placeTarget("nested"), .aligned)
-                XCTAssertEqual(scroll.contentOffset.y, 1497)
+                XCTAssertEqual(scroll.contentOffset.y, 1496)
             }
             scroll.contentInset.top = 140
             XCTAssertEqual(anchors.placeTarget("nested"), .aligned)
-            XCTAssertEqual(scroll.contentOffset.y, 1460)
+            XCTAssertEqual(scroll.contentOffset.y, 1459)
         }
     }
 
@@ -222,7 +222,7 @@ final class NativeInlineTests: XCTestCase {
             text.addSubview(marker)
             anchors.registerTarget(marker, id: "inside-text")
             XCTAssertEqual(anchors.placeTarget("inside-text"), .aligned)
-            XCTAssertEqual(scroll.contentOffset.y, 1205)
+            XCTAssertEqual(scroll.contentOffset.y, 1204)
             XCTAssertEqual(horizontal.contentOffset, CGPoint(x: 250, y: 0))
             XCTAssertEqual(text.contentOffset, .zero)
         }
@@ -672,7 +672,7 @@ final class NativeInlineTests: XCTestCase {
             XCTAssertEqual(anchors.placeTarget("tall", intraBlockFraction: 0.6), .unavailable)
             // Legacy callers that have no intra-block record keep their old API.
             XCTAssertEqual(anchors.placeTarget("tall"), .aligned)
-            XCTAssertEqual(scroll.contentOffset.y, 497)
+            XCTAssertEqual(scroll.contentOffset.y, 496)
         }
     }
 
@@ -1075,4 +1075,127 @@ final class NativeInlineTests: XCTestCase {
     }
     // END figure-preview direct production regressions.
 
+}
+
+extension NativeInlineTests {
+    /// The observed screen-space values are a counterexample, not an assertion
+    /// that UIKit's marker and accessibility coordinates share an exact origin.
+    func testReadingStartClearanceRejectsTheObservedSubpixelClippedLanding() throws {
+        let visibleTop: CGFloat = 97.666666666666671
+        let observedTop: CGFloat = 97.596491228069382
+        let height: CGFloat = 96.333333333333016
+        let currentOffset: CGFloat = 1000
+        let contentTop = observedTop + currentOffset
+        let viewport = CGRect(x: 0, y: visibleTop, width: 393, height: 852 - visibleTop)
+        let observed = CGRect(x: 46, y: observedTop, width: 318.33333333333331, height: height)
+        XCTAssertFalse(viewport.contains(observed))
+        let oldGoal = try XCTUnwrap(NativeReaderScrollBounds.offset(targetMinY: contentTop,
+            topInset: 0, bottomInset: 34, contentHeight: 4000, viewportHeight: 852,
+            visibleTopInset: visibleTop))
+        XCTAssertLessThan(abs(currentOffset - oldGoal), 0.5,
+                          "The prior convergence rule could accept this clipped counterexample")
+        let goal = try XCTUnwrap(NativeReaderScrollBounds.offset(targetMinY: contentTop,
+            topInset: 0, bottomInset: 34, contentHeight: 4000, viewportHeight: 852,
+            visibleTopInset: visibleTop, readingStartClearance: 1))
+        XCTAssertGreaterThan(abs(currentOffset - goal), 0.5,
+                             "The existing convergence rule must request a correction")
+        for acceptedDifference in [CGFloat(-0.5), 0, 0.5] {
+            let delivered = CGRect(x: observed.minX, y: contentTop - (goal + acceptedDifference),
+                                   width: observed.width, height: observed.height)
+            XCTAssertGreaterThan(delivered.minY, viewport.minY)
+            XCTAssertTrue(viewport.contains(delivered), "Both existing tolerance edges must remain fully visible")
+        }
+        readerScrollFixture(safeAreaTopInset: visibleTop) { scroll, content, anchors in
+            scroll.contentInset.top = 0
+            let marker = UIView(frame: CGRect(x: 0, y: contentTop, width: 1, height: 0))
+            content.addSubview(marker)
+            anchors.registerTarget(marker, id: "selected")
+            scroll.contentOffset.y = currentOffset
+            XCTAssertEqual(anchors.placementObservation(of: "selected"), .needsAlignment)
+            XCTAssertEqual(anchors.placeTarget("selected"), .aligned)
+            let delivered = CGRect(x: observed.minX,
+                y: marker.convert(marker.bounds, to: scroll).minY - scroll.contentOffset.y,
+                width: observed.width, height: observed.height)
+            XCTAssertTrue(viewport.contains(delivered), "The production marker path must use reading-start clearance")
+        }
+    }
+
+    func testReadingStartClearanceKeepsZeroFractionAndSelectedBlockAcrossRepeatedRestores() throws {
+        let nilGoal = try XCTUnwrap(NativeReaderScrollBounds.offset(targetMinY: 1600,
+            topInset: 103, bottomInset: 34, contentHeight: 4000, viewportHeight: 852,
+            readingStartClearance: 1))
+        XCTAssertEqual(nilGoal, 1496)
+        var savedFraction = 0.0
+        for _ in 0..<20 {
+            let restored = try XCTUnwrap(NativeReaderScrollBounds.offset(targetMinY: 1600,
+                topInset: 103, bottomInset: 34, contentHeight: 4000, viewportHeight: 852,
+                targetMaxY: 1800, intraBlockFraction: savedFraction, readingStartClearance: 1))
+            XCTAssertEqual(restored, nilGoal)
+            savedFraction = try XCTUnwrap(NativeReaderScrollBounds.intraBlockFraction(
+                blockMinY: 1600, blockMaxY: 1800, readingLineY: restored + 103))
+            XCTAssertEqual(savedFraction, 0, "A reading-start restore must not accumulate position drift")
+        }
+        XCTAssertEqual(NativeReaderScrollBounds.readingBlockID(
+            frames: ["previous": -10, "selected": 104, "next": 128], viewportHeight: 852, topInset: 103), "selected")
+        readerScrollFixture { scroll, content, anchors in
+            let marker = UIView(frame: CGRect(x: 0, y: 1600, width: 1, height: 0))
+            let end = UIView(frame: CGRect(x: 0, y: 1800, width: 1, height: 0))
+            content.addSubview(marker); content.addSubview(end)
+            anchors.registerTarget(marker, id: "selected")
+            anchors.registerTarget(end, id: "selected", isEnd: true)
+            XCTAssertEqual(anchors.placeTarget("selected", intraBlockFraction: 0), .aligned)
+            XCTAssertEqual(scroll.contentOffset.y, nilGoal)
+            XCTAssertEqual(anchors.intraBlockFraction(for: "selected"), 0)
+            // Exercise the unchanged inclusive convergence edge with integer
+            // marker geometry, without loosening any public UI predicate.
+            scroll.contentOffset.y = nilGoal + 0.5
+            XCTAssertEqual(anchors.placementObservation(of: "selected", intraBlockFraction: 0), .aligned)
+            XCTAssertGreaterThan(marker.convert(marker.bounds, to: scroll).minY - scroll.contentOffset.y, 103)
+        }
+    }
+
+    func testReadingStartClearancePreservesPositiveFractionsAndTheirExistingInverse() throws {
+        for fraction in [Double.leastNonzeroMagnitude, Double.leastNormalMagnitude, 0.000000000001, 0.6, 1] {
+            for end in [CGFloat(2600), 3800] {
+                let legacy = try XCTUnwrap(NativeReaderScrollBounds.offset(targetMinY: 600,
+                    topInset: 103, bottomInset: 34, contentHeight: 5000, viewportHeight: 852,
+                    targetMaxY: end, intraBlockFraction: fraction))
+                let current = try XCTUnwrap(NativeReaderScrollBounds.offset(targetMinY: 600,
+                    topInset: 103, bottomInset: 34, contentHeight: 5000, viewportHeight: 852,
+                    targetMaxY: end, intraBlockFraction: fraction, readingStartClearance: 1))
+                XCTAssertEqual(current, legacy, "Every strictly positive fraction must keep the old arithmetic")
+            }
+        }
+        let first = try XCTUnwrap(NativeReaderScrollBounds.offset(targetMinY: 600,
+            topInset: 103, bottomInset: 34, contentHeight: 5000, viewportHeight: 852,
+            targetMaxY: 2600, intraBlockFraction: 0.6, readingStartClearance: 1))
+        let reflowed = try XCTUnwrap(NativeReaderScrollBounds.offset(targetMinY: 600,
+            topInset: 103, bottomInset: 34, contentHeight: 5000, viewportHeight: 852,
+            targetMaxY: 3800, intraBlockFraction: 0.6, readingStartClearance: 1))
+        XCTAssertEqual(first, 1697)
+        XCTAssertEqual(reflowed, 2417)
+        XCTAssertEqual(NativeReaderScrollBounds.intraBlockFraction(
+            blockMinY: 600, blockMaxY: 2600, readingLineY: first + 103), 0.6)
+        XCTAssertEqual(NativeReaderScrollBounds.intraBlockFraction(
+            blockMinY: 600, blockMaxY: 3800, readingLineY: reflowed + 103), 0.6)
+    }
+
+    func testReadingStartClearancePreservesClampsAndRejectsInvalidInputs() {
+        XCTAssertEqual(NativeReaderScrollBounds.offset(targetMinY: 0, topInset: 103, bottomInset: 34,
+            contentHeight: 4000, viewportHeight: 852, readingStartClearance: 1), -103)
+        XCTAssertEqual(NativeReaderScrollBounds.offset(targetMinY: 160, topInset: 103, bottomInset: 34,
+            contentHeight: 200, viewportHeight: 852, readingStartClearance: 1), -103)
+        XCTAssertEqual(NativeReaderScrollBounds.offset(targetMinY: 3950, topInset: 103, bottomInset: 34,
+            contentHeight: 4000, viewportHeight: 852, readingStartClearance: 1), 3182)
+        for clearance in [CGFloat.nan, .infinity, -.infinity, -1] {
+            for fraction in [Double?.none, 0, 0.6] {
+                XCTAssertNil(NativeReaderScrollBounds.offset(targetMinY: 1600,
+                    topInset: 103, bottomInset: 34, contentHeight: 4000, viewportHeight: 852,
+                    targetMaxY: 1800, intraBlockFraction: fraction, readingStartClearance: clearance))
+            }
+        }
+        XCTAssertNil(NativeReaderScrollBounds.offset(targetMinY: 1600,
+            topInset: 103, bottomInset: 34, contentHeight: 4000, viewportHeight: 852,
+            intraBlockFraction: 0, readingStartClearance: 1), "A saved zero fraction still requires the original end-marker measurement")
+    }
 }

@@ -1,6 +1,6 @@
 # 現在の記事版にない読書記録の件数と保管案内
 
-作成日: 2026-10-31。状態: **実parentへ結合した提出候補**。前段Aboutの通常main採用を別途確認した実parent `568dd2948a58c174cef739a667c3f9bd19ea8fa3`へSource4のbeforeを照合し、PBXの版だけをApp0.2.27（29）へ変更した。main採用自体は実行者の外部前提であり、local HEADの一致だけから推定しない。IOS-22全体は未完了とし、完成版TODOの32行・完了14行を保つ。
+作成日: 2026-10-31。状態: **PR #315の初回失敗と診断工程の時間切れを保持し、12パスの検査修正を準備中**。前段Aboutの通常main採用を別途確認した実parent `568dd2948a58c174cef739a667c3f9bd19ea8fa3`へSource4のbeforeを照合し、PBXの版だけをApp0.2.27（29）へ変更した。main採用自体は実行者の外部前提であり、local HEADの一致だけから推定しない。IOS-22全体は未完了とし、完成版TODOの32行・完了14行を保つ。
 
 ## 目的と所有範囲
 
@@ -18,7 +18,7 @@
 
 記事版を切り替えて同じIDが再び見つかると、その記事は見つからない件数から外れる。現在の記事を別IDへ改名した場合は旧記録を保持したまま数える。この挙動は、自動rename mapや将来schemaへの移行、削除された記事の復元を実装したという意味ではない。
 
-## 静的レビューと実macOS確認
+## 初回Source4の静的レビューと実macOS確認
 
 Source4は独立静的レビューでP1/P2が0件。ReadingStore・LibraryStore・Viewの追加部分を除くと各beforeへ全bytesが戻り、LibraryCoreTestsは旧280,415Bの全文をprefixとして保持し、13,896B・新6件のextensionを末尾へ加えた。新Appファイル・依存・PBX・版・保存schema・権限の変更はこの私有Source4に含まれない。Viewのbeforeは前段Aboutの最終文言a8ae版であり、実parentの全Source4 before bytesへ一致することを確認した。
 
@@ -38,10 +38,30 @@ SDK工程は90秒・合計log1MiB・所有300MiB・空き700MiB、0.05秒間隔�
 
 証拠のmanifestは `7585117f1b8cd5e8502fcf52a810d69da80a54280e686938f1f76348c0e23a3c`、resultは `90eaa884fb8a22d8795b62ac7c706ba05e07edf9d1d7f92af8a42891dcf99b0c`、独立レビューは `fbbc40c01f755f9a15fcc1a51128e01a973e5608a2c3796135e79deb2cafa3d1`。PBX29の設定だけから実Bundle・表示版・新署名の成立を推定しない。
 
-## 次の提出単位と未確認
+## 初回9パス候補時点の提出計画と未確認
 
 実parent `568dd2948a58c174cef739a667c3f9bd19ea8fa3`とSource4のbeforeを照合し、PBXを0.2.26（28）から0.2.27（29）へ版だけ変更して、この記録・索引を含む9パスを結合した。parent tree・before blobとPBX前後SHAは対になるJSONに保存した。共通検査と最終9パスの独立レビューを通した後、小さなcommit・PR・必要CI・通常main統合へ進め、各段階の結果を別に記録する。
 
 新headのHosted単体270件（前段予定264＋新6）・Native7件・Full26件、新共通検査・最終9パスレビュー・CI・通常main採用、実notice表示・VoiceOver・実機・provider・新署名・実Bundleは未確認である。既存SDK結果の再利用やHostのCore7成功を実UI・iOS runtime・現main採用へ広げない。
 
 IOS-22の跨ID自動改名対応・schema/旧HTML等を含む全移行受入は残る。IOS-11の改訂後の位置精度、IOS-18の障害復旧、IOS-23の性能、IOS-25のUI回帰、IOS-27の申告/policy、IOS-28の実運用もこの単位で完了にしない。実機等はユーザーの許可に従い未完了として進め、[完成版TODO](../../plans/engineering/ios-app-completion.md)の全32行・14完了を保つ。既存データを消したり、GCの安全性や自動復元の保証を追加したりしない。
+
+## PR #315の初回検査と次の検査構成
+
+初回の9パス候補はhead `324ed14e26bbe4a6a567ab06bae86c2657433b37`、tree `1d2d39674e945a4e8e9fb658d7c51d3739ed9bc1`、tracked2837で[PR #315](https://github.com/pero3dev/ai-agent-library/pull/315)へ提出した。共通検査は1206件中1191成功・15skip・失敗0、最終9パスの独立レビューはP1/P2=0だった。Ready本文以後の必須11検査も成功した。初回の予定を記した前節とは段階を分ける。
+
+Nativeでは実単体270件中268成功・2skip・失敗0、新しい件数判定6件とDiagnostics6件を含み、UI7件も成功した。DedicatedとSDK26 Archiveはmetadataで初回成功を確認した。一方、Runtime26は3件中2成功・1失敗で、健全な旧記録のケースが、最初の一覧の「続きを読む」を押す前の15秒待機で失敗した。最後のpollは約14.383秒かかってfalseを返した。後段のgeometryと画面写真ではカードが見えたが、待機後の別の時点なので、当該pollが成功すべきだった証明や原因確定には使わない。通常の待機時間、完全表示判定、hittable条件を緩める修正は行っていない。
+
+Full初回は51分21秒でcancelledとなった。実単体270件は上記と同数で成功し、完了したUI19件（Native3・Published16）も全て成功したが、残るPublished1とgeometry6は完了していない。コピーのUIケース成功と独立した374B stdout照合は別で、独立probeは未完了、ReleaseもskipのためFullは未受入である。前段mainの別runでは必要なUI26・copy374B・Release監査まで完了していてもjob全体はcancelledだった。これらの中断を検査成功と読み替えない。
+
+次の候補ではFull用workflowだけを固定2組へ分割する。reading-stateはNative3・Published9・geometry6の18件と単体を、content-copyは残るPublished8件と独立copy374B・Release199記事監査を担当する。両組でDebug資産監査と実UIの厳密集合照合を行い、重複・欠落・skip・failを許さない。content-copyはDebug監査より前にUIのbuild-for-testingを行う。各jobの50分枠、SDK、テスト本体、既存の署名不要条件を保ち、artifact名を組ごとに分ける。分割自体の実Hosted効果はまだ未確認である。
+
+別のNativeテスト差分は、既に読んでいるgeometry判定とhittable値・経過時間だけを待機診断へ記録する。追加AX取得や読書動作の変更は加えず、同じpredicateと15秒を保つ。診断だけの別branch/head `63f7a82674e39d4343df08aec042b9fd54df4f74`に対し、[Runtime26の診断run](https://github.com/pero3dev/ai-agent-library/actions/runs/41134722071)を1回開始した。初回headの再試行ではなく診断ソースの別実行であり、その成功だけで元失敗の原因が解消したとは扱わない。
+
+提出差分は元Source4・PBX・記録2・索引2に、Full workflow、Native待機診断、Runtime26 workflowを加える計12パスを予定する。新規pathは増えずtracked2837を保つ。App17・PBX0.2.27（29）・記事/音声・単体の本文は初回候補を保持する。追加ソースの独立レビュー、新しい全12パスの共通検査・最終レビュー・正確な新headのCI、通常main統合は後続である。noticeの実表示、VoiceOver、実機、新しい署名候補は未完了として残す。
+
+診断runは実UI3件が全成功し、22個の待機はいずれも1回のpollでgeometry可視・hittable trueを返した。初期Continueの待機は約3.407秒だった。最初の失敗は今回再現しておらず、解消原因を確定したわけではない。Xcodeは22:14:29.214 UTCにTEST SUCCEEDEDを出力したが、22:14:31.564 UTCに12分上限で工程が失敗した。strictな3件の結果readerが成功しても、UI工程とcompletion gate・jobは失敗のため、診断run全体を成功扱いしない。コマンドexit記録ファイルの存在・値はraw stdoutだけでは未確認である。
+
+この実測を根拠として、RootはRuntime26のUI工程枠を12分から15分へ再配分する。job全体40分、cleanup4分、artifact2分、残る工程cap、UI3件の完全一致と各predicateの15秒を保つ。工程capの合計表記は48分から51分へ同期するが、この合計は全工程完了の保証ではなくjob40分が全体を制限する。実テスト本体の条件を緩和せず、SDK27の既存12分回帰検査とworkflowは変更しない。この新sourceでのHosted完了は後続で検証する。
+
+分割候補は既存Node24.19.0で純粋fixture44件が全成功した。現在と診断版のSwift3クラスの全test集合を元26件へ照合し、未知・不足・重複・曖昧な追加や平坦でない入力は拒否する。これは新しい実UIやHosted成功ではない。

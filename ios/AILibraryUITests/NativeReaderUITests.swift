@@ -98,6 +98,13 @@ private final class ReaderWaitBoundaryTrace {
         let started: UInt64
         var returned: UInt64?
         var satisfied: Bool?
+        var geometryStarted: UInt64? = nil
+        var geometryReturned: UInt64? = nil
+        var geometry: ReaderFrameVisibility? = nil
+        var geometryReasonTruncated = false
+        var hittableStarted: UInt64? = nil
+        var hittableReturned: UInt64? = nil
+        var targetIsHittable: Bool? = nil
     }
 
     private let lock = NSLock()
@@ -157,6 +164,48 @@ private final class ReaderWaitBoundaryTrace {
         }
     }
 
+    private func updatePoll(_ sequence: UInt64, _ body: (inout Poll) -> Void) {
+        locked {
+            guard let index = polls.firstIndex(where: { $0.sequence == sequence }) else { return }
+            body(&polls[index])
+        }
+    }
+
+    func markPollGeometryStarted(_ sequence: UInt64) {
+        updatePoll(sequence) { $0.geometryStarted = now() }
+    }
+
+    func markPollGeometryReturned(_ sequence: UInt64, visibility: ReaderFrameVisibility) {
+        updatePoll(sequence) { poll in
+            poll.geometryReturned = now()
+            if case .unknown(let reason) = visibility {
+                // This existing reason contains only geometry state/counts.
+                // Bound even synthetic/future reasons before retaining last8.
+                var bounded = ""
+                var bytes = 0
+                for scalar in reason.unicodeScalars {
+                    let next = String(scalar)
+                    guard bytes + next.utf8.count <= 160 else { break }
+                    bounded += next
+                    bytes += next.utf8.count
+                }
+                poll.geometry = .unknown(bounded)
+                poll.geometryReasonTruncated = bounded != reason
+            } else { poll.geometry = visibility }
+        }
+    }
+
+    func markPollHittableStarted(_ sequence: UInt64) {
+        updatePoll(sequence) { $0.hittableStarted = now() }
+    }
+
+    func markPollHittableReturned(_ sequence: UInt64, value: Bool) {
+        updatePoll(sequence) {
+            $0.hittableReturned = now()
+            $0.targetIsHittable = value
+        }
+    }
+
     /// Snapshot and boundary mutation share the lock; serialization/console I/O never holds it.
     /// This uses test-process monotonic time and existing Bool results, not AX getters.
     func json(at boundary: Boundary, completed: Bool? = nil) -> String {
@@ -191,9 +240,27 @@ private final class ReaderWaitBoundaryTrace {
                     "inflightAtSnapshot": inflight, "retainedLimit": 8,
                     "omittedStarts": totalStarted - UInt64(polls.count),
                     "last": polls.map { poll -> [String: Any] in
-                        ["sequence": poll.sequence, "startedMilliseconds": milliseconds(poll.started),
-                         "returnedMilliseconds": milliseconds(poll.returned),
-                         "returnedBoolean": poll.satisfied.map { $0 as Any } ?? NSNull()]
+                        let geometryState: String
+                        let geometryReason: Any
+                        switch poll.geometry {
+                        case .visible?: geometryState = "visible"; geometryReason = NSNull()
+                        case .hidden?: geometryState = "hidden"; geometryReason = NSNull()
+                        case .unknown(let reason)?: geometryState = "unknown"; geometryReason = reason
+                        case nil: geometryState = "not-returned"; geometryReason = NSNull()
+                        }
+                        let condition: [String: Any] = [
+                            "geometry": ["state": geometryState, "reason": geometryReason,
+                                "reasonTruncated": poll.geometryReasonTruncated,
+                                "startedMilliseconds": milliseconds(poll.geometryStarted),
+                                "returnedMilliseconds": milliseconds(poll.geometryReturned)],
+                            "hittable": ["readStarted": poll.hittableStarted != nil,
+                                "value": poll.targetIsHittable.map { $0 as Any } ?? NSNull(),
+                                "startedMilliseconds": milliseconds(poll.hittableStarted),
+                                "returnedMilliseconds": milliseconds(poll.hittableReturned)]]
+                        return ["sequence": poll.sequence, "startedMilliseconds": milliseconds(poll.started),
+                            "returnedMilliseconds": milliseconds(poll.returned),
+                            "returnedBoolean": poll.satisfied.map { $0 as Any } ?? NSNull(),
+                            "condition": condition]
                     }],
                 "failureGeometry": ["startedMilliseconds": milliseconds(geometryStarted),
                     "returnedMilliseconds": milliseconds(geometryReturned)]
@@ -400,9 +467,24 @@ class NativeReaderUITestCase: XCTestCase {
 
     func isHittableOnScreen(_ element: XCUIElement, inside container: XCUIElement? = nil,
                             fullyVisible: Bool = false) -> Bool {
+        observedHittableOnScreen(element, inside: container, fullyVisible: fullyVisible,
+                                trace: nil, poll: nil)
+    }
+
+    /// Same value-getter order and short circuit as the original positive poll.
+    /// Observe only the enum/Bool already returned; never query AX for tracing.
+    private func observedHittableOnScreen(_ element: XCUIElement, inside container: XCUIElement?,
+                                        fullyVisible: Bool, trace: ReaderWaitBoundaryTrace?,
+                                        poll: UInt64?) -> Bool {
+        if let trace, let poll { trace.markPollGeometryStarted(poll) }
+        let visibility = frameVisibility(element, inside: container, fullyVisible: fullyVisible)
+        if let trace, let poll { trace.markPollGeometryReturned(poll, visibility: visibility) }
         // XCTest can raise an activation-point error when asked about an offscreen cell.
-        guard hasVisibleFrameForPolling(element, inside: container, fullyVisible: fullyVisible) else { return false }
-        return element.isHittable
+        guard visibility.visibleForPolling else { return false }
+        if let trace, let poll { trace.markPollHittableStarted(poll) }
+        let hittable = element.isHittable
+        if let trace, let poll { trace.markPollHittableReturned(poll, value: hittable) }
+        return hittable
     }
 
     /// Failure-only public-UI snapshot. Reads are sequential and may differ from the last poll.
@@ -508,7 +590,8 @@ class NativeReaderUITestCase: XCTestCase {
         }
         let predicate = NSPredicate { _, _ in
             let poll = trace?.beginPoll()
-            let satisfied = self.isHittableOnScreen(element, inside: container, fullyVisible: fullyVisible)
+            let satisfied = self.observedHittableOnScreen(element, inside: container,
+                fullyVisible: fullyVisible, trace: trace, poll: poll)
             if let poll { trace?.endPoll(poll, satisfied: satisfied) }
             return satisfied
         }

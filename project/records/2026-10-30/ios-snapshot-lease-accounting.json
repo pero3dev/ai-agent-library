@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-30",
+  "state": "submission candidate",
+  "static_byte_baseline": "cb66343ddc18f28f780b8f240c07910839e7cc6a",
+  "prior_source_author": "ca59520b9a8d616ef0a749101de558afbd412b9a",
+  "publication_parent": "d321bc1a83fe7d17c0217718c4923499d1f9feb2",
+  "publication_parent_status": "before3 exact actual parent; current fullApp SDK17inputs bound to proposed source",
+  "binding_receipt_sha256": "82454afe17799048c684f1c45047d9fb3362ba91c8a86ecb205e35488247f5f7",
+  "source_paths": [
+    "ios/AILibrary/Sources/Models.swift",
+    "ios/AILibrary/Sources/ContentRepository.swift",
+    "ios/AILibraryTests/LibraryCoreTests.swift",
+    "ios/AILibrary.xcodeproj/project.pbxproj"
+  ],
+  "source_candidates": [
+    {
+      "path": "ios/AILibrary/Sources/Models.swift",
+      "sha256": "459423194145e677834d35b57201ae60f0c9e9b5ab449a620cb519f5a070292c",
+      "base_equal": true
+    },
+    {
+      "path": "ios/AILibrary/Sources/ContentRepository.swift",
+      "sha256": "64e9955ad6207ba0dc3026f63c015e79e5f911b2c5eb4c3efef1ba26fbaaf0cd",
+      "base_equal": true
+    },
+    {
+      "path": "ios/AILibraryTests/LibraryCoreTests.swift",
+      "sha256": "280f4c58ac4a9ef6910618766c90eeec799a9e3e57b5392ba0e9b3befb9ae01f",
+      "base_equal": true
+    },
+    {
+      "path": "ios/AILibrary.xcodeproj/project.pbxproj",
+      "sha256": "f483af03233a06eb94a161b5444a9a2c70a5126036364881095a39f02de32a05",
+      "scope": "version0.2.24(26) to0.2.25(27) only; inverse restores actual parent bytes"
+    }
+  ],
+  "behavior": "Advisory lexical storage-path/UUID acquisition accounting; shared token follows snapshot value copies; no deletion",
+  "verification": {
+    "static_source_review": {
+      "p1": 0,
+      "p2": 0,
+      "scope": "unchanged Source3 only"
+    },
+    "before3_matches_cb66": true,
+    "old_test_prefix_bytes": 261286,
+    "static_case_inventory": {
+      "prior_current": 249,
+      "added": 9,
+      "planned_total": 258,
+      "actual_discovery_or_runtime": "pending hosted execution"
+    },
+    "common_checks": "pending",
+    "new_head_XCTest": "pending",
+    "required_CI": "pending",
+    "ordinary_main_integration": "pending",
+    "before3_matches_actual_parent": true,
+    "current_iPhoneSDK18_2": {
+      "target": "arm64-apple-ios17.0",
+      "inputs": 17,
+      "app_module_exit": 0,
+      "app_module_seconds": 22.022,
+      "XCTest_typecheck_exit": 0,
+      "XCTest_typecheck_seconds": 5.318,
+      "scope": "exact source compile/typecheck; no XCTest runtime"
+    },
+    "historical_compile_proof": {
+      "iPhone_SDK18_2": {
+        "inputs": 17,
+        "app_module_exit": 0,
+        "XCTest_typecheck_exit": 0,
+        "scope": "historical cb66 inputs only; not current App after PR310"
+      },
+      "macOS14_CoreSmoke": {
+        "inputs": 6,
+        "compile_link_exit": 0,
+        "binary_executed": false
+      },
+      "new_execution": false
+    },
+    "current_macos_host_nine": {
+      "discovered": 9,
+      "executed": 9,
+      "pass": 9,
+      "skip": 0,
+      "fail": 0,
+      "seconds": 19.381,
+      "async_cases": 2,
+      "exact_extension_bytes": 19129,
+      "exact_required_support_bytes": 9038,
+      "Core_sources": 5,
+      "input_immutable": true,
+      "scope": "private Darwin XCTest harness; not iOS runtime, filesystem access trace, GC safety or performance acceptance"
+    }
+  },
+  "limits": [
+    "No filesystem alias identity or cleanup authority follows from count zero",
+    "No current/last-good protection, shared operation gate, active staging reservation or bounded pruning added",
+    "Image cache/detail delayed decoding and late file access need separate protection",
+    "No capacity improvement, GC safety, physical-device or VoiceOver acceptance",
+    "cb66 performance evidence and existing signed candidate input equivalence do not transfer after Models changes"
+  ],
+  "todo": {
+    "total": 32,
+    "complete": 14,
+    "IOS-21": "incomplete"
+  },
+  "authority": "User requested autonomous priority TODO work and ordinary commits/PR/main; physical acceptance may remain incomplete",
+  "source3_private_manifest_sha256": "9693d27615cd77a21740923fb6204d9bc41ab0c5f504240715cf24e8ec8bc141",
+  "app_version": {
+    "marketing": "0.2.25",
+    "build": "27",
+    "signing_and_Team": "unchanged"
+  }
+}

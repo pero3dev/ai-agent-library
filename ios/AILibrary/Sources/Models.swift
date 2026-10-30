@@ -89,6 +89,21 @@ enum AudioTime {
 struct ContentSnapshot: Sendable {
     let root: URL
     let manifest: ContentManifest
+    private let generationLease: ContentSnapshotLease?
+
+    init(root: URL, manifest: ContentManifest) {
+        self.init(root: root, manifest: manifest, generationLease: nil)
+    }
+
+    private init(root: URL, manifest: ContentManifest, generationLease: ContentSnapshotLease?) {
+        self.root = root
+        self.manifest = manifest
+        self.generationLease = generationLease
+    }
+
+    func retainingGenerationLease(_ lease: ContentSnapshotLease) -> ContentSnapshot {
+        ContentSnapshot(root: root, manifest: manifest, generationLease: lease)
+    }
 
     var readAccessRoot: URL {
         let directory = root.standardizedFileURL.resolvingSymlinksInPath().standardizedFileURL
@@ -107,7 +122,9 @@ struct ContentSnapshot: Sendable {
         guard manifest.schema_version == 2, self.article(id: article.id) == article else {
             throw ContentError.invalid("記事の参照先が無効です。")
         }
-        return try NativeDocumentValidator.load(article: article, manifest: manifest, root: root)
+        return try withExtendedLifetime(generationLease) {
+            try NativeDocumentValidator.load(article: article, manifest: manifest, root: root)
+        }
     }
 }
 
@@ -219,5 +236,76 @@ enum LibraryArticleOrder {
             let right = ranks[rhs.element.id] ?? Int.max
             return left == right ? lhs.offset < rhs.offset : left < right
         }.map(\.element)
+    }
+}
+
+/// One owned-generation acquisition, shared by every copy of its snapshot. This
+/// process-local ledger is advisory: zero is not permission to remove a package.
+/// Storage URLs are lexical scopes, not filesystem identities or alias checks.
+final class ContentSnapshotLease: @unchecked Sendable {
+    private struct Key: Hashable, Sendable {
+        let scope: String
+        let generation: UUID
+    }
+
+    private final class Ledger: @unchecked Sendable {
+        private let lock = NSLock()
+        private var counts: [Key: Int] = [:]
+
+        func acquire(_ key: Key) {
+            lock.lock()
+            defer { lock.unlock() }
+            counts[key, default: 0] += 1
+        }
+
+        func release(_ key: Key) {
+            lock.lock()
+            defer { lock.unlock() }
+            if let count = counts[key], count > 1 { counts[key] = count - 1 }
+            else { counts.removeValue(forKey: key) }
+        }
+
+        func acquisitions(in scope: String) -> [UUID: Int] {
+            lock.lock()
+            defer { lock.unlock() }
+            var result: [UUID: Int] = [:]
+            for (key, count) in counts where key.scope == scope { result[key.generation] = count }
+            return result
+        }
+    }
+
+    // A single ledger avoids a registry of weak coordinators whose dead URL keys
+    // could accumulate. It stores only live keys, never repositories or tokens.
+    private static let sharedLedger = Ledger()
+    private let key: Key
+    private let ledger: Ledger
+
+    private init(key: Key, ledger: Ledger) {
+        self.key = key
+        self.ledger = ledger
+        ledger.acquire(key)
+    }
+
+    deinit { ledger.release(key) }
+
+    static func acquire(storageRoot: URL, generation: UUID) -> ContentSnapshotLease? {
+        guard let scope = scope(storageRoot) else { return nil }
+        return ContentSnapshotLease(key: Key(scope: scope, generation: generation), ledger: sharedLedger)
+    }
+
+    static func advisoryAcquisitions(in storageRoot: URL) -> [UUID: Int] {
+        guard let scope = scope(storageRoot) else { return [:] }
+        return sharedLedger.acquisitions(in: scope)
+    }
+
+    private static func scope(_ root: URL) -> String? {
+        guard root.isFileURL, root.host == nil || root.host == "" || root.host == "localhost",
+              root.user == nil, root.password == nil, root.port == nil, root.query == nil, root.fragment == nil else { return nil }
+        var path = root.path
+        while path.count > 1, path.hasSuffix("/") { path.removeLast() }
+        let components = path.split(separator: "/", omittingEmptySubsequences: false)
+        guard path.hasPrefix("/"), !components.contains("."), !components.contains(".."),
+              !components.dropFirst().contains("") else { return nil }
+        return path
     }
 }

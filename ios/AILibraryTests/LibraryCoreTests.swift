@@ -3902,3 +3902,337 @@ final class AudioPlayerTests: XCTestCase {
 private final class FailedAudioAVPlayer: AVPlayer {
     override var status: AVPlayer.Status { .failed }
 }
+
+extension LibraryCoreTests {
+    func testSnapshotGenerationLeaseIsSharedByValueCopiesUntilLastRelease() throws {
+        let bundled = try fixture("lease-copy-bundle")
+        let source = try retentionPackage("lease-copy-source", revision: "copy")
+        let storage = directory.appendingPathComponent("lease-copy-storage")
+        let repository = ContentRepository(bundledRoot: bundled, storageRoot: storage)
+        var original: ContentSnapshot? = try repository.install(from: source)
+        let root = original!.root
+        let generation = try XCTUnwrap(UUID(uuidString: root.lastPathComponent))
+        let before = try retentionInventory(storage)
+        var copy = original
+        XCTAssertEqual(repository.advisorySnapshotAcquisitions, [generation: 1])
+        original = nil
+        XCTAssertEqual(try copy!.document(for: article()).article_id, "example")
+        withExtendedLifetime(copy) {
+            XCTAssertEqual(repository.advisorySnapshotAcquisitions, [generation: 1])
+        }
+        copy = nil
+        XCTAssertTrue(repository.advisorySnapshotAcquisitions.isEmpty)
+        XCTAssertEqual(try retentionInventory(storage), before, "Lease release never removes a stored version")
+        XCTAssertEqual(try Data(contentsOf: root.appendingPathComponent("assets/late-copy.png")), pixel)
+    }
+
+    func testIndependentSnapshotLoadsAcquireIndependentlyAndKeepCurrentAtZero() throws {
+        let bundled = try fixture("lease-load-bundle")
+        let source = try fixture("lease-load-source", revision: "current")
+        let storage = directory.appendingPathComponent("lease-load-storage")
+        let repository = ContentRepository(bundledRoot: bundled, storageRoot: storage)
+        var installed: ContentSnapshot? = try repository.install(from: source)
+        let root = installed!.root
+        let generation = try XCTUnwrap(UUID(uuidString: root.lastPathComponent))
+        var first: ContentSnapshot? = try repository.load()
+        var second: ContentSnapshot? = try repository.load()
+        XCTAssertEqual(first?.root, root)
+        XCTAssertEqual(second?.root, root)
+        let before = try retentionInventory(storage)
+        withExtendedLifetime((installed, first, second)) {
+            XCTAssertEqual(repository.advisorySnapshotAcquisitions, [generation: 3])
+        }
+        installed = nil
+        withExtendedLifetime((first, second)) {
+            XCTAssertEqual(repository.advisorySnapshotAcquisitions, [generation: 2])
+        }
+        first = nil
+        withExtendedLifetime(second) {
+            XCTAssertEqual(repository.advisorySnapshotAcquisitions, [generation: 1])
+        }
+        second = nil
+        XCTAssertTrue(repository.advisorySnapshotAcquisitions.isEmpty)
+        XCTAssertEqual(try retentionInventory(storage), before, "Zero live acquisitions is not deletion permission")
+        XCTAssertEqual(try Data(contentsOf: root.appendingPathComponent("assets/pixel.png")), pixel)
+    }
+
+    func testIdenticalRevisionsKeepDifferentUUIDSnapshotGenerationsDistinct() throws {
+        let bundled = try fixture("lease-revision-bundle")
+        let source = try fixture("lease-revision-source", revision: "same")
+        let storage = directory.appendingPathComponent("lease-revision-storage")
+        let repository = ContentRepository(bundledRoot: bundled, storageRoot: storage)
+        var first: ContentSnapshot? = try repository.install(from: source)
+        var second: ContentSnapshot? = try repository.install(from: source)
+        let firstID = try XCTUnwrap(UUID(uuidString: first!.root.lastPathComponent))
+        let secondID = try XCTUnwrap(UUID(uuidString: second!.root.lastPathComponent))
+        XCTAssertNotEqual(firstID, secondID)
+        XCTAssertEqual(first?.manifest.revision, second?.manifest.revision)
+        withExtendedLifetime((first, second)) {
+            XCTAssertEqual(repository.advisorySnapshotAcquisitions, [firstID: 1, secondID: 1])
+        }
+        first = nil
+        withExtendedLifetime(second) {
+            XCTAssertEqual(repository.advisorySnapshotAcquisitions, [secondID: 1])
+        }
+        second = nil
+        XCTAssertTrue(repository.advisorySnapshotAcquisitions.isEmpty)
+        XCTAssertEqual(Set(try FileManager.default.contentsOfDirectory(atPath: storage.appendingPathComponent("versions").path)),
+                       Set([firstID.uuidString, secondID.uuidString]))
+    }
+
+    func testSnapshotAcquisitionsShareStorageScopeAndSeparateTestStorage() throws {
+        let bundled = try fixture("lease-scope-bundle")
+        let source = try fixture("lease-scope-source")
+        let storage = directory.appendingPathComponent("lease-scope")
+        let sameStorage = URL(fileURLWithPath: storage.path + "/", isDirectory: true)
+        let testingStorage = directory.appendingPathComponent("lease-scope-testing")
+        let firstRepository = ContentRepository(bundledRoot: bundled, storageRoot: storage)
+        let secondRepository = ContentRepository(bundledRoot: bundled, storageRoot: sameStorage)
+        var first: ContentSnapshot? = try firstRepository.install(from: source)
+        let root = first!.root
+        let generation = try XCTUnwrap(UUID(uuidString: root.lastPathComponent))
+        var second: ContentSnapshot? = try secondRepository.load()
+        XCTAssertEqual(second?.root.standardizedFileURL, root.standardizedFileURL)
+
+        let testingVersions = testingStorage.appendingPathComponent("versions")
+        try FileManager.default.createDirectory(at: testingVersions, withIntermediateDirectories: true)
+        try FileManager.default.copyItem(at: root, to: testingVersions.appendingPathComponent(generation.uuidString))
+        try JSONSerialization.data(withJSONObject: ["directory": generation.uuidString])
+            .write(to: testingStorage.appendingPathComponent("current.json"))
+        let testingRepository = ContentRepository(bundledRoot: try readerTestPackage("lease-scope-test-bundle"),
+            storageRoot: testingStorage, allowsTestFixtures: true)
+        var testing: ContentSnapshot? = try testingRepository.load()
+        XCTAssertEqual(testing?.root.lastPathComponent, generation.uuidString)
+        let normalBefore = try retentionInventory(storage)
+        let testingBefore = try retentionInventory(testingStorage)
+        withExtendedLifetime((first, second, testing)) {
+            XCTAssertEqual(firstRepository.advisorySnapshotAcquisitions, [generation: 2])
+            XCTAssertEqual(secondRepository.advisorySnapshotAcquisitions, [generation: 2])
+            XCTAssertEqual(testingRepository.advisorySnapshotAcquisitions, [generation: 1])
+        }
+        first = nil
+        second = nil
+        withExtendedLifetime(testing) {
+            XCTAssertTrue(firstRepository.advisorySnapshotAcquisitions.isEmpty)
+            XCTAssertEqual(testingRepository.advisorySnapshotAcquisitions, [generation: 1])
+        }
+        testing = nil
+        XCTAssertTrue(testingRepository.advisorySnapshotAcquisitions.isEmpty)
+        XCTAssertEqual(try retentionInventory(storage), normalBefore)
+        XCTAssertEqual(try retentionInventory(testingStorage), testingBefore)
+    }
+
+    func testDetachedSnapshotReadRetainsGenerationAcrossReplacementAndParentCancellation() async throws {
+        let bundled = try fixture("lease-detached-bundle")
+        let oldSource = try retentionPackage("lease-detached-old", revision: "old")
+        let newSource = try retentionPackage("lease-detached-new", revision: "new")
+        let storage = directory.appendingPathComponent("lease-detached-storage")
+        let repository = ContentRepository(bundledRoot: bundled, storageRoot: storage)
+        var old: ContentSnapshot? = try repository.install(from: oldSource)
+        let oldID = try XCTUnwrap(UUID(uuidString: old!.root.lastPathComponent))
+        let entered = expectation(description: "Detached read holds its captured snapshot")
+        let witness = SnapshotLeaseReadWitness(entered)
+        let request = SnapshotLeaseReadRequest(old!)
+        old = nil
+        let (permit, release) = AsyncStream<Void>.makeStream()
+        let (readers, publishReader) = AsyncStream<Task<(NativeDocument, Data), Error>>.makeStream()
+        let (parentWait, finishParentWait) = AsyncStream<Void>.makeStream()
+        defer { release.finish(); publishReader.finish(); finishParentWait.finish() }
+        let parent = Task {
+            let reader = try request.start(permit: permit, witness: witness)
+            publishReader.yield(reader)
+            publishReader.finish()
+            for await _ in parentWait { break }
+            try Task.checkCancellation()
+            return try await reader.value
+        }
+        var iterator = readers.makeAsyncIterator()
+        let offeredReader = await iterator.next()
+        let reader = try XCTUnwrap(offeredReader)
+        do {
+            await fulfillment(of: [entered], timeout: 10)
+            XCTAssertEqual(repository.advisorySnapshotAcquisitions, [oldID: 1])
+            let replacement = try repository.install(from: newSource)
+            let newID = try XCTUnwrap(UUID(uuidString: replacement.root.lastPathComponent))
+            parent.cancel()
+            do {
+                _ = try await parent.value
+                XCTFail("The spawning parent must finish cancellation before the detached reader is released")
+            } catch is CancellationError { }
+            XCTAssertTrue(parent.isCancelled)
+            XCTAssertFalse(reader.isCancelled)
+            withExtendedLifetime(replacement) {
+                XCTAssertEqual(repository.advisorySnapshotAcquisitions, [oldID: 1, newID: 1])
+            }
+            release.yield(())
+            release.finish()
+            let result = try await reader.value
+            XCTAssertEqual(result.0.blocks.first(where: { $0.id == "paragraph" })?.inlines?.first?.text, "本文 old")
+            XCTAssertEqual(result.1, pixel)
+            XCTAssertEqual(try replacement.document(for: article()).blocks.first(where: { $0.id == "paragraph" })?.inlines?.first?.text,
+                           "本文 new")
+            // Final release is covered by the explicit-copy tests; async task
+            // context reclamation need not happen at the same instant as value delivery.
+        } catch {
+            parent.cancel()
+            finishParentWait.finish()
+            release.finish()
+            _ = try? await reader.value
+            _ = try? await parent.value
+            throw error
+        }
+    }
+
+    @MainActor
+    func testFailedImportsDoNotLeakSnapshotAcquisitionsOrChangeStoredAndReadingBytes() throws {
+        let bundled = try fixture("lease-failed-bundle")
+        let oldSource = try retentionPackage("lease-failed-old", revision: "old")
+        let currentSource = try retentionPackage("lease-failed-current", revision: "current")
+        let incoming = try retentionPackage("lease-failed-incoming", revision: "incoming")
+        let invalid = try retentionPackage("lease-failed-invalid", revision: "invalid")
+        try Data("changed".utf8).write(to: invalid.appendingPathComponent("articles/example.json"))
+        let storage = directory.appendingPathComponent("lease-failed-storage")
+        let repository = ContentRepository(bundledRoot: bundled, storageRoot: storage)
+        let old = try repository.install(from: oldSource)
+        let current = try repository.install(from: currentSource)
+        let oldID = try XCTUnwrap(UUID(uuidString: old.root.lastPathComponent))
+        let currentID = try XCTUnwrap(UUID(uuidString: current.root.lastPathComponent))
+        let orphan = storage.appendingPathComponent("versions/.staging-" + UUID().uuidString)
+        try FileManager.default.createDirectory(at: orphan, withIntermediateDirectories: true)
+        try Data("previous incomplete import".utf8).write(to: orphan.appendingPathComponent("partial.txt"))
+        let defaults = try retentionDefaults()
+        let reading = ReadingStore(defaults: defaults)
+        reading.toggleBookmark("example")
+        reading.record(articleID: "example", heading: "intro", fraction: 0.67, blockID: "paragraph")
+        let savedReading = try XCTUnwrap(defaults.data(forKey: "library.reading.v1"))
+        let before = try retentionInventory(storage)
+        let expected = [oldID: 1, currentID: 1]
+        XCTAssertThrowsError(try repository.install(from: invalid))
+        var failedID: UUID?
+        let failing = ContentRepository(bundledRoot: bundled, storageRoot: storage, writePointer: { data, _ in
+            let pointer = try JSONDecoder().decode([String: String].self, from: data)
+            failedID = UUID(uuidString: try XCTUnwrap(pointer["directory"]))
+            XCTAssertEqual(ContentSnapshotLease.advisoryAcquisitions(in: storage), expected,
+                           "An uncommitted destination must not escape as a snapshot acquisition")
+            throw CocoaError(.fileWriteOutOfSpace)
+        })
+        XCTAssertThrowsError(try failing.install(from: incoming))
+        let rejected = try XCTUnwrap(failedID)
+        withExtendedLifetime((old, current)) {
+            XCTAssertEqual(repository.advisorySnapshotAcquisitions, expected)
+            XCTAssertNil(repository.advisorySnapshotAcquisitions[rejected])
+        }
+        XCTAssertEqual(try retentionInventory(storage), before)
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), savedReading)
+        XCTAssertEqual(try Data(contentsOf: old.root.appendingPathComponent("assets/late-old.png")), pixel)
+        XCTAssertEqual(try Data(contentsOf: current.root.appendingPathComponent("assets/late-current.png")), pixel)
+    }
+
+    func testBundledUnmanagedAndRejectedFixtureSnapshotsDoNotAcquireOwnedGenerations() throws {
+        let bundled = try fixture("lease-unmanaged-bundle")
+        let storage = directory.appendingPathComponent("lease-unmanaged-storage")
+        let repository = ContentRepository(bundledRoot: bundled, storageRoot: storage)
+        let fallback = try repository.load()
+        let unmanaged = try ContentValidator.validate(root: bundled)
+        let explicit = ContentSnapshot(root: unmanaged.root, manifest: unmanaged.manifest)
+        withExtendedLifetime((fallback, unmanaged, explicit)) {
+            XCTAssertTrue(repository.advisorySnapshotAcquisitions.isEmpty)
+        }
+        XCTAssertEqual(fallback.root, bundled)
+        XCTAssertThrowsError(try repository.install(from: readerTestPackage("lease-unmanaged-rejected")))
+        XCTAssertTrue(repository.advisorySnapshotAcquisitions.isEmpty)
+        let unknown = try XCTUnwrap(URL(string: "https://example.invalid/storage"))
+        XCTAssertNil(ContentSnapshotLease.acquire(storageRoot: unknown, generation: UUID()))
+        XCTAssertTrue(ContentSnapshotLease.advisoryAcquisitions(in: unknown).isEmpty)
+    }
+
+    func testSnapshotLeaseOutlivesRepositoryAndLedgerDropsReleasedGenerationKeys() throws {
+        let bundled = try fixture("lease-owner-bundle")
+        let source = try fixture("lease-owner-source")
+        let storage = directory.appendingPathComponent("lease-owner-storage")
+        var repository: ContentRepository? = ContentRepository(bundledRoot: bundled, storageRoot: storage)
+        var first: ContentSnapshot? = try repository!.install(from: source)
+        let generation = try XCTUnwrap(UUID(uuidString: first!.root.lastPathComponent))
+        let before = try retentionInventory(storage)
+        repository = nil
+        let reopened = ContentRepository(bundledRoot: bundled, storageRoot: storage)
+        withExtendedLifetime(first) {
+            XCTAssertEqual(reopened.advisorySnapshotAcquisitions, [generation: 1])
+        }
+        var second: ContentSnapshot? = try reopened.load()
+        XCTAssertEqual(second?.manifest.revision, "v1")
+        withExtendedLifetime((first, second)) {
+            XCTAssertEqual(reopened.advisorySnapshotAcquisitions, [generation: 2])
+        }
+        first = nil
+        withExtendedLifetime(second) {
+            XCTAssertEqual(reopened.advisorySnapshotAcquisitions, [generation: 1])
+        }
+        second = nil
+        XCTAssertTrue(reopened.advisorySnapshotAcquisitions.isEmpty, "No inactive generation URL keys remain in this scope")
+        XCTAssertEqual(try retentionInventory(storage), before)
+    }
+    func testLastSnapshotAcquisitionCanReleaseOnBackgroundQueue() async throws {
+        let bundled = try fixture("lease-thread-bundle")
+        let source = try fixture("lease-thread-source")
+        let storage = directory.appendingPathComponent("lease-thread-storage")
+        let repository = ContentRepository(bundledRoot: bundled, storageRoot: storage)
+        var snapshot: ContentSnapshot? = try repository.install(from: source)
+        let generation = try XCTUnwrap(UUID(uuidString: snapshot!.root.lastPathComponent))
+        let holder = SnapshotLeaseReadRequest(snapshot!)
+        snapshot = nil
+        XCTAssertEqual(repository.advisorySnapshotAcquisitions, [generation: 1])
+        let before = try retentionInventory(storage)
+        let released = expectation(description: "Last snapshot released outside the test executor")
+        let witness = SnapshotLeaseReadWitness(released)
+        DispatchQueue.global(qos: .userInitiated).async {
+            holder.discard()
+            witness.markEntered()
+        }
+        await fulfillment(of: [released], timeout: 10)
+        XCTAssertTrue(repository.advisorySnapshotAcquisitions.isEmpty)
+        XCTAssertEqual(try retentionInventory(storage), before)
+    }
+
+}
+
+/// XCTest expectations permit cross-thread fulfillment. No mutable test state
+/// or XCTestCase instance is sent to the detached reader.
+private final class SnapshotLeaseReadWitness: @unchecked Sendable {
+    private let entered: XCTestExpectation
+    init(_ entered: XCTestExpectation) { self.entered = entered }
+    func markEntered() { entered.fulfill() }
+}
+
+/// The spawning parent transfers its only snapshot into the detached reader.
+/// The request keeps no snapshot after transfer, including after parent exit.
+private final class SnapshotLeaseReadRequest: @unchecked Sendable {
+    private let lock = NSLock()
+    private var snapshot: ContentSnapshot?
+    init(_ snapshot: ContentSnapshot) { self.snapshot = snapshot }
+
+    private func take() throws -> ContentSnapshot {
+        lock.lock()
+        defer { lock.unlock() }
+        guard let value = snapshot else { throw ContentError.invalid("テストのSnapshotは移送済みです。") }
+        snapshot = nil
+        return value
+    }
+
+    func discard() {
+        let value = try? take()
+        withExtendedLifetime(value) { }
+    }
+
+    func start(permit: AsyncStream<Void>, witness: SnapshotLeaseReadWitness) throws -> Task<(NativeDocument, Data), Error> {
+        let snapshot = try take()
+        return Task.detached { [snapshot] in
+            witness.markEntered()
+            for await _ in permit { break }
+            return try withExtendedLifetime(snapshot) {
+                (try snapshot.document(for: snapshot.manifest.articles[0]),
+                 try Data(contentsOf: snapshot.root.appendingPathComponent("assets/late-old.png")))
+            }
+        }
+    }
+}

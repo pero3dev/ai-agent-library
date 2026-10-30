@@ -1,5 +1,7 @@
 # project — 計画と実施記録
 
+[保存記事版の参照保持](records/2026-10-30/ios-snapshot-lease-accounting.md)では、保存先・UUIDごとの取得と解放を共有tokenで数える基盤を準備する。現行AppのSDK型検査とmacOSの新9件成功を確認し、iOS予定258件・共通検査・CI・通常main採用は後続で確認する。App0.2.25（27）で削除・容量改善を追加せず、IOS-21未完了・TODO14/32を維持する。
+
 [保存済みCoreホスト観測の検証器](records/2026-10-30/ios-core-observation-verification.md)は、19回のraw・identity・warmupと15標本の統計をオフラインで再検証する。合成fixture15件と疎な構成の試験を確認した。実保存結果に対するproduction CLIの成功、新観測・性能予算・実機とIOS-15全体は未完了で、TODO14/32を維持する。
 
 [本文検索の読書開始余白](records/2026-10-30/ios-native-search-reading-start-clearance.md)は、PR309初回Fullの約0.070175ptの上端欠けを対象に、productionのnil/zero着地点だけ1ptの余白を置く候補である。0.5pt収束・厳密UI・上限・正のfractionのinverseを保つ。4回帰を追加し、App0.2.24（26）へ版上げした。SDK型検査のみ成功で、実XCTest・Full23・copy374B・Release・通常CI/mainと実機等は未確認、TODO14/32を維持する。 初回修正版の単体249件ではfixtureの境界確認1件が失敗したため、Appと判定を保って内部点と実readbackの確認へ修正し、新headの受入を待つ。

@@ -264,6 +264,7 @@ jobs:
           // Fixed IDs are derived from the three selected Swift classes; source validation checks this exact set.
           const expectedCaseIDs = [
             "NativeReaderUITests/testContentsBookmarkAndResumeAfterRelaunch()",
+            "NativeReaderUITests/testHealthyLegacyHeadingPositionAndBookmarkPersistAfterNativeResumeAndRelaunch()",
             "NativeReaderUITests/testThreeArticlesHaveNativeBodyText()",
             "PublishedReaderUITests/testBodySearchArrivesAtNestedParagraphContainingAllTermsWithoutReaderGestures()",
             "PublishedReaderUITests/testBundledContentSelectionCancelConfirmAndRestartKeepReadingAndGuide()",
@@ -289,7 +290,7 @@ jobs:
             "ReaderViewportGeometryTests/testNonfiniteEmptyAndOccludedFramesCannotWin()",
             "ReaderViewportGeometryTests/testUnknownOrAmbiguousForegroundDoesNotBecomeVisible()"
           ];
-          assert.equal(expectedCaseIDs.length, 25); assert.equal(new Set(expectedCaseIDs).size, 25);
+          assert.equal(expectedCaseIDs.length, 26); assert.equal(new Set(expectedCaseIDs).size, 26);
           const expectedSuites = [...new Set(expectedCaseIDs.map(id => id.split('/')[0]))].sort();
           const container = (node, type, name) => {
             assert.ok(node && typeof node === 'object' && !Array.isArray(node));
@@ -319,7 +320,7 @@ jobs:
               cases.push(node);
             }
           }
-          assert.equal(cases.length, 25, 'All selected native UI cases must run without skips or repeats');
+          assert.equal(cases.length, 26, 'All selected native UI cases must run without skips or repeats');
           const actualCaseIDs = cases.map(node => node.nodeIdentifier);
           assert.equal(new Set(actualCaseIDs).size, actualCaseIDs.length, 'No selected case may repeat');
           assert.deepEqual(actualCaseIDs.sort(), expectedCaseIDs, 'The complete source-derived selected case set must pass');

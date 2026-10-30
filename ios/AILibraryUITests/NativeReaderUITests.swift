@@ -765,7 +765,15 @@ class NativeReaderUITestCase: XCTestCase {
         let readerClosed = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
             !self.app.scrollViews["native-reader"].exists
         }, object: nil)
-        XCTAssertEqual(XCTWaiter.wait(for: [readerClosed], timeout: 10), .completed)
+        let result = XCTWaiter.wait(for: [readerClosed], timeout: 10)
+        if result != .completed {
+            capture("Return-to-library-reader-not-dismissed")
+            let hierarchy = XCTAttachment(string: app.debugDescription)
+            hierarchy.name = "Return-to-library-reader-not-dismissed-hierarchy"
+            hierarchy.lifetime = .keepAlways
+            add(hierarchy)
+        }
+        XCTAssertEqual(result, .completed)
         XCTAssertTrue(app.searchFields.firstMatch.waitForExistence(timeout: 10))
         let count = app.staticTexts["library-article-count"]
         // A long filtered list may restore below its unmaterialized section header.

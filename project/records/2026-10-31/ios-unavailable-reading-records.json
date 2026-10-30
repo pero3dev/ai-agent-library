@@ -2,7 +2,7 @@
   "schema_version": 1,
   "date": "2026-10-31",
   "title": "現在の記事版にない読書記録の件数と保管案内",
-  "state": "PR315 initial Source9 failure/cancellation and diagnostic-only cap failure retained; Source12 CI followup prepared, new-head/main acceptance pending",
+  "state": "Source12 first Full A/B failures retained; Native-only readiness reuse and return failure diagnostics submitted-candidate preparation; new common/final12/CI/main pending",
   "scope": "IOS22 read-only unavailable-article record count and retention/export-location guidance only; no automatic cross-ID rename/delete/migration",
   "publication_parent": "568dd2948a58c174cef739a667c3f9bd19ea8fa3",
   "publication_parent_tree": "761637b27ed9a51234990e5cf24501212098079b",
@@ -593,5 +593,76 @@
       }
     },
     "final12_review": null
+  },
+  "Source12_initial_CI": {
+    "head": "7860f53f136c7cf9b0cd7fc3a784a5e88005e7ed",
+    "tree": "31e9c535990104ad63dcb8471e2a8a0dc59821be",
+    "required11_postbody_policy2": "success",
+    "Native": {
+      "unit_total": 270,
+      "pass": 268,
+      "skip": 2,
+      "fail": 0,
+      "UI7": "pass"
+    },
+    "Runtime26": {
+      "UI_unique": 3,
+      "pass": 3,
+      "job": "success",
+      "old_first_wait_cause_fixed": false
+    },
+    "Full": {
+      "reading_state": {
+        "pass": 17,
+        "fail": 1,
+        "stage": "returnToLibrary !reader.exists10s after TOC/capture; no relaunch/resume"
+      },
+      "content_copy": {
+        "pass": 7,
+        "fail": 1,
+        "stage": "third CASE-LINK-01 preparation require15 before far link tap"
+      },
+      "copy374_probe": "not executed",
+      "Release": "not executed",
+      "accepted": false
+    },
+    "report_SHA256": "fc6ea70628bbb8c4aceb3862b154fbc0e2f0dc2875c4e24fe545a5665fdf7016",
+    "source_changed_retry": false
+  },
+  "Native_readiness_followup": {
+    "Source_SHA256": "00e75a518b7af8a69679adb9771c2e6d584c466c91e39c7e68b2ea75956c707c",
+    "bytes": 50205,
+    "static_Source_IR": "a61b73bceda34d87503e8c980d32c50ab81643e6ec6fcfb1dbfe515f25e8959e",
+    "P1": 0,
+    "P2": 0,
+    "positive_readiness": "local false, set only by same existing predicate true, reused once before same target tap",
+    "false18_fallback_require_seconds": 15,
+    "gesture_cap": 18,
+    "second_observation_opportunity_removed": true,
+    "temporal_semantics_unchanged": false,
+    "cause_fixed": false,
+    "precheck_trace": "one bounded1024B includingprefix using existingvalues and2clock reads; heading96Bprefix; noAX",
+    "return_failure_only": "same globalback/negativeexists10/search10/reveal8; screenshot and hierarchy only after waitfailure, original assert retained",
+    "all_case_names_and_arrival_asserts_held": true,
+    "source_roster": "26unique(3+17+6), other3files checked",
+    "SDK": {
+      "SDK": "iPhoneSimulator18.2",
+      "target": "arm64iOS17 simulator Swift5DEBUG",
+      "source_files": 2,
+      "exit": 0,
+      "compiler_seconds": 9.514538,
+      "phase_seconds": 10.31649,
+      "fixed_inputs": 10,
+      "raw_empty_streams": 2,
+      "all_inputs_held": true,
+      "known_group_reaped_remaining_false": 1,
+      "actual_Runtime_or_App_or_main": false,
+      "saved_execution_IR": "65db5581b2cb1ed48156365c5fd04f8717e05681985a45d4289f42b89ac39566",
+      "summary_SHA256": "2b630414af3288d6d0393f533702835fe23a41675f68fd8e247f4aa40840995b"
+    },
+    "new_common": null,
+    "final12_IR": null,
+    "new_head_CI": null,
+    "main": null
   }
 }

@@ -1,5 +1,7 @@
 # iOS完成版に向けたTODO
 
+IOS-04の[同梱ライセンス検査](../../records/2026-10-30/ios-native-upstream-license-audit.md)では、KaTeXとMermaidを固定toolingの実ライセンスに独立照合し、manifestを再計算した改変も拒否する。関連56試験と全199記事の静的監査を確認した。共通検査・通常CI・main統合、音声の制作証拠と配布条件、実機受入は別に残し、IOS-04未完了・TODO14/32を維持する。
+
 2026-10-30の[自用初版の記事更新方式](../../records/2026-10-30/ios-personal-bundled-update-policy.md)では、Rootが既採択baselineの同梱更新を主経路、信頼する手動importを補助として明示採択し、IOS-05の方式決定だけを完了とする。現行集計は14/32で、他31行と後続の旧12/32・13/32の履歴を保持する。IOS-20〜22、発行者真正性、自動整理と実機・署名更新の受入は未完了のままとする。
 
 2026-10-30追記。[読書UI待機の診断候補](../../records/2026-10-30/ios-reader-wait-diagnostics.md)は、PR #306の初回head c6c793fでNative6／Full23成功とRecoveryの9open・90記録を観測したが、必須buildは既存Web検査で失敗した。凍結Source3を完全保持し、PR #307を通常採用したmain7708371を同じbranchへ通常mergeした後、記録・索引4本を同期する。初回結果は旧headだけの履歴で、最終同期headのNative6／Full23・実診断・必要CIは未確認。App25／PBX／記事とTODO32行・13完了、原因・性能・実機等の未受入を保つ。

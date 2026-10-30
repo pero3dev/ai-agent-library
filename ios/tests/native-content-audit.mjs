@@ -133,7 +133,8 @@ export async function auditNativeContent({ root = repositoryRoot, profile = 'rep
   root = await realpath(root);
   const content = await resolveNativeAuditContent(root, { profile, content: requestedContent });
   const fixtures = profile === 'fixtures', published = ['all-published', 'published-library'].includes(profile);
-  const require = createRequire(new URL('../tools/package.json', import.meta.url));
+  const toolsRoot = process.env.IOS_TOOLS_DIR ? path.resolve(root, process.env.IOS_TOOLS_DIR) : path.join(root, 'ios/tools');
+  const require = createRequire(path.join(toolsRoot, 'package.json'));
   const katex = require('katex');
   const digest = data => createHash('sha256').update(data).digest('hex');
   const readJSON = async file => JSON.parse(await readFile(file, 'utf8'));
@@ -351,6 +352,17 @@ export async function auditNativeContent({ root = repositoryRoot, profile = 'rep
     if (file.endsWith('.png')) pngs.set(file, pngPixels(data));
   }
   assert.deepEqual(await readFile(path.join(content, 'assets/licenses/NOTICE.txt')), await readSource(root, 'LICENSE'), 'Documentation and code attribution matches the current source');
+  // Resolve source licenses from the same operator-selected tooling as the
+  // generator. A candidate package and its self-declared hashes are not sources.
+  for (const [file, resolveLicense] of [
+    ['assets/katex/LICENSE.txt', () => require.resolve('katex/LICENSE')],
+    ['assets/licenses/Mermaid-LICENSE.txt', () => path.join(path.dirname(require.resolve('mermaid/dist/mermaid.esm.min.mjs')), '../LICENSE')]
+  ]) {
+    let source;
+    try { source = await readFile(resolveLicense()); }
+    catch (error) { throw new Error(`Cannot read installed source license for ${file}: ${error.message}`, { cause: error }); }
+    assert.deepEqual(await readFile(path.join(content, file)), source, `Bundled license matches installed source: ${file}`);
+  }
   for (const article of manifest.articles) assert.ok(Object.hasOwn(manifest.files, article.document_path), 'Article document is in the hashed inventory');
   const documents = new Map(await Promise.all(manifest.articles.map(async article => [article.id, await readJSON(path.join(content, article.document_path))])));
 

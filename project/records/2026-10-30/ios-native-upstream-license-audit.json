@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-30",
+  "base_main": "cb66343ddc18f28f780b8f240c07910839e7cc6a",
+  "scope": "IOS-04 independent source-license byte audit",
+  "authorization": "User requested autonomous remaining TODO work and ordinary commits/PR/main; physical checks may remain incomplete",
+  "source_paths": [
+    "ios/tests/native-content-audit.mjs",
+    "tests/unit/ios-native-audit.test.mjs"
+  ],
+  "verification": {
+    "node_related_tests": {
+      "total": 56,
+      "pass": 56,
+      "fail": 0,
+      "skip": 0
+    },
+    "independent_static_code_review": {
+      "p1": 0,
+      "p2": 0
+    },
+    "actual_published_content_audit": {
+      "surface": "static/content-integrity",
+      "profile": "published-library",
+      "result": "passed",
+      "revision": "5be64a00f783a1df3a2159dcb64b84551e36853c7fe7d0b0d300c80ccd7fd852",
+      "articles": 199,
+      "assets": [
+        {
+          "asset": "assets/katex/LICENSE.txt",
+          "source": "ios/tools/node_modules/katex/LICENSE",
+          "bytes": 1107,
+          "sha256": "766ccc1f306c885aa45542a9846bbd0a505b27a0374f146778171c2254ce18e3"
+        },
+        {
+          "asset": "assets/licenses/Mermaid-LICENSE.txt",
+          "source": "ios/tools/node_modules/mermaid/LICENSE",
+          "bytes": 1089,
+          "sha256": "ec9fb67dcb25eccc416ed56e1aab819222c805a2a4bfe4cb19e7556bf2ffde80"
+        }
+      ]
+    },
+    "npm_ci": {
+      "root_exit": 0,
+      "ios_tools_exit": 0,
+      "ignore_scripts": true,
+      "lockfiles_unchanged": true
+    },
+    "common_check": "pending",
+    "hosted_ci": "pending",
+    "ordinary_main_merge": "pending"
+  },
+  "limits": [
+    "Not rights clearance, source authentication or new audio acceptance",
+    "Missing canonical audio script/production records remain unresolved",
+    "Unreadable-source test uses a directory, not OS permission denial",
+    "No new UI/device/VoiceOver acceptance"
+  ],
+  "todo": {
+    "total": 32,
+    "complete": 14,
+    "IOS-04": "incomplete"
+  },
+  "completion": "Source mismatch rejected even after self-rehash; valid bundle passes; normal checks and protected merge required"
+}

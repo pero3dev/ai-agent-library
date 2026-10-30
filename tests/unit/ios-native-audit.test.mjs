@@ -14,15 +14,31 @@ const articlePaths = ['docs/01-concepts/one.md', 'docs/01-concepts/two.md', 'doc
 const articleSource = (title, status = 'published') => `---\ntitle: "${title}"\ncategory: "concepts"\nlevel: "basic"\nstatus: "${status}"\nlast_updated: "2026-10-25"\n---\n\n# ${title}\n\n## この記事の目的\n\n原文の文章です。\n`;
 const idFor = file => file.replace(/^docs\//, '').replace(/\.md$/, '');
 const records = files => files.map(file => ({ source_path: file, id: idFor(file) }));
+const fixtureLicenses = new Map([
+  ['assets/katex/LICENSE.txt', 'KaTeX fixture notice'],
+  ['assets/licenses/Mermaid-LICENSE.txt', 'Mermaid fixture notice']
+]);
+const sourceLicensePaths = new Map([
+  ['assets/katex/LICENSE.txt', 'node_modules/katex/LICENSE'],
+  ['assets/licenses/Mermaid-LICENSE.txt', 'node_modules/mermaid/LICENSE']
+]);
 const mockDependencies = { async renderAssets(requests) {
   assert.equal(requests.size, 0, 'Text-only fixture must not use a browser');
-  return { files: new Map([['assets/katex/LICENSE.txt', Buffer.from('KaTeX fixture notice')], ['assets/licenses/Mermaid-LICENSE.txt', Buffer.from('Mermaid fixture notice')]]), metadata: new Map() };
+  return { files: new Map([...fixtureLicenses].map(([file, text]) => [file, Buffer.from(text)])), metadata: new Map() };
 } };
 
-async function fixture(t) {
+async function fixture(t, { toolsDirectory } = {}) {
   const temporary = await realpath(await mkdtemp(path.join(os.tmpdir(), 'ailibrary-ios-audit-test-')));
   t.after(() => rm(temporary, { recursive: true, force: true }));
   const root = path.join(temporary, 'source');
+  const previousToolsDirectory = process.env.IOS_TOOLS_DIR;
+  if (toolsDirectory === undefined) delete process.env.IOS_TOOLS_DIR;
+  else process.env.IOS_TOOLS_DIR = toolsDirectory;
+  t.after(() => {
+    if (previousToolsDirectory === undefined) delete process.env.IOS_TOOLS_DIR;
+    else process.env.IOS_TOOLS_DIR = previousToolsDirectory;
+  });
+  const toolsRoot = path.join(root, toolsDirectory ?? 'ios/tools');
   const sources = new Map(articlePaths.map((file, index) => [file, articleSource(`記事${index + 1}`)]));
   const selection = { schema_version: 1, articles: articlePaths, audio_article: articlePaths[0], diagram_descriptions: {} };
   const episode = { id: 'test-episode', title: '音声', article_path: articlePaths[0], part: 1, parts: 1, script_sha256: 'b'.repeat(64), source_digest: sha256(sources.get(articlePaths[0])), audio_sha256: 'a'.repeat(64), audio_url: 'https://github.com/pero3dev/ai-agent-library/releases/download/test/audio.mp3', duration_seconds: 60, attribution: 'VOICEVOX Nemo', voices: [{ license_url: 'https://voicevox.hiroshiba.jp/nemo/term/' }], chapters: [{ id: 'intro', title: '導入', start_seconds: 0 }] };
@@ -37,7 +53,23 @@ async function fixture(t) {
   ]);
   const put = async (file, content) => { await mkdir(path.dirname(path.join(root, file)), { recursive: true }); await writeFile(path.join(root, file), content); };
   for (const [file, content] of files) await put(file, content);
-  return { temporary, root, selection, trustedAudioDeclarations, put, output: path.join(temporary, 'export', 'Content') };
+  // Only module resolution is exercised here; these stubs contain no renderer
+  // code, and their independent source notices stay outside the candidate.
+  const toolingFiles = new Map([
+    ['package.json', '{}'],
+    ['node_modules/katex/package.json', JSON.stringify({ name: 'katex', main: 'index.cjs' })],
+    ['node_modules/katex/index.cjs', 'module.exports = { renderToString() { throw new Error("Text-only fixture must not render math"); } };'],
+    ['node_modules/mermaid/package.json', JSON.stringify({ name: 'mermaid', type: 'module' })],
+    ['node_modules/mermaid/dist/mermaid.esm.min.mjs', 'export default {};'],
+    ...[...sourceLicensePaths].map(([file, source]) => [source, fixtureLicenses.get(file)])
+  ]);
+  for (const [file, content] of toolingFiles) await put(path.relative(root, path.join(toolsRoot, file)), content);
+  return { temporary, root, toolsRoot, selection, trustedAudioDeclarations, put, output: path.join(temporary, 'export', 'Content') };
+}
+
+async function saveManifest(output, value) {
+  value.revision = sha256(JSON.stringify({ schema_version: 2, articles: value.articles, audio: value.audio, files: value.files }));
+  await writeFile(path.join(output, 'manifest.json'), JSON.stringify(value));
 }
 
 test('audit CLI distinguishes representative, fixture, production and explicit temporary profiles', () => {
@@ -117,35 +149,76 @@ test('full audit accepts an actual text-only package and rejects exact-set, sour
   assert.equal(passed.result, 'passed');
   assert.equal(passed.articles.length, 4);
   assert.equal(passed.source_bound_diagram_descriptions, 0);
-  const saveManifest = async value => {
-    value.revision = sha256(JSON.stringify({ schema_version: 2, articles: value.articles, audio: value.audio, files: value.files }));
-    await writeFile(path.join(output, 'manifest.json'), JSON.stringify(value));
-  };
-  const missing = structuredClone(manifest); missing.articles.pop(); await saveManifest(missing);
+  const missing = structuredClone(manifest); missing.articles.pop(); await saveManifest(output, missing);
   await assert.rejects(auditNativeContent(options), /Exact ordered source article set/);
-  const stale = structuredClone(manifest); stale.articles[0].source_sha256 = 'f'.repeat(64); await saveManifest(stale);
+  const stale = structuredClone(manifest); stale.articles[0].source_sha256 = 'f'.repeat(64); await saveManifest(output, stale);
   await assert.rejects(auditNativeContent(options), /Current source binding/);
-  const escaped = structuredClone(manifest); escaped.articles[0].document_path = '../private.json'; await saveManifest(escaped);
+  const escaped = structuredClone(manifest); escaped.articles[0].document_path = '../private.json'; await saveManifest(output, escaped);
   await assert.rejects(auditNativeContent(options), /document path is source-bound/);
   await rm(path.join(output, 'manifest.json'));
   await symlink(path.join(root, 'ios/content-selection.json'), path.join(output, 'manifest.json'));
   await assert.rejects(auditNativeContent(options), /Manifest must be a regular file/);
   await rm(path.join(output, 'manifest.json'));
-  await saveManifest(structuredClone(manifest));
+  await saveManifest(output, structuredClone(manifest));
   const noticePath = path.join(output, 'assets/licenses/NOTICE.txt'), notice = await readFile(noticePath);
   const changedNotice = structuredClone(manifest);
   await writeFile(noticePath, 'Changed attribution');
   changedNotice.files['assets/licenses/NOTICE.txt'] = sha256('Changed attribution');
-  await saveManifest(changedNotice);
+  await saveManifest(output, changedNotice);
   await assert.rejects(auditNativeContent(options), /attribution matches the current source/);
   await writeFile(noticePath, notice);
-  await saveManifest(structuredClone(manifest));
+  await saveManifest(output, structuredClone(manifest));
   const licensePath = path.join(output, 'assets/katex/LICENSE.txt'), license = await readFile(licensePath);
   const missingLicense = structuredClone(manifest);
   delete missingLicense.files['assets/katex/LICENSE.txt'];
-  await rm(licensePath); await saveManifest(missingLicense);
+  await rm(licensePath); await saveManifest(output, missingLicense);
   await assert.rejects(auditNativeContent(options), /Required attribution file/);
-  await writeFile(licensePath, license); await saveManifest(structuredClone(manifest));
+  await writeFile(licensePath, license); await saveManifest(output, structuredClone(manifest));
+  assert.equal((await auditNativeContent(options)).result, 'passed');
+});
+
+test('license audit rejects altered bytes even with recomputed file SHA and manifest revision', async t => {
+  const { root, output, selection, trustedAudioDeclarations } = await fixture(t);
+  const manifest = await buildNativeContent({ root, allPublished: true, output, selection, trustedAudioDeclarations, dependencies: mockDependencies });
+  const options = { root, profile: 'all-published', content: output };
+  assert.equal((await auditNativeContent(options)).result, 'passed');
+  for (const file of fixtureLicenses.keys()) {
+    const licensePath = path.join(output, file), original = await readFile(licensePath);
+    const altered = Buffer.concat([original, Buffer.from('\n')]);
+    const forged = structuredClone(manifest);
+    forged.files[file] = sha256(altered);
+    await writeFile(licensePath, altered);
+    await saveManifest(output, forged);
+    await assert.rejects(auditNativeContent(options), error => {
+      assert.match(error.message, /Bundled license matches installed source/);
+      assert.ok(error.message.includes(file));
+      return true;
+    });
+    await writeFile(licensePath, original);
+    await saveManifest(output, structuredClone(manifest));
+  }
+  assert.equal((await auditNativeContent(options)).result, 'passed');
+});
+
+test('license audit uses the selected tooling directory and fails closed for missing or unreadable source licenses', async t => {
+  const { root, toolsRoot, output, selection, trustedAudioDeclarations } = await fixture(t, { toolsDirectory: 'custom-tools' });
+  await buildNativeContent({ root, allPublished: true, output, selection, trustedAudioDeclarations, dependencies: mockDependencies });
+  const options = { root, profile: 'all-published', content: output };
+  assert.equal((await auditNativeContent(options)).result, 'passed');
+  for (const [file, source] of sourceLicensePaths) {
+    const sourcePath = path.join(toolsRoot, source), original = await readFile(sourcePath);
+    const cannotRead = error => {
+      assert.match(error.message, /Cannot read installed source license/);
+      assert.ok(error.message.includes(file));
+      return true;
+    };
+    await rm(sourcePath);
+    await assert.rejects(auditNativeContent(options), cannotRead);
+    await mkdir(sourcePath);
+    await assert.rejects(auditNativeContent(options), cannotRead);
+    await rm(sourcePath, { recursive: true });
+    await writeFile(sourcePath, original);
+  }
   assert.equal((await auditNativeContent(options)).result, 'passed');
 });
 

@@ -98,6 +98,16 @@ final class LibraryStore: ObservableObject {
     var allowsAudioPlayback: Bool { !isTestLibrary }
     var allowsContentImport: Bool { !isTestLibrary }
     var allowsBundledContentActivation: Bool { !isTestLibrary }
+
+    /// The existing restore presentation owns preview/cancel lifetime. Its caller
+    /// supplies that state instead of creating a second restore transaction flag.
+    func unavailableReadingArticleCount(isRestorePresented: Bool) -> Int? {
+        guard !isTestLibrary, !isLoading, !isRestorePresented, !readingSaveSuspended,
+              readingRecoveryIssue == nil, let snapshot,
+              !snapshot.manifest.containsTestFixtures else { return nil }
+        return reading.unavailableArticleRecordCount(
+            knownArticleIDs: Set(snapshot.manifest.articles.map(\.id)))
+    }
     var listedArticles: [LibraryArticle] {
         (snapshot?.manifest.articles ?? []).filter { $0.isTestFixture == isTestLibrary }
     }

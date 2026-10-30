@@ -4236,3 +4236,217 @@ private final class SnapshotLeaseReadRequest: @unchecked Sendable {
         }
     }
 }
+
+extension LibraryCoreTests {
+    private func unavailableReadingPackage(_ name: String, id: String = "example", title: String = "Current",
+                                           revision: String = "availability-v1") throws -> URL {
+        let original = document()
+        let changed = NativeDocument(schema_version: original.schema_version, article_id: id,
+            source_sha256: original.source_sha256, blocks: original.blocks)
+        let root = try fixture(name, revision: revision, document: changed)
+        let url = root.appendingPathComponent("manifest.json")
+        var manifest = try XCTUnwrap(JSONSerialization.jsonObject(with: Data(contentsOf: url)) as? [String: Any])
+        var articles = try XCTUnwrap(manifest["articles"] as? [[String: Any]])
+        articles[0]["id"] = id
+        articles[0]["title"] = title
+        manifest["articles"] = articles
+        try JSONSerialization.data(withJSONObject: manifest, options: [.sortedKeys]).write(to: url)
+        _ = try ContentValidator.validate(root: root)
+        return root
+    }
+
+    func testUnavailableReadingCountUnionsArticleIDsWithoutWritingRawOrBackups() throws {
+        let d = try restoreDefaults()
+        let raw = try JSONSerialization.data(withJSONObject: [
+            "bookmarks": ["known", "gone", "gone"],
+            "positions": ["known": ["fraction": 0.2], "gone": ["fraction": 0.4], "position-only": ["fraction": 0.8]],
+            "lastArticleID": "last-only"], options: [.sortedKeys])
+        let recovery = Data("existing recovery backup".utf8), retained = Data("existing retained slot".utf8)
+        d.inject(raw, forKey: restoreKey)
+        d.inject(recovery, forKey: restoreKey + ".recovery.v1")
+        d.inject(retained, forKey: restoreSlot)
+        let reading = ReadingStore(defaults: d)
+        XCTAssertNil(reading.recoveryIssue)
+        d.resetLedger()
+        XCTAssertEqual(reading.unavailableArticleRecordCount(knownArticleIDs: ["known"]), 3)
+        XCTAssertEqual(reading.unavailableArticleRecordCount(knownArticleIDs: ["known", "gone"]), 2)
+        XCTAssertEqual(reading.unavailableArticleRecordCount(knownArticleIDs: ["known", "gone", "position-only", "last-only"]), 0)
+        XCTAssertEqual(d.data(forKey: restoreKey), raw)
+        XCTAssertEqual(d.data(forKey: restoreKey + ".recovery.v1"), recovery)
+        XCTAssertEqual(d.data(forKey: restoreSlot), retained)
+        XCTAssertEqual(d.setKeys, []); XCTAssertEqual(d.removeKeys, [])
+        let empty = try restoreDefaults()
+        XCTAssertEqual(ReadingStore(defaults: empty).unavailableArticleRecordCount(knownArticleIDs: []), 0)
+        XCTAssertNil(empty.object(forKey: restoreKey))
+        XCTAssertEqual(empty.setKeys, []); XCTAssertEqual(empty.removeKeys, [])
+    }
+
+    func testUnavailableReadingCountSuppressesDamagedAndSuspendedStateWithoutMutation() throws {
+        let partial = Data("{\"bookmarks\":[\"readable\",17],\"positions\":{}}".utf8)
+        let values: [Any] = [partial, Data("{broken".utf8), Data(repeating: 0x20, count: ReadingStore.maximumRecoveryBytes + 1), "unsupported"]
+        for value in values {
+            let d = try restoreDefaults(), backup = Data("unchanged backup".utf8)
+            d.inject(value, forKey: restoreKey); d.inject(backup, forKey: restoreKey + ".recovery.v1")
+            let reading = ReadingStore(defaults: d)
+            XCTAssertNotNil(reading.recoveryIssue)
+            d.resetLedger()
+            XCTAssertNil(reading.unavailableArticleRecordCount(knownArticleIDs: []))
+            if let data = value as? Data { XCTAssertEqual(d.data(forKey: restoreKey), data) }
+            else { XCTAssertEqual(d.string(forKey: restoreKey), value as? String) }
+            XCTAssertEqual(d.data(forKey: restoreKey + ".recovery.v1"), backup)
+            XCTAssertEqual(d.setKeys, []); XCTAssertEqual(d.removeKeys, [])
+        }
+        let d = try restoreDefaults(), before = try restoreRaw("old"), foreign = try restoreRaw("foreign")
+        d.inject(before, forKey: restoreKey)
+        let reading = ReadingStore(defaults: d)
+        d.inject(foreign, forKey: restoreKey)
+        XCTAssertThrowsError(try reading.exportBackup(createdAt: restoreDate, appVersion: "0.2.20"))
+        XCTAssertTrue(reading.readingSaveSuspended)
+        d.resetLedger()
+        XCTAssertNil(reading.unavailableArticleRecordCount(knownArticleIDs: []))
+        XCTAssertEqual(d.data(forKey: restoreKey), foreign)
+        XCTAssertEqual(d.setKeys, []); XCTAssertEqual(d.removeKeys, [])
+    }
+
+    @MainActor
+    func testUnavailableReadingStoreUsesWholeSnapshotRatherThanVisibleFilters() async throws {
+        let bundled = try unavailableReadingPackage("availability-filter-bundle")
+        let d = try restoreDefaults(), raw = try JSONSerialization.data(withJSONObject: [
+            "bookmarks": ["example", "absent"], "positions": ["example": ["fraction": 0.3]],
+            "lastArticleID": "absent"], options: [.sortedKeys])
+        d.inject(raw, forKey: restoreKey)
+        let reading = ReadingStore(defaults: d)
+        let storage = directory.appendingPathComponent("availability-filter-storage")
+        let store = LibraryStore(reading: reading, bundledRoot: bundled, storageRoot: storage)
+        XCTAssertNil(store.unavailableReadingArticleCount(isRestorePresented: false))
+        await store.load()
+        XCTAssertNotNil(store.snapshot)
+        let filtered = LibraryArticleFilter(query: "term-that-no-current-article-has", bookmarksOnly: true)
+        XCTAssertTrue(filtered.articles(in: store.listedArticles, bookmarks: store.bookmarks).isEmpty)
+        d.resetLedger()
+        XCTAssertEqual(store.unavailableReadingArticleCount(isRestorePresented: false), 1)
+        XCTAssertEqual(store.unavailableReadingArticleCount(isRestorePresented: false), 1)
+        XCTAssertEqual(d.data(forKey: restoreKey), raw)
+        XCTAssertFalse(FileManager.default.fileExists(atPath: storage.appendingPathComponent("current.json").path))
+        XCTAssertEqual(d.setKeys, []); XCTAssertEqual(d.removeKeys, [])
+    }
+
+    @MainActor
+    func testUnavailableReadingCountFollowsPackageIDsAndReturnsWithoutRenamingRecords() async throws {
+        let original = try unavailableReadingPackage("availability-old", id: "old/article", title: "Old title")
+        let titleOnly = try unavailableReadingPackage("availability-title", id: "old/article", title: "New title", revision: "availability-v2")
+        let renamed = try unavailableReadingPackage("availability-renamed", id: "new/article", revision: "availability-v3")
+        let d = try restoreDefaults(), raw = try restoreRaw("old/article", fraction: 0.64)
+        let backup = Data("keep recovery".utf8)
+        d.inject(raw, forKey: restoreKey); d.inject(backup, forKey: restoreKey + ".recovery.v1")
+        let reading = ReadingStore(defaults: d)
+        let storage = directory.appendingPathComponent("availability-switch-storage")
+        let store = LibraryStore(reading: reading, bundledRoot: original, storageRoot: storage)
+        await store.load()
+        XCTAssertEqual(store.unavailableReadingArticleCount(isRestorePresented: false), 0)
+        for (source, expected) in [(titleOnly, 0), (renamed, 1), (original, 0)] {
+            await store.install(from: source)
+            XCTAssertNil(store.loadError)
+            let pointer = try Data(contentsOf: storage.appendingPathComponent("current.json"))
+            d.resetLedger()
+            XCTAssertEqual(store.unavailableReadingArticleCount(isRestorePresented: false), expected)
+            XCTAssertEqual(try Data(contentsOf: storage.appendingPathComponent("current.json")), pointer)
+            XCTAssertEqual(d.data(forKey: restoreKey), raw)
+            XCTAssertEqual(d.data(forKey: restoreKey + ".recovery.v1"), backup)
+            XCTAssertEqual(reading.bookmarks, ["old/article"])
+            XCTAssertEqual(reading.lastArticleID, "old/article")
+            XCTAssertEqual(reading.position(for: article(id: "old/article")).fraction, 0.64)
+            XCTAssertEqual(reading.position(for: article(id: "new/article")).fraction, 0)
+            XCTAssertEqual(d.setKeys, []); XCTAssertEqual(d.removeKeys, [])
+        }
+    }
+
+    @MainActor
+    func testUnavailableReadingStoreSuppressesLoadingFixtureAndRestorePresentation() async throws {
+        let bundled = try unavailableReadingPackage("availability-loading")
+        let snapshot = try ContentValidator.validate(root: bundled)
+        let d = try restoreDefaults(), raw = try restoreRaw("absent")
+        d.inject(raw, forKey: restoreKey)
+        let delayed = DelayedLearningLoader(first: .success(snapshot), next: snapshot)
+        let store = LibraryStore(reading: ReadingStore(defaults: d), bundledRoot: bundled,
+            storageRoot: directory.appendingPathComponent("availability-loading-storage"), snapshotLoader: delayed.load)
+        let loading = Task { await store.load() }
+        defer { delayed.release.signal() }
+        await fulfillment(of: [delayed.started], timeout: 5)
+        XCTAssertTrue(store.isLoading)
+        XCTAssertNil(store.unavailableReadingArticleCount(isRestorePresented: false))
+        delayed.release.signal()
+        await loading.value
+        XCTAssertFalse(store.isLoading)
+        XCTAssertEqual(store.unavailableReadingArticleCount(isRestorePresented: false), 1)
+        XCTAssertNil(store.unavailableReadingArticleCount(isRestorePresented: true))
+        let testRoot = try readerTestPackage("availability-fixture")
+        let testSnapshot = try ContentValidator.validate(root: testRoot)
+        let fixtureStore = LibraryStore(reading: ReadingStore(defaults: d), bundledRoot: testRoot,
+            isTestLibrary: true, storageRoot: directory.appendingPathComponent("availability-fixture-storage"),
+            snapshotLoader: { testSnapshot })
+        await fixtureStore.load()
+        XCTAssertNotNil(fixtureStore.snapshot)
+        XCTAssertNil(fixtureStore.unavailableReadingArticleCount(isRestorePresented: false))
+        let normalWithFixture = LibraryStore(reading: ReadingStore(defaults: d), bundledRoot: testRoot,
+            storageRoot: directory.appendingPathComponent("availability-mixed-storage"), snapshotLoader: { testSnapshot })
+        await normalWithFixture.load()
+        XCTAssertNotNil(normalWithFixture.snapshot)
+        XCTAssertNil(normalWithFixture.unavailableReadingArticleCount(isRestorePresented: false))
+        XCTAssertEqual(d.data(forKey: restoreKey), raw)
+        XCTAssertEqual(d.setKeys, []); XCTAssertEqual(d.removeKeys, [])
+    }
+
+    @MainActor
+    func testUnavailableReadingRestorePreviewCancelAndConfirmedCommitKeepTheirOwnState() async throws {
+        let bundled = try unavailableReadingPackage("availability-restore")
+        let d = try restoreDefaults(), before = try restoreRaw("absent"), target = try restoreRaw("example", fraction: 0.72)
+        let recovery = Data("keep separate recovery backup".utf8)
+        d.inject(before, forKey: restoreKey); d.inject(recovery, forKey: restoreKey + ".recovery.v1")
+        let reading = ReadingStore(defaults: d)
+        let store = LibraryStore(reading: reading, bundledRoot: bundled,
+            storageRoot: directory.appendingPathComponent("availability-restore-storage"))
+        await store.load()
+        XCTAssertEqual(store.unavailableReadingArticleCount(isRestorePresented: false), 1)
+        d.resetLedger()
+        do {
+            let preview = try store.previewReadingRestore(from: restoreEnvelope(target))
+            XCTAssertEqual(preview.counts.bookmarks, 1)
+            XCTAssertNil(store.unavailableReadingArticleCount(isRestorePresented: true))
+            XCTAssertEqual(d.data(forKey: restoreKey), before)
+            XCTAssertNil(d.object(forKey: restoreSlot))
+        }
+        // Cancel is dropping the preview and dismissing its existing presentation.
+        XCTAssertEqual(store.unavailableReadingArticleCount(isRestorePresented: false), 1)
+        XCTAssertEqual(d.setKeys, []); XCTAssertEqual(d.removeKeys, [])
+        let preview = try store.previewReadingRestore(from: restoreEnvelope(target))
+        var busyQueries = 0, observing = false
+        d.afterSet = { _ in
+            guard !observing else { return }
+            observing = true
+            defer { observing = false }
+            let writes = d.setKeys, removals = d.removeKeys
+            let primary = d.data(forKey: self.restoreKey), slot = d.data(forKey: self.restoreSlot)
+            XCTAssertNil(reading.unavailableArticleRecordCount(knownArticleIDs: ["example"]))
+            XCTAssertNil(store.unavailableReadingArticleCount(isRestorePresented: false))
+            XCTAssertEqual(d.data(forKey: self.restoreKey), primary)
+            XCTAssertEqual(d.data(forKey: self.restoreSlot), slot)
+            XCTAssertEqual(d.setKeys, writes); XCTAssertEqual(d.removeKeys, removals)
+            busyQueries += 1
+        }
+        defer { d.afterSet = nil }
+        try store.applyReadingRestore(preview, backupCreatedAt: restoreDate)
+        XCTAssertGreaterThanOrEqual(busyQueries, 2)
+        XCTAssertEqual(store.unavailableReadingArticleCount(isRestorePresented: false), 0)
+        XCTAssertNil(store.unavailableReadingArticleCount(isRestorePresented: true))
+        XCTAssertEqual(d.data(forKey: restoreKey), target)
+        XCTAssertEqual(d.data(forKey: restoreKey + ".recovery.v1"), recovery)
+        let retained = try XCTUnwrap(store.retainedReadingRestoreBackup())
+        let backup = try store.exportRetainedReadingRestoreBackup(retained, appVersion: "0.2.20")
+        XCTAssertEqual(try ReadingBackupCodec.decode(backup).rawData, before)
+        let reloaded = LibraryStore(reading: ReadingStore(defaults: d), bundledRoot: bundled,
+            storageRoot: directory.appendingPathComponent("availability-restore-reloaded"))
+        await reloaded.load()
+        XCTAssertEqual(reloaded.unavailableReadingArticleCount(isRestorePresented: false), 0)
+    }
+}

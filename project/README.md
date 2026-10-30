@@ -1,5 +1,7 @@
 # project — 計画と実施記録
 
+[現在の記事版にない読書記録の件数と保管案内](records/2026-10-31/ios-unavailable-reading-records.md)は、正常な記録から見つからない記事数を重複なしで数え、保管と既存書き出しの場所を知らせる私有候補である。自動rename・削除・書込は加えず、破損/復旧・復元画面・fixtureを優先して抑える。Source4の独立静的レビューと別試行のMac6件（skip/fail0、26.835秒）は確認したが、前段Aboutの実parentへSource4と版だけのPBX29を結合した提出候補である。実parentへ結合したSource17各SHAと全文CoreTests/現在のDiagnosticsTestsが既存の将来構成SDK入力へ一致し、App17 moduleと両型検査の全exit0を結び直した。新SDK実行ではない。予定270/Native7/Full26・新共通/最終9レビュー/CI/main・実UI/VO/provider/署名/Bundle/実機は後続である。IOS-22全体未完了、TODO14/32を維持する。
+
 [Aboutの版情報・診断・通信と保存説明](records/2026-10-30/ios-safe-diagnostics.md)は、実parent `8a0efdb62a9a1e9c7605e40de3fc552ff5a77344`へ結合した提出候補である。PBXへApp0.2.26（28）を反映し、明示操作の固定8行/512Bの診断、通信と読書backupの説明、通常表示の「試作」表記を整理する。最終文言のApp17 SDK moduleは確認済み。修正後の6ケース・新test型検査は成功。最終共通・9パスレビュー・新Hosted・実Bundle・署名・実About/VoiceOver/実機は後続で確認する。host literalとPBX設定、実Bundleを区別し、IOS-27/28未完了・TODO14/32を維持する。
 
 [本文リンクと健全な旧読書記録のUI回帰](records/2026-10-30/ios-native-body-link-regression.md)は、同記事の到着、別記事から戻った実測位置・しおり、旧heading記録からの「続きを読む」と再保存後の復帰を3ケースで検査する候補である。Full26・Native7を予定し、copy374B・job50分・既存上限を保つ。Source2／Source3の独立静的レビューとNative単独SDK型検査は確認したが、Publishedの60秒timeout、最終13パスの共通検査・新Hosted・通常統合は未完了である。末尾clampと完全表示判定の限界、IOS-25未完了・TODO14/32を維持する。 補助CIの旧2件契約とSDK27失敗診断を3件へ同期し、初回iOS26のactual3／expected2の失敗を保持する。最初の失敗ケースだけを出力scopeにし、既存の複数PNG・全上限を保つ。 共通検査の初回5失敗を分類し、productionを保って診断timeout試験1ケースのI/O時間仮定を分離した。修正後の共通検査と最終13パスの受入は後続で確認する。

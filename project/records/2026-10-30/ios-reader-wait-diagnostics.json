@@ -1,28 +1,29 @@
 {
   "schema_version": 1,
   "date": "2026-10-30",
-  "state": "private final Reader7 candidate bound to actualmain9146 after PR305 ordinary adoption; unchanged frozen Source3, no new Reader commit/PR or Hosted execution yet",
+  "state": "private four-document synchronization after PR306 initial c6c observation and Root-reported PR307 ordinary main adoption/merge; Source3 exact; final synced-head CI and publication pending",
   "purpose": "Bounded test-only diagnosis of two independent main303 postpush UI failures; no product fix/retry/acceptance relaxation",
   "authority": {
     "basis": "User personal-use/autonomous ordinary implementation and normal commit/PR/main continuation; manual physical checks may remain incomplete",
     "this_child": "private reversible artifacts only; no shared Source/Git/API/CI/device action"
   },
   "authorbase": {
-    "head": "9146aa99887a0fbcd3243da663efcd8a79797886",
-    "tree": "c980ce0fab34df85a48daced9b64e8870f917ca7",
+    "head": "77083715ed7786a34f2947572c10b45e0a557079",
+    "tree": "e641f47f842b8f5565b9c7bfda9b2980789fe4f8",
     "tracked": 2815,
-    "kind": "actual adopted main; prospective Reader commit parent",
+    "kind": "actual adopted main synchronized into the existing PR306 branch; doc commit parent is the ordinary merge, not initial Reader creation",
     "measurement_doc_source_author": "f8eabc69bb221473079744793994eabe8f3a55ae",
     "PR305_adopted": true
   },
   "actual_main": {
-    "head": "9146aa99887a0fbcd3243da663efcd8a79797886",
-    "tree": "c980ce0fab34df85a48daced9b64e8870f917ca7",
+    "head": "77083715ed7786a34f2947572c10b45e0a557079",
+    "tree": "e641f47f842b8f5565b9c7bfda9b2980789fe4f8",
     "tracked": 2815,
-    "single_parent": "759e5adb6068a143657bb5d7c14f4b9efd87dcd5",
+    "single_parent": "9146aa99887a0fbcd3243da663efcd8a79797886",
     "PR304_adopted": true,
     "PR305_adopted": true,
-    "merged_at_UTC": "2026-10-29T23:59:47Z"
+    "merged_at_UTC": "2026-10-30T01:43:21Z",
+    "PR307_adopted": true
   },
   "scope": {
     "copied_frozen_Source3": [
@@ -40,7 +41,7 @@
     ],
     "new_paths": 2,
     "projected_tracked": 2817,
-    "main_scope_limit": "Seven paths are now relative to actualmain9146 (whole2815 equals former Draft305 authorf8e). Existing5 plus newReaderrecords2; nonowned longscroll record2 remains exact.",
+    "main_scope_limit": "Seven Reader paths relative to the Root-verified PR307 adopted main. Its one website spec change is inherited by an ordinary main merge, not an additional Reader-owned product change.",
     "Reader_vs_performance": "Native/Recovery/PublishedReader3 only; do not mix performance WF/Node/PublishedPerformance3",
     "total_paths_vs_author": 7,
     "author_is_actualmain": true
@@ -331,17 +332,21 @@
   },
   "delivery_plan": {
     "sequence": [
-      "Actual PR305 ordinary adoption/all2815 equality and Source3before actualmain9146 binding completed",
-      "Preserve frozen Source3; synchronize only the newly inserted index2 dated/current status paragraph and related records2 validation metadata; entire actualmain base indices inverse-exact",
-      "Root final independent review and actualcommit/range/proposedmetadata/ref lease; no repeated common/SDK/UI/SourceChecker",
-      "One coherent diagnostic code/doc commit on actualmain9146 and small normalPR",
-      "Fresh exacthead Native6/Full23 and actualdiagnostics if triggered, requiredCI/Ready/ordinaryprotectedmerge/postpush",
-      "Keep original failures and physical/performance/minimumOS acceptance limits; no laterpass causalfix/stability claim"
+      "Existing diagnostic code/doc commit c6c remains unchanged",
+      "Root created one ordinary main merge with first parent c6c and second parent PR307 adopted main",
+      "Prepare one small four-document commit after that merge; no Source3 edits",
+      "Final four-document/binding independent review, actual final-tree common and normal metadata/message/range checks before publication",
+      "Root fast-forwards the existing branch; no rebase or force",
+      "Fresh final-head requiredCI and actual Source workflows including Native6/Full23 and triggered diagnostics, then Ready/fresh11/ordinaryprotectedmain/postpush",
+      "Preserve old failures and all physical/performance/minimumOS acceptance limits"
     ],
-    "normal_commit_count": 1,
-    "new_reader_PR_created": false,
+    "normal_commit_count": 3,
+    "existing_code_commit_count": 1,
+    "ordinary_main_merge_count": 1,
+    "new_four_document_commit_count": 1,
+    "new_reader_PR_created": true,
     "early_publication_allowed": false,
-    "dependency": "PR305 actualmain binding completed; publication remains Root-owned after final review/normal gates"
+    "dependency": "PR307 actual main binding and ordinary merge are Root supplied; final review/common/new-head gates remain pending"
   },
   "held": {
     "App": "0.2.23(25)",
@@ -354,11 +359,10 @@
     "physical_overwrite_VoiceOver_provider_call_backup_profile_expiry": "incomplete; manual skip allowed, not converted to success"
   },
   "unfinished": [
-    "this actualmain-bound Reader7 final record/proposal delta independent review and actual commit/PR/range",
-    "new Reader head Native6/Full23 and actual diagnostics/requiredCIReady/ordinarymain/postpush",
-    "main9146 postpush results not established at this preparation",
-    "cause diagnosis and stability acceptance",
-    "physical/VoiceOver/overwrite/profile expiry and existing TODOs"
+    "four-document final independent review, actual final-tree common, regular message/PR/range checks and Root FF publication",
+    "fresh final synced-head Source workflows, Native6/Full23, actual diagnostics, requiredCI/Ready/ordinarymain/postpush",
+    "original failure cause diagnosis and stability acceptance",
+    "physical/VoiceOver/overwrite/profile expiry, IOS15 and existing TODOs"
   ],
   "preparation_history": {
     "original_manifest_SHA256": "2bb099ebb9fdaf3b494b79e3b4340a42df68c0f87ab4c9d1d52de5e5d17430f3",
@@ -551,6 +555,99 @@
       "packet_manifest_SHA256": "2ccc59de2a7d19cfd953f1d18b3cf4a3b14e5339ff57682956f546ee59299e83",
       "indices_after_exact4a9_claim_at_that_snapshot": true,
       "snapshot_note": "Unpublished2ccc preparation before indexP2. Then both Source3/indices2 after matched4a9; only this index preservation claim is superseded by current dated status insertion."
+    },
+    "pre_PR306_ordinary_main_sync_c6c": {
+      "state": "private final Reader7 candidate bound to actualmain9146 after PR305 ordinary adoption; unchanged frozen Source3, no new Reader commit/PR or Hosted execution yet",
+      "authorbase": {
+        "head": "9146aa99887a0fbcd3243da663efcd8a79797886",
+        "tree": "c980ce0fab34df85a48daced9b64e8870f917ca7",
+        "tracked": 2815,
+        "kind": "actual adopted main; prospective Reader commit parent",
+        "measurement_doc_source_author": "f8eabc69bb221473079744793994eabe8f3a55ae",
+        "PR305_adopted": true
+      },
+      "actual_main": {
+        "head": "9146aa99887a0fbcd3243da663efcd8a79797886",
+        "tree": "c980ce0fab34df85a48daced9b64e8870f917ca7",
+        "tracked": 2815,
+        "single_parent": "759e5adb6068a143657bb5d7c14f4b9efd87dcd5",
+        "PR304_adopted": true,
+        "PR305_adopted": true,
+        "merged_at_UTC": "2026-10-29T23:59:47Z"
+      },
+      "scope": {
+        "copied_frozen_Source3": [
+          "ios/AILibraryUITests/NativeReaderUITests.swift",
+          "ios/AILibraryUITests/ReadingRecoveryUITests.swift",
+          "ios/AILibraryUITests/PublishedReaderUITests.swift"
+        ],
+        "new_records": [
+          "project/records/2026-10-30/ios-reader-wait-diagnostics.md",
+          "project/records/2026-10-30/ios-reader-wait-diagnostics.json"
+        ],
+        "insertion_only_indices": [
+          "project/README.md",
+          "project/plans/engineering/ios-app-completion.md"
+        ],
+        "new_paths": 2,
+        "projected_tracked": 2817,
+        "main_scope_limit": "Seven paths are now relative to actualmain9146 (whole2815 equals former Draft305 authorf8e). Existing5 plus newReaderrecords2; nonowned longscroll record2 remains exact.",
+        "Reader_vs_performance": "Native/Recovery/PublishedReader3 only; do not mix performance WF/Node/PublishedPerformance3",
+        "total_paths_vs_author": 7,
+        "author_is_actualmain": true
+      },
+      "actual_main_binding": {
+        "actual_parent": "9146aa99887a0fbcd3243da663efcd8a79797886",
+        "actual_parent_tree": "c980ce0fab34df85a48daced9b64e8870f917ca7",
+        "former_Draft_author": "f8eabc69bb221473079744793994eabe8f3a55ae",
+        "whole2815_mode_blob_equal": true,
+        "main_single_parent": "759e5adb6068a143657bb5d7c14f4b9efd87dcd5",
+        "Source3_before_mode_blob_equal": {
+          "ios/AILibraryUITests/NativeReaderUITests.swift": [
+            "100644",
+            "blob",
+            "9a29c8794928b706a732aabfc466394e4986f264"
+          ],
+          "ios/AILibraryUITests/ReadingRecoveryUITests.swift": [
+            "100644",
+            "blob",
+            "8bf75a99740d501a023bf992d8f3e6a545361638"
+          ],
+          "ios/AILibraryUITests/PublishedReaderUITests.swift": [
+            "100644",
+            "blob",
+            "4fec1464dad282a89b895e1d42f47f81845da1af"
+          ]
+        },
+        "Root_merge_message_canonical_equal": true,
+        "Root_message_formal_exit": 0,
+        "Root_integration_manifest_SHA256": "38d43211f319f315940e151db33313abc7a83c81fb9f989c42d8445991367daf",
+        "new_common_SDK_UI_SourceChecker_execution": false,
+        "scope": "Separate actualmain/allauthor tree binding only. Common e5 remains pre-P2 f8e/tree164aa, SDK1f1e remains fda UI5/overlay3. No reexecution after historyfix/receipt/this main binding."
+      },
+      "delivery_plan": {
+        "sequence": [
+          "Actual PR305 ordinary adoption/all2815 equality and Source3before actualmain9146 binding completed",
+          "Preserve frozen Source3; synchronize only the newly inserted index2 dated/current status paragraph and related records2 validation metadata; entire actualmain base indices inverse-exact",
+          "Root final independent review and actualcommit/range/proposedmetadata/ref lease; no repeated common/SDK/UI/SourceChecker",
+          "One coherent diagnostic code/doc commit on actualmain9146 and small normalPR",
+          "Fresh exacthead Native6/Full23 and actualdiagnostics if triggered, requiredCI/Ready/ordinaryprotectedmerge/postpush",
+          "Keep original failures and physical/performance/minimumOS acceptance limits; no laterpass causalfix/stability claim"
+        ],
+        "normal_commit_count": 1,
+        "new_reader_PR_created": false,
+        "early_publication_allowed": false,
+        "dependency": "PR305 actualmain binding completed; publication remains Root-owned after final review/normal gates"
+      },
+      "unfinished": [
+        "this actualmain-bound Reader7 final record/proposal delta independent review and actual commit/PR/range",
+        "new Reader head Native6/Full23 and actual diagnostics/requiredCIReady/ordinarymain/postpush",
+        "main9146 postpush results not established at this preparation",
+        "cause diagnosis and stability acceptance",
+        "physical/VoiceOver/overwrite/profile expiry and existing TODOs"
+      ],
+      "scope_note": "Immutable Source7 pre-publication current fields; prepared on main9146 before PR306 c6c initial Hosted execution and PR307 main synchronization.",
+      "Source7_manifest_SHA256": "ef1a16b49f1f2d38c421aee717dc6d6361e7c6ec62780a53f16d8332aaf613e4"
     }
   },
   "PR304_adoption_context": {
@@ -636,11 +733,20 @@
     "scope": "API-only main759e completion; no raw/artifact GET, no case count/new metric acceptance and no transfer to unadopted Reader3 diagnostics"
   },
   "actual_main_binding": {
-    "actual_parent": "9146aa99887a0fbcd3243da663efcd8a79797886",
-    "actual_parent_tree": "c980ce0fab34df85a48daced9b64e8870f917ca7",
-    "former_Draft_author": "f8eabc69bb221473079744793994eabe8f3a55ae",
-    "whole2815_mode_blob_equal": true,
-    "main_single_parent": "759e5adb6068a143657bb5d7c14f4b9efd87dcd5",
+    "actual_parent": "77083715ed7786a34f2947572c10b45e0a557079",
+    "actual_parent_tree": "e641f47f842b8f5565b9c7bfda9b2980789fe4f8",
+    "main_single_parent": "9146aa99887a0fbcd3243da663efcd8a79797886",
+    "main_vs_oldmain9146_delta_paths": [
+      "website/tests/browser/site.spec.mjs"
+    ],
+    "PR306_initial_head": "c6c793f4821c5532c400d9cb8fb7b72ee466cd3b",
+    "PR306_initial_tree": "2f52c1e3315d8ecc4b9ecb3a2e2352b90d73ee84",
+    "ordinary_merge_head": "fb6fa0e22f54fe2526b006cb670dff970ab269a1",
+    "ordinary_merge_tree": "a145dc28649a019db3d3e8468074fa506f186cbd",
+    "ordinary_merge_parents": [
+      "c6c793f4821c5532c400d9cb8fb7b72ee466cd3b",
+      "77083715ed7786a34f2947572c10b45e0a557079"
+    ],
     "Source3_before_mode_blob_equal": {
       "ios/AILibraryUITests/NativeReaderUITests.swift": [
         "100644",
@@ -658,11 +764,25 @@
         "4fec1464dad282a89b895e1d42f47f81845da1af"
       ]
     },
-    "Root_merge_message_canonical_equal": true,
-    "Root_message_formal_exit": 0,
-    "Root_integration_manifest_SHA256": "38d43211f319f315940e151db33313abc7a83c81fb9f989c42d8445991367daf",
-    "new_common_SDK_UI_SourceChecker_execution": false,
-    "scope": "Separate actualmain/allauthor tree binding only. Common e5 remains pre-P2 f8e/tree164aa, SDK1f1e remains fda UI5/overlay3. No reexecution after historyfix/receipt/this main binding."
+    "Source3_after_SHA256": {
+      "ios/AILibraryUITests/NativeReaderUITests.swift": "3cff945c8d38e38901025312a405b23fbcf78eca3bce4db652f9b9d9852f05e8",
+      "ios/AILibraryUITests/ReadingRecoveryUITests.swift": "5f039b1873fc4a7f5396e9f4545502d4b4f86ce39a18e58786e672563cd5360b",
+      "ios/AILibraryUITests/PublishedReaderUITests.swift": "7fe852c21a9361e838729362191c15c165ed0774e2cf5c31b312a39e98a32603"
+    },
+    "all_nonowned2810_mode_blob_held": true,
+    "Root_binding_receipts": [
+      {
+        "file": "proof.json",
+        "bytes": 593,
+        "SHA256": "e22f02efa7d23e7b992736d0a8c6e7512fa9be6e0bc1d6bfb91c86f8e983d96b"
+      },
+      {
+        "file": "proof.json",
+        "bytes": 490,
+        "SHA256": "6ffbaaad2324034c0e79baeaae0e4cad0055362a72bb40b99ac0ee621fd9914e"
+      }
+    ],
+    "verification_scope": "Root supplied and receipt-bound actual OIDs; this private generator independently reconstructed expected trees and verified the immutable Source3 before/after bytes. No API, Git mutation, SDK, UI or common rerun."
   },
   "main9146_push_context_at_preparation": {
     "head": "9146aa99887a0fbcd3243da663efcd8a79797886",
@@ -670,5 +790,82 @@
     "result": "not yet established in supplied Root snapshot",
     "new_case_counts_or_metrics_accepted": false,
     "PR_or_parent_push_results_transferred": false
+  },
+  "PR306_initial_c6c_observation": {
+    "head": "c6c793f4821c5532c400d9cb8fb7b72ee466cd3b",
+    "base": "9146aa99887a0fbcd3243da663efcd8a79797886",
+    "initial_Source6": {
+      "success": 5,
+      "failure": 1,
+      "Common_failed_run": 40979576004,
+      "Common_failed_job": 123815965604,
+      "failed_required_check": "build",
+      "API_failed_step": "Browser regression checks",
+      "required11_at_old_head": {
+        "success": 10,
+        "non_success": 1,
+        "pending": 0
+      },
+      "Pilot_Performance_not_discovered_not_success": true
+    },
+    "old_head_Native": {
+      "run": 40979576075,
+      "job": 123815965184,
+      "attempt": 1,
+      "Core_total": 245,
+      "Core_skip": 2,
+      "Core_fail": 0,
+      "UI_unique_pass": 6,
+      "Release": "BUILD SUCCEEDED",
+      "Recovery_records": 90,
+      "Recovery_opens": 9,
+      "independent_QC_manifest": "0f86a2bb361e4afd5fa6a66caa0fc8dc0c2e3b1076d94c5ad9dffdf068983ac2",
+      "cause_fixed": false
+    },
+    "old_head_Full": {
+      "run": 40979576035,
+      "job": 123815965156,
+      "attempt": 1,
+      "Core_total": 245,
+      "Core_skip": 2,
+      "Core_fail": 0,
+      "UI_unique_pass": 23,
+      "Release": "BUILD SUCCEEDED",
+      "resume_target_seconds": 91.8,
+      "failure_only_NormalResume_records": 0,
+      "failure_runtime_path_observed": false,
+      "cause_fixed": false
+    },
+    "scope": "Actual results on initial c6c only; never transferred to the future synced final head. Root sole-capture and prior Native QC receipts; no new raw acquisition."
+  },
+  "PR307_adoption_and_main_sync_context": {
+    "PR": 307,
+    "feature_head": "9e595a0ce37fb7da41afc434ae7290d970f50643",
+    "actual_main": "77083715ed7786a34f2947572c10b45e0a557079",
+    "tree": "e641f47f842b8f5565b9c7bfda9b2980789fe4f8",
+    "parent": "9146aa99887a0fbcd3243da663efcd8a79797886",
+    "merged_at_UTC": "2026-10-30T01:43:21Z",
+    "ordinary_protected_squash": true,
+    "inherited_path": "website/tests/browser/site.spec.mjs",
+    "ordinary_merge": {
+      "sha": "fb6fa0e22f54fe2526b006cb670dff970ab269a1",
+      "tree": "a145dc28649a019db3d3e8468074fa506f186cbd",
+      "parents": [
+        "c6c793f4821c5532c400d9cb8fb7b72ee466cd3b",
+        "77083715ed7786a34f2947572c10b45e0a557079"
+      ]
+    },
+    "Root_receipt_SHA256": [
+      "e22f02efa7d23e7b992736d0a8c6e7512fa9be6e0bc1d6bfb91c86f8e983d96b",
+      "6ffbaaad2324034c0e79baeaae0e4cad0055362a72bb40b99ac0ee621fd9914e"
+    ]
+  },
+  "current_main_sync_validation": {
+    "Source3_and_existing_history": "held exactly; current-field snapshot appended",
+    "saved_validation_scope": "Entire saved_validation retained as historical execution/preparation evidence at its original heads and trees, including old pending review descriptions; no old success transferred",
+    "private_static_scope": "copy/hash/tree/history/TODO/index inverse/JSON/privacy/links; narrow results in separate private receipt",
+    "new_head_common_SDK_UI_SourceChecker": "not executed here",
+    "new_final_head_requiredCI_Native6_Full23_diagnostics": "not yet established",
+    "Ready_normal_main_postpush": "pending"
   }
 }

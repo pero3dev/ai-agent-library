@@ -1,14 +1,24 @@
 # 読書UIの待機失敗を観測する診断候補
 
-2026-10-30の私有再準備。main303反映後のNativeとFullで起きた二つの失敗を、判定を変えないテスト診断で観測する。Source3は凍結済みのままコピーし、製品修正・retry・待機延長・成功条件の緩和は行わない。旧fda／Draft305基準の準備から、PR305を通常採用した実main9146へ結び直す。
+2026-10-30の診断準備とPR #306初回実行の記録。main303後の二つの失敗を、判定を変えないテスト診断で観測する。凍結Source3は完全保持し、PR #307を通常採用した実main`77083715ed7786a34f2947572c10b45e0a557079`を既存c6c branchへ通常mergeした後、記録・索引4本を同期する。製品修正・retry・待機延長・成功条件の緩和は行わない。初回c6cの観測と、最終同期headで未確認の検証を区別する。
 
-## 作者基準と採用の順番
+## PR306作成前の作者基準と採用の順番（履歴）
 
 最終候補の基準は、PR305を2026-10-29 23:59:47 UTCに通常保護squashで採用した実main`9146aa99887a0fbcd3243da663efcd8a79797886`／tree`c980ce0fab34df85a48daced9b64e8870f917ca7`／2815ファイルで、単親はmain759eである。Rootとこの私有準備のsafe readerで、元の公開head f8eと実mainの全2815 mode／blob一致、Source3の元blob一致を確認した。Rootは実commit本文と予約canonical squashの一致・形式0も確認した。既存5変更＋新Reader記録2の7パス／想定2817をこの実mainに結び直し、採用済み長文観測記録2本を非所有として全保持する。
 
 所有はNativeReaderUITests／ReadingRecoveryUITests／PublishedReaderUITestsのコピー3、記録MD／JSON新規2、索引2への純粋な挿入。性能側のworkflow／Node／PublishedPerformance3とは別単位で、[長文Clock記録](ios-long-scroll-clock.md)と[自分用候補](ios-personal-use-candidate-checkpoint.md)、旧索引段落を保持する。識別hashは[JSON](ios-reader-wait-diagnostics.json)へ残す。
 
 PR305の最終本文23:58:04 UTCに対するfresh必須11件は23:58:30 UTCに全成功し、通常の文書2パス採用を完了した。追加Nativeは旧f8eのUIがmerge時にpendingで未受入であり、このSource3診断の実行根拠へ転用しない。RootはDoc2-onlyとして通常11・独立レビュー・共通で統合した。新main9146のpostpushは別observerが開始した段階で結果未確定。このReader候補の新branch／commit／PRはまだなく、最終独立レビュー後にRootが1つのcode/doc commitと小PRへ進める。本人への新しい承認依頼ではない。
+
+## PR306初回headの観測と現在のmain同期
+
+初回head`c6c793f4821c5532c400d9cb8fb7b72ee466cd3b`／tree`2f52c1e3315d8ecc4b9ecb3a2e2352b90d73ee84`のDraftでは、実発火した6系統のうち5成功・Common失敗、必須11は10成功・build1失敗だった。Common run40979576004／job123815965604のBrowser regression checksが失敗した。これは初回headの結果として保持し、新しい同期headの成功とはしない。未発見のPilot／Performanceも成功扱いしない。
+
+同じ旧headのNative run40979576075／job123815965184ではCore245件（skip2・失敗0）、UI一意6成功、Release BUILD SUCCEEDEDを確認した。Recoveryの90記録・9openは独立QCでschemaと生成元に照合した範囲の受入で、元失敗の原因解消や性能値の受入ではない。Full run40979576035／job123815965156もCore245件（skip2・失敗0）、UI一意23成功、Release BUILD SUCCEEDEDだった。対象resumeは91.800秒で成功し、failure-only NormalResume記録0件は成功時の想定どおりで、実失敗経路は未観測である。
+
+RootがPR #307を2026-10-30T01:43:21Zに通常保護squashで採用した実main`77083715ed7786a34f2947572c10b45e0a557079`／tree`e641f47f842b8f5565b9c7bfda9b2980789fe4f8`は、main9146からWeb検査1pathだけが変わる。Root作成の通常merge`fb6fa0e22f54fe2526b006cb670dff970ab269a1`／tree`a145dc28649a019db3d3e8468074fa506f186cbd`はfirst parentが旧c6c、second parentがこの実mainであり、Source3のbytesを保つ。この4文書同期を別の小commitとして重ね、PR内は既存code1＋通常merge1＋文書1の計3commitとする。rebase／forceは行わない。
+
+この準備はRootの実OID付きreceiptを入力としてtree・Source3・全非所有mode/blob・既存history・索引本文・TODO32行／13完了を照合する私有単位で、Source／SDK／UI／共通を再実行しない。最終4文書とbindingの独立レビュー・実最終候補の共通・通常形式検査は別receiptで確認する。最終同期headの必要CI・Native6／Full23・実診断、Ready・通常保護main統合・postpushは未確認であり、旧c6cのpassを転用しない。App0.2.23（25）・PBX・全記事と元の未完了事項を保持する。
 
 ## 元の二つの失敗
 
@@ -27,7 +37,7 @@ Fullの対象Agent resumeだけ、既存failure-only helperへexpectedTitleを�
 
 ログは時間に影響し得る。失敗後snapshotは逐次・best effortで、以前の瞬間を再現せず、バイト上限はAX取得の所要時間を保証しない。
 
-## 検証と次の完了条件
+## 作成前の検証と完了条件（履歴）
 
 凍結Source2の独立レビュー99ba、Source1／Reader3組合せのレビューe640はP1/P2なし。Rootが過去に実fdaを基準としたUI5ファイル・Reader overlay3、性能側の新traceを元のまま保持して、SDK18.2／arm64 iOS17／Swift5の型検査0・9.743秒・stdout/stderr0を確認した（証跡1f1e）。実XCTest・UI・新traceの実行ではない。旧5ee基準の型検査0・7.984秒は以前の履歴として別に残す。
 
@@ -41,4 +51,4 @@ PR304は23:08:47 UTCに通常保護squashでmain759eへ採用された。fdaのF
 
 元packet 2bb099は、当時のDraft304 fda／実main6bfを基準とし、304採用・長文実測・Reader7共通が未確定だった私有記録として保持する。旧Source／SDK／共通と二つの初回失敗は履歴のままで、今回の再結合により成功へ書き換えない。実測・Source／SDK／UI／Node／共通／APIの再実行は行っていない。
 
-4a9の当時のDraft305 f8e author／main759e・current scope／delivery planは独立したdeep copyでJSON履歴へ追加した。2bb original_scope／original_delivery_planと既存の他historyを再上書きせず、現在の採用SHAと検証の実施基準を区別する。2ccc準備時点ではSource3／索引2のbytesを4a9と完全一致で保持していたが、索引の古い現在形にP2が出たため、この保持claimは当時の履歴へ移す。現在はSource3を完全保持し、索引2の新しい先頭段落だけを日付付きの採用前履歴と通常採用済みmain9146の現況へ同期した。元のmain9146索引本文は全bytesを保持し、純挿入を除けば完全復元する。e5共通はP2修正前・索引更新前のf8e／tree164aaだけで、最終treeの共通成功ではない。今回の限定文書／形式検査と最終差分レビューで提出内容を確認する。
+4a9の当時のDraft305 f8e author／main759e・current scope／delivery planは独立したdeep copyでJSON履歴へ追加した。2bb original_scope／original_delivery_planと既存の他historyを再上書きせず、現在の採用SHAと検証の実施基準を区別する。2ccc準備時点ではSource3／索引2のbytesを4a9と完全一致で保持していたが、索引の古い現在形にP2が出たため、この保持claimは当時の履歴へ移す。その索引更新時点ではSource3を完全保持し、索引2の新しい先頭段落だけを日付付きの採用前履歴と当時の通常採用済みmain9146の現況へ同期した。元のmain9146索引本文は全bytesを保持し、純挿入を除けば完全復元する。e5共通はP2修正前・索引更新前のf8e／tree164aaだけで、最終treeの共通成功ではない。今回の限定文書／形式検査と最終差分レビューで提出内容を確認する。

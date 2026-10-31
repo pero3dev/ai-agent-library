@@ -11,7 +11,24 @@ struct BundledContentPreview: Equatable, Sendable {
 
 /// A complete version is validated in staging before one atomic pointer write activates it.
 final class ContentRepository {
-    private struct Pointer: Codable { let directory: String }
+    private struct Pointer: Codable {
+        let directory: String
+        let previousDirectory: String?
+
+        private enum CodingKeys: String, CodingKey { case directory, previousDirectory }
+
+        init(directory: String, previousDirectory: String? = nil) {
+            self.directory = directory
+            self.previousDirectory = previousDirectory
+        }
+
+        init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: CodingKeys.self)
+            directory = try values.decode(String.self, forKey: .directory)
+            // Invalid optional recovery metadata must not poison a healthy current package.
+            previousDirectory = try? values.decode(String.self, forKey: .previousDirectory)
+        }
+    }
     let bundledRoot: URL
     let storageRoot: URL
     private let fileManager: FileManager
@@ -29,13 +46,30 @@ final class ContentRepository {
     }
 
     func load() throws -> ContentSnapshot {
-        let pointerURL = storageRoot.appendingPathComponent("current.json")
-        if let data = try? Data(contentsOf: pointerURL), let pointer = try? JSONDecoder().decode(Pointer.self, from: data),
-           UUID(uuidString: pointer.directory) != nil,
-           let current = try? validate(root: storageRoot.appendingPathComponent("versions").appendingPathComponent(pointer.directory)) {
-            return retainingGenerationLease(current, directory: pointer.directory)
+        if let selected = revalidatedStoredSelection() {
+            return retainingGenerationLease(selected.snapshot, directory: selected.directory)
         }
         return try validate(root: bundledRoot)
+    }
+
+    /// A single pointer names at most two eligible stored generations. There is
+    /// no directory scan, recursive history, repair write or imported-origin claim.
+    /// An unreadable/invalid current pointer still falls back only to the bundle.
+    private func revalidatedStoredSelection() -> (directory: String, snapshot: ContentSnapshot)? {
+        let pointerURL = storageRoot.appendingPathComponent("current.json")
+        guard let data = try? Data(contentsOf: pointerURL),
+              let pointer = try? JSONDecoder().decode(Pointer.self, from: data),
+              let currentID = UUID(uuidString: pointer.directory) else { return nil }
+        let versions = storageRoot.appendingPathComponent("versions")
+        if let current = try? validate(root: versions.appendingPathComponent(pointer.directory)) {
+            return (pointer.directory, current)
+        }
+        guard let previous = pointer.previousDirectory, let previousID = UUID(uuidString: previous),
+              previousID != currentID,
+              let retained = try? validate(root: versions.appendingPathComponent(previous)) else { return nil }
+        // Validation itself acquires no lease. Only the snapshot actually returned
+        // by load/install is published with its own generation acquisition.
+        return (previous, retained)
     }
 
     func previewBundledContent() throws -> BundledContentPreview {
@@ -55,7 +89,7 @@ final class ContentRepository {
         if let current = try? load(), try hasSameManifest(current, bundled) {
             return (current, true)
         }
-        return (try install(from: bundledRoot), false)
+        return (try install(from: bundledRoot, remembersPreviousStoredVersion: false), false)
     }
 
     private func hasSameManifest(_ lhs: ContentSnapshot, _ rhs: ContentSnapshot) throws -> Bool {
@@ -65,6 +99,10 @@ final class ContentRepository {
     }
 
     func install(from source: URL) throws -> ContentSnapshot {
+        return try install(from: source, remembersPreviousStoredVersion: true)
+    }
+
+    private func install(from source: URL, remembersPreviousStoredVersion: Bool) throws -> ContentSnapshot {
         // Validate the provider's folder before copying; validate again to detect changes during copy.
         _ = try validate(root: source)
         let versions = storageRoot.appendingPathComponent("versions", isDirectory: true)
@@ -81,7 +119,10 @@ final class ContentRepository {
         _ = try validate(root: staging)
         try fileManager.moveItem(at: staging, to: destination)
         let snapshot = try validate(root: destination)
-        let pointer = try JSONEncoder().encode(Pointer(directory: id))
+        // The same authorized writer commits selection and one revalidated
+        // predecessor together. An explicit non-noop bundle selection clears it.
+        let previous = remembersPreviousStoredVersion ? revalidatedStoredSelection()?.directory : nil
+        let pointer = try JSONEncoder().encode(Pointer(directory: id, previousDirectory: previous))
         try writePointer(pointer, storageRoot.appendingPathComponent("current.json"))
         activated = true
         // Keep earlier versions for this prototype; an open reader may still reference one.

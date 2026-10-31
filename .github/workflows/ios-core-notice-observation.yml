@@ -1,0 +1,91 @@
+name: iOS Notice core host observation
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/ios-core-notice-observation.yml'
+      - 'ios/tests/observe-core-notice-hosted-20261031.py'
+      - 'ios/tests/hosted-core-notice-pure-fixtures-20261031.py'
+      - 'ios/tests/verify-core-performance-notice-20261031.mjs'
+      - 'tests/unit/ios-core-performance-notice-20261031.test.mjs'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-core-notice-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  observe:
+    if: github.repository == 'pero3dev/ai-agent-library' && github.event.repository.private == false && (github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == 'pero3dev/ai-agent-library' && github.event.pull_request.base.repo.full_name == 'pero3dev/ai-agent-library'))
+    runs-on: macos-15
+    timeout-minutes: 35
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
+      EXPECTED_SOURCE_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        timeout-minutes: 2
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        timeout-minutes: 2
+        with:
+          node-version: 22
+      - name: Audit generation tool lockfiles
+        timeout-minutes: 2
+        run: |
+          set -euo pipefail
+          npm audit --package-lock-only --audit-level=high
+          (cd ios/tools && npm audit --package-lock-only --audit-level=high)
+      - name: Install lockfile-matched generation tools
+        timeout-minutes: 4
+        run: |
+          set -euo pipefail
+          npm ci --ignore-scripts
+          npm ci --ignore-scripts --prefix ios/tools
+          (cd ios/tools && ./node_modules/.bin/playwright install chromium)
+      - name: Require26 pure guard fixtures and source syntax before Core input preparation
+        timeout-minutes: 1
+        run: |
+          set -euo pipefail
+          export CORE_NODE_BINARY="$(command -v node)"
+          python3 ios/tests/observe-core-notice-hosted-20261031.py --fixtures
+      - name: Generate and audit full published Content before measurement
+        timeout-minutes: 12
+        run: |
+          set -euo pipefail
+          npm run ios:prepare
+          node ios/tests/native-content-audit.mjs --published-library
+      - name: Freeze exact source, owned Git store, full Content and tool inputs
+        timeout-minutes: 8
+        run: |
+          set -euo pipefail
+          export CORE_NODE_BINARY="$(command -v node)"
+          python3 ios/tests/observe-core-notice-hosted-20261031.py --prepare
+      - name: One optimized host observation and fixed Notice offline verifier
+        timeout-minutes: 4
+        run: |
+          set -euo pipefail
+          export CORE_NODE_BINARY="$(command -v node)"
+          python3 ios/tests/observe-core-notice-hosted-20261031.py --run
+      - name: Retain complete observation and provenance, excluding only caches
+        if: always()
+        timeout-minutes: 2
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: notice-core-${{ github.run_id }}-${{ github.run_attempt }}
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            .local/ios-core-notice-fixtures-20261031/
+            .local/ios-core-notice-20261031/
+            !.local/ios-core-notice-20261031/run/observation/module-cache/**
+            !.local/ios-core-notice-20261031/run/observation/.process-tmp/**

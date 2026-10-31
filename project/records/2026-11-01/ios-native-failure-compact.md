@@ -35,3 +35,27 @@ Rootの独立したローカル16.2定数probeでは、既知PNGを最小sandbox
 この試行の`collected`は、過去に失敗した1ケースの診断をローカルで取得できた意味である。productionIOのHosted16.4 preflight、production event binding、Hosted workflow、SDKコンパイル、ライブAX・Simulator・実機、元のUIケースの合格を確認したものではない。RootのIO adapterを用いた結果を、そのままproduction entry全体の受入に読み替えない。
 
 最終独立レビュー、実parentへの結合と共通検査、Hosted16.4の実compact内容・容量・full artifact／主失敗の保持は未確認である。実機・署名・配布の検証ではなく、TODO32行・完了14行とIOS-25全体の未完了を維持する。
+
+## 9310のHosted結果と観測済みsummaryへの対応候補
+
+上の段落とJSONの従来フィールドは、9310実行前の準備・ローカル検証履歴として全て保持する。以下を現在の観測とする。PR321 head `9310d3f2f07b22785248000eda810157afa002d6` の初回Nativeは、単体278件＝276成功・2 skip・失敗0、UI8件＝7成功・1失敗だった。追加caseは最初の書き出しループでMoreと`library-export-reading`をタップした後、報告行425のSave context認識で失敗した。iteration1は2回目の取消ではない。保存画面が実際に存在しなかったとは断定せず、認識成功・取消1回目／2回目・取消後の再起動と位置／しおりの受入は未確認とする。
+
+同headのcompact工程はexit成功でも、実出力が`incomplete`・`metadata_tree_limit`・0ファイルだった。compact artifactは954 byteであり、Hostedで診断が収集できたとは扱わない。Rootが保存済みデータを読み取ったところ、選択ケースsummaryは904,083 byte・SHA256 `ae1fbacaf3f1abb3b2023fd82c5f33a9cf3f2ff318acd6b0569980d8a36c09de`、primitiveを含む21,269ノード、最大深さ16、添付37件だった。1MiB／深さ64の範囲内で20,000ノード上限を超えていたため、今回のNode候補はこの上限だけを32,768へ変更する。実traceを単体fixtureや追跡ファイルへ複製しない。
+
+書き出しroleでは固定名`Reading-export-cancel-hierarchy`が存在するときだけ、UTF-8・131,072 byte以下の添付を任意に追加収集する。同名重複は同一metadataでも拒否し、型・サイズ・参照・実bytesも検査する。出力名は既存の`hierarchy.txt`を使う。任意添付が無い旧captureはPNGと必須contextで従来どおり`collected`となり、context欠落は従来どおりpartialである。public geometry／hierarchyの既存要件は保持する。UI側の失敗時1回の文字列添付は別担当の候補であり、このSource4はUIファイルを変更しない。
+
+Rootが保存した失敗PNGは122,945 byte・SHA256 `36a535344e08fe58a9bc993652185b6d171abc6d4f56a236714ad9830719ec4d`、contextは134 byteだった。これは保存済みデータの監査であり、この候補による新しいApple utility呼出・実OS export・Hosted成功ではない。新たに追加した6 fixtureは、20,000を超え32,768未満の型付きactivity、任意階層の不在／存在、重複、metadata不正／超過、実UTF-8／サイズ不正を扱う定義で、旧37件をそのまま保持した合計43件の実行はRootの後続確認を待つ。旧上限超過と深さ超過の拒否fixtureも保持する。
+
+metadata1MiB、深さ64、共有75秒、各15秒、最大7呼出、所有出力2MiB、PNG1MiB、hierarchy128KiB、context2KiB、source／event結合、対象ケース・未知添付拒否、Python sandboxとworkflowのjob40分は変更しない。旧37成功、ローカル16.2での5実呼出、旧2件のP2と修正・初回二重sandbox失敗の履歴も維持する。今回の32,768上限と任意階層収集のHosted効果は未実行である。
+
+同9310のFullBはUI8件・独立した実374 byte copyの一致・Release199記事／audio1／625 files／TestContent不在を通過した。FullAはSimulator宛先待機120秒のexit70でSwift単体／UIは0件だったが、その前のliteral full commonは1,251件＝1,236成功・15 skip・失敗0で全8コマンドを完走した。Aの18件や全26件を成功へ補わず、受理済み外部再実行は0回である。実main88とcurrent9310を基線として区別し、実機・provider書込み・最終backup bytes・IOS-25全体とTODO32行／14完了の未完了を維持する。
+
+## 観測対応候補のRoot制御試験と保存データ再生
+
+前節までの「当時未実行」とJSONの従来フィールドは準備時点の履歴として保持する。今回RootはCode2を変更せず、追加6件を含む43件を実行した。最初はprivate previewに保持対象のworkflow／Pythonの読取fixtureが無く、41成功・2失敗・skip0・exit1となった。両方とも固定ファイル読取のENOENTであり、そのまま保存した。これをsource欠陥や成功へ読み替えず、Code2と保持対象のworkflow／Pythonを全bytes同じまま隔離workspaceへ揃えた後、43成功・失敗0・skip0・exit0を確認した。成功stdoutのSHA256は`95bdcd4a2b3e9edec86b67dfd9d532f297645c698caddfd47826a46e50b68b99`、TAP報告のdurationは211.000833msで、工程全体のwalltimeではない。Node source2本の構文確認と、変更しないPythonのAST確認も成功した。試験はネットワークを拒否した制御環境であり、実SDK・実UI・実Apple utility exportではない。
+
+Rootはさらに保存済み9310のroot／tests／summaryとPNG／contextを、明示したメモリIOへ渡して旧engineと新engineを比較した。実summaryは904,083 byte・21,269ノード・深さ16で、旧engineは3呼出・`metadata_tree_limit`・0ファイル、新engineは5呼出・`collected`・PNG122,945 byteとcontext134 byteになった。PNGのSHA256は`36a535344e08fe58a9bc993652185b6d171abc6d4f56a236714ad9830719ec4d`、contextは`4b264b397def8ff610fa3363d166d9bcc49f3cc44092a69b7271dcce64486111`で、元データと再生出力が一致した。入力のbytes／hash／inode／link数も保持された。再生時間は保存resultに記録されていないため数値を追加しない。
+
+この再生の5呼出はIO callbackであり、実子process5回を起動した意味ではない。IO adapterが返したquiescent値を、実子の終了確認として扱わない。`executeGuard`、Python実行、`productionIO`、Hostedのevent binding、実OS exportとchild quiescenceはこの再生では検証していない。任意hierarchyの有無と不正の拒否は43件の制御試験の範囲であり、実9310の2添付再生で任意hierarchyを取得したとはしない。9310の実UIは依然7成功・1失敗、初回Save context未識別で、取消2回／再起動後の位置・しおりは未受入である。
+
+元Code2のNode／unit、workflow、Pythonと全バイト／時間／呼出制限は変更せず、新しいHosted効果と実UI合格は未確認のままとする。旧37成功・ローカル16.2での実5呼出・旧P2と初回失敗の履歴を保ち、App0.2.28（30）・TODO32行／14完了・IOS-25／IOS-15・実機／provider書込み／最終backup bytesの未完了を維持する。

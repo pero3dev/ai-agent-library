@@ -198,5 +198,234 @@
     "predecessor_Source6_SHA256": "b8939bcb8c002c0b5afc62b438a2432303f9930869d402d84664bc5e55335c13",
     "Code4_held_exact": true,
     "old_candidate_review_and_initial_setup_failure": "preserved"
+  },
+  "current_observed_summary_revision": {
+    "state": "PRIVATE_SOURCE4_PROPOSED_NOT_EXECUTED",
+    "scope": "node-budget and optional export hierarchy; unchanged workflow/Python/case selection/source binding",
+    "actual_9310": {
+      "head": "9310d3f2f07b22785248000eda810157afa002d6",
+      "Native_run": 41229913980,
+      "Native_job": 124621793158,
+      "attempt": 1,
+      "units": {
+        "total": 278,
+        "passed": 276,
+        "skipped": 2,
+        "failed": 0
+      },
+      "UI": {
+        "total": 8,
+        "passed": 7,
+        "failed": 1
+      },
+      "failed_case": "ReadingRecoveryUITests/testExportFilePickerCancelKeepsHealthyPositionAndBookmarkAfterRelaunch()",
+      "phase": "first export loop: More and library-export-reading tapped; save context recognizer failed at reported line425",
+      "save_context_identified": false,
+      "cancel_count_established": 0,
+      "second_cancel_or_post_cancel_relaunch_position_bookmark_accepted": false,
+      "actual_save_UI_presence_or_absence_not_concluded_from_recognizer_failure": true,
+      "compact": {
+        "step_metadata_outcome": "success",
+        "status": "incomplete",
+        "incomplete_reason": "metadata_tree_limit",
+        "files": 0,
+        "artifact_id": 13054062423,
+        "artifact_bytes": 954
+      },
+      "FullA": {
+        "units_and_UI_executed": 0,
+        "failure": "Simulator destination unavailable after120s; xcodebuild exit70",
+        "literal_full_common": {
+          "tests": 1251,
+          "passed": 1236,
+          "skipped": 15,
+          "failed": 0,
+          "all_8_commands_completed": true
+        }
+      },
+      "FullB": {
+        "UI_passed_unique": 8,
+        "actual_copy_stdout_bytes": 374,
+        "copy_equality_checked": true,
+        "Release": {
+          "articles": 199,
+          "audio": 1,
+          "verified_files": 625,
+          "test_content_absent": true
+        }
+      },
+      "accepted_external_reruns": 0
+    },
+    "Root_saved_data_audit": {
+      "summary_bytes": 904083,
+      "summary_SHA256": "ae1fbacaf3f1abb3b2023fd82c5f33a9cf3f2ff318acd6b0569980d8a36c09de",
+      "nodes_including_primitives": 21269,
+      "max_depth": 16,
+      "attachments": 37,
+      "PNG_bytes": 122945,
+      "PNG_SHA256": "36a535344e08fe58a9bc993652185b6d171abc6d4f56a236714ad9830719ec4d",
+      "context_bytes": 134,
+      "scope": "saved artifact data; not a new query or collector replay by this author"
+    },
+    "proposal": {
+      "maxNodes_before": 20000,
+      "maxNodes_after": 32768,
+      "metadata_bytes": 1048576,
+      "max_depth": 64,
+      "optional_export_hierarchy": {
+        "name": "Reading-export-cancel-hierarchy",
+        "UTI": "public.plain-text",
+        "max_bytes": 131072,
+        "filename": "hierarchy.txt",
+        "absence_changes_collected_status": false,
+        "duplicate_names": "refuse"
+      },
+      "required_export_context": "Reading-export-cancel-context",
+      "old_public_geometry_hierarchy_rules": "unchanged",
+      "unit_definitions_projected": 43,
+      "old_unit_definitions_preserved": 37,
+      "new_unit_definitions": 6,
+      "new_Node_or_real_replay_or_Hosted_execution_by_author": false,
+      "Hosted_effect_and_new_UI_acceptance": "NOT_RUN_NOT_ACCEPTED"
+    },
+    "historical_top_level_scope": "All pre-existing top-level fields and values below remain the earlier preparation/local validation history; this object is the current revision."
+  },
+  "Root_executed_validation_20261101": {
+    "state": "CONTROLLED43_AND_INJECTED_IO_SAVED_DATA_REPLAY_PASSED_HOSTED_UI_PENDING",
+    "Code2_held": [
+      {
+        "path": "ios/tests/native-failure-attachments.mjs",
+        "bytes": 23302,
+        "SHA256": "b0800545ba3ae8728f7d430caf1a684ff2062dab8f5bc07d8e6f5cf9d6f1a674"
+      },
+      {
+        "path": "tests/unit/ios-native-failure-attachments.test.mjs",
+        "bytes": 29307,
+        "SHA256": "183a2788090e0c9722f0ef6e22c72058ae4fad6f718127154c94bf4190db0d2e"
+      }
+    ],
+    "source4_before_execution_manifest_SHA256": "943571b5001a8a5a3202538b2dfdaddce38b9f64a324b91d3dc4d867d4434b74",
+    "initial_controlled_execution": {
+      "tests": 43,
+      "passed": 41,
+      "failed": 2,
+      "skipped": 0,
+      "exit_code": 1,
+      "failure_classification": "ENOENT on held workflow/Python read-only fixture files absent from private preview; source defect not inferred",
+      "stdout_SHA256": "da33319e3aa15d0fe54e6445ecd3b7c77308c138a39bb6b63c3d060644af644f",
+      "old_failure_result_and_log_preserved": true,
+      "result": {
+        "filename": "result.json",
+        "bytes": 938,
+        "SHA256": "0f7295a4fff7d6c06fb7dad7a3ca427234b8fd8723836fab9b5b96aeede74a98"
+      }
+    },
+    "complete_workspace_controlled_execution": {
+      "executor": "Root",
+      "tests": 43,
+      "passed": 43,
+      "failed": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "TAP_duration_ms": 211.000833,
+      "duration_scope": "Node TAP reported duration, not outer process walltime",
+      "stdout_SHA256": "95bdcd4a2b3e9edec86b67dfd9d532f297645c698caddfd47826a46e50b68b99",
+      "result": {
+        "filename": "result.json",
+        "bytes": 774,
+        "SHA256": "dacc6cb324c6b015f8c1b1afce340fedb0877b3193167399037165ba3f798650"
+      },
+      "scope": "network-denied controlled fixtures, fake children, small owned files; no SDK/live UI/actual utility export",
+      "unchanged_dependencies": [
+        {
+          "path": ".github/workflows/ios-native.yml",
+          "bytes": 9383,
+          "SHA256": "cf102cc5a6aa5f1533ae5b47fcbbf192df375d4616d97507b82ffb4429722650"
+        },
+        {
+          "path": "ios/tests/native-failure-export.py",
+          "bytes": 3739,
+          "SHA256": "8a6af5548c3d8ebe3d9a58f43ad0d53d78b9e25c16b2dc4ce1bb59acd55bc6eb"
+        }
+      ]
+    },
+    "syntax": {
+      "Node_sources": 2,
+      "all_exit0": true,
+      "held_Python_AST_parse": true,
+      "result": {
+        "filename": "result.json",
+        "bytes": 922,
+        "SHA256": "b28704de43820105b5747cd637c97da304f18f00077307770ecbd1786fe4a085"
+      }
+    },
+    "offline_saved_data_replay": {
+      "executor": "Root",
+      "status": "pass",
+      "summary_bytes": 904083,
+      "nodes_including_primitives": 21269,
+      "depth": 16,
+      "summary_SHA256": "ae1fbacaf3f1abb3b2023fd82c5f33a9cf3f2ff318acd6b0569980d8a36c09de",
+      "old_engine": {
+        "status": "incomplete",
+        "reason": "metadata_tree_limit",
+        "calls": 3,
+        "files": 0
+      },
+      "candidate_engine": {
+        "status": "collected",
+        "IO_callback_calls": 5,
+        "files": [
+          {
+            "filename": "failure.png",
+            "bytes": 122945,
+            "SHA256": "36a535344e08fe58a9bc993652185b6d171abc6d4f56a236714ad9830719ec4d"
+          },
+          {
+            "filename": "context.txt",
+            "bytes": 134,
+            "SHA256": "4b264b397def8ff610fa3363d166d9bcc49f3cc44092a69b7271dcce64486111"
+          }
+        ]
+      },
+      "all_input_bytes_inodes_nlinks_held": true,
+      "execution_exit_code": 0,
+      "execution_stdout_SHA256": "d573b5708dc12cb9b275239666875944f75753610019f04da37deb400b7efc60",
+      "result": {
+        "filename": "result.json",
+        "bytes": 1372,
+        "SHA256": "0b6072034f8af661efc02e3a4c1d384deb917fa2aff6ea96ba0aa5f5b44b2478"
+      },
+      "execution": {
+        "filename": "execution.json",
+        "bytes": 666,
+        "SHA256": "22a7af47fede5272d1e81b12321abe19f5dbfb6672070bf66cdf2adab6d10342"
+      },
+      "scope": "explicit injected in-memory IO into saved-data engines only; fake callback success/quiescent fields are not actual child measurements",
+      "not_exercised": [
+        "executeGuard",
+        "Python execution",
+        "productionIO",
+        "Hosted/event binding",
+        "real OS export",
+        "actual child quiescence",
+        "SDK",
+        "live AX/Simulator/device",
+        "UI acceptance"
+      ],
+      "elapsed": "not recorded; no walltime inferred",
+      "actual_optional_hierarchy_replay": false
+    },
+    "current_nonacceptance": {
+      "Hosted_new_collector_effect": "pending",
+      "new_export_cancel_UI": "first Save context unidentified; cancels/relaunch unaccepted",
+      "IOS25_complete": false,
+      "IOS15_complete": false,
+      "App_unchanged": "0.2.28 (30)",
+      "TODO_rows": 32,
+      "TODO_completed": 14
+    },
+    "legacy_fields_scope": "All previous fields and values are held as their preparation/historical validation states, including then-unexecuted descriptions.",
+    "document_author_executed_Node_SDK_UI_Git_API_or_replay": false
   }
 }

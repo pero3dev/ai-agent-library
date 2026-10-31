@@ -1,4 +1,133 @@
 {
+  "followup_9310_observed_destination_picker": {
+    "state": "PRIVATE_OBSERVED_DESTINATION_PICKER_UNEXECUTED",
+    "date_JST": "2026-11-01",
+    "parent_head": "9310d3f2f07b22785248000eda810157afa002d6",
+    "history": "All prior JSON values and Markdown prefix remain intact historical records.",
+    "code": {
+      "path": "ios/AILibraryUITests/ReadingRecoveryUITests.swift",
+      "before_SHA256": "8fbd801bf11c63145b0d6ce4f7ae35d787bdcd8ed577be6387d03796eef33aae",
+      "before_bytes": 30454,
+      "SHA256": "4f9664ee416bdb8954e1d36c1119d7ad069d6faf51ff74ba7b8bfcccdee0fa39",
+      "bytes": 37195,
+      "blob_oid": "f8b5d367c9fa7ddea38adabf5a99f38c2e2a98fc"
+    },
+    "head9310_Native": {
+      "run_id": 41229913980,
+      "unit": {
+        "total": 278,
+        "passed": 276,
+        "skipped": 2,
+        "failed": 0
+      },
+      "UI": {
+        "total": 8,
+        "passed": 7,
+        "failed": 1
+      },
+      "new_case_stage": "More and export passed; first destination picker shown; no cancellation yet",
+      "context_attempt": 1,
+      "old_usableFilenameCount": 0,
+      "actual_cancels": 0,
+      "postcancel_relaunch": "not reached"
+    },
+    "observed_PNG": {
+      "SHA256": "36a535344e08fe58a9bc993652185b6d171abc6d4f56a236714ad9830719ec4d",
+      "title": "このiPhone内",
+      "left_back": "ブラウズ",
+      "right_action": "移動",
+      "bottom_filename": "AI-Agent-Library-Reading-Backup",
+      "Cancel_visible_in_image": false,
+      "not_established": [
+        "filename AX type/editability/hittability",
+        "Cancel after Browse-back",
+        "product or OS cause"
+      ]
+    },
+    "saved_context": {
+      "bytes": 134,
+      "SHA256": "4b264b397def8ff610fa3363d166d9bcc49f3cc44092a69b7271dcce64486111"
+    },
+    "saved_summary": {
+      "bytes": 904083,
+      "SHA256": "ae1fbacaf3f1abb3b2023fd82c5f33a9cf3f2ff318acd6b0569980d8a36c09de",
+      "nodes_reported_by_Root": 21269,
+      "depth_reported_by_Root": 16,
+      "old_maxNodes": 20000,
+      "old_collector_result": "metadata_tree_limit, not collection success"
+    },
+    "artifact_verification_reported_by_Root": {
+      "whole_ZIP_SHA256": "a2dba23da18ef8d5e683b673495f3d2409ac9540a8d5e67c3682b775d3cf6f24",
+      "selected_member_CRC_and_SHA_verified": true,
+      "whole_large_ZIP_not_stored": true
+    },
+    "new_context_contract": {
+      "identity": "One exact new navigation identifier+label absent before export",
+      "scope": "Exactly one window containing the exact new bar and exactly one matching bar in that window",
+      "move": "One exact Move/移動 button, finite in-bar witness only; never executed or required enabled/hittable",
+      "filename": "Exact base name or .json label/value in TextField/TextView/StaticText/Other; read-only, no edit/enable/hit/tap requirement",
+      "filename_limits": {
+        "exact_matches": 16,
+        "distinct_visible_below_bar_bounds": 8,
+        "dedup": "exact physical frame; all qualifying elements retained, none selected for execution"
+      },
+      "action_XOR": "One usable in-bar Cancel without Browse-back, or one usable in-bar Browse-back without Cancel",
+      "Browse": "At most one back action; no provider/folder/file selection; next Cancel must actually be verified",
+      "readiness": "One systemUptime deadline30 before export; initial/back/final readiness and full pre-tap rechecks share remaining time",
+      "existing_caps": {
+        "More_seconds": 15,
+        "sheet_export_seconds": 10,
+        "post_cancel_seconds": 15
+      },
+      "functional": "Two cancels and same-suite relaunch; public Resume/bookmark/fullyVisible noninitial heading unchanged"
+    },
+    "failure_hierarchy": {
+      "normal_or_predicate_capture": false,
+      "once_only": true,
+      "UTF8_bytes_max": 131072,
+      "full_attachment_name": "Reading-export-cancel-hierarchy",
+      "oversize_or_empty_name": "Reading-export-cancel-hierarchy-omitted",
+      "omission": "Short explicit OMITTED marker; no silently truncated full attachment"
+    },
+    "head9310_other_results_reported_by_Root": {
+      "FullB": {
+        "UI": 8,
+        "copy374": "actual exact match",
+        "Release": {
+          "articles": 199,
+          "audio": 1,
+          "verified_files": 625,
+          "test_content_absent": true
+        }
+      },
+      "FullA": {
+        "stage": "pretest",
+        "exit_code": 70,
+        "UI_executed": 0,
+        "full_common_total": 1251,
+        "full_common": "completed successfully"
+      },
+      "Runtime26_actual_UI": 3,
+      "Recovery_CI": "passed",
+      "SDK_Archive": "passed",
+      "accepted_external_reruns": 0,
+      "A_retry": "not run because new source is required"
+    },
+    "validation": {
+      "author": "Python full inverse and exact held methods/input hashes only",
+      "Node_SDK_UI_Simulator_export_Git_API": "NOT_RUN_BY_AUTHOR",
+      "independent_review": "pending",
+      "Root_combination": "UI1 plus independently owned diagnostic Code2 and Docs6; actual-parent binding pending",
+      "fresh_exact_head_CI_and_main": "pending; Native8/Full26/fullcommon/copy/Release and requiredCI remain gates"
+    },
+    "App": "0.2.28(30) unchanged",
+    "TODO": {
+      "total": 32,
+      "complete": 14,
+      "IOS22_complete": false,
+      "IOS25_complete": false
+    }
+  },
   "followup_6d_filtered_public_route": {
     "state": "PRIVATE_FILTERED_PUBLIC_ROUTE_UNEXECUTED",
     "date_JST": "2026-11-01",

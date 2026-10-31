@@ -85,3 +85,23 @@ Rootは、main88のReadingRecoveryとNative基底APIだけで検査を構成で�
 6dのFull Bは本文UI前の`simctl pbcopy`がAppleの`NSPOSIXErrorDomain` code60のtimeoutで停止し、UI0件、374Bの実コピーとReleaseは未到達だった。外部の再実行要求1回は全体runの進行中を理由に403で拒否され、受理された再実行は0回である。Full Aはこの候補作成時点で継続中とし、未封印の結果を採用しない。6dの必須11検査と本文更新後のpolicy2、SDK26 Archive、Runtime26の代表3件と復旧用CIの成功は、そのheadだけの履歴であり、新候補の受入には転用しない。
 
 作者による確認はPythonの単一差分・全文逆変換と旧4ケース／既存helper／厳密picker部分のbytes一致までで、Node・SDK・実UI・Git/API操作は実施していない。Rootは別commitの小さい失敗診断を同じPRへ組み合わせる予定で、そのCode4と37件の模擬試験・ローカル保存データでの診断確認は別の記録に分ける。両方を組み合わせた新headのHosted compile・完全共通検査・Native8・固定Full26・実コピー374B／Releaseと必要CI、最終独立レビュー・通常mainは未確認である。実provider保存・外部ファイルの内容・UI越しのraw全byte一致・実機・VoiceOver等も未完了とし、App0.2.28（30）、IOS-22・25未完了、TODO32行・14完了を維持する。
+
+## 9310の実保存画面と、一度だけのブラウズ戻りを検査する候補
+
+2026-11-01追記。head `9310d3f2`の[Native実行](https://github.com/pero3dev/ai-agent-library/actions/runs/41229913980)では、単体278件中276成功・2skip・失敗0、UI8件中旧7成功・新ケース1失敗だった。絞り込み本文の「その他の操作」と書き出し選択は通過し、最初の書き出し画面には到達した。失敗文脈は`attempt=1`と`usableFilenameCount=0`で、1回目の取消前に停止した。2回の取消と取消後の再起動は未到達である。
+
+保存した画像には、タイトル「このiPhone内」、左上の「ブラウズ」、右上の「移動」と、下部の正確な`AI-Agent-Library-Reading-Backup`が見える。このフォルダー画面には「キャンセル」は見えていない。画像だけではfilenameのAX型・編集可否・操作可否や、1回戻った後のCancelの出現を確定できない。従来の「編集欄が一意でhittable」「Saveがある」という候補条件はこの実画面を受け入れておらず、成功条件に読み替えない。
+
+今回の候補は、開く前になかった一意なnavigation contextと、そのbar内の「移動」／`Move`を実行しない識別材料にする。正確なfilenameは、同じ新barを含む一意なwindow内に限り、TextField・TextView・StaticText・Otherの正確なlabelまたは文字列valueとして確認する。検索結果は最大16件、有限で画面とwindowに収まりbarより下にある表示だけを認める。同じ物理frameの入れ子表示は明示的に重複を数え直し、異なるframeは最大8種とする。複数表示から任意の1要素を選んで実行せず、filenameの編集・tap・hittabilityは要求しない。
+
+新contextに、一意で有効かつ操作可能な「キャンセル」／`Cancel`があり、ブラウズ戻りがなければ、その取消だけを押す。Cancelがなく、一意で有効かつ操作可能な「ブラウズ」／`Browse`の戻りだけがある場合は、一度だけ押す。これは既存の戻り操作であり、provider・フォルダー・保存先を選ばない。その後は同じ識別材料を持つ取消contextを実際に確認できるまで待ち、Cancelが現れなければ失敗する。2回目の書き出しが最初から取消を持つ画面に戻った場合も、同じ全条件を満たした場合に限る。
+
+書き出しtap前にmonotonic clockの期限を一度だけ30秒後へ設定する。最初の表示待機、必要な一度のブラウズ戻り、取消表示待機と各tap直前の全witness再確認は、その残り時間を共有する。待ち直すために30秒を加算しない。既存の本文More15秒、正確なsheet／export10秒、取消後の一覧復帰15秒、2回取消と同じsuiteでの再起動・公開「続きを読む」・しおり・非先頭見出しの完全表示を保つ。旧4ケース・新ケース本体・検索終了・公開復帰・明示復旧と無関係なhelperは変更しない。
+
+失敗した場合だけ、既存の画像と1 KiB以内の固定文脈に加え、`Reading-export-cancel-hierarchy`という名前で一度だけ階層を取得する。空でないUTF-8全文が131,072 byte以内のときだけ同名で保持する。上限超過や空の場合は、別名の`Reading-export-cancel-hierarchy-omitted`に短い`OMITTED`記録を残し、途中で切ったものを完全な階層と扱わない。階層取得をpredicateや通常経路へ追加しない。別担当の診断コードは、この任意添付とmetadataの上限を別差分で扱う。
+
+9310の既存小診断は、実summaryの21,269 nodeが旧20,000上限を超え、`metadata_tree_limit`で停止した。これは制限による停止であり、小診断の成功ではない。Rootは大きなZIPを保存せず、全体SHAと選択memberのCRC・SHAを検証して画像・文脈・summaryを取得した。実画像で確認した表示と、まだ観測していないAX構造・戻り後の画面を区別する。
+
+9310のFull Bは8件・374Bの実一致・Release監査（199記事、音声1、検証625ファイル、テストcontentなし）を成功した。一方、Full Aは単体開始前の準備がexit70で停止し、UI0件、完全共通検査は1251件を対象に完走した。Runtime26の代表3件・復旧用CI・SDK Archiveも9310で成功した。受理された外部再実行は0回であり、新しいsourceが必要なためAの再実行は行わない。これらの別区画の結果を、書き出し取消や新候補の成功に転用しない。
+
+作者による検査はPythonの全文正逆変換、旧4ケースと新ケース本体・無関係helperのbyte一致、入力画像・文脈・summaryのhash確認までである。Node・SDK・UI・Simulator・書き出し・Git/APIは実行していない。新UIと別担当の診断コード・記録を結合した最終内容の独立レビュー、Hosted compile・Native8・固定Full26・完全共通検査・コピー／Releaseと必要CI、通常mainは未確認とする。実provider保存・外部ファイルの内容・実機・VoiceOver等も未完了で、App0.2.28（30）・IOS-22／25未完了・TODO32行14完了を維持する。

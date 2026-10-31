@@ -1,8 +1,8 @@
 # iOS完成版に向けたTODO
 
-[Native UI失敗添付の小規模保存候補](../../records/2026-11-01/ios-native-failure-compact.md)は、全量artifactを保ち、選んだ失敗1ケースの既知画像と固定textを2MiB以内で保存する案である。UI判定・job40分を保持し、Rootの隔離fixture37件と、保存済みxcresultを使うローカル16.2のengine・guard・Python helperの制御probeは成功した。productionIO／Hosted16.4・CIの受入は未確認として分ける。TODO32行・完了14行と実機等の未完了は維持する。
+[Native UI失敗添付の小規模保存](../../records/2026-11-01/ios-native-failure-compact.md)は、実21,269ノードsummaryに合わせた上限32,768と任意hierarchyの候補である。保持workflow／Pythonを揃えたRoot制御試験は43成功・失敗0、保存済み9310のメモリIO再生は旧0ファイルからPNG／context2件のcollectedへ進んだ。初回41成功・2 ENOENT失敗も保持し、実Apple utility／productionIO／Hostedの新効果・実子終了確認とは区別する。新UIの最初のSave context／取消2回／復帰、実機とIOS-25／IOS-15は未受入である。
 
-IOS-22・25の[書き出し取消UI候補](../../records/2026-10-31/ios-reading-export-cancellation.md)は、6dで公開復帰・明示復旧を通過した後、通常toolbar Moreの操作可否でNative旧7成功・新1失敗となった。既存成功例と同じ絞り込み中の本文Buttonを使い、記事を開かず一度だけ設定したTransformer検索・一意なリストとMore・正確なsheetを確認する。新保存context・2回取消・検索保持・再起動の厳密判定は保ち、toolbar経路は未解決として残す。新headのHosted compile・Native8・Full26・必要CI/通常main、provider・実機は未完了、TODO32行14完了を維持する。
+IOS-22・25の[書き出し取消UI候補](../../records/2026-10-31/ios-reading-export-cancellation.md)は、9310で本文More/exportを通過したが、Move・ブラウズ・下部filenameが見える初回保存先画面で旧編集欄条件に失敗した。正確な新bar/windowと読取filenameを確認し、一度だけ戻ってCancelを実際に確認する候補へ進める。初回・戻り後と直前確認は単一30秒、2回取消・検索保持・再起動としおり／位置の厳密判定は保つ。失敗時階層は一度・全文上限付きとし、新headのHosted compile・Native8・Full26・必要CI/通常main、provider・実機を未完了のまま、TODO32行14完了を維持する。
 
 IOS-15の[Notice対応Core観測の固定入口とHosted事前検査案](../../records/2026-10-31/ios-notice-core-hosted-observation.md)では、固定verifier2＋Hosted実行面3の計5sourceを準備する。local3.8GB条件を下げず、Hostedで独立の26fake／Node22構文/schemaが成功した場合だけCore180秒へ進む案で、Hosted実行・新head共通／CI／mainは未確認である。先行PR316と回転UI単位の通常mainを引き継いだ実parent `84f8f3ea1e1a4d3e2c809130af6a0388b7f24564` への提出候補として、App版不変更・TODO32行／14完了を維持する。
 

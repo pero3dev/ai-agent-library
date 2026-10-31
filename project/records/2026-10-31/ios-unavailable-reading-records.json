@@ -2,7 +2,7 @@
   "schema_version": 1,
   "date": "2026-10-31",
   "title": "現在の記事版にない読書記録の件数と保管案内",
-  "state": "Source12 two pre-UI read caps plus explicit full common CI step prepared; actual newhead common/iOS/main pending",
+  "state": "Source12 scoped canonical TMPDIR prepared; actual newhead fullcheck/iOS/main pending",
   "scope": "IOS22 read-only unavailable-article record count and retention/export-location guidance only; no automatic cross-ID rename/delete/migration",
   "publication_parent": "568dd2948a58c174cef739a667c3f9bd19ea8fa3",
   "publication_parent_tree": "761637b27ed9a51234990e5cf24501212098079b",
@@ -779,5 +779,53 @@
     "remote_common_and_iOS": "full unchanged npm ci/npm run check and affected exactnewhead iOS required before normal main; not yet executed",
     "final12_review": "pending",
     "manual_and_TODO": "physical/VO/provider/overwrite/minimumOS/knownSDK27failure/signing/distribution incomplete;32rows14complete held"
+  },
+  "canonical_temp_followup": {
+    "state": "Source12 scoped canonical TMPDIR prepared; actual newhead fullcheck/iOS/main pending",
+    "publication_parent": "756e5c65232380217daf0ab08b22f134b426404f",
+    "prior_top_state": "Source12 two pre-UI read caps plus explicit full common CI step prepared; actual newhead common/iOS/main pending",
+    "held_app_configuration": "0.2.27(29), all Swift/PBX and626Content held",
+    "observed756_A": {
+      "job": 124396396074,
+      "run": 41153914228,
+      "full_npm_check": "started, npmtest exit1; downstream common/Swift/UI not reached",
+      "tests": 1206,
+      "pass": 1132,
+      "fail": 59,
+      "skip": 15,
+      "seconds": 56.986363,
+      "raw_bytes": 623252,
+      "raw_SHA256": "59cc19b7d8618c0056a7b7addfe941ef7612971871e556243cbb0ed355b643f3",
+      "families": "58 in7path/containment families;1 equality-only no innererror; not all59causeproven"
+    },
+    "Runtime26_756": "actual3uniqueUIpass, raw520459/062de696e9744ad026f25d4dffd37835bf623c3dbcba1c19561068dc03919277; not substitute for fullCommon",
+    "candidate": {
+      "workflow_SHA256": "21902b42ed8eed1253fe109f7f944c1666cbd1e4f7f53c69b6ddb95d2450fb67",
+      "bytes": 44409,
+      "change": "only6lines scoped canonical temp in common shell, no shared/job/GITHUB_ENV change",
+      "guard_test_caps": "unchanged, fullCommon3min/job50 and allotherworkflow bytes held",
+      "cleanup": "newnonempty mktemp path, knowncanonicalparent/prefix only; EXIT not guaranteed onSIGKILL/runnerloss",
+      "causefix_Hosted_success": false
+    },
+    "selected_existing6": {
+      "state": "not started, Node0",
+      "resource_refusal_free_B": 656728064,
+      "unchanged_floor_B": 734003200,
+      "fixed_inputs": 34,
+      "all_held": true,
+      "seconds": 0.004614,
+      "new_empty_fixture_dir_removed_by_identity_checked_rmdir": true,
+      "additional_attempts": 0
+    },
+    "Source1_IR": {
+      "P1": 0,
+      "P2": 0,
+      "SHA256": "04a8ee8d07ee24948058ce8f56944cf77003545843bbe43130957c44c94e3d19",
+      "scope": "static source and Bash syntax only, not live temp/cleanup or6results"
+    },
+    "newhead_gate": "actual fullCommon including all1206 and affected iOS/latest11/postbodypolicy success before normalmain; not yet run",
+    "local_fullcommon": "not admitted below existing2GiB condition, no fake pass",
+    "final12_review": "pending",
+    "manual_TODO": "physical/VO/provider/minimumOS/knownSDK27quality/performance/signing/distribution incomplete,32rows14complete held"
   }
 }

@@ -255,3 +255,5 @@ E1〜F2の[旧検証計画](records/2026-09-30/p1-kit-preparation/README.md)と[
 新しい計画は `plans/content/`・`plans/maintenance/`・`plans/engineering/`、実施記録は `records/YYYY-MM-DD/` に用途を表す英語ケバブケースで置きます。外部資料の出典・主張・取得時刻・適用台帳は [research/](../research/README.md) に置き、記事テンプレートは使いません。新しい計画・記録はこの索引から辿れるようにします。ルートの README へ計画ファイルの長い列挙を戻しません。
 
 2026-10-31の[読書記録の案内のCI追記](records/2026-10-31/ios-unavailable-reading-records.md)では、head7fのNative／Full A／Runtime26成功と、Bの端末一覧・canary準備失敗を区別する。2読取を90秒へする候補は純粋23件と独立レビューまでで、共通検査は条件を緩めず新headのGitHub CIで確認する。新B UI8・copy・Release・mainと実機は未完了、TODO32行／完了14行を維持する。
+
+2026-10-31の[読書記録の案内の共通検査追記](records/2026-10-31/ios-unavailable-reading-records.md)では、head756のfull npmcheckが1206件中59失敗で停止したことを保存する。common step専用の正規化した一時領域を渡す候補を準備し、パス拒否guardを維持する。ローカル既存6件は容量条件により未起動で、新headの完全な共通検査・必要iOS・mainは未受入、TODO32行／完了14行を維持する。

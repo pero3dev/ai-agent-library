@@ -383,3 +383,5 @@ IOS-23・25・26は最終段階だけの仕事にせず、各機能PRで必要�
 コードの確認先は[生成処理](../../../scripts/lib/ios-content.mjs)、[記事モデルと検索](../../../ios/AILibrary/Sources/Models.swift)、[更新処理](../../../ios/AILibrary/Sources/ContentRepository.swift)、[保存処理](../../../ios/AILibrary/Sources/ReadingStore.swift)、[音声処理](../../../ios/AILibrary/Sources/AudioPlayer.swift)、[既存CI](../../../.github/workflows/ci.yml)。前提調査は[実現性調査](../../../research/ios-app-feasibility-2026-10-21.md)、権利の未確定事項は[既存棚卸し](../../records/2026-10-03/license-inventory.md)を参照した。Apple要件は2026-10-24に公式資料で確認した。
 
 [読書記録の案内のCI追記](../../records/2026-10-31/ios-unavailable-reading-records.md)では、head7fのA18等の成功とBの2つの準備失敗を別に保持する。2読取を90秒へする候補は純粋23件と独立レビューまでで、新headのUI8・copy・Releaseは未受入である。ローカル容量不足による共通検査未起動を明示し、通常PR CIで完全な共通検査と必要iOS検査を通してからmainへ進める。実機未完了とTODO32行・完了14行を維持する。
+
+[共通検査の一時領域の追記](../../records/2026-10-31/ios-unavailable-reading-records.md)では、head756の1206件中59失敗と、58件のパス関連／1件の内因未確定を区別する。common専用のcanonical TMPDIR候補は静的レビューまでで、選択6件は容量条件により起動前に停止した。既存guardを緩めず、新headの完全な共通検査・必要iOS・通常mainの実結果を待ち、実機未完了とTODO32行・完了14行を維持する。

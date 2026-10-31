@@ -1,5 +1,21 @@
 # 現在の記事版にない読書記録の件数と保管案内
 
+## 共通検査の一時領域を正規化する候補
+
+2026-10-31の最新状態は、head756の完全な共通検査の実失敗を保存した12パスの候補である。App構成0.2.27（29）、全199記事・626ファイルとTODO32行・完了14行を維持する。以降は各時点の履歴として保持する。
+
+head756のFull Aでは追加した `npm run check` が実行され、npm testが1206件中1132成功・59失敗・15skipでexit1となった。約57秒で失敗しており3分のtimeoutではない。後段のicon・lint・validate等とSwift単体・UIには未到達で、完全な共通検査の成功とは扱わない。Runtime26のUI3件は別に成功したが、この失敗を補わない。
+
+失敗59件をcaseとstackへ対応付けた。58件は7つのパス・containment関連familyで、残るparallel stale recoveryの1件は0!==1だけのため内側の原因を断定できない。rawにvar/folders経由の祖先symlink拒否があり、macOS既定の一時領域の別名パスが原因候補となるが、全59件の因果確定や修正成功は主張しない。
+
+修正候補はFull commonのstep内だけでRUNNER_TEMPをcd／pwd -Pで正規化し、その下にmktempで新しい専有dirを作る。非空・既知parent／prefixを確認するEXIT trapを直後に設定し、新dirもphysical pathと一致した場合だけTMPDIRへ渡す。既存のパス拒否guardとテスト、3分／job50分、pipefail、完全なnpm run checkとログ、他stepの環境は維持する。SIGKILLやrunner消失でEXIT cleanupが実行されない可能性は残る。
+
+代表的なpositive／symlink negativeとparallel stale recoveryの既存6件を選び、Node24.19.0・34入力を固定した。しかし空き656,728,064Bが700MiB条件を下回ったため起動前に拒否され、Node0・6件すべて未確認である。空の新fixture dirだけidentity確認後にrmdirし、条件を緩めた再試行は行わない。Source1の別作者静的レビューとBash構文検査は指摘0／exit0で、実shell動作や実npm成功を意味しない。
+
+新headの完全な共通検査と必要iOS検査・最新11必須チェック・本文後policyが成功するまで通常main統合を行わない。旧headの失敗と成功、ローカル検証の未起動を保持し、実機・VoiceOver・最低OS・性能予算・署名更新・配布と複合TODOは未完了として残す。
+
+## 一時領域の正規化より前の記録
+
 ## 起動後の準備コマンドの上限を見直す候補
 
 2026-10-31の最新状態は、head7fの失敗を保持した12パスの修正候補である。App構成0.2.27（29）とTODO32行・完了14行を維持する。以降の既存節は各採録時点の履歴として保持する。

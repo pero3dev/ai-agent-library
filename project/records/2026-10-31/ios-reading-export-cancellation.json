@@ -1,4 +1,189 @@
 {
+  "followup_546_more_ready": {
+    "state": "PRIVATE_MENU_READY_STANDARD_ALIGNMENT_UNEXECUTED",
+    "date_JST": "2026-11-01",
+    "parent_head": "546dd69bd919d9ef0254016d38dc63377e671ac2",
+    "parent_tree": "cd19808bcfb70e36115c6bb6ca68ce6549f0d145",
+    "old_root_fields_scope": "The original root fields below remain verbatim historical Source5/search-exit records; this object is the current followup.",
+    "code": {
+      "path": "ios/AILibraryUITests/ReadingRecoveryUITests.swift",
+      "before_SHA256": "5bb2f873ab8f584ee11a44c6946543e29098e4ac1bf018ce0811b35a624d06ee",
+      "before_bytes": 25461,
+      "SHA256": "2d1b057e4a5ba02ad8360e81d98e985623fb3225dffdac15001243488b06890b",
+      "bytes": 26086
+    },
+    "head546_CI": {
+      "sealed_result_SHA256": "432712cec26ca4fcd5fe8761bfd48fe5a64a47a9122bf810593b151435318a6e",
+      "Native": {
+        "run_id": 41215473763,
+        "job_id": 124578968955,
+        "attempt": 1,
+        "conclusion": "failure",
+        "units": {
+          "total": 278,
+          "passed": 276,
+          "skipped": 2,
+          "failed": 0,
+          "notice6_actual_pass": 6,
+          "Diagnostics6_actual_pass": 6
+        },
+        "UI": {
+          "total": 8,
+          "unique": 8,
+          "passed": 7,
+          "failed": 1
+        },
+        "new_case_failure": {
+          "leaf": "ReadingRecoveryUITests/testExportFilePickerCancelKeepsHealthyPositionAndBookmarkAfterRelaunch",
+          "reported_source": "ios/AILibraryUITests/ReadingRecoveryUITests.swift:349",
+          "message": "The public search did not close to one usable unfiltered More control",
+          "seconds": 72.44,
+          "UTC": "2026-10-31T16:06:08.7870230Z",
+          "scope": "Custom search-exit preparation refusal, context/attempt0; exact false predicate component not available in console",
+          "last_public_tap": "2026-10-31T16:05:50.8603020Z Tap キャンセル",
+          "preceding_clear_filters_tap": "2026-10-31T16:05:47.7008080Z",
+          "last_queries": "Cancel and More counts; More Button/element frame lookup untilt70.28; no numeric predicate results in raw",
+          "attachments": [
+            "Added attachment named 'Reading-export-cancel-0-failed'",
+            "Added attachment named 'Reading-export-cancel-context'"
+          ]
+        },
+        "new_export_acceptance": {
+          "case": false,
+          "SaveDialog": "not observed",
+          "cancel1": "not observed",
+          "cancel2": "not observed",
+          "postcancel_relaunch": "not reached",
+          "provider_write_or_final_backup_bytes_or_physical": false
+        },
+        "Release": "skipped",
+        "evidence": {
+          "SHA256": "66815bf28efb78d931df453d054581e6a7401b4344111a270586444a2922fbba"
+        }
+      },
+      "FullA": {
+        "run_id": 41215473873,
+        "job_id": 124578969459,
+        "attempt": 1,
+        "conclusion": "success",
+        "units": {
+          "total": 278,
+          "passed": 276,
+          "skipped": 2,
+          "failed": 0
+        },
+        "UI": {
+          "total": 18,
+          "unique": 18,
+          "passed": 18,
+          "classes": {
+            "NativeReaderUITests": 3,
+            "PublishedReaderUITests": 9,
+            "ReaderViewportGeometryTests": 6
+          }
+        },
+        "literal_full_common": {
+          "literal": "npm run check",
+          "total": 1214,
+          "passed": 1199,
+          "failed": 0,
+          "skipped": 15,
+          "test_duration_ms": 49011.88125,
+          "pipeline_commands": [
+            "npm test",
+            "npm run ios:test:icon",
+            "npm run lint:md",
+            "npm run validate",
+            "npm run links",
+            "npm run check:levels",
+            "npm run todos",
+            "npm run check:harness"
+          ],
+          "all_eight_pipeline_commands_completed": true,
+          "scope": "Actual current-head macOS full pipeline; historical1214 projection was not used as result"
+        },
+        "evidence": {
+          "SHA256": "c487c5579e358b842c97c5131bf4d459abdaa0244091d7247c946cf4713d86f9"
+        }
+      },
+      "FullB": {
+        "run_id": 41215473873,
+        "job_id": 124578969565,
+        "attempt": 1,
+        "conclusion": "success",
+        "UI": {
+          "total": 8,
+          "unique": 8,
+          "passed": 8
+        },
+        "copy": {
+          "source_expected_bytes": 374,
+          "actual_exact_equality_guard_passed": true,
+          "actual_guard_success_once": {
+            "line": 12366,
+            "text": "2026-10-31T15:58:17.7164190Z Verified exact 374-byte first code copy on the actual UI destination."
+          },
+          "expected_SHA256": "e29cb525957fb4bd72350927aa1cf47659da4aef9964ecbf0d43edb4dfe2cee8",
+          "hash_scope": "actual.equals(expected) established by terminal successful control flow and once-only real marker; actualSHA JSON written by workflow but not echoed or downloaded",
+          "actual_SHA256_JSON_directly_observed": false,
+          "actual_pbpaste_exit_success": true,
+          "SourceUIleaf_and_independent_probe_distinguished": true
+        },
+        "Release": {
+          "status": "passed actual console JSON",
+          "articles": 199,
+          "audio": 1,
+          "verified_files": 625,
+          "verified_bytes": 36958866,
+          "test_content_absent": true,
+          "lines": [
+            13918,
+            13928
+          ]
+        },
+        "icon": {
+          "status": "passed",
+          "scope": "built-AppIcon-file-and-CAR-metadata-only",
+          "line": 13932,
+          "not_visual_or_physical_acceptance": true
+        },
+        "evidence": {
+          "SHA256": "dcb673b6df6349033273e84f57251201b48462076ee971b42f6ad1541b60991c"
+        }
+      },
+      "external_reruns_reported": 0
+    },
+    "failure_evidence": {
+      "raw_log_SHA256": "4e581f12ad0e0f60c2f967fb6e5e6f6c0c157b4d4add36a6bdaf2809536a58c1",
+      "saved_screenshot_SHA256": "44cfddd5d2540526c6e3da5e2fdf29b57ca10034cc14c1934849c11be1d77c33",
+      "screenshot_bytes": 309634,
+      "observed": "Search Cancel is gone, normal large-title library and top-right ellipsis are visible; recovery notice and Resume remain.",
+      "context_limit": "Only114-byte phase context was captured; no numeric AX frame or false predicate component was saved.",
+      "cause_status": "Exact clipping, overlap, geometry or isHittable cause unproven; no fileExporter/provider/record-loss cause inferred."
+    },
+    "change": {
+      "scope": "Only the added More-ready predicate uses isHittableOnScreen defaultfalse, the existing public-control tap standard.",
+      "retained": "Search Cancel gone and unique More count; search-Cancel preparation and every functional/strict Savepicker condition unchanged.",
+      "sampled_context": "Read Cancel count once; only ifzero read More count once; only ifone read ready once. Store already-read values, with not-read for shortcircuited getters.",
+      "no_extra_AX_or_late_hierarchy": true,
+      "existing_context_cap_bytes": 1024,
+      "new_UI8_acceptance": "pending"
+    },
+    "validation": {
+      "author_static": "one predicate change and full inverse/old4cases/helpers identity only",
+      "independent_Code1_Docs4_review": "pending at author seal",
+      "new_local_SDK_full_common": "not run; no capacity-floor exception",
+      "new_exact_head_CI": "fresh Hosted compile/Native8/Full26/copy/Release and required full common CI before main",
+      "physical_provider_final_bytes": "unfinished; not part of this private followup"
+    },
+    "App": "0.2.28(30) unchanged",
+    "TODO": {
+      "total": 32,
+      "complete": 14,
+      "IOS22_complete": false,
+      "IOS25_complete": false
+    }
+  },
   "schema_version": 1,
   "state": "PRIVATE_PR321_SEARCH_EXIT_FOLLOWUP_UNEXECUTED",
   "date": "2026-10-31",

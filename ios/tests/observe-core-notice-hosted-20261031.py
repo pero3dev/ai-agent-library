@@ -400,11 +400,85 @@ def runtime_git_boundary(env):
         'source_checkout':git_audit(WORKSPACE,env,False),'selection':git_selection(env)}
 
 
+def save_git_surface_rejection(g, first_rejected_rel):
+    # Metadata only, after the original rejection predicate. Never open leaf contents.
+    rels = ['info/grafts','objects/info/alternates','objects/info/http-alternates',
+            'refs/replace','config.worktree','commondir']
+    require(first_rejected_rel in rels, 'Fixed Git diagnostic surface required')
+    flags = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_NONBLOCK
+    try:
+        anchor = os.open(g, flags)
+        try:
+            def metadata(rel):
+                row = {'rel':rel,'kind':None,'stat_size':None,'regular_empty':None,'errno':None}
+                opened = []
+                parent = anchor
+                try:
+                    for part in rel.split('/')[:-1]:
+                        item = os.stat(part, dir_fd=parent, follow_symlinks=False)
+                        if not stat.S_ISDIR(item.st_mode):
+                            row['kind'] = 'blocked-parent-symlink' if stat.S_ISLNK(item.st_mode) else 'blocked-parent-nondirectory'
+                            return row
+                        parent = os.open(part, flags, dir_fd=parent)
+                        opened.append(parent)
+                    item = os.stat(rel.split('/')[-1], dir_fd=parent, follow_symlinks=False)
+                    row['stat_size'] = item.st_size
+                    if stat.S_ISREG(item.st_mode):
+                        row['kind'] = 'regular'
+                        row['regular_empty'] = item.st_size == 0
+                    elif stat.S_ISDIR(item.st_mode):
+                        row['kind'] = 'directory'
+                    elif stat.S_ISLNK(item.st_mode):
+                        row['kind'] = 'symlink'
+                    else:
+                        row['kind'] = 'other'
+                    return row
+                except OSError as error:
+                    row['kind'] = 'absent' if error.errno == errno.ENOENT else 'stat-error'
+                    row['errno'] = error.errno if isinstance(error.errno, int) else None
+                    return row
+                finally:
+                    close_failed = False
+                    for descriptor in reversed(opened):
+                        try:
+                            os.close(descriptor)
+                        except OSError:
+                            close_failed = True
+                    require(not close_failed, 'Git diagnostic directory close refused')
+            rows = [metadata(rel) for rel in rels]
+        finally:
+            os.close(anchor)
+        value = {'kind':'rejected-Git-surface-metadata-only','first_rejected_rel':first_rejected_rel,
+                 'non_atomic_snapshot':True,'refusal_unchanged':True,'rows':rows}
+        data = (json.dumps(value, sort_keys=True, separators=(',',':'))+'\n').encode('utf-8')
+        require(len(data) <= 4096, 'Git diagnostic4KiB refused')
+        output_dir = os.open(ROOT, flags)
+        try:
+            output = os.open('git-surface-rejection.json',
+                os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW | os.O_NONBLOCK,
+                0o600, dir_fd=output_dir)
+            try:
+                position = 0
+                while position < len(data):
+                    count = os.write(output, data[position:])
+                    require(0 < count <= len(data)-position, 'Git diagnostic write refused')
+                    position += count
+            finally:
+                os.close(output)
+        finally:
+            os.close(output_dir)
+    except Exception:
+        # Keep filenames, config values and raw OS errors out of stopped.json.
+        raise ValueError('Git surface rejection diagnostics failed') from None
+
+
 def git_audit(repo, env, bare):
     g=repo if bare else repo/'.git'
     require(g.is_dir() and not g.is_symlink(),'Ordinary Git directory required')
     for rel in ['info/grafts','objects/info/alternates','objects/info/http-alternates','refs/replace','config.worktree','commondir']:
-        q=g/rel;require(not q.exists() and not q.is_symlink(),'Git replacement/alternate/worktree surface rejected')
+        q=g/rel;absent=not q.exists() and not q.is_symlink()
+        if not absent:save_git_surface_rejection(g,rel)
+        require(absent,'Git replacement/alternate/worktree surface rejected')
     for q in (g/'objects/pack').glob('*.promisor'):raise ValueError('Promisor rejected')
     config=read(g/'config').decode('utf-8');require(not re.search(r'(?im)^\s*\[\s*(include|includeif|extensions|credential|filter|http|url)\b',config),'External Git configuration rejected')
     if (g/'hooks').exists():

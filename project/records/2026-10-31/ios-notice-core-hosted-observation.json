@@ -1,7 +1,7 @@
 {
   "date": "2026-10-31",
   "title": "Notice対応Core観測の固定入口とHosted事前検査案",
-  "state": "actual-parent candidate; initial common exit1 preserved, workflow audit/install step split; revised common/final9/Hosted/main pending",
+  "state": "published75f actionlint3 and prepare refusal retained; next rejection-only diagnostic candidate unexecuted; new common/Hosted/Core/main pending",
   "actual_parent": "84f8f3ea1e1a4d3e2c809130af6a0388b7f24564",
   "actual_parent_tree": "3404498d89b9fd771babc3ff97215f22728892ec",
   "Root_remote_normal_main_attestation": true,
@@ -32,18 +32,18 @@
     },
     {
       "path": ".github/workflows/ios-core-notice-observation.yml",
-      "bytes": 3853,
-      "SHA256": "1abc0b42ec1ff7b501d86b6f85338c8ccd5f969fa8b5ffc3d3f3f09350c6ac61"
+      "bytes": 3934,
+      "SHA256": "4b062203721758e46e38f512a06c289836542917e3c77aefb03bc76d00b09a38"
     },
     {
       "path": "ios/tests/observe-core-notice-hosted-20261031.py",
-      "bytes": 59107,
-      "SHA256": "dc9d4c3f9f9390ae8fc303f16c9ca02a58d0e81b25eaa1c9378ba5085a936c54"
+      "bytes": 62866,
+      "SHA256": "738e19a22bff52020adedd9dca2e87ed090b512c2450a67ca9e744f4f5f2daea"
     },
     {
       "path": "ios/tests/hosted-core-notice-pure-fixtures-20261031.py",
       "bytes": 12997,
-      "SHA256": "0920d9d26d8643debaf1e0bd16880096627e3980da7e5f04b9102f3df959cc0a"
+      "SHA256": "39aa9ee8ebcc8ab1dd2bedf5e2856df2fc47d0a44819453966e6e4a6be4cf270"
     }
   ],
   "App_version": "0.2.28(30) inherited configuration, not actual Bundle inspection",
@@ -64,8 +64,8 @@
     "first_secretless_Hosted_after_binding_required": true,
     "console_draft_adopted": false,
     "local_pure_fixture26_execution": true,
-    "Hosted_fixture26_execution": false,
-    "Node22_preflight_execution": false,
+    "Hosted_fixture26_execution": true,
+    "Node22_preflight_execution": true,
     "Core19_observation_execution": false,
     "previous_combined_execution_flag_history": {
       "field": "actual_fixture26_Node22_or_Core19_execution",
@@ -82,8 +82,11 @@
       "stdout_bytes": 4320,
       "stdout_SHA256": "13e5c37a2b4b07cf285f121af05a108ba133aa3922c3b20f2b24038ad585e043",
       "stderr_bytes": 0,
-      "real_children_Git_Swift_SDK_Node_network_Hosted": 0
-    }
+      "real_children_Git_Swift_SDK_Node_network_Hosted": 0,
+      "scope": "oldguard dc9 before rejection metadata; not new helper execution"
+    },
+    "Source3_IR_scope": "Historical pre-diagnostic Source3 only; current helper and repinned fixture require new review",
+    "published_execution_scope": "prior75f only; new workflow/guard/fixture candidate unexecuted"
   },
   "TODO": {
     "rows": 32,
@@ -144,6 +147,175 @@
     "new_workflow_delta_independent_IR_pending": true,
     "new_common_pending": true,
     "Hosted_pending": true
+  },
+  "prior_published75f_execution": {
+    "head": "75f8d51cedff8e1b830dc0ecc2a2866bafe0c999",
+    "source_manifest9_SHA256": "aee168d4cc8e196431eb387d85d211bf3ee783fd1fb41b7ba007e63506e89448",
+    "artifact_id": 13034818005,
+    "run": 41181588578,
+    "ZIP_bytes": 9788,
+    "ZIP_SHA256": "7d82c505f87a66fcf7b55c3040af0923b8859bde8fd42d9fe2fd07a3c6236cc6",
+    "saved_receipt_bytes": 3261,
+    "saved_receipt_SHA256": "309eaf3b46d0f7b3caff850b897e6574458e6f6d506ee31c2d840a9d8e05d993",
+    "all16_saved_files_rehashed": true,
+    "actionlint": {
+      "job": 124479926171,
+      "SC2155": 3,
+      "raw_container_bytes": 19181,
+      "raw_container_SHA256": "c6f3feda5efd5f9962f05bc12485e8da4b954cc4f899d5658cb318be4e9ac26b",
+      "fixed_only_exact3_assignment_export_lines": true
+    },
+    "Hosted_fixture": {
+      "receipt_SHA256": "f696de3dbb4bf0e631d0766dd19972b0a6d52f27356c44b796359631a126feb1",
+      "cases": 26,
+      "unique": 26,
+      "pass": 26,
+      "fail": 0,
+      "phase_seconds": 0.27716512500001045,
+      "python_child_seconds": 0.09461695800001735,
+      "Node_version": "v22.23.4",
+      "Node_preflight4_exit0": true,
+      "scope": "previous published75f guarddc9/fixture092 only, not current diagnostic helper execution"
+    },
+    "Content_generation_and_audit": {
+      "state": "success",
+      "authority": "Root supplied prior completed job stage metadata; prepare follows successful generation/audit in fixed workflow",
+      "independent_Content626_replay_here": false
+    },
+    "prepare": {
+      "state": "unconfirmed-stopped",
+      "type": "ValueError",
+      "message": "Git replacement/alternate/worktree surface rejected",
+      "stopped_SHA256": "ddeedf3ed90a5ebe6032c019e0f907e898986f9868f364ff79242d8a85a4852a",
+      "measurement_started": false,
+      "probe_catalog_in_saved16": false,
+      "actual_rejected_rel": null,
+      "actual_runner_Git_version": null
+    },
+    "previous_source_files": [
+      {
+        "path": "ios/tests/verify-core-performance-notice-20261031.mjs",
+        "bytes": 2586,
+        "SHA256": "c911db411741ddfa60af310a6d1906f565f3413375a6538655b29053a28d5784"
+      },
+      {
+        "path": "tests/unit/ios-core-performance-notice-20261031.test.mjs",
+        "bytes": 8167,
+        "SHA256": "43126d0daa63ceea3d6d520098b47b6c540c00283f70bd406b45a6d68212e712"
+      },
+      {
+        "path": ".github/workflows/ios-core-notice-observation.yml",
+        "bytes": 3853,
+        "SHA256": "1abc0b42ec1ff7b501d86b6f85338c8ccd5f969fa8b5ffc3d3f3f09350c6ac61"
+      },
+      {
+        "path": "ios/tests/observe-core-notice-hosted-20261031.py",
+        "bytes": 59107,
+        "SHA256": "dc9d4c3f9f9390ae8fc303f16c9ca02a58d0e81b25eaa1c9378ba5085a936c54"
+      },
+      {
+        "path": "ios/tests/hosted-core-notice-pure-fixtures-20261031.py",
+        "bytes": 12997,
+        "SHA256": "0920d9d26d8643debaf1e0bd16880096627e3980da7e5f04b9102f3df959cc0a"
+      }
+    ]
+  },
+  "previous_saved_evidence_history": {
+    "Source2_manifest": "99290500644281e31feea1a067e320bde8824f4be1624a778c6d5911f198dc4d",
+    "Source3_manifest": "d46113b3ecbfe688e35dcbf4e54ce32d1bf4a385b60b4eac72fe92ea15f71d10",
+    "Rootdocs_manifest": "b09e0d4863fc5e897a0c964326853c521fa41fd04e64f27008b5b7fe72f07cdc",
+    "Source2_IR": "f31c04d38b90716f38bec693344d15a465efa897eb4b7fa8a12b334cc47fac16",
+    "Source3_IR": "aeb8f46ad061703465f3d773ec42163ef14e0f002a6417702124af73be033c39",
+    "Rootdocs_IR": "b0047d1e7cadd96ec8d37641946ed48ff90a9bc3e8b5f4dfefcaa37069428695",
+    "saved_Node_boundary_cases": 8,
+    "saved_Node_boundary_seconds": 0.267297,
+    "saved_Node_scope": "fixed policy boundary only; matching identity intentionally reaches invalid manifest digest, no corpus19 acceptance",
+    "Source3_static_P1_count": 0,
+    "Source3_static_P2_count": 0,
+    "first_secretless_Hosted_after_binding_required": true,
+    "console_draft_adopted": false,
+    "local_pure_fixture26_execution": true,
+    "Hosted_fixture26_execution": false,
+    "Node22_preflight_execution": false,
+    "Core19_observation_execution": false,
+    "previous_combined_execution_flag_history": {
+      "field": "actual_fixture26_Node22_or_Core19_execution",
+      "value": false,
+      "scope": "before local pure26 execution; historical combined field superseded by explicit current boundaries"
+    },
+    "local_pure_fixture26_evidence": {
+      "kind": "local AST-selected-functions pure fakes only",
+      "total": 26,
+      "unique": 26,
+      "pass": 26,
+      "fail": 0,
+      "seconds": 0.24869275,
+      "stdout_bytes": 4320,
+      "stdout_SHA256": "13e5c37a2b4b07cf285f121af05a108ba133aa3922c3b20f2b24038ad585e043",
+      "stderr_bytes": 0,
+      "real_children_Git_Swift_SDK_Node_network_Hosted": 0
+    }
+  },
+  "rejection_diagnostic_candidate": {
+    "changes": [
+      ".github/workflows/ios-core-notice-observation.yml",
+      "ios/tests/observe-core-notice-hosted-20261031.py",
+      "ios/tests/hosted-core-notice-pure-fixtures-20261031.py",
+      "project/records/2026-10-31/ios-notice-core-hosted-observation.md",
+      "project/records/2026-10-31/ios-notice-core-hosted-observation.json"
+    ],
+    "workflow_SC2155_Source1_Root_carried_IR": "5305 prefix as received; workflow bytes exact4b062",
+    "current_source3_files": [
+      {
+        "path": ".github/workflows/ios-core-notice-observation.yml",
+        "bytes": 3934,
+        "SHA256": "4b062203721758e46e38f512a06c289836542917e3c77aefb03bc76d00b09a38"
+      },
+      {
+        "path": "ios/tests/observe-core-notice-hosted-20261031.py",
+        "bytes": 62866,
+        "SHA256": "738e19a22bff52020adedd9dca2e87ed090b512c2450a67ca9e744f4f5f2daea"
+      },
+      {
+        "path": "ios/tests/hosted-core-notice-pure-fixtures-20261031.py",
+        "bytes": 12997,
+        "SHA256": "39aa9ee8ebcc8ab1dd2bedf5e2856df2fc47d0a44819453966e6e4a6be4cf270"
+      }
+    ],
+    "previous_source3_rows": [
+      {
+        "path": ".github/workflows/ios-core-notice-observation.yml",
+        "bytes": 3853,
+        "SHA256": "1abc0b42ec1ff7b501d86b6f85338c8ccd5f969fa8b5ffc3d3f3f09350c6ac61"
+      },
+      {
+        "path": "ios/tests/observe-core-notice-hosted-20261031.py",
+        "bytes": 59107,
+        "SHA256": "dc9d4c3f9f9390ae8fc303f16c9ca02a58d0e81b25eaa1c9378ba5085a936c54"
+      },
+      {
+        "path": "ios/tests/hosted-core-notice-pure-fixtures-20261031.py",
+        "bytes": 12997,
+        "SHA256": "0920d9d26d8643debaf1e0bd16880096627e3980da7e5f04b9102f3df959cc0a"
+      }
+    ],
+    "fixed6_metadata_fields": [
+      "rel",
+      "kind",
+      "stat_size",
+      "regular_empty",
+      "errno"
+    ],
+    "content_read_fingerprint_or_symlink_target": false,
+    "no_follow_ancestor_walk": true,
+    "max_output_bytes": 4096,
+    "exclusive_output": "git-surface-rejection.json",
+    "original_predicate_and_refusal_unchanged": true,
+    "first_predicate_and_later_metadata_non_atomic": true,
+    "all_diagnostic_errors_still_refuse": true,
+    "26case_body_or_roster_changes": false,
+    "candidate_fixture_Node_Swift_Git_CI_execution": false,
+    "new_head_acceptance": false
   },
   "initial_unbound_draft_history": {
     "date": "2026-10-31",

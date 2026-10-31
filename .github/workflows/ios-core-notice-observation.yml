@@ -55,7 +55,8 @@ jobs:
         timeout-minutes: 1
         run: |
           set -euo pipefail
-          export CORE_NODE_BINARY="$(command -v node)"
+          CORE_NODE_BINARY="$(command -v node)"
+          export CORE_NODE_BINARY
           python3 ios/tests/observe-core-notice-hosted-20261031.py --fixtures
       - name: Generate and audit full published Content before measurement
         timeout-minutes: 12
@@ -67,13 +68,15 @@ jobs:
         timeout-minutes: 8
         run: |
           set -euo pipefail
-          export CORE_NODE_BINARY="$(command -v node)"
+          CORE_NODE_BINARY="$(command -v node)"
+          export CORE_NODE_BINARY
           python3 ios/tests/observe-core-notice-hosted-20261031.py --prepare
       - name: One optimized host observation and fixed Notice offline verifier
         timeout-minutes: 4
         run: |
           set -euo pipefail
-          export CORE_NODE_BINARY="$(command -v node)"
+          CORE_NODE_BINARY="$(command -v node)"
+          export CORE_NODE_BINARY
           python3 ios/tests/observe-core-notice-hosted-20261031.py --run
       - name: Retain complete observation and provenance, excluding only caches
         if: always()

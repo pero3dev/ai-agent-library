@@ -1,5 +1,13 @@
 # Notice対応Core観測の固定入口とHosted事前検査案
 
+最新候補: 実parent `84f8f3ea1e1a4d3e2c809130af6a0388b7f24564` へのSource9を維持し、公開済みhead `75f8d51cedff8e1b830dc0ecc2a2866bafe0c999` に追加する差分である。App0.2.28（30）・PBX・固定Source4・索引2は保持する。新規7件・所有9パスでtarget2850、TODO32行/14完了は変えない。
+
+公開75fではactionlintがSC2155の3箇所で失敗した。Node22（v22.23.4）の構文/schema等4工程とHostedの26件は成功し、同runのContent生成・監査工程も成功した。26件は旧guardのpure fake検査であり、Core測定ではない。prepareは `ValueError: Git replacement/alternate/worktree surface rejected` で測定開始前に停止した。保存16ファイルにprobe catalogはなく、6パス中の実拒否対象は未特定である。
+
+次候補は3つの代入とexportを分け、Gitの元の拒否predicateが成立した場合だけ、6固定パスをdirfdとno-followで調べたmetadataを4KiB以下のexclusive JSONへ保存する。設定内容・symlink先・raw例外・絶対pathは出力せず、元の拒否と信頼範囲を維持する。first_rejected_relは元のpredicate時点、metadataは後段の非atomic snapshotとして分ける。fixtureはguard SHAのpinだけを更新し、既存26case本文・集合は保持する。この診断候補の独立レビュー・新head共通検査・Node22/Hosted26・Core19raw/15sample・独立replay・通常mainは未受入である。予算・実機・IOS-15も未完了のまま。
+
+## 先行提出候補の記録（履歴）
+
 現状態: 先行PR316と回転UI単位を通常mainへ統合後の実parent `84f8f3ea1e1a4d3e2c809130af6a0388b7f24564`（tree `3404498d89b9fd771babc3ff97215f22728892ec`）への提出候補である。App0.2.28（30）とPBXをそのまま引き継ぎ、この単位では版を変更しない。Source5と記録・索引4の9所有パス、新規7件によりparent2843からtarget2850へ投影する。Source2独立IR `f31c04d38b90716f38bec693344d15a465efa897eb4b7fa8a12b334cc47fac16`、Source3独立静的IR `aeb8f46ad061703465f3d773ec42163ef14e0f002a6417702124af73be033c39`、初期Rootdocs4の未結合レビュー `b0047d1e7cadd96ec8d37641946ed48ff90a9bc3e8b5f4dfefcaa37069428695`を確認した。
 
 Source3の26件はRootがローカルでpure検証し、26 unique／成功26・失敗0、0.24869275秒、stdout SHA-256 `13e5c37a2b4b07cf285f121af05a108ba133aa3922c3b20f2b24038ad585e043`を保存した。対象はAST抽出関数とfake OS/process/clockの検査で、実children・Git・Swift/SDK・Node・network・Hostedは0である。Hostedでの26fake・Node22構文/schema・Core19raw/15sampleの実行は引き続き未確認である。旧Node境界8件0.267297秒の結果は限定範囲のまま保持する。新headの共通検査・actionlint・最終9レビュー・最初のsecretless Hosted検査とCore19raw/15sample・保存成果物の独立replayは未受入である。artifact取得は後続の実bytes確認であり、consoleだけでoffline replayしたとは扱わない。性能予算・実機・IOS-15は未完了、TODO32行/14完了を維持する。

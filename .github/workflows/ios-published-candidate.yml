@@ -79,6 +79,13 @@ jobs:
             echo 'Scope: the fixed disjoint full26 functional UI partition; units only reading-state, independent copy and Release integrity only content-copy.' 
             echo 'This job verifies the default published development bundle; physical-device, VoiceOver and performance acceptance remain separate.'
           } | tee .local/ios-published-candidate/evidence/environment.log
+      - name: Run the full common checks on the reading-state slice
+        if: ${{ matrix.slice == 'reading-state' }}
+        timeout-minutes: 3
+        run: |
+          set -euo pipefail
+          npm run check \
+            2>&1 | tee .local/ios-published-candidate/evidence/full-common-check.log
       - name: Check the frozen AppIcon source assets
         run: |
           set -euo pipefail

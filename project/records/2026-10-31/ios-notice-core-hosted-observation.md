@@ -1,5 +1,15 @@
 # Notice対応Core観測の固定入口とHosted事前検査案
 
+最新候補: 公開済みhead `c1ad6ac58614669f7d0d6e552807fc5b10fbe1b2` への6番目の追加commit候補である。実parent `84f8f3ea1e1a4d3e2c809130af6a0388b7f24564` からの所有9パス・新規7件・target2850を維持し、workflow・固定入口2・索引2・App0.2.28（30）・PBX・Source4・query・計測protocolは保持する。
+
+c1adのprepareは条件付きsurface検査から既存Git設定probeへ進んだが、元のlocal scopeとfile originの条件で `Nonowned system/global/config origin rejected` となった。既存probeはexit0、stdout712B、保存receiptのSHA-256は `b06b45337c9f63b723103a828457eac6d00fe4b9570e3c6f5deb18dd0faf6afe` で、raw stdoutは保管していない。実際のscope・origin・key・value・runner Git版は未特定であり、system/globalのどれかや特定のcredential/LFS設定が原因と断定しない。完全な設定受入・object凍結・Core19raw/15sampleの測定には到達していない。以前のa5eの83B snapshotをc1adの実内容として転用しない。
+
+次候補は既存のprobe・validator・順序・caps・信頼範囲を維持する。既存のrow検証が例外になったときだけ、同じrawを8192B以下・32行以下で分類し、固定scope/origin/key分類、値の型と長さ、既知公開preset名、safe.directoryがown repoと一致するかのboolだけを4KiB以下のexclusive JSONへ保存する。originは字句比較だけで、新しいresolve・stat・read・Git probeは追加しない。未知path・key名・値・値hash・rawは出力しない。上限や形式の問題は不完全と明示し、診断の解析・保存失敗でも元の例外をbare raiseで再送出する。成功側には診断I/Oを追加しない。
+
+この変更は拒否原因を観測するための診断であり、policyの許可範囲や有効設定条件は緩めない。fixtureはguard SHAだけを同期し、26case本文・集合と既存の条件付き互換処理を保持する。新候補の独立レビュー・検証・新head CI・Core測定・独立replay・通常mainは未受入であり、TODO32行/14完了、IOS-15・予算・実機の未完了を維持する。
+
+## 先行c1adまでの提出候補（履歴）
+
 最新候補: 公開済みhead `a5e483bb73e257501b81bbf79ebea484a845b2c5` への5番目の追加commit候補である。実parent `84f8f3ea1e1a4d3e2c809130af6a0388b7f24564` からの所有9パス・新規7件・target2850を維持し、workflow・固定入口2・索引2・App0.2.28（30）・PBX・固定Source4は変更しない。
 
 a5eではactionlintが成功した。保存artifactの診断は、元のpredicateで最初に拒否された対象が `config.worktree`、後段snapshotが通常ファイル83B・nonempty、他5パスがabsentだったことを示した。診断は内容・hashを読んでいないため、実際のファイル内容や拡張設定の有効状態、runnerのGit版は未確認である。Node22事前工程と旧guardのHosted26件は成功したが、prepareは同じ拒否で停止し、Core19raw/15sampleの測定は開始していない。

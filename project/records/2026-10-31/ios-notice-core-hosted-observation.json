@@ -1,7 +1,7 @@
 {
   "date": "2026-10-31",
   "title": "Notice対応Core観測の固定入口とHosted事前検査案",
-  "state": "publisheda5e regular83 config.worktree rejection retained; adopted conditioned source-only inert-file candidate unexecuted; new common/CI/Core/main pending",
+  "state": "publishedc1ad existing effective-config audit rejection retained; new rejection-only boundedshape candidate unexecuted; trust unchanged, new checks/Core/main pending",
   "actual_parent": "84f8f3ea1e1a4d3e2c809130af6a0388b7f24564",
   "actual_parent_tree": "3404498d89b9fd771babc3ff97215f22728892ec",
   "Root_remote_normal_main_attestation": true,
@@ -37,13 +37,13 @@
     },
     {
       "path": "ios/tests/observe-core-notice-hosted-20261031.py",
-      "bytes": 65175,
-      "SHA256": "3f5b2d6a764bcaf6fe1b41bd3052af4bd5686f2f11d72cd3f14e1a77b109e975"
+      "bytes": 71380,
+      "SHA256": "21695e89fdcc9351931f425d06c848ec66aa2295a119b19e46a0d433db3bf20f"
     },
     {
       "path": "ios/tests/hosted-core-notice-pure-fixtures-20261031.py",
       "bytes": 12997,
-      "SHA256": "b479ce0b866999f29a0b2df39c53db1ee28f8fffa6379eb1db47c21a8a067497"
+      "SHA256": "5a046b372303be79d8872e50958507da4271d991253130c24b20665cbbf54c81"
     }
   ],
   "App_version": "0.2.28(30) inherited configuration, not actual Bundle inspection",
@@ -85,8 +85,8 @@
       "real_children_Git_Swift_SDK_Node_network_Hosted": 0,
       "scope": "oldguard dc9 before rejection metadata; not new helper execution"
     },
-    "Source3_IR_scope": "Historical precompatibility sources only; new conditioned policy requires independent review and new-head checks",
-    "published_execution_scope": "prior75f and a5e only; currentcompat workflow-held/guard/fixture candidate unexecuted"
+    "Source3_IR_scope": "Historical pre-shape sources only; diagnostic-only rowcontext requires independent review and new-head checks",
+    "published_execution_scope": "prior75f/a5e/c1ad only; current shape helper and repinned fixture unexecuted"
   },
   "TODO": {
     "rows": 32,
@@ -448,7 +448,47 @@
       "Core19_started": false
     }
   },
-  "inert_worktree_compatibility_candidate": {
+  "pending_scope": "current rejection-shape candidate; prior Hosted fixture success is separate",
+  "pre_shape_saved_evidence_history": {
+    "Source2_manifest": "99290500644281e31feea1a067e320bde8824f4be1624a778c6d5911f198dc4d",
+    "Source3_manifest": "d46113b3ecbfe688e35dcbf4e54ce32d1bf4a385b60b4eac72fe92ea15f71d10",
+    "Rootdocs_manifest": "b09e0d4863fc5e897a0c964326853c521fa41fd04e64f27008b5b7fe72f07cdc",
+    "Source2_IR": "f31c04d38b90716f38bec693344d15a465efa897eb4b7fa8a12b334cc47fac16",
+    "Source3_IR": "aeb8f46ad061703465f3d773ec42163ef14e0f002a6417702124af73be033c39",
+    "Rootdocs_IR": "b0047d1e7cadd96ec8d37641946ed48ff90a9bc3e8b5f4dfefcaa37069428695",
+    "saved_Node_boundary_cases": 8,
+    "saved_Node_boundary_seconds": 0.267297,
+    "saved_Node_scope": "fixed policy boundary only; matching identity intentionally reaches invalid manifest digest, no corpus19 acceptance",
+    "Source3_static_P1_count": 0,
+    "Source3_static_P2_count": 0,
+    "first_secretless_Hosted_after_binding_required": true,
+    "console_draft_adopted": false,
+    "local_pure_fixture26_execution": true,
+    "Hosted_fixture26_execution": true,
+    "Node22_preflight_execution": true,
+    "Core19_observation_execution": false,
+    "previous_combined_execution_flag_history": {
+      "field": "actual_fixture26_Node22_or_Core19_execution",
+      "value": false,
+      "scope": "before local pure26 execution; historical combined field superseded by explicit current boundaries"
+    },
+    "local_pure_fixture26_evidence": {
+      "kind": "local AST-selected-functions pure fakes only",
+      "total": 26,
+      "unique": 26,
+      "pass": 26,
+      "fail": 0,
+      "seconds": 0.24869275,
+      "stdout_bytes": 4320,
+      "stdout_SHA256": "13e5c37a2b4b07cf285f121af05a108ba133aa3922c3b20f2b24038ad585e043",
+      "stderr_bytes": 0,
+      "real_children_Git_Swift_SDK_Node_network_Hosted": 0,
+      "scope": "oldguard dc9 before rejection metadata; not new helper execution"
+    },
+    "Source3_IR_scope": "Historical precompatibility sources only; new conditioned policy requires independent review and new-head checks",
+    "published_execution_scope": "prior75f and a5e only; currentcompat workflow-held/guard/fixture candidate unexecuted"
+  },
+  "prior_inert_worktree_compatibility_candidate_history": {
     "Root_explicit_design_adopted": true,
     "changed4": [
       "ios/tests/observe-core-notice-hosted-20261031.py",
@@ -522,7 +562,111 @@
     "candidate_execution": false,
     "new_common_CI_Core_replay_main_acceptance": false
   },
-  "pending_scope": "all pending fields refer to currentcompat candidate, not previously accepted a5e fixture",
+  "prior_publishedc1ad_execution": {
+    "head": "c1ad6ac58614669f7d0d6e552807fc5b10fbe1b2",
+    "artifact_id": 13036834653,
+    "run": 41186431942,
+    "ZIP_bytes": 10503,
+    "ZIP_SHA256": "aeca6678dae83cdb60c2878fb2e7deaa0de34c5b7dfe044ba8231b7071676a0f",
+    "ZIP_direct_rehash": true,
+    "receipt_SHA256": "fea9e6d4b26514a1398c79f762441d5c1559f7ea7b9329972be23b6baeee2174",
+    "saved17_files_rehashed": true,
+    "phase": "prepare",
+    "error_type": "ValueError",
+    "error_message": "Nonowned system/global/config origin rejected",
+    "stopped_SHA256": "e085f11cd1d6b2a773b1c08feee0e0ef4ba9a4e502cf07c4a5247d543848ec4c",
+    "existing_probe": {
+      "operation": "git config --show-origin --show-scope --list",
+      "count": 1,
+      "exit": 0,
+      "stdout_bytes": 712,
+      "stdout_SHA256_receipt_only": "b06b45337c9f63b723103a828457eac6d00fe4b9570e3c6f5deb18dd0faf6afe",
+      "stderr_bytes": 0,
+      "seconds": 2.202669874999998,
+      "raw_stdout_retained": false,
+      "environment_keys": [
+        "PATH",
+        "TMPDIR"
+      ],
+      "receipt_SHA256": "0c343ef3e47639be699901490c00324fef5c572982c5541c29ce874ae56f326f"
+    },
+    "actual_scope_origin_key_value_Gitversion": null,
+    "measurement_started": false,
+    "full_config_acceptance_or_Core19": false,
+    "surface_compat_prechecks_reached_existing_native_probe": true,
+    "old_a5e83B_not_reused_as_c1ad_file_contents": true
+  },
+  "config_rejection_shape_candidate": {
+    "diagnostic_only": true,
+    "changed4": [
+      "ios/tests/observe-core-notice-hosted-20261031.py",
+      "ios/tests/hosted-core-notice-pure-fixtures-20261031.py",
+      "project/records/2026-10-31/ios-notice-core-hosted-observation.md",
+      "project/records/2026-10-31/ios-notice-core-hosted-observation.json"
+    ],
+    "previous_source_files": [
+      {
+        "path": "ios/tests/verify-core-performance-notice-20261031.mjs",
+        "bytes": 2586,
+        "SHA256": "c911db411741ddfa60af310a6d1906f565f3413375a6538655b29053a28d5784"
+      },
+      {
+        "path": "tests/unit/ios-core-performance-notice-20261031.test.mjs",
+        "bytes": 8167,
+        "SHA256": "43126d0daa63ceea3d6d520098b47b6c540c00283f70bd406b45a6d68212e712"
+      },
+      {
+        "path": ".github/workflows/ios-core-notice-observation.yml",
+        "bytes": 3934,
+        "SHA256": "4b062203721758e46e38f512a06c289836542917e3c77aefb03bc76d00b09a38"
+      },
+      {
+        "path": "ios/tests/observe-core-notice-hosted-20261031.py",
+        "bytes": 65175,
+        "SHA256": "3f5b2d6a764bcaf6fe1b41bd3052af4bd5686f2f11d72cd3f14e1a77b109e975"
+      },
+      {
+        "path": "ios/tests/hosted-core-notice-pure-fixtures-20261031.py",
+        "bytes": 12997,
+        "SHA256": "b479ce0b866999f29a0b2df39c53db1ee28f8fffa6379eb1db47c21a8a067497"
+      }
+    ],
+    "current_source3_files": [
+      {
+        "path": ".github/workflows/ios-core-notice-observation.yml",
+        "bytes": 3934,
+        "SHA256": "4b062203721758e46e38f512a06c289836542917e3c77aefb03bc76d00b09a38"
+      },
+      {
+        "path": "ios/tests/observe-core-notice-hosted-20261031.py",
+        "bytes": 71380,
+        "SHA256": "21695e89fdcc9351931f425d06c848ec66aa2295a119b19e46a0d433db3bf20f"
+      },
+      {
+        "path": "ios/tests/hosted-core-notice-pure-fixtures-20261031.py",
+        "bytes": 12997,
+        "SHA256": "5a046b372303be79d8872e50958507da4271d991253130c24b20665cbbf54c81"
+      }
+    ],
+    "input_classification_limit": 8192,
+    "max_rows": 32,
+    "output_limit": 4096,
+    "filename": "git-config-rejection-shape.json",
+    "exclusive0600": true,
+    "same_existing_probe_and_validator_order": true,
+    "original_enforcement_exception_bare_reraised_even_if_diagnostic_fails": true,
+    "success_side_additional_IO": false,
+    "new_origin_resolve_stat_read_or_probe": false,
+    "unknown_path_key_value_raw_or_valuehash_output": false,
+    "fields": "fixed labels, value type/length,6publicpreset IDs, safe.directory ownrepo bool only",
+    "origin_classification": "pure lexical own-main/fixedetc/usrlocal/strictXcode/fixedCLT/otherfile/nonfile categories",
+    "incomplete_on_limits_or_parse_error": true,
+    "proposal_SHA256": "5fcb9f6297a478ba8c0aab7624fbd13eab8ed14716a9efaf1f0f11945370554e",
+    "47compatibility_logic_and26case_bodies_roster_held": true,
+    "policy_or_trust_relaxation": false,
+    "candidate_execution": false,
+    "new_common_CI_Core_replay_main_acceptance": false
+  },
   "initial_unbound_draft_history": {
     "date": "2026-10-31",
     "state": "PRIVATE_ROOTDOC_DRAFT_NOT_ADOPTED_OR_MEASURED",

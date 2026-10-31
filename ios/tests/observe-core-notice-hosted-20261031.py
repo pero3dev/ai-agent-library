@@ -509,6 +509,103 @@ def without_canonical_empty_extensions(config):
     return ''.join(remainder)
 
 
+def save_git_config_rejection_shape(raw, repo, g, bare, rejected_row_index):
+    # Rejection-only labels. None of these categories or presets grants permission.
+    known_keys = {'core.repositoryformatversion','core.filemode','core.bare','core.logallrefupdates',
+        'core.ignorecase','core.precomposeunicode','core.hookspath','gc.auto','remote.origin.url',
+        'remote.origin.fetch','credential.helper','filter.lfs.clean','filter.lfs.smudge',
+        'filter.lfs.process','filter.lfs.required','init.defaultbranch','safe.directory',
+        'extensions.worktreeconfig'}
+    groups = {'credential','filter','extensions','include','http','url','remote'}
+    presets = {('credential.helper','osxkeychain'):'credential-osxkeychain',
+        ('filter.lfs.clean','git-lfs clean -- %f'):'lfs-clean-default',
+        ('filter.lfs.smudge','git-lfs smudge -- %f'):'lfs-smudge-default',
+        ('filter.lfs.process','git-lfs filter-process'):'lfs-process-default',
+        ('filter.lfs.required','true'):'lfs-required-true',
+        ('init.defaultbranch','main'):'init-main'}
+    def origin_label(origin):
+        if origin.startswith('file:'):
+            value = origin[5:]
+            relative = {'config','./config'} if bare else {'.git/config','./.git/config'}
+            if value == str(g/'config') or value in relative:return 'own-main-config'
+            if value == '/etc/gitconfig':return 'etc-gitconfig'
+            if value == '/usr/local/etc/gitconfig':return 'usr-local-etc-gitconfig'
+            suffix = r'(?:usr/share/git-core|usr/etc|etc)/gitconfig'
+            if re.fullmatch(r'/Applications/Xcode[A-Za-z0-9_.-]{0,48}\.app/Contents/Developer/'+suffix,value):
+                return 'xcode-vendor-config'
+            if re.fullmatch(r'/Library/Developer/CommandLineTools/'+suffix,value):
+                return 'clt-vendor-config'
+            return 'other-file'
+        if origin == 'command line:':return 'command-origin'
+        if origin == 'standard input:':return 'standard-input'
+        if origin.startswith('blob:'):return 'blob-origin'
+        return 'other-origin'
+    value = {'kind':'rejected-Git-effective-config-shape','schema':1,
+        'diagnostic_does_not_override_rejection':True,'audit_scope':'owned-store' if bare else 'source-checkout',
+        'failure_context':'existing-effective-config-row-validation','complete':False,
+        'stdout_bytes':len(raw),'row_count':None,'row_count_at_least':0,
+        'rejected_row_index':rejected_row_index,'truncated':False,'parse_error':None,
+        'columns':['scope','origin','key','value_type','value_length','known_literal','safe_directory_is_own_repo'],
+        'rows':[]}
+    require(rejected_row_index is None or type(rejected_row_index) is int and rejected_row_index >= 0,
+            'Fixed Git diagnostic row context required')
+    if len(raw) > 8192:
+        value.update(parse_error='input-limit',truncated=True)
+    else:
+        try:
+            lines = raw.decode('utf-8').splitlines()
+        except UnicodeDecodeError:
+            value['parse_error'] = 'utf8'
+        else:
+            if len(lines) > 32:
+                value.update(parse_error='row-limit',row_count_at_least=33,truncated=True)
+            else:
+                value.update(row_count=len(lines),row_count_at_least=len(lines),complete=True)
+                for line in lines:
+                    fields = line.split('\t')
+                    if len(fields) != 3:
+                        value['rows'].append(['malformed'])
+                        value.update(complete=False,parse_error=value['parse_error'] or 'field-count')
+                        continue
+                    scope,origin,pair = fields
+                    key,separator,contents = pair.partition('=')
+                    if not separator:
+                        value['rows'].append(['malformed'])
+                        value.update(complete=False,parse_error=value['parse_error'] or 'missing-equals')
+                        continue
+                    key = key.lower()
+                    group = key.split('.',1)[0]
+                    label = key if key in known_keys else 'group:'+(group if group in groups else 'other')
+                    if not contents:kind = 'empty'
+                    elif any(ord(char)<32 or ord(char)==127 for char in contents):kind = 'control'
+                    elif all(32<=ord(char)<=126 for char in contents):kind = 'ascii-printable'
+                    else:kind = 'nonascii'
+                    value['rows'].append([
+                        scope if scope in {'system','global','local','worktree','command','unknown'} else 'unrecognized',
+                        origin_label(origin),label,kind,len(contents),presets.get((key,contents)),
+                        contents == str(repo) if key == 'safe.directory' else None])
+    data = (json.dumps(value,sort_keys=True,separators=(',',':'))+'\n').encode('ascii')
+    if len(data) > 4096:
+        value.update(complete=False,parse_error='report-limit',truncated=True,rows=[])
+        data = (json.dumps(value,sort_keys=True,separators=(',',':'))+'\n').encode('ascii')
+    require(len(data) <= 4096, 'Git rejection shape4KiB refused')
+    directory = os.open(ROOT,os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_NONBLOCK)
+    try:
+        output = os.open('git-config-rejection-shape.json',
+            os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW | os.O_NONBLOCK,
+            0o600,dir_fd=directory)
+        try:
+            position = 0
+            while position < len(data):
+                count = os.write(output,data[position:])
+                require(0 < count <= len(data)-position, 'Git rejection shape write refused')
+                position += count
+        finally:
+            os.close(output)
+    finally:
+        os.close(directory)
+
+
 def git_audit(repo, env, bare):
     g=repo if bare else repo/'.git'
     require(g.is_dir() and not g.is_symlink(),'Ordinary Git directory required')
@@ -532,21 +629,30 @@ def git_audit(repo, env, bare):
         for q in (g/'hooks').iterdir():require(q.is_file() and not q.is_symlink() and q.name.endswith('.sample'),'Active Git hook rejected')
     raw=probe(['/usr/bin/git','-C',str(repo),'config','--show-origin','--show-scope','--list'],env)
     rows=[]
-    for line in raw.decode('utf-8').splitlines():
-        fields=line.split('\t');require(len(fields)==3,'Unknown Git config serialization')
-        scope,origin,pair=fields;require(scope=='local' and origin.startswith('file:'),'Nonowned system/global/config origin rejected')
-        origin_path=Path(origin[5:]);origin_path=origin_path if origin_path.is_absolute() else repo/origin_path
-        require(origin_path.resolve()==(g/'config').resolve(),'Unexpected local config origin')
-        key,sep,value=pair.partition('=');require(sep and not any(ord(x)<32 for x in value),'Unknown Git config value')
-        key=key.lower()
-        if bare:
-            allowed={'core.repositoryformatversion':'0','core.bare':'true','core.hookspath':'/dev/null','core.logallrefupdates':'false'}
-            require(key in allowed and value==allowed[key],'Owned bare effective config differs')
-        else:
-            allowed={'core.repositoryformatversion':{'0'},'core.filemode':{'true','false'},'core.bare':{'false'},'core.logallrefupdates':{'true'},'core.ignorecase':{'true','false'},'core.precomposeunicode':{'true','false'},'gc.auto':{'0'},'remote.origin.url':{'https://github.com/pero3dev/ai-agent-library','https://github.com/pero3dev/ai-agent-library.git'},'remote.origin.fetch':{'+refs/heads/*:refs/remotes/origin/*'}}
-            require(key in allowed and value in allowed[key],'Unexpected fresh checkout Git config key/value')
-        rows.append({'scope':scope,'origin':origin,'key':key,'value':value})
-    if bare:require(len(rows)==4,'Owned config missing/duplicate fields')
+    rejected_row_index = None
+    try:
+        for rejected_row_index,line in enumerate(raw.decode('utf-8').splitlines()):
+            fields=line.split('\t');require(len(fields)==3,'Unknown Git config serialization')
+            scope,origin,pair=fields;require(scope=='local' and origin.startswith('file:'),'Nonowned system/global/config origin rejected')
+            origin_path=Path(origin[5:]);origin_path=origin_path if origin_path.is_absolute() else repo/origin_path
+            require(origin_path.resolve()==(g/'config').resolve(),'Unexpected local config origin')
+            key,sep,value=pair.partition('=');require(sep and not any(ord(x)<32 for x in value),'Unknown Git config value')
+            key=key.lower()
+            if bare:
+                allowed={'core.repositoryformatversion':'0','core.bare':'true','core.hookspath':'/dev/null','core.logallrefupdates':'false'}
+                require(key in allowed and value==allowed[key],'Owned bare effective config differs')
+            else:
+                allowed={'core.repositoryformatversion':{'0'},'core.filemode':{'true','false'},'core.bare':{'false'},'core.logallrefupdates':{'true'},'core.ignorecase':{'true','false'},'core.precomposeunicode':{'true','false'},'gc.auto':{'0'},'remote.origin.url':{'https://github.com/pero3dev/ai-agent-library','https://github.com/pero3dev/ai-agent-library.git'},'remote.origin.fetch':{'+refs/heads/*:refs/remotes/origin/*'}}
+                require(key in allowed and value in allowed[key],'Unexpected fresh checkout Git config key/value')
+            rows.append({'scope':scope,'origin':origin,'key':key,'value':value})
+        rejected_row_index = None
+        if bare:require(len(rows)==4,'Owned config missing/duplicate fields')
+    except Exception:
+        try:
+            save_git_config_rejection_shape(raw,repo,g,bare,rejected_row_index)
+        except BaseException:
+            pass  # Diagnostic failure cannot mask the original enforcement exception.
+        raise
     # Unexpected raw config values are never written to artifacts.
     # Only after the unchanged native effective-config audit passes is the file condition inert.
     if worktree_metadata is not None:

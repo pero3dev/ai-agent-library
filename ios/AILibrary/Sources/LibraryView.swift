@@ -224,6 +224,17 @@ struct LibraryView: View {
                     }
                     .accessibilityIdentifier("library-reading-recovery-notice")
                 }
+                if let count = store.unavailableReadingArticleCount(isRestorePresented: readingRestorePresented), count > 0 {
+                    Section("現在の記事版にない読書記録") {
+                        Text("現在の記事版に含まれない\(count)記事分の記録を保管しています。")
+                            .accessibilityIdentifier("library-unavailable-reading-count")
+                        Text("その記事が再び含まれると、保存されている記録を利用できます。")
+                            .font(.callout).foregroundStyle(.secondary)
+                        Text("書き出す場合は「その他の操作」から「読書記録を書き出す」を選んでください。")
+                            .font(.callout).foregroundStyle(.secondary)
+                    }
+                    .accessibilityIdentifier("library-unavailable-reading-notice")
+                }
                 if store.learningIndex != nil {
                     Section {
                         Button { learningPresented = .guide } label: { Label("学習ガイド", systemImage: "map") }

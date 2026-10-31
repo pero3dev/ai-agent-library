@@ -28,7 +28,7 @@ jobs:
     # Exact public-repository gate is evaluated before allocating a standard VM.
     if: github.repository == 'pero3dev/ai-agent-library' && github.event.repository.private == false
     runs-on: macos-26
-    # Explicit step caps total48min, including4min cleanup and2min artifact upload.
+    # Explicit step caps total51min, including4min cleanup and2min artifact upload.
     # UI is followed immediately by owned cleanup. Cancelled app/result audits skip.
     # Forced cancellation/runner loss can still interrupt cleanup or upload.
     timeout-minutes: 40
@@ -255,7 +255,7 @@ jobs:
           assert.equal(matches[0].device.isAvailable, true);
           NODE
       - name: Run exactly the three native UI smoke cases
-        timeout-minutes: 12
+        timeout-minutes: 15
         id: ui
         run: |
           set -euo pipefail

@@ -1,5 +1,7 @@
 # project — 計画と実施記録
 
+[現在の記事版にない読書記録の件数と保管案内](records/2026-10-31/ios-unavailable-reading-records.md)は、正常な記録から見つからない記事数を重複なしで数え、保管と既存書き出しの場所を知らせる私有候補である。自動rename・削除・書込は加えず、破損/復旧・復元画面・fixtureを優先して抑える。Source4の独立静的レビューと別試行のMac6件（skip/fail0、26.835秒）は確認したが、前段Aboutの実parentへSource4と版だけのPBX29を結合した提出候補である。実parentへ結合したSource17各SHAと全文CoreTests/現在のDiagnosticsTestsが既存の将来構成SDK入力へ一致し、App17 moduleと両型検査の全exit0を結び直した。新SDK実行ではない。予定270/Native7/Full26・新共通/最終9レビュー/CI/main・実UI/VO/provider/署名/Bundle/実機は後続である。IOS-22全体未完了、TODO14/32を維持する。 PR #315初回は共通1191成功/15skip・必須11・単体268成功/2skip・Native7を確認したが、Runtime26は初期Continue待機で失敗し、FullはUI19成功後cancelされた。原因未確定の履歴を保ち、元26件を18/8へ分割するworkflowと条件不変の待機診断を追加準備する。診断UI3件は成功したが12分工程capでjob失敗となり、job40分を保って当該工程15分へ同期する。全12パスの新共通/最終レビュー・新headのCI・通常main・実notice/実機は後続で、IOS-22全体とTODO14/32は維持する。 追加Source12は必須11・Native270/UI7・Runtime26 UI3成功を確認したが、FullはA17/1・B7/1で失敗し、copy374とReleaseは未実施だった。TOCの既存trueを再利用するNative補助処理と、別のreturn10秒失敗時だけの画面/階層記録を追随し、10入力のUI-SDK型検査と26集合照合まで確認した。観測機会の変更と旧原因未確定を明記し、新共通・最終12・新headCI/main・実機は後続である。
+
 [Aboutの版情報・診断・通信と保存説明](records/2026-10-30/ios-safe-diagnostics.md)は、実parent `8a0efdb62a9a1e9c7605e40de3fc552ff5a77344`へ結合した提出候補である。PBXへApp0.2.26（28）を反映し、明示操作の固定8行/512Bの診断、通信と読書backupの説明、通常表示の「試作」表記を整理する。最終文言のApp17 SDK moduleは確認済み。修正後の6ケース・新test型検査は成功。最終共通・9パスレビュー・新Hosted・実Bundle・署名・実About/VoiceOver/実機は後続で確認する。host literalとPBX設定、実Bundleを区別し、IOS-27/28未完了・TODO14/32を維持する。
 
 [本文リンクと健全な旧読書記録のUI回帰](records/2026-10-30/ios-native-body-link-regression.md)は、同記事の到着、別記事から戻った実測位置・しおり、旧heading記録からの「続きを読む」と再保存後の復帰を3ケースで検査する候補である。Full26・Native7を予定し、copy374B・job50分・既存上限を保つ。Source2／Source3の独立静的レビューとNative単独SDK型検査は確認したが、Publishedの60秒timeout、最終13パスの共通検査・新Hosted・通常統合は未完了である。末尾clampと完全表示判定の限界、IOS-25未完了・TODO14/32を維持する。 補助CIの旧2件契約とSDK27失敗診断を3件へ同期し、初回iOS26のactual3／expected2の失敗を保持する。最初の失敗ケースだけを出力scopeにし、既存の複数PNG・全上限を保つ。 共通検査の初回5失敗を分類し、productionを保って診断timeout試験1ケースのI/O時間仮定を分離した。修正後の共通検査と最終13パスの受入は後続で確認する。
@@ -251,3 +253,7 @@ E1〜F2の[旧検証計画](records/2026-09-30/p1-kit-preparation/README.md)と[
 ## 追加するときの配置
 
 新しい計画は `plans/content/`・`plans/maintenance/`・`plans/engineering/`、実施記録は `records/YYYY-MM-DD/` に用途を表す英語ケバブケースで置きます。外部資料の出典・主張・取得時刻・適用台帳は [research/](../research/README.md) に置き、記事テンプレートは使いません。新しい計画・記録はこの索引から辿れるようにします。ルートの README へ計画ファイルの長い列挙を戻しません。
+
+2026-10-31の[読書記録の案内のCI追記](records/2026-10-31/ios-unavailable-reading-records.md)では、head7fのNative／Full A／Runtime26成功と、Bの端末一覧・canary準備失敗を区別する。2読取を90秒へする候補は純粋23件と独立レビューまでで、共通検査は条件を緩めず新headのGitHub CIで確認する。新B UI8・copy・Release・mainと実機は未完了、TODO32行／完了14行を維持する。
+
+2026-10-31の[読書記録の案内の共通検査追記](records/2026-10-31/ios-unavailable-reading-records.md)では、head756のfull npmcheckが1206件中59失敗で停止したことを保存する。common step専用の正規化した一時領域を渡す候補を準備し、パス拒否guardを維持する。ローカル既存6件は容量条件により未起動で、新headの完全な共通検査・必要iOS・mainは未受入、TODO32行／完了14行を維持する。

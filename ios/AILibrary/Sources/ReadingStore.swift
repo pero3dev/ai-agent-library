@@ -578,6 +578,17 @@ final class ReadingStore {
     var bookmarks: Set<String> { state.bookmarks }
     var lastArticleID: String? { state.lastArticleID }
 
+    /// Availability only. Reading this count never validates or rewrites saved bytes.
+    /// Protected state is unknown, not an empty collection.
+    func unavailableArticleRecordCount(knownArticleIDs: Set<String>) -> Int? {
+        guard !state.needsRecovery, recoveryIssue == nil, !readingSaveSuspended,
+              !restoreInProgress else { return nil }
+        var ids = state.bookmarks
+        ids.formUnion(state.positions.keys)
+        if let last = state.lastArticleID { ids.insert(last) }
+        return ids.subtracting(knownArticleIDs).count
+    }
+
     init(defaults: UserDefaults = .standard, key: String = "library.reading.v1") {
         self.defaults = defaults
         self.key = key

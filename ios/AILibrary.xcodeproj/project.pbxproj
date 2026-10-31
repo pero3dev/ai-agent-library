@@ -36,6 +36,8 @@
 		C58C7517D2DAA144BFE47DB7 = { isa = PBXBuildFile; fileRef = 47F69B3E7056AF1597678797; };
 		DA52E03029295513ECAC7B26 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NativeInlineText.swift"; sourceTree = "<group>"; };
 		20FE5715A1E49FF172F16050 = { isa = PBXBuildFile; fileRef = DA52E03029295513ECAC7B26; };
+		29F60E9347077260E61817E1 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderReflowUITests.swift; sourceTree = "<group>"; };
+		6A85170120B8B0F0D7827BD9 = { isa = PBXBuildFile; fileRef = 29F60E9347077260E61817E1; };
 		84D11360C2AAA08F4B872252 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeReaderUITests.swift; sourceTree = "<group>"; };
 		47F8DFADDCDAB84B2F41A8BE = { isa = PBXBuildFile; fileRef = 84D11360C2AAA08F4B872252; };
 
@@ -47,8 +49,8 @@
 		BB96FE08C92C305BD9B99D5F = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishedPerformanceUITests.swift; sourceTree = "<group>"; };
 		8450E6117D295008F35EC229 = { isa = PBXBuildFile; fileRef = BB96FE08C92C305BD9B99D5F; };
 		D5566AFF97757615507C5F75 = { isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AILibraryUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		0CDAA59315ADCDB6D86EADBB = { isa = PBXGroup; children = (84D11360C2AAA08F4B872252, D21E344A2285AADBBA605B10, 33D6E0E043594A75B96E8D20, BB96FE08C92C305BD9B99D5F, AC3B196F8B8D173C5AC893C1,); path = AILibraryUITests; sourceTree = "<group>"; };
-		CE8651EBF1971AA1021EF465 = { isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (47F8DFADDCDAB84B2F41A8BE, 35AFB03F341E8E50A6068A76, ADBC797128CC42D3A5E39289, 8450E6117D295008F35EC229, 35D31D6D30299E382F5D0313,); runOnlyForDeploymentPostprocessing = 0; };
+		0CDAA59315ADCDB6D86EADBB = { isa = PBXGroup; children = (29F60E9347077260E61817E1, 84D11360C2AAA08F4B872252, D21E344A2285AADBBA605B10, 33D6E0E043594A75B96E8D20, BB96FE08C92C305BD9B99D5F, AC3B196F8B8D173C5AC893C1,); path = AILibraryUITests; sourceTree = "<group>"; };
+		CE8651EBF1971AA1021EF465 = { isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (6A85170120B8B0F0D7827BD9, 47F8DFADDCDAB84B2F41A8BE, 35AFB03F341E8E50A6068A76, ADBC797128CC42D3A5E39289, 8450E6117D295008F35EC229, 35D31D6D30299E382F5D0313,); runOnlyForDeploymentPostprocessing = 0; };
 		A66CD265A1EE90A3F01DE7E3 = { isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
 		589DA59362CCB7843133BC98 = { isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
 		8644371F5C0723471DE30B75 = { isa = XCBuildConfiguration; buildSettings = { PRODUCT_NAME = "$(TARGET_NAME)"; PRODUCT_BUNDLE_IDENTIFIER = "dev.pero3.aiagentlibrary.prototype.uitests"; GENERATE_INFOPLIST_FILE = "YES"; CODE_SIGN_STYLE = "Automatic"; TARGETED_DEVICE_FAMILY = "1"; TEST_TARGET_NAME = AILibrary; LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks"; }; name = Debug; };

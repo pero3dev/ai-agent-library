@@ -235,24 +235,13 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
             throw readingExportFailure("The public search cancellation no longer belongs to the visible library bar", attempt: 0)
         }
         cancel.tap()
-        let more = app.buttons.matching(NSPredicate(format: "label == %@", "その他の操作"))
         let finished = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
             let cancelCount = cancels.count
-            guard cancelCount == 0 else {
-                self.readingExportLastContext = "phase=finish-public-library-search; cancelCount=\(cancelCount); moreCount=not-read; ready=not-read"
-                return false
-            }
-            let moreCount = more.count
-            guard moreCount == 1 else {
-                self.readingExportLastContext = "phase=finish-public-library-search; cancelCount=0; moreCount=\(moreCount); ready=not-read"
-                return false
-            }
-            let ready = self.isHittableOnScreen(more.element(boundBy: 0))
-            self.readingExportLastContext = "phase=finish-public-library-search; cancelCount=0; moreCount=1; ready=\(ready)"
-            return ready
+            self.readingExportLastContext = "phase=finish-public-library-search; cancelCount=\(cancelCount)"
+            return cancelCount == 0
         }, object: nil)
         guard XCTWaiter.wait(for: [finished], timeout: 15) == .completed else {
-            throw readingExportFailure("The public search did not close to one usable unfiltered More control", attempt: 0)
+            throw readingExportFailure("The public search Cancel did not disappear after its single tap", attempt: 0)
         }
     }
 

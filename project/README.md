@@ -1,6 +1,6 @@
 # project — 計画と実施記録
 
-[読書記録の書き出し取消後の保持](records/2026-10-31/ios-reading-export-cancellation.md)の546は検索取消後のMore待機で新ケースが失敗し、Native7成功・新1失敗だった。画像では通常メニューが見えるが、AX数値がなくfalse条件は未確定である。新設More待機だけを既存の公開操作の既定条件へ揃え、一意件数と取消消失を保って、すでに読んだ件数/readyを追加AXなしで記録する候補とする。旧4件・機能/保存条件を保ち、546のFull26・共通1214成功を履歴に分ける。新headのNative8・必要CI/main、provider・実機とIOS-22/25・TODO32行14完了は未完了である。
+[読書記録の書き出し取消後の保持](records/2026-10-31/ios-reading-export-cancellation.md)の884は早期More待機でNative旧7成功・新1失敗となり、実際の書き出しには未到達だった。検索終了の目的に絞り、一意な公開取消の1回tapと15秒内の消失だけを待つ候補とする。直後の「続きを読む」と、明示復旧後の元のMore・export・厳密な保存画面・2回取消・再起動の検査は保持する。false条件やAX座標は未確定で、新headのNative8・必要CI/main、provider・実機とIOS-22/25・TODO32行14完了は未完了である。
 
 [Notice対応Core観測の固定入口とHosted事前検査案](records/2026-10-31/ios-notice-core-hosted-observation.md)は、固定verifier2とworkflow／guard／fixture3を後続小PRへまとめる未採用案である。旧Node境界8件の成功とHostedでの26fake・Node22構文/schema未実施を区別し、Core19raw／15sample・完全replay・性能予算・実機は未確認とする。PR316と回転UI単位の通常mainを引き継いだ実parent `84f8f3ea1e1a4d3e2c809130af6a0388b7f24564` への提出候補として結合し、App版不変更、TODO32行／14完了・IOS-15未完了を保つ。
 

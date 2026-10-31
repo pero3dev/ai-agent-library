@@ -1,0 +1,313 @@
+{
+  "date": "2026-10-31",
+  "title": "Notice対応Core観測の固定入口とHosted事前検査案",
+  "state": "actual-parent candidate; initial common exit1 preserved, workflow audit/install step split; revised common/final9/Hosted/main pending",
+  "actual_parent": "84f8f3ea1e1a4d3e2c809130af6a0388b7f24564",
+  "actual_parent_tree": "3404498d89b9fd771babc3ff97215f22728892ec",
+  "Root_remote_normal_main_attestation": true,
+  "base_tracked_count": 2843,
+  "target_tracked_count": 2850,
+  "new_tracked_files": 7,
+  "owned_paths": [
+    "ios/tests/verify-core-performance-notice-20261031.mjs",
+    "tests/unit/ios-core-performance-notice-20261031.test.mjs",
+    ".github/workflows/ios-core-notice-observation.yml",
+    "ios/tests/observe-core-notice-hosted-20261031.py",
+    "ios/tests/hosted-core-notice-pure-fixtures-20261031.py",
+    "project/records/2026-10-31/ios-notice-core-hosted-observation.md",
+    "project/records/2026-10-31/ios-notice-core-hosted-observation.json",
+    "project/README.md",
+    "project/plans/engineering/ios-app-completion.md"
+  ],
+  "source_files": [
+    {
+      "path": "ios/tests/verify-core-performance-notice-20261031.mjs",
+      "bytes": 2586,
+      "SHA256": "c911db411741ddfa60af310a6d1906f565f3413375a6538655b29053a28d5784"
+    },
+    {
+      "path": "tests/unit/ios-core-performance-notice-20261031.test.mjs",
+      "bytes": 8167,
+      "SHA256": "43126d0daa63ceea3d6d520098b47b6c540c00283f70bd406b45a6d68212e712"
+    },
+    {
+      "path": ".github/workflows/ios-core-notice-observation.yml",
+      "bytes": 3853,
+      "SHA256": "1abc0b42ec1ff7b501d86b6f85338c8ccd5f969fa8b5ffc3d3f3f09350c6ac61"
+    },
+    {
+      "path": "ios/tests/observe-core-notice-hosted-20261031.py",
+      "bytes": 59107,
+      "SHA256": "dc9d4c3f9f9390ae8fc303f16c9ca02a58d0e81b25eaa1c9378ba5085a936c54"
+    },
+    {
+      "path": "ios/tests/hosted-core-notice-pure-fixtures-20261031.py",
+      "bytes": 12997,
+      "SHA256": "0920d9d26d8643debaf1e0bd16880096627e3980da7e5f04b9102f3df959cc0a"
+    }
+  ],
+  "App_version": "0.2.28(30) inherited configuration, not actual Bundle inspection",
+  "App_version_change": false,
+  "PBX_change": false,
+  "saved_evidence": {
+    "Source2_manifest": "99290500644281e31feea1a067e320bde8824f4be1624a778c6d5911f198dc4d",
+    "Source3_manifest": "d46113b3ecbfe688e35dcbf4e54ce32d1bf4a385b60b4eac72fe92ea15f71d10",
+    "Rootdocs_manifest": "b09e0d4863fc5e897a0c964326853c521fa41fd04e64f27008b5b7fe72f07cdc",
+    "Source2_IR": "f31c04d38b90716f38bec693344d15a465efa897eb4b7fa8a12b334cc47fac16",
+    "Source3_IR": "aeb8f46ad061703465f3d773ec42163ef14e0f002a6417702124af73be033c39",
+    "Rootdocs_IR": "b0047d1e7cadd96ec8d37641946ed48ff90a9bc3e8b5f4dfefcaa37069428695",
+    "saved_Node_boundary_cases": 8,
+    "saved_Node_boundary_seconds": 0.267297,
+    "saved_Node_scope": "fixed policy boundary only; matching identity intentionally reaches invalid manifest digest, no corpus19 acceptance",
+    "Source3_static_P1_count": 0,
+    "Source3_static_P2_count": 0,
+    "first_secretless_Hosted_after_binding_required": true,
+    "console_draft_adopted": false,
+    "local_pure_fixture26_execution": true,
+    "Hosted_fixture26_execution": false,
+    "Node22_preflight_execution": false,
+    "Core19_observation_execution": false,
+    "previous_combined_execution_flag_history": {
+      "field": "actual_fixture26_Node22_or_Core19_execution",
+      "value": false,
+      "scope": "before local pure26 execution; historical combined field superseded by explicit current boundaries"
+    },
+    "local_pure_fixture26_evidence": {
+      "kind": "local AST-selected-functions pure fakes only",
+      "total": 26,
+      "unique": 26,
+      "pass": 26,
+      "fail": 0,
+      "seconds": 0.24869275,
+      "stdout_bytes": 4320,
+      "stdout_SHA256": "13e5c37a2b4b07cf285f121af05a108ba133aa3922c3b20f2b24038ad585e043",
+      "stderr_bytes": 0,
+      "real_children_Git_Swift_SDK_Node_network_Hosted": 0
+    }
+  },
+  "TODO": {
+    "rows": 32,
+    "complete": 14,
+    "changed": false,
+    "IOS15_complete": false
+  },
+  "pending": {
+    "fresh_common": true,
+    "final9_IR": true,
+    "Hosted26_Node22": true,
+    "Core19raw_15samples": true,
+    "independent_artifact_replay": true,
+    "normal_main": true,
+    "performance_budget": true,
+    "iOS_physical": true
+  },
+  "first_common_failure_and_workflow_step_split": {
+    "initial_result": {
+      "command": "npm run check",
+      "exit": 1,
+      "tests": 1214,
+      "pass": 1199,
+      "fail": 1,
+      "skip": 14,
+      "cancel": 0,
+      "duration_ms": 39544.310709,
+      "test": "every npm install is preceded by the same working directory lockfile audit",
+      "test_location": "tests/unit/harness-tooling.test.mjs:31",
+      "assertion_location": "tests/unit/harness-tooling.test.mjs:37",
+      "message": "ios-core-notice-observation.yml/observe: audit before install in .",
+      "raw_file": "check.log",
+      "raw_bytes": 110527,
+      "raw_SHA256": "932c49b34f31a589febdea10267eab880dbe4d5fb9f0a57c7a6a244769c54235",
+      "result_file": "result.json",
+      "result_bytes": 11,
+      "result_SHA256": "66f8dc51d13ba3ee81b71913528824d9c1a3812c325fc59d4b60dda8e8520d2b",
+      "new_common_rerun_performed": false
+    },
+    "previous_workflow_source": {
+      "path": ".github/workflows/ios-core-notice-observation.yml",
+      "bytes": 3737,
+      "SHA256": "128796a258749eaddeda5b3e759a81d6658ba3eb19ed436f6f24e6761728943b"
+    },
+    "previous_Source3_IR": "aeb8f46ad061703465f3d773ec42163ef14e0f002a6417702124af73be033c39",
+    "previous_Source3_IR_scope": "before workflow audit/install split; historical evidence only",
+    "current_workflow_source": {
+      "path": ".github/workflows/ios-core-notice-observation.yml",
+      "bytes": 3853,
+      "SHA256": "1abc0b42ec1ff7b501d86b6f85338c8ccd5f969fa8b5ffc3d3f3f09350c6ac61"
+    },
+    "change": "same commands split from one6-minute step into prior2-minute audit and following4-minute install",
+    "audit_minutes": 2,
+    "install_minutes": 4,
+    "preparation_total_minutes": 6,
+    "job_minutes": 35,
+    "guard_fixture_Source2_and_other_steps_unchanged": true,
+    "new_workflow_delta_independent_IR_pending": true,
+    "new_common_pending": true,
+    "Hosted_pending": true
+  },
+  "initial_unbound_draft_history": {
+    "date": "2026-10-31",
+    "state": "PRIVATE_ROOTDOC_DRAFT_NOT_ADOPTED_OR_MEASURED",
+    "title": "Notice対応Core観測の固定入口とHosted事前検査案",
+    "actual_parent": null,
+    "publication_order": [
+      "PR316 normal actual main",
+      "reader rotation unit normal actual main",
+      "bind this Source5+records_indices4 to actual parent"
+    ],
+    "owned_paths_proposed": 9,
+    "source_files": [
+      {
+        "path": ".github/workflows/ios-core-notice-observation.yml",
+        "bytes": 3737,
+        "SHA256": "128796a258749eaddeda5b3e759a81d6658ba3eb19ed436f6f24e6761728943b"
+      },
+      {
+        "path": "ios/tests/observe-core-notice-hosted-20261031.py",
+        "bytes": 59107,
+        "SHA256": "dc9d4c3f9f9390ae8fc303f16c9ca02a58d0e81b25eaa1c9378ba5085a936c54"
+      },
+      {
+        "path": "ios/tests/hosted-core-notice-pure-fixtures-20261031.py",
+        "bytes": 12997,
+        "SHA256": "0920d9d26d8643debaf1e0bd16880096627e3980da7e5f04b9102f3df959cc0a"
+      },
+      {
+        "path": "ios/tests/verify-core-performance-notice-20261031.mjs",
+        "bytes": 2586,
+        "SHA256": "c911db411741ddfa60af310a6d1906f565f3413375a6538655b29053a28d5784"
+      },
+      {
+        "path": "tests/unit/ios-core-performance-notice-20261031.test.mjs",
+        "bytes": 8167,
+        "SHA256": "43126d0daa63ceea3d6d520098b47b6c540c00283f70bd406b45a6d68212e712"
+      }
+    ],
+    "App_version_change": false,
+    "PBX_change": false,
+    "Source2_boundary_evidence": {
+      "actual_tests": 8,
+      "unique": 8,
+      "pass": 8,
+      "skip": 0,
+      "fail": 0,
+      "seconds": 0.267297,
+      "fixed_inputs": 15,
+      "inputs_held": true,
+      "scope": "Node fixed-policy boundary only; matching identity deliberately stops at invalid manifest digest",
+      "producer19_or_corpus_acceptance": false,
+      "independent_IR_SHA256": "f31c04d38b90716f38bec693344d15a465efa897eb4b7fa8a12b334cc47fac16"
+    },
+    "guard_static_scope": {
+      "whole_draft_IR_SHA256": "86640e16e7193649f8705c63cdcb138b0bc387857776b678b0d412888979358b",
+      "whole_initial_P2": "probe buffered all output before cap; historical finding retained",
+      "revision2_delta_IR_SHA256": "8ac1b7804f3d2ac58a7301f63e83f5bdb5541c30a46c932b16c8a5084e70fe14",
+      "revision2_delta_P1_count": 0,
+      "revision2_delta_P2_count": 0,
+      "Source3_IR": null,
+      "Source3_fixture_or_Hosted_execution": false
+    },
+    "frozen": {
+      "installation": {
+        "core-performance-runner.mjs": "4276643f3c0df1e21d62f020c0ebd5ec32639b536fa6933806e7ad611edcaf5f",
+        "PublishedCoreBenchmark.swift": "92d8005e1d0fe98008e6deeff54773ee0866e0fb75c4b9dc80ce5507a03d71aa",
+        "core-performance-queries.json": "39995c2b75ba04eec4e1dc610b35c28b1b0f386cc5b250eaeab5211d13cfa31b",
+        "verify-core-performance.mjs": "15880ac76ec61af487d888684fa8910a5f74e74a43a717bb839442ce7fa30c51",
+        "verify-core-performance-notice-20261031.mjs": "c911db411741ddfa60af310a6d1906f565f3413375a6538655b29053a28d5784"
+      },
+      "production_Source4": {
+        "ios/AILibrary/Sources/Models.swift": "459423194145e677834d35b57201ae60f0c9e9b5ab449a620cb519f5a070292c",
+        "ios/AILibrary/Sources/NativeDocument.swift": "ce96e4960eef766e325b1b4b7d3701d4a7d5b5c3b1e69ae9599fd0f2622af2ab",
+        "ios/AILibrary/Sources/ContentValidator.swift": "ffcdab90f0a8f39fc8b7cfceea0ba48aac7f18df1c033b237d2da311562e385a",
+        "ios/AILibrary/Sources/ReadingStore.swift": "da88bdb3ef99a93ddb842f53e7e92bdba2dfc4e95bff0f78f9d467387e9acfe7"
+      },
+      "query_source_SHA256": "3bb988b77a8d8da65ae3e401d092a3ff5cfdebbad73e11e99c5efd6fb8d98eb7",
+      "published_sources_SHA256": "4ba18c1b5d72fdd3acfdac32ece203a1d8c2a1bbf7c11fa9a0a4169c1feacaee",
+      "query_count": 16,
+      "published_articles": 199,
+      "Content_files": 626,
+      "legacy_CLI_BYTE_engine_changed": false
+    },
+    "planned_fixture": {
+      "pure_cases": 26,
+      "old_fake_cases": 18,
+      "actual_append_with_fakeOS_cases": 8,
+      "actual_executed": false,
+      "Node22_preflight": [
+        "version",
+        "workflow schema",
+        "fixed entry syntax",
+        "boundary test syntax"
+      ],
+      "Node22_or_YAML_actual": false,
+      "limits": {
+        "seconds": 30,
+        "combined_bytes": 1048576,
+        "private_bytes": 33554432,
+        "floor_free": 734003200
+      },
+      "workflow_step_minutes": 1,
+      "gate": "same source40/inputSHA/26 unique successes/Node4/raw10 and resource receipt required by prepare and run"
+    },
+    "Core_limits": {
+      "seconds": 180,
+      "start_free": 3800000000,
+      "floor_free": 3200000000,
+      "private_bytes": 268435456,
+      "tree_RSS_bytes": 1610612736,
+      "outer_log_bytes": 8388608
+    },
+    "private_resource_contract_lowered": false,
+    "local_capacity_refusal": "unexecuted, neither success nor test skip result",
+    "Git_contract": {
+      "fresh_quiescent_vendor_defaults_Root_adopted": true,
+      "partial_store": "raw commit/alltree/required blobs verified; unrelated blobs/parents intentionally absent",
+      "same_child_environment": [
+        "PATH",
+        "TMPDIR"
+      ],
+      "before_after_effective_config_and_known_selection_required": true,
+      "not_claimed": [
+        "full clone/fsck",
+        "all consulted-file absence",
+        "actual exec/kernel tracing",
+        "exhaustive SDK resource hash",
+        "independent revision authenticity"
+      ]
+    },
+    "retention": {
+      "full_Content_and_frozen_sources": true,
+      "when_produced": [
+        "compiler.stderr",
+        "binary",
+        "identity",
+        "summary",
+        "19raw stdout/stderr pairs",
+        "CSV",
+        "fixture raw and provenance"
+      ],
+      "excluded_only": [
+        "Core module cache",
+        "Core private process temp"
+      ],
+      "failed_compile_stderr_may_be_incomplete": true
+    },
+    "pending": {
+      "actual_parent_binding": true,
+      "final9_IR": true,
+      "new_head_common_actionlint_CI": true,
+      "Hosted26_and_Node_preflight": true,
+      "Core_compile_19raw_15sample_fixed_replay": true,
+      "actual_saved_receipt_independent_review": true,
+      "normal_main": true,
+      "performance_budget": true,
+      "App_iOS_device_Release": true
+    },
+    "TODO": {
+      "rows": 32,
+      "complete": 14,
+      "changed": false,
+      "IOS15_complete": false
+    }
+  }
+}

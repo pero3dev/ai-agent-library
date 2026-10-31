@@ -170,6 +170,7 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
         for _ in 0..<8 where !isHittableOnScreen(clear) { app.swipeDown(velocity: .slow) }
         requireHittable(clear)
         clear.tap()
+        try finishLibrarySearchBeforeExportResume()
         let liveResume = element("library-resume")
         requireHittable(liveResume)
         liveResume.tap()
@@ -204,6 +205,44 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
         XCTAssertTrue(app.buttons["しおりを削除"].waitForExistence(timeout: 10))
         requireHittable(app.staticTexts["native-heading-自己注意の数式"],
                         inside: app.scrollViews["native-reader"], fullyVisible: true)
+    }
+
+    /// Clearing the query leaves the observed public search session active.
+    /// End that session once, before resuming; never substitute another More selector.
+    private func finishLibrarySearchBeforeExportResume() throws {
+        readingExportLastContext = "phase=finish-public-library-search"
+        let bars = app.navigationBars.matching(identifier: "AI Agent Library")
+        let bar = bars.element(boundBy: 0)
+        let searches = bar.searchFields.matching(NSPredicate(format: "label == %@", "記事の本文を検索"))
+        let cancels = bar.buttons.matching(NSPredicate(format: "label == %@", "キャンセル"))
+        let active = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            bars.count == 1 && searches.count == 1 && cancels.count == 1 &&
+                self.isHittableOnScreen(searches.element(boundBy: 0), fullyVisible: true) &&
+                self.isHittableOnScreen(cancels.element(boundBy: 0), fullyVisible: true)
+        }, object: nil)
+        guard XCTWaiter.wait(for: [active], timeout: 15) == .completed,
+              bars.count == 1, searches.count == 1, cancels.count == 1 else {
+            throw readingExportFailure("Expected one foreground library search field and its unique public Cancel", attempt: 0)
+        }
+        let search = searches.element(boundBy: 0), cancel = cancels.element(boundBy: 0)
+        let appFrame = app.frame, barFrame = bar.frame
+        let searchFrame = search.frame, cancelFrame = cancel.frame
+        guard [appFrame, barFrame, searchFrame, cancelFrame].allSatisfy({
+            !$0.isNull && !$0.isInfinite && $0.minX.isFinite && $0.minY.isFinite &&
+                $0.width.isFinite && $0.height.isFinite && $0.width > 0 && $0.height > 0
+        }), appFrame.contains(barFrame), barFrame.contains(searchFrame), barFrame.contains(cancelFrame),
+             search.exists, cancel.exists, cancel.isEnabled, cancel.isHittable else {
+            throw readingExportFailure("The public search cancellation no longer belongs to the visible library bar", attempt: 0)
+        }
+        cancel.tap()
+        let more = app.buttons.matching(NSPredicate(format: "label == %@", "その他の操作"))
+        let finished = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            cancels.count == 0 && more.count == 1 &&
+                self.isHittableOnScreen(more.element(boundBy: 0), fullyVisible: true)
+        }, object: nil)
+        guard XCTWaiter.wait(for: [finished], timeout: 15) == .completed else {
+            throw readingExportFailure("The public search did not close to one usable unfiltered More control", attempt: 0)
+        }
     }
 
     private var readingExportLastContext = "phase=not-started"

@@ -1,5 +1,25 @@
 # 固定列幅表の回転後の読書位置回帰
 
+## 9dでの実観測とCI時間配分の訂正
+
+head `9d7010c4c9725a24e8f9e9a58469732a28b3ab74` では、訂正した検索→Buttonの入口から専用記事を開き、本文・しおり操作と目次の選択まで進んだ。4分のxcodebuild枠が終了し、R25・回転の結果は得られなかった。UI step開始からcase開始まで約193.122秒、caseは約46.48秒で、最後のidle記録からtimeout assertionまでは約1.601秒だった。Popenの独立UTCは保存しておらずstep時刻基準の比較だが、本文のフリーズを示す証拠とは扱わない。旧3e7の同じ40行表を使う通常Fullケースの201.768秒成功は、旧caseの比較材料に限る。
+
+同じ9d・条件で1回だけ再実行した結果、xcodebuildはexit0だったが、その後の`built-content-audit`が30秒でSIGKILL／ETIMEDOUTとなった。実intentにはbuild共有枠が139.628秒残っていた。`check-package.sh`は各回でCore4と監査用Swiftをコンパイルするため、通常の短いコマンド用default30秒が当たっていた。どちらの失敗も保存し、9dの三度目の条件不変retryは行わない。
+
+候補では、生成後の代表・fixtureと、build後のContent・TestContent、計4回の同じnative package監査へ明示120秒を割り当てる。content180秒／build360秒の共有deadlineは保ち、各コマンドには残時間との小さい方を適用する。監査自体、期待記事数3／4、Source・asset・resource照合は省略しない。
+
+UIの共有枠とxcodebuild上限は240秒から420秒、CI stepは5分から8分へ改める。観測されたcase開始前193秒と旧同一表ケース201秒を根拠とする実行枠の候補で、製品の性能予算ではない。明示step上限合計は39分から42分、jobは1分の余裕を保つ40分から43分へそろえる。他のstage上限、strict1件・skip／重複拒否・owned UUID・Source相関・cleanup・storage、テスト本文とhittable／R25／しおりの合否条件は維持する。新しい実行での効果と専用1件の成功は未確認である。
+
+9dのNativeは単体278件（成功276・skip2）・UI7件、iOS26は厳密UI3件、Full BはUI8件・実コピー374B・Release199記事／音声1本に成功した。続いてFull Aも単体278件（成功276・skip2）・UI18件、完全な `npm run check` 1206件（成功1191・skip15・失敗0）と全工程に成功し、A18＋B8の一意26件を照合した。現9dの同じ40行表を使う既存ケースは164.934秒で成功したが、別caseのため新Reflowの時間・回転成功を保証しない。Recovery初回はUI開始前の180秒timeout等で失敗し、同条件1回の再実行ではF／R各1件が成功した。取得したraw-test JSONの一意なcase／祖先階層／Passed／owned UUIDを独立照合し、Fは15.903秒、Rは69.935秒だった。52B sentinelの前後SHA一致はrunnerの記録に基づく整合確認で、別マシンからの実FS再読取や全ユーザーデータ保証ではない。
+
+9d時刻比較票は`3eead417cbf38af49e147696b13bd149e85d2920613d395878dcd8ba0c5e4b7b`、二つの限定再実行票は`655f2108f67ea292b09d6043636d4f236582eba8ef407fa899db6d66ca2d8c9c`。初回ReflowのZIPは`439def581380e0d30d34c9ee97e4c2f9dac8443c86905ec2308abab69672d456`、再実行のbuild監査ZIPは`accda2d5a5fb4056e08b3616a80279c462ebf41b56aab26e4ad79e7a5c92a3fd`。Recovery再実行のcompact ZIPは`252c6a1ed34be07581a23e91424c73dbd583e3818f150fc7a8730ddaeb702e76`、Rootのraw照合票は`a1a63e660e5801049c0744fedd60d9c0479c263d9b0e7d97690b9cae37e51901`である。[Reflow run](https://github.com/pero3dev/ai-agent-library/actions/runs/41169970568)と[Recovery run](https://github.com/pero3dev/ai-agent-library/actions/runs/41169970586)に対応する。
+
+App0.2.28（30）・Core／既存Swift・本文199記事・音声1本・通常UIの対象・保存形式を保持する。新workflowと記録の独立レビュー、共通検査、新headの専用1件と通常CIが成功してから通常mainへ統合する。IOS-11・実機・VoiceOver・大きな文字・実package改訂と段落reflowは未完了、TODO32行・完了14行を維持する。
+
+## 9d提出までの記録
+
+以下は各提出時点の履歴であり、当時の予定や未確認を現在の成功へ読み替えない。
+
 ## PR317の初回失敗と入口の訂正
 
 head `3e7f444a9f584c723e07b50c5ed6f305bd7e463c` の通常Nativeは単体278件（成功276・skip2）とUI7件、FullはUI18＋8の一意26件、コピー374B、Release199記事・音声1本の監査に成功した。Full Aの完全な `npm run check` は1206件（成功1191・skip15・失敗0）で、Markdown・記事・リンク・TODO・ハーネスの全工程も成功した。専用ケースの成功とは分ける。

@@ -20,9 +20,9 @@ jobs:
     name: iOS default-text fixture rotation regression
     if: github.repository == 'pero3dev/ai-agent-library' && github.event.repository.private == false && (github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == 'pero3dev/ai-agent-library' && github.event.pull_request.base.repo.full_name == 'pero3dev/ai-agent-library'))
     runs-on: macos-15
-    # Explicit step caps total39min. No retry or normal CI inventory change.
+    # Explicit step caps total42min. No retry or normal CI inventory change.
     # Runner loss or forced cancellation can still interrupt owned cleanup.
-    timeout-minutes: 40
+    timeout-minutes: 43
     env:
       DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
       EXPECTED_SOURCE_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
@@ -63,7 +63,7 @@ jobs:
           
           const stage = process.argv[2];
           const caps = { inventory: 90000, tools: 180000, content: 180000, simulator: 180000,
-            build: 360000, ui: 240000, cleanup: 150000, audit: 45000, summary: 10000, storage: 15000 };
+            build: 360000, ui: 420000, cleanup: 150000, audit: 45000, summary: 10000, storage: 15000 };
           assert.ok(Object.hasOwn(caps, stage));
           const deadline = performance.now() + caps[stage];
           const workspace = fs.realpathSync(process.env.GITHUB_WORKSPACE);
@@ -224,8 +224,8 @@ jobs:
               ['fixture-generation', ['scripts/build-ios-native-content.mjs', '--fixtures']],
               ['representative-audit', ['ios/tests/native-content-audit.mjs']],
               ['fixture-audit', ['ios/tests/native-content-audit.mjs', '--fixtures']]]) run(name, 'node', args, 120000);
-            run('representative-package', 'bash', ['ios/tests/check-package.sh', 'ios/AILibrary/Content', '3']);
-            run('fixture-package', 'bash', ['ios/tests/check-package.sh', 'ios/AILibrary/TestContent', '4']);
+            run('representative-package', 'bash', ['ios/tests/check-package.sh', 'ios/AILibrary/Content', '3'], 120000);
+            run('fixture-package', 'bash', ['ios/tests/check-package.sh', 'ios/AILibrary/TestContent', '4'], 120000);
             sameSource();
           }
           
@@ -265,7 +265,7 @@ jobs:
             for (const [folder, count] of [['Content', '3'], ['TestContent', '4']]) {
               const expectedManifest = fs.readFileSync(path.join(workspace, 'ios/AILibrary', folder, 'manifest.json'));
               assert.ok(fs.readFileSync(path.join(app, folder, 'manifest.json')).equals(expectedManifest));
-              run('built-' + folder.toLowerCase() + '-audit', 'bash', ['ios/tests/check-package.sh', path.join(app, folder), count]);
+              run('built-' + folder.toLowerCase() + '-audit', 'bash', ['ios/tests/check-package.sh', path.join(app, folder), count], 120000);
             }
             sameSource();
             json('build.json', { source_head: expected, UUID: owner.UUID, app, xctestrun,
@@ -280,7 +280,7 @@ jobs:
             const result = run('reflow-ui', 'xcodebuild', ['-xctestrun', built.xctestrun,
               '-destination', `platform=iOS Simulator,id=${owner.UUID}`, '-destination-timeout', '60',
               '-resultBundlePath', path.join(evidence, 'ui.xcresult'), '-parallel-testing-enabled', 'NO', '-jobs', '2',
-              '-only-testing:' + selector, 'CODE_SIGNING_ALLOWED=NO', 'test-without-building'], 240000, workspace, false);
+              '-only-testing:' + selector, 'CODE_SIGNING_ALLOWED=NO', 'test-without-building'], 420000, workspace, false);
             json('execution.json', { source_head: expected, UUID: owner.UUID, OS: '18.5', selector, ...result, stdout: undefined });
             assert.equal(result.exit_code, 0); assert.equal(result.signal, null); assert.equal(result.error, null);
             sameSource(); json('evidence-size-after-ui.json', boundedTree(evidence));
@@ -388,7 +388,7 @@ jobs:
         run: node "$DRIVER_PATH" build
       - name: Run only the one default-text rotation case
         id: ui
-        timeout-minutes: 5
+        timeout-minutes: 8
         run: node "$DRIVER_PATH" ui
       - name: Clean up only the proven owned Simulator
         id: cleanup

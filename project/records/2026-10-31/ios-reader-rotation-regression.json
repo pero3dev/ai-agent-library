@@ -2,7 +2,7 @@
   "schema_version": 1,
   "date": "2026-10-31",
   "title": "固定列幅表の回転後の読書位置回帰",
-  "state": "initial Hosted failure diagnosed; filtered public fixture entry correction; newhead build/UI/review/main pending",
+  "state": "9d actualtimeouts diagnosed; explicit nativeaudit120s and UI420s operationalallocation proposed; newhead actualCI/main pending",
   "publication_parent": "8ff3ac6c069c630b5be53ab21ec2d4331686f3c8",
   "publication_parent_tree": "17131d699487b20a3a00f278e63804b2077b57ae",
   "publication_parent_remote_verified_by_Root": true,
@@ -38,8 +38,8 @@
     },
     {
       "path": ".github/workflows/ios-reader-reflow.yml",
-      "bytes": 29645,
-      "SHA256": "1bd7c4ee2c3f6a56e7cce1e38a885c120b70f54e47bda54ebf764abcdcceaef3"
+      "bytes": 29669,
+      "SHA256": "75dbd756722285e220471d808cb4154877f182ec23459a5a993c36cb003b4790"
     }
   ],
   "standalone_UI2_saved_evidence": {
@@ -894,5 +894,126 @@
       "bytes": 29645,
       "SHA256": "1bd7c4ee2c3f6a56e7cce1e38a885c120b70f54e47bda54ebf764abcdcceaef3"
     }
-  ]
+  ],
+  "budget_revision_previous_state": "initial Hosted failure diagnosed; filtered public fixture entry correction; newhead build/UI/review/main pending",
+  "budget_revision_previous_source_candidates": [
+    {
+      "path": "ios/AILibrary.xcodeproj/project.pbxproj",
+      "bytes": 22103,
+      "SHA256": "8da9079089a7fdd76a405655f260a441cfcf15efa869254d897f9f7edf124f4f"
+    },
+    {
+      "path": "ios/AILibraryUITests/ReaderReflowUITests.swift",
+      "bytes": 12865,
+      "SHA256": "47b963565646a4912a96df65a3571cab76dd3c37ddb292712efdd2accf07abca"
+    },
+    {
+      "path": ".github/workflows/ios-reader-reflow.yml",
+      "bytes": 29645,
+      "SHA256": "1bd7c4ee2c3f6a56e7cce1e38a885c120b70f54e47bda54ebf764abcdcceaef3"
+    }
+  ],
+  "budget_revision": {
+    "source_workflow_SHA256": "75dbd756722285e220471d808cb4154877f182ec23459a5a993c36cb003b4790",
+    "source_head_before": "9d7010c4c9725a24e8f9e9a58469732a28b3ab74",
+    "new_source_verification": null,
+    "independent_review": null,
+    "new_head_CI": null,
+    "normal_main": null,
+    "audit_calls": 4,
+    "audit_each_ms": 120000,
+    "content_shared_ms": 180000,
+    "build_shared_ms": 360000,
+    "UI_shared_and_command_ms": 420000,
+    "UI_step_minutes": 8,
+    "step_caps_sum_minutes": 42,
+    "job_minutes": 43,
+    "other_assertions_audits_limits_held": true,
+    "App_version": "0.2.28(30)",
+    "test_source_47b_held": true
+  },
+  "9d_Actual_observation": {
+    "Reflow_run": 41169970568,
+    "attempt1": {
+      "job": 124445608229,
+      "newfixture_entry_body_bookmark_positive": true,
+      "UI_timeout_ms": 239970,
+      "exit_code": null,
+      "signal": "SIGKILL",
+      "error": "spawnSync xcodebuild ETIMEDOUT",
+      "step_start_UTC": "2026-10-31T04:53:26.597Z",
+      "case_start_UTC": "2026-10-31T04:56:39.719Z",
+      "step_to_case_seconds": 193.122,
+      "last_case_progress_seconds": 46.48,
+      "last_idle_to_assert_seconds": 1.601,
+      "independent_Popen_UTC_available": false,
+      "App_AX_hang_proven": false,
+      "R25_rotation_accepted": false,
+      "ZIP_SHA256": "439def581380e0d30d34c9ee97e4c2f9dac8443c86905ec2308abab69672d456"
+    },
+    "attempt2": {
+      "job": 124449186950,
+      "build_for_testing_exit": 0,
+      "command": "built-content-audit",
+      "timeout_ms": 30000,
+      "shared_remaining_ms": 139628,
+      "exit_code": null,
+      "signal": "SIGKILL",
+      "error": "spawnSync bash ETIMEDOUT",
+      "UI_started": false,
+      "ZIP_SHA256": "accda2d5a5fb4056e08b3616a80279c462ebf41b56aab26e4ad79e7a5c92a3fd"
+    },
+    "third_unchanged_retry": false,
+    "timing_report_SHA256": "3eead417cbf38af49e147696b13bd149e85d2920613d395878dcd8ba0c5e4b7b",
+    "retry_report_SHA256": "655f2108f67ea292b09d6043636d4f236582eba8ef407fa899db6d66ca2d8c9c",
+    "Native_units": {
+      "total": 278,
+      "passed": 276,
+      "skipped": 2,
+      "failed": 0
+    },
+    "Native_UI": 7,
+    "R26_strict_UI": 3,
+    "Full_B_UI": 8,
+    "Full_A_status_at_draft": "final-result-unverified",
+    "Full_B_copy": 374,
+    "Full_B_Release_articles": 199,
+    "Full_B_Release_audio": 1,
+    "required_checks_success": 11,
+    "Full_A_final_verified": {
+      "units": {
+        "total": 278,
+        "passed": 276,
+        "skipped": 2,
+        "failed": 0
+      },
+      "UI": 18,
+      "literal_npm_check": {
+        "total": 1206,
+        "passed": 1191,
+        "skipped": 15,
+        "failed": 0
+      },
+      "all_pipeline_segments": 8,
+      "A_B_disjoint_exact_union": 26,
+      "current_existing_tall_table_case_seconds": 164.934,
+      "same_as_new_Reflow_case": false,
+      "report_SHA256": "6150554b2a863e971ba4ad4e94a8dea3cd52c0c7917e1d1e1bb311b98e0b374d",
+      "A_raw_SHA256": "88fb438bff655f05039e719b49b3966950b545b7a87ae4b51aa8405f714c04b6"
+    }
+  },
+  "9d_Recovery_retry": {
+    "run": 41169970586,
+    "initial": "FUI180s timeout beforeteststarted/rawtests64/restoredmissing",
+    "attempt2_job": 124449225326,
+    "attempt2": "strict raw F1/R1 passed; sourcegate and downloadedrawJSON ancestry/cases/devices independentlymatched",
+    "F_seconds": 15.902721047401428,
+    "R_seconds": 69.93476498126984,
+    "compact_ZIP_SHA256": "252c6a1ed34be07581a23e91424c73dbd583e3818f150fc7a8730ddaeb702e76",
+    "Root_raw_proof_SHA256": "a1a63e660e5801049c0744fedd60d9c0479c263d9b0e7d97690b9cae37e51901",
+    "runner_reported_sentinel_bytes": 52,
+    "same_SHA_before_after": true,
+    "independent_same_machine_FS_replay": false,
+    "sameprocess_repaired_retry_alluserdata_device_VO_verified": false
+  }
 }

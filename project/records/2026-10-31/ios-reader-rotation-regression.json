@@ -1,0 +1,826 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-31",
+  "title": "固定列幅表の回転後の読書位置回帰",
+  "state": "actual-parent projected candidate; fresh common/final7/currenthead CI/main pending",
+  "publication_parent": "8ff3ac6c069c630b5be53ab21ec2d4331686f3c8",
+  "publication_parent_tree": "17131d699487b20a3a00f278e63804b2077b57ae",
+  "publication_parent_remote_verified_by_Root": true,
+  "App_version": "0.2.28(30) inherited configuration only",
+  "version_bump": false,
+  "source_paths": [
+    "ios/AILibrary.xcodeproj/project.pbxproj",
+    "ios/AILibraryUITests/ReaderReflowUITests.swift",
+    ".github/workflows/ios-reader-reflow.yml"
+  ],
+  "owned_paths": [
+    "ios/AILibrary.xcodeproj/project.pbxproj",
+    "ios/AILibraryUITests/ReaderReflowUITests.swift",
+    ".github/workflows/ios-reader-reflow.yml",
+    "project/records/2026-10-31/ios-reader-rotation-regression.md",
+    "project/records/2026-10-31/ios-reader-rotation-regression.json",
+    "project/README.md",
+    "project/plans/engineering/ios-app-completion.md"
+  ],
+  "planned_path_count": 7,
+  "new_tracked_files": 4,
+  "target_tracked_projection": 2843,
+  "source_candidates": [
+    {
+      "path": "ios/AILibrary.xcodeproj/project.pbxproj",
+      "bytes": 22103,
+      "SHA256": "8da9079089a7fdd76a405655f260a441cfcf15efa869254d897f9f7edf124f4f"
+    },
+    {
+      "path": "ios/AILibraryUITests/ReaderReflowUITests.swift",
+      "bytes": 10869,
+      "SHA256": "f17bd31d97a133c81d34d77fd0d24f07196d3ce42fc7670591aebae9a68a4329"
+    },
+    {
+      "path": ".github/workflows/ios-reader-reflow.yml",
+      "bytes": 29645,
+      "SHA256": "1bd7c4ee2c3f6a56e7cce1e38a885c120b70f54e47bda54ebf764abcdcceaef3"
+    }
+  ],
+  "standalone_UI2_saved_evidence": {
+    "source3_IR_SHA256": "768812994bdb439e42c990855a0b8190ace063d17b489199c92d49473e35fd0c",
+    "Rootdocs4_IR_SHA256": "3c375eec65d8b84b5b329b3bfb3076b086532272badb52ede6c2b45529fd29ae",
+    "SDK_saved_IR_SHA256": "c9c5a891c338180a3122e35ba1ec2f9c12005ab8fd15f296d455ef400bb4492f",
+    "SDK_summary_SHA256": "4f87c20ec09094b616f98263b19ba9d64a4d56d52e4c366a69e1826621258ea9",
+    "SDK_execution_manifest_SHA256": "9fbbcc7782aaa6f661e94d0369b483ac1c42b5efe7926f2cf28892440f98211d",
+    "retained_files": 19,
+    "fixed_inputs_at_execution": 10,
+    "typed_UI_sources": {
+      "ios/AILibraryUITests/NativeReaderUITests.swift": "00e75a518b7af8a69679adb9771c2e6d584c466c91e39c7e68b2ea75956c707c",
+      "ios/AILibraryUITests/ReaderReflowUITests.swift": "f17bd31d97a133c81d34d77fd0d24f07196d3ce42fc7670591aebae9a68a4329"
+    },
+    "command_count": 1,
+    "exit_code": 0,
+    "command_seconds": 8.147275,
+    "phase_seconds": 9.150103,
+    "raw_stdout_stderr_bytes": 0,
+    "scope": "Standalone Native+Reflow typecheck only; no App17/Core/Diag, PBX registration, XCTest/UI/runtime/main",
+    "cache": "excluded sdk/cache may already be absent;19 retained files still mandatory"
+  },
+  "TODO": {
+    "rows": 32,
+    "complete": 14,
+    "changed": false,
+    "IOS11_complete": false
+  },
+  "verification": {
+    "new_common": null,
+    "final7_IR": null,
+    "new_onecase_Hosted": null,
+    "new_head_CI": null,
+    "normal_main": null,
+    "physical_VO": null
+  },
+  "initial_v4_history": {
+    "schema_version": 1,
+    "date": "2026-10-31",
+    "title": "固定列幅表の回転後の読書位置回帰",
+    "state": "private v4; same-repo PR workflow Source1 reviewed and current00e/Reflow standalone SDK passed; actualparent/PBX/final7/Hosted/main pending",
+    "publication_parent": null,
+    "publication_parent_tree": null,
+    "publication_parent_status": "Unresolved actual parent after preceding fallback7 ordinary-main; no SHA/tree/tracked total inferred",
+    "proposed_app": {
+      "marketing_version": "0.2.28",
+      "build_version": "30",
+      "status": "planned inheritance only after preceding fallback7 ordinary-main; currentApp29 is not observed30 Bundle",
+      "version_bump_in_this_unit": false
+    },
+    "source_paths": [
+      "ios/AILibraryUITests/ReaderReflowUITests.swift",
+      "ios/AILibrary.xcodeproj/project.pbxproj",
+      ".github/workflows/ios-reader-reflow.yml"
+    ],
+    "record_paths": [
+      "project/records/2026-10-31/ios-reader-rotation-regression.md",
+      "project/records/2026-10-31/ios-reader-rotation-regression.json"
+    ],
+    "index_paths": [
+      "project/README.md",
+      "project/plans/engineering/ios-app-completion.md"
+    ],
+    "proposed_repository_paths": [
+      "ios/AILibraryUITests/ReaderReflowUITests.swift",
+      "ios/AILibrary.xcodeproj/project.pbxproj",
+      ".github/workflows/ios-reader-reflow.yml",
+      "project/records/2026-10-31/ios-reader-rotation-regression.md",
+      "project/records/2026-10-31/ios-reader-rotation-regression.json",
+      "project/README.md",
+      "project/plans/engineering/ios-app-completion.md"
+    ],
+    "planned_path_count": 7,
+    "tracked_file_count": {
+      "actual_parent_count": null,
+      "expected_total": null,
+      "planned_new_files": 4,
+      "new_files_by_kind": {
+        "UITest_class_file": 1,
+        "workflow": 1,
+        "records": 2
+      },
+      "formula": "actual_parent_count + 4; actual parent and total null"
+    },
+    "source_candidates": [
+      {
+        "path": "ios/AILibraryUITests/ReaderReflowUITests.swift",
+        "bytes": 10869,
+        "sha256": "f17bd31d97a133c81d34d77fd0d24f07196d3ce42fc7670591aebae9a68a4329",
+        "binding": "preparatory only; rebind actual fallback7 main/App30 and final7 review required"
+      },
+      {
+        "path": "ios/AILibrary.xcodeproj/project.pbxproj",
+        "bytes": 22103,
+        "sha256": "584fb21488cb22dbb15900d4efc95fb2de3757ef9ad4a078ef31c38a741cbc20",
+        "binding": "preparatory only; rebind actual fallback7 main/App30 and final7 review required"
+      },
+      {
+        "path": ".github/workflows/ios-reader-reflow.yml",
+        "bytes": 29645,
+        "sha256": "1bd7c4ee2c3f6a56e7cce1e38a885c120b70f54e47bda54ebf764abcdcceaef3",
+        "binding": "preparatory only; rebind actual fallback7 main/App30 and final7 review required"
+      }
+    ],
+    "PBX_preparation": {
+      "before_sha256": "5fb9e8948673accfc180003260fd3b134767750edad3d86c20b6b240610d359f",
+      "after_sha256": "584fb21488cb22dbb15900d4efc95fb2de3757ef9ad4a078ef31c38a741cbc20",
+      "before_version": "0.2.26(28)",
+      "scope": [
+        "new file reference",
+        "new build reference",
+        "UITest group member",
+        "UITest Sources member"
+      ],
+      "private_inverse_equal": true,
+      "future_parent_inverse": "not performed; reproject only four refs onto actual inherited30 PBX; do not copy private28 snapshot",
+      "version_App_signing_resources_change_in_this_unit": false
+    },
+    "case": {
+      "selector": "AILibraryUITests/ReaderReflowUITests/testFixtureMeasuredRowAndBookmarkSurviveRotatedRelaunchAndLiveReturn",
+      "expected_result_ID": "ReaderReflowUITests/testFixtureMeasuredRowAndBookmarkSurviveRotatedRelaunchAndLiveReturn()",
+      "source_case_count": 1,
+      "actual_UI_execution": false,
+      "fixture": "CASE-INTRABLOCK-01 existing forty-row fixed-column-width table",
+      "row_identifier": "native-table-cell-<blockID>-25-1",
+      "row_label": "INTRABLOCK-R25",
+      "positive": [
+        "unique exact cell",
+        "exact label",
+        "fully visible",
+        "hittable",
+        "persisted bookmark"
+      ],
+      "negative": {
+        "R1": "known not intersecting resolved reading viewport",
+        "R24": "not fully visible; partial intersection allowed",
+        "unknown_geometry": "fails checked assertion"
+      },
+      "setup": {
+        "maximum_swipes": 18,
+        "measured_drags": 1,
+        "text_settings_changed": false
+      },
+      "after_resume_corrective_TOC_query_swipe_drag": 0,
+      "sequence": [
+        "portrait public fixture read + bookmark + measured R25",
+        "public list return flush",
+        "terminate",
+        "landscape same-suite relaunch",
+        "public Continue first arrival",
+        "live portrait rotation while reader remains open"
+      ],
+      "offset_allowance": "one measured marker-cell frame height, max before/after; not GridRow height or glyph precision",
+      "teardown": "restore starting orientation even on failure; own app/suite only"
+    },
+    "preserved_selection": {
+      "NativeReaderUITests": 3,
+      "ordinary_Native_workflow_with_Recovery4": 7,
+      "new_class_selected_by_existing_native": false,
+      "new_class_selected_by_existing_full": false,
+      "existing_cases_helpers_EPS_positive_visibility_foreground_15s": "unchanged",
+      "fixture_and_production_UI": "unchanged",
+      "Full_workflow": {
+        "NativeReaderUITests": 3,
+        "PublishedReaderUITests": 17,
+        "ReaderViewportGeometryTests": 6,
+        "total": 26
+      }
+    },
+    "manual_workflow": {
+      "path": ".github/workflows/ios-reader-reflow.yml",
+      "trigger": "workflow_dispatch plus same-public-repo pull_request exact3paths",
+      "actual_dispatch": false,
+      "runner": "macos-15",
+      "Xcode": "16.4",
+      "SDK_runtime": "18.5",
+      "device": "iPhone 16",
+      "source": "PR event head or manual github.sha exact checkout/expected source, event merge commit recorded separately",
+      "builds": 1,
+      "test_without_building_invocations": 1,
+      "selectors": 1,
+      "representative_articles": 3,
+      "fixture_package_articles": 4,
+      "owned_simulator": "create and validate fresh UUID; boot/shutdown/delete only that owned UUID; no global erase or shutdown",
+      "strict_gate": "known plan/bundle/suite/single passed case ID and URL + owned device/runtime/platform; no skipped or duplicate or extra case",
+      "step_caps_total_minutes": 39,
+      "job_minutes": 40,
+      "per_command_maxBuffer_bytes": 8388608,
+      "JSON_bytes": 131072,
+      "raw_evidence_bytes": 268435456,
+      "raw_evidence_entries": 8192,
+      "raw_upload_requires_storage_gate": true,
+      "retry": false,
+      "existing_profile_or_SDK27_helper_changes": false,
+      "signing_or_provisioning_or_credentials": false,
+      "limits": "postphase evidence bound is not continuous DerivedData quota or complete descendant-process isolation; cancellation/runner loss can interrupt cleanup",
+      "key_name_note": "legacy JSON key retained; latest workflow supports both events",
+      "pull_request_paths": [
+        ".github/workflows/ios-reader-reflow.yml",
+        "ios/AILibraryUITests/ReaderReflowUITests.swift",
+        "ios/AILibrary.xcodeproj/project.pbxproj"
+      ],
+      "actual_PR_Hosted": false,
+      "source_sha256": "1bd7c4ee2c3f6a56e7cce1e38a885c120b70f54e47bda54ebf764abcdcceaef3"
+    },
+    "verification": {
+      "historical_stage": "All old verification objects remain unchanged under initial_v3_history.record; neither old522 nor bc9 result is current00e acceptance",
+      "latest_workflow_Source1_IR": {
+        "P1_count": 0,
+        "P2_count": 0,
+        "report_sha256": "338332b065d5de064fe2c22a41de0bbcf1873eecc2b5db6618adeef806588e58",
+        "source_sha256": "1bd7c4ee2c3f6a56e7cce1e38a885c120b70f54e47bda54ebf764abcdcceaef3",
+        "scope": "Root independent static workflow delta and saved pure evidence, not Hosted"
+      },
+      "latest_workflow_YAML_parse": {
+        "executor": "Root",
+        "exit": 0,
+        "new_execution_by_this_author": false
+      },
+      "latest_workflow_pure": {
+        "Node": "24.19.0",
+        "actual_unique_pass": 20,
+        "fail": 0,
+        "skip": 0,
+        "scope": "fake extracted driver/event/job-gate model only, not GitHub expression/runtime"
+      },
+      "current_Native_Reflow_SDK": {
+        "native_sha256": "00e75a518b7af8a69679adb9771c2e6d584c466c91e39c7e68b2ea75956c707c",
+        "reflow_sha256": "f17bd31d97a133c81d34d77fd0d24f07196d3ce42fc7670591aebae9a68a4329",
+        "executor": "Root",
+        "commands": 1,
+        "exit": 0,
+        "command_seconds": 8.147275,
+        "phase_seconds": 9.150103,
+        "toolchain": "iPhoneSimulator18.2/arm64-iOS17-simulator/Swift5DEBUG",
+        "fixed_inputs": 10,
+        "all_inputs_held": true,
+        "raw_stdout_bytes": 0,
+        "raw_stderr_bytes": 0,
+        "known_groups_reaped_remaining_false": 1,
+        "minimum_sampled_free_bytes": 1160851456,
+        "maximum_sampled_owned_bytes": 69327174,
+        "bounds": {
+          "phase_seconds": 90,
+          "combined_log_bytes": 1048576,
+          "owned_bytes": 314572800,
+          "free_floor_bytes": 734003200,
+          "sampling_seconds": 0.05
+        },
+        "summary_sha256": "4f87c20ec09094b616f98263b19ba9d64a4d56d52e4c366a69e1826621258ea9",
+        "execution_manifest_sha256": "9fbbcc7782aaa6f661e94d0369b483ac1c42b5efe7926f2cf28892440f98211d",
+        "saved_evidence_IR": {
+          "P1_count": 0,
+          "P2_count": 0,
+          "sha256": "c9c5a891c338180a3122e35ba1ec2f9c12005ab8fd15f296d455ef400bb4492f"
+        },
+        "retained_files": 19,
+        "manifest_itself_retained": true,
+        "cache_only_Root_removed_after_IR": true,
+        "independent_after10_hash_array_claim": false,
+        "scope": "Standalone typecheck only; no App/PBX/XCTest/AX/UI/Simulator/Bundle/main acceptance"
+      },
+      "actual_parent_bind": null,
+      "actual_PBX30_registration_projection": null,
+      "final_seven_path_common_check": null,
+      "final_seven_path_independent_review": null,
+      "Hosted_case": null,
+      "CI": null,
+      "main_integration": null,
+      "physical_VO": null
+    },
+    "evidence": [
+      {
+        "evidence_id": "source-review",
+        "filename": "review.json",
+        "bytes": 5416,
+        "sha256": "9e17aca8b0e4e106b0fe6339ae8d9b5e396471c010bed0525bc7ed52e9367dfa",
+        "published_locator": null,
+        "retention": "Private producer evidence retained; public artifact locator not yet assigned"
+      },
+      {
+        "evidence_id": "SDK-guard-review",
+        "filename": "sdk-guard-review.json",
+        "bytes": 1713,
+        "sha256": "cd70c3dabf52be609d56c2db372edd23660a2cd31c26b7761fe62e6ff456431a",
+        "published_locator": null,
+        "retention": "Private producer evidence retained; public artifact locator not yet assigned"
+      },
+      {
+        "evidence_id": "SDK-result",
+        "filename": "result.json",
+        "bytes": 2685,
+        "sha256": "3a634b4ef110b97a2887e156352c441325037b7526c9386df9e1df3c0d531a0f",
+        "published_locator": null,
+        "retention": "Private producer evidence retained; public artifact locator not yet assigned"
+      },
+      {
+        "evidence_id": "SDK-summary",
+        "filename": "summary.json",
+        "bytes": 2825,
+        "sha256": "d963649c3bd4eba08e6563186b301f00db9a9e19518ae965bce08cb46f370afc",
+        "published_locator": null,
+        "retention": "Private producer evidence retained; public artifact locator not yet assigned"
+      },
+      {
+        "evidence_id": "SDK-manifest",
+        "filename": "manifest.json",
+        "bytes": 2315,
+        "sha256": "b34cf6bb4b3d74953937c2c2b584be0c5ac917f855d7eef0fa1bfa5334a77085",
+        "published_locator": null,
+        "retention": "Private producer evidence retained; public artifact locator not yet assigned"
+      },
+      {
+        "evidence_id": "futureTrace-SDK-result",
+        "filename": "result.json",
+        "bytes": 2700,
+        "sha256": "ea99e10885ec63a0f831ee6809d7fec8850c47315174b42c5595b80a11d98ce1",
+        "published_locator": null,
+        "retention": "Private producer evidence retained; public artifact locator not yet assigned"
+      },
+      {
+        "evidence_id": "futureTrace-SDK-summary",
+        "filename": "summary.json",
+        "bytes": 2644,
+        "sha256": "27bb4c2f2831bf8090b48b731371dc819a1f1daaf7f715dac7e2452afa33b21f",
+        "published_locator": null,
+        "retention": "Private producer evidence retained; public artifact locator not yet assigned"
+      },
+      {
+        "evidence_id": "futureTrace-SDK-manifest",
+        "filename": "manifest.json",
+        "bytes": 2175,
+        "sha256": "a08622ec4f9e51270aae07ecacdf9a0cb4338783fa4f778f9dca217b9e67c37f",
+        "published_locator": null,
+        "retention": "Private producer evidence retained; public artifact locator not yet assigned"
+      },
+      {
+        "evidence_id": "futureTrace-SDK-spec",
+        "filename": "spec.json",
+        "bytes": 4684,
+        "sha256": "c793e9a7cc00e0727ffae7005a3766ea687be9c41f977d48ebdd812e90f02ed5",
+        "published_locator": null,
+        "retention": "Private producer evidence retained; public artifact locator not yet assigned"
+      },
+      {
+        "evidence_id": "SDK-composition-review",
+        "filename": "review.json",
+        "bytes": 11556,
+        "sha256": "a185e746c1528edab124eb7482edb00f29ba4ef01a81f48d3ebc2929ce86f93c",
+        "published_locator": null,
+        "retention": "Private independent saved-receipt review retained; public artifact locator not yet assigned"
+      },
+      {
+        "evidence_id": "PR-trigger-workflow",
+        "filename": "ios-reader-reflow.yml",
+        "bytes": 29645,
+        "sha256": "1bd7c4ee2c3f6a56e7cce1e38a885c120b70f54e47bda54ebf764abcdcceaef3",
+        "published_locator": null,
+        "retention": "Retained private evidence; no public artifact locator assigned"
+      },
+      {
+        "evidence_id": "PR-trigger-Root-IR",
+        "filename": "review.json",
+        "bytes": 1722,
+        "sha256": "338332b065d5de064fe2c22a41de0bbcf1873eecc2b5db6618adeef806588e58",
+        "published_locator": null,
+        "retention": "Retained private evidence; no public artifact locator assigned"
+      },
+      {
+        "evidence_id": "current-Native-Reflow-SDK-summary",
+        "filename": "summary.json",
+        "bytes": 1232,
+        "sha256": "4f87c20ec09094b616f98263b19ba9d64a4d56d52e4c366a69e1826621258ea9",
+        "published_locator": null,
+        "retention": "Retained private evidence; no public artifact locator assigned"
+      },
+      {
+        "evidence_id": "current-Native-Reflow-execution-manifest",
+        "filename": "execution-manifest.json",
+        "bytes": 3908,
+        "sha256": "9fbbcc7782aaa6f661e94d0369b483ac1c42b5efe7926f2cf28892440f98211d",
+        "published_locator": null,
+        "retention": "Retained private evidence; no public artifact locator assigned"
+      },
+      {
+        "evidence_id": "current-Native-Reflow-SDK-evidence-IR",
+        "filename": "report.json",
+        "bytes": 4775,
+        "sha256": "c9c5a891c338180a3122e35ba1ec2f9c12005ab8fd15f296d455ef400bb4492f",
+        "published_locator": null,
+        "retention": "Retained private evidence; no public artifact locator assigned"
+      }
+    ],
+    "TODO": {
+      "rows": 32,
+      "completed": 14,
+      "checkbox_and_entire_row_changes": 0,
+      "before_rows_sha256": "4278bbdf86983f2d4688940409dbe89ceb0421a1914065c6f86fe39d6b5f67a8",
+      "IOS-11_complete": false
+    },
+    "unconfirmed": [
+      "actual publication parent/tree/count after fallback7 main",
+      "actual inherited30 PBX4 inverse and Xcode membership",
+      "final7 common and independent review",
+      "App build",
+      "new PR/manual one-case Hosted UI and cleanup",
+      "CI and ordinary main integration",
+      "paragraph wrapping reflow",
+      "Dynamic Type and maximum text",
+      "real valid package A to B activation",
+      "VoiceOver",
+      "physical device",
+      "IOS-11 overall"
+    ],
+    "privacy": "No local private absolute paths, raw SDK cache/log/archive or large attachments are included in tracked candidate records",
+    "revision": 4,
+    "initial_v3_history": {
+      "scope": "Entire previous stage object unchanged; old manual-only/522/bc9/App29 statements are historical",
+      "record_md_sha256": "f2b402924874b4af0c6768b4481b794967a619fb11ea6509ba05dea2c23a701b",
+      "record_json_sha256": "05825985a43d76baa7ec593116dee99d5540c0bd119b1b7287aae4be66eab59e",
+      "record": {
+        "schema_version": 1,
+        "date": "2026-10-31",
+        "title": "固定列幅表の回転後の読書位置回帰",
+        "state": "private draft; two distinct standalone SDK compositions passed; actual parent and final payload/UI/CI/main pending",
+        "publication_parent": null,
+        "publication_parent_tree": null,
+        "publication_parent_status": "Unresolved actual preceding Notice29 or later test-only trace parent; no main or publication claim",
+        "proposed_app": {
+          "marketing_version": "0.2.27",
+          "build_version": "29",
+          "status": "expected from preceding Notice; not bound in this draft",
+          "version_bump_in_this_unit": false
+        },
+        "source_paths": [
+          "ios/AILibraryUITests/ReaderReflowUITests.swift",
+          "ios/AILibrary.xcodeproj/project.pbxproj",
+          ".github/workflows/ios-reader-reflow.yml"
+        ],
+        "record_paths": [
+          "project/records/2026-10-31/ios-reader-rotation-regression.md",
+          "project/records/2026-10-31/ios-reader-rotation-regression.json"
+        ],
+        "index_paths": [
+          "project/README.md",
+          "project/plans/engineering/ios-app-completion.md"
+        ],
+        "proposed_repository_paths": [
+          "ios/AILibraryUITests/ReaderReflowUITests.swift",
+          "ios/AILibrary.xcodeproj/project.pbxproj",
+          ".github/workflows/ios-reader-reflow.yml",
+          "project/records/2026-10-31/ios-reader-rotation-regression.md",
+          "project/records/2026-10-31/ios-reader-rotation-regression.json",
+          "project/README.md",
+          "project/plans/engineering/ios-app-completion.md"
+        ],
+        "planned_path_count": 7,
+        "tracked_file_count": {
+          "actual_parent_count": null,
+          "expected_total": null,
+          "planned_new_files": 4,
+          "new_files_by_kind": {
+            "UITest_class_file": 1,
+            "manual_workflow": 1,
+            "records": 2
+          },
+          "formula": "actual_parent_count + 4; actual parent not yet read"
+        },
+        "source_candidates": [
+          {
+            "path": "ios/AILibraryUITests/ReaderReflowUITests.swift",
+            "bytes": 10869,
+            "sha256": "f17bd31d97a133c81d34d77fd0d24f07196d3ce42fc7670591aebae9a68a4329",
+            "binding": "preparatory snapshot only; PBX must be rebound to reviewed actual29 parent"
+          },
+          {
+            "path": "ios/AILibrary.xcodeproj/project.pbxproj",
+            "bytes": 22103,
+            "sha256": "584fb21488cb22dbb15900d4efc95fb2de3757ef9ad4a078ef31c38a741cbc20",
+            "binding": "preparatory snapshot only; PBX must be rebound to reviewed actual29 parent"
+          },
+          {
+            "path": ".github/workflows/ios-reader-reflow.yml",
+            "bytes": 28534,
+            "sha256": "3ecbab53ba791ae17447f55fc536461e1a3b48acb858dff0e0ace50f9176154a",
+            "binding": "preparatory snapshot only; PBX must be rebound to reviewed actual29 parent"
+          }
+        ],
+        "PBX_preparation": {
+          "before_sha256": "5fb9e8948673accfc180003260fd3b134767750edad3d86c20b6b240610d359f",
+          "after_sha256": "584fb21488cb22dbb15900d4efc95fb2de3757ef9ad4a078ef31c38a741cbc20",
+          "before_version": "0.2.26(28)",
+          "scope": [
+            "new file reference",
+            "new build reference",
+            "UITest group member",
+            "UITest Sources member"
+          ],
+          "private_inverse_equal": true,
+          "future_parent_inverse": "not performed",
+          "version_App_signing_resources_change_in_this_unit": false
+        },
+        "case": {
+          "selector": "AILibraryUITests/ReaderReflowUITests/testFixtureMeasuredRowAndBookmarkSurviveRotatedRelaunchAndLiveReturn",
+          "expected_result_ID": "ReaderReflowUITests/testFixtureMeasuredRowAndBookmarkSurviveRotatedRelaunchAndLiveReturn()",
+          "source_case_count": 1,
+          "actual_UI_execution": false,
+          "fixture": "CASE-INTRABLOCK-01 existing forty-row fixed-column-width table",
+          "row_identifier": "native-table-cell-<blockID>-25-1",
+          "row_label": "INTRABLOCK-R25",
+          "positive": [
+            "unique exact cell",
+            "exact label",
+            "fully visible",
+            "hittable",
+            "persisted bookmark"
+          ],
+          "negative": {
+            "R1": "known not intersecting resolved reading viewport",
+            "R24": "not fully visible; partial intersection allowed",
+            "unknown_geometry": "fails checked assertion"
+          },
+          "setup": {
+            "maximum_swipes": 18,
+            "measured_drags": 1,
+            "text_settings_changed": false
+          },
+          "after_resume_corrective_TOC_query_swipe_drag": 0,
+          "sequence": [
+            "portrait public fixture read + bookmark + measured R25",
+            "public list return flush",
+            "terminate",
+            "landscape same-suite relaunch",
+            "public Continue first arrival",
+            "live portrait rotation while reader remains open"
+          ],
+          "offset_allowance": "one measured marker-cell frame height, max before/after; not GridRow height or glyph precision",
+          "teardown": "restore starting orientation even on failure; own app/suite only"
+        },
+        "preserved_selection": {
+          "NativeReaderUITests": 3,
+          "ordinary_Native_workflow_with_Recovery4": 7,
+          "new_class_selected_by_existing_native": false,
+          "new_class_selected_by_existing_full": false,
+          "existing_cases_helpers_EPS_positive_visibility_foreground_15s": "unchanged",
+          "fixture_and_production_UI": "unchanged",
+          "Full_workflow": {
+            "NativeReaderUITests": 3,
+            "PublishedReaderUITests": 17,
+            "ReaderViewportGeometryTests": 6,
+            "total": 26
+          }
+        },
+        "manual_workflow": {
+          "path": ".github/workflows/ios-reader-reflow.yml",
+          "trigger": "workflow_dispatch only",
+          "actual_dispatch": false,
+          "runner": "macos-15",
+          "Xcode": "16.4",
+          "SDK_runtime": "18.5",
+          "device": "iPhone 16",
+          "source": "dispatch full40SHA checkout + head/tree/source hashes",
+          "builds": 1,
+          "test_without_building_invocations": 1,
+          "selectors": 1,
+          "representative_articles": 3,
+          "fixture_package_articles": 4,
+          "owned_simulator": "create and validate fresh UUID; boot/shutdown/delete only that owned UUID; no global erase or shutdown",
+          "strict_gate": "known plan/bundle/suite/single passed case ID and URL + owned device/runtime/platform; no skipped or duplicate or extra case",
+          "step_caps_total_minutes": 39,
+          "job_minutes": 40,
+          "per_command_maxBuffer_bytes": 8388608,
+          "JSON_bytes": 131072,
+          "raw_evidence_bytes": 268435456,
+          "raw_evidence_entries": 8192,
+          "raw_upload_requires_storage_gate": true,
+          "retry": false,
+          "existing_profile_or_SDK27_helper_changes": false,
+          "signing_or_provisioning_or_credentials": false,
+          "limits": "postphase evidence bound is not continuous DerivedData quota or complete descendant-process isolation; cancellation/runner loss can interrupt cleanup"
+        },
+        "verification": {
+          "static": {
+            "state": "passed",
+            "Node_syntax": true,
+            "YAML_parse": true,
+            "PBX_private_inverse": true,
+            "selector_inventory": true,
+            "synthetic_strict_gate": {
+              "passed": 18,
+              "positive": 1,
+              "rejected": 17,
+              "actual_xcresult": false
+            }
+          },
+          "source_independent_review": {
+            "state": "completed",
+            "P1": 0,
+            "P2": 0,
+            "evidence": "source-review",
+            "scope": "static Source3 only; not final7 payload or runtime"
+          },
+          "SDK_guard_independent_review": {
+            "state": "completed before single Root launch",
+            "P1": 0,
+            "P2": 0,
+            "evidence": "SDK-guard-review",
+            "scope": "execution safety and fixed inputs only"
+          },
+          "final_seven_path_common_check": "not performed",
+          "final_seven_path_independent_review": "not performed",
+          "manual_UI": "not performed",
+          "CI": "not performed",
+          "main_integration": "not performed",
+          "currentBase_SDK": {
+            "state": "SDK-composition-passed",
+            "executor": "Root",
+            "invocations": 1,
+            "exit_code": 0,
+            "command_seconds": 6.106828,
+            "phase_seconds": 7.041835,
+            "toolchain": "iPhoneSimulator18.2 / arm64-iOS17 Simulator / Swift5 / DEBUG",
+            "current_NativeReaderUITests_sha256": "52286e1861fae89fdf7aa225307a8f525c6bc0e937e4164f495a1d0cd3963566",
+            "new_ReaderReflowUITests_sha256": "f17bd31d97a133c81d34d77fd0d24f07196d3ce42fc7670591aebae9a68a4329",
+            "immutable_inputs": 8,
+            "guard_and_spec_inputs": 2,
+            "all_inputs_held": true,
+            "raw_log_bytes": 0,
+            "owned_process_groups_reaped": 1,
+            "minimum_sampled_free_bytes": 3656994816,
+            "maximum_sampled_owned_bytes": 69295556,
+            "App_build": false,
+            "PBX_membership": false,
+            "XCTest": false,
+            "UI_runtime": false,
+            "future_trace_composition": false,
+            "future_trace_source": "Not included in this current-base composition; separate futureTrace SDK record below",
+            "result_independent_review": "saved receipts independently verified; SDK-composition-review a185"
+          },
+          "futureTrace_SDK": {
+            "state": "SDK-composition-passed",
+            "executor": "Root",
+            "invocations": 1,
+            "exit_code": 0,
+            "command_seconds": 5.901629,
+            "phase_seconds": 6.52376,
+            "toolchain": "iPhoneSimulator18.2 / arm64-iOS17 Simulator / Swift5 / DEBUG",
+            "future_NativeReaderUITests_sha256": "bc9c8268ab4bfb82a936f69be94d86667f23fb9ef669389d9e62ac159cb299f6",
+            "new_ReaderReflowUITests_sha256": "f17bd31d97a133c81d34d77fd0d24f07196d3ce42fc7670591aebae9a68a4329",
+            "guard_logic_sha256": "08a029c41db67300c146b0942746ce033e49675fdda019344cfef4599b3566c0",
+            "execution_spec_sha256": "c793e9a7cc00e0727ffae7005a3766ea687be9c41f977d48ebdd812e90f02ed5",
+            "guard_logic_review": "same logic reviewed in SDK-guard-review cd70; future spec separately statically admitted by Root",
+            "future_spec_specific_independent_review": "independent saved spec differential verified; SDK-composition-review a185",
+            "result_independent_review": "saved receipts independently verified; SDK-composition-review a185",
+            "immutable_inputs": 8,
+            "guard_and_spec_inputs": 2,
+            "all_inputs_held": true,
+            "raw_log_bytes": 0,
+            "owned_process_groups_reaped": 1,
+            "minimum_sampled_free_bytes": 3579572224,
+            "maximum_sampled_owned_bytes": 69304263,
+            "App_build": false,
+            "PBX_membership": false,
+            "XCTest": false,
+            "AX_or_UI_runtime": false,
+            "current_main_acceptance": false
+          },
+          "SDK_composition_independent_review": {
+            "state": "saved receipts and future spec differential independently verified",
+            "P1": 0,
+            "P2": 0,
+            "evidence": "SDK-composition-review",
+            "new_execution": false,
+            "scope": "two fixed standalone SDK18.2 typecheck receipts and future c793 spec delta only; no final7/App/PBX/AX/UI/current-main acceptance"
+          }
+        },
+        "evidence": [
+          {
+            "evidence_id": "source-review",
+            "filename": "review.json",
+            "bytes": 5416,
+            "sha256": "9e17aca8b0e4e106b0fe6339ae8d9b5e396471c010bed0525bc7ed52e9367dfa",
+            "published_locator": null,
+            "retention": "Private producer evidence retained; public artifact locator not yet assigned"
+          },
+          {
+            "evidence_id": "SDK-guard-review",
+            "filename": "sdk-guard-review.json",
+            "bytes": 1713,
+            "sha256": "cd70c3dabf52be609d56c2db372edd23660a2cd31c26b7761fe62e6ff456431a",
+            "published_locator": null,
+            "retention": "Private producer evidence retained; public artifact locator not yet assigned"
+          },
+          {
+            "evidence_id": "SDK-result",
+            "filename": "result.json",
+            "bytes": 2685,
+            "sha256": "3a634b4ef110b97a2887e156352c441325037b7526c9386df9e1df3c0d531a0f",
+            "published_locator": null,
+            "retention": "Private producer evidence retained; public artifact locator not yet assigned"
+          },
+          {
+            "evidence_id": "SDK-summary",
+            "filename": "summary.json",
+            "bytes": 2825,
+            "sha256": "d963649c3bd4eba08e6563186b301f00db9a9e19518ae965bce08cb46f370afc",
+            "published_locator": null,
+            "retention": "Private producer evidence retained; public artifact locator not yet assigned"
+          },
+          {
+            "evidence_id": "SDK-manifest",
+            "filename": "manifest.json",
+            "bytes": 2315,
+            "sha256": "b34cf6bb4b3d74953937c2c2b584be0c5ac917f855d7eef0fa1bfa5334a77085",
+            "published_locator": null,
+            "retention": "Private producer evidence retained; public artifact locator not yet assigned"
+          },
+          {
+            "evidence_id": "futureTrace-SDK-result",
+            "filename": "result.json",
+            "bytes": 2700,
+            "sha256": "ea99e10885ec63a0f831ee6809d7fec8850c47315174b42c5595b80a11d98ce1",
+            "published_locator": null,
+            "retention": "Private producer evidence retained; public artifact locator not yet assigned"
+          },
+          {
+            "evidence_id": "futureTrace-SDK-summary",
+            "filename": "summary.json",
+            "bytes": 2644,
+            "sha256": "27bb4c2f2831bf8090b48b731371dc819a1f1daaf7f715dac7e2452afa33b21f",
+            "published_locator": null,
+            "retention": "Private producer evidence retained; public artifact locator not yet assigned"
+          },
+          {
+            "evidence_id": "futureTrace-SDK-manifest",
+            "filename": "manifest.json",
+            "bytes": 2175,
+            "sha256": "a08622ec4f9e51270aae07ecacdf9a0cb4338783fa4f778f9dca217b9e67c37f",
+            "published_locator": null,
+            "retention": "Private producer evidence retained; public artifact locator not yet assigned"
+          },
+          {
+            "evidence_id": "futureTrace-SDK-spec",
+            "filename": "spec.json",
+            "bytes": 4684,
+            "sha256": "c793e9a7cc00e0727ffae7005a3766ea687be9c41f977d48ebdd812e90f02ed5",
+            "published_locator": null,
+            "retention": "Private producer evidence retained; public artifact locator not yet assigned"
+          },
+          {
+            "evidence_id": "SDK-composition-review",
+            "filename": "review.json",
+            "bytes": 11556,
+            "sha256": "a185e746c1528edab124eb7482edb00f29ba4ef01a81f48d3ebc2929ce86f93c",
+            "published_locator": null,
+            "retention": "Private independent saved-receipt review retained; public artifact locator not yet assigned"
+          }
+        ],
+        "TODO": {
+          "rows": 32,
+          "completed": 14,
+          "checkbox_and_entire_row_changes": 0,
+          "before_rows_sha256": "4278bbdf86983f2d4688940409dbe89ceb0421a1914065c6f86fe39d6b5f67a8",
+          "IOS-11_complete": false
+        },
+        "unconfirmed": [
+          "actual publication parent/tree and parent tracked count",
+          "PBX inverse on actual29 parent",
+          "final7 common and independent review",
+          "App build and Xcode registration",
+          "actual manual one-case UI and cleanup",
+          "CI and normal main integration",
+          "paragraph wrapping reflow",
+          "Dynamic Type and maximum text",
+          "real valid package A save to valid package B activation",
+          "VoiceOver",
+          "physical device",
+          "IOS-11 overall"
+        ],
+        "privacy": "No local private absolute paths, raw SDK cache/log/archive or large attachments are included in tracked candidate records"
+      }
+    }
+  }
+}

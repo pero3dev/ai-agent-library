@@ -86,5 +86,103 @@
     "records and index synchronization commit",
     "Draft PR exact-head validation",
     "ordinary protected squash and actual-main proof"
-  ]
+  ],
+  "row_stride_followup_20261031": {
+    "state": "private-row-stride-source1-unexecuted",
+    "scope_note": "All pre-existing fields describe the saved Source8 candidate and its initial preparation; do not transfer their checks to this new Source1.",
+    "historical_Source8": {
+      "head": "81b3051bfbede86fca6954643cc8afc8078249cc",
+      "manifest_SHA256": "ed8c800456f9519f5da1aeb36c5f2be758cc3cfe71d269ad9cf28236d99ff915",
+      "target_tree": "11a4f4367d8baaba117a4a6785844e60953cdeb0"
+    },
+    "initial_attempts": {
+      "Dynamic": {
+        "stage": "inventory runtimes",
+        "error": "spawnSync xcrun ETIMEDOUT",
+        "UI_reached": false
+      },
+      "Reflow": {
+        "stage": "inventory runtimes",
+        "error": "spawnSync xcrun ETIMEDOUT",
+        "UI_reached": false
+      }
+    },
+    "unchanged_retry_once_each": {
+      "Reflow": {
+        "actual_cases": 1,
+        "result": "Passed",
+        "raw_seconds": 184.094950914,
+        "console_seconds": 184.095,
+        "owned_cleanup": "deleted"
+      },
+      "Dynamic": {
+        "actual_cases": 1,
+        "result": "Failed",
+        "actual_seconds": 162.295,
+        "source_line": 321,
+        "assertion": "XCTAssertGreaterThan",
+        "current_StaticText_height": 66.833335876,
+        "default_height_times_1_25": 83.541669846,
+        "R25_bookmark_offset_before_failure": "passed",
+        "default_return": "unreached",
+        "font_propagation": "unknown"
+      }
+    },
+    "measurement_correction": {
+      "old": "First StaticText frame.height; not the whole GridRow",
+      "new": "Same-column R25.minY - R24.minY",
+      "guards": [
+        "Both frames non-null/non-infinite/nonempty",
+        "Both frames min/max coordinates and width/height finite",
+        "Both width/height positive",
+        "Stride finite and positive"
+      ],
+      "same_limits": {
+        "growth_greater_than": 1.25,
+        "default_accuracy_points": 1
+      }
+    },
+    "unchanged": [
+      "Old rotation method and existing helpers",
+      "Visibility/bookmark/offset/postContinue gesture0",
+      "App DEBUG hook",
+      "Both workflows strict1 and caps",
+      "production body/Core4/PBX/version",
+      "TODO32/complete14"
+    ],
+    "candidate_tests_or_compile_or_UI_executed": false,
+    "production_font_change": false,
+    "current_main_binding": "Root must rebind after ordinary actual-main integration; this proposal is not a new tree claim",
+    "unconfirmed": [
+      "Actual stride values",
+      "Font propagation",
+      "New source SDK/Hosted/current-head CI",
+      "Default return",
+      "Physical device/VoiceOver/system font-setting/live font transition"
+    ]
+  },
+  "main88_integration_followup": {
+    "state": "private pure-data integration, new UI runtime pending",
+    "actual_base": "88c9ac391459ead50cf5e28b25918f97ac9332cf",
+    "base_tree": "42a595f687677ceda2203873f01a0864b06f43f6",
+    "future_publication_parent": null,
+    "future_commits": null,
+    "source1_SHA256": "1bb98ec07b5da8d1bc65ad845e6a26492ef19f9527e877c9c135d0de3dc2ea3a",
+    "SDK_typecheck": {
+      "input_sources": 6,
+      "SDK": "iOS Simulator18.2",
+      "target": "iOS17 arm64 simulator",
+      "Swift": "5 targeted",
+      "exit": 0,
+      "seconds": 8.207036916,
+      "log_bytes": 0,
+      "source_inputs_SHA256": "5678201be07c313d0028c2bbcd545e754f9554a8c0822d11e3fdfc3da95eaf20",
+      "result_SHA256": "5f274909903c2fcd9707aaeeab3c81d736f801556cbb30359f4a820eab2867e1",
+      "actual_UI_Simulator_signing": false
+    },
+    "Appf4_previous_Debug17_Release0": "same-byte carryover, no new App execution",
+    "historical_false_SDK_fields_scope": "earlier private row-stride proposal only; not rewritten",
+    "stride_font_default_return_newhead_CI_main": "unaccepted",
+    "TODO32_14held": true
+  }
 }

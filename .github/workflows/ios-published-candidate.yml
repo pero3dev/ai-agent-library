@@ -84,6 +84,12 @@ jobs:
         timeout-minutes: 3
         run: |
           set -euo pipefail
+          full_common_tmp_parent="$(cd "${RUNNER_TEMP:?RUNNER_TEMP is required}" && pwd -P)"
+          full_common_tmp="$(mktemp -d "$full_common_tmp_parent/ailibrary-full-common.XXXXXX")"
+          trap 'if [[ -n "${full_common_tmp:-}" && "$full_common_tmp" == "$full_common_tmp_parent"/ailibrary-full-common.* ]]; then rm -rf -- "$full_common_tmp"; fi' EXIT
+          full_common_tmp_real="$(cd "$full_common_tmp" && pwd -P)"
+          [[ "$full_common_tmp_real" == "$full_common_tmp" ]]
+          export TMPDIR="$full_common_tmp_real/"
           npm run check \
             2>&1 | tee .local/ios-published-candidate/evidence/full-common-check.log
       - name: Check the frozen AppIcon source assets

@@ -1,5 +1,21 @@
 # 固定列幅表の回転後の読書位置回帰
 
+## PR317の初回失敗と入口の訂正
+
+head `3e7f444a9f584c723e07b50c5ed6f305bd7e463c` の通常Nativeは単体278件（成功276・skip2）とUI7件、FullはUI18＋8の一意26件、コピー374B、Release199記事・音声1本の監査に成功した。Full Aの完全な `npm run check` は1206件（成功1191・skip15・失敗0）で、Markdown・記事・リンク・TODO・ハーネスの全工程も成功した。専用ケースの成功とは分ける。
+
+専用Reflowの初回はSimulator起動後の端末一覧取得がtimeoutし、build前に失敗した。同じsource・条件で1回だけ再実行したところ、build後に新テスト1件が失敗した。実artifactのstdoutでは、最初の「その他の操作」のhittable判定でactivation pointを取得できず、fixture・しおり・表・回転の操作には到達していない。読書位置の不具合が見つかったとは判定しない。iOS26の初回は依存監査APIのHTTP400でUI前に失敗し、同条件の再実行1回では厳密なUI3件が成功した。どちらも最初の失敗を残し、三度目の同条件retryは行わない。
+
+通常一覧の「その他の操作」はtoolbar Menuで、検索中の同名Buttonだけが「その他の操作」画面を開く。新テストは両者を混同していた。入口を公開の本文検索「Transformer」で絞り込む導線へ訂正し、検索値と絞り込み表示を確認してから、既存Fullのfixture検査で使う同じButton・画面へ進む。準備swipeは最大8回で、検索・前面一意性・15秒待機と、到着後のR25・R1・R24・しおり・offset・補正操作禁止の判定は保持する。production UI、保存形式、App0.2.28（30）、既存Native/Full/iOS26と専用workflowは変更しない。
+
+初回観測票のSHA-256は`062359c0bcfe2d75886ce7f7ca66e6797fe5014bd0d7e0d70928f09cffc42bab`、二つの再実行票は`1e777c0007bfe7a862ae0cfa25dc8c7cd572ce6d340d29bc4a81270c3eff10e2`。Reflow attempt2のartifact ZIPは`79a2ce69397c1a26c61c70f0480b98f4891664aa7294e99a7f9013a72f3225f0`、実stdoutは`7e9a1db455e1ac69b36f923e083e6343f6e9af72130a440784805d12dd40795b`である。[専用run](https://github.com/pero3dev/ai-agent-library/actions/runs/41165880724)と[PR317](https://github.com/pero3dev/ai-agent-library/pull/317)に対応する。署名付き一時URLやraw・画面写真は追跡ファイルへ収録しない。
+
+訂正後ソースの独立レビューと新headの専用1ケース・通常CIを確認してから、通常保護でmainへ統合する。旧f17のSDK型検査を訂正後ソースの成功へ転用せず、新しい実buildとUIの結果を待つ。実機・大きな文字・VoiceOver・段落reflow・実package改訂の位置照合とIOS-11全体は未確認、TODO32行・完了14行を維持する。
+
+## 初回3e7提出時点の履歴
+
+以下2段落は入口訂正前のf17ソースを提出した時点の記録である。保存SDKとSource3レビューは当時の入力だけを対象とし、訂正後47bの実build・UI成功を表さない。
+
 現状態: 先行PR316の実parent `8ff3ac6c069c630b5be53ab21ec2d4331686f3c8` への提出候補投影。App0.2.28（30）を引き継ぎ、この単位の版上げはない。PBX30への4test組込み差分は独立静的レビュー済みSource3のexact bytesへ一致する。新規workflow/test/record2を含む7パス、parent2839→target2843を投影する。新共通・最終7レビュー・新headの1case Hosted/通常CI/main・実機/VoiceOverは未確認、IOS-11とTODO32行/14完了を維持する。
 
 保存SDKは現Native00eと新Reflow f17の2ファイルだけのstandalone型検査で、exit0・8.147275秒、phase9.150103秒、10固定入力保持・保持19件・raw0を確認した。Source7のApp17/Core/Diagnostics型検査ではなく、PBX登録や実XCTest/UIの代用でもない。Source3投影IR `768812994bdb439e42c990855a0b8190ace063d17b489199c92d49473e35fd0c`、SDK保存票IR `c9c5a891c338180a3122e35ba1ec2f9c12005ab8fd15f296d455ef400bb4492f`へ結ぶ。旧522/bc9の結果を現在へ代入しない。

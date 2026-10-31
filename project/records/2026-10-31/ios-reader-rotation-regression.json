@@ -2,7 +2,7 @@
   "schema_version": 1,
   "date": "2026-10-31",
   "title": "固定列幅表の回転後の読書位置回帰",
-  "state": "actual-parent projected candidate; fresh common/final7/currenthead CI/main pending",
+  "state": "initial Hosted failure diagnosed; filtered public fixture entry correction; newhead build/UI/review/main pending",
   "publication_parent": "8ff3ac6c069c630b5be53ab21ec2d4331686f3c8",
   "publication_parent_tree": "17131d699487b20a3a00f278e63804b2077b57ae",
   "publication_parent_remote_verified_by_Root": true,
@@ -33,8 +33,8 @@
     },
     {
       "path": "ios/AILibraryUITests/ReaderReflowUITests.swift",
-      "bytes": 10869,
-      "SHA256": "f17bd31d97a133c81d34d77fd0d24f07196d3ce42fc7670591aebae9a68a4329"
+      "bytes": 12865,
+      "SHA256": "47b963565646a4912a96df65a3571cab76dd3c37ddb292712efdd2accf07abca"
     },
     {
       "path": ".github/workflows/ios-reader-reflow.yml",
@@ -822,5 +822,77 @@
         "privacy": "No local private absolute paths, raw SDK cache/log/archive or large attachments are included in tracked candidate records"
       }
     }
-  }
+  },
+  "initial_publication_state_history": "actual-parent projected candidate; fresh common/final7/currenthead CI/main pending",
+  "PR317_initial_observation": {
+    "head": "3e7f444a9f584c723e07b50c5ed6f305bd7e463c",
+    "report_SHA256": "062359c0bcfe2d75886ce7f7ca66e6797fe5014bd0d7e0d70928f09cffc42bab",
+    "manifest_SHA256": "41cb7f230903b97abc35bc182fc8a9a5fb25a678b2ea61e45c843f6c4a066789",
+    "Native_units": {
+      "total": 278,
+      "passed": 276,
+      "skipped": 2,
+      "failed": 0
+    },
+    "Native_UI": 7,
+    "Full_UI": 26,
+    "Full_UI_A": 18,
+    "Full_UI_B": 8,
+    "copied_bytes": 374,
+    "Release_articles": 199,
+    "Release_audio": 1,
+    "full_npm_check": {
+      "total": 1206,
+      "passed": 1191,
+      "skipped": 15,
+      "failed": 0
+    },
+    "dedicated_reflow_accepted": false,
+    "normal_main": null
+  },
+  "sole_same_source_retries": {
+    "report_SHA256": "1e777c0007bfe7a862ae0cfa25dc8c7cd572ce6d340d29bc4a81270c3eff10e2",
+    "manifest_SHA256": "5d1aa80d81f554b19eac4d2aba00c41440f85899ff32e746bb5cad9042e763fc",
+    "reflow": {
+      "run": 41165880724,
+      "attempt1_job": 124433226587,
+      "attempt1": "simulator devices-after-boot list ETIMEDOUT beforebuild/UI",
+      "attempt2_job": 124436009801,
+      "attempt2": "buildpassed; actual1 UI failed initialMore isHittable invalidactivation beforefixture/table/rotation",
+      "ZIP_bytes": 56669132,
+      "ZIP_SHA256": "79a2ce69397c1a26c61c70f0480b98f4891664aa7294e99a7f9013a72f3225f0",
+      "stdout_SHA256": "7e9a1db455e1ac69b36f923e083e6343f6e9af72130a440784805d12dd40795b"
+    },
+    "runtime26": {
+      "attempt1": "audit registryHTTP400 beforeinstall/build/UI; no vulnerability inference",
+      "attempt2_job": 124436026900,
+      "attempt2": "strict UI3 passed"
+    },
+    "unchanged_third_retry": false
+  },
+  "filtered_fixture_entry_revision": {
+    "scope": "new test private preparation only; public search Transformer before filtered More Button/sheet; preserve all rotation/restoration witnesses and existing caps",
+    "source_SHA256": "47b963565646a4912a96df65a3571cab76dd3c37ddb292712efdd2accf07abca",
+    "review": null,
+    "newhead_build_UI": null,
+    "newhead_main": null,
+    "old_f17_SDK_is_new_source_evidence": false
+  },
+  "initial_source_candidates_history": [
+    {
+      "path": "ios/AILibrary.xcodeproj/project.pbxproj",
+      "bytes": 22103,
+      "SHA256": "8da9079089a7fdd76a405655f260a441cfcf15efa869254d897f9f7edf124f4f"
+    },
+    {
+      "path": "ios/AILibraryUITests/ReaderReflowUITests.swift",
+      "bytes": 10869,
+      "SHA256": "f17bd31d97a133c81d34d77fd0d24f07196d3ce42fc7670591aebae9a68a4329"
+    },
+    {
+      "path": ".github/workflows/ios-reader-reflow.yml",
+      "bytes": 29645,
+      "SHA256": "1bd7c4ee2c3f6a56e7cce1e38a885c120b70f54e47bda54ebf764abcdcceaef3"
+    }
+  ]
 }

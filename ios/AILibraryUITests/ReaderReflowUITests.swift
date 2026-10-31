@@ -52,8 +52,46 @@ final class ReaderReflowUITests: NativeReaderUITestCase {
                        "The foreground application must actually use the requested layout")
     }
 
+    private func foregroundArticleSearch() throws -> XCUIElement {
+        let prompt = "記事の本文を検索"
+        let query = app.searchFields.matching(
+            NSPredicate(format: "identifier == %@ OR label == %@", prompt, prompt))
+        // searchable has no always-visible placement. Use the baseline's bounded
+        // reveal only when no foreground search field is currently hittable.
+        for _ in 0..<8 {
+            if query.allElementsBoundByIndex.contains(where: { isHittableOnScreen($0) }) { break }
+            app.swipeDown(velocity: .slow)
+        }
+        return try singleForegroundControl(query, name: "article search")
+    }
+
+    private func setForegroundArticleQuery(_ query: String) throws {
+        let search = try foregroundArticleSearch()
+        search.tap()
+        if let current = search.value as? String, !current.isEmpty, current != search.placeholderValue {
+            let clear = search.buttons.firstMatch
+            requireHittable(clear)
+            clear.tap()
+        }
+        search.typeText(query + "\n")
+        XCTAssertEqual(search.value as? String, query)
+    }
+
     private func openFixtureLibrary() throws {
         XCTAssertTrue(app.staticTexts["library-article-count"].waitForExistence(timeout: 45))
+        // The filtered public Button presents the sheet; the unfiltered toolbar
+        // Menu does not have the More Actions navigation stack used below.
+        try setForegroundArticleQuery("Transformer")
+        let summary = app.staticTexts["library-filter-summary"]
+        let filtered = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            summary.exists && summary.label.contains("検索: Transformer")
+        }, object: nil)
+        let filterResult = XCTWaiter.wait(for: [filtered], timeout: 10)
+        XCTAssertEqual(filterResult, .completed, "The public article query must activate the filtered library")
+        guard filterResult == .completed else {
+            throw NSError(domain: "ReaderReflowUITests", code: 2,
+                          userInfo: [NSLocalizedDescriptionKey: "The filtered library was not ready"])
+        }
         let more = try singleForegroundControl(app.buttons.matching(
             NSPredicate(format: "label == %@", "その他の操作")), name: "More Actions button")
         more.tap()

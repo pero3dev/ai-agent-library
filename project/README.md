@@ -1,5 +1,7 @@
 # project — 計画と実施記録
 
+[Notice対応Core観測の固定入口とHosted事前検査案](records/2026-10-31/ios-notice-core-hosted-observation.md)は、固定verifier2とworkflow／guard／fixture3を後続小PRへまとめる未採用案である。旧Node境界8件の成功とHostedでの26fake・Node22構文/schema未実施を区別し、Core19raw／15sample・完全replay・性能予算・実機は未確認とする。PR316と回転UI単位の通常mainを引き継いだ実parent `84f8f3ea1e1a4d3e2c809130af6a0388b7f24564` への提出候補として結合し、App版不変更、TODO32行／14完了・IOS-15未完了を保つ。
+
 [文字サイズ変更後の読書位置復帰](records/2026-10-31/ios-dynamic-type-reading-restore.md)では、DEBUGのUUID隔離suiteだけで通常→最大→通常の再起動を行う専用UI1ケースを準備します。既存の回転1ケース・上限・App0.2.28（30）と保存形式を保ち、Source4の静的レビューと既存SDKでのApp17・UI6のコンパイル確認、2つのdriver構文検査まで成功しました。共通検査は1206件中1192成功・14skip・失敗0で全8工程が成功しました。最終8ファイルのレビュー・新旧Hosted strict1・通常main・実機は未完了で、IOS-11・25とTODO32行・完了14行を維持します。
 
 [固定列幅表の回転後の読書位置回帰](records/2026-10-31/ios-reader-rotation-regression.md)では、Reflowの9d初回はUI開始前約193秒とcase約46秒で240秒枠を使い切り、同条件1回の再実行はbuild後native監査のdefault30秒で停止した。監査4呼出へ明示120秒、共有UI420秒・step8分・job43分へ配分する候補で、共有content/build上限と全監査・厳密判定は保つ。効果と新head専用1件／通常CI／mainは未確認。App0.2.28（30）・TODO32行／14完了と実機等の未完了を維持する。

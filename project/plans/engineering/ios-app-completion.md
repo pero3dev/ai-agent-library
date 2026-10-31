@@ -1,5 +1,7 @@
 # iOS完成版に向けたTODO
 
+IOS-15の[Notice対応Core観測の固定入口とHosted事前検査案](../../records/2026-10-31/ios-notice-core-hosted-observation.md)では、固定verifier2＋Hosted実行面3の計5sourceを準備する。local3.8GB条件を下げず、Hostedで独立の26fake／Node22構文/schemaが成功した場合だけCore180秒へ進む案で、Hosted実行・新head共通／CI／mainは未確認である。先行PR316と回転UI単位の通常mainを引き継いだ実parent `84f8f3ea1e1a4d3e2c809130af6a0388b7f24564` への提出候補として、App版不変更・TODO32行／14完了を維持する。
+
 [固定列幅表の回転後の読書位置回帰](../../records/2026-10-31/ios-reader-rotation-regression.md)では、Reflowの9d初回はUI開始前約193秒とcase約46秒で240秒枠を使い切り、同条件1回の再実行はbuild後native監査のdefault30秒で停止した。監査4呼出へ明示120秒、共有UI420秒・step8分・job43分へ配分する候補で、共有content/build上限と全監査・厳密判定は保つ。効果と新head専用1件／通常CI／mainは未確認。App0.2.28（30）・TODO32行／14完了と実機等の未完了を維持する。
 
 [以前選択した保存記事版へのfallback](../../records/2026-10-31/ios-previous-stored-version-fallback.md)は、現在の保存記事版が使えず、有効なpointerにpreviousがある場合だけその1件を再検証してからbundleへ進むSource2私有候補である。pointer破損・現在UUID不正はbundleだけへ進む。単一atomic writer・旧版/読書raw保持と明示bundle/no-opの意味を保ち、独立静的レビュー指摘0まで確認した。保存済みHost8/SDKと候補の実typed19一致を確認したが、新共通・最終7レビュー・currenthead CI/main・実機は未確認、IOS-18/21/22とTODO14/32は維持する。 実parent a1022fbf0d2d67b651d08930a3bef88b6b8a886dへSource2と版設定0.2.28（30）の7パスを結合した投影候補であり、保存済みHost8/SDKの実typed19一致を確認した。 初版の未確認段階は記録の履歴に保ち、新共通・最終7レビュー・currenthead CI/main・実機は後続である。

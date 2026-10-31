@@ -1,5 +1,7 @@
 # iOS完成版に向けたTODO
 
+IOS-22・25の[書き出し取消UI候補](../../records/2026-10-31/ios-reading-export-cancellation.md)では、main88の既存APIだけでしおりと非先頭位置、公開の取消・再表示・同suite再起動後の「続きを読む」を検査する。文字サイズ回帰の未公開sourceを混ぜず独立した単位とし、コード80fとSource3静的レビュー指摘0を保持する。旧9ecaのSDK0は履歴で、今回のSDKは容量事前条件でcompiler開始前に停止、新共通検査と実UIも未実施である。通常main前に正確なheadのHosted compile・Native8・完全な共通検査と最終追補レビューを通す。provider保存・実機とIOS-22/25、TODO32行/14完了を維持する。
+
 IOS-15の[Notice対応Core観測の固定入口とHosted事前検査案](../../records/2026-10-31/ios-notice-core-hosted-observation.md)では、固定verifier2＋Hosted実行面3の計5sourceを準備する。local3.8GB条件を下げず、Hostedで独立の26fake／Node22構文/schemaが成功した場合だけCore180秒へ進む案で、Hosted実行・新head共通／CI／mainは未確認である。先行PR316と回転UI単位の通常mainを引き継いだ実parent `84f8f3ea1e1a4d3e2c809130af6a0388b7f24564` への提出候補として、App版不変更・TODO32行／14完了を維持する。
 
 [固定列幅表の回転後の読書位置回帰](../../records/2026-10-31/ios-reader-rotation-regression.md)では、Reflowの9d初回はUI開始前約193秒とcase約46秒で240秒枠を使い切り、同条件1回の再実行はbuild後native監査のdefault30秒で停止した。監査4呼出へ明示120秒、共有UI420秒・step8分・job43分へ配分する候補で、共有content/build上限と全監査・厳密判定は保つ。効果と新head専用1件／通常CI／mainは未確認。App0.2.28（30）・TODO32行／14完了と実機等の未完了を維持する。

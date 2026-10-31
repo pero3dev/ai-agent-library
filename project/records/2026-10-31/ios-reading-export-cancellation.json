@@ -1,0 +1,141 @@
+{
+  "schema_version": 1,
+  "state": "PRIVATE_SOURCE5_ACTUAL_MAIN88_INDEPENDENT_UNIT",
+  "date": "2026-10-31",
+  "purpose": "One public reading-backup exporter cancellation regression preserving healthy bookmark and reading position",
+  "authority": "User requested autonomous TODO work and allowed physical checks to remain incomplete; Root delegated private candidate only.",
+  "base_main_reported_by_Root": "88c9ac391459ead50cf5e28b25918f97ac9332cf",
+  "code": {
+    "path": "ios/AILibraryUITests/ReadingRecoveryUITests.swift",
+    "mode": "100644",
+    "before_bytes": 14070,
+    "before_SHA256": "5f039b1873fc4a7f5396e9f4545502d4b4f86ce39a18e58786e672563cd5360b",
+    "before_blob_oid": "d1f5e0f24c1ba57c3324647f2a0e5e31e7fff79c",
+    "bytes": 22750,
+    "SHA256": "80f8223b021d43eaf23914cf8e0cad6a40f832167dbdff99ef4bf99b2eddf25a",
+    "blob_oid": "2d5e201ad54b256ccaa1d538b83e1155dc084c1a"
+  },
+  "production_changes": false,
+  "new_case": "testExportFilePickerCancelKeepsHealthyPositionAndBookmarkAfterRelaunch",
+  "existing_recovery_cases": [
+    "testCancelKeepsRecoveryNoticeAfterRelaunch",
+    "testConfirmedRecoveryPreservesReadableAndCurrentBookmarksAfterRelaunch",
+    "testRestoreFilePickerCancelKeepsHealthyBookmarksAfterRelaunch",
+    "testConfirmedRecoveryPreservesCurrentPositionAndBookmarkAfterRelaunch"
+  ],
+  "preserved": "Removing the one insertion recovers exact before bytes; all old cases/helpers unchanged. App, PBX, workflows, base Native helper and content unchanged.",
+  "public_sequence": [
+    "isolated partial-recovery suite",
+    "Transformer bookmark and noninitial heading",
+    "public Continue verifies live position before explicit recovery",
+    "explicit recovery confirmation and healthy public state",
+    "More then library-export-reading",
+    "new exact navigation context + one matching editable filename + Save/Cancel pair",
+    "Cancel and usable library; repeat once",
+    "same-suite relaunch then public Continue verifies bookmark and fully visible noninitial heading"
+  ],
+  "system_picker_contract": {
+    "status": "Unobserved candidate; fail closed until exact-head hosted evidence",
+    "context": "Identifier+label pair not present before export; exactly one matching navigation bar, one cancellable button and one Save-labelled button inside it",
+    "filename_values": [
+      "AI-Agent-Library-Reading-Backup",
+      "AI-Agent-Library-Reading-Backup.json"
+    ],
+    "cancel_labels": [
+      "キャンセル",
+      "Cancel"
+    ],
+    "save_context_labels": [
+      "保存",
+      "Save"
+    ],
+    "save_is_never_executed": true,
+    "provider_chosen_or_file_written": false,
+    "geometry": "Finite nonempty app/bar/button/filename frames; bar/buttons contained; filename on app; Cancel enabled and hittable",
+    "rebind": "Exact identifier+label query, not an index that can retarget a background bar",
+    "diagnostic": "One failure-only screenshot and at-most-1024-byte fixed reason/iteration/already-sampled filename/save/cancel counts; no added hierarchy or debugDescription query"
+  },
+  "static_selection": {
+    "NativeReaderUITests": 3,
+    "ReadingRecoveryUITests_before": 4,
+    "ReadingRecoveryUITests_after": 5,
+    "expected_native_total": 8,
+    "native_selector": "Existing whole-class selection; workflow unchanged",
+    "Full26": "Fixed selectors unaffected; ReadingRecoveryUITests absent from Full selector workflow source"
+  },
+  "validation": {
+    "source_inverse_fullbyte": "passed pure-data check",
+    "existing_cases_helpers": "held byte-for-byte",
+    "SDK_typecheck": "Current exact main88 UI5+code80f preflight SKIPPED_LOW_CAPACITY; compiler not started, unverified. Older 9eca UI6 exit0 is historical only.",
+    "npm_run_check": "Not run for this actual-main88 Source5. Capacity floor or exact-head hosted full common required; no current result is claimed.",
+    "independent_review": "Source3 code review P1/P2zero carried for unchanged code; current graph/docs addendum after current checks pending",
+    "exact_head_CI": "Not run; actual-head hosted compile/Native8/full common and required CI must pass before ordinary main",
+    "actual_new_case": "not performed",
+    "Git_branch_PR_main": "not performed",
+    "new_failure_diagnostic": "No debugDescription in insertion; existing helpers unchanged"
+  },
+  "unfinished": [
+    "actual save-dialog identification and cancellation",
+    "actual Native8 and required exact-head CI",
+    "real provider export and external file contents",
+    "raw persistence byte identity via UI",
+    "actual iOS17 and iOS26 for this case",
+    "VoiceOver",
+    "physical device and signing/profile renewal",
+    "Current main88 exact SDK/hosted compile and full common, focused graph/docs review, Native8 and required CI"
+  ],
+  "TODO": {
+    "total": 32,
+    "complete": 14,
+    "IOS22_complete": false,
+    "IOS25_complete": false
+  },
+  "actual_base_main_reported_by_Root": "88c9ac391459ead50cf5e28b25918f97ac9332cf",
+  "base_tree": "42a595f687677ceda2203873f01a0864b06f43f6",
+  "base_tracked": 2850,
+  "dependency_choice": {
+    "ReadingRecovery_before_SHA256": "5f039b1873fc4a7f5396e9f4545502d4b4f86ce39a18e58786e672563cd5360b",
+    "Native_base_SHA256": "00e75a518b7af8a69679adb9771c2e6d584c466c91e39c7e68b2ea75956c707c",
+    "new_UI_code_SHA256": "80f8223b021d43eaf23914cf8e0cad6a40f832167dbdff99ef4bf99b2eddf25a",
+    "existing_Native_API_names_present": [
+      "open",
+      "goToContents",
+      "element",
+      "requireNativeBody",
+      "requireHittable",
+      "isHittableOnScreen",
+      "capture"
+    ],
+    "all_ReadingRecovery_old_methods_helpers_fullbyte_held": true,
+    "source_product_dependency_on_PR320": false,
+    "unpublished_PR320_App_ReaderReflow_workflow_helper_unit_records_included": false,
+    "decision": "Root verified APIs already present in adopted main88 and resumed independent IOS22/25 work while PR320 stays unfinished."
+  },
+  "source3_static_review": {
+    "SHA256": "59c400834316855f67a01d4a5198e01501375f5eb6e78388a2652e3e6ba6db22",
+    "P1_count": 0,
+    "P2_count": 0,
+    "scope": "unchanged code80f only; current main88 binding/docs addendum pending"
+  },
+  "historical_only": {
+    "prior_Source5_base": "9eca95f3fe571291999803424e724bd733583db2",
+    "prior_Source5_packet_manifest_SHA256": "7b183862736a581fe1f4850e791099b3cbd27c8757a25705b376c5312f92a81c",
+    "prior_Source5_review_SHA256": "e806df75b7773a92eb4326be7f32295e53c36c03b8ec98b1a532c71fe3a1e102",
+    "prior_9eca_UI6_SDK_result_SHA256": "44e0a557a8dd709375957faf2dfe200f0030f772f542a8b046361e1386d3085a",
+    "limits": "Former 9eca graph review and SDK0 are history, not current-main88 graph or SDK acceptance. Original packets remain immutable."
+  },
+  "current_main88_SDK_preflight": {
+    "state": "SKIPPED_LOW_CAPACITY",
+    "reported_by": "Root",
+    "compiler_started": false,
+    "input_copy_started": false,
+    "receipt_status": "durable Root skip receipt read",
+    "required_free_bytes": 734003200,
+    "later_measured_free_bytes": 552894464,
+    "later_measurement_UTC": "2026-10-31T14:05",
+    "exact_guard_instant_free_value": "not recorded",
+    "interpretation": "Preflight stopped before compiler/input copy. No source/typecheck failure or current-main success is claimed.",
+    "receipt_SHA256": "d3158258f3191c8189d01e58edd79d41acc7fd232b95c9f0cd6e12df1e05d553"
+  },
+  "publication_state": "Private proposal only; Root may create Draft checkpoint after static review and targeted MDlint. No dependency on PR320 adoption."
+}

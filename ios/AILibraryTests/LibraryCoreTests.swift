@@ -4450,3 +4450,410 @@ extension LibraryCoreTests {
         XCTAssertEqual(reloaded.unavailableReadingArticleCount(isRestorePresented: false), 0)
     }
 }
+
+/// Synthetic copy/move faults mutate only the fresh attempt under this test's storage.
+private final class PreviousStoredMutationFileManager: FileManager, @unchecked Sendable {
+    enum Point: Equatable { case staging, destination }
+    let point: Point
+    private(set) var mutated = false
+
+    init(point: Point) { self.point = point; super.init() }
+
+    override func copyItem(at srcURL: URL, to dstURL: URL) throws {
+        try super.copyItem(at: srcURL, to: dstURL)
+        if point == .staging {
+            try Data("changed after copy".utf8).write(to: dstURL.appendingPathComponent("articles/example.json"))
+            mutated = true
+        }
+    }
+
+    override func moveItem(at srcURL: URL, to dstURL: URL) throws {
+        try super.moveItem(at: srcURL, to: dstURL)
+        if point == .destination {
+            try Data("changed after move".utf8).write(to: dstURL.appendingPathComponent("articles/example.json"))
+            mutated = true
+        }
+    }
+}
+
+private struct PreviousStoredDirectoryOnlyPointer: Decodable { let directory: String }
+
+extension LibraryCoreTests {
+    private func previousStoredPointer(_ storage: URL) throws -> [String: String] {
+        try JSONDecoder().decode([String: String].self, from: Data(contentsOf: storage.appendingPathComponent("current.json")))
+    }
+
+    private func writePreviousStoredPointer(_ storage: URL, current: Any, previous: Any? = nil) throws {
+        var value: [String: Any] = ["directory": current]
+        if let previous { value["previousDirectory"] = previous }
+        try JSONSerialization.data(withJSONObject: value, options: [.sortedKeys])
+            .write(to: storage.appendingPathComponent("current.json"), options: .atomic)
+    }
+
+    @MainActor
+    private func previousStoredReadingRecords() throws -> (defaults: UserDefaults, raw: [String: Data]) {
+        let defaults = try retentionDefaults()
+        let reading = ReadingStore(defaults: defaults)
+        reading.toggleBookmark("example")
+        reading.toggleBookmark("older-article")
+        reading.record(articleID: "example", heading: "intro", fraction: 0.63, blockID: "paragraph")
+        // These are retained opaque slots; the repository must not decode or rewrite them.
+        defaults.set(Data("existing recovery bytes".utf8), forKey: "library.reading.v1.recovery.v1")
+        defaults.set(Data("existing restore backup bytes".utf8), forKey: "library.reading.v1.restore-backup.v1")
+        let keys = ["library.reading.v1", "library.reading.v1.recovery.v1", "library.reading.v1.restore-backup.v1"]
+        return (defaults, try Dictionary(uniqueKeysWithValues: keys.map { ($0, try XCTUnwrap(defaults.data(forKey: $0))) }))
+    }
+
+    private func assertPreviousStoredReadingBytes(_ records: (defaults: UserDefaults, raw: [String: Data]),
+                                                  file: StaticString = #filePath, line: UInt = #line) {
+        for (key, bytes) in records.raw {
+            XCTAssertEqual(records.defaults.data(forKey: key), bytes, key, file: file, line: line)
+        }
+    }
+
+    func testPreviousStoredPointerKeepsHealthyCurrentAndIgnoresMalformedPredecessor() throws {
+        let bundled = try fixture("previous-current-bundle", revision: "bundle")
+        let firstSource = try retentionPackage("previous-current-A", revision: "A")
+        let secondSource = try retentionPackage("previous-current-B", revision: "B")
+        let storage = directory.appendingPathComponent("previous-current-storage")
+        let repository = ContentRepository(bundledRoot: bundled, storageRoot: storage)
+        let first = try repository.install(from: firstSource)
+        let current = try repository.install(from: secondSource)
+        let a = first.root.lastPathComponent, b = current.root.lastPathComponent
+        XCTAssertEqual(try previousStoredPointer(storage), ["directory": b, "previousDirectory": a])
+        let readOnly = ContentRepository(bundledRoot: bundled, storageRoot: storage, writePointer: { _, _ in
+            XCTFail("load must not repair a pointer")
+            throw CocoaError(.fileWriteNoPermission)
+        })
+        let alternatives: [Any] = [a, NSNull(), 7, true, ["unknown": a], [a], "not-a-uuid", "../" + a, b, b.lowercased()]
+        for predecessor in alternatives {
+            try writePreviousStoredPointer(storage, current: b, previous: predecessor)
+            let before = try retentionInventory(storage)
+            let loaded = try readOnly.load()
+            XCTAssertEqual(loaded.root, current.root, "A healthy current always wins")
+            XCTAssertEqual(loaded.manifest.revision, "B")
+            XCTAssertEqual(try retentionInventory(storage), before)
+        }
+    }
+
+    @MainActor
+    func testPreviousStoredFallbackRevalidatesDamageAndKeepsPackagesAndReadingBytes() throws {
+        for damage in ["body", "manifest", "asset", "missing"] {
+            let bundled = try fixture("previous-damage-bundle-" + damage, revision: "bundle")
+            let firstSource = try retentionPackage("previous-damage-A-" + damage, revision: "A")
+            let secondSource = try retentionPackage("previous-damage-B-" + damage, revision: "B")
+            let storage = directory.appendingPathComponent("previous-damage-storage-" + damage)
+            let repository = ContentRepository(bundledRoot: bundled, storageRoot: storage)
+            let first = try repository.install(from: firstSource)
+            let current = try repository.install(from: secondSource)
+            switch damage {
+            case "body": try Data("corrupt current body".utf8).write(to: current.root.appendingPathComponent("articles/example.json"))
+            case "manifest": try Data("{corrupt current manifest".utf8).write(to: current.root.appendingPathComponent("manifest.json"))
+            case "asset": try Data("corrupt current PNG".utf8).write(to: current.root.appendingPathComponent("assets/late-B.png"))
+            default: try FileManager.default.removeItem(at: current.root)
+            }
+            let records = try previousStoredReadingRecords()
+            let before = try retentionInventory(storage)
+            let names = Set(try FileManager.default.contentsOfDirectory(atPath: storage.appendingPathComponent("versions").path))
+            let readOnly = ContentRepository(bundledRoot: bundled, storageRoot: storage, writePointer: { _, _ in
+                XCTFail("fallback load is read-only")
+                throw CocoaError(.fileWriteNoPermission)
+            })
+            for _ in 0..<2 {
+                let loaded = try readOnly.load()
+                XCTAssertEqual(loaded.root, first.root)
+                XCTAssertEqual(try loaded.document(for: article()).blocks.first(where: { $0.id == "paragraph" })?.inlines?.first?.text, "本文 A")
+                XCTAssertEqual(try Data(contentsOf: loaded.root.appendingPathComponent("assets/late-A.png")), pixel)
+            }
+            // The explicit stored predecessor wins even if the bundle is unusable.
+            try Data("broken bundle".utf8).write(to: bundled.appendingPathComponent("manifest.json"))
+            XCTAssertEqual(try readOnly.load().root, first.root)
+            XCTAssertEqual(try retentionInventory(storage), before)
+            XCTAssertEqual(Set(try FileManager.default.contentsOfDirectory(atPath: storage.appendingPathComponent("versions").path)), names)
+            assertPreviousStoredReadingBytes(records)
+        }
+    }
+
+    func testPreviousStoredFallbackRejectsInvalidFixtureFutureSelfAndPathCandidates() throws {
+        let bundled = try fixture("previous-reject-bundle", revision: "bundle")
+        let currentSource = try retentionPackage("previous-reject-current", revision: "current")
+        let storage = directory.appendingPathComponent("previous-reject-storage")
+        let repository = ContentRepository(bundledRoot: bundled, storageRoot: storage)
+        let current = try repository.install(from: currentSource)
+        let currentID = current.root.lastPathComponent
+        let versions = storage.appendingPathComponent("versions")
+        let unreferenced = versions.appendingPathComponent(UUID().uuidString)
+        let staging = versions.appendingPathComponent(".staging-" + UUID().uuidString)
+        let orphanSource = try fixture("previous-reject-orphan", revision: "never-selected")
+        try FileManager.default.copyItem(at: orphanSource, to: unreferenced)
+        try FileManager.default.copyItem(at: orphanSource, to: staging)
+        try Data("invalid current".utf8).write(to: current.root.appendingPathComponent("articles/example.json"))
+        let malformed: [Any] = [NSNull(), false, 9, ["directory": currentID], [currentID], "not-a-uuid",
+                                "../" + unreferenced.lastPathComponent, staging.lastPathComponent,
+                                currentID, currentID.lowercased(), UUID().uuidString]
+        for value in malformed {
+            try writePreviousStoredPointer(storage, current: currentID, previous: value)
+            let before = try retentionInventory(storage)
+            XCTAssertEqual(try repository.load().root, bundled)
+            XCTAssertEqual(try retentionInventory(storage), before)
+        }
+        let badBody = try fixture("previous-reject-body")
+        try Data("changed previous body".utf8).write(to: badBody.appendingPathComponent("articles/example.json"))
+        let badManifest = try fixture("previous-reject-manifest")
+        try Data("{broken".utf8).write(to: badManifest.appendingPathComponent("manifest.json"))
+        let badAsset = try fixture("previous-reject-asset")
+        try Data("changed previous asset".utf8).write(to: badAsset.appendingPathComponent("assets/pixel.png"))
+        let rejected = [try readerTestPackage("previous-reject-fixture"),
+                        try futurePackage("previous-reject-future-manifest", manifestSchema: 3, documentSchema: 1),
+                        try futurePackage("previous-reject-future-document", manifestSchema: 2, documentSchema: 2),
+                        badBody, badManifest, badAsset]
+        for source in rejected {
+            let id = UUID().uuidString
+            try FileManager.default.copyItem(at: source, to: versions.appendingPathComponent(id))
+            try writePreviousStoredPointer(storage, current: currentID, previous: id)
+            let before = try retentionInventory(storage)
+            XCTAssertEqual(try repository.load().root, bundled, "The previous package must pass full normal validation")
+            XCTAssertEqual(try retentionInventory(storage), before)
+        }
+        try Data("invalid bundle".utf8).write(to: bundled.appendingPathComponent("manifest.json"))
+        let before = try retentionInventory(storage)
+        XCTAssertThrowsError(try repository.load())
+        XCTAssertEqual(try retentionInventory(storage), before)
+        XCTAssertTrue(FileManager.default.fileExists(atPath: unreferenced.path))
+        XCTAssertTrue(FileManager.default.fileExists(atPath: staging.path))
+    }
+
+    func testPreviousStoredLegacyPointerAndOrphansNeverInventSelectionHistory() throws {
+        let bundled = try fixture("previous-legacy-bundle", revision: "bundle")
+        let firstSource = try retentionPackage("previous-legacy-A", revision: "A")
+        let nextSource = try retentionPackage("previous-legacy-B", revision: "B")
+        let storage = directory.appendingPathComponent("previous-legacy-storage")
+        let repository = ContentRepository(bundledRoot: bundled, storageRoot: storage)
+        let first = try repository.install(from: firstSource)
+        let pointerURL = storage.appendingPathComponent("current.json")
+        XCTAssertEqual(try previousStoredPointer(storage), ["directory": first.root.lastPathComponent])
+        let legacy = try JSONDecoder().decode(PreviousStoredDirectoryOnlyPointer.self, from: Data(contentsOf: pointerURL))
+        XCTAssertEqual(legacy.directory, first.root.lastPathComponent)
+        let versions = storage.appendingPathComponent("versions")
+        let orphan = versions.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.copyItem(at: nextSource, to: orphan)
+        let beforeLoad = try retentionInventory(storage)
+        XCTAssertEqual(try repository.load().root, first.root)
+        XCTAssertEqual(try retentionInventory(storage), beforeLoad)
+        let second = try repository.install(from: nextSource)
+        XCTAssertEqual(try previousStoredPointer(storage)["previousDirectory"], first.root.lastPathComponent)
+        let oldReader = try JSONDecoder().decode(PreviousStoredDirectoryOnlyPointer.self, from: Data(contentsOf: pointerURL))
+        XCTAssertEqual(oldReader.directory, second.root.lastPathComponent, "Directory-only decoding remains compatible; this is not old-binary execution")
+        try Data("changed B".utf8).write(to: second.root.appendingPathComponent("articles/example.json"))
+        // A valid retained A and a newer-looking orphan cannot create history in an old pointer.
+        try writePreviousStoredPointer(storage, current: second.root.lastPathComponent)
+        let beforeLegacyFallback = try retentionInventory(storage)
+        XCTAssertEqual(try repository.load().root, bundled)
+        XCTAssertEqual(try retentionInventory(storage), beforeLegacyFallback)
+        for pointer in [Data("{truncated".utf8), try JSONSerialization.data(withJSONObject: ["previousDirectory": first.root.lastPathComponent]),
+                        try JSONSerialization.data(withJSONObject: ["directory": "../versions", "previousDirectory": first.root.lastPathComponent]),
+                        try JSONSerialization.data(withJSONObject: ["directory": 7, "previousDirectory": first.root.lastPathComponent])] {
+            try pointer.write(to: pointerURL)
+            let before = try retentionInventory(storage)
+            XCTAssertEqual(try repository.load().root, bundled, "Broken current pointer recovery is intentionally limited to the bundle")
+            XCTAssertEqual(try retentionInventory(storage), before)
+        }
+        XCTAssertTrue(FileManager.default.fileExists(atPath: first.root.path))
+        XCTAssertTrue(FileManager.default.fileExists(atPath: orphan.path))
+        let afterBrokenPointer = try repository.install(from: nextSource)
+        XCTAssertEqual(try previousStoredPointer(storage), ["directory": afterBrokenPointer.root.lastPathComponent],
+                       "An explicit new install cannot invent predecessor history from a broken pointer")
+    }
+
+    func testPreviousStoredImportsRotateOneSlotOrCarryTheRevalidatedFallback() throws {
+        for damagedCurrent in [false, true] {
+            let suffix = damagedCurrent ? "damaged" : "healthy"
+            let bundled = try fixture("previous-rotate-bundle-" + suffix, revision: "bundle")
+            let sources = try ["A", "B", "C", "D"].map { try retentionPackage("previous-rotate-" + suffix + "-" + $0, revision: $0) }
+            let storage = directory.appendingPathComponent("previous-rotate-storage-" + suffix)
+            var writes = 0
+            let repository = ContentRepository(bundledRoot: bundled, storageRoot: storage, writePointer: { data, url in
+                writes += 1
+                try data.write(to: url, options: .atomic)
+            })
+            let first = try repository.install(from: sources[0])
+            let second = try repository.install(from: sources[1])
+            if damagedCurrent { try Data("changed B".utf8).write(to: second.root.appendingPathComponent("articles/example.json")) }
+            let third = try repository.install(from: sources[2])
+            XCTAssertEqual(writes, 3)
+            XCTAssertEqual(try previousStoredPointer(storage)["previousDirectory"],
+                           damagedCurrent ? first.root.lastPathComponent : second.root.lastPathComponent)
+            let fourth = try repository.install(from: sources[3])
+            XCTAssertEqual(writes, 4)
+            XCTAssertEqual(try previousStoredPointer(storage)["previousDirectory"], third.root.lastPathComponent)
+            try Data("changed D".utf8).write(to: fourth.root.appendingPathComponent("articles/example.json"))
+            let beforeFirstFallback = try retentionInventory(storage)
+            XCTAssertEqual(try repository.load().root, third.root)
+            XCTAssertEqual(writes, 4, "No fallback read repair or second commit")
+            XCTAssertEqual(try retentionInventory(storage), beforeFirstFallback)
+            try Data("changed C".utf8).write(to: third.root.appendingPathComponent("articles/example.json"))
+            let beforeBundleFallback = try retentionInventory(storage)
+            XCTAssertEqual(try repository.load().root, bundled, "Never chain back to retained A or B")
+            XCTAssertEqual(writes, 4)
+            XCTAssertEqual(try retentionInventory(storage), beforeBundleFallback)
+            XCTAssertEqual(try Data(contentsOf: first.root.appendingPathComponent("assets/late-A.png")), pixel)
+        }
+    }
+
+    @MainActor
+    func testPreviousStoredFailuresKeepOneAtomicCommitBoundaryAndAllPriorBytes() throws {
+        let bundled = try fixture("previous-commit-bundle", revision: "bundle")
+        let firstSource = try retentionPackage("previous-commit-A", revision: "A")
+        let currentSource = try retentionPackage("previous-commit-B", revision: "B")
+        let incoming = try retentionPackage("previous-commit-C", revision: "C")
+        let invalid = try fixture("previous-commit-invalid")
+        try Data("invalid source".utf8).write(to: invalid.appendingPathComponent("articles/example.json"))
+        let storage = directory.appendingPathComponent("previous-commit-storage")
+        let repository = ContentRepository(bundledRoot: bundled, storageRoot: storage)
+        let first = try repository.install(from: firstSource)
+        let current = try repository.install(from: currentSource)
+        let firstID = try XCTUnwrap(UUID(uuidString: first.root.lastPathComponent))
+        let currentID = try XCTUnwrap(UUID(uuidString: current.root.lastPathComponent))
+        let leases = [firstID: 1, currentID: 1]
+        let records = try previousStoredReadingRecords()
+        let versions = storage.appendingPathComponent("versions")
+        let orphan = versions.appendingPathComponent(".staging-" + UUID().uuidString)
+        try FileManager.default.createDirectory(at: orphan, withIntermediateDirectories: false)
+        try Data("prior incomplete bytes".utf8).write(to: orphan.appendingPathComponent("partial.txt"))
+        let before = try retentionInventory(storage)
+        let names = Set(try FileManager.default.contentsOfDirectory(atPath: versions.path))
+        let pointerBefore = try Data(contentsOf: storage.appendingPathComponent("current.json"))
+        for stage in ["source", "staging", "destination", "pointer"] {
+            let mutator: PreviousStoredMutationFileManager? = stage == "staging" ? PreviousStoredMutationFileManager(point: .staging)
+                : stage == "destination" ? PreviousStoredMutationFileManager(point: .destination) : nil
+            let manager: FileManager
+            if let mutator { manager = mutator } else { manager = .default }
+            var calls = 0
+            var attemptedID: UUID?
+            let failing = ContentRepository(bundledRoot: bundled, storageRoot: storage, fileManager: manager, writePointer: { data, url in
+                calls += 1
+                XCTAssertEqual(stage, "pointer", "Invalid source/staging/destination must fail before pointer writer")
+                XCTAssertEqual(url, storage.appendingPathComponent("current.json"))
+                let pointer = try JSONDecoder().decode([String: String].self, from: data)
+                XCTAssertEqual(pointer["previousDirectory"], current.root.lastPathComponent)
+                let id = try XCTUnwrap(UUID(uuidString: try XCTUnwrap(pointer["directory"])))
+                attemptedID = id
+                XCTAssertEqual(try ContentValidator.validate(root: versions.appendingPathComponent(id.uuidString)).manifest.revision, "C")
+                XCTAssertEqual(try Data(contentsOf: url), pointerBefore)
+                XCTAssertEqual(ContentSnapshotLease.advisoryAcquisitions(in: storage), leases,
+                               "Preparing a predecessor and uncommitted destination must add no leases")
+                throw CocoaError(.fileWriteOutOfSpace)
+            })
+            XCTAssertThrowsError(try failing.install(from: stage == "source" ? invalid : incoming))
+            XCTAssertEqual(calls, stage == "pointer" ? 1 : 0)
+            if let mutator { XCTAssertTrue(mutator.mutated) }
+            if let attemptedID {
+                XCTAssertFalse(FileManager.default.fileExists(atPath: versions.appendingPathComponent(attemptedID.uuidString).path))
+                XCTAssertFalse(FileManager.default.fileExists(atPath: versions.appendingPathComponent(".staging-" + attemptedID.uuidString).path))
+                XCTAssertNil(repository.advisorySnapshotAcquisitions[attemptedID])
+            }
+            XCTAssertEqual(try retentionInventory(storage), before)
+            XCTAssertEqual(Set(try FileManager.default.contentsOfDirectory(atPath: versions.path)), names)
+            assertPreviousStoredReadingBytes(records)
+        }
+        withExtendedLifetime((first, current)) { XCTAssertEqual(repository.advisorySnapshotAcquisitions, leases) }
+    }
+
+    func testPreviousStoredExplicitBundleClearsEligibilityWhileExactNoopKeepsPointer() throws {
+        let bundled = try retentionPackage("previous-bundle-C", revision: "C")
+        let firstSource = try retentionPackage("previous-bundle-A", revision: "A")
+        let currentSource = try retentionPackage("previous-bundle-B", revision: "B")
+        let laterSource = try retentionPackage("previous-bundle-D", revision: "D")
+        let storage = directory.appendingPathComponent("previous-bundle-storage")
+        let repository = ContentRepository(bundledRoot: bundled, storageRoot: storage)
+        let first = try repository.install(from: firstSource)
+        let current = try repository.install(from: currentSource)
+        let before = try retentionInventory(storage)
+        XCTAssertFalse(try repository.previewBundledContent().isAlreadyActive)
+        XCTAssertEqual(try retentionInventory(storage), before)
+        var failures = 0
+        let failing = ContentRepository(bundledRoot: bundled, storageRoot: storage, writePointer: { data, _ in
+            failures += 1
+            XCTAssertNil(try JSONDecoder().decode([String: String].self, from: data)["previousDirectory"])
+            throw CocoaError(.fileWriteOutOfSpace)
+        })
+        XCTAssertThrowsError(try failing.activateBundledContent())
+        XCTAssertEqual(failures, 1)
+        XCTAssertEqual(try retentionInventory(storage), before)
+        let selected = try repository.activateBundledContent()
+        XCTAssertFalse(selected.alreadyActive)
+        XCTAssertEqual(try previousStoredPointer(storage), ["directory": selected.snapshot.root.lastPathComponent])
+        XCTAssertTrue(FileManager.default.fileExists(atPath: first.root.path))
+        XCTAssertTrue(FileManager.default.fileExists(atPath: current.root.path))
+        // A later ordinary import may retain this selected stored bundle copy.
+        // Eligibility deliberately means stored selection, not proof of import origin.
+        let later = try repository.install(from: laterSource)
+        XCTAssertEqual(try previousStoredPointer(storage)["previousDirectory"], selected.snapshot.root.lastPathComponent)
+        try Data("damaged D".utf8).write(to: later.root.appendingPathComponent("articles/example.json"))
+        XCTAssertEqual(try repository.load().root, selected.snapshot.root)
+        try Data("damaged stored C".utf8).write(to: selected.snapshot.root.appendingPathComponent("articles/example.json"))
+        let damagedBefore = try retentionInventory(storage)
+        XCTAssertEqual(try repository.load().root, bundled, "Explicit selection discarded B eligibility; no recursive rollback")
+        XCTAssertEqual(try retentionInventory(storage), damagedBefore)
+
+        let noopStorage = directory.appendingPathComponent("previous-bundle-noop-storage")
+        let noop = ContentRepository(bundledRoot: bundled, storageRoot: noopStorage)
+        _ = try noop.install(from: firstSource)
+        let matching = try noop.install(from: bundled)
+        let noopBefore = try retentionInventory(noopStorage)
+        let pointerBefore = try Data(contentsOf: noopStorage.appendingPathComponent("current.json"))
+        var noopWrites = 0
+        let guardedNoop = ContentRepository(bundledRoot: bundled, storageRoot: noopStorage, writePointer: { _, _ in
+            noopWrites += 1
+            throw CocoaError(.fileWriteNoPermission)
+        })
+        let already = try guardedNoop.activateBundledContent()
+        XCTAssertTrue(already.alreadyActive)
+        XCTAssertEqual(already.snapshot.root, matching.root)
+        XCTAssertEqual(noopWrites, 0)
+        XCTAssertEqual(try Data(contentsOf: noopStorage.appendingPathComponent("current.json")), pointerBefore)
+        XCTAssertEqual(try retentionInventory(noopStorage), noopBefore, "A full-manifest no-op preserves previous eligibility and all bytes")
+    }
+
+    @MainActor
+    func testPreviousStoredFallbackLeasesOnlySelectedGenerationAndRetainsLateReads() throws {
+        let bundled = try fixture("previous-lease-bundle", revision: "bundle")
+        let firstSource = try retentionPackage("previous-lease-A", revision: "A")
+        let currentSource = try retentionPackage("previous-lease-B", revision: "B")
+        let incoming = try retentionPackage("previous-lease-C", revision: "C")
+        let storage = directory.appendingPathComponent("previous-lease-storage")
+        let repository = ContentRepository(bundledRoot: bundled, storageRoot: storage)
+        var first: ContentSnapshot? = try repository.install(from: firstSource)
+        var current: ContentSnapshot? = try repository.install(from: currentSource)
+        let aRoot = try XCTUnwrap(first?.root), bRoot = try XCTUnwrap(current?.root)
+        let aID = try XCTUnwrap(UUID(uuidString: aRoot.lastPathComponent))
+        let bID = try XCTUnwrap(UUID(uuidString: bRoot.lastPathComponent))
+        first = nil; current = nil
+        XCTAssertTrue(repository.advisorySnapshotAcquisitions.isEmpty)
+        try Data("damaged B".utf8).write(to: bRoot.appendingPathComponent("articles/example.json"))
+        let records = try previousStoredReadingRecords()
+        var selected: ContentSnapshot? = try repository.load()
+        var copy = selected
+        var independent: ContentSnapshot? = try ContentRepository(bundledRoot: bundled, storageRoot: storage).load()
+        XCTAssertEqual(selected?.root, aRoot)
+        XCTAssertEqual(independent?.root, aRoot)
+        selected = nil
+        var replacement: ContentSnapshot? = try repository.install(from: incoming)
+        let cID = try XCTUnwrap(UUID(uuidString: try XCTUnwrap(replacement?.root.lastPathComponent)))
+        let afterInstall = try retentionInventory(storage)
+        withExtendedLifetime((copy, independent, replacement)) {
+            XCTAssertEqual(repository.advisorySnapshotAcquisitions, [aID: 2, cID: 1])
+            XCTAssertNil(repository.advisorySnapshotAcquisitions[bID])
+        }
+        XCTAssertEqual(try previousStoredPointer(storage)["previousDirectory"], aRoot.lastPathComponent)
+        XCTAssertEqual(try copy!.document(for: article()).blocks.first(where: { $0.id == "paragraph" })?.inlines?.first?.text, "本文 A")
+        XCTAssertEqual(try Data(contentsOf: copy!.root.appendingPathComponent("assets/late-A.png")), pixel)
+        XCTAssertEqual(try ContentValidator.sha256(at: copy!.root.appendingPathComponent("assets/late-A.png")), copy!.manifest.files["assets/late-A.png"])
+        copy = nil; independent = nil
+        withExtendedLifetime(replacement) { XCTAssertEqual(repository.advisorySnapshotAcquisitions, [cID: 1]) }
+        replacement = nil
+        XCTAssertTrue(repository.advisorySnapshotAcquisitions.isEmpty)
+        XCTAssertEqual(try retentionInventory(storage), afterInstall, "Lease release never deletes previous/current packages or repairs the pointer")
+        assertPreviousStoredReadingBytes(records)
+    }
+}

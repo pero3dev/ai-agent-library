@@ -186,6 +186,8 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
         confirm.tap()
         waitForRecoveryDialogToClose()
         requireNoRecoveryNotice()
+        // Use the supported filtered-list Button route, without reopening an article.
+        try prepareFilteredLibraryForReadingExport()
 
         // Only cancellation is exercised. Never tap Save, choose a provider or
         // supply a file URL. Reopening also checks that cancellation clears presentation.
@@ -301,14 +303,87 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
         }
     }
 
+    /// Match the public search and its filtered list; no article or TOC is opened.
+    private func readingExportFilteredLibrary() -> XCUIElement? {
+        let prompt = "記事の本文を検索"
+        let searches = app.searchFields.matching(NSPredicate(
+            format: "identifier == %@ OR label == %@", prompt, prompt))
+        let libraries = app.collectionViews.containing(.staticText, identifier: "library-filter-summary")
+        let searchCount = searches.count, libraryCount = libraries.count
+        readingExportLastContext = "phase=filtered-library; searchCount=\(searchCount); libraryCount=\(libraryCount)"
+        guard searchCount == 1, libraryCount == 1 else { return nil }
+        let search = searches.element(boundBy: 0), library = libraries.element(boundBy: 0)
+        let summaries = library.staticTexts.matching(identifier: "library-filter-summary")
+        guard search.exists, search.value as? String == "Transformer", library.exists, summaries.count == 1 else { return nil }
+        let summary = summaries.element(boundBy: 0)
+        guard summary.exists, summary.label == "検索: Transformer" else { return nil }
+        return library
+    }
+
+    private func prepareFilteredLibraryForReadingExport() throws {
+        let prompt = "記事の本文を検索"
+        let searches = app.searchFields.matching(NSPredicate(
+            format: "identifier == %@ OR label == %@", prompt, prompt))
+        for _ in 0..<8 {
+            if searches.count == 1, isHittableOnScreen(searches.element(boundBy: 0)) { break }
+            app.swipeDown(velocity: .slow)
+        }
+        let ready = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            searches.count == 1 && searches.element(boundBy: 0).isEnabled &&
+                self.isHittableOnScreen(searches.element(boundBy: 0))
+        }, object: nil)
+        guard XCTWaiter.wait(for: [ready], timeout: 15) == .completed, searches.count == 1 else {
+            throw readingExportFailure("Expected one usable public article search before the filtered export route", attempt: 0)
+        }
+        let search = searches.element(boundBy: 0)
+        guard search.exists, search.isEnabled, isHittableOnScreen(search),
+              let current = search.value as? String,
+              current.isEmpty || current == search.placeholderValue else {
+            throw readingExportFailure("The public search was not empty and usable before its one query", attempt: 0)
+        }
+        search.tap()
+        search.typeText("Transformer\n")
+        let filtered = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            self.readingExportFilteredLibrary() != nil
+        }, object: nil)
+        guard XCTWaiter.wait(for: [filtered], timeout: 15) == .completed,
+              readingExportFilteredLibrary() != nil else {
+            throw readingExportFailure("Expected the exact Transformer query and one matching public filtered library", attempt: 0)
+        }
+    }
+
     private func cancelReadingBackupExport(attempt: Int) throws {
-        readingExportLastContext = "phase=opening"
-        let more = app.buttons.matching(NSPredicate(format: "label == %@", "その他の操作")).firstMatch
-        requireHittable(more)
+        guard let library = readingExportFilteredLibrary() else {
+            throw readingExportFailure("The exact public filtered library was not present before export", attempt: attempt)
+        }
+        let mores = library.buttons.matching(NSPredicate(format: "label == %@", "その他の操作"))
+        let moreReady = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            mores.count == 1 && mores.element(boundBy: 0).isEnabled &&
+                self.isHittableOnScreen(mores.element(boundBy: 0), inside: library)
+        }, object: nil)
+        guard XCTWaiter.wait(for: [moreReady], timeout: 15) == .completed, mores.count == 1 else {
+            throw readingExportFailure("Expected one usable More button inside the exact filtered library", attempt: attempt)
+        }
+        let more = mores.element(boundBy: 0)
+        guard more.exists, more.isEnabled, isHittableOnScreen(more, inside: library) else {
+            throw readingExportFailure("The unique filtered-list More button was no longer usable", attempt: attempt)
+        }
         more.tap()
-        let export = app.buttons["library-export-reading"]
-        XCTAssertTrue(export.waitForExistence(timeout: 10))
-        requireHittable(export)
+        let title = "その他の操作"
+        let bars = app.navigationBars.matching(NSPredicate(format: "identifier == %@ OR label == %@", title, title))
+        let exports = app.buttons.matching(identifier: "library-export-reading")
+        let exportReady = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            bars.count == 1 && bars.element(boundBy: 0).exists && exports.count == 1 &&
+                exports.element(boundBy: 0).isEnabled && self.isHittableOnScreen(exports.element(boundBy: 0))
+        }, object: nil)
+        guard XCTWaiter.wait(for: [exportReady], timeout: 10) == .completed,
+              bars.count == 1, exports.count == 1 else {
+            throw readingExportFailure("Expected the exact More sheet and its unique usable export action", attempt: attempt)
+        }
+        let moreBar = bars.element(boundBy: 0), export = exports.element(boundBy: 0)
+        guard moreBar.exists, export.exists, export.isEnabled, isHittableOnScreen(export) else {
+            throw readingExportFailure("The More sheet export action was no longer uniquely usable", attempt: attempt)
+        }
         let previousContexts = Set(app.navigationBars.allElementsBoundByIndex.filter { $0.exists }
             .map { readingExportContextKey($0) })
         guard readingExportFilenameFields().count == 0 else {
@@ -328,8 +403,9 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
         let picker = identified[0]
         picker.cancel.tap()
         let closed = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
-            !picker.bar.exists && !picker.cancel.exists && !picker.filename.exists &&
-                self.isHittableOnScreen(self.app.staticTexts["library-article-count"])
+            !picker.bar.exists && !picker.cancel.exists && !picker.filename.exists && !moreBar.exists &&
+                self.isHittableOnScreen(self.app.staticTexts["library-article-count"]) &&
+                self.readingExportFilteredLibrary() != nil
         }, object: nil)
         guard XCTWaiter.wait(for: [closed], timeout: 15) == .completed else {
             throw readingExportFailure("The identified save context did not close back to the usable library", attempt: attempt)

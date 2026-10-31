@@ -237,8 +237,19 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
         cancel.tap()
         let more = app.buttons.matching(NSPredicate(format: "label == %@", "その他の操作"))
         let finished = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
-            cancels.count == 0 && more.count == 1 &&
-                self.isHittableOnScreen(more.element(boundBy: 0), fullyVisible: true)
+            let cancelCount = cancels.count
+            guard cancelCount == 0 else {
+                self.readingExportLastContext = "phase=finish-public-library-search; cancelCount=\(cancelCount); moreCount=not-read; ready=not-read"
+                return false
+            }
+            let moreCount = more.count
+            guard moreCount == 1 else {
+                self.readingExportLastContext = "phase=finish-public-library-search; cancelCount=0; moreCount=\(moreCount); ready=not-read"
+                return false
+            }
+            let ready = self.isHittableOnScreen(more.element(boundBy: 0))
+            self.readingExportLastContext = "phase=finish-public-library-search; cancelCount=0; moreCount=1; ready=\(ready)"
+            return ready
         }, object: nil)
         guard XCTWaiter.wait(for: [finished], timeout: 15) == .completed else {
             throw readingExportFailure("The public search did not close to one usable unfiltered More control", attempt: 0)

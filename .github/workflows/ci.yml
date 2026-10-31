@@ -191,6 +191,174 @@ jobs:
         working-directory: website
       # prebuild(sync)が未解決リンク・許可外 MDX・読込失敗で exit 1、
       # postbuild が generated/routes.json とのルート網羅を照合して exit 1 する
+      - name: Capture bounded read-only Linux mirror diagnostics
+        timeout-minutes: 1
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import base64
+          from contextlib import ExitStack
+          import hashlib
+          import json
+          import os
+          import re
+          import stat
+          from urllib.parse import urlsplit
+          
+          MIRROR_PATH = '/etc/apt/apt-mirrors.txt'
+          MAX_SOURCE = 4096
+          MAX_REPORT = 8192
+          
+          
+          class SnapshotRefused(Exception):
+              pass
+          
+          
+          def need(condition, reason):
+              if not condition:
+                  raise SnapshotRefused(reason)
+          
+          
+          def identity(item):
+              return tuple(getattr(item, key) for key in (
+                  'st_dev', 'st_ino', 'st_mode', 'st_uid', 'st_gid', 'st_nlink',
+                  'st_size', 'st_mtime_ns', 'st_ctime_ns'))
+          
+          
+          def read_fixed_mirror():
+              directory_flags = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_NONBLOCK
+              with ExitStack() as owned:
+                  etc = os.open('/etc', directory_flags)
+                  owned.callback(os.close, etc)
+                  apt = os.open('apt', directory_flags, dir_fd=etc)
+                  owned.callback(os.close, apt)
+                  before = os.lstat('apt-mirrors.txt', dir_fd=apt)
+                  need(stat.S_ISREG(before.st_mode) and before.st_nlink == 1
+                       and before.st_uid == 0 and not (before.st_mode & 0o022)
+                       and 0 <= before.st_size <= MAX_SOURCE, 'source-metadata-refused')
+                  source = os.open('apt-mirrors.txt', os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK,
+                                   dir_fd=apt)
+                  owned.callback(os.close, source)
+                  opened = os.fstat(source)
+                  need(identity(opened) == identity(before), 'source-open-identity-changed')
+                  chunks = []
+                  count = 0
+                  while True:
+                      block = os.read(source, min(1024, MAX_SOURCE + 1 - count))
+                      if not block:
+                          break
+                      chunks.append(block)
+                      count += len(block)
+                      need(count <= MAX_SOURCE, 'source-read-overflow')
+                  after = os.fstat(source)
+                  final_path = os.lstat('apt-mirrors.txt', dir_fd=apt)
+                  need(count == before.st_size and identity(before) == identity(after)
+                       and identity(before) == identity(final_path), 'source-read-identity-changed')
+                  data = b''.join(chunks)
+                  metadata = {'source': MIRROR_PATH, 'kind': 'regular', 'uid': before.st_uid,
+                              'mode': format(stat.S_IMODE(before.st_mode), '04o'),
+                              'nlink': before.st_nlink, 'bytes': len(data), 'stable_snapshot': True,
+                              'sha256': hashlib.sha256(data).hexdigest()}
+                  return data, metadata
+          
+          
+          def capture_eligibility(data):
+              try:
+                  text = data.decode('ascii')
+              except UnicodeDecodeError:
+                  return False, 'non-ascii', None
+              rows = text.split('\n')
+              if rows and rows[-1] == '':
+                  rows.pop()
+              if not 1 <= len(rows) <= 16:
+                  return False, 'row-count', None
+              for row in rows:
+                  match = re.fullmatch(r'([!-~]{1,512})(?:[ \t]+priority:([0-9]{1,6}))?', row)
+                  if match is None:
+                      return False, 'row-shape', None
+                  url = match.group(1)
+                  try:
+                      parsed = urlsplit(url)
+                      host = parsed.hostname
+                      port = parsed.port
+                      if parsed.scheme not in ('http', 'https') or not host:
+                          return False, 'url-shape', None
+                      if parsed.username is not None or parsed.password is not None or '?' in url or '#' in url:
+                          return False, 'url-shape', None
+                      if parsed.path != '/ubuntu/':
+                          return False, 'url-shape', None
+                      standard_port = 80 if parsed.scheme == 'http' else 443
+                      if port not in (None, standard_port):
+                          return False, 'url-shape', None
+                      if parsed.netloc not in (host, host + ':' + str(standard_port)):
+                          return False, 'url-shape', None
+                      if host != 'ubuntu.com' and not host.endswith('.ubuntu.com'):
+                          return False, 'host-shape', None
+                      if len(host) > 253 or any(re.fullmatch(r'[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?', label) is None
+                                                for label in host.split('.')):
+                          return False, 'host-shape', None
+                  except ValueError:
+                      return False, 'url-shape', None
+              return True, 'diagnostic-capture-eligible', len(rows)
+          
+          
+          def save_report(report):
+              encoded = (json.dumps(report, sort_keys=True, separators=(',', ':')) + '\n').encode('ascii')
+              need(len(encoded) <= MAX_REPORT, 'report-overflow')
+              flags = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_NONBLOCK
+              with ExitStack() as owned:
+                  parent = os.open('.', flags)
+                  owned.callback(os.close, parent)
+                  for part in ('.local', 'theme-evidence'):
+                      try:
+                          os.mkdir(part, 0o700, dir_fd=parent)
+                      except FileExistsError:
+                          pass
+                      item = os.lstat(part, dir_fd=parent)
+                      need(stat.S_ISDIR(item.st_mode), 'output-parent-refused')
+                      parent = os.open(part, flags, dir_fd=parent)
+                      owned.callback(os.close, parent)
+                  output = os.open('linux-mirror-snapshot.json',
+                                   os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW | os.O_NONBLOCK,
+                                   0o600, dir_fd=parent)
+                  owned.callback(os.close, output)
+                  item = os.fstat(output)
+                  need(stat.S_ISREG(item.st_mode) and item.st_nlink == 1, 'output-file-refused')
+                  position = 0
+                  while position < len(encoded):
+                      count = os.write(output, encoded[position:])
+                      need(0 < count <= len(encoded) - position, 'output-write-refused')
+                      position += count
+          
+          
+          def main():
+              report = {'schema': 1, 'purpose': 'diagnostic-capture-not-APT-authorization',
+                        'source': MIRROR_PATH, 'eligible': False, 'reason': 'unconfirmed',
+                        'base64': None, 'sha256': None, 'snapshot_not_installer_identity_proof': True}
+              try:
+                  data, metadata = read_fixed_mirror()
+                  report.update(metadata)
+                  eligible, reason, rows = capture_eligibility(data)
+                  report.update(eligible=eligible, reason=reason, rows=rows)
+                  if eligible:
+                      report['base64'] = base64.b64encode(data).decode('ascii')
+              except SnapshotRefused as error:
+                  report['reason'] = error.args[0]
+              except OSError as error:
+                  report.update(reason='source-os-error', errno=error.errno)
+              public = {key: value for key, value in report.items() if key != 'base64'}
+              try:
+                  save_report(report)
+              except (SnapshotRefused, OSError):
+                  print(json.dumps({'purpose': report['purpose'], 'reason': 'diagnostic-output-refused'}))
+                  return 1
+              print(json.dumps(public, sort_keys=True, separators=(',', ':')))
+              return 0
+          
+          
+          if __name__ == '__main__':
+              raise SystemExit(main())
+          PY
       - name: Prepare Linux browser dependencies with bounded acquisition
         run: node .github/scripts/prepare-playwright-linux-deps.mjs
         env:

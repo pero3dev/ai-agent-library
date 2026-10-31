@@ -137,6 +137,30 @@ final class ReaderReflowUITests: NativeReaderUITestCase {
         return (offset, frame.height)
     }
 
+    // Adjacent origins measure the row spacing. A cell's StaticText height
+    // can stay unchanged when the scaled column width changes its wrapping.
+    private func measuredRowStride(blockID: String) throws -> CGFloat {
+        let previous = soleCell(blockID: blockID, row: 24).frame
+        let current = soleCell(blockID: blockID, row: 25).frame
+        let validFrames = [previous, current].allSatisfy { frame in
+            !frame.isNull && !frame.isInfinite && !frame.isEmpty &&
+            [frame.minX, frame.minY, frame.maxX, frame.maxY, frame.width, frame.height]
+                .allSatisfy(\.isFinite) && frame.width > 0 && frame.height > 0
+        }
+        guard validFrames else {
+            XCTFail("Both adjacent row frames must be finite with positive width and height")
+            throw NSError(domain: "ReaderReflowUITests", code: 4,
+                          userInfo: [NSLocalizedDescriptionKey: "Invalid adjacent row geometry"])
+        }
+        let stride = current.minY - previous.minY
+        guard stride.isFinite && stride > 0 else {
+            XCTFail("Adjacent row origins must yield a finite positive stride")
+            throw NSError(domain: "ReaderReflowUITests", code: 5,
+                          userInfo: [NSLocalizedDescriptionKey: "Invalid adjacent row stride"])
+        }
+        return stride
+    }
+
     func testFixtureMeasuredRowAndBookmarkSurviveRotatedRelaunchAndLiveReturn() throws {
         requireLayout(portrait: true)
         let ownedSuite = app.launchEnvironment["AILIBRARY_UI_TEST_SUITE"]
@@ -287,6 +311,7 @@ final class ReaderReflowUITests: NativeReaderUITestCase {
         let end = origin.withOffset(CGVector(dx: visibleReader.midX, dy: startY - shift))
         start.press(forDuration: 0.05, thenDragTo: end, withVelocity: .slow, thenHoldForDuration: 0.2)
         let savedWitness = requireRowWitness(blockID: blockID)
+        let savedStride = try measuredRowStride(blockID: blockID)
         capture("DynamicType-R25-default-before-departure")
 
         let back = fixtureBar.buttons.element(boundBy: 0)
@@ -317,12 +342,13 @@ final class ReaderReflowUITests: NativeReaderUITestCase {
             XCTAssertLessThanOrEqual(abs(witness.offset - savedWitness.offset),
                                     max(witness.rowHeight, savedWitness.rowHeight),
                                     "The measured R25 must restore within one row height of its saved top offset")
+            let currentStride = try measuredRowStride(blockID: blockID)
             if mode == "accessibility5" {
-                XCTAssertGreaterThan(witness.rowHeight, savedWitness.rowHeight * 1.25,
-                                     "The measured row must actually grow; a requested font mode alone is not proof")
+                XCTAssertGreaterThan(currentStride, savedStride * 1.25,
+                                     "The measured row spacing must actually grow; a requested font mode alone is not proof")
             } else {
-                XCTAssertEqual(witness.rowHeight, savedWitness.rowHeight, accuracy: 1,
-                               "Returning to the fixed default mode must restore the original measured row height")
+                XCTAssertEqual(currentStride, savedStride, accuracy: 1,
+                               "Returning to the fixed default mode must restore the original measured row spacing")
             }
             capture("DynamicType-R25-" + mode + "-after-relaunch")
             if mode == "accessibility5" {

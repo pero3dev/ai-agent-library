@@ -249,59 +249,138 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
 
     private var readingExportLastContext = "phase=not-started"
 
+    private var readingExportHierarchyCaptured = false
+
     private struct ReadingExportPicker {
         let bar: XCUIElement
-        let cancel: XCUIElement
-        let filename: XCUIElement
+        let contextKey: String
+        let action: XCUIElement
+        let requiresBrowseBack: Bool
+        let filenames: [XCUIElement]
     }
 
     private func readingExportContextKey(_ bar: XCUIElement) -> String {
         bar.identifier + "\u{001F}" + bar.label
     }
 
-    private func readingExportFilenameFields() -> XCUIElementQuery {
-        app.textFields.matching(NSPredicate(format: "value == %@ OR value == %@",
-            "AI-Agent-Library-Reading-Backup", "AI-Agent-Library-Reading-Backup.json"))
+    private func readingExportFilenameCandidates(in scope: XCUIElement) -> XCUIElementQuery {
+        let names = ["AI-Agent-Library-Reading-Backup", "AI-Agent-Library-Reading-Backup.json"]
+        return scope.descendants(matching: .any).matching(NSPredicate(format: "label IN %@ OR value IN %@", names, names))
     }
 
-    /// An unobserved system layout is a failure, never a reason to use any all-app Cancel.
-    private func newReadingExportPickers(after previousContexts: Set<String>) -> [ReadingExportPicker] {
-        let fields = readingExportFilenameFields().allElementsBoundByIndex.filter {
-            $0.exists && $0.isEnabled && $0.isHittable
+    private func readingExportFrameIsFinite(_ frame: CGRect) -> Bool {
+        !frame.isNull && !frame.isInfinite && frame.minX.isFinite && frame.minY.isFinite &&
+            frame.width.isFinite && frame.height.isFinite && frame.width > 0 && frame.height > 0
+    }
+
+    /// The observed bottom filename is a read-only witness, not necessarily an editable control.
+    private func readingExportVisibleFilenames(in window: XCUIElement, below barFrame: CGRect,
+                                              appFrame: CGRect) -> [XCUIElement]? {
+        let query = readingExportFilenameCandidates(in: window)
+        let matchCount = query.count
+        guard matchCount > 0, matchCount <= 16 else { return nil }
+        let matches = query.allElementsBoundByIndex
+        guard matches.count == matchCount, matches.count <= 16 else { return nil }
+        let names = Set(["AI-Agent-Library-Reading-Backup", "AI-Agent-Library-Reading-Backup.json"])
+        let windowFrame = window.frame
+        guard readingExportFrameIsFinite(windowFrame), appFrame.contains(windowFrame) else { return nil }
+        var witnesses: [XCUIElement] = []
+        var distinctBounds = Set<String>()
+        for candidate in matches {
+            let type = candidate.elementType
+            guard type == .textField || type == .textView || type == .staticText || type == .other,
+                  candidate.exists else { continue }
+            let label = candidate.label, value = candidate.value as? String
+            guard names.contains(label) || value.map({ names.contains($0) }) == true else { continue }
+            let frame = candidate.frame
+            // Exact-name ancestors covering the whole sheet do not prove a visible bottom filename.
+            guard readingExportFrameIsFinite(frame), appFrame.contains(frame), windowFrame.contains(frame),
+                  frame.minY >= barFrame.maxY else { continue }
+            // Coalesce nested views at identical physical bounds; no filename element is selected for execution.
+            let boundsKey = [frame.minX, frame.minY, frame.width, frame.height]
+                .map { String(Double($0)) }.joined(separator: ",")
+            distinctBounds.insert(boundsKey)
+            witnesses.append(candidate)
         }
-        readingExportLastContext = "phase=filename; usableFilenameCount=\(fields.count)"
-        guard fields.count == 1 else { return [] }
-        let filename = fields[0]
+        readingExportLastContext = "phase=filename-witness; exactMatches=\(matchCount); visibleElements=\(witnesses.count); distinctBounds=\(distinctBounds.count)"
+        guard !witnesses.isEmpty, distinctBounds.count <= 8 else { return nil }
+        return witnesses
+    }
+
+    /// An eligible destination-picker context must be new and provide its own public action.
+    private func newReadingExportPickers(after previousContexts: Set<String>) -> [ReadingExportPicker] {
+        let candidates = app.navigationBars.allElementsBoundByIndex
+        guard candidates.count <= 16 else { return [] }
         let cancelPredicate = NSPredicate(format: "label == %@ OR label == %@", "キャンセル", "Cancel")
-        let savePredicate = NSPredicate(format: "label == %@ OR label == %@", "保存", "Save")
-        return app.navigationBars.allElementsBoundByIndex.compactMap { candidate in
-            guard candidate.exists, !previousContexts.contains(readingExportContextKey(candidate)) else { return nil }
+        let browsePredicate = NSPredicate(format: "label == %@ OR label == %@", "ブラウズ", "Browse")
+        let movePredicate = NSPredicate(format: "label == %@ OR label == %@", "移動", "Move")
+        return candidates.compactMap { candidate in
+            guard candidate.exists else { return nil }
             let identifier = candidate.identifier, label = candidate.label
-            guard !identifier.isEmpty || !label.isEmpty else { return nil }
-            // Rebind by the new exact context, not by an index that can retarget a background bar.
-            let matchingBars = app.navigationBars.matching(NSPredicate(
-                format: "identifier == %@ AND label == %@", identifier, label))
+            let key = identifier + "\u{001F}" + label
+            guard !identifier.isEmpty || !label.isEmpty, !previousContexts.contains(key) else { return nil }
+            let exactBar = NSPredicate(format: "identifier == %@ AND label == %@", identifier, label)
+            let matchingBars = app.navigationBars.matching(exactBar)
             guard matchingBars.count == 1 else { return nil }
             let bar = matchingBars.element(boundBy: 0)
-            let cancels = bar.buttons.matching(cancelPredicate).allElementsBoundByIndex.filter {
-                $0.exists && $0.isEnabled && $0.isHittable
-            }
-            // Save is a context witness only; a disabled Save is not executed either.
-            let saves = bar.buttons.matching(savePredicate).allElementsBoundByIndex.filter { $0.exists }
-            readingExportLastContext = "phase=new-bar; usableFilenameCount=1; usableCancelCount=\(cancels.count); saveCount=\(saves.count)"
-            guard cancels.count == 1, saves.count == 1 else { return nil }
-            let cancel = cancels[0], save = saves[0]
-            let appFrame = app.frame, barFrame = bar.frame, cancelFrame = cancel.frame
-            let saveFrame = save.frame, filenameFrame = filename.frame
-            let frames = [appFrame, barFrame, cancelFrame, saveFrame, filenameFrame]
-            guard frames.allSatisfy({
-                !$0.isNull && !$0.isInfinite && $0.minX.isFinite && $0.minY.isFinite &&
-                    $0.width.isFinite && $0.height.isFinite && $0.width > 0 && $0.height > 0
-            }), appFrame.contains(barFrame), barFrame.contains(cancelFrame), barFrame.contains(saveFrame),
-                 appFrame.contains(filenameFrame) else { return nil }
-            return ReadingExportPicker(bar: bar, cancel: cancel, filename: filename)
+            let moves = bar.buttons.matching(movePredicate)
+            let cancels = bar.buttons.matching(cancelPredicate), backs = bar.buttons.matching(browsePredicate)
+            let moveCount = moves.count, cancelCount = cancels.count, backCount = backs.count
+            readingExportLastContext = "phase=destination-bar; moveCount=\(moveCount); cancelCount=\(cancelCount); browseBackCount=\(backCount)"
+            guard moveCount == 1, (cancelCount == 1 && backCount == 0) || (cancelCount == 0 && backCount == 1) else { return nil }
+            let requiresBrowseBack = cancelCount == 0
+            let action = requiresBrowseBack ? backs.element(boundBy: 0) : cancels.element(boundBy: 0)
+            let move = moves.element(boundBy: 0)
+            let appFrame = app.frame, barFrame = bar.frame, actionFrame = action.frame, moveFrame = move.frame
+            // Move is only a context witness: it may be disabled, and is never tapped.
+            guard bar.exists, move.exists, action.exists, action.isEnabled, action.isHittable,
+                  [appFrame, barFrame, actionFrame, moveFrame].allSatisfy({ readingExportFrameIsFinite($0) }),
+                  appFrame.contains(barFrame), barFrame.contains(actionFrame), barFrame.contains(moveFrame) else { return nil }
+            let windows = app.windows.containing(exactBar)
+            guard windows.count == 1 else { return nil }
+            let window = windows.element(boundBy: 0)
+            guard window.exists, window.navigationBars.matching(exactBar).count == 1,
+                  window.frame.contains(barFrame),
+                  let filenames = readingExportVisibleFilenames(in: window, below: barFrame, appFrame: appFrame) else { return nil }
+            return ReadingExportPicker(bar: bar, contextKey: key, action: action,
+                                       requiresBrowseBack: requiresBrowseBack, filenames: filenames)
         }
     }
+
+    private func waitForReadingExportPicker(after previousContexts: Set<String>, deadline: TimeInterval,
+                                            cancellationOnly: Bool, attempt: Int) throws -> ReadingExportPicker {
+        var identified: ReadingExportPicker?
+        let ready = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            guard ProcessInfo.processInfo.systemUptime < deadline else { return false }
+            let contexts = self.newReadingExportPickers(after: previousContexts)
+            guard contexts.count == 1, !cancellationOnly || !contexts[0].requiresBrowseBack,
+                  ProcessInfo.processInfo.systemUptime < deadline else { return false }
+            identified = contexts[0]
+            return true
+        }, object: nil)
+        let remaining = deadline - ProcessInfo.processInfo.systemUptime
+        guard remaining > 0, XCTWaiter.wait(for: [ready], timeout: remaining) == .completed,
+              ProcessInfo.processInfo.systemUptime < deadline, let picker = identified else {
+            throw readingExportFailure("Expected one new Move context, exact visible filename and its own Cancel or one Browse-back within the shared deadline", attempt: attempt)
+        }
+        return picker
+    }
+
+    private func currentReadingExportPicker(_ expected: ReadingExportPicker, after previousContexts: Set<String>,
+                                           deadline: TimeInterval, attempt: Int) throws -> ReadingExportPicker {
+        guard ProcessInfo.processInfo.systemUptime < deadline else {
+            throw readingExportFailure("The shared destination-picker deadline expired before the public action", attempt: attempt)
+        }
+        // Recheck every context/Move/filename/action witness immediately before the sole scoped tap.
+        let contexts = newReadingExportPickers(after: previousContexts)
+        guard contexts.count == 1, contexts[0].contextKey == expected.contextKey,
+              contexts[0].requiresBrowseBack == expected.requiresBrowseBack,
+              ProcessInfo.processInfo.systemUptime < deadline else {
+            throw readingExportFailure("The identified destination-picker context changed or expired before its public action", attempt: attempt)
+        }
+        return contexts[0]
+    }
+
 
     /// Match the public search and its filtered list; no article or TOC is opened.
     private func readingExportFilteredLibrary() -> XCUIElement? {
@@ -386,24 +465,28 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
         }
         let previousContexts = Set(app.navigationBars.allElementsBoundByIndex.filter { $0.exists }
             .map { readingExportContextKey($0) })
-        guard readingExportFilenameFields().count == 0 else {
+        guard readingExportFilenameCandidates(in: app).count == 0 else {
             throw readingExportFailure("An export filename context was already present before opening", attempt: attempt)
         }
+        // Export, any single observed Browse-back, and cancellation readiness share one 30-second budget.
+        let pickerDeadline = ProcessInfo.processInfo.systemUptime + 30
         export.tap()
-        let ready = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
-            self.newReadingExportPickers(after: previousContexts).count == 1
-        }, object: nil)
-        guard XCTWaiter.wait(for: [ready], timeout: 30) == .completed else {
-            throw readingExportFailure("Expected one new save context, its Save/Cancel pair and exact editable backup filename", attempt: attempt)
+        var picker = try waitForReadingExportPicker(after: previousContexts, deadline: pickerDeadline,
+                                                    cancellationOnly: false, attempt: attempt)
+        if picker.requiresBrowseBack {
+            picker = try currentReadingExportPicker(picker, after: previousContexts, deadline: pickerDeadline, attempt: attempt)
+            picker.action.tap() // Only the identified Browse-back; no provider, folder or file is selected.
+            picker = try waitForReadingExportPicker(after: previousContexts, deadline: pickerDeadline,
+                                                    cancellationOnly: true, attempt: attempt)
         }
-        let identified = newReadingExportPickers(after: previousContexts)
-        guard identified.count == 1 else {
-            throw readingExportFailure("The new save context became missing or ambiguous before cancellation", attempt: attempt)
+        guard !picker.requiresBrowseBack else {
+            throw readingExportFailure("A verified Cancel did not appear after the single Browse-back", attempt: attempt)
         }
-        let picker = identified[0]
-        picker.cancel.tap()
+        picker = try currentReadingExportPicker(picker, after: previousContexts, deadline: pickerDeadline, attempt: attempt)
+        picker.action.tap() // Only verified Cancel; Move and filename witnesses are never executed.
         let closed = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
-            !picker.bar.exists && !picker.cancel.exists && !picker.filename.exists && !moreBar.exists &&
+            !picker.bar.exists && !picker.action.exists && picker.filenames.allSatisfy({ !$0.exists }) &&
+                self.readingExportFilenameCandidates(in: self.app).count == 0 && !moreBar.exists &&
                 self.isHittableOnScreen(self.app.staticTexts["library-article-count"]) &&
                 self.readingExportFilteredLibrary() != nil
         }, object: nil)
@@ -413,8 +496,8 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
     }
 
     private func readingExportFailure(_ reason: String, attempt: Int) -> NSError {
-        // A throwing failure ends this case. Retain one screenshot plus only
-        // fixed context and counts already sampled by the assertions; do not query a hierarchy.
+        // A throwing failure ends this case. Keep the screenshot and bounded fixed context.
+        // Capture one failure-only hierarchy separately, never from a readiness predicate.
         capture("Reading-export-cancel-\(attempt)-failed")
         let context = String(decoding: ("attempt=\(attempt)\n" + reason + "\n" + readingExportLastContext)
             .utf8.prefix(1024), as: UTF8.self)
@@ -422,6 +505,17 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
         attachment.name = "Reading-export-cancel-context"
         attachment.lifetime = .keepAlways
         add(attachment)
+        if !readingExportHierarchyCaptured {
+            readingExportHierarchyCaptured = true
+            let hierarchy = app.debugDescription
+            let byteCount = hierarchy.utf8.count
+            let full = !hierarchy.isEmpty && byteCount <= 131072
+            let detail = full ? hierarchy : "OMITTED: export hierarchy bytes=\(byteCount), allowed=1...131072; no truncated hierarchy retained."
+            let hierarchyAttachment = XCTAttachment(string: detail)
+            hierarchyAttachment.name = full ? "Reading-export-cancel-hierarchy" : "Reading-export-cancel-hierarchy-omitted"
+            hierarchyAttachment.lifetime = .keepAlways
+            add(hierarchyAttachment)
+        }
         XCTFail(reason)
         return NSError(domain: "ReadingRecoveryUITests", code: 2,
                        userInfo: [NSLocalizedDescriptionKey: reason])

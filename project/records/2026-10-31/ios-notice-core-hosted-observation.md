@@ -1,5 +1,15 @@
 # Notice対応Core観測の固定入口とHosted事前検査案
 
+最新候補: 公開済みhead `a5e483bb73e257501b81bbf79ebea484a845b2c5` への5番目の追加commit候補である。実parent `84f8f3ea1e1a4d3e2c809130af6a0388b7f24564` からの所有9パス・新規7件・target2850を維持し、workflow・固定入口2・索引2・App0.2.28（30）・PBX・固定Source4は変更しない。
+
+a5eではactionlintが成功した。保存artifactの診断は、元のpredicateで最初に拒否された対象が `config.worktree`、後段snapshotが通常ファイル83B・nonempty、他5パスがabsentだったことを示した。診断は内容・hashを読んでいないため、実際のファイル内容や拡張設定の有効状態、runnerのGit版は未確認である。Node22事前工程と旧guardのHosted26件は成功したが、prepareは同じ拒否で停止し、Core19raw/15sampleの測定は開始していない。
+
+次候補はsource checkoutだけで、このファイルがsymlinkでない通常ファイル・nlink1・4096B以下というmetadata条件を満たす場合に限り、条件付き互換性を検査する。main configのliteralな空の `[extensions]` 節だけを検査用文字列から除外し、その区間のentry（falseを含む）・非canonical表記・subsectionは拒否する。元ファイルは変更せず、残部の既存raw banと、同じlocal scope・元のconfig origin・既知key/valueだけを認めるGit native監査がすべて通った後だけ、metadataへinert_condition=trueを付けて返す。config.worktreeの内容・hashは読まない。bare側、他5パス、symlink・hardlink・大きいファイル・active/unknown extension・foreign scope・unknown keyは引き続きobjectアクセス前に拒否する。
+
+診断のfieldは `diagnostic_does_not_override_rejection` へ改め、以前のfieldと拒否方針は履歴に残す。この条件付き方針は今回の採択範囲であり、任意の残存ファイルの安全性や一般的な設定許可を証明するものではない。新候補のfixture実行・共通検査・新head CI・Core測定・独立replay・通常mainは未受入である。TODO32行/14完了、IOS-15・予算・実機の未完了を維持する。
+
+## 先行a5eまでの提出候補（履歴）
+
 最新候補: 実parent `84f8f3ea1e1a4d3e2c809130af6a0388b7f24564` へのSource9を維持し、公開済みhead `75f8d51cedff8e1b830dc0ecc2a2866bafe0c999` に追加する差分である。App0.2.28（30）・PBX・固定Source4・索引2は保持する。新規7件・所有9パスでtarget2850、TODO32行/14完了は変えない。
 
 公開75fではactionlintがSC2155の3箇所で失敗した。Node22（v22.23.4）の構文/schema等4工程とHostedの26件は成功し、同runのContent生成・監査工程も成功した。26件は旧guardのpure fake検査であり、Core測定ではない。prepareは `ValueError: Git replacement/alternate/worktree surface rejected` で測定開始前に停止した。保存16ファイルにprobe catalogはなく、6パス中の実拒否対象は未特定である。

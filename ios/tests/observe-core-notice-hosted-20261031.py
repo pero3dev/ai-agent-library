@@ -449,7 +449,7 @@ def save_git_surface_rejection(g, first_rejected_rel):
         finally:
             os.close(anchor)
         value = {'kind':'rejected-Git-surface-metadata-only','first_rejected_rel':first_rejected_rel,
-                 'non_atomic_snapshot':True,'refusal_unchanged':True,'rows':rows}
+                 'non_atomic_snapshot':True,'diagnostic_does_not_override_rejection':True,'rows':rows}
         data = (json.dumps(value, sort_keys=True, separators=(',',':'))+'\n').encode('utf-8')
         require(len(data) <= 4096, 'Git diagnostic4KiB refused')
         output_dir = os.open(ROOT, flags)
@@ -472,15 +472,62 @@ def save_git_surface_rejection(g, first_rejected_rel):
         raise ValueError('Git surface rejection diagnostics failed') from None
 
 
+def inert_worktree_file_metadata(g):
+    # Metadata only: never open, read, or hash config.worktree contents.
+    try:
+        anchor = os.open(g, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_NONBLOCK)
+        try:
+            item = os.stat('config.worktree', dir_fd=anchor, follow_symlinks=False)
+        finally:
+            os.close(anchor)
+    except OSError:
+        raise ValueError('Inert worktree metadata unavailable') from None
+    require(stat.S_ISREG(item.st_mode) and item.st_nlink == 1 and 0 <= item.st_size <= 4096,
+            'Inert worktree metadata refused')
+    return {'present':True,'kind':'regular','stat_size':item.st_size,'nlink':item.st_nlink,
+            'inert_condition':False}
+
+
+def without_canonical_empty_extensions(config):
+    # Inspection string only. The original file is never rewritten.
+    remainder = []
+    inside = False
+    for raw_line in config.splitlines(keepends=True):
+        line = raw_line[:-1] if raw_line.endswith('\n') else raw_line
+        if inside:
+            if re.fullmatch(r'[ \t]*(?:[#;][^\r\n]*)?', line):
+                remainder.append(raw_line)
+                continue
+            require(re.match(r'[ \t]*\[', line) is not None,
+                    'Only canonical empty extensions sections permitted')
+            inside = False
+        if line == '[extensions]':
+            inside = True
+            remainder.append('\n' if raw_line.endswith('\n') else '')
+        else:
+            remainder.append(raw_line)
+    return ''.join(remainder)
+
+
 def git_audit(repo, env, bare):
     g=repo if bare else repo/'.git'
     require(g.is_dir() and not g.is_symlink(),'Ordinary Git directory required')
+    worktree_metadata = None
     for rel in ['info/grafts','objects/info/alternates','objects/info/http-alternates','refs/replace','config.worktree','commondir']:
         q=g/rel;absent=not q.exists() and not q.is_symlink()
-        if not absent:save_git_surface_rejection(g,rel)
-        require(absent,'Git replacement/alternate/worktree surface rejected')
+        if not absent and rel == 'config.worktree' and not bare:
+            try:
+                worktree_metadata = inert_worktree_file_metadata(g)
+            except Exception:
+                save_git_surface_rejection(g,rel)
+                raise ValueError('Inert worktree metadata refused') from None
+        else:
+            if not absent:save_git_surface_rejection(g,rel)
+            require(absent,'Git replacement/alternate/worktree surface rejected')
     for q in (g/'objects/pack').glob('*.promisor'):raise ValueError('Promisor rejected')
-    config=read(g/'config').decode('utf-8');require(not re.search(r'(?im)^\s*\[\s*(include|includeif|extensions|credential|filter|http|url)\b',config),'External Git configuration rejected')
+    config=read(g/'config').decode('utf-8')
+    inspected_config = without_canonical_empty_extensions(config) if worktree_metadata is not None else config
+    require(not re.search(r'(?im)^\s*\[\s*(include|includeif|extensions|credential|filter|http|url)\b',inspected_config),'External Git configuration rejected')
     if (g/'hooks').exists():
         for q in (g/'hooks').iterdir():require(q.is_file() and not q.is_symlink() and q.name.endswith('.sample'),'Active Git hook rejected')
     raw=probe(['/usr/bin/git','-C',str(repo),'config','--show-origin','--show-scope','--list'],env)
@@ -501,7 +548,11 @@ def git_audit(repo, env, bare):
         rows.append({'scope':scope,'origin':origin,'key':key,'value':value})
     if bare:require(len(rows)==4,'Owned config missing/duplicate fields')
     # Unexpected raw config values are never written to artifacts.
-    return {'exact_env_keys':['PATH','TMPDIR'],'effective_owned_only':True,'rows':rows,'raw_bytes':len(raw),'raw_sha256':sha(raw)}
+    # Only after the unchanged native effective-config audit passes is the file condition inert.
+    if worktree_metadata is not None:
+        worktree_metadata['inert_condition'] = True
+    return {'exact_env_keys':['PATH','TMPDIR'],'effective_owned_only':True,'rows':rows,'raw_bytes':len(raw),'raw_sha256':sha(raw),
+            'config_worktree':worktree_metadata or {'present':False,'inert_condition':False}}
 
 def git_object(repo, oid, kind, env):
     require(re.fullmatch(r'[a-f0-9]{40}',oid) and kind in {'commit','tree','blob'},'Invalid object request')

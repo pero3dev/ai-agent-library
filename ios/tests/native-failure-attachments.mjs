@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 
 export const LIMITS = Object.freeze({ metadata: 1048576, stderr: 8192, retained: 2097152,
   manifest: 65536, png: 1048576, hierarchy: 131072, geometry: 8192, context: 2048,
-  wholeMs: 75000, perChildMs: 15000, maxCalls: 7, maxNodes: 20000, freeFloor: 67108864 });
+  wholeMs: 75000, perChildMs: 15000, maxCalls: 7, maxNodes: 32768, freeFloor: 67108864 });
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 const refPattern = /^0~[A-Za-z0-9_-]{1,150}={0,2}$/;
 const shaPattern = /^[0-9a-f]{40}$/;
@@ -30,6 +30,9 @@ const textNames = Object.freeze({ public: [
   ['Public-UI-target-not-visible-hierarchy', 'hierarchy.txt', LIMITS.hierarchy],
 ], restore: [['Reading-restore-picker-context', 'context.txt', LIMITS.context]],
 export: [['Reading-export-cancel-context', 'context.txt', LIMITS.context]] });
+const optionalTextNames = Object.freeze({ export: [
+  ['Reading-export-cancel-hierarchy', 'hierarchy.txt', LIMITS.hierarchy],
+] });
 const filenames = new Set(['failure.png', 'context.txt', 'geometry.json', 'hierarchy.txt']);
 const fileLimits = Object.freeze({ 'failure.png': LIMITS.png, 'context.txt': LIMITS.context,
   'geometry.json': LIMITS.geometry, 'hierarchy.txt': LIMITS.hierarchy });
@@ -90,7 +93,8 @@ export function attachmentPlan(summary) {
   });
   requireThat(candidates.length <= 256, 'attachment_count');
   const known = new Map();
-  const allKnownNames = new Set([...pngNames.keys(), ...Object.values(textNames).flat().map(x => x[0])]);
+  const optionalNames = new Set(Object.values(optionalTextNames).flat().map(x => x[0]));
+  const allKnownNames = new Set([...pngNames.keys(), ...Object.values(textNames).flat().map(x => x[0]), ...optionalNames]);
   for (const a of candidates) {
     const name = scalar(a.name);
     if (!allKnownNames.has(name)) continue; // Never export an automatic recording or arbitrary attachment.
@@ -99,6 +103,7 @@ export function attachmentPlan(summary) {
     requireThat(typeof sizeText === 'string' && /^(0|[1-9][0-9]{0,7})$/.test(sizeText), 'payload_size_schema');
     const size = Number(sizeText), row = { name, id, size, uti };
     if (known.has(name)) {
+      requireThat(!optionalNames.has(name), 'duplicate_optional_attachment');
       requireThat(JSON.stringify(known.get(name)) === JSON.stringify(row), 'ambiguous_attachment');
     } else known.set(name, row);
   }
@@ -107,7 +112,8 @@ export function attachmentPlan(summary) {
   const image = images[0];
   requireThat(image.uti === 'public.png' && image.size >= 8 && image.size <= LIMITS.png, 'image_type_or_size');
   const result = [{ ...image, filename: 'failure.png', limit: LIMITS.png }];
-  for (const [name, filename, limit] of textNames[pngNames.get(image.name)]) {
+  const role = pngNames.get(image.name);
+  for (const [name, filename, limit] of [...textNames[role], ...(optionalTextNames[role] ?? [])]) {
     const row = known.get(name);
     if (!row) continue;
     requireThat(row.uti === 'public.plain-text' && row.size <= limit, 'text_type_or_size');

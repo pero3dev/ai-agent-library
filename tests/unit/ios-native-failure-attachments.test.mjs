@@ -338,3 +338,86 @@ test('Python guard source has only exact output write and no broad or fallback a
   assert.ok(source.includes('resource.RLIMIT_FSIZE')); assert.ok(source.includes('resource.RLIMIT_CORE'));
   assert.ok(source.includes("os.execve('/usr/bin/sandbox-exec'")); assert.ok(!source.includes('subprocess'));
 });
+
+
+// Synthetic typed activities exercise the observed node-count boundary without retaining a real trace.
+function countMetadataNodes(value) {
+  let count = 0;
+  const visit = item => { count++; if (item && typeof item === 'object') {
+    for (const child of Array.isArray(item) ? item : Object.values(item)) visit(child);
+  } };
+  visit(value); return count;
+}
+
+test('representative typed activities above 20000 nodes remain bounded and collect the selected case', async () => {
+  const f = fixture(), value = summary();
+  value.activitySummaries._values.push(...Array.from({ length: 1200 }, (_, i) => ({
+    _type: { _name: 'ActionTestActivitySummary' }, title: scalar('fixture activity'),
+    activityType: scalar('com.apple.dt.xctest.activity-type.internal'), uuid: scalar(`fixture-${i}`),
+    subactivities: array([]),
+  })));
+  const data = bytes(value), nodes = countMetadataNodes(value);
+  assert.ok(nodes > 20000 && nodes < LIMITS.maxNodes); assert.equal(LIMITS.maxNodes, 32768);
+  assert.ok(data.length < LIMITS.metadata); f.objects['0~summary'] = data;
+  const result = await collectNativeFailure({ binding: binding(), io: f.io, now: f.now });
+  assert.equal(result.status, 'collected'); assert.equal(result.selected_case, caseID);
+  assert.deepEqual(result.binding, binding()); assert.equal(result.actual_UI_success, false);
+  assert.deepEqual([...f.retained.keys()], ['failure.png', 'context.txt']);
+  assert.deepEqual(f.calls.map(x => x.kind), ['root', 'object', 'object', 'export', 'export']);
+});
+
+test('optional export hierarchy absence preserves collected PNG and required context with no extra call', async () => {
+  const f = fixture();
+  const result = await collectNativeFailure({ binding: binding(), io: f.io, now: f.now });
+  assert.equal(result.status, 'collected'); assert.equal(result.incomplete_reason, null);
+  assert.deepEqual([...f.retained.keys()], ['failure.png', 'context.txt']); assert.equal(f.calls.length, 5);
+});
+
+test('optional export hierarchy retains one bounded UTF8 attachment while context stays required', async () => {
+  const f = fixture(), value = summary(), hierarchy = Buffer.from('Application\n  保存画面\n');
+  value.activitySummaries._values[0].subactivities._values[0].attachments._values.push(
+    attachment('Reading-export-cancel-hierarchy', '0~hierarchy', hierarchy.length, 'public.plain-text'));
+  f.objects['0~summary'] = bytes(value); f.payloads['0~hierarchy'] = hierarchy;
+  const result = await collectNativeFailure({ binding: binding(), io: f.io, now: f.now });
+  assert.equal(result.status, 'collected'); assert.equal(result.actual_UI_success, false); assert.equal(f.calls.length, 6);
+  assert.deepEqual([...f.retained.keys()], ['failure.png', 'context.txt', 'hierarchy.txt']);
+  assert.deepEqual(f.retained.get('hierarchy.txt'), hierarchy);
+  value.activitySummaries._values[0].subactivities._values[0].attachments._values.splice(1, 1);
+  const second = fixture(); second.objects['0~summary'] = bytes(value); second.payloads['0~hierarchy'] = hierarchy;
+  const missingContext = await collectNativeFailure({ binding: binding(), io: second.io, now: second.now });
+  assert.equal(missingContext.status, 'partial'); assert.equal(missingContext.incomplete_reason, 'known_text_attachment_missing');
+});
+
+test('optional export hierarchy duplicate names are refused even when metadata matches', () => {
+  for (const id of ['0~hierarchy', '0~secondHierarchy']) {
+    const value = summary(), entries = value.activitySummaries._values[0].subactivities._values[0].attachments._values;
+    entries.push(attachment('Reading-export-cancel-hierarchy', '0~hierarchy', 2, 'public.plain-text'),
+      attachment('Reading-export-cancel-hierarchy', id, 2, 'public.plain-text'));
+    assert.throws(() => attachmentPlan(value), /duplicate_optional_attachment/);
+  }
+});
+
+test('optional export hierarchy malformed schema size type reference or excess bytes stops before exports', async () => {
+  for (const change of [a => { a._type._name = 'Other'; }, a => { a.payloadSize._value = '01'; },
+    a => { a.payloadSize._value = String(LIMITS.hierarchy + 1); }, a => { a.uniformTypeIdentifier._value = 'public.png'; },
+    a => { a.payloadRef = ref('../escape'); }, a => { a.payloadRef = ref('0~context'); }]) {
+    const f = fixture(), value = summary(), a = attachment('Reading-export-cancel-hierarchy', '0~hierarchy', 2, 'public.plain-text');
+    change(a); value.activitySummaries._values[0].subactivities._values[0].attachments._values.push(a);
+    f.objects['0~summary'] = bytes(value);
+    const result = await collectNativeFailure({ binding: binding(), io: f.io, now: f.now });
+    assert.equal(result.status, 'incomplete'); assert.equal(result.files.length, 0);
+    assert.equal(f.calls.filter(x => x.kind === 'export').length, 0);
+  }
+});
+
+test('optional export hierarchy actual invalid UTF8 or size never retains the hierarchy', async () => {
+  for (const payload of [Buffer.from([255, 255]), Buffer.from('x')]) {
+    const f = fixture(), value = summary();
+    value.activitySummaries._values[0].subactivities._values[0].attachments._values.push(
+      attachment('Reading-export-cancel-hierarchy', '0~hierarchy', 2, 'public.plain-text'));
+    f.objects['0~summary'] = bytes(value); f.payloads['0~hierarchy'] = payload;
+    const result = await collectNativeFailure({ binding: binding(), io: f.io, now: f.now });
+    assert.equal(result.status, 'incomplete'); assert.equal(result.actual_UI_success, false);
+    assert.ok(!result.files.some(x => x.filename === 'hierarchy.txt')); assert.equal(f.retained.has('hierarchy.txt'), false);
+  }
+});

@@ -69,3 +69,19 @@ Rootは、main88のReadingRecoveryとNative基底APIだけで検査を構成で�
 直後の既存`liveResume.requireHittable`が公開一覧の操作を検証し、本文・しおり・非先頭見出しの完全表示を確認する。明示復旧後は、実際に書き出す時点の元のMore操作判定、export選択、厳密な新保存画面の識別、2回の取消と一覧復帰をそのまま実行する。同じ隔離suiteの再起動後も「続きを読む」からしおりと見出しを確認する。書き出しの受入条件は変更せず、不要だった早期の前提だけを除く。
 
 884のNative結果は履歴であり、新候補の成功には転用しない。旧記録を保持し、今回のローカルSDK・完全共通検査・実UIは容量事情により未実施とする。最終独立レビュー後、正確な新headのHosted compile・Native8・Full26・コピー／Releaseと必要CIを通して通常mainへ進む。原因の確定、新ケースの通過、実provider保存・実機等は未完了で、App0.2.28（30）とTODO32行・14完了を維持する。
+
+## 6dの実際の書き出し入口での停止と絞り込み画面からの検査
+
+2026-11-01追記。head `6d32f7c8`の[Native実行](https://github.com/pero3dev/ai-agent-library/actions/runs/41225191142)は、単体278件中276成功・2skip・失敗0、UI8件中旧7成功・新ケース1失敗だった。今回は検索取消の準備と「続きを読む」によるしおり・非先頭位置の確認、一覧への戻り、明示復旧までを通過した。実際の書き出しhelperが通常一覧の「その他の操作」を操作可能と判定できず、保存画面には到達していない。
+
+失敗後に順に得たgeometry記録では、対象は存在し、frameは画面内の`x=343, y≈58.67, 34×34`、geometryはvisibleだったが、`isHittable`はfalseだった。`fullyVisible=false`は当該helperのオプションであり、完全表示の成功結果ではない。各待機pollの値、enabled、一致件数、当該headの写真・階層はここでは未確認で、製品不具合やOS原因を確定しない。通常一覧のtoolbar Menu経路は未解決事項として残す。
+
+`LibraryView`は、絞り込みがない通常一覧ではtoolbar Menu、絞り込み中にはリスト本文のButtonから、同じ`moreActions`の公開操作を提供する。本文Buttonは「その他の操作」sheetを開き、書き出し選択後はsheetのdismissから同じ書き出し処理へ渡る。既存のPublished試験がこのsheet経路を扱い、同じ6dの復元取消ケースも検索を残した本文Buttonを17:57:23に操作して成功した。これは通常toolbar経路の成功を意味しない。
+
+今回の候補は、新ケースで明示復旧を確認した後に、公開検索へ`Transformer`を一度だけ入力する。記事や目次は開かない。検索値と「検索: Transformer」の表示を確認し、その表示を含む一意なcollection内の、一意・有効・画面内で操作可能な「その他の操作」Buttonだけを1回押す。正確なsheet名と一意・有効な書き出し操作を確認してから、元の厳密な新保存画面の識別へ続ける。別selector・座標操作・retryで失敗したtoolbarへ代替する方式ではなく、最初からこの正式な絞り込み画面の経路を検査する。
+
+検索準備は2回の取消loopの前に一度だけ行う。各取消では、元の保存画面・取消・ファイル名の消失と記事数の操作可能性に加え、同じ検索値と絞り込み表示への復帰を確認する。旧4ケースと既存helper、取消前の公開「続きを読む」、新保存context・既定名・Save/Cancelの組とframe条件、2回の取消、同じ隔離suiteの再起動後のしおりと非先頭見出しの完全表示は保持する。Save・provider・保存先URLは実行しない。
+
+6dのFull Bは本文UI前の`simctl pbcopy`がAppleの`NSPOSIXErrorDomain` code60のtimeoutで停止し、UI0件、374Bの実コピーとReleaseは未到達だった。外部の再実行要求1回は全体runの進行中を理由に403で拒否され、受理された再実行は0回である。Full Aはこの候補作成時点で継続中とし、未封印の結果を採用しない。6dの必須11検査と本文更新後のpolicy2、SDK26 Archive、Runtime26の代表3件と復旧用CIの成功は、そのheadだけの履歴であり、新候補の受入には転用しない。
+
+作者による確認はPythonの単一差分・全文逆変換と旧4ケース／既存helper／厳密picker部分のbytes一致までで、Node・SDK・実UI・Git/API操作は実施していない。Rootは別commitの小さい失敗診断を同じPRへ組み合わせる予定で、そのCode4と37件の模擬試験・ローカル保存データでの診断確認は別の記録に分ける。両方を組み合わせた新headのHosted compile・完全共通検査・Native8・固定Full26・実コピー374B／Releaseと必要CI、最終独立レビュー・通常mainは未確認である。実provider保存・外部ファイルの内容・UI越しのraw全byte一致・実機・VoiceOver等も未完了とし、App0.2.28（30）、IOS-22・25未完了、TODO32行・14完了を維持する。

@@ -468,7 +468,7 @@ jobs:
           assert.ok(['Shutdown', 'Booted'].includes(device.state), 'Only Shutdown or Booted is accepted before preparation');
           if (device.state === 'Shutdown') run('boot', ['simctl', 'boot', UUID]);
           run('bootstatus', ['simctl', 'bootstatus', UUID, '-b'], undefined, 1024 * 1024, 240000);
-          const readyRaw = run('devices-ready', ['simctl', 'list', 'devices', 'available', '--json'], undefined, 16 * 1024 * 1024);
+          const readyRaw = run('devices-ready', ['simctl', 'list', 'devices', 'available', '--json'], undefined, 16 * 1024 * 1024, 90000);
           const readyInventory = JSON.parse(readyRaw.toString('utf8'));
           assert.ok(Array.isArray(readyInventory.devices?.[runtimeID]));
           const readyMatches = readyInventory.devices[runtimeID].filter(candidate => candidate.name === 'iPhone 16');
@@ -479,7 +479,7 @@ jobs:
           assert.equal(ready.isAvailable, true); assert.equal(ready.state, 'Booted');
           const canary = Buffer.from(`AILibrary-code-copy-canary:${process.env.GITHUB_RUN_ID}:${process.env.GITHUB_RUN_ATTEMPT}:${randomUUID()}\n`, 'utf8');
           run('seed', ['simctl', 'pbcopy', UUID], canary);
-          const observed = run('canary', ['simctl', 'pbpaste', UUID]);
+          const observed = run('canary', ['simctl', 'pbpaste', UUID], undefined, 1024 * 1024, 90000);
           assert.ok(observed.equals(canary), 'Device pasteboard must first return the exact unique canary bytes');
           json('copy-device.json', { schema_version: 1, status: 'unique-device-canary-roundtrip-verified',
             repository: event.repository.full_name, run_id: process.env.GITHUB_RUN_ID, run_attempt: process.env.GITHUB_RUN_ATTEMPT,

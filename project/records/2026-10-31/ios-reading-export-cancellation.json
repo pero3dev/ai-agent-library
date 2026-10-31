@@ -1,0 +1,555 @@
+{
+  "followup_884_search_end_only": {
+    "state": "PRIVATE_SEARCH_END_ONLY_UNEXECUTED",
+    "date_JST": "2026-11-01",
+    "parent_head": "884fb38e32eff5a8999bf9cbf7bac527abb9b0b1",
+    "parent_tree": "2e9745650eeaa1631e7fbc76d625e3890faaff57",
+    "historical_scope": "Every pre-existing top-level field below is held verbatim as historical Source5/search-exit/menu-ready evidence; this object describes the current candidate.",
+    "code": {
+      "path": "ios/AILibraryUITests/ReadingRecoveryUITests.swift",
+      "before_SHA256": "2d1b057e4a5ba02ad8360e81d98e985623fb3225dffdac15001243488b06890b",
+      "before_bytes": 26086,
+      "SHA256": "e33d1f148be88d9172b26e3c7b00183db434f19b3601efd51393ba778bbdbbca",
+      "bytes": 25407
+    },
+    "head884_Native": {
+      "classification_SHA256": "7ef96ce64fcbfaea142d5e4be7261c6d7eca0be7907cd5a757cb154df962e713",
+      "raw_log_SHA256": "1e0a6e7808e780391246b6a20567b7b3fe28dcd39ec3e42a275240639ad1a2b2",
+      "run_id": 41221360266,
+      "job_id": 124596411947,
+      "attempt": 1,
+      "conclusion": "failure",
+      "unit": {
+        "total": 278,
+        "passed": 276,
+        "skipped": 2,
+        "failed": 0,
+        "notice6_actual_pass": 6,
+        "Diagnostics6_actual_pass": 6
+      },
+      "UI": {
+        "total": 8,
+        "unique": 8,
+        "passed": 7,
+        "failed": 1
+      },
+      "failure": {
+        "leaf": "ReadingRecoveryUITests/testExportFilePickerCancelKeepsHealthyPositionAndBookmarkAfterRelaunch",
+        "reported_source": "ios/AILibraryUITests/ReadingRecoveryUITests.swift:360",
+        "message": "The public search did not close to one usable unfiltered More control",
+        "seconds": 63.479,
+        "UTC": "2026-10-31T17:07:01.7189120Z",
+        "scope": "Custom readiness refusal at context/attempt0; no timeout/infra classification",
+        "last_public_tap": "2026-10-31T17:06:44.9909740Z Tap キャンセル",
+        "preceding_clear_filters_tap": "2026-10-31T17:06:42.5100960Z",
+        "last_queries": "Cancel/More match counts and More/Button geometry lookup untilt62.34; actual values not echoed",
+        "attachments": [
+          "Added attachment named 'Reading-export-cancel-0-failed'",
+          "Added attachment named 'Reading-export-cancel-context'"
+        ]
+      },
+      "new_export_acceptance": {
+        "case": false,
+        "menu_tap": "not observed",
+        "SaveDialog": "not observed",
+        "cancel1": "not reached",
+        "cancel2": "not reached",
+        "postcancel_relaunch": "not reached",
+        "provider_write_or_final_backup_bytes_or_physical": false
+      },
+      "artifact_downloaded_for_this_followup": false,
+      "external_retry": 0,
+      "scope": "Only the saved Native classification and exact raw log are included here; no unsealed Full result is adopted."
+    },
+    "LibraryView_static_rules": {
+      "isBusy": "store.isLoading || bundledPreviewing || bundledActivating",
+      "toolbar_More": "Present when !isFiltering; disabled(isBusy). Recovery notice is not a Menu condition.",
+      "export_action": "Present when allowsReadingBackup; disabled(readingSaveSuspended). The test invokes it after explicit recovery.",
+      "inference_limit": "Source conditions do not establish the exact 884 false component or AX state."
+    },
+    "change": {
+      "scope": "Remove only the early More query/count/readiness prerequisite after the single public search-Cancel tap.",
+      "finished_predicate": "Read scoped cancels.count once per poll; record that already-read count; complete only at zero within the same15s cap.",
+      "retained": "Unique visible scoped search-Cancel, finite contained frames, single tap, immediate liveResume.requireHittable and body/bookmark/fullyVisible heading witnesses; after recovery the original actual More requireHittable/default, export action, strict save picker, two cancels, same-suite relaunch and final witnesses are byte-held.",
+      "no_extra_AX_or_late_hierarchy": true,
+      "existing_context_cap_bytes": 1024,
+      "no_alternate_selector_coordinates_retry_or_App_change": true,
+      "cause_status": "Test-design prerequisite removed; exact 884 false component/AX coordinates and product cause remain unproven."
+    },
+    "public_sequence": [
+      "Establish healthy Transformer bookmark and non-initial heading in the isolated partial-reading suite; clear public filters.",
+      "Confirm one foreground scoped visible public search Cancel, tap once, then wait only for its count to become zero.",
+      "Immediately require and tap public Continue; verify native body, bookmark and fullyVisible saved heading; return to library.",
+      "Confirm explicit reading recovery; require recovery notice gone.",
+      "Twice require and tap the original public More, choose export, identify the strict new filename/Save/Cancel context, cancel only and verify usable library.",
+      "Relaunch the same isolated suite; directly use public Continue and verify bookmark and fullyVisible saved heading."
+    ],
+    "validation": {
+      "author_static": "one exact replacement and full inverse; all outside code bytes, old record prefix/tail, index inverses, nonowned2847 and TODO32raw14 held",
+      "independent_Code1_Docs4_review": "pending at author seal",
+      "new_local_SDK_full_common": "not run; low capacity, no floor exception",
+      "new_exact_head_CI": "fresh Hosted compile/Native8/Full26/copy/Release and required full common CI before main",
+      "physical_provider_final_bytes": "unfinished; not part of this cancellation-only followup"
+    },
+    "App": "0.2.28(30) unchanged",
+    "TODO": {
+      "total": 32,
+      "complete": 14,
+      "IOS22_complete": false,
+      "IOS25_complete": false
+    }
+  },
+  "followup_546_more_ready": {
+    "state": "PRIVATE_MENU_READY_STANDARD_ALIGNMENT_UNEXECUTED",
+    "date_JST": "2026-11-01",
+    "parent_head": "546dd69bd919d9ef0254016d38dc63377e671ac2",
+    "parent_tree": "cd19808bcfb70e36115c6bb6ca68ce6549f0d145",
+    "old_root_fields_scope": "The original root fields below remain verbatim historical Source5/search-exit records; this object is the current followup.",
+    "code": {
+      "path": "ios/AILibraryUITests/ReadingRecoveryUITests.swift",
+      "before_SHA256": "5bb2f873ab8f584ee11a44c6946543e29098e4ac1bf018ce0811b35a624d06ee",
+      "before_bytes": 25461,
+      "SHA256": "2d1b057e4a5ba02ad8360e81d98e985623fb3225dffdac15001243488b06890b",
+      "bytes": 26086
+    },
+    "head546_CI": {
+      "sealed_result_SHA256": "432712cec26ca4fcd5fe8761bfd48fe5a64a47a9122bf810593b151435318a6e",
+      "Native": {
+        "run_id": 41215473763,
+        "job_id": 124578968955,
+        "attempt": 1,
+        "conclusion": "failure",
+        "units": {
+          "total": 278,
+          "passed": 276,
+          "skipped": 2,
+          "failed": 0,
+          "notice6_actual_pass": 6,
+          "Diagnostics6_actual_pass": 6
+        },
+        "UI": {
+          "total": 8,
+          "unique": 8,
+          "passed": 7,
+          "failed": 1
+        },
+        "new_case_failure": {
+          "leaf": "ReadingRecoveryUITests/testExportFilePickerCancelKeepsHealthyPositionAndBookmarkAfterRelaunch",
+          "reported_source": "ios/AILibraryUITests/ReadingRecoveryUITests.swift:349",
+          "message": "The public search did not close to one usable unfiltered More control",
+          "seconds": 72.44,
+          "UTC": "2026-10-31T16:06:08.7870230Z",
+          "scope": "Custom search-exit preparation refusal, context/attempt0; exact false predicate component not available in console",
+          "last_public_tap": "2026-10-31T16:05:50.8603020Z Tap キャンセル",
+          "preceding_clear_filters_tap": "2026-10-31T16:05:47.7008080Z",
+          "last_queries": "Cancel and More counts; More Button/element frame lookup untilt70.28; no numeric predicate results in raw",
+          "attachments": [
+            "Added attachment named 'Reading-export-cancel-0-failed'",
+            "Added attachment named 'Reading-export-cancel-context'"
+          ]
+        },
+        "new_export_acceptance": {
+          "case": false,
+          "SaveDialog": "not observed",
+          "cancel1": "not observed",
+          "cancel2": "not observed",
+          "postcancel_relaunch": "not reached",
+          "provider_write_or_final_backup_bytes_or_physical": false
+        },
+        "Release": "skipped",
+        "evidence": {
+          "SHA256": "66815bf28efb78d931df453d054581e6a7401b4344111a270586444a2922fbba"
+        }
+      },
+      "FullA": {
+        "run_id": 41215473873,
+        "job_id": 124578969459,
+        "attempt": 1,
+        "conclusion": "success",
+        "units": {
+          "total": 278,
+          "passed": 276,
+          "skipped": 2,
+          "failed": 0
+        },
+        "UI": {
+          "total": 18,
+          "unique": 18,
+          "passed": 18,
+          "classes": {
+            "NativeReaderUITests": 3,
+            "PublishedReaderUITests": 9,
+            "ReaderViewportGeometryTests": 6
+          }
+        },
+        "literal_full_common": {
+          "literal": "npm run check",
+          "total": 1214,
+          "passed": 1199,
+          "failed": 0,
+          "skipped": 15,
+          "test_duration_ms": 49011.88125,
+          "pipeline_commands": [
+            "npm test",
+            "npm run ios:test:icon",
+            "npm run lint:md",
+            "npm run validate",
+            "npm run links",
+            "npm run check:levels",
+            "npm run todos",
+            "npm run check:harness"
+          ],
+          "all_eight_pipeline_commands_completed": true,
+          "scope": "Actual current-head macOS full pipeline; historical1214 projection was not used as result"
+        },
+        "evidence": {
+          "SHA256": "c487c5579e358b842c97c5131bf4d459abdaa0244091d7247c946cf4713d86f9"
+        }
+      },
+      "FullB": {
+        "run_id": 41215473873,
+        "job_id": 124578969565,
+        "attempt": 1,
+        "conclusion": "success",
+        "UI": {
+          "total": 8,
+          "unique": 8,
+          "passed": 8
+        },
+        "copy": {
+          "source_expected_bytes": 374,
+          "actual_exact_equality_guard_passed": true,
+          "actual_guard_success_once": {
+            "line": 12366,
+            "text": "2026-10-31T15:58:17.7164190Z Verified exact 374-byte first code copy on the actual UI destination."
+          },
+          "expected_SHA256": "e29cb525957fb4bd72350927aa1cf47659da4aef9964ecbf0d43edb4dfe2cee8",
+          "hash_scope": "actual.equals(expected) established by terminal successful control flow and once-only real marker; actualSHA JSON written by workflow but not echoed or downloaded",
+          "actual_SHA256_JSON_directly_observed": false,
+          "actual_pbpaste_exit_success": true,
+          "SourceUIleaf_and_independent_probe_distinguished": true
+        },
+        "Release": {
+          "status": "passed actual console JSON",
+          "articles": 199,
+          "audio": 1,
+          "verified_files": 625,
+          "verified_bytes": 36958866,
+          "test_content_absent": true,
+          "lines": [
+            13918,
+            13928
+          ]
+        },
+        "icon": {
+          "status": "passed",
+          "scope": "built-AppIcon-file-and-CAR-metadata-only",
+          "line": 13932,
+          "not_visual_or_physical_acceptance": true
+        },
+        "evidence": {
+          "SHA256": "dcb673b6df6349033273e84f57251201b48462076ee971b42f6ad1541b60991c"
+        }
+      },
+      "external_reruns_reported": 0
+    },
+    "failure_evidence": {
+      "raw_log_SHA256": "4e581f12ad0e0f60c2f967fb6e5e6f6c0c157b4d4add36a6bdaf2809536a58c1",
+      "saved_screenshot_SHA256": "44cfddd5d2540526c6e3da5e2fdf29b57ca10034cc14c1934849c11be1d77c33",
+      "screenshot_bytes": 309634,
+      "observed": "Search Cancel is gone, normal large-title library and top-right ellipsis are visible; recovery notice and Resume remain.",
+      "context_limit": "Only114-byte phase context was captured; no numeric AX frame or false predicate component was saved.",
+      "cause_status": "Exact clipping, overlap, geometry or isHittable cause unproven; no fileExporter/provider/record-loss cause inferred."
+    },
+    "change": {
+      "scope": "Only the added More-ready predicate uses isHittableOnScreen defaultfalse, the existing public-control tap standard.",
+      "retained": "Search Cancel gone and unique More count; search-Cancel preparation and every functional/strict Savepicker condition unchanged.",
+      "sampled_context": "Read Cancel count once; only ifzero read More count once; only ifone read ready once. Store already-read values, with not-read for shortcircuited getters.",
+      "no_extra_AX_or_late_hierarchy": true,
+      "existing_context_cap_bytes": 1024,
+      "new_UI8_acceptance": "pending"
+    },
+    "validation": {
+      "author_static": "one predicate change and full inverse/old4cases/helpers identity only",
+      "independent_Code1_Docs4_review": "pending at author seal",
+      "new_local_SDK_full_common": "not run; no capacity-floor exception",
+      "new_exact_head_CI": "fresh Hosted compile/Native8/Full26/copy/Release and required full common CI before main",
+      "physical_provider_final_bytes": "unfinished; not part of this private followup"
+    },
+    "App": "0.2.28(30) unchanged",
+    "TODO": {
+      "total": 32,
+      "complete": 14,
+      "IOS22_complete": false,
+      "IOS25_complete": false
+    }
+  },
+  "schema_version": 1,
+  "state": "PRIVATE_PR321_SEARCH_EXIT_FOLLOWUP_UNEXECUTED",
+  "date": "2026-10-31",
+  "purpose": "One public reading-backup exporter cancellation regression preserving healthy bookmark and reading position",
+  "authority": "User requested autonomous TODO work and allowed physical checks to remain incomplete; Root delegated private candidate only.",
+  "base_main_reported_by_Root": "88c9ac391459ead50cf5e28b25918f97ac9332cf",
+  "code": {
+    "path": "ios/AILibraryUITests/ReadingRecoveryUITests.swift",
+    "mode": "100644",
+    "before_bytes": 22750,
+    "before_SHA256": "80f8223b021d43eaf23914cf8e0cad6a40f832167dbdff99ef4bf99b2eddf25a",
+    "before_blob_oid": "2d5e201ad54b256ccaa1d538b83e1155dc084c1a",
+    "bytes": 25461,
+    "SHA256": "5bb2f873ab8f584ee11a44c6946543e29098e4ac1bf018ce0811b35a624d06ee",
+    "blob_oid": "90b3cf2774653803c6e881c1916ecc3c7360f96a"
+  },
+  "production_changes": false,
+  "new_case": "testExportFilePickerCancelKeepsHealthyPositionAndBookmarkAfterRelaunch",
+  "existing_recovery_cases": [
+    "testCancelKeepsRecoveryNoticeAfterRelaunch",
+    "testConfirmedRecoveryPreservesReadableAndCurrentBookmarksAfterRelaunch",
+    "testRestoreFilePickerCancelKeepsHealthyBookmarksAfterRelaunch",
+    "testConfirmedRecoveryPreservesCurrentPositionAndBookmarkAfterRelaunch"
+  ],
+  "preserved": "Removing the one insertion recovers exact before bytes; all old cases/helpers unchanged. App, PBX, workflows, base Native helper and content unchanged.",
+  "public_sequence": [
+    "isolated partial-recovery suite",
+    "Transformer bookmark and noninitial heading",
+    "Finish the known active public search via its scoped unique Cancel once; wait usable unfiltered More before liveResume",
+    "public Continue verifies live position before explicit recovery",
+    "explicit recovery confirmation and healthy public state",
+    "More then library-export-reading",
+    "new exact navigation context + one matching editable filename + Save/Cancel pair",
+    "Cancel and usable library; repeat once",
+    "same-suite relaunch then public Continue verifies bookmark and fully visible noninitial heading"
+  ],
+  "system_picker_contract": {
+    "status": "Unobserved candidate; fail closed until exact-head hosted evidence",
+    "context": "Identifier+label pair not present before export; exactly one matching navigation bar, one cancellable button and one Save-labelled button inside it",
+    "filename_values": [
+      "AI-Agent-Library-Reading-Backup",
+      "AI-Agent-Library-Reading-Backup.json"
+    ],
+    "cancel_labels": [
+      "キャンセル",
+      "Cancel"
+    ],
+    "save_context_labels": [
+      "保存",
+      "Save"
+    ],
+    "save_is_never_executed": true,
+    "provider_chosen_or_file_written": false,
+    "geometry": "Finite nonempty app/bar/button/filename frames; bar/buttons contained; filename on app; Cancel enabled and hittable",
+    "rebind": "Exact identifier+label query, not an index that can retarget a background bar",
+    "diagnostic": "One failure-only screenshot and at-most-1024-byte fixed reason/iteration/already-sampled filename/save/cancel counts; no added hierarchy or debugDescription query",
+    "initial_b4d_runtime_evidence": "not entered; Save/Cancel/provider layout remains unaccepted"
+  },
+  "static_selection": {
+    "NativeReaderUITests": 3,
+    "ReadingRecoveryUITests_before": 4,
+    "ReadingRecoveryUITests_after": 5,
+    "expected_native_total": 8,
+    "native_selector": "Existing whole-class selection; workflow unchanged",
+    "Full26": "Fixed selectors unaffected; ReadingRecoveryUITests absent from Full selector workflow source"
+  },
+  "validation": {
+    "source_inverse_fullbyte": "Removing updated insertion recovers exact original4cases/helpers5f; Root code proof confirms two insertions only from80f",
+    "SDK_typecheck": "new code5bb not run locally; exact-head hosted compile required",
+    "npm_run_check": "not run for followup; initial b4d macOS1214=1199pass15skip0fail is history only",
+    "independent_review": "Root code proof saved; final Code1/Docs4 independent review pending at author seal",
+    "exact_head_CI": "new head Native8, fixed Full26, copy/Release and required full common/CI pending",
+    "actual_new_case": "not run for new code; first b4d was7pass1fail before More",
+    "Git_branch_PR_main": "no action by this private author"
+  },
+  "unfinished": [
+    "actual save-dialog identification and cancellation",
+    "actual Native8 and required exact-head CI",
+    "real provider export and external file contents",
+    "raw persistence byte identity via UI",
+    "actual iOS17 and iOS26 for this case",
+    "VoiceOver",
+    "physical device and signing/profile renewal",
+    "Current main88 exact SDK/hosted compile and full common, focused graph/docs review, Native8 and required CI"
+  ],
+  "TODO": {
+    "total": 32,
+    "complete": 14,
+    "IOS22_complete": false,
+    "IOS25_complete": false
+  },
+  "actual_base_main_reported_by_Root": "88c9ac391459ead50cf5e28b25918f97ac9332cf",
+  "base_tree": "42a595f687677ceda2203873f01a0864b06f43f6",
+  "base_tracked": 2850,
+  "dependency_choice": {
+    "ReadingRecovery_before_SHA256": "5f039b1873fc4a7f5396e9f4545502d4b4f86ce39a18e58786e672563cd5360b",
+    "Native_base_SHA256": "00e75a518b7af8a69679adb9771c2e6d584c466c91e39c7e68b2ea75956c707c",
+    "new_UI_code_SHA256": "80f8223b021d43eaf23914cf8e0cad6a40f832167dbdff99ef4bf99b2eddf25a",
+    "existing_Native_API_names_present": [
+      "open",
+      "goToContents",
+      "element",
+      "requireNativeBody",
+      "requireHittable",
+      "isHittableOnScreen",
+      "capture"
+    ],
+    "all_ReadingRecovery_old_methods_helpers_fullbyte_held": true,
+    "source_product_dependency_on_PR320": false,
+    "unpublished_PR320_App_ReaderReflow_workflow_helper_unit_records_included": false,
+    "decision": "Root verified APIs already present in adopted main88 and resumed independent IOS22/25 work while PR320 stays unfinished."
+  },
+  "source3_static_review": {
+    "SHA256": "59c400834316855f67a01d4a5198e01501375f5eb6e78388a2652e3e6ba6db22",
+    "P1_count": 0,
+    "P2_count": 0,
+    "scope": "unchanged code80f only; current main88 binding/docs addendum pending"
+  },
+  "historical_only": {
+    "prior_Source5_base": "9eca95f3fe571291999803424e724bd733583db2",
+    "prior_Source5_packet_manifest_SHA256": "7b183862736a581fe1f4850e791099b3cbd27c8757a25705b376c5312f92a81c",
+    "prior_Source5_review_SHA256": "e806df75b7773a92eb4326be7f32295e53c36c03b8ec98b1a532c71fe3a1e102",
+    "prior_9eca_UI6_SDK_result_SHA256": "44e0a557a8dd709375957faf2dfe200f0030f772f542a8b046361e1386d3085a",
+    "limits": "Former 9eca graph review and SDK0 are history, not current-main88 graph or SDK acceptance. Original packets remain immutable."
+  },
+  "publication_state": "Private two-commit followup proposal on public b4d; ordinary FF/update and required new-head CI owned by Root; no main adoption claimed",
+  "followup_date_JST": "2026-11-01",
+  "parent_PR321_head": "b4d5f04901984399333aeae9b21263b2c2020ed0",
+  "parent_tree": "5b8db0d8bdac21e223c82455c4360f915651b711",
+  "initial_source5_history": {
+    "state": "PRIVATE_SOURCE5_ACTUAL_MAIN88_INDEPENDENT_UNIT",
+    "code": {
+      "path": "ios/AILibraryUITests/ReadingRecoveryUITests.swift",
+      "mode": "100644",
+      "before_bytes": 14070,
+      "before_SHA256": "5f039b1873fc4a7f5396e9f4545502d4b4f86ce39a18e58786e672563cd5360b",
+      "before_blob_oid": "d1f5e0f24c1ba57c3324647f2a0e5e31e7fff79c",
+      "bytes": 22750,
+      "SHA256": "80f8223b021d43eaf23914cf8e0cad6a40f832167dbdff99ef4bf99b2eddf25a",
+      "blob_oid": "2d5e201ad54b256ccaa1d538b83e1155dc084c1a"
+    },
+    "validation": {
+      "source_inverse_fullbyte": "passed pure-data check",
+      "existing_cases_helpers": "held byte-for-byte",
+      "SDK_typecheck": "Current exact main88 UI5+code80f preflight SKIPPED_LOW_CAPACITY; compiler not started, unverified. Older 9eca UI6 exit0 is historical only.",
+      "npm_run_check": "Not run for this actual-main88 Source5. Capacity floor or exact-head hosted full common required; no current result is claimed.",
+      "independent_review": "Source3 code review P1/P2zero carried for unchanged code; current graph/docs addendum after current checks pending",
+      "exact_head_CI": "Not run; actual-head hosted compile/Native8/full common and required CI must pass before ordinary main",
+      "actual_new_case": "not performed",
+      "Git_branch_PR_main": "not performed",
+      "new_failure_diagnostic": "No debugDescription in insertion; existing helpers unchanged"
+    },
+    "local_SDK_preflight": {
+      "state": "SKIPPED_LOW_CAPACITY",
+      "reported_by": "Root",
+      "compiler_started": false,
+      "input_copy_started": false,
+      "receipt_status": "durable Root skip receipt read",
+      "required_free_bytes": 734003200,
+      "later_measured_free_bytes": 552894464,
+      "later_measurement_UTC": "2026-10-31T14:05",
+      "exact_guard_instant_free_value": "not recorded",
+      "interpretation": "Preflight stopped before compiler/input copy. No source/typecheck failure or current-main success is claimed.",
+      "receipt_SHA256": "d3158258f3191c8189d01e58edd79d41acc7fd232b95c9f0cd6e12df1e05d553"
+    }
+  },
+  "initial_b4d_CI": {
+    "sealed_result_SHA256": "3b3b1a4bc0bf6e123ac47d60487809e2dec26513fdee9697dc3a3f6f003f7083",
+    "Native": {
+      "run": 41210390667,
+      "job": 124563982370,
+      "attempt": 1,
+      "job_conclusion": "failure",
+      "units": {
+        "total": 278,
+        "passed": 276,
+        "skipped": 2,
+        "failed": 0,
+        "notice6_actual_pass": 6,
+        "Diagnostics6_actual_pass": 6
+      },
+      "UI": {
+        "total": 8,
+        "passed": 7,
+        "failed": 1
+      },
+      "new_case": "failed before first More tap; SaveDialog/cancel/relaunch not reached",
+      "Release": "skipped"
+    },
+    "macOS_full_common": {
+      "literal": "npm run check",
+      "total": 1214,
+      "passed": 1199,
+      "skipped": 15,
+      "failed": 0,
+      "test_duration_ms": 43904.561083,
+      "all_eight_commands_completed": true,
+      "metadata_step_conclusion": "success",
+      "pipeline_commands": [
+        "npm test",
+        "npm run ios:test:icon",
+        "npm run lint:md",
+        "npm run validate",
+        "npm run links",
+        "npm run check:levels",
+        "npm run todos",
+        "npm run check:harness"
+      ],
+      "scope": "Actual exact-head macOS CI; local14skip and unmergedPR3201238 not substituted"
+    },
+    "FullA": {
+      "run": 41210390660,
+      "job": 124563982502,
+      "attempt": 1,
+      "job_conclusion": "success",
+      "units": {
+        "total": 278,
+        "passed": 276,
+        "skipped": 2,
+        "failed": 0,
+        "summary_lines": [
+          15330,
+          15332
+        ]
+      },
+      "UI": {
+        "total": 18,
+        "unique": 18,
+        "passed": 18,
+        "classes": {
+          "NativeReaderUITests": 3,
+          "PublishedReaderUITests": 9,
+          "ReaderViewportGeometryTests": 6
+        }
+      }
+    },
+    "FullB": {
+      "run": 41210390660,
+      "job": 124563982260,
+      "attempt": 1,
+      "job_conclusion": "failure",
+      "stage": "pre-UI canary seed xcrun simctl pbcopy timeout30000ms",
+      "UI_actual": 0,
+      "copy374": "not reached",
+      "Release199_audio1_625_fixtureAbsent": "not reached"
+    },
+    "new_case_acceptance": "not accepted; failed before first More tap and fileExporter entry"
+  },
+  "failure_diagnosis": {
+    "diagnosis_SHA256": "3203a82657297f129c321c42550cd136622d138993a683af383a682a9ac3321f",
+    "hierarchy_SHA256": "969bbf708a3ee8376b68365e146b411e15e21cf09a325cea1c7072316ab47e70",
+    "screenshot_SHA256": "a613729bf16d55acbe777c09913182d63dfc0d88a5511cfccce716d5b414c079",
+    "observed": "Foreground AI Agent Library navigation bar has the empty search field and public Cancel; no More exists. Clearing filter query left the search session active.",
+    "not_proven": [
+      "fileExporter or Cancel defect",
+      "bookmark or reading-state loss",
+      "new case end-to-end success"
+    ]
+  },
+  "search_preparation_fix": {
+    "placement": "After the existing new-case clearFilters tap, before liveResume",
+    "operation": "Exactly one tap of unique fully visible Japanese Cancel scoped to the observed library navigation bar/search field",
+    "conditions": "One library bar, one observed search field and Cancel; finite nonempty contained frames; then Cancel absent and exactly one fully visible usable existing More control",
+    "no_alternate_More_selector": true,
+    "no_export_retry_or_extra_provider_action": true,
+    "Root_code_proof_SHA256": "d2d26c1337369f19a9e2b9fbed6d83500189ab899896d94c0b8cf75ef6f28748",
+    "actual_new_head_UI": "pending"
+  }
+}

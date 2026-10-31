@@ -1,5 +1,7 @@
 # iOS完成版に向けたTODO
 
+IOS-22・25の[書き出し取消UI候補](../../records/2026-10-31/ios-reading-export-cancellation.md)は、884で早期More待機に失敗し、Native旧7成功・新1失敗、書き出し未到達だった。検索終了後に後段のメニューを先に要求する条件だけを除き、一意・前面の公開取消を1回押して同じ15秒枠で消失を待つ。直後の復帰確認と、明示復旧後の実際のMore・export・厳密な保存画面・2回取消・再起動を保持する。884のfalse条件は未確定、新headのHosted compile・Native8・必要CIと通常main、provider・実機を残し、TODO32行14完了を維持する。
+
 IOS-15の[Notice対応Core観測の固定入口とHosted事前検査案](../../records/2026-10-31/ios-notice-core-hosted-observation.md)では、固定verifier2＋Hosted実行面3の計5sourceを準備する。local3.8GB条件を下げず、Hostedで独立の26fake／Node22構文/schemaが成功した場合だけCore180秒へ進む案で、Hosted実行・新head共通／CI／mainは未確認である。先行PR316と回転UI単位の通常mainを引き継いだ実parent `84f8f3ea1e1a4d3e2c809130af6a0388b7f24564` への提出候補として、App版不変更・TODO32行／14完了を維持する。
 
 [固定列幅表の回転後の読書位置回帰](../../records/2026-10-31/ios-reader-rotation-regression.md)では、Reflowの9d初回はUI開始前約193秒とcase約46秒で240秒枠を使い切り、同条件1回の再実行はbuild後native監査のdefault30秒で停止した。監査4呼出へ明示120秒、共有UI420秒・step8分・job43分へ配分する候補で、共有content/build上限と全監査・厳密判定は保つ。効果と新head専用1件／通常CI／mainは未確認。App0.2.28（30）・TODO32行／14完了と実機等の未完了を維持する。

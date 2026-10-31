@@ -1,6 +1,6 @@
 # iOS完成版に向けたTODO
 
-IOS-22・25の[書き出し取消UI候補](../../records/2026-10-31/ios-reading-export-cancellation.md)では、main88の既存APIだけでしおりと非先頭位置、公開の取消・再表示・同suite再起動後の「続きを読む」を検査する。文字サイズ回帰の未公開sourceを混ぜず独立した単位とし、コード80fとSource3静的レビュー指摘0を保持する。旧9ecaのSDK0は履歴で、今回のSDKは容量事前条件でcompiler開始前に停止、新共通検査と実UIも未実施である。通常main前に正確なheadのHosted compile・Native8・完全な共通検査と最終追補レビューを通す。provider保存・実機とIOS-22/25、TODO32行/14完了を維持する。
+IOS-22・25の[書き出し取消UI候補](../../records/2026-10-31/ios-reading-export-cancellation.md)は、PR321初回b4dで検索UIが有効なままMore待機に失敗し、UI7成功・新1失敗だった。実画面・階層に合わせ、新ケースのフィルター解除直後に前面の一意な検索「キャンセル」を1回押し、既存Moreが使える状態を確認する候補とする。旧4件・全helper・位置/しおり・保存画面条件とAppを保持する。旧共通1214・Full A18成功とB UI0を履歴に保ち、新headのHosted compile・Native8・Full26・完全共通/必要CIと通常mainを残す。provider・実機とTODO32行/14完了は維持する。
 
 IOS-15の[Notice対応Core観測の固定入口とHosted事前検査案](../../records/2026-10-31/ios-notice-core-hosted-observation.md)では、固定verifier2＋Hosted実行面3の計5sourceを準備する。local3.8GB条件を下げず、Hostedで独立の26fake／Node22構文/schemaが成功した場合だけCore180秒へ進む案で、Hosted実行・新head共通／CI／mainは未確認である。先行PR316と回転UI単位の通常mainを引き継いだ実parent `84f8f3ea1e1a4d3e2c809130af6a0388b7f24564` への提出候補として、App版不変更・TODO32行／14完了を維持する。
 

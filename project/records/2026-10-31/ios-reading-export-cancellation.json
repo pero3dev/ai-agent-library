@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "state": "PRIVATE_SOURCE5_ACTUAL_MAIN88_INDEPENDENT_UNIT",
+  "state": "PRIVATE_PR321_SEARCH_EXIT_FOLLOWUP_UNEXECUTED",
   "date": "2026-10-31",
   "purpose": "One public reading-backup exporter cancellation regression preserving healthy bookmark and reading position",
   "authority": "User requested autonomous TODO work and allowed physical checks to remain incomplete; Root delegated private candidate only.",
@@ -8,12 +8,12 @@
   "code": {
     "path": "ios/AILibraryUITests/ReadingRecoveryUITests.swift",
     "mode": "100644",
-    "before_bytes": 14070,
-    "before_SHA256": "5f039b1873fc4a7f5396e9f4545502d4b4f86ce39a18e58786e672563cd5360b",
-    "before_blob_oid": "d1f5e0f24c1ba57c3324647f2a0e5e31e7fff79c",
-    "bytes": 22750,
-    "SHA256": "80f8223b021d43eaf23914cf8e0cad6a40f832167dbdff99ef4bf99b2eddf25a",
-    "blob_oid": "2d5e201ad54b256ccaa1d538b83e1155dc084c1a"
+    "before_bytes": 22750,
+    "before_SHA256": "80f8223b021d43eaf23914cf8e0cad6a40f832167dbdff99ef4bf99b2eddf25a",
+    "before_blob_oid": "2d5e201ad54b256ccaa1d538b83e1155dc084c1a",
+    "bytes": 25461,
+    "SHA256": "5bb2f873ab8f584ee11a44c6946543e29098e4ac1bf018ce0811b35a624d06ee",
+    "blob_oid": "90b3cf2774653803c6e881c1916ecc3c7360f96a"
   },
   "production_changes": false,
   "new_case": "testExportFilePickerCancelKeepsHealthyPositionAndBookmarkAfterRelaunch",
@@ -27,6 +27,7 @@
   "public_sequence": [
     "isolated partial-recovery suite",
     "Transformer bookmark and noninitial heading",
+    "Finish the known active public search via its scoped unique Cancel once; wait usable unfiltered More before liveResume",
     "public Continue verifies live position before explicit recovery",
     "explicit recovery confirmation and healthy public state",
     "More then library-export-reading",
@@ -53,7 +54,8 @@
     "provider_chosen_or_file_written": false,
     "geometry": "Finite nonempty app/bar/button/filename frames; bar/buttons contained; filename on app; Cancel enabled and hittable",
     "rebind": "Exact identifier+label query, not an index that can retarget a background bar",
-    "diagnostic": "One failure-only screenshot and at-most-1024-byte fixed reason/iteration/already-sampled filename/save/cancel counts; no added hierarchy or debugDescription query"
+    "diagnostic": "One failure-only screenshot and at-most-1024-byte fixed reason/iteration/already-sampled filename/save/cancel counts; no added hierarchy or debugDescription query",
+    "initial_b4d_runtime_evidence": "not entered; Save/Cancel/provider layout remains unaccepted"
   },
   "static_selection": {
     "NativeReaderUITests": 3,
@@ -64,15 +66,13 @@
     "Full26": "Fixed selectors unaffected; ReadingRecoveryUITests absent from Full selector workflow source"
   },
   "validation": {
-    "source_inverse_fullbyte": "passed pure-data check",
-    "existing_cases_helpers": "held byte-for-byte",
-    "SDK_typecheck": "Current exact main88 UI5+code80f preflight SKIPPED_LOW_CAPACITY; compiler not started, unverified. Older 9eca UI6 exit0 is historical only.",
-    "npm_run_check": "Not run for this actual-main88 Source5. Capacity floor or exact-head hosted full common required; no current result is claimed.",
-    "independent_review": "Source3 code review P1/P2zero carried for unchanged code; current graph/docs addendum after current checks pending",
-    "exact_head_CI": "Not run; actual-head hosted compile/Native8/full common and required CI must pass before ordinary main",
-    "actual_new_case": "not performed",
-    "Git_branch_PR_main": "not performed",
-    "new_failure_diagnostic": "No debugDescription in insertion; existing helpers unchanged"
+    "source_inverse_fullbyte": "Removing updated insertion recovers exact original4cases/helpers5f; Root code proof confirms two insertions only from80f",
+    "SDK_typecheck": "new code5bb not run locally; exact-head hosted compile required",
+    "npm_run_check": "not run for followup; initial b4d macOS1214=1199pass15skip0fail is history only",
+    "independent_review": "Root code proof saved; final Code1/Docs4 independent review pending at author seal",
+    "exact_head_CI": "new head Native8, fixed Full26, copy/Release and required full common/CI pending",
+    "actual_new_case": "not run for new code; first b4d was7pass1fail before More",
+    "Git_branch_PR_main": "no action by this private author"
   },
   "unfinished": [
     "actual save-dialog identification and cancellation",
@@ -124,18 +124,147 @@
     "prior_9eca_UI6_SDK_result_SHA256": "44e0a557a8dd709375957faf2dfe200f0030f772f542a8b046361e1386d3085a",
     "limits": "Former 9eca graph review and SDK0 are history, not current-main88 graph or SDK acceptance. Original packets remain immutable."
   },
-  "current_main88_SDK_preflight": {
-    "state": "SKIPPED_LOW_CAPACITY",
-    "reported_by": "Root",
-    "compiler_started": false,
-    "input_copy_started": false,
-    "receipt_status": "durable Root skip receipt read",
-    "required_free_bytes": 734003200,
-    "later_measured_free_bytes": 552894464,
-    "later_measurement_UTC": "2026-10-31T14:05",
-    "exact_guard_instant_free_value": "not recorded",
-    "interpretation": "Preflight stopped before compiler/input copy. No source/typecheck failure or current-main success is claimed.",
-    "receipt_SHA256": "d3158258f3191c8189d01e58edd79d41acc7fd232b95c9f0cd6e12df1e05d553"
+  "publication_state": "Private two-commit followup proposal on public b4d; ordinary FF/update and required new-head CI owned by Root; no main adoption claimed",
+  "followup_date_JST": "2026-11-01",
+  "parent_PR321_head": "b4d5f04901984399333aeae9b21263b2c2020ed0",
+  "parent_tree": "5b8db0d8bdac21e223c82455c4360f915651b711",
+  "initial_source5_history": {
+    "state": "PRIVATE_SOURCE5_ACTUAL_MAIN88_INDEPENDENT_UNIT",
+    "code": {
+      "path": "ios/AILibraryUITests/ReadingRecoveryUITests.swift",
+      "mode": "100644",
+      "before_bytes": 14070,
+      "before_SHA256": "5f039b1873fc4a7f5396e9f4545502d4b4f86ce39a18e58786e672563cd5360b",
+      "before_blob_oid": "d1f5e0f24c1ba57c3324647f2a0e5e31e7fff79c",
+      "bytes": 22750,
+      "SHA256": "80f8223b021d43eaf23914cf8e0cad6a40f832167dbdff99ef4bf99b2eddf25a",
+      "blob_oid": "2d5e201ad54b256ccaa1d538b83e1155dc084c1a"
+    },
+    "validation": {
+      "source_inverse_fullbyte": "passed pure-data check",
+      "existing_cases_helpers": "held byte-for-byte",
+      "SDK_typecheck": "Current exact main88 UI5+code80f preflight SKIPPED_LOW_CAPACITY; compiler not started, unverified. Older 9eca UI6 exit0 is historical only.",
+      "npm_run_check": "Not run for this actual-main88 Source5. Capacity floor or exact-head hosted full common required; no current result is claimed.",
+      "independent_review": "Source3 code review P1/P2zero carried for unchanged code; current graph/docs addendum after current checks pending",
+      "exact_head_CI": "Not run; actual-head hosted compile/Native8/full common and required CI must pass before ordinary main",
+      "actual_new_case": "not performed",
+      "Git_branch_PR_main": "not performed",
+      "new_failure_diagnostic": "No debugDescription in insertion; existing helpers unchanged"
+    },
+    "local_SDK_preflight": {
+      "state": "SKIPPED_LOW_CAPACITY",
+      "reported_by": "Root",
+      "compiler_started": false,
+      "input_copy_started": false,
+      "receipt_status": "durable Root skip receipt read",
+      "required_free_bytes": 734003200,
+      "later_measured_free_bytes": 552894464,
+      "later_measurement_UTC": "2026-10-31T14:05",
+      "exact_guard_instant_free_value": "not recorded",
+      "interpretation": "Preflight stopped before compiler/input copy. No source/typecheck failure or current-main success is claimed.",
+      "receipt_SHA256": "d3158258f3191c8189d01e58edd79d41acc7fd232b95c9f0cd6e12df1e05d553"
+    }
   },
-  "publication_state": "Private proposal only; Root may create Draft checkpoint after static review and targeted MDlint. No dependency on PR320 adoption."
+  "initial_b4d_CI": {
+    "sealed_result_SHA256": "3b3b1a4bc0bf6e123ac47d60487809e2dec26513fdee9697dc3a3f6f003f7083",
+    "Native": {
+      "run": 41210390667,
+      "job": 124563982370,
+      "attempt": 1,
+      "job_conclusion": "failure",
+      "units": {
+        "total": 278,
+        "passed": 276,
+        "skipped": 2,
+        "failed": 0,
+        "notice6_actual_pass": 6,
+        "Diagnostics6_actual_pass": 6
+      },
+      "UI": {
+        "total": 8,
+        "passed": 7,
+        "failed": 1
+      },
+      "new_case": "failed before first More tap; SaveDialog/cancel/relaunch not reached",
+      "Release": "skipped"
+    },
+    "macOS_full_common": {
+      "literal": "npm run check",
+      "total": 1214,
+      "passed": 1199,
+      "skipped": 15,
+      "failed": 0,
+      "test_duration_ms": 43904.561083,
+      "all_eight_commands_completed": true,
+      "metadata_step_conclusion": "success",
+      "pipeline_commands": [
+        "npm test",
+        "npm run ios:test:icon",
+        "npm run lint:md",
+        "npm run validate",
+        "npm run links",
+        "npm run check:levels",
+        "npm run todos",
+        "npm run check:harness"
+      ],
+      "scope": "Actual exact-head macOS CI; local14skip and unmergedPR3201238 not substituted"
+    },
+    "FullA": {
+      "run": 41210390660,
+      "job": 124563982502,
+      "attempt": 1,
+      "job_conclusion": "success",
+      "units": {
+        "total": 278,
+        "passed": 276,
+        "skipped": 2,
+        "failed": 0,
+        "summary_lines": [
+          15330,
+          15332
+        ]
+      },
+      "UI": {
+        "total": 18,
+        "unique": 18,
+        "passed": 18,
+        "classes": {
+          "NativeReaderUITests": 3,
+          "PublishedReaderUITests": 9,
+          "ReaderViewportGeometryTests": 6
+        }
+      }
+    },
+    "FullB": {
+      "run": 41210390660,
+      "job": 124563982260,
+      "attempt": 1,
+      "job_conclusion": "failure",
+      "stage": "pre-UI canary seed xcrun simctl pbcopy timeout30000ms",
+      "UI_actual": 0,
+      "copy374": "not reached",
+      "Release199_audio1_625_fixtureAbsent": "not reached"
+    },
+    "new_case_acceptance": "not accepted; failed before first More tap and fileExporter entry"
+  },
+  "failure_diagnosis": {
+    "diagnosis_SHA256": "3203a82657297f129c321c42550cd136622d138993a683af383a682a9ac3321f",
+    "hierarchy_SHA256": "969bbf708a3ee8376b68365e146b411e15e21cf09a325cea1c7072316ab47e70",
+    "screenshot_SHA256": "a613729bf16d55acbe777c09913182d63dfc0d88a5511cfccce716d5b414c079",
+    "observed": "Foreground AI Agent Library navigation bar has the empty search field and public Cancel; no More exists. Clearing filter query left the search session active.",
+    "not_proven": [
+      "fileExporter or Cancel defect",
+      "bookmark or reading-state loss",
+      "new case end-to-end success"
+    ]
+  },
+  "search_preparation_fix": {
+    "placement": "After the existing new-case clearFilters tap, before liveResume",
+    "operation": "Exactly one tap of unique fully visible Japanese Cancel scoped to the observed library navigation bar/search field",
+    "conditions": "One library bar, one observed search field and Cancel; finite nonempty contained frames; then Cancel absent and exactly one fully visible usable existing More control",
+    "no_alternate_More_selector": true,
+    "no_export_retry_or_extra_provider_action": true,
+    "Root_code_proof_SHA256": "d2d26c1337369f19a9e2b9fbed6d83500189ab899896d94c0b8cf75ef6f28748",
+    "actual_new_head_UI": "pending"
+  }
 }

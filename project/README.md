@@ -1,6 +1,6 @@
 # project — 計画と実施記録
 
-[読書記録の書き出し取消後の保持](records/2026-10-31/ios-reading-export-cancellation.md)は、採用済みmain88の既存APIで構成する独立したUI候補である。コード80fと既存4件・全helperを保ちNative8を予定し、Full26は変えない。旧9eca構成のSDK0・レビューは履歴に分け、今回のmain88 SDKは容量事前条件で開始前に停止した。新共通検査・実UIは未実施で、正確なheadのHosted compile・Native8・完全な共通検査・最終追補レビューを通常main前に必要とする。provider保存・実機とIOS-22/25、TODO32行/14完了は維持する。
+[読書記録の書き出し取消後の保持](records/2026-10-31/ios-reading-export-cancellation.md)のPR321初回b4dは、Native7成功・新1失敗で、検索が空でも検索UIが有効なため「その他の操作」前で停止した。保存画面と階層を根拠に、新ケースのフィルター解除後に前面の検索「キャンセル」を一意・完全表示で1回押し、既存Moreの復帰を待つ候補を用意する。旧4件・全helper・保存条件を保つ。旧headの共通1214とFull A18成功、B UI0を履歴に分け、新headのNative8・Full26・必要CI/mainは未確認、IOS-22/25とTODO32行/14完了を維持する。
 
 [Notice対応Core観測の固定入口とHosted事前検査案](records/2026-10-31/ios-notice-core-hosted-observation.md)は、固定verifier2とworkflow／guard／fixture3を後続小PRへまとめる未採用案である。旧Node境界8件の成功とHostedでの26fake・Node22構文/schema未実施を区別し、Core19raw／15sample・完全replay・性能予算・実機は未確認とする。PR316と回転UI単位の通常mainを引き継いだ実parent `84f8f3ea1e1a4d3e2c809130af6a0388b7f24564` への提出候補として結合し、App版不変更、TODO32行／14完了・IOS-15未完了を保つ。
 

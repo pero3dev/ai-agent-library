@@ -161,6 +161,289 @@
       "Physical device/VoiceOver/system font-setting/live font transition"
     ]
   },
+  "source9eca95_inventory_read_followup_20261031": {
+    "state": "source-bound Docs6 revision2 checks24/syntax2 complete; full12/common/Hosted/main pending",
+    "actual_parent": "9eca95f3fe571291999803424e724bd733583db2",
+    "actual_parent_tree": "16b2cbb6d714edde5ee50e92b35b2f2e5ac29421",
+    "Dynamic_initial": {
+      "job": 124533194196,
+      "raw_SHA256_prefix": "b442",
+      "phase": "runtimes",
+      "error": "ETIMEDOUT",
+      "UI": 0
+    },
+    "Dynamic_retry2": {
+      "job": 124534083344,
+      "raw_SHA256_prefix": "952e",
+      "bootstatus_exit": 0,
+      "phase": "devices-after-boot",
+      "error": "spawnSync xcrun ETIMEDOUT",
+      "signal": "SIGKILL",
+      "exit_code": null,
+      "timeout_ms": 30000,
+      "remaining_ms": 106796,
+      "stage_cap_ms": 180000,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "build_UI_executed": false
+    },
+    "Reflow_initial": {
+      "job": 124533194157,
+      "raw_SHA256_prefix": "e21f",
+      "phase": "runtimes",
+      "error": "ETIMEDOUT",
+      "UI": 0
+    },
+    "Reflow_retry2": {
+      "job": 124534355007,
+      "raw_SHA256_prefix": "ad1b",
+      "phase": "runtimes",
+      "error": "ETIMEDOUT",
+      "UI": 0
+    },
+    "samehead_third_retry": false,
+    "FullB_initial": {
+      "job": 124533194276,
+      "phase": "devices-ready",
+      "timeout_ms": 90000,
+      "UI_xcode8_copy_Release_executed": false
+    },
+    "other9eca_Root_received_cutoff": {
+      "state": "SEALED_ALL_TERMINAL_SOURCE10_CURRENT_HEAD_NOT_ACCEPTED",
+      "cutoff": "2026-10-31 12:51:20 UTC",
+      "result_SHA256": "6b942d914fa050276d6d60398dc02494b49a9bcc8402e614bdc10c09fb0cbf66",
+      "manifest_SHA256": "bfd13ffa168cd6f302723852f55b8fb279af0066781a91c812bc060e3563a6a5",
+      "required11_success": true,
+      "postbody_policy2_success": true,
+      "latest_check_counts": {
+        "success": 16,
+        "failure": 3,
+        "in_progress": 0
+      },
+      "Native": {
+        "run": 41199804529,
+        "job": 124533194332,
+        "attempt": 1,
+        "conclusion": "success",
+        "units": {
+          "total": 278,
+          "passed": 276,
+          "skipped": 2,
+          "failed": 0
+        },
+        "notice_passed": 6,
+        "diagnostics_passed": 6,
+        "UI_unique_passed": 7,
+        "UI_classes": {
+          "NativeReaderUITests": 3,
+          "ReadingRecoveryUITests": 4
+        },
+        "UI_seconds": 691.828,
+        "Release_scope": "BUILD SUCCEEDED and subsequent native-release-icon-inputs captured/errors0/product_acceptance:false; separate from the temporary all-published audit"
+      },
+      "FullA": {
+        "run": 41199804486,
+        "job": 124533194080,
+        "attempt": 1,
+        "conclusion": "success",
+        "units": {
+          "total": 278,
+          "passed": 276,
+          "skipped": 2,
+          "failed": 0
+        },
+        "UI_unique_passed": 18,
+        "UI_classes": {
+          "NativeReaderUITests": 3,
+          "PublishedReaderUITests": 9,
+          "ReaderViewportGeometryTests": 6
+        },
+        "UI_seconds": 1084.369,
+        "literal_full_common": {
+          "total": 1214,
+          "passed": 1199,
+          "skipped": 15,
+          "failed": 0,
+          "all8_pipeline_stages": "success"
+        },
+        "copy_Release": "B-only; not substituted by A"
+      },
+      "FullB": {
+        "run": 41199804486,
+        "job": 124533194276,
+        "attempt": 1,
+        "conclusion": "failure",
+        "stage": "first devices-ready pre-UI list devices available JSON query",
+        "error": "spawnSync xcrun ETIMEDOUT",
+        "read_cap_ms": 90000,
+        "actual_UI": 0,
+        "intended_UI": 8,
+        "copy374": "not reached",
+        "Release199_audio1_625_fixture_absent": "not reached",
+        "samehead_retry": 0
+      },
+      "Runtime26": {
+        "run": 41199804522,
+        "job": 124533194234,
+        "attempt": 1,
+        "conclusion": "success",
+        "actual_UI_unique_passed": 3,
+        "seconds": 338.625,
+        "ContentsReadiness_count": 2,
+        "ContentsReadiness": "schema1/checkCount1/positiveObserved=true/finalWaitRequired=false/gestures0 each",
+        "ReaderWait_count": 20,
+        "ReaderWait_count_mandatory": false,
+        "strict_gate_Debug3_fixture4_cleanup": "workflow step metadata success; not a new artifact inspection"
+      },
+      "Recovery": {
+        "run": 41199804480,
+        "job": 124533194473,
+        "attempt": 1,
+        "conclusion": "success",
+        "F_R_sentinel_upgrade_cleanup_gate": "metadata and raw OUTCOME success",
+        "console_testcase_rows": 0,
+        "exact_one_each_scope": "source-defined exact-one leaf audits succeeded; captured stdout/artifact not downloaded by observer",
+        "phase_scope": "initial missing-package failure + separate restored install, not same-process restore or reading migration"
+      },
+      "SDK26Archive": {
+        "run": 41199804509,
+        "job": 124533194556,
+        "attempt": 1,
+        "conclusion": "success",
+        "scope": "metadata only"
+      },
+      "CoreNotice": {
+        "naturally_scheduled": false,
+        "measurement": "none on this currenthead; source3bf/main88 evidence separate"
+      },
+      "aggregate_acceptance": false
+    },
+    "Code4": {
+      "paths": [
+        ".github/workflows/ios-reader-reflow.yml",
+        ".github/workflows/ios-reader-dynamic-type.yml",
+        "ios/tests/simctl-inventory-read.mjs",
+        "tests/unit/ios-simctl-inventory-read.test.mjs"
+      ],
+      "retry_names": [
+        "runtimes",
+        "device-types",
+        "devices-before-create",
+        "devices-after-boot"
+      ],
+      "exact_retry_condition": {
+        "code": "ETIMEDOUT",
+        "signal": "SIGKILL",
+        "status": null
+      },
+      "retry_max": 1,
+      "distinct_receipts": true,
+      "run_perread30_stage90_180_step_job_caps_source_JSON_version_UUID_cleanup_held": true,
+      "Full_workflow_UI_asserts_changed": false,
+      "sealed_revision2_manifest_SHA256": "6d68432b83fc56272ad52bb67a0ffe0ec86c706af3768e22c20b07603db708fe",
+      "validation": "Root source-pinned24+2YAML+2driver syntax success only",
+      "Source4_manifest_SHA256": "76264915d989182cf70e087c62a2f53c5c76e3f0f34ec88f561d17638c2613ad",
+      "files": [
+        {
+          "path": ".github/workflows/ios-reader-reflow.yml",
+          "mode": "100644",
+          "type": "blob",
+          "bytes": 32403,
+          "SHA256": "53025747490cc4be65c9d83aac9e8254629481058c525085d2ef56f59d512494",
+          "blob_oid": "d22df4a98112ed2865b166cbf4199820286a39e6",
+          "before_bytes": 29840,
+          "before_SHA256": "42cb3f478a6a299a31cb5fcb48786b948d27955ab021ccd05dfd5f5357b0bceb",
+          "before_blob": "a0668c8b6734c22eeb316d4db5b3da8c8a71c60e"
+        },
+        {
+          "path": ".github/workflows/ios-reader-dynamic-type.yml",
+          "mode": "100644",
+          "type": "blob",
+          "bytes": 32767,
+          "SHA256": "87c0559c0f3a1b0fcdcbb4f58035fc23208f343dc0b7a8ad6355c6445453900e",
+          "blob_oid": "be9a40cca53b684fdacec77463d2b21a5f832a7d",
+          "before_bytes": 30204,
+          "before_SHA256": "f081695139bad2d468a6169395ecc1360a1f606244c08018b8525fe34ec81fb6",
+          "before_blob": "bde56afd66b64137910730bc8c8caa8402521c73"
+        },
+        {
+          "path": "ios/tests/simctl-inventory-read.mjs",
+          "mode": "100644",
+          "type": "blob",
+          "bytes": 1630,
+          "SHA256": "edd3e177c1445bb7d7edcdc53d0fd2308e929a8c7ae6acd12b0c34c117b8f2c7",
+          "blob_oid": "f6418c23a76bb665d7655d1f3f472f5ce70c13c8",
+          "before_bytes": null,
+          "before_SHA256": null,
+          "before_blob": null
+        },
+        {
+          "path": "tests/unit/ios-simctl-inventory-read.test.mjs",
+          "mode": "100644",
+          "type": "blob",
+          "bytes": 21367,
+          "SHA256": "a604986fdf6d046b373558e3e7ab2006ba7fc3891ada3a471974efb4bd2140ea",
+          "blob_oid": "c745dc41bb33a3ef483b490190cb9747bcf592a9",
+          "before_bytes": null,
+          "before_SHA256": null,
+          "before_blob": null
+        }
+      ],
+      "accepted_success_binding": [
+        "source",
+        "read",
+        "args",
+        "name",
+        "raw SHA",
+        "success receipt",
+        "intent cap/stage",
+        "first timeout chain for retry",
+        "independent preexisting UUID exclusion"
+      ]
+    },
+    "Code4_checks": {
+      "state": "source-pinned revision2 Root pure24 and YAML2/driverSyntax2 passed; broader acceptance pending",
+      "Source4_manifest_SHA256": "76264915d989182cf70e087c62a2f53c5c76e3f0f34ec88f561d17638c2613ad",
+      "validation_manifest_SHA256": "4dd9d3e48c3756def3a27bb0696a61736c7160522cf9082b8ea61e62532ced1d",
+      "unit_result_SHA256": "aa29467a2957749f24f13c8e1b33b62495c882a92c1fe888f99402075a468179",
+      "unit_counts": {
+        "tests": 24,
+        "pass": 24,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "seconds": 0.4915974999999999,
+      "scope": "bounded actual productionfunctions fakeclock/spawn/files only; no actual xcrun/SDK/UI/network",
+      "YAML_result_SHA256": "15f8934085844947b5cce7d361c53a727215cd4721874e1bbe237b56bbb210c5",
+      "YAML_parsed": 2,
+      "duplicateKeys_rejected": true,
+      "driver_syntax_exit": [
+        0,
+        0
+      ],
+      "job_minutes": [
+        43,
+        43
+      ],
+      "actual_driver_Simulator_SDK_actionlint_shellcheck": false,
+      "new_common_full12_IR_newhead_Hosted_main": "pending",
+      "prior_Code4_18_result_reused": false
+    },
+    "SDK_carry": {
+      "Reader1bb_UI6_samebytes_only": true,
+      "Appf4_samebytes_only": true,
+      "actual_stride_font_defaultreturn_success": false
+    },
+    "TODO": {
+      "rows": 32,
+      "complete": 14,
+      "changed": false,
+      "IOS11_complete": false,
+      "IOS25_complete": false
+    },
+    "physical_checks": "incomplete-skipped-per-user"
+  },
   "main88_integration_followup": {
     "state": "private pure-data integration, new UI runtime pending",
     "actual_base": "88c9ac391459ead50cf5e28b25918f97ac9332cf",

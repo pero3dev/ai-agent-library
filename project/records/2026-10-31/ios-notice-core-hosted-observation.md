@@ -108,3 +108,15 @@ GitはPATH/TMPDIRだけの旧runner子環境と同じ値でeffective configを�
 full Content626、固定source/harness/query、compiler stderr、実binary/identity/summary、生成された全19 raw stdout/stderrとCSVがあれば保持する。artifactで除くのはCore module cache/private process tempだけで、fixture rawも保持する。旧CLIのcompile失敗では完全compiler stderrが出ない場合があるため、不足を失敗として残す。空の成功票を補わない。
 
 最初のHosted prepare/compile、19 raw／15 sample、固定verifierの完全replay、保存結果の独立受入は全て未確認である。macOS host観測が成功しても、App起動・スクロール・iOS／実機・Release、cold cache、性能予算の採択、IOS-15全体の完了とは別に扱う。
+
+## main88新pushの完了とPR320の一覧読取追補（作成時点の記録）
+
+実main88の新pushは、保存した2026-10-31T12:26:37Zの公式観測で、Common9・追加deploy・Nativeが成功した。Commonはrun41197576965、docs1214件中1198成功・16skip・失敗0、build97件全成功・browser677件・Firefox14件成功である。Nativeはrun41197577014で278 executed・2skip・失敗0、UI7件・Releaseが成功した。278全件が成功したという数え方にはしない。
+
+published候補run41197576925の初回Aはdestination不在でunit未到達・UI0、初回Bはpre-UI pbcopyのETIMEDOUTでUI0・copy未確認だった。上の失敗記録を保持したまま、Rootが失敗2jobだけを条件不変で各1回再実行したattempt2を別結果として受け入れた。A2 job124529151938はUI18件、B2 job124529152023はUI8件が失敗0。両ログの実passed case IDをsource由来の期待集合へ照合し、重複なし・互いにdisjoint・和集合が元の全26件と完全一致した。B2では実UI destinationの正確な374B copyと独立Releaseも成功した。観測packet manifest SHA-256は `08c27f1e557a0ce84838d2d58798eda6c4381378216a78324ecfecf3533b6260` である。
+
+この新pushには別のCore host／R26測定／Recovery matrix／SDK workflowは発火していない。source3bfの保存19raw・15sample、Rootの固定production CLIと独立データレビューf387は、その測定sourceへ結び付いた既存の受入履歴として保つ。main88との全2850 tuple一致は採用の証拠であり、新mainでCore CLI19/15を再実行した結果へ置き換えない。性能予算・cold起動・実機とIOS-15全体は未完了である。
+
+PR #320の現parent `9eca95f3fe571291999803424e724bd733583db2` では、文字サイズと回転の一覧読取がUI前に止まったため、専用workflow2とpure helper・unitの4入力へ限定した補修を準備する。4つの固定一覧読取だけで、ETIMEDOUT・SIGKILL・exit nullがそろった場合に1回だけ読取を再実行し、初回とretryを別receiptへ残す。受入れた成功readのsource/read/args/name/rawSHAとreceiptを所有検証へ結び付け、初回rawも保持する。既存run、30秒の各読取、90/180秒のstage、step/job上限、source・JSON/version/UUID判定・cleanupを保つ。作成・起動・build・UIのretryや判定の緩和は加えない。
+
+新しい読取補修のrevision2は固定Source4へ結び付いたRoot検査でpure fixture24件成功・skip/fail0、0.4915975秒だった。actual production関数にfake files/clock/spawnを渡した範囲で、実xcrun・driver・Simulator・SDKの成功ではない。2YAMLは重複key拒否を含むparse、抽出driver2はNode構文exit0で、両job43分を確認した。Source4 manifest SHA-256は `76264915d989182cf70e087c62a2f53c5c76e3f0f34ec88f561d17638c2613ad`、Root検査manifestは `4dd9d3e48c3756def3a27bb0696a61736c7160522cf9082b8ea61e62532ced1d`。新共通検査・全12入力の最終レビュー・新head Hostedと通常mainは未受入である。既存Reader1bb/UI6とAppf4の同bytes型検査だけを履歴として引き継ぎ、新一覧読取の実効果・stride/font伝播/default復帰の成功にはしない。TODO32行／14完了、IOS-11・15・25と実機等の未完了を維持する。

@@ -1210,6 +1210,81 @@
     "source_change_in_docs_commit": false,
     "Root_actual_Git_publication_and_final_IR_pending": true
   },
+  "main88_push_pr320_inventory_read_followup_20261031": {
+    "state": "source-bound Docs6 revision2 checks24/syntax2 complete; full12/common/Hosted/main pending",
+    "actual_parent": "9eca95f3fe571291999803424e724bd733583db2",
+    "actual_parent_tree": "16b2cbb6d714edde5ee50e92b35b2f2e5ac29421",
+    "main88_fresh_push": {
+      "source": "88c9ac391459ead50cf5e28b25918f97ac9332cf",
+      "observed_UTC": "2026-10-31T12:26:37Z",
+      "Common9_deploy": "success",
+      "docs": {
+        "tests": 1214,
+        "pass": 1198,
+        "skipped": 16,
+        "fail": 0
+      },
+      "Native": {
+        "executed": 278,
+        "skip": 2,
+        "fail": 0,
+        "UI_pass": 7,
+        "Release": "success"
+      },
+      "initial_A_B": {
+        "A_UI": 0,
+        "A_reason": "destinationmissing70 beforeunit",
+        "B_UI": 0,
+        "B_reason": "preUI pbcopy ETIMEDOUT",
+        "copy374_verified": false
+      },
+      "Root_retry": "failed2jobs only eachonce unchanged at11:48:55Z",
+      "retry2": {
+        "A_UI_pass": 18,
+        "B_UI_pass": 8,
+        "Full26_unique_disjoint_exact_source_set": true,
+        "B_copy374_exact": true,
+        "B_Release": "success"
+      },
+      "sealed_manifest_SHA256": "08c27f1e557a0ce84838d2d58798eda6c4381378216a78324ecfecf3533b6260"
+    },
+    "source3bf_host19raw15sample_Root_CLI_review": "accepted historical measuredsource, not newmain CoreCLI19/15",
+    "Code4_checks": {
+      "state": "source-pinned revision2 Root pure24 and YAML2/driverSyntax2 passed; broader acceptance pending",
+      "Source4_manifest_SHA256": "76264915d989182cf70e087c62a2f53c5c76e3f0f34ec88f561d17638c2613ad",
+      "validation_manifest_SHA256": "4dd9d3e48c3756def3a27bb0696a61736c7160522cf9082b8ea61e62532ced1d",
+      "unit_result_SHA256": "aa29467a2957749f24f13c8e1b33b62495c882a92c1fe888f99402075a468179",
+      "unit_counts": {
+        "tests": 24,
+        "pass": 24,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "seconds": 0.4915974999999999,
+      "scope": "bounded actual productionfunctions fakeclock/spawn/files only; no actual xcrun/SDK/UI/network",
+      "YAML_result_SHA256": "15f8934085844947b5cce7d361c53a727215cd4721874e1bbe237b56bbb210c5",
+      "YAML_parsed": 2,
+      "duplicateKeys_rejected": true,
+      "driver_syntax_exit": [
+        0,
+        0
+      ],
+      "job_minutes": [
+        43,
+        43
+      ],
+      "actual_driver_Simulator_SDK_actionlint_shellcheck": false,
+      "new_common_full12_IR_newhead_Hosted_main": "pending",
+      "prior_Code4_18_result_reused": false
+    },
+    "TODO": {
+      "rows": 32,
+      "complete": 14,
+      "changed": false,
+      "IOS15_complete": false
+    }
+  },
   "initial_unbound_draft_history": {
     "date": "2026-10-31",
     "state": "PRIVATE_ROOTDOC_DRAFT_NOT_ADOPTED_OR_MEASURED",

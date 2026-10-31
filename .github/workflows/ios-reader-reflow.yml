@@ -5,6 +5,7 @@ on:
   pull_request:
     paths:
       - '.github/workflows/ios-reader-reflow.yml'
+      - 'ios/tests/simctl-inventory-read.mjs'
       - 'ios/AILibraryUITests/ReaderReflowUITests.swift'
       - 'ios/AILibrary.xcodeproj/project.pbxproj'
 
@@ -20,7 +21,7 @@ jobs:
     name: iOS default-text fixture rotation regression
     if: github.repository == 'pero3dev/ai-agent-library' && github.event.repository.private == false && (github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == 'pero3dev/ai-agent-library' && github.event.pull_request.base.repo.full_name == 'pero3dev/ai-agent-library'))
     runs-on: macos-15
-    # Explicit step caps total42min. No retry or normal CI inventory change.
+    # Explicit step caps total42min; only list-read timeouts repeat once within their caps.
     # Runner loss or forced cancellation can still interrupt owned cleanup.
     timeout-minutes: 43
     env:
@@ -60,6 +61,7 @@ jobs:
           import { createHash, randomUUID } from 'node:crypto';
           import { spawnSync } from 'node:child_process';
           import { selectUITestTarget } from '../../ios/tests/xctestrun-metadata.mjs';
+          import { readSimctlInventory } from '../../ios/tests/simctl-inventory-read.mjs';
           
           const stage = process.argv[2];
           const caps = { inventory: 90000, tools: 180000, content: 180000, simulator: 180000,
@@ -107,10 +109,46 @@ jobs:
             return { ...receipt, stdout: result.stdout ?? '' };
           }
           
+          function listInventory(name, args) {
+            const accepted = readSimctlInventory(name, args,
+              attempt => run(attempt, 'xcrun', args, 30000, workspace, false));
+            json(name + '.accepted.json', { source_head: expected, name, attempt: accepted.attempt,
+              arguments: args, stdout_sha256: hash(accepted.stdout) });
+            return accepted.stdout;
+          }
+          
+          function acceptedBeforeCreate() {
+            const name = 'devices-before-create', args = ['simctl', 'list', 'devices', '--json'];
+            const accepted = read(name + '.accepted.json');
+            assert.equal(accepted.source_head, expected); assert.equal(accepted.name, name);
+            assert.ok([name, name + '-timeout-retry-1'].includes(accepted.attempt));
+            assert.deepEqual(accepted.arguments, args);
+            const validateIntent = attempt => {
+              const issued = read(attempt + '.intent.json');
+              assert.equal(issued.stage, 'simulator'); assert.equal(issued.binary, 'xcrun');
+              assert.deepEqual(issued.arguments, args);
+              assert.ok(Number.isInteger(issued.timeout_ms) && issued.timeout_ms > 0 && issued.timeout_ms <= 30000);
+              assert.ok(Number.isInteger(issued.remaining_ms) && issued.remaining_ms >= issued.timeout_ms);
+              assert.ok(Number.isFinite(issued.stage_deadline_monotonic_ms) && issued.stage_deadline_monotonic_ms > 0);
+            };
+            validateIntent(accepted.attempt);
+            const successful = read(accepted.attempt + '.exit.json');
+            assert.equal(successful.error, null); assert.equal(successful.signal, null); assert.equal(successful.exit_code, 0);
+            if (accepted.attempt !== name) {
+              validateIntent(name); const first = read(name + '.exit.json');
+              assert.equal(first.exit_code, null); assert.equal(first.signal, 'SIGKILL');
+              assert.equal(first.error, 'spawnSync xcrun ETIMEDOUT');
+            }
+            const full = path.join(evidence, accepted.attempt + '.stdout.log'), stat = fs.lstatSync(full);
+            assert.ok(stat.isFile() && !stat.isSymbolicLink() && stat.size <= 8 * 1024 * 1024);
+            const raw = fs.readFileSync(full); assert.match(accepted.stdout_sha256, /^[a-f0-9]{64}$/);
+            assert.equal(hash(raw), accepted.stdout_sha256); return raw.toString('utf8');
+          }
+          
           function sourceHashes() {
-            const files = ['ios/AILibraryUITests/ReaderReflowUITests.swift', 'ios/AILibraryUITests/NativeReaderUITests.swift',
+            const files = ['ios/AILibrary/Sources/AILibraryApp.swift', 'ios/AILibraryUITests/ReaderReflowUITests.swift', 'ios/AILibraryUITests/NativeReaderUITests.swift',
               'ios/AILibraryUITests/PublishedReaderUITests.swift', 'ios/AILibrary.xcodeproj/project.pbxproj',
-              'ios/fixtures/native-reader.md', 'ios/tests/xctestrun-metadata.mjs', '.github/workflows/ios-reader-reflow.yml',
+              'ios/fixtures/native-reader.md', 'ios/tests/xctestrun-metadata.mjs', 'ios/tests/simctl-inventory-read.mjs', '.github/workflows/ios-reader-reflow.yml',
               'package-lock.json', 'ios/tools/package-lock.json'];
             return Object.fromEntries(files.map(file => {
               const full = path.join(workspace, file), stat = fs.lstatSync(full);
@@ -145,7 +183,7 @@ jobs:
             assert.deepEqual(args, ['simctl', 'create', intent.name, intent.device_type_identifier, intent.runtime_identifier]);
             const UUID = fs.readFileSync(path.join(evidence, 'create-simulator.stdout.log'), 'utf8').trim().toUpperCase();
             assert.match(UUID, uuidPattern); assert.ok(!intent.preexisting_UUIDs.includes(UUID));
-            const before = allDevices(JSON.parse(fs.readFileSync(path.join(evidence, 'devices-before-create.stdout.log'), 'utf8')));
+            const before = allDevices(JSON.parse(acceptedBeforeCreate()));
             assert.ok(before.every(row => row.device.udid.toUpperCase() !== UUID));
             const selection = read('selection.json');
             assert.equal(intent.runtime_identifier, selection.runtime.identifier);
@@ -192,15 +230,16 @@ jobs:
             const architecture = output('architecture', 'uname', ['-m']); assert.ok(['arm64', 'x86_64'].includes(architecture));
             const Xcode = output('xcode', 'xcodebuild', ['-version']); assert.match(Xcode, /^Xcode 16\.4\nBuild version [A-Za-z0-9]+$/);
             const SDK = output('sdk', 'xcrun', ['--sdk', 'iphonesimulator', '--show-sdk-version']); assert.equal(SDK, '18.5');
-            const runtimes = JSON.parse(output('runtimes', 'xcrun', ['simctl', 'list', 'runtimes', '--json'])).runtimes;
-            const types = JSON.parse(output('device-types', 'xcrun', ['simctl', 'list', 'devicetypes', '--json'])).devicetypes;
+            const runtimes = JSON.parse(listInventory('runtimes', ['simctl', 'list', 'runtimes', '--json']).trim()).runtimes;
+            const types = JSON.parse(listInventory('device-types', ['simctl', 'list', 'devicetypes', '--json']).trim()).devicetypes;
             assert.ok(Array.isArray(runtimes)); assert.ok(Array.isArray(types));
             const runtime = runtimes.filter(row => row.version === '18.5' && row.name === 'iOS 18.5' && row.isAvailable === true);
             const phone = types.filter(row => row.name === 'iPhone 16'); assert.equal(runtime.length, 1); assert.equal(phone.length, 1);
             assert.equal(runtime[0].identifier, 'com.apple.CoreSimulator.SimRuntime.iOS-18-5');
             assert.equal(phone[0].identifier, 'com.apple.CoreSimulator.SimDeviceType.iPhone-16');
             const source = fs.readFileSync(path.join(workspace, 'ios/AILibraryUITests/ReaderReflowUITests.swift'), 'utf8');
-            assert.deepEqual([...source.matchAll(/\bfunc\s+(test\w+)\s*\(/g)].map(match => match[1]), [selector.split('/')[2]]);
+            assert.deepEqual([...source.matchAll(/\bfunc\s+(test\w+)\s*\(/g)].map(match => match[1]),
+              ['testFixtureMeasuredRowAndBookmarkSurviveRotatedRelaunchAndLiveReturn', 'testFixtureMeasuredRowAndBookmarkSurviveDynamicTypeRelaunches']);
             json('selection.json', { source_head: head, source_tree: tree, source_sha256: sourceHashes(), selector,
               event_name: process.env.GITHUB_EVENT_NAME, event_commit: process.env.GITHUB_SHA,
               repository: process.env.GITHUB_REPOSITORY, runner: 'macos-15', macOS, architecture, Xcode, SDK,
@@ -231,7 +270,7 @@ jobs:
           
           function simulator() {
             const selection = sameSource();
-            const before = allDevices(JSON.parse(run('devices-before-create', 'xcrun', ['simctl', 'list', 'devices', '--json']).stdout));
+            const before = allDevices(JSON.parse(listInventory('devices-before-create', ['simctl', 'list', 'devices', '--json'])));
             const preexisting = before.map(row => row.device.udid.toUpperCase()); assert.equal(new Set(preexisting).size, preexisting.length);
             const token = randomUUID(), name = `AILibrary-reader-reflow-${process.env.GITHUB_RUN_ID}-${process.env.GITHUB_RUN_ATTEMPT}-${token}`;
             json('owned-simulator-intent.json', { repository: process.env.GITHUB_REPOSITORY, source_head: expected,
@@ -241,7 +280,7 @@ jobs:
             const owner = owned(); json('owned-simulator.json', owner);
             run('boot-simulator', 'xcrun', ['simctl', 'boot', owner.UUID], 30000);
             run('bootstatus-simulator', 'xcrun', ['simctl', 'bootstatus', owner.UUID, '-b'], 120000);
-            const current = allDevices(JSON.parse(run('devices-after-boot', 'xcrun', ['simctl', 'list', 'devices', '--json']).stdout))
+            const current = allDevices(JSON.parse(listInventory('devices-after-boot', ['simctl', 'list', 'devices', '--json'])))
               .filter(row => row.device.udid.toUpperCase() === owner.UUID);
             assert.equal(current.length, 1); assert.equal(current[0].device.name, owner.name);
             assert.equal(current[0].runtime, owner.runtime_identifier); assert.equal(current[0].device.state, 'Booted');

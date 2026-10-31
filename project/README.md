@@ -1,6 +1,12 @@
 # project — 計画と実施記録
 
+[Notice対応Core観測](records/2026-10-31/ios-notice-core-hosted-observation.md)は、実source3bfのHosted19raw／15sample・artifact実Content626の固定CLI検証と独立レビューを受け入れ、同tree/2850のコードは通常main `88c9ac391459ead50cf5e28b25918f97ac9332cf` へ採用された。source3bfの観測をmain88の新測定とは呼ばず、新mainpushのA/B初回pre-UI失敗と条件不変各1回の再試行中を分ける。UI strideとDocsの新提出parent/currenthead CI/mainはTODO(採用待ち)。予算・実機・IOS-15全体は未完了で、TODO32行／14完了を保持する。
+
+同Core記録について直後の候補段落は準備時点の履歴であり、未実施と旧parentの記述は当時の状態である。
+
 [Notice対応Core観測の固定入口とHosted事前検査案](records/2026-10-31/ios-notice-core-hosted-observation.md)は、固定verifier2とworkflow／guard／fixture3を後続小PRへまとめる未採用案である。旧Node境界8件の成功とHostedでの26fake・Node22構文/schema未実施を区別し、Core19raw／15sample・完全replay・性能予算・実機は未確認とする。PR316と回転UI単位の通常mainを引き継いだ実parent `84f8f3ea1e1a4d3e2c809130af6a0388b7f24564` への提出候補として結合し、App版不変更、TODO32行／14完了・IOS-15未完了を保つ。
+
+[文字サイズ変更後の読書位置復帰](records/2026-10-31/ios-dynamic-type-reading-restore.md)では、DEBUGのUUID隔離suiteだけで通常→最大→通常の再起動を行う専用UI1ケースを準備します。既存の回転1ケース・上限・App0.2.28（30）と保存形式を保ち、Source4の静的レビューと既存SDKでのApp17・UI6のコンパイル確認、2つのdriver構文検査まで成功しました。共通検査は1206件中1192成功・14skip・失敗0で全8工程が成功しました。最終8ファイルのレビュー・新旧Hosted strict1・通常main・実機は未完了で、IOS-11・25とTODO32行・完了14行を維持します。 追補では、初回の新旧inventory失敗と、条件不変の再試行で旧回転1件が成功・新文字サイズ1件がStaticText高さの比較だけで失敗した履歴を保持します。先頭StaticText高さをGridRow全体と扱ったwitnessを訂正し、同列R24/R25の有限・正のframeからminY差を測る候補を準備します。1.25倍超・通常復帰±1pt、既存の可視性・offset・しおり・補正gestureなしは維持し、新stride・font伝播・新headの検証と通常mainは未確認です。 新UI1bb98ec0を含むUI6のSDK18.2/iOS17型検査はexit0・8.207036916秒を別途確認しましたが、実stride/font伝播/default復帰は未受入です。
 
 [固定列幅表の回転後の読書位置回帰](records/2026-10-31/ios-reader-rotation-regression.md)では、Reflowの9d初回はUI開始前約193秒とcase約46秒で240秒枠を使い切り、同条件1回の再実行はbuild後native監査のdefault30秒で停止した。監査4呼出へ明示120秒、共有UI420秒・step8分・job43分へ配分する候補で、共有content/build上限と全監査・厳密判定は保つ。効果と新head専用1件／通常CI／mainは未確認。App0.2.28（30）・TODO32行／14完了と実機等の未完了を維持する。
 
@@ -263,3 +269,7 @@ E1〜F2の[旧検証計画](records/2026-09-30/p1-kit-preparation/README.md)と[
 2026-10-31の[読書記録の案内のCI追記](records/2026-10-31/ios-unavailable-reading-records.md)では、head7fのNative／Full A／Runtime26成功と、Bの端末一覧・canary準備失敗を区別する。2読取を90秒へする候補は純粋23件と独立レビューまでで、共通検査は条件を緩めず新headのGitHub CIで確認する。新B UI8・copy・Release・mainと実機は未完了、TODO32行／完了14行を維持する。
 
 2026-10-31の[読書記録の案内の共通検査追記](records/2026-10-31/ios-unavailable-reading-records.md)では、head756のfull npmcheckが1206件中59失敗で停止したことを保存する。common step専用の正規化した一時領域を渡す候補を準備し、パス拒否guardを維持する。ローカル既存6件は容量条件により未起動で、新headの完全な共通検査・必要iOS・mainは未受入、TODO32行／完了14行を維持する。
+
+2026-10-31の[Core main88新push追補](records/2026-10-31/ios-notice-core-hosted-observation.md)では、Common9・deploy・Native278 executed／2skip／失敗0・UI7成功と、published初回A/BのUI0失敗、条件不変retry2の厳密A18＋B8／Full26・374B copy・独立Release成功を分ける。source3bfの保存host19raw/15sample・Root固定CLI／独立レビューは元sourceの受入で、新main Core CLI測定へ読み替えない。性能予算・実機・IOS-15とTODO32行／14完了は維持する。
+
+[文字サイズの一覧読取追補](records/2026-10-31/ios-dynamic-type-reading-restore.md)では、head9ecaの新旧専用UIは初回・各1回retryともUI0、FullB初回もdevices-ready timeoutでUI/copy/Release未到達のまま残す。固定4readだけの同上限内1回retryをpure helper・unit・専用2workflowへ加える候補は、受入れた成功rawを所有検証へ結合するrevision2はRootのpure24件・2YAML/2driver構文まで成功した。新共通・全12最終レビュー・新head strict1と通常mainは未受入。既存Reader1bb/UI6のSDK成功は同bytes型検査だけで、新stride/font伝播/default復帰やIOS-11・25全体へ広げない。

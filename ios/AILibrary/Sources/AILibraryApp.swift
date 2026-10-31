@@ -3,11 +3,15 @@ import SwiftUI
 @main
 struct AILibraryApp: App {
     @StateObject private var store: LibraryStore
+    #if DEBUG
+    private let uiTestDynamicTypeSize: DynamicTypeSize?
+    #endif
 
     init() {
         // An explicit test launch uses a separate suite on Simulator and device.
         // Normal launches keep the user's reading records in standard defaults.
         #if DEBUG
+        uiTestDynamicTypeSize = Self.requestedUITestDynamicTypeSize()
         if let suite = ProcessInfo.processInfo.environment["AILIBRARY_UI_TEST_SUITE"],
            suite.hasPrefix("ailibrary-uitest-"), suite.count < 100,
            let defaults = UserDefaults(suiteName: suite) {
@@ -35,7 +39,32 @@ struct AILibraryApp: App {
         _store = StateObject(wrappedValue: LibraryStore())
     }
 
+    #if DEBUG
+    private static func requestedUITestDynamicTypeSize() -> DynamicTypeSize? {
+        let environment = ProcessInfo.processInfo.environment
+        guard let suite = environment["AILIBRARY_UI_TEST_SUITE"],
+              suite.hasPrefix("ailibrary-uitest-"), suite.count < 100 else { return nil }
+        let suffix = String(suite.dropFirst("ailibrary-uitest-".count))
+        guard UUID(uuidString: suffix)?.uuidString == suffix else { return nil }
+        switch environment["AILIBRARY_UI_TEST_DYNAMIC_TYPE"] ?? "" {
+        case "default": return .large
+        case "accessibility5": return .accessibility5
+        default: return nil
+        }
+    }
+    #endif
+
     var body: some Scene {
-        WindowGroup { LibraryView(store: store) }
+        WindowGroup {
+            #if DEBUG
+            if let uiTestDynamicTypeSize {
+                LibraryView(store: store).dynamicTypeSize(uiTestDynamicTypeSize)
+            } else {
+                LibraryView(store: store)
+            }
+            #else
+            LibraryView(store: store)
+            #endif
+        }
     }
 }

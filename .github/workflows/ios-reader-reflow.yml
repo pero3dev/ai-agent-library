@@ -108,7 +108,7 @@ jobs:
           }
           
           function sourceHashes() {
-            const files = ['ios/AILibraryUITests/ReaderReflowUITests.swift', 'ios/AILibraryUITests/NativeReaderUITests.swift',
+            const files = ['ios/AILibrary/Sources/AILibraryApp.swift', 'ios/AILibraryUITests/ReaderReflowUITests.swift', 'ios/AILibraryUITests/NativeReaderUITests.swift',
               'ios/AILibraryUITests/PublishedReaderUITests.swift', 'ios/AILibrary.xcodeproj/project.pbxproj',
               'ios/fixtures/native-reader.md', 'ios/tests/xctestrun-metadata.mjs', '.github/workflows/ios-reader-reflow.yml',
               'package-lock.json', 'ios/tools/package-lock.json'];
@@ -200,7 +200,8 @@ jobs:
             assert.equal(runtime[0].identifier, 'com.apple.CoreSimulator.SimRuntime.iOS-18-5');
             assert.equal(phone[0].identifier, 'com.apple.CoreSimulator.SimDeviceType.iPhone-16');
             const source = fs.readFileSync(path.join(workspace, 'ios/AILibraryUITests/ReaderReflowUITests.swift'), 'utf8');
-            assert.deepEqual([...source.matchAll(/\bfunc\s+(test\w+)\s*\(/g)].map(match => match[1]), [selector.split('/')[2]]);
+            assert.deepEqual([...source.matchAll(/\bfunc\s+(test\w+)\s*\(/g)].map(match => match[1]),
+              ['testFixtureMeasuredRowAndBookmarkSurviveRotatedRelaunchAndLiveReturn', 'testFixtureMeasuredRowAndBookmarkSurviveDynamicTypeRelaunches']);
             json('selection.json', { source_head: head, source_tree: tree, source_sha256: sourceHashes(), selector,
               event_name: process.env.GITHUB_EVENT_NAME, event_commit: process.env.GITHUB_SHA,
               repository: process.env.GITHUB_REPOSITORY, runner: 'macos-15', macOS, architecture, Xcode, SDK,

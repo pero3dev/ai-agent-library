@@ -1,5 +1,21 @@
 # 現在の記事版にない読書記録の件数と保管案内
 
+## 起動後の準備コマンドの上限を見直す候補
+
+2026-10-31の最新状態は、head7fの失敗を保持した12パスの修正候補である。App構成0.2.27（29）とTODO32行・完了14行を維持する。以降の既存節は各採録時点の履歴として保持する。
+
+head7fではNative270件（268成功・2skip）とUI7件、Runtime26 UI3件、Full Aの270件とUI18件が成功した。Full B初回は起動後の端末一覧取得が30秒で停止した。A完了前の再実行APIは拒否されjobを作成していない。全体終了後に受理されたB単独再実行1回は、一覧とseedを通過後、準備用canaryの`simctl pbpaste`が30秒でETIMEDOUTとなった。両BともXCTest未開始で、UI8件・独立374-byte照合・Releaseは未実施である。同一headの追加再実行は行わない。
+
+新候補は2つの準備用読取だけを明示90秒へする。初期一覧・boot・seed・UI後の374-byte取得の30秒、bootstatus240秒、同じ唯一のUUID・type・Booted状態、canaryの全bytes比較、UI26件・各job50分・Release監査を保つ。各sliceの個別コマンド上限は合計最大120秒増えるが、共通wall上限や製品性能予算ではない。再試行を加えず、根因解消や成功も断定しない。inventory再発時だけの旧1call候補は採用せず、別段階の失敗を受けた2call候補として分ける。
+
+新しいNode24.19.0の実inline抽出／fake FS・spawn fixtureは1回で23件すべて成功し、別作者のSource1レビューはP1・P2とも0だった。実simctlや新headのUI受入ではなく、旧Node18の候補結果も転用しない。
+
+ローカル容量は共通検査内の2GiB条件を下回るため完全な共通検査は未起動とする。既存の分散CIを`npm run check`全体の実行とは呼ばない。具体的な代替経路として、既存のroot／ios-toolsの`npm ci --ignore-scripts`とChromium導入・証跡ディレクトリ作成後、reading-state sliceだけに3分枠の`npm run check` stepを追加する。`set -euo pipefail`で全出力を保持し、非zeroやtimeoutなら失敗として扱う。job50分・既存iOS検査と権限を保ち、実際の新headのfull common exit0・必要iOS検査・最新11必須チェックと本文後policyを満たすまでmainへ統合しない。旧head7fの成功を新headへ代入しない。
+
+実機・VoiceOver・保存先provider・上書き更新、最低iOS17とSDK27の既知UI失敗、署名更新・一般配布・複合TODOは未完了として残す。
+
+## これまでの記録
+
 作成日: 2026-10-31。状態: **PR #315の初回失敗と診断工程の時間切れを保持し、12パスの検査修正を準備中**。前段Aboutの通常main採用を別途確認した実parent `568dd2948a58c174cef739a667c3f9bd19ea8fa3`へSource4のbeforeを照合し、PBXの版だけをApp0.2.27（29）へ変更した。main採用自体は実行者の外部前提であり、local HEADの一致だけから推定しない。IOS-22全体は未完了とし、完成版TODOの32行・完了14行を保つ。
 
 ## 目的と所有範囲

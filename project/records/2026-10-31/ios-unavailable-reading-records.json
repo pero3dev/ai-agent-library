@@ -2,7 +2,7 @@
   "schema_version": 1,
   "date": "2026-10-31",
   "title": "現在の記事版にない読書記録の件数と保管案内",
-  "state": "Source12 first Full A/B failures retained; Native-only readiness reuse and return failure diagnostics submitted-candidate preparation; new common/final12/CI/main pending",
+  "state": "Source12 two pre-UI read caps plus explicit full common CI step prepared; actual newhead common/iOS/main pending",
   "scope": "IOS22 read-only unavailable-article record count and retention/export-location guidance only; no automatic cross-ID rename/delete/migration",
   "publication_parent": "568dd2948a58c174cef739a667c3f9bd19ea8fa3",
   "publication_parent_tree": "761637b27ed9a51234990e5cf24501212098079b",
@@ -664,5 +664,120 @@
     "final12_IR": null,
     "new_head_CI": null,
     "main": null
+  },
+  "postboot_readiness_followup": {
+    "state": "Source12 two pre-UI read caps plus explicit full common CI step prepared; actual newhead common/iOS/main pending",
+    "publication_parent": "7f5ac62bb55866af4b81801ea3889ce0f6326904",
+    "base": "568dd2948a58c174cef739a667c3f9bd19ea8fa3",
+    "prior_top_state": "Source12 first Full A/B failures retained; Native-only readiness reuse and return failure diagnostics submitted-candidate preparation; new common/final12/CI/main pending",
+    "held_configuration": "0.2.27(29), allSwift/PBX and Content held from7f",
+    "prior7f_acceptance": "Native270=268pass2skip/UI7, Runtime26UI3, FullA270/UI18 passed; not newhead acceptance",
+    "B_initial": {
+      "job": 124374334659,
+      "stage": "postboot devices-ready inventory",
+      "error": "ETIMEDOUT30s",
+      "UI": 0,
+      "raw_bytes": 836503,
+      "raw_SHA256": "46544bd0ef104518d2fbd346ec9e8cf4846a7e235039696e169a537314fb22a4"
+    },
+    "B_single_retry": {
+      "job": 124386024750,
+      "attempt": 2,
+      "stage": "pre-UI canary pbpaste, after successful ready inventory and seed",
+      "error": "ETIMEDOUT30s",
+      "UI": 0,
+      "copy374": "not executed",
+      "Release": "not executed",
+      "raw_bytes": 834747,
+      "raw_SHA256": "b1aac99633ac3ca153fed578049818c43ef842d26a54aabff4e0e672fd11ff42"
+    },
+    "retry_accounting": "Initial403 runalreadyrunning created0; completed-run request accepted1; further sameheadretry0",
+    "new_Source1": {
+      "SHA256": "75dedc6b50dd655e6d29fbe8b46f210e03716fcd645685008d3a0e4a65d04a2e",
+      "bytes": 43870,
+      "change": "only devices-ready and pre-UI canary read explicit90000; all other30/240/device/selector/check/copy/Release contracts held",
+      "maximum_extra_individual_caps_seconds_per_slice": 120,
+      "not_a_shared_wall_or_product_budget": true,
+      "retry_added": false,
+      "causefix_or_Hosted_success": false,
+      "old_single_inventory_call_candidate": "not adopted; distinct second failed stage preserved",
+      "full_common_step": {
+        "slice": "reading-state only",
+        "position": "after existing root/native locked installs, Chromium install and evidence directory/environment record; before source icon/content preparation",
+        "command": "set -euo pipefail; npm run check 2>&1 | tee evidence/full-common-check.log",
+        "step_timeout_minutes": 3,
+        "whole_job_minutes": 50,
+        "existing_installs": "npm ci --ignore-scripts in root and ios/tools, unchanged",
+        "failure": "nonzero/timeout fails slice and prevents normal merge; no continue-on-error/retry",
+        "actual_execution": "not yet performed at newhead"
+      }
+    },
+    "pure": "Primary Node24.19.0 one new run23unique23pass0fail0skip/0.231646s, fake FS/spawn only; oldNode18 result not reused",
+    "local_common": {
+      "state": "not admitted, not started",
+      "free_B": 1197744128,
+      "reason": "below unchanged2GiB suite fixture preconditions before isolated fullsource copy; no floor/test changes"
+    },
+    "remote_common_and_iOS": "Full npm run check now has a concrete reading-state-only workflow step after existing npm ci --ignore-scripts installs. Existing distributed ci.yml checks are not called a full invocation. Newhead actual fullcommon exit0 and affected iOS checks are required before main; not yet executed.",
+    "final12_review": "initial review found missing concrete fullCommon route (P2), preserved; revision2 workflow step and record correction pending newreview",
+    "manual_and_TODO": "physical/VO/provider/overwrite/minimumOS/knownSDK27failure/signing/distribution incomplete;32rows14complete held",
+    "two_read_inline_IR": {
+      "P1": 0,
+      "P2": 0,
+      "SHA256": "618a7fdf4dac4376b22a8252ea0064e157f300c959a123db54481719bba20b8d",
+      "scope": "exact two-read inline only; extra full-common step awaits final12 independent review"
+    }
+  },
+  "postboot_readiness_before_full_common_step": {
+    "state": "private Source12 pre-UI two-read timeout candidate, not applied; exact newhead common/iOS/main pending",
+    "publication_parent": "7f5ac62bb55866af4b81801ea3889ce0f6326904",
+    "base": "568dd2948a58c174cef739a667c3f9bd19ea8fa3",
+    "prior_top_state": "Source12 first Full A/B failures retained; Native-only readiness reuse and return failure diagnostics submitted-candidate preparation; new common/final12/CI/main pending",
+    "held_configuration": "0.2.27(29), allSwift/PBX and Content held from7f",
+    "prior7f_acceptance": "Native270=268pass2skip/UI7, Runtime26UI3, FullA270/UI18 passed; not newhead acceptance",
+    "B_initial": {
+      "job": 124374334659,
+      "stage": "postboot devices-ready inventory",
+      "error": "ETIMEDOUT30s",
+      "UI": 0,
+      "raw_bytes": 836503,
+      "raw_SHA256": "46544bd0ef104518d2fbd346ec9e8cf4846a7e235039696e169a537314fb22a4"
+    },
+    "B_single_retry": {
+      "job": 124386024750,
+      "attempt": 2,
+      "stage": "pre-UI canary pbpaste, after successful ready inventory and seed",
+      "error": "ETIMEDOUT30s",
+      "UI": 0,
+      "copy374": "not executed",
+      "Release": "not executed",
+      "raw_bytes": 834747,
+      "raw_SHA256": "b1aac99633ac3ca153fed578049818c43ef842d26a54aabff4e0e672fd11ff42"
+    },
+    "retry_accounting": "Initial403 runalreadyrunning created0; completed-run request accepted1; further sameheadretry0",
+    "new_Source1": {
+      "SHA256": "c35351a0d2c18726b6a6de6e5f8da3f482a5d00a34584de34a867f69d761f76e",
+      "bytes": 43570,
+      "change": "only devices-ready and pre-UI canary read explicit90000; all other30/240/device/selector/check/copy/Release contracts held",
+      "maximum_extra_individual_caps_seconds_per_slice": 120,
+      "not_a_shared_wall_or_product_budget": true,
+      "retry_added": false,
+      "causefix_or_Hosted_success": false,
+      "old_single_inventory_call_candidate": "not adopted; distinct second failed stage preserved"
+    },
+    "pure": "Primary Node24.19.0 one new run23unique23pass0fail0skip/0.231646s, fake FS/spawn only; oldNode18 result not reused",
+    "Source1_IR": {
+      "P1": 0,
+      "P2": 0,
+      "SHA256": "618a7fdf4dac4376b22a8252ea0064e157f300c959a123db54481719bba20b8d"
+    },
+    "local_common": {
+      "state": "not admitted, not started",
+      "free_B": 1203572736,
+      "reason": "below unchanged2GiB suite fixture preconditions before isolated fullsource copy; no floor/test changes"
+    },
+    "remote_common_and_iOS": "full unchanged npm ci/npm run check and affected exactnewhead iOS required before normal main; not yet executed",
+    "final12_review": "pending",
+    "manual_and_TODO": "physical/VO/provider/overwrite/minimumOS/knownSDK27failure/signing/distribution incomplete;32rows14complete held"
   }
 }

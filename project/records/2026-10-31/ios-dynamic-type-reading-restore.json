@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "state": "private-source8-common-checked-pending-final-review-hosted",
+  "base": "7c1ec1d7319eade2209d8a28fbcdf94661759d7c",
+  "scope": [
+    "IOS-11",
+    "IOS-25"
+  ],
+  "version": "0.2.28 (30)",
+  "Source4_manifest_SHA256": "bebc0df36731e5ec70c26b454f9408095903973b0c349d0bb59bdabddb78dce4",
+  "Source4_review_SHA256": "e80f98079100a033f25865d39e38dfb118da1338f9fcf7a3f52393b881309f4e",
+  "independent_source4_review": {
+    "P1": 0,
+    "P2": 0,
+    "kind": "static-only"
+  },
+  "local": {
+    "Node": "24.22.1",
+    "YAML_parsed": 2,
+    "driver_syntax_pass": 2,
+    "driver_entry_execution": false,
+    "SDK": "iOS Simulator 18.2",
+    "deployment": "iOS 17.0",
+    "App_Debug_module_sources": 17,
+    "App_Debug_module_exit": 0,
+    "App_Release_typecheck_sources": 17,
+    "App_Release_typecheck_exit": 0,
+    "UI_Debug_typecheck_sources": 6,
+    "UI_Debug_typecheck_exit": 0,
+    "first_UI_typecheck": {
+      "exit": 1,
+      "reason": "standalone command omitted official XCTest Swift overlay search path",
+      "candidate_source_changed": false
+    },
+    "corrected_UI_typecheck": {
+      "exit": 0,
+      "candidate_source_changed": false
+    },
+    "common_check": {
+      "tests": 1206,
+      "pass": 1192,
+      "skip": 14,
+      "fail": 0,
+      "all8": true,
+      "Node": "24.22.1"
+    }
+  },
+  "contracts": {
+    "old_rotation_cases": 1,
+    "new_dynamic_type_cases": 1,
+    "job_minutes": 43,
+    "explicit_step_minutes": 42,
+    "UI_seconds": 420,
+    "mode_requires": [
+      "DEBUG",
+      "canonical UUID isolated suite",
+      "fixed default or accessibility5"
+    ],
+    "default_launch_override": false,
+    "Release_hook": false,
+    "PBX_changed": false,
+    "Core4_changed": false,
+    "save_format_changed": false,
+    "corrective_reader_gestures_after_continue": 0
+  },
+  "unperformed": [
+    "final Source8 review",
+    "new and old strict1 Hosted UI",
+    "current-head required CI",
+    "main adoption",
+    "main push CI",
+    "real system settings change",
+    "live in-process font transition",
+    "VoiceOver",
+    "physical device"
+  ],
+  "physical_checks": "incomplete-skipped-per-user",
+  "TODO": {
+    "total": 32,
+    "complete": 14,
+    "IOS11_complete": false,
+    "IOS25_complete": false
+  },
+  "Git_units": [
+    "Source4 code and dedicated CI commit",
+    "records and index synchronization commit",
+    "Draft PR exact-head validation",
+    "ordinary protected squash and actual-main proof"
+  ]
+}

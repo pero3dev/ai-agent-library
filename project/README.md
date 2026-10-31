@@ -1,5 +1,7 @@
 # project — 計画と実施記録
 
+[文字サイズ変更後の読書位置復帰](records/2026-10-31/ios-dynamic-type-reading-restore.md)では、DEBUGのUUID隔離suiteだけで通常→最大→通常の再起動を行う専用UI1ケースを準備します。既存の回転1ケース・上限・App0.2.28（30）と保存形式を保ち、Source4の静的レビューと既存SDKでのApp17・UI6のコンパイル確認、2つのdriver構文検査まで成功しました。共通検査は1206件中1192成功・14skip・失敗0で全8工程が成功しました。最終8ファイルのレビュー・新旧Hosted strict1・通常main・実機は未完了で、IOS-11・25とTODO32行・完了14行を維持します。
+
 [固定列幅表の回転後の読書位置回帰](records/2026-10-31/ios-reader-rotation-regression.md)では、Reflowの9d初回はUI開始前約193秒とcase約46秒で240秒枠を使い切り、同条件1回の再実行はbuild後native監査のdefault30秒で停止した。監査4呼出へ明示120秒、共有UI420秒・step8分・job43分へ配分する候補で、共有content/build上限と全監査・厳密判定は保つ。効果と新head専用1件／通常CI／mainは未確認。App0.2.28（30）・TODO32行／14完了と実機等の未完了を維持する。
 
 [以前選択した保存記事版へのfallback](records/2026-10-31/ios-previous-stored-version-fallback.md)は、現在の保存記事版が使えず、有効なpointerにpreviousがある場合だけその1件を再検証してからbundleへ進むSource2私有候補である。pointer破損・現在UUID不正はbundleだけへ進む。単一atomic writer・旧版/読書raw保持と明示bundle/no-opの意味を保ち、独立静的レビュー指摘0まで確認した。保存済みHost8/SDKと候補の実typed19一致を確認したが、新共通・最終7レビュー・currenthead CI/main・実機は未確認、IOS-18/21/22とTODO14/32は維持する。 実parent a1022fbf0d2d67b651d08930a3bef88b6b8a886dへSource2と版設定0.2.28（30）の7パスを結合した投影候補であり、保存済みHost8/SDKの実typed19一致を確認した。 初版の未確認段階は記録の履歴に保ち、新共通・最終7レビュー・currenthead CI/main・実機は後続である。

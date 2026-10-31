@@ -1,0 +1,422 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-31",
+  "state": "actual-parent Source7 projected candidate; fresh common/final7/currenthead CI/main pending",
+  "scope": "IOS18/21/22 partial: one recorded previously selected stored package fallback, no GC/UI provenance",
+  "Root_limited_design_adopted": true,
+  "publication_parent": "a1022fbf0d2d67b651d08930a3bef88b6b8a886d",
+  "app_version": "0.2.28(30)",
+  "planned_owned_paths": [
+    "ios/AILibrary/Sources/ContentRepository.swift",
+    "ios/AILibraryTests/LibraryCoreTests.swift",
+    "ios/AILibrary.xcodeproj/project.pbxproj",
+    "project/records/2026-10-31/ios-previous-stored-version-fallback.md",
+    "project/records/2026-10-31/ios-previous-stored-version-fallback.json",
+    "project/README.md",
+    "project/plans/engineering/ios-app-completion.md"
+  ],
+  "Source2": {
+    "manifest_SHA256": "d1d34c8522fdbfbe57d1a9fee7bdeae8cb6156f3d05c85896b61fc894217173c",
+    "Repository": {
+      "before_bytes": 5442,
+      "before_SHA256": "64e9955ad6207ba0dc3026f63c015e79e5f911b2c5eb4c3efef1ba26fbaaf0cd",
+      "bytes": 7678,
+      "SHA256": "cd3df97be1b030ccdefc5d4b13060cbb6c79030fd27d31af8e05c4adfbd184cb"
+    },
+    "CoreTests": {
+      "before_bytes": 294311,
+      "before_SHA256": "3a755a63d39afec3dee8979fd56e5d56dadf629a3f145d2033eaa2eed4506340",
+      "bytes": 322585,
+      "SHA256": "695b0e7fd3a77dcdd82cfeb5065838fc1664299d063495bf1d56ada8e397a6b8",
+      "old_prefix_held": true,
+      "appended_bytes": 28274,
+      "new_unique_methods": 8
+    }
+  },
+  "semantics": {
+    "order": [
+      "fully validated current",
+      "one recorded fully validated previous",
+      "fully validated bundle"
+    ],
+    "invalid_current_pointer": "bundle only",
+    "malformed_previous": "ignore without invalidating healthy current",
+    "load_readonly": true,
+    "staging_or_orphan_scan": false,
+    "recursive_history": false,
+    "candidate_validation_leases": 0,
+    "returned_stored_snapshot_lease": true,
+    "one_atomic_pointer_write_after_all_import_validations": true,
+    "nonnoop_bundle": "previous omitted, old bytes retained",
+    "full_manifest_noop_bundle": "all bytes and eligibility held",
+    "old_directory_only_pointer_compatible": true,
+    "origin_authenticity_proof": false,
+    "new_storage_lock_or_CAS": false
+  },
+  "static_review": {
+    "P1": 0,
+    "P2": 0,
+    "SHA256": "dfc06d73f0a14a99a29358b593222fcbf9794122d23035f03b20e4cb508241c8",
+    "forward_inverse_hunks_each": 6,
+    "old_Core_fullprefix": true
+  },
+  "verification": {
+    "Host8": {
+      "unique_pass": 8,
+      "skip": 0,
+      "fail": 0,
+      "result_SHA256": "1cbd63c560124eccab637c18b6c6db0c7a4f6af70d096db5678e9727f3a0b8c4",
+      "summary_SHA256": "b7cc932a3a95fdd043fb478c6c9a6518c2202391257204526755018011a21069",
+      "phase_seconds": 30.16986,
+      "step_seconds": {
+        "version": 6.431994,
+        "module": 15.369231,
+        "test-build": 6.708779,
+        "test-runtime": 1.638355
+      },
+      "bounds": {
+        "seconds": 120,
+        "combined_log_bytes": 2097152,
+        "owned_bytes": 536870912,
+        "free_floor_bytes": 734003200,
+        "sampling_seconds": 0.25
+      },
+      "private_inputs_held_at_execution": 12,
+      "cleanup_scope": "four child exit/wait plus known-group cleanup requested; no group census/noRemaining claim",
+      "minimum_sampled_free": 2143313920,
+      "maximum_sampled_owned": 116675185,
+      "combined_output_bytes": 6151,
+      "evidence_IR_SHA256": "2923b0a09b14f25b002cb7c64063675f160fc9ab9419d556991a31130da42fe3"
+    },
+    "SDK_App17_Core_Diagnostics": {
+      "App_source_count": 17,
+      "typed_sources": {
+        "ios/AILibrary/Sources/AILibraryApp.swift": {
+          "bytes": 2264,
+          "sha256": "ec9fb110ae186ada5ca5e56424024c917ea22d9af8081176e4cd18eb7cfdabb8"
+        },
+        "ios/AILibrary/Sources/ArticleReaderView.swift": {
+          "bytes": 9954,
+          "sha256": "71dfc03a02c57d84fa60f70e812fa23f90e3154578f63519bdd52c17255222ad"
+        },
+        "ios/AILibrary/Sources/AudioPlayer.swift": {
+          "bytes": 20787,
+          "sha256": "87e0539b12d8fc334360e015859c52472f5b21ba1ede21cd6aff1415d6a8ff9a"
+        },
+        "ios/AILibrary/Sources/AudioPlayerView.swift": {
+          "bytes": 7938,
+          "sha256": "5916861fddf2d5b1718c63ee416a63824b4c046fcbb9936e9a3276a2f7dcc23b"
+        },
+        "ios/AILibrary/Sources/ContentRepository.swift": {
+          "bytes": 7678,
+          "sha256": "cd3df97be1b030ccdefc5d4b13060cbb6c79030fd27d31af8e05c4adfbd184cb"
+        },
+        "ios/AILibrary/Sources/ContentValidator.swift": {
+          "bytes": 13784,
+          "sha256": "ffcdab90f0a8f39fc8b7cfceea0ba48aac7f18df1c033b237d2da311562e385a"
+        },
+        "ios/AILibrary/Sources/LearningIndex.swift": {
+          "bytes": 19607,
+          "sha256": "aec0cb3e4ce0e1d0c68ba9eb258747c36f7427d93ffa169b79c44c23dd51b41d"
+        },
+        "ios/AILibrary/Sources/LibraryStore.swift": {
+          "bytes": 18351,
+          "sha256": "3f04caf670cd08995300235601398b1def0a5c9038f15628d52fae77f70840cd"
+        },
+        "ios/AILibrary/Sources/LibraryView.swift": {
+          "bytes": 50443,
+          "sha256": "f99845e7c1ea7a14ac54f256edfc7ca5c358bc11ccdc6c7355da6b62418af155"
+        },
+        "ios/AILibrary/Sources/Models.swift": {
+          "bytes": 12035,
+          "sha256": "459423194145e677834d35b57201ae60f0c9e9b5ab449a620cb519f5a070292c"
+        },
+        "ios/AILibrary/Sources/NativeDocument.swift": {
+          "bytes": 27503,
+          "sha256": "ce96e4960eef766e325b1b4b7d3701d4a7d5b5c3b1e69ae9599fd0f2622af2ab"
+        },
+        "ios/AILibrary/Sources/NativeInlineText.swift": {
+          "bytes": 32427,
+          "sha256": "107b4b738d550f1cd5c53f75e9ffd4abfb61a84f93e45fb311e61cf618a287ca"
+        },
+        "ios/AILibrary/Sources/NativeLearningViews.swift": {
+          "bytes": 15378,
+          "sha256": "7895724d576ac36a6ccfeeb239d8e3077e8d4202b6bcc3c7f88641625d7cf655"
+        },
+        "ios/AILibrary/Sources/NativeReaderPlacementPolicy.swift": {
+          "bytes": 4797,
+          "sha256": "8b48241f125f2f8eec5ab248583bf56b35a0709b877b374f6968b417f98d847e"
+        },
+        "ios/AILibrary/Sources/NativeReaderView.swift": {
+          "bytes": 63730,
+          "sha256": "1d417e8508d5a8b5e242915533605ee1e33736c5df996cf082c9127e88e38b24"
+        },
+        "ios/AILibrary/Sources/ReadingStore.swift": {
+          "bytes": 57568,
+          "sha256": "da88bdb3ef99a93ddb842f53e7e92bdba2dfc4e95bff0f78f9d467387e9acfe7"
+        },
+        "ios/AILibrary/Sources/LibraryDiagnostics.swift": {
+          "bytes": 7696,
+          "sha256": "8d8f1ee4bac7dca073da493eec4180094865dd784accffb91708542198f9a998"
+        },
+        "ios/AILibraryTests/LibraryCoreTests.swift": {
+          "bytes": 322585,
+          "sha256": "695b0e7fd3a77dcdd82cfeb5065838fc1664299d063495bf1d56ada8e397a6b8"
+        },
+        "ios/AILibraryTests/LibraryDiagnosticsTests.swift": {
+          "bytes": 8057,
+          "sha256": "17e9730aadee308c53b874f8dc1e882a2b35047bf554eb1acc436b85e1f67f9c"
+        }
+      },
+      "exits": [
+        0,
+        0,
+        0
+      ],
+      "result_SHA256": "2d03d89820cd049ecc7849cc3dad89959698bec25c21d57c92ce805df1b92e13",
+      "summary_SHA256": "c6b561e8a4a7626631125a23da0b7b9cac52357c6dbf6c527b4315d9d34fe6d7",
+      "phase_seconds": 21.793887,
+      "step_seconds": {
+        "App17-module": 14.254225,
+        "LibraryCoreTests-typecheck": 5.85916,
+        "DiagnosticsTests-typecheck": 0.582438
+      },
+      "bounds": {
+        "phase_seconds": 90,
+        "combined_log_bytes": 1048576,
+        "owned_bytes": 314572800,
+        "free_floor_bytes": 734003200,
+        "sampling_seconds": 0.05
+      },
+      "initial_saved_inputs": 67,
+      "later_saved_inputs": 71,
+      "actual_generated_modules": 4,
+      "raw_output_bytes": 0,
+      "groups_reaped_no_remaining": 3,
+      "minimum_sampled_free": 2050457600,
+      "maximum_sampled_owned": 91820280,
+      "retained_verified_files": 137,
+      "excluded_temporary_caches": 2,
+      "excluded_cache_bytes": 203263226,
+      "execution_manifest_SHA256": "b7251de3389d990169520b35a952229776fb6da93da95fb2a2f4de01c2efceae",
+      "evidence_IR_SHA256": "2923b0a09b14f25b002cb7c64063675f160fc9ab9419d556991a31130da42fe3",
+      "saved_contexts_held_at_execution_only": true,
+      "new_SDK_execution_by_binder": false,
+      "scope": "App17 emit plus entire CoreTests/Diagnostics typechecks only; no Bundle/XCTest/iOS runtime"
+    },
+    "new_common": null,
+    "final7_IR": null,
+    "new_head_CI": null,
+    "normal_main": null,
+    "physical_VO_provider": null,
+    "planned_iOS_units": 278,
+    "planned_iOS_units_basis": "270+8 expected only",
+    "planned_UI": "Native7 Full26/copy374/Release199"
+  },
+  "limits": [
+    "not imported origin evidence",
+    "no pointer-corruption recovery beyond bundle",
+    "no arbitrary version scan or GC",
+    "writer ENOSPC is precommit injection, not real disk full or power-loss guarantee",
+    "existing single authorized writer assumption, no same-storage global lock/CAS",
+    "no UI recovery notice/provenance change"
+  ],
+  "TODO": {
+    "rows": 32,
+    "complete": 14,
+    "checkbox_changes": false
+  },
+  "authority": "user autonomous prioritized TODO and normal commit/PR/protected main; manual device checks may remain incomplete; no paid/public distribution or new signing authority",
+  "publication_parent_tree": "68751606993cce2030d02d6a0437632e22cbe2c0",
+  "initial_draft_history": {
+    "scope": "Unchanged initial Source2/static-IR stage, not current runtime status",
+    "rootdocs_manifest_SHA256": "7b798c078800bc65e6d6c2b514ced197db1e7c2098565d470de6edceba918a8b",
+    "record": {
+      "schema_version": 1,
+      "date": "2026-10-31",
+      "state": "private Source2 implementation and static IR; validation and adoption pending",
+      "scope": "IOS18/21/22 partial: one recorded previously selected stored package fallback, no GC/UI provenance",
+      "Root_limited_design_adopted": true,
+      "publication_parent": null,
+      "app_version": null,
+      "planned_owned_paths": [
+        "ios/AILibrary/Sources/ContentRepository.swift",
+        "ios/AILibraryTests/LibraryCoreTests.swift",
+        "ios/AILibrary.xcodeproj/project.pbxproj",
+        "project/records/2026-10-31/ios-previous-stored-version-fallback.md",
+        "project/records/2026-10-31/ios-previous-stored-version-fallback.json",
+        "project/README.md",
+        "project/plans/engineering/ios-app-completion.md"
+      ],
+      "Source2": {
+        "manifest_SHA256": "d1d34c8522fdbfbe57d1a9fee7bdeae8cb6156f3d05c85896b61fc894217173c",
+        "Repository": {
+          "before_bytes": 5442,
+          "before_SHA256": "64e9955ad6207ba0dc3026f63c015e79e5f911b2c5eb4c3efef1ba26fbaaf0cd",
+          "bytes": 7678,
+          "SHA256": "cd3df97be1b030ccdefc5d4b13060cbb6c79030fd27d31af8e05c4adfbd184cb"
+        },
+        "CoreTests": {
+          "before_bytes": 294311,
+          "before_SHA256": "3a755a63d39afec3dee8979fd56e5d56dadf629a3f145d2033eaa2eed4506340",
+          "bytes": 322585,
+          "SHA256": "695b0e7fd3a77dcdd82cfeb5065838fc1664299d063495bf1d56ada8e397a6b8",
+          "old_prefix_held": true,
+          "appended_bytes": 28274,
+          "new_unique_methods": 8
+        }
+      },
+      "semantics": {
+        "order": [
+          "fully validated current",
+          "one recorded fully validated previous",
+          "fully validated bundle"
+        ],
+        "invalid_current_pointer": "bundle only",
+        "malformed_previous": "ignore without invalidating healthy current",
+        "load_readonly": true,
+        "staging_or_orphan_scan": false,
+        "recursive_history": false,
+        "candidate_validation_leases": 0,
+        "returned_stored_snapshot_lease": true,
+        "one_atomic_pointer_write_after_all_import_validations": true,
+        "nonnoop_bundle": "previous omitted, old bytes retained",
+        "full_manifest_noop_bundle": "all bytes and eligibility held",
+        "old_directory_only_pointer_compatible": true,
+        "origin_authenticity_proof": false,
+        "new_storage_lock_or_CAS": false
+      },
+      "static_review": {
+        "P1": 0,
+        "P2": 0,
+        "SHA256": "dfc06d73f0a14a99a29358b593222fcbf9794122d23035f03b20e4cb508241c8",
+        "forward_inverse_hunks_each": 6,
+        "old_Core_fullprefix": true
+      },
+      "verification": {
+        "Host8": null,
+        "SDK_App17_Core_Diagnostics": null,
+        "new_common": null,
+        "final7_IR": null,
+        "new_head_CI": null,
+        "normal_main": null,
+        "physical_VO_provider": null,
+        "planned_iOS_units": 278,
+        "planned_iOS_units_basis": "270+8 expected only",
+        "planned_UI": "Native7 Full26/copy374/Release199"
+      },
+      "limits": [
+        "not imported origin evidence",
+        "no pointer-corruption recovery beyond bundle",
+        "no arbitrary version scan or GC",
+        "writer ENOSPC is precommit injection, not real disk full or power-loss guarantee",
+        "existing single authorized writer assumption, no same-storage global lock/CAS",
+        "no UI recovery notice/provenance change"
+      ],
+      "TODO": {
+        "rows": 32,
+        "complete": 14,
+        "checkbox_changes": false
+      },
+      "authority": "user autonomous prioritized TODO and normal commit/PR/protected main; manual device checks may remain incomplete; no paid/public distribution or new signing authority"
+    }
+  },
+  "binding": {
+    "base_tracked": 2837,
+    "target_tracked_computed": 2839,
+    "owned_paths": [
+      "ios/AILibrary/Sources/ContentRepository.swift",
+      "ios/AILibraryTests/LibraryCoreTests.swift",
+      "ios/AILibrary.xcodeproj/project.pbxproj",
+      "project/records/2026-10-31/ios-previous-stored-version-fallback.md",
+      "project/records/2026-10-31/ios-previous-stored-version-fallback.json",
+      "project/README.md",
+      "project/plans/engineering/ios-app-completion.md"
+    ],
+    "PBX_before_SHA256": "1d516b4aeb1869644a87496befa50fe33da86482da07ee639bc4424392801b42",
+    "PBX_after_SHA256": "a45171a6b02bca4926982a59bc9205cc1fd435b53a442152210bbe1d59f65623",
+    "PBX_change": "Version tokens only, two settings each",
+    "actual_Bundle_or_signing_observed": false,
+    "remote_main_verification": "External Root precondition; local checks only",
+    "initial_Rootdocs4_IR_SHA256": "2efac6a48cfcdfc77dda80c2a9ce21ec2b66f6f4d60d3eb3bf6a232ba9f0789d",
+    "final7_IR": null,
+    "verified_typed_closure": {
+      "ios/AILibrary/Sources/AILibraryApp.swift": {
+        "bytes": 2264,
+        "sha256": "ec9fb110ae186ada5ca5e56424024c917ea22d9af8081176e4cd18eb7cfdabb8"
+      },
+      "ios/AILibrary/Sources/ArticleReaderView.swift": {
+        "bytes": 9954,
+        "sha256": "71dfc03a02c57d84fa60f70e812fa23f90e3154578f63519bdd52c17255222ad"
+      },
+      "ios/AILibrary/Sources/AudioPlayer.swift": {
+        "bytes": 20787,
+        "sha256": "87e0539b12d8fc334360e015859c52472f5b21ba1ede21cd6aff1415d6a8ff9a"
+      },
+      "ios/AILibrary/Sources/AudioPlayerView.swift": {
+        "bytes": 7938,
+        "sha256": "5916861fddf2d5b1718c63ee416a63824b4c046fcbb9936e9a3276a2f7dcc23b"
+      },
+      "ios/AILibrary/Sources/ContentRepository.swift": {
+        "bytes": 7678,
+        "sha256": "cd3df97be1b030ccdefc5d4b13060cbb6c79030fd27d31af8e05c4adfbd184cb"
+      },
+      "ios/AILibrary/Sources/ContentValidator.swift": {
+        "bytes": 13784,
+        "sha256": "ffcdab90f0a8f39fc8b7cfceea0ba48aac7f18df1c033b237d2da311562e385a"
+      },
+      "ios/AILibrary/Sources/LearningIndex.swift": {
+        "bytes": 19607,
+        "sha256": "aec0cb3e4ce0e1d0c68ba9eb258747c36f7427d93ffa169b79c44c23dd51b41d"
+      },
+      "ios/AILibrary/Sources/LibraryStore.swift": {
+        "bytes": 18351,
+        "sha256": "3f04caf670cd08995300235601398b1def0a5c9038f15628d52fae77f70840cd"
+      },
+      "ios/AILibrary/Sources/LibraryView.swift": {
+        "bytes": 50443,
+        "sha256": "f99845e7c1ea7a14ac54f256edfc7ca5c358bc11ccdc6c7355da6b62418af155"
+      },
+      "ios/AILibrary/Sources/Models.swift": {
+        "bytes": 12035,
+        "sha256": "459423194145e677834d35b57201ae60f0c9e9b5ab449a620cb519f5a070292c"
+      },
+      "ios/AILibrary/Sources/NativeDocument.swift": {
+        "bytes": 27503,
+        "sha256": "ce96e4960eef766e325b1b4b7d3701d4a7d5b5c3b1e69ae9599fd0f2622af2ab"
+      },
+      "ios/AILibrary/Sources/NativeInlineText.swift": {
+        "bytes": 32427,
+        "sha256": "107b4b738d550f1cd5c53f75e9ffd4abfb61a84f93e45fb311e61cf618a287ca"
+      },
+      "ios/AILibrary/Sources/NativeLearningViews.swift": {
+        "bytes": 15378,
+        "sha256": "7895724d576ac36a6ccfeeb239d8e3077e8d4202b6bcc3c7f88641625d7cf655"
+      },
+      "ios/AILibrary/Sources/NativeReaderPlacementPolicy.swift": {
+        "bytes": 4797,
+        "sha256": "8b48241f125f2f8eec5ab248583bf56b35a0709b877b374f6968b417f98d847e"
+      },
+      "ios/AILibrary/Sources/NativeReaderView.swift": {
+        "bytes": 63730,
+        "sha256": "1d417e8508d5a8b5e242915533605ee1e33736c5df996cf082c9127e88e38b24"
+      },
+      "ios/AILibrary/Sources/ReadingStore.swift": {
+        "bytes": 57568,
+        "sha256": "da88bdb3ef99a93ddb842f53e7e92bdba2dfc4e95bff0f78f9d467387e9acfe7"
+      },
+      "ios/AILibrary/Sources/LibraryDiagnostics.swift": {
+        "bytes": 7696,
+        "sha256": "8d8f1ee4bac7dca073da493eec4180094865dd784accffb91708542198f9a998"
+      },
+      "ios/AILibraryTests/LibraryCoreTests.swift": {
+        "bytes": 322585,
+        "sha256": "695b0e7fd3a77dcdd82cfeb5065838fc1664299d063495bf1d56ada8e397a6b8"
+      },
+      "ios/AILibraryTests/LibraryDiagnosticsTests.swift": {
+        "bytes": 8057,
+        "sha256": "17e9730aadee308c53b874f8dc1e882a2b35047bf554eb1acc436b85e1f67f9c"
+      }
+    }
+  }
+}

@@ -381,23 +381,33 @@ def probe(argv, env, maximum=8388608):
 
 def git_selection(env):
     version=probe(['/usr/bin/git','--version'],env).decode().strip()
-    exec_path=Path(probe(['/usr/bin/git','--exec-path'],env).decode().strip())
-    backend=exec_path.parent.parent/'bin/git'
-    require(backend.is_absolute() and backend.is_file() and not backend.is_symlink(),'Git backend candidate not ordinary')
+    request=probe(['/usr/bin/git','--exec-path'],env).decode().strip()
+    require(re.fullmatch(r'/Applications/Xcode_[0-9]+(?:\.[0-9]+)*\.app/Contents/Developer/usr/libexec/git-core',request)
+            and len(request)<=192,'Standard selected Xcode Git exec path required')
+    exec_path=Path(request);developer=exec_path.parents[2]
+    require(exec_path.is_dir() and not exec_path.is_symlink() and exec_path.resolve()==exec_path,
+            'Canonical selected Xcode Git exec path required')
+    backend=developer/'usr/bin/git'
+    require(backend.is_file() and not backend.is_symlink() and backend.resolve()==backend,
+            'Canonical matching Xcode Git backend required')
     require(probe([str(backend),'--version'],env).decode().strip()==version,'Git shim/backend version mismatch')
     alias=Path('/var/db/xcode_select_link')
     if alias.is_symlink():selected={'present':True,'link':os.readlink(alias),'resolved':str(alias.resolve())}
     else:
         require(not alias.exists(),'Unknown Xcode selector type')
         selected={'present':False}
+    require(selected['present'] and selected['resolved']==str(developer),'Selected Git backend and known Xcode selector differ')
     return {'version':version,'exec_path':str(exec_path),'backend':str(backend),
         'git_shim':fingerprint(Path('/usr/bin/git')),'git_backend':fingerprint(backend),
-        'known_xcode_selector':selected,'trust_premise':GIT_TRUST}
+        'known_xcode_selector':selected,'selected_xcode_developer':str(developer),
+        'fixed_xcode_vendor_origin':'file:'+str(developer/'usr/share/git-core/gitconfig'),
+        'trust_premise':GIT_TRUST}
 
 
 def runtime_git_boundary(env):
-    return {'environment':env,'owned_store':git_audit(ROOT/'prepared/git',env,True),
-        'source_checkout':git_audit(WORKSPACE,env,False),'selection':git_selection(env)}
+    selection=git_selection(env)
+    return {'environment':env,'owned_store':git_audit(ROOT/'prepared/git',env,True,selection),
+        'source_checkout':git_audit(WORKSPACE,env,False,selection),'selection':selection}
 
 
 def save_git_surface_rejection(g, first_rejected_rel):
@@ -606,7 +616,7 @@ def save_git_config_rejection_shape(raw, repo, g, bare, rejected_row_index):
         os.close(directory)
 
 
-def git_audit(repo, env, bare):
+def git_audit(repo, env, bare, selection):
     g=repo if bare else repo/'.git'
     require(g.is_dir() and not g.is_symlink(),'Ordinary Git directory required')
     worktree_metadata = None
@@ -628,12 +638,24 @@ def git_audit(repo, env, bare):
     if (g/'hooks').exists():
         for q in (g/'hooks').iterdir():require(q.is_file() and not q.is_symlink() and q.name.endswith('.sample'),'Active Git hook rejected')
     raw=probe(['/usr/bin/git','-C',str(repo),'config','--show-origin','--show-scope','--list'],env)
-    rows=[]
+    rows=[];local_rows=[];vendor_rows=[]
+    vendor_origin=selection['fixed_xcode_vendor_origin']
+    vendor_presets={'credential.helper':'osxkeychain','init.defaultbranch':'main'}
+    vendor_seen=set()
     rejected_row_index = None
     try:
         for rejected_row_index,line in enumerate(raw.decode('utf-8').splitlines()):
             fields=line.split('\t');require(len(fields)==3,'Unknown Git config serialization')
-            scope,origin,pair=fields;require(scope=='local' and origin.startswith('file:'),'Nonowned system/global/config origin rejected')
+            scope,origin,pair=fields
+            if scope=='unknown' and origin==vendor_origin:
+                key,sep,value=pair.partition('=')
+                require(sep and key in vendor_presets and value==vendor_presets[key] and key not in vendor_seen,
+                        'Fixed Xcode vendor preset differs or duplicates')
+                vendor_seen.add(key)
+                row={'scope':scope,'origin':origin,'key':key,'value':value}
+                vendor_rows.append(row);rows.append(row)
+                continue
+            require(scope=='local' and origin.startswith('file:'),'Nonowned system/global/config origin rejected')
             origin_path=Path(origin[5:]);origin_path=origin_path if origin_path.is_absolute() else repo/origin_path
             require(origin_path.resolve()==(g/'config').resolve(),'Unexpected local config origin')
             key,sep,value=pair.partition('=');require(sep and not any(ord(x)<32 for x in value),'Unknown Git config value')
@@ -644,9 +666,11 @@ def git_audit(repo, env, bare):
             else:
                 allowed={'core.repositoryformatversion':{'0'},'core.filemode':{'true','false'},'core.bare':{'false'},'core.logallrefupdates':{'true'},'core.ignorecase':{'true','false'},'core.precomposeunicode':{'true','false'},'gc.auto':{'0'},'remote.origin.url':{'https://github.com/pero3dev/ai-agent-library','https://github.com/pero3dev/ai-agent-library.git'},'remote.origin.fetch':{'+refs/heads/*:refs/remotes/origin/*'}}
                 require(key in allowed and value in allowed[key],'Unexpected fresh checkout Git config key/value')
-            rows.append({'scope':scope,'origin':origin,'key':key,'value':value})
+            row={'scope':scope,'origin':origin,'key':key,'value':value}
+            local_rows.append(row);rows.append(row)
         rejected_row_index = None
-        if bare:require(len(rows)==4,'Owned config missing/duplicate fields')
+        require(vendor_seen==set(vendor_presets) and len(vendor_rows)==2,'Exactly two fixed Xcode vendor presets required')
+        if bare:require(len(local_rows)==4,'Owned config missing/duplicate fields')
     except Exception:
         try:
             save_git_config_rejection_shape(raw,repo,g,bare,rejected_row_index)
@@ -654,10 +678,12 @@ def git_audit(repo, env, bare):
             pass  # Diagnostic failure cannot mask the original enforcement exception.
         raise
     # Unexpected raw config values are never written to artifacts.
-    # Only after the unchanged native effective-config audit passes is the file condition inert.
+    # Only after owned-local and exact selected-Xcode preset audits pass is the file condition inert.
     if worktree_metadata is not None:
         worktree_metadata['inert_condition'] = True
-    return {'exact_env_keys':['PATH','TMPDIR'],'effective_owned_only':True,'rows':rows,'raw_bytes':len(raw),'raw_sha256':sha(raw),
+    return {'exact_env_keys':['PATH','TMPDIR'],'effective_config_scope':'owned-local-plus-fixed-selected-Xcode-presets',
+            'rows':rows,'local_rows':local_rows,'fixed_xcode_vendor_rows':vendor_rows,
+            'raw_bytes':len(raw),'raw_sha256':sha(raw),
             'config_worktree':worktree_metadata or {'present':False,'inert_condition':False}}
 
 def git_object(repo, oid, kind, env):
@@ -808,8 +834,9 @@ def prepare():
     save(ROOT/'fixture-gate-receipt.json',fixture_receipt)
     save(ROOT/'prepare.intent.json',{'source_head':revision,'event':os.environ['GITHUB_EVENT_NAME'],'event_commit':os.environ['GITHUB_SHA'],'env_keys':['PATH','TMPDIR'],'measurement_started':False})
     require(read(WORKSPACE/'.git/HEAD').strip()==revision.encode(),'Checkout must be detached exact head40')
-    source_audit=git_audit(WORKSPACE,env,False)
-    selection=git_selection(env);version=selection['version'];exec_path=Path(selection['exec_path']);backend=Path(selection['backend'])
+    selection=git_selection(env)
+    source_audit=git_audit(WORKSPACE,env,False,selection)
+    version=selection['version'];exec_path=Path(selection['exec_path']);backend=Path(selection['backend'])
     required_tools=[NODE,Path('/usr/bin/git'),backend,Path('/usr/bin/xcrun'),Path('/usr/bin/xcode-select')]
     require(plistlib.loads(read(DEVELOPER.parent/'version.plist'))['CFBundleShortVersionString']=='16.4','Xcode16.4 required')
     swift=Path(SWIFTC);sdk_request=probe(['/usr/bin/xcrun','--sdk','macosx','--show-sdk-path'],{'PATH':env['PATH'],'DEVELOPER_DIR':str(DEVELOPER)}).decode().strip();sdk=Path(sdk_request).resolve()
@@ -844,7 +871,7 @@ def prepare():
         rel='ios/tests/'+name;data=git_object(WORKSPACE,tuples[rel][2],'blob',env);require(sha(data)==digest,'Fixed producer/verifier installation differs');(installation/name).write_bytes(data)
     require(git_object(WORKSPACE,tuples['ios/tests/observe-core-notice-hosted-20261031.py'][2],'blob',env)==read(Path(__file__)),'Executed guard differs from source head')
     freeze={'actual_notice_commit':revision,'actual_root_tree':root_tree,'full_tree_tuple_count':len(tuples),'required_blob_paths':sorted(required)};closure=validate_partial_git(revision,freeze)
-    bare_audit=git_audit(store,env,True);corpus_inventory=ordinary_copy(WORKSPACE/'ios/AILibrary/Content',ROOT/'prepared/Content')
+    bare_audit=git_audit(store,env,True,selection);corpus_inventory=ordinary_copy(WORKSPACE/'ios/AILibrary/Content',ROOT/'prepared/Content')
     save(ROOT/'source-freeze-receipt.json',{'source_head':revision,'root_tree':root_tree,'all_tuples':tuples,'partial_git':freeze,'closure':closure,'origin':'reviewed CI source head, not normal-main/signature provenance'})
     save(ROOT/'corpus-inventory.json',{'files':corpus_inventory,'total':626})
     save(ROOT/'git-execution-audit.json',{'source_checkout':source_audit,'owned_store':bare_audit,'version':version,'exec_path':str(exec_path),'backend':str(backend),'child_env':env,'selection':selection,'trust_premise':GIT_TRUST,'no_outer_GIT_overrides_assumed':True,'backend_scope':'exec-path location and matching --version are observed; not a syscall/exec trace'})

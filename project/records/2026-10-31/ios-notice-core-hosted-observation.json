@@ -1,9 +1,9 @@
 {
   "date": "2026-10-31",
   "title": "Notice対応Core観測の固定入口とHosted事前検査案",
-  "state": "publishedc1ad existing effective-config audit rejection retained; new rejection-only boundedshape candidate unexecuted; trust unchanged, new checks/Core/main pending",
-  "actual_parent": "84f8f3ea1e1a4d3e2c809130af6a0388b7f24564",
-  "actual_parent_tree": "3404498d89b9fd771babc3ff97215f22728892ec",
+  "state": "D402 fixedshape rejection retained; Root-adopted standard selected-Xcode exact2preset compatibility implemented privately, checks/Core/main pending",
+  "actual_parent": "7c1ec1d7319eade2209d8a28fbcdf94661759d7c",
+  "actual_parent_tree": "f5ee9c7f5fb54fc4059fc347b27a98b2db50c443",
   "Root_remote_normal_main_attestation": true,
   "base_tracked_count": 2843,
   "target_tracked_count": 2850,
@@ -37,13 +37,13 @@
     },
     {
       "path": "ios/tests/observe-core-notice-hosted-20261031.py",
-      "bytes": 71380,
-      "SHA256": "21695e89fdcc9351931f425d06c848ec66aa2295a119b19e46a0d433db3bf20f"
+      "bytes": 73173,
+      "SHA256": "cd822da1556b879950a078247168b1991ccaf1b667e4989d55c1255c31fc8f59"
     },
     {
       "path": "ios/tests/hosted-core-notice-pure-fixtures-20261031.py",
-      "bytes": 12997,
-      "SHA256": "5a046b372303be79d8872e50958507da4271d991253130c24b20665cbbf54c81"
+      "bytes": 13486,
+      "SHA256": "775a5734e0a8c79899921ce902475f279b2d8528aee7a2cfb4064e877f26bd34"
     }
   ],
   "App_version": "0.2.28(30) inherited configuration, not actual Bundle inspection",
@@ -85,8 +85,8 @@
       "real_children_Git_Swift_SDK_Node_network_Hosted": 0,
       "scope": "oldguard dc9 before rejection metadata; not new helper execution"
     },
-    "Source3_IR_scope": "Historical pre-shape sources only; diagnostic-only rowcontext requires independent review and new-head checks",
-    "published_execution_scope": "prior75f/a5e/c1ad only; current shape helper and repinned fixture unexecuted"
+    "Source3_IR_scope": "Historical prior sources only; standard selected-Xcode compatibility and fixture order/signature require new independent review",
+    "published_execution_scope": "prior75f/a5e/c1ad/D402 only; current compatibility and changed fixture unexecuted"
   },
   "TODO": {
     "rows": 32,
@@ -448,7 +448,7 @@
       "Core19_started": false
     }
   },
-  "pending_scope": "current rejection-shape candidate; prior Hosted fixture success is separate",
+  "pending_scope": "current selected-Xcode exact2preset compatibility; previous D402 Node22/fixture26 success remains historical",
   "pre_shape_saved_evidence_history": {
     "Source2_manifest": "99290500644281e31feea1a067e320bde8824f4be1624a778c6d5911f198dc4d",
     "Source3_manifest": "d46113b3ecbfe688e35dcbf4e54ce32d1bf4a385b60b4eac72fe92ea15f71d10",
@@ -596,7 +596,7 @@
     "surface_compat_prechecks_reached_existing_native_probe": true,
     "old_a5e83B_not_reused_as_c1ad_file_contents": true
   },
-  "config_rejection_shape_candidate": {
+  "prior_config_rejection_shape_candidate_history": {
     "diagnostic_only": true,
     "changed4": [
       "ios/tests/observe-core-notice-hosted-20261031.py",
@@ -666,6 +666,220 @@
     "policy_or_trust_relaxation": false,
     "candidate_execution": false,
     "new_common_CI_Core_replay_main_acceptance": false
+  },
+  "previous_fixed_shape_top_binding_history": {
+    "state": "publishedc1ad existing effective-config audit rejection retained; new rejection-only boundedshape candidate unexecuted; trust unchanged, new checks/Core/main pending",
+    "actual_parent": "84f8f3ea1e1a4d3e2c809130af6a0388b7f24564",
+    "actual_parent_tree": "3404498d89b9fd771babc3ff97215f22728892ec",
+    "source_files": [
+      {
+        "path": "ios/tests/verify-core-performance-notice-20261031.mjs",
+        "bytes": 2586,
+        "SHA256": "c911db411741ddfa60af310a6d1906f565f3413375a6538655b29053a28d5784"
+      },
+      {
+        "path": "tests/unit/ios-core-performance-notice-20261031.test.mjs",
+        "bytes": 8167,
+        "SHA256": "43126d0daa63ceea3d6d520098b47b6c540c00283f70bd406b45a6d68212e712"
+      },
+      {
+        "path": ".github/workflows/ios-core-notice-observation.yml",
+        "bytes": 3934,
+        "SHA256": "4b062203721758e46e38f512a06c289836542917e3c77aefb03bc76d00b09a38"
+      },
+      {
+        "path": "ios/tests/observe-core-notice-hosted-20261031.py",
+        "bytes": 71380,
+        "SHA256": "21695e89fdcc9351931f425d06c848ec66aa2295a119b19e46a0d433db3bf20f"
+      },
+      {
+        "path": "ios/tests/hosted-core-notice-pure-fixtures-20261031.py",
+        "bytes": 12997,
+        "SHA256": "5a046b372303be79d8872e50958507da4271d991253130c24b20665cbbf54c81"
+      }
+    ],
+    "saved_evidence": {
+      "Source2_manifest": "99290500644281e31feea1a067e320bde8824f4be1624a778c6d5911f198dc4d",
+      "Source3_manifest": "d46113b3ecbfe688e35dcbf4e54ce32d1bf4a385b60b4eac72fe92ea15f71d10",
+      "Rootdocs_manifest": "b09e0d4863fc5e897a0c964326853c521fa41fd04e64f27008b5b7fe72f07cdc",
+      "Source2_IR": "f31c04d38b90716f38bec693344d15a465efa897eb4b7fa8a12b334cc47fac16",
+      "Source3_IR": "aeb8f46ad061703465f3d773ec42163ef14e0f002a6417702124af73be033c39",
+      "Rootdocs_IR": "b0047d1e7cadd96ec8d37641946ed48ff90a9bc3e8b5f4dfefcaa37069428695",
+      "saved_Node_boundary_cases": 8,
+      "saved_Node_boundary_seconds": 0.267297,
+      "saved_Node_scope": "fixed policy boundary only; matching identity intentionally reaches invalid manifest digest, no corpus19 acceptance",
+      "Source3_static_P1_count": 0,
+      "Source3_static_P2_count": 0,
+      "first_secretless_Hosted_after_binding_required": true,
+      "console_draft_adopted": false,
+      "local_pure_fixture26_execution": true,
+      "Hosted_fixture26_execution": true,
+      "Node22_preflight_execution": true,
+      "Core19_observation_execution": false,
+      "previous_combined_execution_flag_history": {
+        "field": "actual_fixture26_Node22_or_Core19_execution",
+        "value": false,
+        "scope": "before local pure26 execution; historical combined field superseded by explicit current boundaries"
+      },
+      "local_pure_fixture26_evidence": {
+        "kind": "local AST-selected-functions pure fakes only",
+        "total": 26,
+        "unique": 26,
+        "pass": 26,
+        "fail": 0,
+        "seconds": 0.24869275,
+        "stdout_bytes": 4320,
+        "stdout_SHA256": "13e5c37a2b4b07cf285f121af05a108ba133aa3922c3b20f2b24038ad585e043",
+        "stderr_bytes": 0,
+        "real_children_Git_Swift_SDK_Node_network_Hosted": 0,
+        "scope": "oldguard dc9 before rejection metadata; not new helper execution"
+      },
+      "Source3_IR_scope": "Historical pre-shape sources only; diagnostic-only rowcontext requires independent review and new-head checks",
+      "published_execution_scope": "prior75f/a5e/c1ad only; current shape helper and repinned fixture unexecuted"
+    },
+    "pending_scope": "current rejection-shape candidate; prior Hosted fixture success is separate"
+  },
+  "current_publication_parent": {
+    "commit": "fb392378467c4ed238eba0a6495b149b29247e07",
+    "tree": "9bd76358309479f4d83bed58daf4afd6ea76703a",
+    "scope": "Root-supplied normal main integration parent; pure tuple binding, not execution provenance"
+  },
+  "prior_publishedD402_execution": {
+    "head": "d402bdf862d0b637ee879540f11ea09b9d162552",
+    "artifact_id": 13037599777,
+    "run": 41189819384,
+    "ZIP_bytes": 11171,
+    "ZIP_SHA256": "2357340d3a484e33684d5697f682b8a509ab505504922ab52cf738f2649d9e7d",
+    "receipt_SHA256": "519461255f0e1ce8b527434e8ce4b4277dc47e16f14e24158a4b7286ad74d3f8",
+    "retained_files_rehashed": 18,
+    "shape": {
+      "bytes": 1347,
+      "SHA256": "a04d5f2404409d3f0270cccc7723b7e1a15aac34e02796cbdffb34879fcb153e",
+      "complete": true,
+      "truncated": false,
+      "rows": 11,
+      "first_rejected": 0,
+      "vendor_rows": 2,
+      "vendor_scope": "unknown",
+      "origin_category": "xcode-vendor-config",
+      "known_presets": [
+        "credential-osxkeychain",
+        "init-main"
+      ],
+      "own_main_local_rows": 9,
+      "exact_raw_origin_actual_Gitversion_vendor_config_bytes": null
+    },
+    "Hosted_fixture": {
+      "state": "accepted-pure-fixture-gate",
+      "cases": 26,
+      "unique": 26,
+      "pass": 26,
+      "fail": 0,
+      "seconds": 0.2652323749999965,
+      "receipt_SHA256": "5bcc27cd3abd4f90359d40ae55dce9f1ba0fb633667e05896f7f88875838edb7",
+      "Node_preflight4_exit0": true,
+      "scope": "D402 guard2169/fixture5a04 only; not current compatibility execution"
+    },
+    "full_config_admission_object_freeze_compile_Core19": false
+  },
+  "selected_Xcode_vendor_compatibility_candidate": {
+    "Root_explicit_design_adopted": true,
+    "implementation_only_not_runtime_acceptance": true,
+    "changed4": [
+      "ios/tests/observe-core-notice-hosted-20261031.py",
+      "ios/tests/hosted-core-notice-pure-fixtures-20261031.py",
+      "project/records/2026-10-31/ios-notice-core-hosted-observation.md",
+      "project/records/2026-10-31/ios-notice-core-hosted-observation.json"
+    ],
+    "previous_source_files": [
+      {
+        "path": "ios/tests/verify-core-performance-notice-20261031.mjs",
+        "bytes": 2586,
+        "SHA256": "c911db411741ddfa60af310a6d1906f565f3413375a6538655b29053a28d5784"
+      },
+      {
+        "path": "tests/unit/ios-core-performance-notice-20261031.test.mjs",
+        "bytes": 8167,
+        "SHA256": "43126d0daa63ceea3d6d520098b47b6c540c00283f70bd406b45a6d68212e712"
+      },
+      {
+        "path": ".github/workflows/ios-core-notice-observation.yml",
+        "bytes": 3934,
+        "SHA256": "4b062203721758e46e38f512a06c289836542917e3c77aefb03bc76d00b09a38"
+      },
+      {
+        "path": "ios/tests/observe-core-notice-hosted-20261031.py",
+        "bytes": 71380,
+        "SHA256": "21695e89fdcc9351931f425d06c848ec66aa2295a119b19e46a0d433db3bf20f"
+      },
+      {
+        "path": "ios/tests/hosted-core-notice-pure-fixtures-20261031.py",
+        "bytes": 12997,
+        "SHA256": "5a046b372303be79d8872e50958507da4271d991253130c24b20665cbbf54c81"
+      }
+    ],
+    "current_source3_files": [
+      {
+        "path": ".github/workflows/ios-core-notice-observation.yml",
+        "bytes": 3934,
+        "SHA256": "4b062203721758e46e38f512a06c289836542917e3c77aefb03bc76d00b09a38"
+      },
+      {
+        "path": "ios/tests/observe-core-notice-hosted-20261031.py",
+        "bytes": 73173,
+        "SHA256": "cd822da1556b879950a078247168b1991ccaf1b667e4989d55c1255c31fc8f59"
+      },
+      {
+        "path": "ios/tests/hosted-core-notice-pure-fixtures-20261031.py",
+        "bytes": 13486,
+        "SHA256": "775a5734e0a8c79899921ce902475f279b2d8528aee7a2cfb4064e877f26bd34"
+      }
+    ],
+    "selected_prefix": "canonical /Applications/Xcode_[numeric dot-separated version].app/Contents/Developer only; execpath/backend and known selector present+resolved must match",
+    "exact_vendor_origin": "file:<same selected prefix>/usr/share/git-core/gitconfig",
+    "exact_scope": "unknown",
+    "exact_presets": {
+      "credential.helper": "osxkeychain",
+      "init.defaultbranch": "main"
+    },
+    "vendor_exact_count": 2,
+    "duplicates_extra_missing_reject": true,
+    "CLT_arbitraryprefix_absentselector_otherorigin_reject": true,
+    "Swift_DEVELOPER16_4_unchanged_and_separate": true,
+    "actual_Git_selected_path_version_gate_pass_unconfirmed": true,
+    "source_local_policy": "old own-main origin/key/value and optional-field count policy held; prior9 observed not supplemented",
+    "bare_local_count": 4,
+    "bare_vendor_count": 2,
+    "actual_bare6_unobserved": true,
+    "probe_count_added": 0,
+    "selection_once_before_source_and_bare_audits": true,
+    "all_rows_raw_bytes_hashes_backend_before_after_held": true,
+    "Git_env_exact_keys": [
+      "PATH",
+      "TMPDIR"
+    ],
+    "frozen_runner_engine_entry_Source4_queries_protocol_caps_held": true,
+    "fixture_case_names_count": 26,
+    "fixture_case_body_changes": [
+      "same-literal-env-and-selection-drift-visible: explicit selection passed to both audits, exact order asserted",
+      "production-order-cap-removal-and-limited-trust-static: prepare selection-before-audit checked"
+    ],
+    "other24case_bodies_held": true,
+    "candidate_tests_Git_Node_Swift_SDK_target_execution": false,
+    "new_common_IR_CI_Core_replay_main_acceptance": false,
+    "credential_dispatch_primary": {
+      "config_list": "Apple Git-145 builtin/config.c210-227,818-828 list callback outputs strings",
+      "helper": "Apple Git-145 credential.c56-60 saves helper;274-328 builds subprocess;334-380 dispatches get/store/erase",
+      "fixed_argv_only": true,
+      "all_Git_execution_or_kernel_absence_proof": false
+    },
+    "primary_source_urls": [
+      "https://github.com/apple-oss-distributions/Git/blob/Git-145/src/git/config.h#L38-L47",
+      "https://github.com/apple-oss-distributions/Git/blob/Git-145/src/git/config.c#L2147-L2156",
+      "https://github.com/apple-oss-distributions/Git/blob/Git-145/src/git/config.c#L3822-L3840",
+      "https://github.com/apple-oss-distributions/Git/blob/Git-145/src/git/builtin/config.c#L818-L828",
+      "https://github.com/apple-oss-distributions/Git/blob/Git-145/src/git/credential.c#L314-L380"
+    ]
   },
   "initial_unbound_draft_history": {
     "date": "2026-10-31",

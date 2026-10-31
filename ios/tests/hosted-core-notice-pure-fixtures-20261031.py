@@ -5,7 +5,7 @@ No Git/Swift/SDK/Node/network command, real child or global environment changes.
 import ast, hashlib, json, signal, subprocess, types
 from pathlib import Path
 GUARD=Path(__file__).parent/'observe-core-notice-hosted-20261031.py'
-EXPECTED='21695e89fdcc9351931f425d06c848ec66aa2295a119b19e46a0d433db3bf20f'
+EXPECTED='cd822da1556b879950a078247168b1991ccaf1b667e4989d55c1255c31fc8f59'
 source=GUARD.read_bytes()
 assert hashlib.sha256(source).hexdigest()==EXPECTED
 module=ast.parse(source)
@@ -124,9 +124,17 @@ else:raise AssertionError('argv bound admitted')
 assert f.spawn_count==0
 results.append({'name':'argv-bound-before-spawn','state':'passed'})
 f=Fixture();ns=f.namespace();env={'PATH':'literal-production-path','TMPDIR':'literal-observation/.process-tmp/'}
-ns['ROOT']=Path('/fake-root');ns['git_audit']=lambda path,passed_env,bare:{'env':passed_env,'path':str(path),'bare':bare}
-ns['git_selection']=lambda passed_env:{'env':passed_env,'version':'fake-version','selector':'held'}
+ns['ROOT']=Path('/fake-root');events=[]
+def selected_git(passed_env):
+    events.append('selection')
+    return {'env':passed_env,'version':'fake-version','selector':'held'}
+def audited_git(path,passed_env,bare,selection):
+    events.append('bare' if bare else 'source')
+    assert selection['env']==passed_env
+    return {'env':passed_env,'path':str(path),'bare':bare,'selection':selection}
+ns['git_audit']=audited_git;ns['git_selection']=selected_git
 a=ns['runtime_git_boundary'](env);b=ns['runtime_git_boundary'](dict(env));assert a==b and a['environment']==env
+assert events==['selection','bare','source']*2
 ns['git_selection']=lambda passed_env:{'env':passed_env,'version':'drift','selector':'held'}
 assert ns['runtime_git_boundary'](env)!=a
 results.append({'name':'same-literal-env-and-selection-drift-visible','state':'passed'})
@@ -137,6 +145,8 @@ assert text.index('git_before=runtime_git_boundary(git_env)')<text.index("argv =
 assert text.index('outcome = cleanup(child)')<text.index('git_after=runtime_git_boundary(git_env)')
 assert "require(git_after==git_before,'Git config/default selection drift after producer')" in text
 assert 'Fresh quiescent public Hosted macos-15' in text
+assert text.index('selection=git_selection(env)',text.index('def prepare():'))<text.index('source_audit=git_audit(WORKSPACE,env,False,selection)')
+assert 'bare_audit=git_audit(store,env,True,selection)' in text
 results.append({'name':'production-order-cap-removal-and-limited-trust-static','state':'passed'})
 # Actual append_probe_receipt AST with fake OS, not the earlier probe append stub.
 catalog_program=ast.Module(body=[functions['append_probe_receipt']],type_ignores=[])

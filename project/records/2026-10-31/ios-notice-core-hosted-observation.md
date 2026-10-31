@@ -1,5 +1,17 @@
 # Notice対応Core観測の固定入口とHosted事前検査案
 
+最新候補: 通常main `7c1ec1d7319eade2209d8a28fbcdf94661759d7c`（tree `f5ee9c7f5fb54fc4059fc347b27a98b2db50c443`）を基底とする提出parent `fb392378467c4ed238eba0a6495b149b29247e07` からの追加候補である。基底2843から所有9パス・新規7件によりtarget2850を維持する。workflow・固定入口2・索引2・App0.2.28（30）・PBX・Source4・runner・engine・query・計測protocolと、Git子のPATH/TMPDIR環境は保持する。
+
+D402の保存診断は、先頭2行がunknown scope・Xcode vendor分類で、既知preset名がcredential.helper=osxkeychainとinit.defaultbranch=main、その後9行がlocal/own-main configであることを示した。1347Bの診断SHA-256は `a04d5f2404409d3f0270cccc7723b7e1a15aac34e02796cbdffb34879fcb153e`、最初の拒否は行0で、完全分類でも全条件の受入を意味しない。実raw origin・Git版・vendor config全bytesは未保管であり、Coreのobject凍結・compile・19raw/15sample測定は開始していない。D402のNode22事前4工程とHosted pure26件の成功は当時のsourceだけの実績として保持し、新候補へ転用しない。
+
+Apple公開Gitには独立したXcode設定層があり、scope名のswitchにそのcaseがないためunknownと表示される実装がある。今回採択した互換範囲は、既存3つのselection probeをauditより前に1回行い、実際に選択された標準の数値版Xcode prefixにcanonicalなexec-path・backend・既存selectorのpresent/resolvedが一致することを要求するもの。そのprefixのusr/share/git-core/gitconfigというexact origin、literal unknown scope、上記2key/valueが各1件の集合だけを認める。任意vendor/globalを許可せず、CLT・別prefix・selector無し/不一致・別origin・重複・未知presetを拒否する。Swift用Xcode16.4固定とGitのdefault選択は別であり、実Gitの版やpathがこの条件に適合するかは新headで初めて確認する。
+
+source/bareへ同じselectionを明示して渡し、既存local origin/key/value・空のcanonical extensions条件・include/filter/hooks・replace/alternates/promisor等の拒否を保持する。vendor2件とlocalを分け、bareは従来のlocal4件にvendor2件を必須とする。sourceのlocal件数は既存基準を維持し、観測9件を別の成功値として補わない。producer前後の全rows・raw bytes/hash・backend/selectorの一致を維持し、receiptのscopeもowned-localと固定selected-Xcode-presetの合成であることを表す。probe数・上限は増やさず、設定ファイル・環境・ユーザー権限を変更しない。
+
+固定Git argvはversion/exec-path/config-list/cat-file、runnerはrev-parse/show/ls-treeで、credentialやtransport操作を要求しない。Apple公開builtin/config.cのlistは値を出力し、credential.cではhelper設定保存とget/store/eraseのdispatchが分かれていることを一次コードで確認した。この限定の静的根拠を全Git経路や実exec不存在の証明にはしない。fixtureは26case名・件数を維持し、guard SHAと既存2caseの呼び出し順・selection引数期待だけを同期した。新候補のfixture実行・共通検査・独立レビュー・新head CI・Core測定・保存成果物の独立replay・通常mainは未受入である。TODO32行/14完了、IOS-15・予算・実機の未完了を維持する。
+
+## D402までの提出候補（履歴）
+
 最新候補: 公開済みhead `c1ad6ac58614669f7d0d6e552807fc5b10fbe1b2` への6番目の追加commit候補である。実parent `84f8f3ea1e1a4d3e2c809130af6a0388b7f24564` からの所有9パス・新規7件・target2850を維持し、workflow・固定入口2・索引2・App0.2.28（30）・PBX・Source4・query・計測protocolは保持する。
 
 c1adのprepareは条件付きsurface検査から既存Git設定probeへ進んだが、元のlocal scopeとfile originの条件で `Nonowned system/global/config origin rejected` となった。既存probeはexit0、stdout712B、保存receiptのSHA-256は `b06b45337c9f63b723103a828457eac6d00fe4b9570e3c6f5deb18dd0faf6afe` で、raw stdoutは保管していない。実際のscope・origin・key・value・runner Git版は未特定であり、system/globalのどれかや特定のcredential/LFS設定が原因と断定しない。完全な設定受入・object凍結・Core19raw/15sampleの測定には到達していない。以前のa5eの83B snapshotをc1adの実内容として転用しない。

@@ -191,8 +191,10 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
 
         // Only cancellation is exercised. Never tap Save, choose a provider or
         // supply a file URL. Reopening also checks that cancellation clears presentation.
+        var completedBrowseRootCancellation = false
         for attempt in 1...2 {
-            try cancelReadingBackupExport(attempt: attempt)
+            completedBrowseRootCancellation = try cancelReadingBackupExport(
+                attempt: attempt, permitsInitialBrowseRoot: attempt == 2 && completedBrowseRootCancellation)
             requireNoRecoveryNotice()
             XCTAssertFalse(app.alerts["読書記録"].exists, "Cancellation must not report an export error")
         }
@@ -256,6 +258,7 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
         let contextKey: String
         let action: XCUIElement
         let requiresBrowseBack: Bool
+        let isBrowseRoot: Bool
         let filenames: [XCUIElement]
     }
 
@@ -275,11 +278,11 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
 
     /// The observed bottom filename is a read-only witness, not necessarily an editable control.
     private func readingExportVisibleFilenames(in window: XCUIElement, below barFrame: CGRect,
-                                              appFrame: CGRect) -> [XCUIElement]? {
-        readingExportLastContext = "phase=filename-query; directBarCount=1; windowCount=1"
+                                              appFrame: CGRect, phase: String) -> [XCUIElement]? {
+        readingExportLastContext = "phase=\(phase)-filename-query; directBarCount=1; windowCount=1"
         let query = readingExportFilenameCandidates(in: window)
         let matchCount = query.count
-        readingExportLastContext = "phase=filename-count; directBarCount=1; windowCount=1; exactMatches=\(matchCount)"
+        readingExportLastContext = "phase=\(phase)-filename-count; directBarCount=1; windowCount=1; exactMatches=\(matchCount)"
         guard matchCount > 0, matchCount <= 16 else { return nil }
         let matches = query.allElementsBoundByIndex
         guard matches.count == matchCount, matches.count <= 16 else { return nil }
@@ -304,14 +307,14 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
             distinctBounds.insert(boundsKey)
             witnesses.append(candidate)
         }
-        readingExportLastContext = "phase=filename-witness; exactMatches=\(matchCount); visibleElements=\(witnesses.count); distinctBounds=\(distinctBounds.count)"
+        readingExportLastContext = "phase=\(phase)-filename-witness; exactMatches=\(matchCount); visibleElements=\(witnesses.count); distinctBounds=\(distinctBounds.count)"
         guard !witnesses.isEmpty, distinctBounds.count <= 8 else { return nil }
         return witnesses
     }
 
     /// An eligible destination-picker context must be new and provide its own public action.
     /// The observed system picker is selected directly, never by enumerating unrelated bars.
-    private func newReadingExportPickers(after previousContexts: Set<String>) -> [ReadingExportPicker] {
+    private func newReadingExportPickers(after previousContexts: Set<String>, allowsBrowseRoot: Bool) -> [ReadingExportPicker] {
         let identifier = "FullDocumentManagerViewControllerNavigationBar"
         readingExportLastContext = "phase=destination-direct-query"
         let matchingBars = app.navigationBars.matching(identifier: identifier)
@@ -334,37 +337,44 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
         let cancels = bar.buttons.matching(cancelPredicate), backs = bar.buttons.matching(browsePredicate)
         readingExportLastContext = "phase=destination-action-query; directBarCount=\(directBarCount)"
         let moveCount = moves.count, cancelCount = cancels.count, backCount = backs.count
-        readingExportLastContext = "phase=destination-action-count; directBarCount=\(directBarCount); moveCount=\(moveCount); cancelCount=\(cancelCount); browseBackCount=\(backCount)"
-        guard moveCount == 1, (cancelCount == 1 && backCount == 0) || (cancelCount == 0 && backCount == 1) else { return [] }
+        readingExportLastContext = "phase=destination-action-count; directBarCount=\(directBarCount); moveCount=\(moveCount); cancelCount=\(cancelCount); browseBackCount=\(backCount); allowsBrowseRoot=\(allowsBrowseRoot)"
+        let isMoveContext = moveCount == 1 && ((cancelCount == 1 && backCount == 0) || (cancelCount == 0 && backCount == 1))
+        // Move0 is accepted only with explicit proof from an actual verified Browse-back in this test.
+        let isBrowseRoot = allowsBrowseRoot && moveCount == 0 && cancelCount == 1 && backCount == 0
+        guard isMoveContext || isBrowseRoot else { return [] }
+        let phase = isBrowseRoot ? "browse-root" : "destination"
         let requiresBrowseBack = cancelCount == 0
         let action = requiresBrowseBack ? backs.element(boundBy: 0) : cancels.element(boundBy: 0)
-        let move = moves.element(boundBy: 0)
-        readingExportLastContext = "phase=destination-action-geometry; directBarCount=\(directBarCount); cancelCount=\(cancelCount); browseBackCount=\(backCount)"
-        let appFrame = app.frame, barFrame = bar.frame, actionFrame = action.frame, moveFrame = move.frame
-        // Move is only a context witness: it may be disabled, and is never tapped.
-        guard bar.exists, move.exists, action.exists, action.isEnabled, action.isHittable,
-              [appFrame, barFrame, actionFrame, moveFrame].allSatisfy({ readingExportFrameIsFinite($0) }),
-              appFrame.contains(barFrame), barFrame.contains(actionFrame), barFrame.contains(moveFrame) else { return [] }
-        readingExportLastContext = "phase=destination-window-query; directBarCount=\(directBarCount)"
+        readingExportLastContext = "phase=\(phase)-action-geometry; directBarCount=\(directBarCount); cancelCount=\(cancelCount); browseBackCount=\(backCount)"
+        let appFrame = app.frame, barFrame = bar.frame, actionFrame = action.frame
+        guard bar.exists, action.exists, action.isEnabled, action.isHittable,
+              [appFrame, barFrame, actionFrame].allSatisfy({ readingExportFrameIsFinite($0) }),
+              appFrame.contains(barFrame), barFrame.contains(actionFrame) else { return [] }
+        if isMoveContext {
+            let move = moves.element(boundBy: 0), moveFrame = move.frame
+            // Move remains a read-only context witness, never required enabled or tapped.
+            guard move.exists, readingExportFrameIsFinite(moveFrame), barFrame.contains(moveFrame) else { return [] }
+        }
+        readingExportLastContext = "phase=\(phase)-window-query; directBarCount=\(directBarCount)"
         let windows = app.windows.containing(exactBar)
         let windowCount = windows.count
-        readingExportLastContext = "phase=destination-window-count; directBarCount=\(directBarCount); windowCount=\(windowCount)"
+        readingExportLastContext = "phase=\(phase)-window-count; directBarCount=\(directBarCount); windowCount=\(windowCount)"
         guard windowCount == 1 else { return [] }
         let window = windows.element(boundBy: 0)
-        readingExportLastContext = "phase=destination-window-witness; directBarCount=\(directBarCount); windowCount=\(windowCount)"
+        readingExportLastContext = "phase=\(phase)-window-witness; directBarCount=\(directBarCount); windowCount=\(windowCount)"
         guard window.exists, window.navigationBars.matching(identifier: identifier).count == 1,
               window.frame.contains(barFrame),
-              let filenames = readingExportVisibleFilenames(in: window, below: barFrame, appFrame: appFrame) else { return [] }
+              let filenames = readingExportVisibleFilenames(in: window, below: barFrame, appFrame: appFrame, phase: phase) else { return [] }
         return [ReadingExportPicker(bar: bar, contextKey: key, action: action,
-                                    requiresBrowseBack: requiresBrowseBack, filenames: filenames)]
+                                    requiresBrowseBack: requiresBrowseBack, isBrowseRoot: isBrowseRoot, filenames: filenames)]
     }
 
     private func waitForReadingExportPicker(after previousContexts: Set<String>, deadline: TimeInterval,
-                                            cancellationOnly: Bool, attempt: Int) throws -> ReadingExportPicker {
+                                            cancellationOnly: Bool, allowsBrowseRoot: Bool, attempt: Int) throws -> ReadingExportPicker {
         var identified: ReadingExportPicker?
         let ready = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
             guard ProcessInfo.processInfo.systemUptime < deadline else { return false }
-            let contexts = self.newReadingExportPickers(after: previousContexts)
+            let contexts = self.newReadingExportPickers(after: previousContexts, allowsBrowseRoot: allowsBrowseRoot)
             guard contexts.count == 1, !cancellationOnly || !contexts[0].requiresBrowseBack,
                   ProcessInfo.processInfo.systemUptime < deadline else { return false }
             identified = contexts[0]
@@ -373,7 +383,7 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
         let remaining = deadline - ProcessInfo.processInfo.systemUptime
         guard remaining > 0, XCTWaiter.wait(for: [ready], timeout: remaining) == .completed,
               ProcessInfo.processInfo.systemUptime < deadline, let picker = identified else {
-            throw readingExportFailure("Expected one new Move context, exact visible filename and its own Cancel or one Browse-back within the shared deadline", attempt: attempt)
+            throw readingExportFailure("Expected one new destination or proven Browse-root context, exact filename and its own permitted action within the shared deadline", attempt: attempt)
         }
         return picker
     }
@@ -384,9 +394,10 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
             throw readingExportFailure("The shared destination-picker deadline expired before the public action", attempt: attempt)
         }
         // Recheck every context/Move/filename/action witness immediately before the sole scoped tap.
-        let contexts = newReadingExportPickers(after: previousContexts)
+        let contexts = newReadingExportPickers(after: previousContexts, allowsBrowseRoot: expected.isBrowseRoot)
         guard contexts.count == 1, contexts[0].contextKey == expected.contextKey,
               contexts[0].requiresBrowseBack == expected.requiresBrowseBack,
+              contexts[0].isBrowseRoot == expected.isBrowseRoot,
               ProcessInfo.processInfo.systemUptime < deadline else {
             throw readingExportFailure("The identified destination-picker context changed or expired before its public action", attempt: attempt)
         }
@@ -443,7 +454,10 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
         }
     }
 
-    private func cancelReadingBackupExport(attempt: Int) throws {
+    private func cancelReadingBackupExport(attempt: Int, permitsInitialBrowseRoot: Bool) throws -> Bool {
+        guard !permitsInitialBrowseRoot || attempt == 2 else {
+            throw readingExportFailure("Only the second opening may use the completed first Browse-root cancellation proof", attempt: attempt)
+        }
         guard let library = readingExportFilteredLibrary() else {
             throw readingExportFailure("The exact public filtered library was not present before export", attempt: attempt)
         }
@@ -475,6 +489,8 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
         guard moreBar.exists, export.exists, export.isEnabled, isHittableOnScreen(export) else {
             throw readingExportFailure("The More sheet export action was no longer uniquely usable", attempt: attempt)
         }
+        // Pre-export identity, export, one Browse-back and cancellation share this one deadline.
+        let pickerDeadline = ProcessInfo.processInfo.systemUptime + 30
         // The observed fixed-ID picker must be absent before opening, not merely new among unrelated bars.
         readingExportLastContext = "phase=pre-export-direct-query"
         let previousPickerBars = app.navigationBars.matching(
@@ -492,16 +508,19 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
         guard previousFilenameCount == 0 else {
             throw readingExportFailure("An export filename context was already present before opening", attempt: attempt)
         }
-        // Export, any single observed Browse-back, and cancellation readiness share one 30-second budget.
-        let pickerDeadline = ProcessInfo.processInfo.systemUptime + 30
+        guard ProcessInfo.processInfo.systemUptime < pickerDeadline else {
+            throw readingExportFailure("The shared picker deadline expired during pre-export checks", attempt: attempt)
+        }
         export.tap()
+        var didBrowseBack = false
         var picker = try waitForReadingExportPicker(after: previousContexts, deadline: pickerDeadline,
-                                                    cancellationOnly: false, attempt: attempt)
+                                                    cancellationOnly: false, allowsBrowseRoot: permitsInitialBrowseRoot, attempt: attempt)
         if picker.requiresBrowseBack {
             picker = try currentReadingExportPicker(picker, after: previousContexts, deadline: pickerDeadline, attempt: attempt)
             picker.action.tap() // Only the identified Browse-back; no provider, folder or file is selected.
+            didBrowseBack = true
             picker = try waitForReadingExportPicker(after: previousContexts, deadline: pickerDeadline,
-                                                    cancellationOnly: true, attempt: attempt)
+                                                    cancellationOnly: true, allowsBrowseRoot: true, attempt: attempt)
         }
         guard !picker.requiresBrowseBack else {
             throw readingExportFailure("A verified Cancel did not appear after the single Browse-back", attempt: attempt)
@@ -517,6 +536,9 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
         guard XCTWaiter.wait(for: [closed], timeout: 15) == .completed else {
             throw readingExportFailure("The identified save context did not close back to the usable library", attempt: attempt)
         }
+        // True is returned only after all pre-back/root witnesses, actual Cancel and full closure succeeded.
+        // The caller keeps this proof test-local and supplies it only to attempt2.
+        return attempt == 1 && didBrowseBack && picker.isBrowseRoot
     }
 
     private func readingExportFailure(_ reason: String, attempt: Int) -> NSError {

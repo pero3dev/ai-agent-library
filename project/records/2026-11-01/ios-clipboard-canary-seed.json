@@ -642,5 +642,273 @@
     "Root24_skip": 0,
     "scope": "predecessor Code3 only, not new32 execution"
   },
-  "app_version_and_TODO_held": true
+  "app_version_and_TODO_held": true,
+  "PR322_source_and_main36_adoption_20261102": {
+    "freeze_UTC": "2026-11-01T15:52:51Z",
+    "status": "PR322 source first hosted CI and normal main36 adoption accepted; new mainpush pending at this freeze",
+    "source_head": "ad034650cbdb193f199761d6e5a8d8bd74e7ab35",
+    "source_tree": "04efdb8f21e896a39b5f68be597e9ad98e085db2",
+    "PR": 322,
+    "PR_CI_snapshot_UTC": "2026-11-01T15:34:24Z",
+    "observer_manifest_SHA256": "b6bcf971671cc257e104d1dceb61a3a2d2024cf498ea2856fd993d5f85568802",
+    "observer_result": {
+      "name": "result.json",
+      "bytes": 19731,
+      "SHA256": "f8f82008c9619212a9b451abc8598c918cddb7abb0152aa028361ea2664a8ee4"
+    },
+    "actual_main": "36bec68537d741492f942c076469bb06d177f69a",
+    "actual_single_parent": "cc268c4a76f09434f27bbc841e3b9ca776ea566e",
+    "approved_source_all2861_mode_blob_equal": true,
+    "merged_UTC": "2026-11-01T15:39:01Z",
+    "merge_proof_manifest_SHA256": "9e8947e11e5232ea925875ca14c5acaba2984687ca087138e2a97f67728e4da0",
+    "official_after_merge": {
+      "name": "after-merge-official.json",
+      "bytes": 25106,
+      "SHA256": "7d585018a9ab4e3458ec62ee43f63f9d9124e4a564dcae437c4607280fc9afb9"
+    },
+    "Ready_final_epoch_UTC": "2026-11-01T15:37:11Z",
+    "fresh_ready_policies": [
+      {
+        "id": 41322144473,
+        "name": "Harness policy PR #322",
+        "created_at": "2026-11-01T15:37:13Z",
+        "run_started_at": "2026-11-01T15:37:13Z",
+        "conclusion": "success",
+        "head_sha": "ad034650cbdb193f199761d6e5a8d8bd74e7ab35",
+        "source": {
+          "name": "ready-policy-run-0.json",
+          "bytes": 15800,
+          "SHA256": "a9cb672b8356a0008698a0c1cb565effce40a1fbc365159424f18cb32bb2b33e"
+        }
+      },
+      {
+        "id": 41322144360,
+        "name": "Freshness policy PR #322",
+        "created_at": "2026-11-01T15:37:13Z",
+        "run_started_at": "2026-11-01T15:37:13Z",
+        "conclusion": "success",
+        "head_sha": "ad034650cbdb193f199761d6e5a8d8bd74e7ab35",
+        "source": {
+          "name": "ready-policy-run-1.json",
+          "bytes": 15806,
+          "SHA256": "6c52f794da0e72b12c74d43a5fcd1cd45426cbc126af49855015980bae9ab5e8"
+        }
+      }
+    ],
+    "initial_exact_head_runs": [
+      {
+        "run_id": 41318885433,
+        "name": "iOS 26.5 representative UI smoke",
+        "attempt": 1,
+        "conclusion": "success",
+        "html_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/41318885433"
+      },
+      {
+        "run_id": 41318885468,
+        "name": "iOS SDK 26 unsigned archive preflight",
+        "attempt": 1,
+        "conclusion": "success",
+        "html_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/41318885468"
+      },
+      {
+        "run_id": 41318885484,
+        "name": "iOS published app candidate",
+        "attempt": 1,
+        "conclusion": "success",
+        "html_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/41318885484"
+      },
+      {
+        "run_id": 41318885550,
+        "name": "iOS native regression",
+        "attempt": 1,
+        "conclusion": "success",
+        "html_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/41318885550"
+      },
+      {
+        "run_id": 41318885554,
+        "name": "iOS missing package and restored install UI",
+        "attempt": 1,
+        "conclusion": "success",
+        "html_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/41318885554"
+      },
+      {
+        "run_id": 41318885606,
+        "name": "CI",
+        "attempt": 1,
+        "conclusion": "success",
+        "html_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/41318885606"
+      }
+    ],
+    "required11_success": true,
+    "proof_summary": {
+      "Common_Linux_Node": {
+        "total": 1289,
+        "pass": 1273,
+        "skip": 16,
+        "fail": 0,
+        "new_seed_unit_pass": 32,
+        "new_seed_unit_skip": 0
+      },
+      "FullA_macOS_Node": {
+        "total": 1289,
+        "pass": 1274,
+        "skip": 15,
+        "fail": 0,
+        "new_seed_unit_pass": 32,
+        "new_seed_unit_skip": 0
+      },
+      "platform_difference": "Existing macOS production plist adapter passes in FullA and skips in Linux; neither skip is new seed unit. All other skip names retained in respective classification.",
+      "Native_units": {
+        "total": 278,
+        "pass": 276,
+        "skip": 2,
+        "fail": 0
+      },
+      "FullA_units": {
+        "total": 278,
+        "pass": 276,
+        "skip": 2,
+        "fail": 0
+      },
+      "Native_UI": {
+        "total": 8,
+        "pass": 8,
+        "fail": 0,
+        "skip": 0,
+        "seconds": 830.923,
+        "new_export_case_seconds": 175.396
+      },
+      "Full_UI": {
+        "A": 18,
+        "B": 8,
+        "unique_disjoint": 26,
+        "pass": 26,
+        "fail": 0,
+        "skip": 0,
+        "classes": {
+          "NativeReaderUITests": 3,
+          "PublishedReaderUITests": 17,
+          "ReaderViewportGeometryTests": 6
+        },
+        "A_seconds": 1178.292,
+        "B_sum_rounded_case_seconds": 765.835
+      },
+      "both_Debug": {
+        "published_articles": 199,
+        "fixture_articles": 4,
+        "passed": true
+      },
+      "B_copy": {
+        "actual_bytes": 374,
+        "actual_SHA256": "e29cb525957fb4bd72350927aa1cf47659da4aef9964ecbf0d43edb4dfe2cee8",
+        "equality": true,
+        "actual_console_marker_count": 1,
+        "Root_separate_compact_receipt_SHA256": "254be99c1c29354279b33479c2f3a4ea4f0be6376e61d350b87d691df8fe524a"
+      },
+      "B_seed_OS": {
+        "attempt_count": 1,
+        "accepted_attempt": "seed",
+        "planned_timeout_ms": 30000,
+        "actual_timeout_ms": 30000,
+        "exit_code": 0,
+        "signal": null,
+        "error_code": null,
+        "error": null,
+        "input_bytes": 78,
+        "input_SHA256": "876b5ca10f96a8ca99388c6967a8fdf85fb88ae10824999aee549568839921dc",
+        "retry_used": false,
+        "bounded_retry_rescue_effect_accepted": false
+      },
+      "B_Release": {
+        "articles": 199,
+        "audio": 1,
+        "payload_verified_files": 625,
+        "TestContent_absent": true,
+        "icon_metadata_passed": true
+      },
+      "R26": {
+        "strict_UI_pass": 3,
+        "ReaderWait": 20,
+        "unique_traces": 20,
+        "ContentsReadiness": 2,
+        "stages_success": 12,
+        "cleanup_step_success": true
+      },
+      "Recovery": {
+        "gates_success": 13,
+        "F_R_steps_success": true,
+        "individual_UI_leaf_count_in_console": null
+      },
+      "SDK26": {
+        "unsigned_archive_passed": true,
+        "head_tree_bound": true,
+        "arm64_dSYM_verified": true,
+        "published199_audio1_payload625_noTestContent": true,
+        "distribution_adoption": false
+      }
+    },
+    "small_official_artifact": {
+      "receipt": {
+        "name": "receipt.json",
+        "bytes": 3569,
+        "SHA256": "254be99c1c29354279b33479c2f3a4ea4f0be6376e61d350b87d691df8fe524a"
+      },
+      "artifact_id": 13089242799,
+      "ZIP_bytes": 50631,
+      "ZIP_SHA256": "d0c531791a996a5355b6d0ce127368d8fdbaad5ec351f64833e9029be95742f2",
+      "source_head": "ad034650cbdb193f199761d6e5a8d8bd74e7ab35",
+      "run_id": 41318885484,
+      "run_attempt": 1,
+      "seed": {
+        "schema_version": 1,
+        "source_head": "ad034650cbdb193f199761d6e5a8d8bd74e7ab35",
+        "run_id": "41318885484",
+        "run_attempt": "1",
+        "status": "controlled-canary-seeded",
+        "accepted_attempt": "seed",
+        "UUID": "141DD5FC-FF1D-429C-B43E-1323E1915FDE",
+        "input_bytes": 78,
+        "input_SHA256": "876b5ca10f96a8ca99388c6967a8fdf85fb88ae10824999aee549568839921dc",
+        "attempts": [
+          {
+            "name": "seed",
+            "planned_timeout_ms": 30000,
+            "actual_timeout_ms": 30000,
+            "exit_code": 0,
+            "signal": null,
+            "error_code": null,
+            "error": null,
+            "stderr_text": ""
+          }
+        ]
+      },
+      "actualcopy_bytes": 374,
+      "actualcopy_SHA256": "e29cb525957fb4bd72350927aa1cf47659da4aef9964ecbf0d43edb4dfe2cee8",
+      "equality": true,
+      "console_marker_count": 1,
+      "retry_files_present": []
+    },
+    "actual_OS_retry_rescue_effect_accepted": false,
+    "seed_OS_attempts": 1,
+    "external_job_retries": 0,
+    "new_mainpush": {
+      "freeze_UTC": "2026-11-01T15:52:51Z",
+      "accepted": false,
+      "status": "pending at Parent delegation snapshot; this author did not observe later runs; never substituted with PR322 success"
+    },
+    "old_CC_mainpush": {
+      "manifest_SHA256": "106e72e399bfb105c1589af843e125e6d9a5ccfc092b38aa5c6f09a985aa026c",
+      "status": "FullB first seed1 Node ETIMEDOUT/exitnull/SIGKILL; UI0/copy equality and Release unreached; Native8/A18/Common9 and Acheck1257 separate successes; external retry0"
+    },
+    "new_author_execution": {
+      "Git_readonly_and_pure_Python": true,
+      "Node_SDK_UI_performance_physical_API_download_Gitwrites": false
+    },
+    "limits": [
+      "Known timeout branch remains controlled32 evidence, not actual OS recovery",
+      "Historical record8 frozen values retained unchanged",
+      "App0.2.28(30), TODO32/14 and unfinished device/provider/VoiceOver/IOS22/25 unchanged",
+      "New Docs12 forms/independent review/CI/main adoption pending Root"
+    ]
+  }
 }

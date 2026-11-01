@@ -59,3 +59,15 @@ Rootが検証したsmall artifact13087259257は45 entry、ZIP83,253 byte・SHA25
 同じCode3の保存済みRoot32件は32成功・skip／fail0、YAML／inline5／module2構文と既存IRのP1/P2なしを限定scopeで引き継ぐ。作者は正しい保存resultとCode manifest一致・IRを読取照合し、Node・SDK・実simctl・新実試験は実行していない。制御callback／clockの成功は新Hostedや実OS retryの成功ではなく、新Source7の文書・current graphの独立レビューと実CIは未受入である。
 
 実parentCCの全2857mode/blobへfresh結合し、helper2と記録2の新規4件を含む2861を予測する。索引は現CCからSeed段落だけを追加し、Core/FallbackとPR321受入Doc10はまだ反映しない。通常Code3→Docs4の別2commit、最終形式・独立レビュー・新headの共通／FullA18・B8・374-byte実一致・Release・必要CIと通常main採用は後続である。Common9成功・Native／Aの進行は別区画のfreeze状態で、Bの欠落を補わない。App0.2.28（30）、TODO32行14完了、実機・VoiceOver・provider・性能等の未完了は維持する。
+
+## PR322初回CIと通常main36採用の受入
+
+freeze UTC `2026-11-01T15:52:51Z`。前節までとJSONの既存全値は、それぞれの候補を封印した時点の履歴として保持する。その後の[PR322](https://github.com/pero3dev/ai-agent-library/pull/322)は、source `ad034650cbdb193f199761d6e5a8d8bd74e7ab35`・tree `04efdb8f21e896a39b5f68be597e9ad98e085db2` の全6workflowが初回成功し、通常squashで実main `36bec68537d741492f942c076469bb06d177f69a` に2026-11-01T15:39:01Zに採用された。親はCCの1件だけで、全2861mode/blob・actual squash本文・公式票とmanaged cleanをread-onlyでfresh照合した。実mainへの採用は確認したが、この文書候補自体の採用ではない。
+
+初回sourceのNative単体278件は276成功・2skip・失敗0、Native UI8件は全成功で書き出し取消の追加caseは175.396秒だった。FullはA18＋B8の固定26件が重複・欠落なく成功した。共通Node1289件はLinux1273成功・16skip、FullAのmacOS1274成功・15skip、いずれも失敗0。追加Seed32件は双方とも32成功・skip0であり、既存platform skipと混同しない。R26の実3件／12段階、欠損・復旧13段階、SDK26 unsigned Archiveと必須11も保存済み結果の範囲で成功した。新たなローカルNode・SDK・UI試験を実行した結果ではない。
+
+Rootが別途取得した公式small artifactは50,631バイト、SHA256 `d0c531791a996a5355b6d0ce127368d8fdbaad5ec351f64833e9029be95742f2`、source ad0／run41318885484／attempt1に結び付く。既存ZIPと選択memberの実bytes／SHAを作者もread-onlyで照合した。既知canaryは78バイト・SHA256 `876b5ca10f96a8ca99388c6967a8fdf85fb88ae10824999aee549568839921dc`、UUID `141DD5FC-FF1D-429C-B43E-1323E1915FDE` で、初回`seed`がexit0・signal/error/error_codeすべてnullで成功した。追加retry用receiptは存在せず、実seed1回・追加OS retry0回である。実コードのコピーは一つの374バイト内容、SHA256 `e29cb525957fb4bd72350927aa1cf47659da4aef9964ecbf0d43edb4dfe2cee8` が独立比較に一致し、console成功markerは1回。374件の試験を意味しない。BのReleaseでは199記事・音声1本のmetadata・625ファイル・TestContent不在とicon metadataを確認した。
+
+Ready最終epoch15:37:11Z後に作成・開始されたfresh policy2件の成功も確認した。保存runのcreated/run_startedは双方15:37:13Zである。元CC mainpushの単回Node ETIMEDOUT／exitnull／SIGKILL、B UI0・374-byte一致とRelease未到達は履歴として残し、初回成功したPR322で上書きしない。今回のHosted初回成功は、32制御試験が扱う追加retry分岐の実OS救済効果を示さない。根本原因解消やOSの終了時刻保証も主張しない。
+
+この追補のfreeze UTC `2026-11-01T15:52:51Z` では、新main36 pushはRootから報告された進行中のsnapshotとしてpending・未受入に固定し、作者はその後の実行を観測していない。PR322の成功で新mainpush受入を代用せず、後続結果は別追補へ記録する。Bの最大2回／各30秒／共有60秒・同じUUID／bytes・fresh permit、A側2runのstrict seed、pbpaste90秒・374-byte一致・固定Full26と既存上限は不変更である。実OS retryの回復効果、実機・VoiceOver・provider・製品性能とIOS-22/25全体は未完了、App0.2.28（30）・TODO32行14完了を維持する。新Doc12の形式・独立レビュー・必要CIと通常採用はRootが別途確認する。

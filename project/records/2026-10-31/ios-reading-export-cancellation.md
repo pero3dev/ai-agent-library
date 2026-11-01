@@ -135,3 +135,17 @@ barを含むwindowは一つに限定し、有限で画面内のframe、同bar内
 共有30秒はpre-exportの不在・filename確認より前に一度だけ開始し、export tap前にも残時間を確認する。戻り待機・Cancel待機・各tap直前の全再確認は同じ期限を使う。本文More15秒・export選択10秒・一覧復帰15秒、2回export、同じ隔離suiteのterminate／再起動、公開「続きを読む」・しおりと非先頭見出しの完全表示を保持する。旧4つのRecoveryケースと無関係helperはbyte一致、新exportケースはloopのローカルBoolと呼出し数行以外を保持する。Move／filenameは読取専用、provider・保存先・座標・全アプリCancelや任意のfirstMatchは使わない。phaseは保存先とbrowse-rootを区別し、既存1 KiB文脈と失敗時一度の全文階層上限131,072 byteを維持する。
 
 作者の検査は入力SHA、Python全文逆変換・既存部分のbyte一致、旧JSON全値・Markdown prefixと索引一段落の全逆までである。Git reader・Node・SDK・UI・Simulator・API・書き出しや新しい実試験は実行していない。puretree・保護対象のfresh確認とAPI計画はRootの最終結合へ委ね、保存済みa6 Source11の参照だけを添える。独立レビュー、結合した新headのHosted compile・Native8／固定Full26・完全共通・実コピー／Release・必要CIと通常mainは未受入である。実provider保存・実機・VoiceOver等、IOS-22／25、TODO32行14完了は未完了、App0.2.28（30）は不変とする。
+
+## e5の実取消2回・公開復帰と通常squash mainCC採用
+
+2026-11-01追記。head `e5a95213`の[Native初回実行](https://github.com/pero3dev/ai-agent-library/actions/runs/41312606874)は、単体278件＝276成功・2skip・失敗0、UI一意8件＝8成功・失敗0、UI報告806.017秒だった。新しい書き出し取消caseは14:04:16.404414Zから14:07:16.942968Zに180.538秒で成功した。これは同headの実Simulator結果で、通常main採用後の別pushや実機の新結果へは読み替えない。PR #321は通常保護のsquashで実main `cc268c4a76f09434f27bbc841e3b9ca776ea566e` に採用され、parentはmain88、treeは `91b1b70a56ddbd518178f1d300ec1df20777647a`、全2857のmode/blobが受け入れたe5と一致した。Rootの保存proofとactual raw本文・single parentを照合し、このDoc6も実mainへfresh再結合した。
+
+同case内では、14:06:02.107695Zと14:06:35.311951Zに書き出しを開き、それぞれ14:06:16.101044Z／14:06:44.580050Zの実Browse-backを経て、14:06:23.537338Z／14:06:53.423201Zに保存先rootのCancelを押した。各回の固定ID・同じ一意window・正確なfilename読取witness、Move1から実back後のMove0／Cancel1／Back0、tap直前再確認と検索一覧への全復帰を持つ現コードのcaseが通過した。今回の2回目も実Browse-backを行っており、最初からrootを開くattempt2の分岐を実行確認済みとはしない。XCTestにexact-name TextField照会が出ていることと、独立したfull AX value dumpを取得したことも区別する。
+
+2回目の取消後は14:06:58.482472Zにterminate、14:06:59.525525Zに同suiteをlaunchし、14:07:10.065098Zに公開「続きを読む」を押した。その後のしおり削除ボタンと、非先頭「自己注意の数式」見出しの完全表示frame確認を含めてcaseが成功した。保存先への書込み、外部provider、最終backupのraw bytesを検証した結果ではない。初回・通常toolbarや677／a6等の過去失敗は、既存記録の値と本文を変更せず履歴として残す。
+
+同e5のFullA初回は一意18件成功・1068.665秒、単体278件・2skip・失敗0、literal完全共通は1257件中1242成功・15skip・失敗0だった。FullBは一意8件成功、実UI先の一つの374-byteコピー内容がequality guardを通り、成功markerは1回、Releaseは199記事・音声1・検証625ファイル・fixture不在だった。374はバイト数であり試験数ではなく、actual SHA artifact receiptを直接読んだとも主張しない。A18とB8は固定された元の26件に重複なく一致し、Root observerの最終封印を照合して受け入れた。Runtime26の実3件、Recoveryの13明示gateと必須11・fresh policy2のRoot報告も、それぞれの区画の結果である。
+
+Native Releaseは成功したが、UIが成功したため失敗添付collectorはskipである。これは失敗ではなく、第3のHosted診断収録にも数えない。既存の677／a6の実収録2回を保持する。新しいコード・workflow・SDK・試験・download・Git/API操作はこの文書作業では0、Core/Fallback記録4件も変更しない。このDoc6の記録4と索引2は実mainCCの同tree全2857へfresh binding済みで、別commitのCore/Fallback Doc6との最終Doc10結合・独立レビューと文書CIは後続である。App0.2.28（30）・TODO32行14完了、実機・provider・VoiceOverとIOS-22／25全体の未完了は維持する。
+
+Ready最終本文epochは2026-11-01T14:21:09Z、fresh policy2は同14:21:12Zに作成され、14:21:15Z／14:21:17Z以降に開始して成功したことを保存runへ照合した。通常mergeは14:25:11Zであり、古い本文epochのpolicyを代用しない。mainCCの新pushは、この追補のfreeze時点でFullBのUIstep失敗がRootから報告され、raw待ち・原因未確定で未受入である。製品やseedの問題とは断定せず、source-e5の成功と区別する。Rootの通常squash proof manifest SHA256は `36e6bbd0101700583461039988877611c0a9525e931a400cd730e81c58dd1c2a`、source-e5最終observer result SHA256は `946e371d27fac8038b7bb22418eef3cd5770d215b1b7256eeae2374a4ebddaed` である。

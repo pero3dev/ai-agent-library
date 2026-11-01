@@ -644,5 +644,218 @@
       "real_experiment": false,
       "scope": "Static document preparation and hashing already-saved data only"
     }
+  },
+  "Hosted_collected_observation_a6_20261101": {
+    "state": "SECOND_OBSERVED_HOSTED_COLLECTION_PRIMARY_UI_STILL_FAILED",
+    "date": "2026-11-01",
+    "actualparent": null,
+    "adopted": false,
+    "reported_source_parent": {
+      "head": "a6faa9370d2d8b00433b7413b8b155c9828f9005",
+      "base_main": "88c9ac391459ead50cf5e28b25918f97ac9332cf",
+      "PR": 321,
+      "merged": false,
+      "exact_Record2_identity_confirmed_by_Root": true,
+      "Git_independently_checked_by_document_author": false
+    },
+    "binding": {
+      "repository": "pero3dev/ai-agent-library",
+      "event": "pull_request",
+      "run_id": "41308748054",
+      "run_attempt": "1",
+      "workflow_SHA": "469cc2f16708c99bfe4a00403a994790c9034fe2",
+      "source_head": "a6faa9370d2d8b00433b7413b8b155c9828f9005",
+      "full_artifact_upload_outcome": "success"
+    },
+    "Native_job": 124854507753,
+    "artifact": {
+      "id": 13084598569,
+      "ZIP_bytes": 150245,
+      "official_SHA256": "f6d7ce5b2c55d515b5a725d3230d8486534d68bd1b0dc7746bf2c5e74aa65831",
+      "already_downloaded_ZIP_rehashed_by_document_author": true,
+      "new_downloads_by_document_author": 0,
+      "full_approx181MB_artifact_downloaded": false
+    },
+    "collector": {
+      "status": "collected",
+      "incomplete_reason": null,
+      "selected_case": "ReadingRecoveryUITests/testExportFilePickerCancelKeepsHealthyPositionAndBookmarkAfterRelaunch()",
+      "omitted_failed_cases": 0,
+      "files": [
+        {
+          "filename": "failure.png",
+          "bytes": 176061,
+          "advertised_bytes": 176061,
+          "SHA256": "a9797ec37fe5789b5ec3efd753d058afbafe151670b0714faab79abf553b17c4"
+        },
+        {
+          "filename": "context.txt",
+          "bytes": 224,
+          "advertised_bytes": 224,
+          "SHA256": "5a80736a2ae4fc6ba1e102a0d8af8c9865f5828d4375202e84a2da450b4b31b6"
+        },
+        {
+          "filename": "hierarchy.txt",
+          "bytes": 32793,
+          "advertised_bytes": 32793,
+          "SHA256": "51be5b634a9a71133af97d17be652b70086413785b9ebe49f9e02577d92d38e8"
+        }
+      ],
+      "files_total_bytes": 209078,
+      "manifest_bytes": 3514,
+      "manifest_SHA256": "308ee36cb226958622251239a0f9ea122c2436468bbdcbb7e8822624b31adcff",
+      "retained_files_and_manifest_bytes": 212592,
+      "calls": [
+        {
+          "kind": "root",
+          "planned_timeout_ms": 15000,
+          "actual_timeout_ms": 15000,
+          "completed": true,
+          "quiescent": true,
+          "exit_code": 0,
+          "signal": null
+        },
+        {
+          "kind": "object",
+          "planned_timeout_ms": 15000,
+          "actual_timeout_ms": 15000,
+          "completed": true,
+          "quiescent": true,
+          "exit_code": 0,
+          "signal": null
+        },
+        {
+          "kind": "object",
+          "planned_timeout_ms": 15000,
+          "actual_timeout_ms": 15000,
+          "completed": true,
+          "quiescent": true,
+          "exit_code": 0,
+          "signal": null
+        },
+        {
+          "kind": "export",
+          "planned_timeout_ms": 15000,
+          "actual_timeout_ms": 15000,
+          "completed": true,
+          "quiescent": true,
+          "exit_code": 0,
+          "signal": null
+        },
+        {
+          "kind": "export",
+          "planned_timeout_ms": 15000,
+          "actual_timeout_ms": 15000,
+          "completed": true,
+          "quiescent": true,
+          "exit_code": 0,
+          "signal": null
+        },
+        {
+          "kind": "export",
+          "planned_timeout_ms": 15000,
+          "actual_timeout_ms": 15000,
+          "completed": true,
+          "quiescent": true,
+          "exit_code": 0,
+          "signal": null
+        }
+      ],
+      "limits": {
+        "metadata": 1048576,
+        "stderr": 8192,
+        "retained": 2097152,
+        "manifest": 65536,
+        "png": 1048576,
+        "hierarchy": 131072,
+        "geometry": 8192,
+        "context": 2048,
+        "wholeMs": 75000,
+        "perChildMs": 15000,
+        "maxCalls": 7,
+        "maxNodes": 32768,
+        "freeFloor": 67108864
+      },
+      "all_advertised_bytes_and_SHA256_match_actual": true,
+      "receipt_manifest_binding_equal": true,
+      "observed_Hosted_collection_number_in_this_record": 2,
+      "all_control_Hosted_or_OS_guard_scenarios_passed": false,
+      "actual_UI_success": false,
+      "original_UI_outcome": "failure",
+      "full_artifact_step_preserved": true
+    },
+    "primary_Native": {
+      "raw_bytes": 1191569,
+      "raw_SHA256": "2fb5a8c98f6edff3f6bbe1f92e9c839b3d9eb3bd8b279e6f6545251a4a4af349",
+      "unit": {
+        "total": 278,
+        "passed": 276,
+        "skipped": 2,
+        "failed": 0
+      },
+      "UI": {
+        "total": 8,
+        "unique": 8,
+        "passed": 7,
+        "failed": 1,
+        "reported_total_seconds": 674.636,
+        "sum_of_individually_rounded_case_seconds": 674.637
+      },
+      "failed_case": "ReadingRecoveryUITests/testExportFilePickerCancelKeepsHealthyPositionAndBookmarkAfterRelaunch",
+      "failed_case_seconds": 122.827,
+      "reported_source_line": 543,
+      "export_loop": 1,
+      "actual_Browse_back_taps": 1,
+      "accepted_cancelable_Move_context_after_Browse": false,
+      "context_phase": "destination-action-count",
+      "context_match_counts": {
+        "directBar": 1,
+        "Move": 0,
+        "Cancel": 1,
+        "BrowseBack": 0
+      },
+      "context_Cancel_match_count_is_not_actual_Cancel_tap_count": true,
+      "actual_export_Cancel_taps": 0,
+      "Cancel1_Cancel2_relaunch_position_bookmark_accepted": false,
+      "initial_fixed_bar_window_filename_queries": "control-flow witness only; no final TextField.value or provider write acceptance",
+      "Restore_case_Cancel_added_to_export_count": false,
+      "screen_absence_or_product_root_cause_inferred": false,
+      "Native_Release": "skipped after UI failure"
+    },
+    "evidence_data_read": {
+      "receipt": {
+        "bytes": 1333,
+        "SHA256": "ab7958e8c9ac0338391c9dac1a2cab71c439b94818af02dd1ffd3f50153ff966"
+      },
+      "classification": {
+        "bytes": 5866,
+        "SHA256": "bc624096a54c322319c90eec407d6de4a85f7aa633620205980b8b2270e9af4a"
+      },
+      "parent_observer_packet_unsealed_when_read": true,
+      "each_named_file_identity_frozen_by_this_packet": true,
+      "raw_attachment_or_ZIP_copies": 0
+    },
+    "historical_scope": "All previous JSON keys/values and full Markdown prefix retained, including old677 and earlier pending descriptions as dated history.",
+    "unchanged_and_unaccepted": {
+      "diagnostic_Code_workflow4_files_copied_or_modified": 0,
+      "index_files_modified": 0,
+      "FullA_FullB_or_other_Hosted_acceptance_added_here": false,
+      "Root_final7_binding": "later; UI and all records/indices finalized by Root",
+      "App": "0.2.28 (30)",
+      "TODO_rows": 32,
+      "TODO_completed": 14,
+      "IOS25_complete": false,
+      "IOS15_complete": false,
+      "physical_provider_write_or_final_backup_bytes_accepted": false
+    },
+    "document_author_execution": {
+      "Git": false,
+      "API": false,
+      "download": false,
+      "Node": false,
+      "SDK": false,
+      "real_test": false,
+      "scope": "static records and hashing already-saved data only"
+    }
   }
 }

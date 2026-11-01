@@ -1,8 +1,8 @@
 # iOS完成版に向けたTODO
 
-[Native UI失敗添付の小規模保存](../../records/2026-11-01/ios-native-failure-compact.md)は、PR321 head677の初回Hostedで6呼出・PNG122,951B／context182B／hierarchy16,510Bのcollectedを確認した。RootのZIP87,188Bのreceiptと各実bytes／SHA・bindingを照合し、旧37／43制御試験と9310保存データ再生は別履歴に保つ。元Nativeは単体276成功／2skip・UI7成功／1失敗で、新caseは初回Move context未識別・書き出しCancel0回のまま未受入である。新UI修正・FullA／Bの終端観測・main採用・実機は後続とし、App0.2.28（30）・TODO32行／14完了・IOS-25／IOS-15未完了を維持する。
+[Native UI失敗添付の小規模保存](../../records/2026-11-01/ios-native-failure-compact.md)は、677に続くa6のNativeでも6呼出・3添付のcollectedを確認した。Root取得ZIP150,245BとPNG176,061B／hierarchy32,793B／context224Bの実bytes・SHA／bindingを照合し、旧37／43制御試験・9310再生・677収録を保持する。a6の元UIは7成功／新1失敗で、実Browse-back1回の後もMove context未受入、Cancel実tap0回・再起動未受入である。実収録2回目を全対照Hosted成功へ広げず、診断Code／workflowは不変更。App0.2.28（30）・TODO32行／14完了・IOS-25／15未完了を維持し、Rootの後続UI・記録・索引の最終化へ渡す。
 
-IOS-22・25の[書き出し取消UI候補](../../records/2026-10-31/ios-reading-export-cancellation.md)は、677で旧7件成功・新ケース失敗、初回picker識別前に停止した。小診断は実Hostedで3添付collected、実階層の固定bar IDへ直接queryし、開く前count0・開いた後一意と同じwindowを確認する候補へ進める。下部TextFieldのfull AX valueと戻り後Cancelは未観測、Move／filename読取・単一30秒・戻り最大1回・2回取消・検索と再起動後のしおり／位置確認は保持する。短いphase/countのみ追加し、新headのHosted compile・Native8・Full26・必要CI/通常main、provider・実機は未完了、App0.2.28（30）・TODO32行14完了を維持する。
+IOS-22・25の[書き出し取消UI候補](../../records/2026-10-31/ios-reading-export-cancellation.md)は、a6で実Browse-back1回後のMove0／Cancel1／Back0というrootを観測したが、初回Cancelと2回取消後の復帰は未到達である。初回Move1の全witnessを保ち、実back後だけrootを同じwindow／filenameと操作可能Cancelで再確認する。初回実Cancelと全閉鎖・filtered復帰後だけ成立するtest-local Boolをattempt2に限って渡す候補とし、pre-exportから共有30秒・既存上限・2回取消・再起動後のしおり／位置は保持する。新headのSDK・Native8・Full26・必要CI/通常main、provider・実機は未受入、App0.2.28（30）・TODO32行14完了を維持する。
 
 IOS-15の[Notice対応Core観測の固定入口とHosted事前検査案](../../records/2026-10-31/ios-notice-core-hosted-observation.md)では、固定verifier2＋Hosted実行面3の計5sourceを準備する。local3.8GB条件を下げず、Hostedで独立の26fake／Node22構文/schemaが成功した場合だけCore180秒へ進む案で、Hosted実行・新head共通／CI／mainは未確認である。先行PR316と回転UI単位の通常mainを引き継いだ実parent `84f8f3ea1e1a4d3e2c809130af6a0388b7f24564` への提出候補として、App版不変更・TODO32行／14完了を維持する。
 

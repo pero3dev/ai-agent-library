@@ -73,3 +73,17 @@ Rootが取得したcompact artifact `13057433126` はZIP 87,188 byte、公式SHA
 同じNativeのrawはRootが1回取得した1,181,142 byte・SHA256 `5cdacf958aa22543e973ffff7e2b526fe9a93bac3c974d2bba96355696bedc6c` で、文書作成者も保存bytesを再照合した。単体278件は276成功・2 skip・失敗0、UIは一意8件＝7成功・新1失敗、run報告の合計は679.472秒だった。個別に丸めたcase値の合計679.473秒とは区別する。新caseは最初の書き出しループattempt1でMoreと`library-export-reading`をタップした後、報告行519のMove context識別で失敗した。書き出しCancelの実行は0回で、取消1回目／2回目・取消後再起動・位置／しおり保持は未受入である。後続Restore caseのCancelをこの書き出し取消へ数えず、認識失敗だけで実画面の不存在や製品不具合の原因を断定しない。NativeのRelease監査はUI失敗後skipであり、診断の収録成功を元UIの成功へ変えない。
 
 新しいUI direct-ID修正は別担当の未実施候補で、この追記に含めない。FullA／FullBはこの追記準備時点で終端観測を未収録として保ち、後の結果は正確なhead／runの別追記で区別する。新UI修正・新main・実機・provider書込み・最終backup bytesの受入は未確認のままである。App0.2.28（30）・TODO32行／14完了・IOS-25／IOS-15全体の未完了を維持する。文書作成者によるGit／Node／SDK／API／download／再実験は行っていない。
+
+## a6の初回Nativeで診断を再収録
+
+前節までの全Markdown prefixとJSONの既存全値は、その時点の準備・旧37／43制御試験・9310保存データ再生・677初回Hosted収録の履歴として保持する。今回の新しい観測は[PR321 head a6のNative run](https://github.com/pero3dev/ai-agent-library/actions/runs/41308748054)、attempt1・job `124854507753`・source head `a6faa9370d2d8b00433b7413b8b155c9828f9005` である。workflow SHAは `469cc2f16708c99bfe4a00403a994790c9034fe2`、repository・pull_request event・run／attempt・source head・全量artifact upload成功のbindingがreceiptとmanifestで一致した。実mainは88のまま、PR321は未統合であり、観測付きDoc2は `actualparent=null` の私有候補とする。
+
+a6でも実compactは `collected`・`incomplete_reason=null`・既知3ファイルとなった。root1・object2・export3の計6呼出は全てcompleted・quiescent・exit0・signalなしをmanifestに記録し、最大7呼出内だった。これを677に続く実Hosted収録の2回目として記録する。単一の選択失敗ケースと既知添付に限る証拠であり、全対照Hostedの成功、全OS／将来event／全guardの耐障害性やUI合格へ一般化しない。`actual_UI_success=false` と元の `original_UI_outcome=failure` を保持する。
+
+compact artifact `13084598569` のZIPは150,245 byte・公式SHA256 `f6d7ce5b2c55d515b5a725d3230d8486534d68bd1b0dc7746bf2c5e74aa65831` だった。文書作成者はRoot取得済みのZIP・receipt・manifest・展開済み3添付をデータとして再照合した。PNG176,061 byte・SHA256 `a9797ec37fe5789b5ec3efd753d058afbafe151670b0714faab79abf553b17c4`、hierarchy32,793 byte・`51be5b634a9a71133af97d17be652b70086413785b9ebe49f9e02577d92d38e8`、context224 byte・`5a80736a2ae4fc6ba1e102a0d8af8c9865f5828d4375202e84a2da450b4b31b6` は全てadvertised／実bytes／SHAが一致した。3添付合計209,078 byte、manifest3,514 byte込み212,592 byteで、旧677のbytesや画像hashと混同しない。全量artifactのupload成功は保持し、約181MBの全量artifactは今回downloadしていない。
+
+元Nativeは単体278件＝276成功・2 skip・失敗0、UI一意8件＝7成功・新1失敗で、run報告の合計は674.636秒だった。個別丸めcase値の合計674.637秒とは区別する。保存rawは1,191,569 byte・SHA256 `2fb5a8c98f6edff3f6bbe1f92e9c839b3d9eb3bd8b279e6f6545251a4a4af349` で一致した。新caseは最初の書き出しループで122.827秒、報告行543のMove context識別で失敗した。rawにはMore・`library-export-reading`と実際の「ブラウズ」戻り1回のtapがあるが、その後の取消可能なMove contextは受入に至っていない。初期の固定bar／window／filename問い合わせを通った制御上の進展を、最終filename値や書き出し成功の証明にはしない。
+
+失敗時contextは `destination-action-count`、directBarCount1・moveCount0・cancelCount1・browseBackCount0を記録した。ここでCancel1は一致要素数であり、取消操作を1回実行した意味ではない。この書き出しcaseのCancel実tapは0回で、取消1回目／2回目・取消後再起動・位置／しおりは未受入である。後続Restore caseのCancelを加算せず、画面不存在や製品不具合の原因を識別失敗から断定しない。NativeのRelease監査はUI失敗後skipのまま保つ。
+
+診断Code／workflow4ファイルは変更・複製せず、上限・結合条件・元UIの失敗を維持する。旧677収録と全過去履歴は残し、今回のDoc2／index診断段落案だけをRootの後続7ファイル最終化へ渡す。他のHosted対照・FullA／Bの状態同期・新UI修正は別作業であり、この追記では受入判定を加えない。App0.2.28（30）・TODO32行／14完了・IOS-25／15全体、実機・provider書込み・最終backup bytesは未完了のままである。文書作成者によるGit・API・download・Node・SDK・新実試験は0で、raw／添付／ZIPの複製も0とする。

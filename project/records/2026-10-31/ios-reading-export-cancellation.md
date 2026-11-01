@@ -121,3 +121,17 @@ barを含むwindowは一つに限定し、有限で画面内のframe、同bar内
 次の停止位置を区別するため、各queryやguardの直前・件数取得後に短いphaseと`directBarCount`・必要な件数だけを既存1 KiB文脈へ記録する。filenameのexact件数が0の場合も、その段階を残す。失敗時だけの階層一度・UTF-8全文131,072 byte以下・上限超過時の別名OMITTEDという制限は維持する。新しい待機、provider選択、座標、任意のfirstMatch、保存・移動・filename操作、記事や目次への追加遷移はない。
 
 作者が実施した確認は入力SHA、Pythonによる全文逆変換、旧5ケースと無関係helperのbyte一致、2索引の一段落置換と全逆変換である。新しいNode・SDK・Git/API・Simulator・UI・書き出しは実行していない。677のFull A/Bの終端結果は別途収録中で、新sourceの成功には転用しない。独立レビュー・結合後の新headのHosted compile、Native8・固定Full26・完全共通検査・実コピー／Release・必要CIと通常mainは未受入とする。実provider保存・外部ファイル内容・実機・VoiceOver等、IOS-22／25、TODO32行14完了は引き続き未完了、App0.2.28（30）は不変である。
+
+## a6で確認したブラウズrootと、初回取消完了だけを引き継ぐ候補
+
+2026-11-01追記。head `a6faa937`の[Native実行](https://github.com/pero3dev/ai-agent-library/actions/runs/41308748054)で、新しい書き出し取消ケースは最初の実Browse-back後に停止した。Rootが確認した実行範囲では、初回の固定ID・一意window・Move・正確なfilenameの読取witnessと、戻る操作の直前再確認を通過している。その後の失敗文脈は`attempt=1`、`directBarCount=1; moveCount=0; cancelCount=1; browseBackCount=0`である。1回目のCancelも2回取消後の再起動も、まだ実施できていない。この進捗を新候補の受入や記録保持の成功とは扱わない。
+
+同headのcompact診断は実Hostedで3添付を収集した。Rootが全体SHAと選択memberを検証した150,245 byteのZIPから、画像176,061 byte・階層32,793 byte・文脈224 byteを得た。作者も画像を表示し、階層と文脈を読んだ。画面はタイトル「ブラウズ」のrootで、同じ`FullDocumentManagerViewControllerNavigationBar`に「キャンセル」Buttonが一つあり、「移動」と「ブラウズ」Buttonはなかった。背景の検索Cancelは別のnavigation内に残る。Main windowは393×852、barは`0,69,393,108`、rootのCancelは`8,75,90.7,44`だった。下部TextFieldは`65,764,312,42`、階層のvalueは`AI-Agent-Library-R...`という省略表示である。画像にある正確なfilenameと、まだ未観測のAX full value・rootでの操作可否や全witness再確認の成功を区別する。
+
+停止guardは、戻った後もMove1件を必須にしていた条件と、この実rootのMove0件との不一致である。候補は、初回を従来のMove1の保存先形状に限定したまま、その全witnessを再確認して実Browse-backを一度だけ行った後に限り、固定ID・Move0／Cancel1／Back0のroot形状を認める。rootでも一意な同window、有限で画面内のbarとCancel、有効かつ操作可能なCancel、barより下の正確なfilename読取witnessを再確認する。最初からMove0の画面を初回の代替経路として受け入れない。Move1を持つ従来のCancel形状は引き続き同じ条件で扱う。
+
+2回目が最初からrootを開く場合に備え、Boolを新exportテスト内のローカル変数だけに保持する。初回のMove1・filename・固定ID・一意window、実Browse-back1回、rootのMove0／Cancel1／Back0・filenameの再確認、実Cancel、その後のpicker／filename／More消失と同じ検索値・絞り込み一覧への復帰が全て成功した後だけ、helperがtrueを返す。2回目のattempt2だけにその値を明示引数で渡す。helperのproperty、永続設定、relaunchや別テストへの持越しは作らず、初回が失敗したらtrueは成立しない。2回目も全witnessを改めて確認する。
+
+共有30秒はpre-exportの不在・filename確認より前に一度だけ開始し、export tap前にも残時間を確認する。戻り待機・Cancel待機・各tap直前の全再確認は同じ期限を使う。本文More15秒・export選択10秒・一覧復帰15秒、2回export、同じ隔離suiteのterminate／再起動、公開「続きを読む」・しおりと非先頭見出しの完全表示を保持する。旧4つのRecoveryケースと無関係helperはbyte一致、新exportケースはloopのローカルBoolと呼出し数行以外を保持する。Move／filenameは読取専用、provider・保存先・座標・全アプリCancelや任意のfirstMatchは使わない。phaseは保存先とbrowse-rootを区別し、既存1 KiB文脈と失敗時一度の全文階層上限131,072 byteを維持する。
+
+作者の検査は入力SHA、Python全文逆変換・既存部分のbyte一致、旧JSON全値・Markdown prefixと索引一段落の全逆までである。Git reader・Node・SDK・UI・Simulator・API・書き出しや新しい実試験は実行していない。puretree・保護対象のfresh確認とAPI計画はRootの最終結合へ委ね、保存済みa6 Source11の参照だけを添える。独立レビュー、結合した新headのHosted compile・Native8／固定Full26・完全共通・実コピー／Release・必要CIと通常mainは未受入である。実provider保存・実機・VoiceOver等、IOS-22／25、TODO32行14完了は未完了、App0.2.28（30）は不変とする。

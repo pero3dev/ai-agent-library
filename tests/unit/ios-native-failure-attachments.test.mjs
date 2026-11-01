@@ -421,3 +421,119 @@ test('optional export hierarchy actual invalid UTF8 or size never retains the hi
     assert.ok(!result.files.some(x => x.filename === 'hierarchy.txt')); assert.equal(f.retained.has('hierarchy.txt'), false);
   }
 });
+
+
+// The confirmation-timeout role is a failure-only witness for the existing recovery cases.
+const confirmationCaseIDs = [
+  'ReadingRecoveryUITests/testCancelKeepsRecoveryNoticeAfterRelaunch()',
+  'ReadingRecoveryUITests/testConfirmedRecoveryPreservesReadableAndCurrentBookmarksAfterRelaunch()',
+  'ReadingRecoveryUITests/testRestoreFilePickerCancelKeepsHealthyBookmarksAfterRelaunch()',
+  'ReadingRecoveryUITests/testConfirmedRecoveryPreservesCurrentPositionAndBookmarkAfterRelaunch()',
+  'ReadingRecoveryUITests/testExportFilePickerCancelKeepsHealthyPositionAndBookmarkAfterRelaunch()',
+];
+const confirmationContext = Buffer.from('{"observedTitleWithinWait":false,"sampling":"after-title-wait-timeout-sequential"}\n');
+function confirmationFixture(identifier = confirmationCaseIDs[2], overrides = {}) {
+  const f = fixture(overrides), value = summary();
+  value.identifier = scalar(identifier);
+  value.activitySummaries._values[0].subactivities._values[0].attachments._values.splice(0, 2,
+    attachment('Reading-recovery-confirmation-title-not-visible', '0~image', image.length, 'public.png'),
+    attachment('Reading-recovery-confirmation-context', '0~context', confirmationContext.length, 'public.plain-text'));
+  f.objects['0~tests'] = bytes({ tests: array([leaf(identifier)]) });
+  f.objects['0~summary'] = bytes(value); f.payloads['0~context'] = confirmationContext;
+  return { ...f, value };
+}
+
+test('confirmation timeout accepts exactly the fixed PNG and required context for each existing recovery case', async () => {
+  for (const identifier of confirmationCaseIDs) {
+    const f = confirmationFixture(identifier);
+    const result = await collectNativeFailure({ binding: binding(), io: f.io, now: f.now });
+    assert.equal(result.status, 'collected'); assert.equal(result.selected_case, identifier);
+    assert.equal(result.actual_UI_success, false); assert.equal(result.original_UI_outcome, 'failure');
+    assert.deepEqual([...f.retained.keys()], ['failure.png', 'context.txt']);
+    assert.deepEqual(f.retained.get('context.txt'), confirmationContext);
+    assert.deepEqual(f.calls.map(x => x.kind), ['root', 'object', 'object', 'export', 'export']);
+  }
+});
+
+test('confirmation role refuses a different selected suite or missing summary identity before payload exports', async () => {
+  const f = confirmationFixture(anotherCase);
+  const result = await collectNativeFailure({ binding: binding(), io: f.io, now: f.now });
+  assert.equal(result.status, 'incomplete'); assert.equal(result.incomplete_reason, 'recovery_confirmation_case_mismatch');
+  assert.equal(f.calls.filter(x => x.kind === 'export').length, 0); assert.equal(f.retained.size, 0);
+  const value = confirmationFixture().value; delete value.identifier;
+  assert.throws(() => attachmentPlan(value), /recovery_confirmation_case_mismatch/);
+});
+
+test('confirmation role does not accept zero, lookalike, automatic or multiple known PNG witnesses', () => {
+  for (const name of ['Reading-recovery-confirmation-title-not-visible-extra', 'Automatic Screenshot']) {
+    const value = confirmationFixture().value;
+    value.activitySummaries._values[0].subactivities._values[0].attachments._values[0].name = scalar(name);
+    assert.throws(() => attachmentPlan(value), /known_failure_image_not_unique/);
+  }
+  const absent = confirmationFixture().value;
+  absent.activitySummaries._values[0].subactivities._values[0].attachments._values.splice(0, 1);
+  assert.throws(() => attachmentPlan(absent), /known_failure_image_not_unique/);
+  const value = confirmationFixture().value, entries = value.activitySummaries._values[0].subactivities._values[0].attachments._values;
+  entries.push(attachment('Public-UI-target-not-visible', '0~secondImage', image.length, 'public.png'));
+  assert.throws(() => attachmentPlan(value), /known_failure_image_not_unique/);
+});
+
+test('confirmation PNG duplicate metadata coalesces only exact identity while changed refs remain ambiguous', () => {
+  const value = confirmationFixture().value, entries = value.activitySummaries._values[0].subactivities._values[0].attachments._values;
+  entries.push(structuredClone(entries[0])); assert.equal(attachmentPlan(value).length, 2);
+  entries.at(-1).payloadRef = ref('0~different'); assert.throws(() => attachmentPlan(value), /ambiguous_attachment/);
+});
+
+test('confirmation optional hierarchy is bounded and context remains required', async () => {
+  const f = confirmationFixture(), hierarchy = Buffer.from('Application\n  Sheet recovery confirmation\n');
+  const entries = f.value.activitySummaries._values[0].subactivities._values[0].attachments._values;
+  entries.push(attachment('Reading-recovery-confirmation-hierarchy', '0~hierarchy', hierarchy.length, 'public.plain-text'));
+  f.objects['0~summary'] = bytes(f.value); f.payloads['0~hierarchy'] = hierarchy;
+  const result = await collectNativeFailure({ binding: binding(), io: f.io, now: f.now });
+  assert.equal(result.status, 'collected'); assert.equal(result.actual_UI_success, false); assert.equal(f.calls.length, 6);
+  assert.deepEqual([...f.retained.keys()], ['failure.png', 'context.txt', 'hierarchy.txt']);
+  assert.deepEqual(f.retained.get('hierarchy.txt'), hierarchy);
+  const missing = confirmationFixture(); missing.value.activitySummaries._values[0].subactivities._values[0].attachments._values.splice(1, 1);
+  missing.objects['0~summary'] = bytes(missing.value);
+  const partial = await collectNativeFailure({ binding: binding(), io: missing.io, now: missing.now });
+  assert.equal(partial.status, 'partial'); assert.equal(partial.incomplete_reason, 'known_text_attachment_missing');
+  assert.deepEqual([...missing.retained.keys()], ['failure.png']);
+});
+
+test('confirmation role rejects malformed and excessive PNG context or hierarchy before any export', async () => {
+  const changes = [
+    entries => { entries[0].payloadSize._value = String(LIMITS.png + 1); },
+    entries => { entries[0].uniformTypeIdentifier._value = 'public.mpeg-4'; },
+    entries => { entries[0].payloadRef = ref('../escape'); },
+    entries => { entries[1].payloadSize._value = String(LIMITS.context + 1); },
+    entries => { entries[1].payloadRef = ref('0~image'); },
+    entries => { entries.push(attachment('Reading-recovery-confirmation-hierarchy', '0~hierarchy', LIMITS.hierarchy + 1, 'public.plain-text')); },
+    entries => { entries.push(attachment('Reading-recovery-confirmation-hierarchy', '0~hierarchy', 2, 'public.png')); },
+    entries => { entries.push(attachment('Reading-recovery-confirmation-hierarchy', '0~hierarchy', 2, 'public.plain-text'),
+      attachment('Reading-recovery-confirmation-hierarchy', '0~hierarchy', 2, 'public.plain-text')); },
+  ];
+  for (const change of changes) {
+    const f = confirmationFixture(), entries = f.value.activitySummaries._values[0].subactivities._values[0].attachments._values;
+    change(entries); f.objects['0~summary'] = bytes(f.value);
+    const result = await collectNativeFailure({ binding: binding(), io: f.io, now: f.now });
+    assert.equal(result.status, 'incomplete'); assert.equal(result.actual_UI_success, false);
+    assert.equal(result.files.length, 0); assert.equal(f.calls.filter(x => x.kind === 'export').length, 0);
+  }
+});
+
+test('confirmation context invalid UTF8 is not retained or counted as complete evidence', async () => {
+  const f = confirmationFixture(); f.payloads['0~context'] = Buffer.alloc(confirmationContext.length, 255);
+  const result = await collectNativeFailure({ binding: binding(), io: f.io, now: f.now });
+  assert.equal(result.status, 'incomplete'); assert.equal(result.actual_UI_success, false);
+  assert.equal(result.incomplete_reason, 'actual_text_encoding'); assert.equal(f.retained.has('context.txt'), false);
+});
+
+test('confirmation export still requires a fresh permit within the unchanged whole deadline', async () => {
+  const f = confirmationFixture(confirmationCaseIDs[2], {
+    beforePermit: ({ kind, setClock }) => { if (kind === 'export') setClock(LIMITS.wholeMs); },
+  });
+  const result = await collectNativeFailure({ binding: binding(), io: f.io, now: f.now });
+  assert.equal(result.status, 'incomplete'); assert.equal(result.incomplete_reason, 'deadline_exhausted_before_spawn');
+  assert.equal(result.actual_UI_success, false); assert.equal(f.retained.size, 0);
+  assert.equal(f.calls.filter(x => x.kind === 'export' && x.started).length, 0);
+});

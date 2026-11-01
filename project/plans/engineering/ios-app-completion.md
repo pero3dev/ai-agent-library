@@ -1,5 +1,7 @@
 # iOS完成版に向けたTODO
 
+[復旧確認タイトルの失敗時診断](../../records/2026-11-02/ios-recovery-confirmation-diagnostics.md)は、main da820のNative初回pretest失敗と再試行UI7成功・1失敗を保持し、既存5秒・1tap・全assertを変えず失敗時だけ固定名の画面と限定contextを残す候補である。旧43＋新8のNode51件とJS/Swift構文、Code3独立レビューは成功したが、新診断分岐・SDK・Source7レビュー・Hosted・通常mainは未受入という候補作成時点の記録を保つ。App0.2.28（30）・TODO32行14完了、実機等の未完了を保つ。
+
 [タグ検索の前面readiness](../../records/2026-11-02/ios-tag-search-readiness.md)は、main36のFull A初回18件中17成功・1失敗を保持し、タグ検索exists後のhittable15秒停止だけを対象にする。timeout後のsequential hittable=trueを期限内成立や原因の証拠へ読み替えない。既存folder-cancel caseの1 callだけをopt-inし、一意のTag／Close／windowと検索を確認して、既存10＋15秒の共有25秒内・最大8回の公開revealとpositive waitを行う候補である。他case・製品・workflow、保存／filter／Cancel／2回目More Actions／再起動Resume・しおりと非先頭数式・固定Full26を保つ。Doc323変更は混ぜず、新SDK・レビュー・current-head CI／通常mainと実効果は未受入、App0.2.28（30）・TODO32行14完了と実機等の未完了を維持する。
 
 [Notice対応Core観測とmainの受入追補](../../records/2026-10-31/ios-notice-core-hosted-observation.md)では、source3bfの保存済みCore19raw／15sampleをRootの固定CLIと独立データレビューで受け入れ、通常main88と別の新push CI成功まで確認した。初回A/B失敗と条件不変の各1回再実行を分け、mainpushでCore観測が再実行されたとは扱わない。従来の未確認表示とPR320のUI／Docs6／Code4準備は作成時点の履歴へ明示し、この文書単位はCore記録2・索引2だけとする。PR321後の実parent結合・文書検査・必要CI・通常main反映、性能予算・実機とIOS-15は未完了、TODO32行／14完了を維持する。

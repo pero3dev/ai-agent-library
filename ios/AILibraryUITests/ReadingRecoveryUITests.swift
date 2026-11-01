@@ -654,7 +654,14 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
         requireRecoveryNotice()
         recoveryButtons.firstMatch.tap()
         let dialog = recoverySheets.firstMatch
-        XCTAssertTrue(dialog.staticTexts[recoveryTitle].waitForExistence(timeout: 5))
+        let titleWaitStarted = DispatchTime.now().uptimeNanoseconds
+        let titleAppeared = dialog.staticTexts[recoveryTitle].waitForExistence(timeout: 5)
+        let titleWaitReturned = DispatchTime.now().uptimeNanoseconds
+        if !titleAppeared {
+            captureReadingRecoveryConfirmationTimeout(waitStarted: titleWaitStarted,
+                                                       waitReturned: titleWaitReturned)
+        }
+        XCTAssertTrue(titleAppeared)
         XCTAssertEqual(recoverySheets.count, 1, "Expected one public recovery Sheet")
         XCTAssertTrue(dialog.staticTexts[recoveryMessage].exists)
         let confirm = dialog.buttons.matching(NSPredicate(format: "label == %@", confirmLabel))
@@ -664,6 +671,60 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
         requireHittable(cancel.firstMatch)
         XCTAssertEqual(cancel.count, 1, "Expected one cancel Button inside the recovery Sheet")
         return dialog
+    }
+
+    private var readingRecoveryConfirmationFailureCaptured = false
+
+    /// Failure-only evidence: these sequential observations cannot prove the state during the wait.
+    /// The fixed output sizes do not bound XCTest's screenshot or AX snapshot work/time/memory.
+    private func captureReadingRecoveryConfirmationTimeout(waitStarted: UInt64, waitReturned: UInt64) {
+        guard !readingRecoveryConfirmationFailureCaptured else { return }
+        readingRecoveryConfirmationFailureCaptured = true
+        let elapsed = Double(waitReturned >= waitStarted ? waitReturned - waitStarted : 0) / 1_000_000
+        // Emit the returned false value before any new screenshot or AX requests can stall.
+        print("AILibraryRecoveryConfirmation title-wait-returned; observed=false; timeoutSeconds=5; elapsedMilliseconds=\(elapsed)")
+        capture("Reading-recovery-confirmation-title-not-visible")
+
+        // Exactly six diagnostic AX scalar getters plus one app-state getter, after failure only.
+        let appState = app.state
+        let sheetCount = app.sheets.count
+        let alertCount = app.alerts.count
+        let matchingSheetCount = recoverySheets.count
+        let globalTitleExists = app.staticTexts[recoveryTitle].exists
+        let globalConfirmExists = app.buttons.matching(NSPredicate(format: "label == %@", confirmLabel)).firstMatch.exists
+        let recoveryNoticeExists = recoveryButtons.firstMatch.exists
+        let payload: [String: Any] = [
+            "schemaVersion": 1, "sampling": "after-title-wait-timeout-sequential",
+            "observedTitleWithinWait": false, "timeoutSeconds": 5,
+            "waitElapsedMilliseconds": elapsed, "appStateRawValue": appState.rawValue,
+            "allSheetCount": sheetCount, "allAlertCount": alertCount,
+            "matchingRecoverySheetCount": matchingSheetCount,
+            "globalRecoveryTitleExists": globalTitleExists,
+            "globalRecoveryConfirmExists": globalConfirmExists,
+            "recoveryNoticeExists": recoveryNoticeExists
+        ]
+        let context: String
+        if let data = try? JSONSerialization.data(withJSONObject: payload, options: [.sortedKeys]),
+           data.count <= 2048 {
+            context = String(decoding: data, as: UTF8.self)
+        } else {
+            context = #"{"schemaVersion":1,"sampling":"after-title-wait-timeout-sequential","observedTitleWithinWait":false,"encodingError":"context-unavailable-or-exceeded-2048-bytes"}"#
+        }
+        let contextAttachment = XCTAttachment(string: context)
+        contextAttachment.name = "Reading-recovery-confirmation-context"
+        contextAttachment.lifetime = .keepAlways
+        add(contextAttachment)
+        print("AILibraryRecoveryConfirmation " + context)
+
+        // Reuse the export failure's full-or-omitted hierarchy policy; no truncated snapshot is claimed.
+        let hierarchy = app.debugDescription
+        let byteCount = hierarchy.utf8.count
+        let full = !hierarchy.isEmpty && byteCount <= 131072
+        let detail = full ? hierarchy : "OMITTED: recovery confirmation hierarchy bytes=\(byteCount), allowed=1...131072; no truncated hierarchy retained."
+        let hierarchyAttachment = XCTAttachment(string: detail)
+        hierarchyAttachment.name = full ? "Reading-recovery-confirmation-hierarchy" : "Reading-recovery-confirmation-hierarchy-omitted"
+        hierarchyAttachment.lifetime = .keepAlways
+        add(hierarchyAttachment)
     }
 
     private func waitForRecoveryDialogToClose() {

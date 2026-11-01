@@ -1,5 +1,7 @@
 # project — 計画と実施記録
 
+[タグ検索の前面readiness](records/2026-11-02/ios-tag-search-readiness.md)は、main36のFull A初回18件中17成功・1失敗を保持し、タグ検索exists後のhittable15秒停止だけを対象にする。timeout後のsequential hittable=trueを期限内成立や原因の証拠へ読み替えない。既存folder-cancel caseの1 callだけをopt-inし、一意のTag／Close／windowと検索を確認して、既存10＋15秒の共有25秒内・最大8回の公開revealとpositive waitを行う候補である。他case・製品・workflow、保存／filter／Cancel／2回目More Actions／再起動Resume・しおりと非先頭数式・固定Full26を保つ。Doc323変更は混ぜず、新SDK・レビュー・current-head CI／通常mainと実効果は未受入、App0.2.28（30）・TODO32行14完了と実機等の未完了を維持する。
+
 [Notice対応Core観測とmainの受入追補](records/2026-10-31/ios-notice-core-hosted-observation.md)では、source3bfの保存済みCore19raw／15sampleをRootの固定CLIと独立データレビューで受け入れ、通常main88と別の新push CI成功まで確認した。初回A/B失敗と条件不変の各1回再実行を分け、mainpushでCore観測が再実行されたとは扱わない。従来の未確認表示とPR320のUI／Docs6／Code4準備は作成時点の履歴へ明示し、この文書単位はCore記録2・索引2だけとする。PR321後の実parent結合・文書検査・必要CI・通常main反映、性能予算・実機とIOS-15は未完了、TODO32行／14完了を維持する。
 
 [全記事Bのcanary準備と採用](records/2026-11-01/ios-clipboard-canary-seed.md)は、PR322の通常squashで実main `36bec68537d741492f942c076469bb06d177f69a`（tree04ef／2861）へ採用した。初回source ad0の全6workflow、Native278件中276成功・2skipとUI8、Full A18＋B8の固定26、追加Seed32件の全成功を受け入れる。Rootの小artifact50,631Bでは既知78B／同UUIDへの初回seed1回だけが成功し、実374-byte内容の一致とRelease監査を確認した。実OS retryは0回で救済効果は未受入、旧CCの単回Node timeout・B UI0は履歴へ保持する。freeze UTC `2026-11-01T15:52:51Z` では新main36 pushは親報告snapshotのpending・未受入で、作者は後続を観測していない。B最大2回・各30秒／共有60秒・fresh permit、A2run・pbpaste90・固定Full26と全上限、App0.2.28（30）・TODO32行14完了と実機等の未完了を保つ。

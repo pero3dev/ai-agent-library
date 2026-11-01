@@ -124,6 +124,7 @@ jobs:
       # Offline launch, copying, internal links and legacy migration need more UI tests.
       # Recovery tests cover cancel/confirm, isolated relaunch and restore-picker cancellation.
       - name: Run native UI smoke tests on the iPhone Simulator
+        id: native_ui
         run: |
           set -euo pipefail
           xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary \
@@ -156,11 +157,34 @@ jobs:
             --required-scales 2,3 \
             2>&1 | tee .local/ios-ci/evidence/release-app-icon.json
       - name: Retain test results and compact build evidence
+        id: native_full_evidence
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: ios-native-evidence-${{ github.run_id }}
           path: .local/ios-ci/evidence
+          include-hidden-files: true
+          if-no-files-found: ignore
+          retention-days: 90
+      # Optional post-failure diagnostics follow the original full upload.
+      - name: Collect selected Native failure attachments within a small budget
+        id: native_failure_compact
+        if: always() && !cancelled() && steps.native_ui.outcome == 'failure'
+        continue-on-error: true
+        timeout-minutes: 2
+        env:
+          AILIBRARY_NATIVE_UI_OUTCOME: ${{ steps.native_ui.outcome }}
+          AILIBRARY_FULL_ARTIFACT_OUTCOME: ${{ steps.native_full_evidence.outcome }}
+        run: |
+          set -euo pipefail
+          node ios/tests/native-failure-attachments.mjs
+          printf '%s\n' 'closed=true' >> "$GITHUB_OUTPUT"
+      - name: Retain optional selected Native failure attachments
+        if: always() && !cancelled() && steps.native_ui.outcome == 'failure' && steps.native_failure_compact.outputs.closed == 'true'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ios-native-failure-compact-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/ios-ci/native-failure-compact/ready
           include-hidden-files: true
           if-no-files-found: ignore
           retention-days: 90

@@ -1,5 +1,9 @@
 # project — 計画と実施記録
 
+[Native UI失敗添付の小規模保存](records/2026-11-01/ios-native-failure-compact.md)は、677に続くa6のNativeでも6呼出・3添付のcollectedを確認した。Root取得ZIP150,245BとPNG176,061B／hierarchy32,793B／context224Bの実bytes・SHA／bindingを照合し、旧37／43制御試験・9310再生・677収録を保持する。a6の元UIは7成功／新1失敗で、実Browse-back1回の後もMove context未受入、Cancel実tap0回・再起動未受入である。実収録2回目を全対照Hosted成功へ広げず、診断Code／workflowは不変更。App0.2.28（30）・TODO32行／14完了・IOS-25／15未完了を維持し、Rootの後続UI・記録・索引の最終化へ渡す。
+
+[読書記録の書き出し取消後の保持](records/2026-10-31/ios-reading-export-cancellation.md)のa6は初回のMove／filename／固定IDとwindowを確認し、実Browse-back1回を通過したが、Move0・Cancel1のブラウズrootを旧Move必須条件が認めず、Cancel0回で停止した。初回の厳密なMove1形状を保持し、実back後のMove0／Cancel1／Back0だけを一意windowとfilenameで再確認する候補である。初回の実Cancelと全閉鎖・同じ検索一覧への復帰が完了した場合だけ、テスト内Boolをattempt2のroot直開きへ渡す。共有30秒・2回取消・再起動後の保持は維持し、新headのNative8・Full26・必要CI/main、provider・実機とIOS-22/25・TODO32行14完了は未受入である。
+
 [Notice対応Core観測の固定入口とHosted事前検査案](records/2026-10-31/ios-notice-core-hosted-observation.md)は、固定verifier2とworkflow／guard／fixture3を後続小PRへまとめる未採用案である。旧Node境界8件の成功とHostedでの26fake・Node22構文/schema未実施を区別し、Core19raw／15sample・完全replay・性能予算・実機は未確認とする。PR316と回転UI単位の通常mainを引き継いだ実parent `84f8f3ea1e1a4d3e2c809130af6a0388b7f24564` への提出候補として結合し、App版不変更、TODO32行／14完了・IOS-15未完了を保つ。
 
 [固定列幅表の回転後の読書位置回帰](records/2026-10-31/ios-reader-rotation-regression.md)では、Reflowの9d初回はUI開始前約193秒とcase約46秒で240秒枠を使い切り、同条件1回の再実行はbuild後native監査のdefault30秒で停止した。監査4呼出へ明示120秒、共有UI420秒・step8分・job43分へ配分する候補で、共有content/build上限と全監査・厳密判定は保つ。効果と新head専用1件／通常CI／mainは未確認。App0.2.28（30）・TODO32行／14完了と実機等の未完了を維持する。

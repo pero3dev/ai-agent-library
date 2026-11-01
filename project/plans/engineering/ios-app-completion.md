@@ -1,5 +1,7 @@
 # iOS完成版に向けたTODO
 
+[タグ検索の前面readiness](../../records/2026-11-02/ios-tag-search-readiness.md)は、main36のFull A初回18件中17成功・1失敗を保持し、タグ検索exists後のhittable15秒停止だけを対象にする。timeout後のsequential hittable=trueを期限内成立や原因の証拠へ読み替えない。既存folder-cancel caseの1 callだけをopt-inし、一意のTag／Close／windowと検索を確認して、既存10＋15秒の共有25秒内・最大8回の公開revealとpositive waitを行う候補である。他case・製品・workflow、保存／filter／Cancel／2回目More Actions／再起動Resume・しおりと非先頭数式・固定Full26を保つ。Doc323変更は混ぜず、新SDK・レビュー・current-head CI／通常mainと実効果は未受入、App0.2.28（30）・TODO32行14完了と実機等の未完了を維持する。
+
 [全記事Bのcanary準備](../../records/2026-11-01/ios-clipboard-canary-seed.md)は、実mainCCの初回seed1回がNode ETIMEDOUT／exitnull／SIGKILLで停止した範囲を、artifactとrawの別根拠へ結ぶ。BはUI0、374-byte内容一致とRelease未到達のまま保つ。既レビュー・Root制御32成功と同じCode3を変更せず、Bの既知UUID／bytesへの厳密な初回timeoutだけ最大2回・各30秒／共有60秒・fresh permitで扱う候補とする。旧POSIX60全文条件は別過去観測で、今回のNode errno−60と混同しない。A2つのstrict run・pbpaste90・UI／Full26と全上限を保ち、新Hosted効果・通常main採用・実機とTODO32行14完了は未受入である。
 
 [Native UI失敗添付の小規模保存](../../records/2026-11-01/ios-native-failure-compact.md)は、677に続くa6のNativeでも6呼出・3添付のcollectedを確認した。Root取得ZIP150,245BとPNG176,061B／hierarchy32,793B／context224Bの実bytes・SHA／bindingを照合し、旧37／43制御試験・9310再生・677収録を保持する。a6の元UIは7成功／新1失敗で、実Browse-back1回の後もMove context未受入、Cancel実tap0回・再起動未受入である。実収録2回目を全対照Hosted成功へ広げず、診断Code／workflowは不変更。App0.2.28（30）・TODO32行／14完了・IOS-25／15未完了を維持し、Rootの後続UI・記録・索引の最終化へ渡す。

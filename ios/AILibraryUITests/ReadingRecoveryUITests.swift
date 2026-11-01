@@ -276,8 +276,10 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
     /// The observed bottom filename is a read-only witness, not necessarily an editable control.
     private func readingExportVisibleFilenames(in window: XCUIElement, below barFrame: CGRect,
                                               appFrame: CGRect) -> [XCUIElement]? {
+        readingExportLastContext = "phase=filename-query; directBarCount=1; windowCount=1"
         let query = readingExportFilenameCandidates(in: window)
         let matchCount = query.count
+        readingExportLastContext = "phase=filename-count; directBarCount=1; windowCount=1; exactMatches=\(matchCount)"
         guard matchCount > 0, matchCount <= 16 else { return nil }
         let matches = query.allElementsBoundByIndex
         guard matches.count == matchCount, matches.count <= 16 else { return nil }
@@ -308,43 +310,53 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
     }
 
     /// An eligible destination-picker context must be new and provide its own public action.
+    /// The observed system picker is selected directly, never by enumerating unrelated bars.
     private func newReadingExportPickers(after previousContexts: Set<String>) -> [ReadingExportPicker] {
-        let candidates = app.navigationBars.allElementsBoundByIndex
-        guard candidates.count <= 16 else { return [] }
+        let identifier = "FullDocumentManagerViewControllerNavigationBar"
+        readingExportLastContext = "phase=destination-direct-query"
+        let matchingBars = app.navigationBars.matching(identifier: identifier)
+        let directBarCount = matchingBars.count
+        readingExportLastContext = "phase=destination-direct-count; directBarCount=\(directBarCount)"
+        guard directBarCount == 1 else { return [] }
+        let bar = matchingBars.element(boundBy: 0)
+        readingExportLastContext = "phase=destination-direct-exists; directBarCount=\(directBarCount)"
+        guard bar.exists else { return [] }
+        readingExportLastContext = "phase=destination-direct-identity; directBarCount=\(directBarCount)"
+        let actualIdentifier = bar.identifier, label = bar.label
+        let key = actualIdentifier + "\u{001F}" + label
+        guard actualIdentifier == identifier, !previousContexts.contains(key) else { return [] }
+        // The observed identifier is the selector; an unobserved/empty label is only a read-only key.
+        let exactBar = NSPredicate(format: "identifier == %@", identifier)
         let cancelPredicate = NSPredicate(format: "label == %@ OR label == %@", "キャンセル", "Cancel")
         let browsePredicate = NSPredicate(format: "label == %@ OR label == %@", "ブラウズ", "Browse")
         let movePredicate = NSPredicate(format: "label == %@ OR label == %@", "移動", "Move")
-        return candidates.compactMap { candidate in
-            guard candidate.exists else { return nil }
-            let identifier = candidate.identifier, label = candidate.label
-            let key = identifier + "\u{001F}" + label
-            guard !identifier.isEmpty || !label.isEmpty, !previousContexts.contains(key) else { return nil }
-            let exactBar = NSPredicate(format: "identifier == %@ AND label == %@", identifier, label)
-            let matchingBars = app.navigationBars.matching(exactBar)
-            guard matchingBars.count == 1 else { return nil }
-            let bar = matchingBars.element(boundBy: 0)
-            let moves = bar.buttons.matching(movePredicate)
-            let cancels = bar.buttons.matching(cancelPredicate), backs = bar.buttons.matching(browsePredicate)
-            let moveCount = moves.count, cancelCount = cancels.count, backCount = backs.count
-            readingExportLastContext = "phase=destination-bar; moveCount=\(moveCount); cancelCount=\(cancelCount); browseBackCount=\(backCount)"
-            guard moveCount == 1, (cancelCount == 1 && backCount == 0) || (cancelCount == 0 && backCount == 1) else { return nil }
-            let requiresBrowseBack = cancelCount == 0
-            let action = requiresBrowseBack ? backs.element(boundBy: 0) : cancels.element(boundBy: 0)
-            let move = moves.element(boundBy: 0)
-            let appFrame = app.frame, barFrame = bar.frame, actionFrame = action.frame, moveFrame = move.frame
-            // Move is only a context witness: it may be disabled, and is never tapped.
-            guard bar.exists, move.exists, action.exists, action.isEnabled, action.isHittable,
-                  [appFrame, barFrame, actionFrame, moveFrame].allSatisfy({ readingExportFrameIsFinite($0) }),
-                  appFrame.contains(barFrame), barFrame.contains(actionFrame), barFrame.contains(moveFrame) else { return nil }
-            let windows = app.windows.containing(exactBar)
-            guard windows.count == 1 else { return nil }
-            let window = windows.element(boundBy: 0)
-            guard window.exists, window.navigationBars.matching(exactBar).count == 1,
-                  window.frame.contains(barFrame),
-                  let filenames = readingExportVisibleFilenames(in: window, below: barFrame, appFrame: appFrame) else { return nil }
-            return ReadingExportPicker(bar: bar, contextKey: key, action: action,
-                                       requiresBrowseBack: requiresBrowseBack, filenames: filenames)
-        }
+        let moves = bar.buttons.matching(movePredicate)
+        let cancels = bar.buttons.matching(cancelPredicate), backs = bar.buttons.matching(browsePredicate)
+        readingExportLastContext = "phase=destination-action-query; directBarCount=\(directBarCount)"
+        let moveCount = moves.count, cancelCount = cancels.count, backCount = backs.count
+        readingExportLastContext = "phase=destination-action-count; directBarCount=\(directBarCount); moveCount=\(moveCount); cancelCount=\(cancelCount); browseBackCount=\(backCount)"
+        guard moveCount == 1, (cancelCount == 1 && backCount == 0) || (cancelCount == 0 && backCount == 1) else { return [] }
+        let requiresBrowseBack = cancelCount == 0
+        let action = requiresBrowseBack ? backs.element(boundBy: 0) : cancels.element(boundBy: 0)
+        let move = moves.element(boundBy: 0)
+        readingExportLastContext = "phase=destination-action-geometry; directBarCount=\(directBarCount); cancelCount=\(cancelCount); browseBackCount=\(backCount)"
+        let appFrame = app.frame, barFrame = bar.frame, actionFrame = action.frame, moveFrame = move.frame
+        // Move is only a context witness: it may be disabled, and is never tapped.
+        guard bar.exists, move.exists, action.exists, action.isEnabled, action.isHittable,
+              [appFrame, barFrame, actionFrame, moveFrame].allSatisfy({ readingExportFrameIsFinite($0) }),
+              appFrame.contains(barFrame), barFrame.contains(actionFrame), barFrame.contains(moveFrame) else { return [] }
+        readingExportLastContext = "phase=destination-window-query; directBarCount=\(directBarCount)"
+        let windows = app.windows.containing(exactBar)
+        let windowCount = windows.count
+        readingExportLastContext = "phase=destination-window-count; directBarCount=\(directBarCount); windowCount=\(windowCount)"
+        guard windowCount == 1 else { return [] }
+        let window = windows.element(boundBy: 0)
+        readingExportLastContext = "phase=destination-window-witness; directBarCount=\(directBarCount); windowCount=\(windowCount)"
+        guard window.exists, window.navigationBars.matching(identifier: identifier).count == 1,
+              window.frame.contains(barFrame),
+              let filenames = readingExportVisibleFilenames(in: window, below: barFrame, appFrame: appFrame) else { return [] }
+        return [ReadingExportPicker(bar: bar, contextKey: key, action: action,
+                                    requiresBrowseBack: requiresBrowseBack, filenames: filenames)]
     }
 
     private func waitForReadingExportPicker(after previousContexts: Set<String>, deadline: TimeInterval,
@@ -463,9 +475,21 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
         guard moreBar.exists, export.exists, export.isEnabled, isHittableOnScreen(export) else {
             throw readingExportFailure("The More sheet export action was no longer uniquely usable", attempt: attempt)
         }
-        let previousContexts = Set(app.navigationBars.allElementsBoundByIndex.filter { $0.exists }
-            .map { readingExportContextKey($0) })
-        guard readingExportFilenameCandidates(in: app).count == 0 else {
+        // The observed fixed-ID picker must be absent before opening, not merely new among unrelated bars.
+        readingExportLastContext = "phase=pre-export-direct-query"
+        let previousPickerBars = app.navigationBars.matching(
+            identifier: "FullDocumentManagerViewControllerNavigationBar")
+        let previousPickerCount = previousPickerBars.count
+        readingExportLastContext = "phase=pre-export-direct-count; directBarCount=\(previousPickerCount)"
+        guard previousPickerCount == 0 else {
+            throw readingExportFailure("The observed destination-picker identifier was already present before opening", attempt: attempt)
+        }
+        // The direct identifier is strictly absent, so there is no previous eligible context key.
+        let previousContexts = Set<String>()
+        readingExportLastContext = "phase=pre-export-filename-query; directBarCount=\(previousPickerCount)"
+        let previousFilenameCount = readingExportFilenameCandidates(in: app).count
+        readingExportLastContext = "phase=pre-export-filename-count; directBarCount=\(previousPickerCount); exactFilenameCount=\(previousFilenameCount)"
+        guard previousFilenameCount == 0 else {
             throw readingExportFailure("An export filename context was already present before opening", attempt: attempt)
         }
         // Export, any single observed Browse-back, and cancellation readiness share one 30-second budget.

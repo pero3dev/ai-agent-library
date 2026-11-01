@@ -1,5 +1,7 @@
 # project — 計画と実施記録
 
+[全記事Bのcanary準備](records/2026-11-01/ios-clipboard-canary-seed.md)は、実mainCCの初回seed1回がNode ETIMEDOUT／exitnull／SIGKILLで停止した範囲を、artifactとrawの別根拠へ結ぶ。BはUI0、374-byte内容一致とRelease未到達のまま保つ。既レビュー・Root制御32成功と同じCode3を変更せず、Bの既知UUID／bytesへの厳密な初回timeoutだけ最大2回・各30秒／共有60秒・fresh permitで扱う候補とする。旧POSIX60全文条件は別過去観測で、今回のNode errno−60と混同しない。A2つのstrict run・pbpaste90・UI／Full26と全上限を保ち、新Hosted効果・通常main採用・実機とTODO32行14完了は未受入である。
+
 [Native UI失敗添付の小規模保存](records/2026-11-01/ios-native-failure-compact.md)は、677に続くa6のNativeでも6呼出・3添付のcollectedを確認した。Root取得ZIP150,245BとPNG176,061B／hierarchy32,793B／context224Bの実bytes・SHA／bindingを照合し、旧37／43制御試験・9310再生・677収録を保持する。a6の元UIは7成功／新1失敗で、実Browse-back1回の後もMove context未受入、Cancel実tap0回・再起動未受入である。実収録2回目を全対照Hosted成功へ広げず、診断Code／workflowは不変更。App0.2.28（30）・TODO32行／14完了・IOS-25／15未完了を維持し、Rootの後続UI・記録・索引の最終化へ渡す。
 
 [読書記録の書き出し取消後の保持](records/2026-10-31/ios-reading-export-cancellation.md)のa6は初回のMove／filename／固定IDとwindowを確認し、実Browse-back1回を通過したが、Move0・Cancel1のブラウズrootを旧Move必須条件が認めず、Cancel0回で停止した。初回の厳密なMove1形状を保持し、実back後のMove0／Cancel1／Back0だけを一意windowとfilenameで再確認する候補である。初回の実Cancelと全閉鎖・同じ検索一覧への復帰が完了した場合だけ、テスト内Boolをattempt2のroot直開きへ渡す。共有30秒・2回取消・再起動後の保持は維持し、新headのNative8・Full26・必要CI/main、provider・実機とIOS-22/25・TODO32行14完了は未受入である。

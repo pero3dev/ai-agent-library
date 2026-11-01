@@ -1,5 +1,7 @@
 # project — 計画と実施記録
 
+[回転UIの共有時間枠の追加配分](records/2026-11-02/ios-reader-rotation-ui-budget.md)は、head89 retry2の実command419977ms・SIGKILL/ETIMEDOUTと、t219秒のR24計測中で完了leaf0だった事実を保持する。inline workflowの5literalだけでUI stage/spawn600秒・step12分・総和46分/job47分へ配分し、総和+1分と元全assert/2case/53assert/15getter・strict1・Dynamic720秒・容量/cleanupを保つ。同一head89のDynamic3phase/12stage成功は保存済みCode3の受入として区別し、新600秒CIへ転用しない。新レビュー・SDK/Hosted/通常mainと効果、実機等は未受入で、App0.2.28（30）・TODO32行14完了を保つ。
+
 [DEBUG文字サイズ指定の本文テストへの引継ぎ](records/2026-11-02/ios-dynamic-type-sheet-font-fix.md)は、bc25の実1case213.016秒・stride1.25倍条件の失敗と2phaseの診断を保持する。Rootだけ最大指定を観測しReader/Tableは標準、fixtureは2matchで未観測だったため、既存の隔離DEBUG requestをtest sheetへ明示適用し、既解決の前面countを診断へ渡すCode3候補とする。最大15getter・元53assert/2case・全条件と720秒/strict1を保つ。固定8entryの部分読取はCRC/SHAとID/head/treeへ結ぶが全ZIP digestは未照合、Root構文3入力とCode3独立レビューを新SDK/UI成功へ転用しない。自然OS不具合や一般sheet規則は断定せず、App0.2.28（30）・TODO32行14完了と実機等の未完了を保つ。
 
 [復旧確認タイトルの失敗時診断](records/2026-11-02/ios-recovery-confirmation-diagnostics.md)は、main da820のNative初回pretest失敗と再試行UI7成功・1失敗を保持し、既存5秒・1tap・全assertを変えず失敗時だけ固定名の画面と限定contextを残す候補である。旧43＋新8のNode51件とJS/Swift構文、Code3独立レビューは成功したが、新診断分岐・SDK・Source7レビュー・Hosted・通常mainは未受入という候補作成時点の記録を保つ。App0.2.28（30）・TODO32行14完了、実機等の未完了を保つ。

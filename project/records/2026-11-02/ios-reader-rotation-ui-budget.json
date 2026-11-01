@@ -1,0 +1,185 @@
+{
+  "PR": 320,
+  "actual_commit": null,
+  "actual_first_parent": {
+    "sha": "89e00df21dfde6a93dd75f70c847b0f61b733d6a",
+    "tracked": 2876,
+    "tree": "64f6316cffbcae9efff5214de0b0a2f4ca257636"
+  },
+  "actual_main_at_preparation": {
+    "not_fresh_GitHub_ref_claim": true,
+    "sha": "0a479ceefd70ce8275a1e3c40c80a72157453060",
+    "tracked": 2865,
+    "tree": "5fd781176666c1920b71ce3e5212303ff9b9001e"
+  },
+  "adoption_ready": false,
+  "change": {
+    "UI_spawn_limit_ms": [
+      420000,
+      600000
+    ],
+    "UI_stage_ms": [
+      420000,
+      600000
+    ],
+    "UI_step_minutes": [
+      8,
+      12
+    ],
+    "all15_step_caps_sum_minutes": [
+      42,
+      46
+    ],
+    "all_other_workflow_bytes_exact": true,
+    "job_minutes": [
+      43,
+      47
+    ],
+    "no_preflight_mjs": "driver stays inline; requested preflight path is absent",
+    "only_five_literals": true,
+    "owned_code_path": ".github/workflows/ios-reader-reflow.yml",
+    "unchanged_job_margin_minutes": 1
+  },
+  "design_analysis": {
+    "P1": 0,
+    "P2": 0,
+    "manifest_SHA256": "2ec1a50c871e70b57d0f74b97cb1029393e7ec3093c6346f732f9e49c08cfa21",
+    "result_SHA256": "6e0159601890c1366a6fb65ca0ff35a6a942922d18bcd3999a93298e16bea9c0",
+    "scope": "design analysis before edited Source5; not final candidate review"
+  },
+  "freeze_UTC": "2026-11-01T23:28:20Z",
+  "held_Font_Source7": {
+    "SourceMF": "1834a7ff7305c01d11fc8bb0411d219c604ce841e325acdff027c8aefb451b66",
+    "all_files_exact_from_actual_parent": true,
+    "old_failure_and_unaccepted_notes": "creation-time frozen history retained; later observed Dynamic success is an addendum here, not an edit of the old record",
+    "packetMF": "bfa21986a67e5b1572266fdd84020e1861ea8d3c9629b477b061ddd971d34459"
+  },
+  "new_head": null,
+  "new_main": null,
+  "not_claimed": [
+    "new600s UI or complete rotation success",
+    "initial preUI simctl timeout repaired",
+    "new runtime/SDK/Node execution",
+    "natural live OS font/VoiceOver/physical/provider acceptance",
+    "all IOS11/15/23/25 completion",
+    "new main adopted or current FullA complete"
+  ],
+  "parent_status_snapshot": "Parent reports other89 CI complete except FullA pending; no fresh API check by this private author",
+  "pending": [
+    "Source5 final independent review and syntax/formal/common checks",
+    "actual append object and fresh official head/main guards",
+    "new-head normal CI including rotation original strict1",
+    "ordinary protected main integration and separate new-mainpush validation",
+    "physical checks skipped as user authorized and left incomplete"
+  ],
+  "preserved": {
+    "A5_growth_ratio_strictly_above": 1.25,
+    "App": "0.2.28(30)",
+    "Dynamic_UI_seconds": 720,
+    "PBX_Core_Conf_Tag_Seed_and_all_Dynamic_Budget_Probe_history": "exact full mode/blob retention",
+    "TODO_complete": 14,
+    "TODO_rows": 32,
+    "UI_cases": 2,
+    "all_other_waits_selectors_stages_caps_storage_cleanup": true,
+    "bookmark_offset_no_corrective_gesture": true,
+    "ordered_assert_calls": 53,
+    "probe_explicit_getters_per_phase": 15,
+    "standard_return_tolerance_points": 1,
+    "strict_cases_each": 1
+  },
+  "saved_rotation_retry2": {
+    "Root_timeout_classification_SHA256": "7f47be7b347e12f6b0f741d7d01ccb47ee18b2b7cf9b8d7783ebab0dc11f0c09",
+    "additional_retries": 0,
+    "approx_noncase_or_startup_seconds": 200.99,
+    "approximation_limit": "420 minus final219.01 progress is approximate combined startup/other overhead, not measured pure startup or completion prediction",
+    "artifact_id": 13104848687,
+    "assertion_error_output_count": 0,
+    "attempt": 2,
+    "case_starts": 1,
+    "completed_leaf_count": 0,
+    "console_UI_interval_seconds": 421.987758,
+    "error": "spawnSync xcodebuild ETIMEDOUT",
+    "exit_code": null,
+    "external_retries_used": 1,
+    "frozen_side_ticket_attempt_label": "old helper terminal ticket says1; authoritative run/job/artifact and Root classification are attempt2; old ticket retained",
+    "full_ZIP_SHA256": "527d78d3b6101c4f19c4e90623931508986b45648e5d363af004a142e1049829",
+    "full_ZIP_bytes": 5937804,
+    "job_id": 125005995253,
+    "official_whole_ZIP_SHA256_verified": true,
+    "progress": "t205.01 landscape capture; t205.02 live portrait return; t219.01 R24 visibility computation cut; R1/bookmark/final-offset/final-capture not observed",
+    "run_id": 41358339476,
+    "signal": "SIGKILL",
+    "stdout_SHA256": "a23c9b5b085dec1d154406a5af8f488d17bc71c5cbe01ddf7130ddbd829cbf6e",
+    "stdout_bytes": 81629,
+    "strict1": "skipped/not accepted",
+    "timeout_ms": 419977
+  },
+  "saved_same_code_Dynamic_success": {
+    "Root_acceptance_SHA256": "da781c76835ed96b2a0efa7fab3fba912cfc4e940cf2021a14209f859c65c2cc",
+    "artifact_id": 13104524240,
+    "case_seconds": 260.339,
+    "default_stride_return_difference": 0,
+    "full_ZIP_SHA256": "f5dd7c23ee095a76dd6746363293374e17e4af35b179ea22066d2f5eab51e319",
+    "full_ZIP_bytes": 4170921,
+    "observed_stages_per_phase": 4,
+    "offset_tolerance_unchanged_and_passed": true,
+    "phase_count": 3,
+    "phases": [
+      {
+        "fixture_sheetActual": "large",
+        "phase": "default-before-departure",
+        "reader_body": 17,
+        "reader_scale": 1,
+        "runnerRequest": "default",
+        "stages": {
+          "fixture": "large",
+          "reader": "large",
+          "root": "large",
+          "table": "large"
+        },
+        "stride": 132.33333333333303
+      },
+      {
+        "fixture_sheetActual": "accessibility5",
+        "phase": "accessibility5-after-relaunch",
+        "reader_body": 48,
+        "reader_scale": 2.823529411764706,
+        "runnerRequest": "accessibility5",
+        "stages": {
+          "fixture": "accessibility5",
+          "reader": "accessibility5",
+          "root": "accessibility5",
+          "table": "accessibility5"
+        },
+        "stride": 397.6666666666679
+      },
+      {
+        "fixture_sheetActual": "large",
+        "phase": "default-after-relaunch",
+        "reader_body": 17,
+        "reader_scale": 1,
+        "runnerRequest": "default",
+        "stages": {
+          "fixture": "large",
+          "reader": "large",
+          "root": "large",
+          "table": "large"
+        },
+        "stride": 132.33333333333303
+      }
+    ],
+    "run_id": 41358339478,
+    "scope": "controlled canonical isolated DEBUG font request across relaunches; saved exact Code3 result only; not a new budget-head CI result or natural live OS font/physical acceptance",
+    "source": "89e00df21dfde6a93dd75f70c847b0f61b733d6a",
+    "strict1": true,
+    "stride_ratio": 3.005037783375331,
+    "whole_ZIP_verified": true
+  },
+  "schema_version": 1,
+  "state": "private_Source5_budget_append_before_review_newCI_or_adoption",
+  "unrelated_prototypes_not_mixed": [
+    "Native owned Simulator",
+    "Storage operation gate",
+    "reader revision inventory3 prototype"
+  ]
+}

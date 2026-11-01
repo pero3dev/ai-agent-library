@@ -1,5 +1,7 @@
 # project — 計画と実施記録
 
+[復旧確認タイトルの失敗時診断](records/2026-11-02/ios-recovery-confirmation-diagnostics.md)は、main da820のNative初回pretest失敗と再試行UI7成功・1失敗を保持し、既存5秒・1tap・全assertを変えず失敗時だけ固定名の画面と限定contextを残す候補である。旧43＋新8のNode51件とJS/Swift構文、Code3独立レビューは成功したが、新診断分岐・SDK・Source7レビュー・Hosted・通常mainは未受入という候補作成時点の記録を保つ。App0.2.28（30）・TODO32行14完了、実機等の未完了を保つ。
+
 [文字サイズの実環境診断](records/2026-11-02/ios-dynamic-type-environment-probe.md)は、PR320 d0dの専用Dynamic実1件197.600秒・stride132.333が1.25倍超を満たさなかった失敗と、初回8workflowの4成功4失敗・Full25/26・Root回転の初回／retry2のpre-UI停止を保持する。DEBUGのUUID隔離suite・有効font入力・専用opt-in時だけroot／sheet／reader／tableと両列frameを有限回読むSource8候補で、元53assert・1.25倍／±1pt・位置／しおり・操作と再起動、720秒／strict1を保つ。r3独立レビューと実macOS schema89入力・Code4構文は成功したが、iOS SDK・実AX／通常Debug geometry・新phase／新head CIと原因解消・通常mainは未受入という作成時点のfreezeを保つ。App0.2.28（30）・TODO32行14完了と実機等の未完了を維持する。
 
 [タグ検索の前面readiness](records/2026-11-02/ios-tag-search-readiness.md)は、main36のFull A初回18件中17成功・1失敗を保持し、タグ検索exists後のhittable15秒停止だけを対象にする。timeout後のsequential hittable=trueを期限内成立や原因の証拠へ読み替えない。既存folder-cancel caseの1 callだけをopt-inし、一意のTag／Close／windowと検索を確認して、既存10＋15秒の共有25秒内・最大8回の公開revealとpositive waitを行う候補である。他case・製品・workflow、保存／filter／Cancel／2回目More Actions／再起動Resume・しおりと非先頭数式・固定Full26を保つ。Doc323変更は混ぜず、新SDK・レビュー・current-head CI／通常mainと実効果は未受入、App0.2.28（30）・TODO32行14完了と実機等の未完了を維持する。

@@ -1,0 +1,102 @@
+{
+  "status": "private-source1-proposal-not-published-or-executed",
+  "date": "2026-11-01",
+  "purpose": "Allocate bounded runner startup and full functional relaunch work to dedicated Dynamic UI command while keeping43m job.",
+  "ownership": "This private directory only; future runtime change limited to one dedicated workflow.",
+  "authorization": "Parent request for private proposal; no publication or execution authorized in this task.",
+  "public_input": {
+    "head": "5643218b0ab189f5726a12aacf1c3b2331973e03",
+    "path": ".github/workflows/ios-reader-dynamic-type.yml",
+    "sha256": "87c0559c0f3a1b0fcdcbb4f58035fc23208f343dc0b7a8ad6355c6445453900e",
+    "read_helper": "/private/tmp/ios-git-reader-refresh-20261031/read-prefix.py",
+    "operation": "git show only through pinned read-only helper"
+  },
+  "proposed_source": {
+    "sha256": "da6c1918e7506d2e5c0109471e9579413fee18b765b60e311be70ff2131142b8",
+    "runtime_changes": {
+      "ui_stage_ms": [
+        420000,
+        720000
+      ],
+      "ui_command_limit_ms": [
+        420000,
+        720000
+      ],
+      "ui_step_minutes": [
+        8,
+        13
+      ]
+    },
+    "job_minutes": 43,
+    "comment_synchronization": "Declared step cap sum47m is not job43m and cannot guarantee cleanup."
+  },
+  "measured": {
+    "command_timeout_ms": 419977,
+    "pre_case_group_seconds": 229.164178,
+    "runner_launch_return_seconds": 152.973,
+    "last_case_relative_event_seconds": 189.1,
+    "last_event_to_outer_exit_seconds_approx": 3.33,
+    "completed_current_Dynamic_seconds": null,
+    "old_reflow_pass_case_seconds": 211.3665
+  },
+  "lower_bound_limits": "Current command timed out with case unfinished; no current-source full Dynamic duration. Combining229.164s preparation and211.3665s other case gives440.531s allocation comparison only, not a measured Dynamic lower bound or forecast.",
+  "allocation": {
+    "declared_step_sum_minutes_before": 42,
+    "declared_step_sum_minutes_after": 47,
+    "job_minutes": 43,
+    "stage_caps_seconds_after": 1930,
+    "non_driver_action_step_caps_seconds": 420,
+    "sum_seconds": 2350,
+    "sum_minutes_seconds": "39m10s",
+    "wrapper_runner_margin_seconds": 230,
+    "margin_minutes_seconds": "3m50s",
+    "post_ui_declared_step_caps_minutes": 8,
+    "planned_latest_ui_start_elapsed_minutes": 22,
+    "planned_allocation_only": true,
+    "admission_guard_implemented": false,
+    "cross_process_clock_implemented": false,
+    "strict_cleanup_guarantee": false,
+    "product_SLO": false,
+    "720s_sufficient": null
+  },
+  "retained": [
+    "same Dynamic method and selector",
+    "exact one Passed result gate",
+    "UUID suite and source pinning",
+    "foreground uniqueness/full visibility and R25/R24/R01",
+    "bookmark/offset/finite stride/growth1.25x/default1pt",
+    "no corrective gestures after Continue",
+    "individual waits and gesture counts",
+    "quiescence",
+    "old Reflow workflow",
+    "content/build shared stage caps",
+    "inventory30s and90/180s stage caps/limited read retry",
+    "owned cleanup guards",
+    "output and storage bounds",
+    "App/UI/CoreDocs/PBX and TODO14of32"
+  ],
+  "new_tests": null,
+  "not_executed": [
+    "Root static inverse check",
+    "YAML/JS syntax checks",
+    "common checks",
+    "independent final review",
+    "new head CI",
+    "new actual UI/SDK",
+    "normal main merge/rebind",
+    "physical device"
+  ],
+  "acceptance_still_required": [
+    "exact new-head whole-job success",
+    "strict sole Dynamic case Passed",
+    "owned cleanup success",
+    "required results and raw/compact output retained"
+  ],
+  "timeout_acceptable": false,
+  "next": "After321/CoreDocs, normal rebind to actual adopted main; Root static inverse/YAML/JS and scope checks, independent review and new-head execution before acceptance.",
+  "reference": {
+    "prior_reassessment_sha256": "a3f469754412a0d0a03bd83d3aebb69a3ccd69c502fe276d930be849ba2be410",
+    "prior_diagnosis_sha256": "a098d9b0a139d5e3169fa628ee7e736f25440339f8e4d98a9db1c01d58fbc607",
+    "old_records_unchanged": true
+  }
+}

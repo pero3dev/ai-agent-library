@@ -277,3 +277,5 @@ E1〜F2の[旧検証計画](records/2026-09-30/p1-kit-preparation/README.md)と[
 2026-10-31の[読書記録の案内のCI追記](records/2026-10-31/ios-unavailable-reading-records.md)では、head7fのNative／Full A／Runtime26成功と、Bの端末一覧・canary準備失敗を区別する。2読取を90秒へする候補は純粋23件と独立レビューまでで、共通検査は条件を緩めず新headのGitHub CIで確認する。新B UI8・copy・Release・mainと実機は未完了、TODO32行／完了14行を維持する。
 
 2026-10-31の[読書記録の案内の共通検査追記](records/2026-10-31/ios-unavailable-reading-records.md)では、head756のfull npmcheckが1206件中59失敗で停止したことを保存する。common step専用の正規化した一時領域を渡す候補を準備し、パス拒否guardを維持する。ローカル既存6件は容量条件により未起動で、新headの完全な共通検査・必要iOS・mainは未受入、TODO32行／完了14行を維持する。
+
+[専用Dynamic Type UI試験の工程配分候補](records/2026-11-01/ios-dynamic-type-ui-budget.md)は、case前229秒を含む420秒timeoutを保持し、専用UI command/stage720秒・step13分・job43分を提案する。宣言step合計47分、stage/action配分39分10秒と余裕3分50秒はcleanup保証ではなく、22分までのUI開始も計画値でadmission guardは未実装である。method・個別wait・strict1を保ち、321/CoreDocs後の実main再bind・独立レビュー・新headの全job/strict1/cleanup/出力成功は未確認。TODO14/32と実機等の未完了を維持する。

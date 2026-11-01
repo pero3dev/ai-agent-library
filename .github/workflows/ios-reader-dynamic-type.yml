@@ -23,7 +23,8 @@ jobs:
     name: iOS Dynamic Type fixture relaunch regression
     if: github.repository == 'pero3dev/ai-agent-library' && github.event.repository.private == false && (github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == 'pero3dev/ai-agent-library' && github.event.pull_request.base.repo.full_name == 'pero3dev/ai-agent-library'))
     runs-on: macos-15
-    # Explicit step caps total42min; only list-read timeouts repeat once within their caps.
+    # Declared step caps sum47min against job43min; this sum does not guarantee cleanup.
+    # Only list-read timeouts repeat once within their caps.
     # Runner loss or forced cancellation can still interrupt owned cleanup.
     timeout-minutes: 43
     env:
@@ -67,7 +68,7 @@ jobs:
           
           const stage = process.argv[2];
           const caps = { inventory: 90000, tools: 180000, content: 180000, simulator: 180000,
-            build: 360000, ui: 420000, cleanup: 150000, audit: 45000, summary: 10000, storage: 15000 };
+            build: 360000, ui: 720000, cleanup: 150000, audit: 45000, summary: 10000, storage: 15000 };
           assert.ok(Object.hasOwn(caps, stage));
           const deadline = performance.now() + caps[stage];
           const workspace = fs.realpathSync(process.env.GITHUB_WORKSPACE);
@@ -321,7 +322,7 @@ jobs:
             const result = run('dynamic-type-ui', 'xcodebuild', ['-xctestrun', built.xctestrun,
               '-destination', `platform=iOS Simulator,id=${owner.UUID}`, '-destination-timeout', '60',
               '-resultBundlePath', path.join(evidence, 'ui.xcresult'), '-parallel-testing-enabled', 'NO', '-jobs', '2',
-              '-only-testing:' + selector, 'CODE_SIGNING_ALLOWED=NO', 'test-without-building'], 420000, workspace, false);
+              '-only-testing:' + selector, 'CODE_SIGNING_ALLOWED=NO', 'test-without-building'], 720000, workspace, false);
             json('execution.json', { source_head: expected, UUID: owner.UUID, OS: '18.5', selector, ...result, stdout: undefined });
             assert.equal(result.exit_code, 0); assert.equal(result.signal, null); assert.equal(result.error, null);
             sameSource(); json('evidence-size-after-ui.json', boundedTree(evidence));
@@ -429,7 +430,7 @@ jobs:
         run: node "$DRIVER_PATH" build
       - name: Run only the one Dynamic Type relaunch case
         id: ui
-        timeout-minutes: 8
+        timeout-minutes: 13
         run: node "$DRIVER_PATH" ui
       - name: Clean up only the proven owned Simulator
         id: cleanup

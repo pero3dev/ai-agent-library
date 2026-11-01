@@ -406,3 +406,5 @@ IOS-23・25・26は最終段階だけの仕事にせず、各機能PRで必要�
 [読書記録の案内のCI追記](../../records/2026-10-31/ios-unavailable-reading-records.md)では、head7fのA18等の成功とBの2つの準備失敗を別に保持する。2読取を90秒へする候補は純粋23件と独立レビューまでで、新headのUI8・copy・Releaseは未受入である。ローカル容量不足による共通検査未起動を明示し、通常PR CIで完全な共通検査と必要iOS検査を通してからmainへ進める。実機未完了とTODO32行・完了14行を維持する。
 
 [共通検査の一時領域の追記](../../records/2026-10-31/ios-unavailable-reading-records.md)では、head756の1206件中59失敗と、58件のパス関連／1件の内因未確定を区別する。common専用のcanonical TMPDIR候補は静的レビューまでで、選択6件は容量条件により起動前に停止した。既存guardを緩めず、新headの完全な共通検査・必要iOS・通常mainの実結果を待ち、実機未完了とTODO32行・完了14行を維持する。
+
+[専用Dynamic Type UI試験の工程配分候補](../../records/2026-11-01/ios-dynamic-type-ui-budget.md)は、case前229秒を含む420秒timeoutを保持し、専用UI command/stage720秒・step13分・job43分を提案する。宣言step合計47分、stage/action配分39分10秒と余裕3分50秒はcleanup保証ではなく、22分までのUI開始も計画値でadmission guardは未実装である。method・個別wait・strict1を保ち、321/CoreDocs後の実main再bind・独立レビュー・新headの全job/strict1/cleanup/出力成功は未確認。TODO14/32と実機等の未完了を維持する。

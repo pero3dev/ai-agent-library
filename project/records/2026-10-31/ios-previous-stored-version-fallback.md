@@ -1,20 +1,46 @@
 # 以前選択した保存記事版への限定fallback
 
+## 現在の採用状態と確認範囲
+
+2026-11-01追補。限定fallbackのSource2は、[PR #316](https://github.com/pero3dev/ai-agent-library/pull/316)の通常squash `8ff3ac6c069c630b5be53ab21ec2d4331686f3c8`（parent `a1022fbf0d2d67b651d08930a3bef88b6b8a886d`）で採用済みである。このsquashは実main `88c9ac391459ead50cf5e28b25918f97ac9332cf` のancestorで、保存されたmerge応答の同SHA・merged=trueとも一致する。新しいSource2実装や旧binderの再適用を待つ状態ではない。
+
+ContentRepositoryとLibraryCoreTestsは候補after・PR316の採用source・main88・未マージPR321 head `9310d3f2f07b22785248000eda810157afa002d6` で同じmode/blob・bytesを持つ。LibraryStore・Models・NativeReaderViewもmain88と9310で保持され、現在のApp0.2.28（30）とPBXを変更しない。PR320のSource2も同じだが、そのApp DEBUG変更や別の未マージ実装まで既存結果で受け入れたとは扱わない。
+
+保存済みHost8はmacOS上の実XCTestで、新8件すべてが一意に成功し、skip0・fail0だった。保存済みSDK検証はiPhoneOS18.2・arm64 iOS17・Swift5・DEBUGで、App17 sourceのmodule emit、全文CoreTestsのtypecheck、DiagnosticsTestsのtypecheckという3コマンドである。「19」はApp17＋CoreTests＋DiagnosticsTestsという入力数で、Foundationのruntime19テストではない。実際に型検査した19入力はmain88・9310と一致する。この文書同期でHost・SDKを再実行してはいない。
+
+同じSource2を持つ6dの保存rawでも、NativeとFull Aそれぞれの単体総数278件・2skip・0failと、fallback8件すべてのpassed IDを確認した。これは「278件すべてpassed」という意味ではない。6dのNative UIは旧7件成功・新export1件失敗、Full Aは18件成功で、Full Bはpre-UIで失敗した。これらを6dのFull26成功や、新9310のUI／CI／通常main受入へ広げない。
+
+採用済み設計は健全currentを優先し、有効pointerが指定したprevious1件を再検証してからbundleへ進む限定経路である。load時のpointer書換え、走査・連鎖・GC・旧版削除、読書rawやbackupの変更は加えない。importのpointer更新は既存atomic writer1回のまま保持する。実ディスク枯渇・部分書込・電源断、最低iOS17の実動作、iPhone復旧・provider・VoiceOver・旧アプリからの上書き／署名更新は未完了である。writer注入ENOSPCやSDK型検査を、それらの成功とは扱わない。IOS-18・21・25の完了を付けず、TODO32行／14完了を維持する。
+
+## 保存証拠と文書同期の残件
+
+- 採用済み照合packetのmanifest SHA-256: `bb90906eb9d9e8e3f478219d4e15bb0219c1a1d0880af2fe292ba377a4798182`。採用照合票: `fea38827733738e29e42ba2342b2be6e46301f62afdbfab5595fe4818bec61c4`。
+- Host8 result SHA-256: `1cbd63c560124eccab637c18b6c6db0c7a4f6af70d096db5678e9727f3a0b8c4`。SDK result: `2d03d89820cd049ecc7849cc3dad89959698bec25c21d57c92ce805df1b92e13`。
+- 6d Native raw SHA-256: `4b904403705f9cc14487afa9c4a7619849de0e6a9a564570f3acb0a7f31e9197`。Full A raw: `bc643ccfaef604212abfdc1cd52e92f4f57c1f8dbd115f55feb50ae9adedfc18`。
+
+[現在の採用状態と履歴JSON](ios-previous-stored-version-fallback.json)にGit SHA・source tuple・保存結果の範囲を分けて記す。Rootの既存照合票と実行レビューを引き継いだもので、この文書作業が137保存ファイル全体を再監査した結果ではない。
+
+今回の同期はCore記録2・fallback記録2・索引2の文書だけである。実mainは88のままで、9310上の文書案は通常mainのparentへ結合していない。PR321の通常統合後に実parent再結合、最終6件の独立レビュー、文書・JSON・リンク・共通・形式検査、必要CIと通常main反映を行う。既存Core19raw／15sampleの受入はsource3bfと保存artifactに結び付き、別のmain88push結果と区別する。App指標・p95・性能予算・現在の実機受入を主張しない。
+
+## 採用前の提出・検証準備の履歴
+
+以下は元記録の全文restを保持し、見出しだけを1段下げた履歴である。先頭の「現在の状態」や「私有候補」「Hosted／main未確認」は当該作成段階の状態を表し、現在のSource2採用状態ではない。旧JSONの全値も明示した履歴wrapperへ変更せず保持する。
+
 現在の状態: 実parent `a1022fbf0d2d67b651d08930a3bef88b6b8a886d`のbeforeと7所有パスを結合した提出候補で、PBX設定だけApp0.2.28（30）へ進める。実Bundle・署名は未確認である。 保存済みHost8の8unique/skip0/fail0と、型検査済みApp17＋全文CoreTests＋Diagnosticsの19入力を現在の候補へ照合した。新検証の再実行ではない。
 
-## 初版draft時点の履歴
+### 初版draft時点の履歴
 
 以下の各節はSource2静的レビューまでの当初記録である。Host/SDK未確認等の段階記述を当時の履歴としてそのまま保持し、現在の判定は末尾の実parent結合節に記す。
 
 作成日: 2026-10-31。状態: **Source2の私有実装候補と独立静的レビューまで**。正常な現在版を優先し、現在の保存記事版が使えない場合、pointerに記録された以前の保存版を1件だけ再検証して使う。実parentへの結合・App版・実Swift/Host/SDK・CI・mainは未確認である。IOS-18・21・22全体は未完了、完成版TODO32行・完了14行を保つ。
 
-## 目的・所有・採択した範囲
+### 目的・所有・採択した範囲
 
 Rootは、自用初版の非破壊の回復経路としてこの限定設計を採択した。共通契約・[計画と記録](../../README.md)・[Git共通規約](../../../harness/git-rules.md)を適用する。ユーザーの残TODOの自律実施と通常commit/PR/保護されたmain統合が権限の根拠で、実機の本人操作は未完了としてスキップする。実装の所有はContentRepositoryとLibraryCoreTestsのSource2である。後続で版だけのPBX、記録2本と索引2本を合わせる計7パスを予定するが、実parentと版はまだ固定していない。
 
 以前選択した保存版は、importした版とbundleの明示選択による保存コピーの両方を含み得る。来歴・署名・発行者の真正性の証明ではなく、「直前にimportした版」とは呼ばない。新しい通信・配布・GCや削除、schema自動移行、原記事の改名対応、UIの回復通知は加えない。
 
-## 選択と単一pointerの更新
+### 選択と単一pointerの更新
 
 既存のatomicなcurrent.jsonへoptional previousDirectoryを加える。loadは現在のUUIDが有効なpointerだけを読み、現在版を完全検証し、失敗時は同じpointerに記録した別UUIDの以前版を完全検証し、最後にbundleへ進む。各候補には通常のfixture拒否と資産・schema検証を適用する。壊れたpointerや不正な現在UUIDはbundleだけへ進む。全保存先の走査、時刻順、孤立版・stagingからの推測、連鎖した過去版の探索はしない。以前版のoptional metadataが不正でも健全な現在版を無効にしない。
 
@@ -24,19 +50,19 @@ loadはpointerを書き換えず、旧版や読書raw・backupを削除しない
 
 bundleの明示選択が実際に別版へ切り替わる場合、新pointerにはpreviousを付けずにcommitする。旧ファイル自体は保持する。完全なmanifestが同じという既存no-op判定では、pointer・以前版の適格性も含めて全bytesを変更しない。旧directoryだけのpointerは引き続き読めるが、壊れたpointer自身から以前版を探し出す機能はない。
 
-## 保存した静的検証
+### 保存した静的検証
 
 元Repository5,442BとCoreTests294,311Bを固定し、候補Repository7,678B・CoreTests322,585Bを準備した。旧CoreTests全文をprefixとして保ち、新28,274Bと一意8testメソッドを末尾へ追加した。独立静的レビューはP1/P2=0、別実装のin-memory forward/inverse各6hunkがSource2全文へ一致した。対応するHashはJSONに保存する。これはSwiftの構文・型検査やtest実行の成功ではない。
 
 新8件は、健全current優先と不正optional metadata、現在の本文・manifest・画像・保存先の破損/欠落、previousの不正UUID・self・path・fixture・future形式、旧pointerと孤立版非選択、A→B→Cの1枠更新とfallback引継ぎ、各検証失敗とpointer writer呼出回数、明示bundle/no-op、正しい世代leaseと後読資産、読書raw・backupの保持を検査する構造である。ENOSPCはcommit前にwriterへ注入する故障で、実ディスク枯渇や部分書込・電源断の検証ではない。
 
-## 次の検証とcommitの区切り
+### 次の検証とcommitの区切り
 
 実parentにSource2のbeforeを照合し、選んだApp版と7所有パスを結合する。新8件の限定Host、App17と全文CoreTests・DiagnosticsのSDK検証、共通検査と最終7パス独立レビューを経て、通常の小さなcommit/PRを作る。iOS単体は前段270＋8＝278件を予定するが、現時点の実績ではない。Native UI7・Full26とcopy374B・Release199記事、必要CIを正確なheadへ結び、保護された通常main統合を確認する。
 
 新たな実データの破損注入、既存アプリやユーザーの読書記録の変更は行わない。実機・VoiceOver・Files provider、最低OS、旧アプリからの上書き・復帰、実容量不足は未完了として残す。この単位だけでIOS-18・21・22や性能・プライバシー・運用の受入を完了にしない。
 
-## 今回の実parent・版設定との結合
+### 今回の実parent・版設定との結合
 
 実parent `a1022fbf0d2d67b651d08930a3bef88b6b8a886d`のbeforeと7所有パスを結合した提出候補で、PBX設定だけApp0.2.28（30）へ進める。実Bundle・署名は未確認である。 保存済みHost8の8unique/skip0/fail0と、型検査済みApp17＋全文CoreTests＋Diagnosticsの19入力を現在の候補へ照合した。新検証の再実行ではない。 新共通・最終7パス独立レビュー・currenthead CI/通常main・実機/VO/providerは未確認で、TODO32/14を保つ。2837→2839は新規record2本を含む投影treeの件数で、commit/main結果ではない。
 

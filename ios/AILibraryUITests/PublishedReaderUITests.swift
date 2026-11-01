@@ -362,16 +362,176 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         XCTAssertEqual(search.value as? String, query)
     }
 
-    private func setLearningTagAndArticleQuery(tag: String, query: String) throws {
+    /// This readiness path is opt-in for the content-folder cancellation case.
+    /// It changes only public preparation, before any folder-picker operation.
+    private func enterScopedTagQuery(_ tag: String) throws {
+        let deadline = ProcessInfo.processInfo.systemUptime + 25
+        let existenceDeadline = min(deadline, ProcessInfo.processInfo.systemUptime + 10)
+        let title = "タグ", prompt = "タグを検索", closeLabel = "閉じる"
+        let titlePredicate = NSPredicate(format: "identifier == %@ OR label == %@", title, title)
+        let searchPredicate = NSPredicate(format: "identifier == %@ OR label == %@", prompt, prompt)
+        let closePredicate = NSPredicate(format: "identifier == %@ OR label == %@", closeLabel, closeLabel)
+        var phase = "tag-context", swipes = 0
+        var counts = ["tagBars": 0, "windows": 0, "matchingWindows": 0, "close": 0, "search": 0]
+        var diagnosed = false
+        typealias TagContext = (window: XCUIElement, bar: XCUIElement, close: XCUIElement,
+                                search: XCUIElement, key: String)
+
+        func remaining(until end: TimeInterval) -> TimeInterval {
+            max(0, end - ProcessInfo.processInfo.systemUptime)
+        }
+        func finite(_ frame: CGRect) -> Bool {
+            !frame.isNull && !frame.isInfinite && !frame.isEmpty &&
+                [frame.minX, frame.minY, frame.width, frame.height].allSatisfy(\.isFinite)
+        }
+        func fail(_ reason: String) -> NSError {
+            if !diagnosed {
+                diagnosed = true
+                let context: [String: Any] = ["schemaVersion": 1, "phase": phase, "reason": reason,
+                    "swipes": swipes, "maximumSwipes": 8, "counts": counts,
+                    "remainingMilliseconds": Int(min(25, remaining(until: deadline)) * 1000),
+                    "sampling": "sequential-not-atomic; not a causal diagnosis"]
+                let encoded = try? JSONSerialization.data(withJSONObject: context, options: [.sortedKeys])
+                let text = encoded.flatMap { data in
+                    data.count <= 1024 ? String(data: data, encoding: .utf8) : nil
+                } ?? "{\"schemaVersion\":1,\"omitted\":\"encoding-or-over-1024-bytes\"}"
+                let attachment = XCTAttachment(string: text)
+                attachment.name = "Tag-search-readiness-context"
+                attachment.lifetime = .keepAlways
+                add(attachment)
+                capture("Tag-search-readiness-failure")
+            }
+            XCTFail("The unique foreground tag search must be ready within the existing 25-second preparation budget: " + reason)
+            return NSError(domain: "PublishedReaderUITests", code: 110)
+        }
+        // No root AX kind or List collection type is assumed. A unique public
+        // Tag bar and its usable Close witness identify the modal before action.
+        func context() -> TagContext? {
+            guard remaining(until: deadline) > 0, app.state == .runningForeground else { return nil }
+            let appFrame = app.frame
+            guard finite(appFrame) else { return nil }
+            let bars = app.navigationBars.matching(titlePredicate)
+            counts["tagBars"] = bars.count
+            guard counts["tagBars"] == 1 else { return nil }
+            let windows = app.windows
+            counts["windows"] = windows.count
+            guard let windowCount = counts["windows"], windowCount > 0, windowCount <= 4 else { return nil }
+            var matching: [(XCUIElement, Int)] = []
+            for index in 0..<windowCount {
+                let window = windows.element(boundBy: index)
+                if window.navigationBars.matching(titlePredicate).count == 1 { matching.append((window, index)) }
+            }
+            counts["matchingWindows"] = matching.count
+            guard matching.count == 1 else { return nil }
+            let window = matching[0].0
+            let windowFrame = window.frame
+            guard window.exists, finite(windowFrame), appFrame.contains(windowFrame) else { return nil }
+            let scopedBars = window.navigationBars.matching(titlePredicate)
+            guard scopedBars.count == 1 else { return nil }
+            let bar = scopedBars.element(boundBy: 0)
+            let barFrame = bar.frame
+            guard bar.exists, finite(barFrame), windowFrame.contains(barFrame), appFrame.contains(barFrame) else { return nil }
+            let closes = bar.buttons.matching(closePredicate)
+            counts["close"] = closes.count
+            guard counts["close"] == 1 else { return nil }
+            let close = closes.element(boundBy: 0)
+            let closeFrame = close.frame
+            guard close.exists, close.isEnabled, finite(closeFrame), barFrame.contains(closeFrame),
+                  windowFrame.contains(closeFrame), appFrame.contains(closeFrame), close.isHittable else { return nil }
+            let searches = window.searchFields.matching(searchPredicate)
+            counts["search"] = searches.count
+            guard counts["search"] == 1 else { return nil }
+            let search = searches.element(boundBy: 0)
+            guard search.exists else { return nil }
+            return (window, bar, close, search,
+                    "\(matching[0].1)|\(window.identifier)|\(bar.identifier)|\(bar.label)")
+        }
+        func usable(_ current: TagContext) -> Bool {
+            let appFrame = app.frame, windowFrame = current.window.frame, frame = current.search.frame
+            guard finite(appFrame), finite(windowFrame), finite(frame), appFrame.contains(windowFrame),
+                  appFrame.contains(frame), windowFrame.contains(frame), current.search.isEnabled else { return false }
+            return current.search.isHittable
+        }
+
+        let appeared = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            guard remaining(until: existenceDeadline) > 0, context() != nil else { return false }
+            return remaining(until: existenceDeadline) > 0
+        }, object: nil)
+        let existenceWait = remaining(until: existenceDeadline)
+        guard existenceWait > 0,
+              XCTWaiter.wait(for: [appeared], timeout: existenceWait) == .completed,
+              let initial = context() else { throw fail("Missing or ambiguous Tag context") }
+        let contextKey = initial.key
+        phase = "tag-reveal"
+        for _ in 0..<8 {
+            guard let current = context(), current.key == contextKey else { throw fail("Tag context changed before reveal") }
+            if usable(current) { break }
+            // The gesture is outside every predicate and only follows a fresh
+            // unique Tag/Close/window check; no unseen view is selected.
+            guard remaining(until: deadline) > 0,
+                  let beforeGesture = context(), beforeGesture.key == contextKey else {
+                throw fail("Tag context or budget unavailable before reveal")
+            }
+            if usable(beforeGesture) { break }
+            guard remaining(until: deadline) > 0 else { throw fail("Budget exhausted before reveal action") }
+            app.swipeDown(velocity: .slow)
+            swipes += 1
+            guard remaining(until: deadline) > 0,
+                  let afterGesture = context(), afterGesture.key == contextKey else {
+                throw fail("Tag context or budget changed after reveal")
+            }
+        }
+        phase = "tag-positive-wait"
+        let ready = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            guard remaining(until: deadline) > 0,
+                  let current = context(), current.key == contextKey else { return false }
+            return usable(current) && remaining(until: deadline) > 0
+        }, object: nil)
+        let readinessWait = remaining(until: deadline)
+        guard readinessWait > 0,
+              XCTWaiter.wait(for: [ready], timeout: readinessWait) == .completed else {
+            throw fail("Tag search not usable before deadline")
+        }
+        phase = "tag-before-tap"
+        guard let beforeTap = context(), beforeTap.key == contextKey, usable(beforeTap),
+              remaining(until: deadline) > 0 else { throw fail("Tag context no longer ready before tap") }
+        beforeTap.search.tap()
+        phase = "tag-before-type"
+        // Search activation may change the Tag bar or its Close button. Keep
+        // the window we just tapped, without requiring those post-tap shapes.
+        let typingWindow = beforeTap.window
+        let typingAppFrame = app.frame, typingWindowFrame = typingWindow.frame
+        let typingSearches = typingWindow.searchFields.matching(searchPredicate)
+        counts["search"] = typingSearches.count
+        guard remaining(until: deadline) > 0, app.state == .runningForeground,
+              typingWindow.exists, finite(typingAppFrame), finite(typingWindowFrame),
+              typingAppFrame.contains(typingWindowFrame), counts["search"] == 1 else {
+            throw fail("Tapped window or unique search unavailable before typing")
+        }
+        let beforeType = typingSearches.element(boundBy: 0)
+        let typingFrame = beforeType.frame
+        guard beforeType.exists, beforeType.isEnabled, finite(typingFrame),
+              typingAppFrame.contains(typingFrame), typingWindowFrame.contains(typingFrame),
+              beforeType.isHittable, remaining(until: deadline) > 0 else {
+            throw fail("Tapped search no longer usable before typing")
+        }
+        beforeType.typeText(tag + "\n")
+    }
+
+    private func setLearningTagAndArticleQuery(tag: String, query: String, scopedTagReadiness: Bool = false) throws {
         let tags = app.buttons["library-tag-filter"]
         for _ in 0..<8 where !isHittableOnScreen(tags) { app.swipeDown(velocity: .slow) }
         requireHittable(tags)
         tags.tap()
-        let tagSearch = app.searchFields["タグを検索"]
-        XCTAssertTrue(tagSearch.waitForExistence(timeout: 10))
-        requireHittable(tagSearch)
-        tagSearch.tap()
-        tagSearch.typeText(tag + "\n")
+        if scopedTagReadiness {
+            try enterScopedTagQuery(tag)
+        } else {
+            let tagSearch = app.searchFields["タグを検索"]
+            XCTAssertTrue(tagSearch.waitForExistence(timeout: 10))
+            requireHittable(tagSearch)
+            tagSearch.tap()
+            tagSearch.typeText(tag + "\n")
+        }
         let choice = app.buttons["learning-tag-" + tag]
         requireHittable(choice)
         choice.tap()
@@ -991,7 +1151,7 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         let originalResume = resume.label
         XCTAssertFalse(originalResume.isEmpty)
 
-        try setLearningTagAndArticleQuery(tag: "transformer", query: "Transformer")
+        try setLearningTagAndArticleQuery(tag: "transformer", query: "Transformer", scopedTagReadiness: true)
         let summary = app.staticTexts["library-filter-summary"]
         let originalSummary = summary.label
         let article = element("library-article-11-llm-internals/transformer-architecture")

@@ -445,6 +445,7 @@ jobs:
           import { readFileSync, writeFileSync } from 'node:fs';
           import { createHash, randomUUID } from 'node:crypto';
           import { caseIDsForSlice } from './.local/ios-published-candidate/evidence/ui-slice-contract.mjs';
+          import { seedClipboardCanary } from './ios/tests/clipboard-canary-seed.mjs';
           const evidence = '.local/ios-published-candidate/evidence';
           const selection = JSON.parse(readFileSync(`${evidence}/ui-selection.json`, 'utf8'));
           assert.equal(selection.status, 'fixed-disjoint-full-UI-slice');
@@ -491,7 +492,39 @@ jobs:
           assert.equal(ready.deviceTypeIdentifier, 'com.apple.CoreSimulator.SimDeviceType.iPhone-16');
           assert.equal(ready.isAvailable, true); assert.equal(ready.state, 'Booted');
           const canary = Buffer.from(`AILibrary-code-copy-canary:${process.env.GITHUB_RUN_ID}:${process.env.GITHUB_RUN_ATTEMPT}:${randomUUID()}\n`, 'utf8');
-          run('seed', ['simctl', 'pbcopy', UUID], canary);
+          // BEGIN CONTENT-COPY CANARY SEED RECOVERY
+          if (selection.slice === 'content-copy') {
+            const seed = (name, destination, input, plannedTimeout, acquirePermit) => {
+              assert.ok(['seed', 'seed-timeout-retry-1'].includes(name));
+              assert.equal(destination, UUID);
+              assert.ok(Buffer.isBuffer(input) && input.equals(canary));
+              assert.ok(Number.isInteger(plannedTimeout) && plannedTimeout > 0 && plannedTimeout <= 30000);
+              assert.equal(typeof acquirePermit, 'function');
+              const args = ['simctl', 'pbcopy', destination], limit = 1024 * 1024;
+              json(`copy-${name}.intent.json`, { binary: 'xcrun', arguments: args,
+                planned_timeout_ms: plannedTimeout, timeout_phase: 'planned-before-intent-storage',
+                max_buffer_bytes: limit, input_bytes: input.length,
+                input_SHA256: createHash('sha256').update(input).digest('hex') });
+              const actualTimeout = acquirePermit().timeout_ms;
+              const result = spawnSync('xcrun', args, { input, timeout: actualTimeout, killSignal: 'SIGKILL', maxBuffer: limit });
+              put(`copy-${name}.stdout.bin`, result.stdout ?? Buffer.alloc(0));
+              put(`copy-${name}.stderr.log`, result.stderr ?? Buffer.alloc(0));
+              const receipt = { spawned: true, planned_timeout_ms: plannedTimeout, actual_timeout_ms: actualTimeout,
+                exit_code: result.status, signal: result.signal,
+                error_code: result.error?.code ?? null, error: result.error?.message ?? null,
+                stderr_text: Buffer.isBuffer(result.stderr) && result.stderr.length <= 512 ? result.stderr.toString('utf8') : null };
+              json(`copy-${name}.exit.json`, receipt); return receipt;
+            };
+            json('copy-seed-input.json', { schema_version: 1, source_head: selection.source_head,
+              run_id: process.env.GITHUB_RUN_ID, run_attempt: process.env.GITHUB_RUN_ATTEMPT, UUID,
+              input_bytes: canary.length, input_SHA256: createHash('sha256').update(canary).digest('hex') });
+            const seeded = seedClipboardCanary(UUID, canary, seed);
+            json('copy-seed-accepted.json', { schema_version: 1, source_head: selection.source_head,
+              run_id: process.env.GITHUB_RUN_ID, run_attempt: process.env.GITHUB_RUN_ATTEMPT, ...seeded });
+          } else {
+            run('seed', ['simctl', 'pbcopy', UUID], canary);
+          }
+          // END CONTENT-COPY CANARY SEED RECOVERY
           const observed = run('canary', ['simctl', 'pbpaste', UUID], undefined, 1024 * 1024, 90000);
           assert.ok(observed.equals(canary), 'Device pasteboard must first return the exact unique canary bytes');
           json('copy-device.json', { schema_version: 1, status: 'unique-device-canary-roundtrip-verified',
@@ -611,6 +644,12 @@ jobs:
           path: |
             .local/ios-published-candidate/evidence/code-copy-summary.json
             .local/ios-published-candidate/evidence/copy-device.json
+            .local/ios-published-candidate/evidence/copy-seed-input.json
+            .local/ios-published-candidate/evidence/copy-seed-accepted.json
+            .local/ios-published-candidate/evidence/copy-seed.intent.json
+            .local/ios-published-candidate/evidence/copy-seed.exit.json
+            .local/ios-published-candidate/evidence/copy-seed-timeout-retry-1.intent.json
+            .local/ios-published-candidate/evidence/copy-seed-timeout-retry-1.exit.json
             .local/ios-published-candidate/evidence/copy-results.intent.json
             .local/ios-published-candidate/evidence/copy-results.exit.json
             .local/ios-published-candidate/evidence/copy-results.stdout.bin

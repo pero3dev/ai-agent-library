@@ -21,17 +21,22 @@ const allowedCases = new Set([
   'ReadingRecoveryUITests/testConfirmedRecoveryPreservesCurrentPositionAndBookmarkAfterRelaunch()',
   'ReadingRecoveryUITests/testExportFilePickerCancelKeepsHealthyPositionAndBookmarkAfterRelaunch()',
 ]);
+const recoveryConfirmationCases = new Set([...allowedCases].filter(identifier => identifier.startsWith('ReadingRecoveryUITests/')));
 const pngNames = new Map([
   ['Public-UI-target-not-visible', 'public'], ['Reading-restore-picker-not-identified', 'restore'],
+  ['Reading-recovery-confirmation-title-not-visible', 'confirmation'],
   ...[0, 1, 2].map(i => [`Reading-export-cancel-${i}-failed`, 'export']),
 ]);
 const textNames = Object.freeze({ public: [
   ['Public-UI-target-not-visible-geometry', 'geometry.json', LIMITS.geometry],
   ['Public-UI-target-not-visible-hierarchy', 'hierarchy.txt', LIMITS.hierarchy],
 ], restore: [['Reading-restore-picker-context', 'context.txt', LIMITS.context]],
-export: [['Reading-export-cancel-context', 'context.txt', LIMITS.context]] });
+export: [['Reading-export-cancel-context', 'context.txt', LIMITS.context]],
+confirmation: [['Reading-recovery-confirmation-context', 'context.txt', LIMITS.context]] });
 const optionalTextNames = Object.freeze({ export: [
   ['Reading-export-cancel-hierarchy', 'hierarchy.txt', LIMITS.hierarchy],
+], confirmation: [
+  ['Reading-recovery-confirmation-hierarchy', 'hierarchy.txt', LIMITS.hierarchy],
 ] });
 const filenames = new Set(['failure.png', 'context.txt', 'geometry.json', 'hierarchy.txt']);
 const fileLimits = Object.freeze({ 'failure.png': LIMITS.png, 'context.txt': LIMITS.context,
@@ -113,6 +118,7 @@ export function attachmentPlan(summary) {
   requireThat(image.uti === 'public.png' && image.size >= 8 && image.size <= LIMITS.png, 'image_type_or_size');
   const result = [{ ...image, filename: 'failure.png', limit: LIMITS.png }];
   const role = pngNames.get(image.name);
+  requireThat(role !== 'confirmation' || recoveryConfirmationCases.has(scalar(summary.identifier)), 'recovery_confirmation_case_mismatch');
   for (const [name, filename, limit] of [...textNames[role], ...(optionalTextNames[role] ?? [])]) {
     const row = known.get(name);
     if (!row) continue;

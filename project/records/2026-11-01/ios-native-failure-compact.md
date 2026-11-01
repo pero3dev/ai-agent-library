@@ -59,3 +59,17 @@ Rootはさらに保存済み9310のroot／tests／summaryとPNG／contextを、�
 この再生の5呼出はIO callbackであり、実子process5回を起動した意味ではない。IO adapterが返したquiescent値を、実子の終了確認として扱わない。`executeGuard`、Python実行、`productionIO`、Hostedのevent binding、実OS exportとchild quiescenceはこの再生では検証していない。任意hierarchyの有無と不正の拒否は43件の制御試験の範囲であり、実9310の2添付再生で任意hierarchyを取得したとはしない。9310の実UIは依然7成功・1失敗、初回Save context未識別で、取消2回／再起動後の位置・しおりは未受入である。
 
 元Code2のNode／unit、workflow、Pythonと全バイト／時間／呼出制限は変更せず、新しいHosted効果と実UI合格は未確認のままとする。旧37成功・ローカル16.2での実5呼出・旧P2と初回失敗の履歴を保ち、App0.2.28（30）・TODO32行／14完了・IOS-25／IOS-15・実機／provider書込み／最終backup bytesの未完了を維持する。
+
+## 677の初回Hosted診断の実収録
+
+前節までのMarkdownとJSONの全従来フィールドは、各準備時点・旧37件／43件の制御試験・ローカル16.2実呼出・9310保存データのメモリIO再生の履歴として変更せず保持する。今回の新しい観測は、[PR321 head677のNative初回run](https://github.com/pero3dev/ai-agent-library/actions/runs/41240271170)、attempt1・job `124652537907`・source head `6777328b5e50e6eb198efec6a05109d4cfa2bee8` に限る。workflow SHAは `9062a1b510bc877049ef9e95d7bd9a4cc78974e3` で、repository・pull_request event・run／attempt・source head・workflow・全量artifact upload成功のbindingが一致した。実mainは `88c9ac391459ead50cf5e28b25918f97ac9332cf`、PR321はDraft・未統合であり、この観測追記のSource2は `actualparent=null` の私有候補である。
+
+実Hostedの失敗時経路は `collected`・`incomplete_reason=null`・3ファイルとなった。選択ケースは `ReadingRecoveryUITests/testExportFilePickerCancelKeepsHealthyPositionAndBookmarkAfterRelaunch()` 1件で、省略失敗ケースは0。manifestの6呼出はroot1・object2・export3で、全てcompleted・quiescent・exit0・signalなしを記録し、最大7呼出の範囲に収まった。これは今回の実 `executeGuard`／Python／Hosted経路で診断を収録できた新証拠であり、旧メモリIO再生のcallback結果の流用ではない。
+
+Rootが取得したcompact artifact `13057433126` はZIP 87,188 byte、公式SHA256 `165805dae5db614cdd0fce8e5ff989fe846f5427a7976befe1f6e2e4f6f105a9` である。文書作成者は取得済みreceiptと展開済みデータだけを読み、追加downloadせずにmanifest・各実ファイルのbytes／SHA256とbindingを照合した。PNGは122,951 byte・SHA256 `79a76bed7e45bf4b39a2d1a75674461382a925bc88b4ce55f8a513ba22b7e254`、contextは182 byte・`08aeb55523b53acc3bf1c434244034b46f8023540f29526a4fb8e336b164a2dc`、hierarchyは16,510 byte・`1651141f9ca4e34c98a9cc728bb8911fa155f8ff4daaa10900390fb7194d9a58` で、全てadvertised値と実値が一致した。3ファイル合計139,643 byte、manifest 3,514 byte込み143,157 byteである。全量artifactのuploadは成功として保持したが、約185MBの全量artifactは今回取得していない。
+
+実manifestの上限はmaxNodes32,768、metadata1MiB、stderr8KiB、所有出力2MiB、manifest64KiB、PNG1MiB、hierarchy128KiB、geometry8KiB、context2KiB、共有75秒、各15秒、最大7呼出、空き64MiBである。今回の追記でNode Code2・workflow・Pythonやその上限・ケース選択・結合条件を変更／複製していない。深さ64等の従来契約も維持する。この1ケースの収録から、全OSの失敗・将来のevent・全guardの耐障害性や全間接効果を保証しない。hierarchyの取得も目的のMove contextやUI合格の証明とはしない。
+
+同じNativeのrawはRootが1回取得した1,181,142 byte・SHA256 `5cdacf958aa22543e973ffff7e2b526fe9a93bac3c974d2bba96355696bedc6c` で、文書作成者も保存bytesを再照合した。単体278件は276成功・2 skip・失敗0、UIは一意8件＝7成功・新1失敗、run報告の合計は679.472秒だった。個別に丸めたcase値の合計679.473秒とは区別する。新caseは最初の書き出しループattempt1でMoreと`library-export-reading`をタップした後、報告行519のMove context識別で失敗した。書き出しCancelの実行は0回で、取消1回目／2回目・取消後再起動・位置／しおり保持は未受入である。後続Restore caseのCancelをこの書き出し取消へ数えず、認識失敗だけで実画面の不存在や製品不具合の原因を断定しない。NativeのRelease監査はUI失敗後skipであり、診断の収録成功を元UIの成功へ変えない。
+
+新しいUI direct-ID修正は別担当の未実施候補で、この追記に含めない。FullA／FullBはこの追記準備時点で終端観測を未収録として保ち、後の結果は正確なhead／runの別追記で区別する。新UI修正・新main・実機・provider書込み・最終backup bytesの受入は未確認のままである。App0.2.28（30）・TODO32行／14完了・IOS-25／IOS-15全体の未完了を維持する。文書作成者によるGit／Node／SDK／API／download／再実験は行っていない。

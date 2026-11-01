@@ -427,5 +427,222 @@
     },
     "legacy_fields_scope": "All previous fields and values are held as their preparation/historical validation states, including then-unexecuted descriptions.",
     "document_author_executed_Node_SDK_UI_Git_API_or_replay": false
+  },
+  "Hosted_collected_observation_677_20261101": {
+    "state": "FIRST_HOSTED_COMPACT_COLLECTED3_VERIFIED_PRIMARY_UI_FAILED",
+    "preparation_date": "2026-11-01",
+    "actualparent": null,
+    "adopted": false,
+    "reported_base": {
+      "PR": 321,
+      "head": "6777328b5e50e6eb198efec6a05109d4cfa2bee8",
+      "tree_prefix": "b031",
+      "actual_main": "88c9ac391459ead50cf5e28b25918f97ac9332cf",
+      "Draft": true,
+      "merged": false,
+      "Git_checked_by_document_author": false
+    },
+    "binding": {
+      "repository": "pero3dev/ai-agent-library",
+      "event": "pull_request",
+      "run_id": "41240271170",
+      "run_attempt": "1",
+      "workflow_SHA": "9062a1b510bc877049ef9e95d7bd9a4cc78974e3",
+      "source_head": "6777328b5e50e6eb198efec6a05109d4cfa2bee8",
+      "full_artifact_upload_outcome": "success"
+    },
+    "Native_job": 124652537907,
+    "artifact": {
+      "id": 13057433126,
+      "ZIP_bytes": 87188,
+      "official_SHA256": "165805dae5db614cdd0fce8e5ff989fe846f5427a7976befe1f6e2e4f6f105a9",
+      "ZIP_downloaded_and_verified_by": "Root; receipt read as data by document author",
+      "full_approx185MB_artifact_downloaded": false
+    },
+    "collector": {
+      "status": "collected",
+      "incomplete_reason": null,
+      "selected_case": "ReadingRecoveryUITests/testExportFilePickerCancelKeepsHealthyPositionAndBookmarkAfterRelaunch()",
+      "omitted_failed_cases": 0,
+      "files": [
+        {
+          "filename": "failure.png",
+          "advertised_bytes": 122951,
+          "bytes": 122951,
+          "SHA256": "79a76bed7e45bf4b39a2d1a75674461382a925bc88b4ce55f8a513ba22b7e254"
+        },
+        {
+          "filename": "context.txt",
+          "advertised_bytes": 182,
+          "bytes": 182,
+          "SHA256": "08aeb55523b53acc3bf1c434244034b46f8023540f29526a4fb8e336b164a2dc"
+        },
+        {
+          "filename": "hierarchy.txt",
+          "advertised_bytes": 16510,
+          "bytes": 16510,
+          "SHA256": "1651141f9ca4e34c98a9cc728bb8911fa155f8ff4daaa10900390fb7194d9a58"
+        }
+      ],
+      "files_total_bytes": 139643,
+      "manifest_bytes": 3514,
+      "manifest_SHA256": "8affddd1ab600b1cbd13b4101afaab75586be22b4fe7ba02bc731fd6403faa3c",
+      "retained_files_and_manifest_bytes": 143157,
+      "calls": [
+        {
+          "kind": "root",
+          "planned_timeout_ms": 15000,
+          "actual_timeout_ms": 15000,
+          "completed": true,
+          "quiescent": true,
+          "exit_code": 0,
+          "signal": null
+        },
+        {
+          "kind": "object",
+          "planned_timeout_ms": 15000,
+          "actual_timeout_ms": 15000,
+          "completed": true,
+          "quiescent": true,
+          "exit_code": 0,
+          "signal": null
+        },
+        {
+          "kind": "object",
+          "planned_timeout_ms": 15000,
+          "actual_timeout_ms": 15000,
+          "completed": true,
+          "quiescent": true,
+          "exit_code": 0,
+          "signal": null
+        },
+        {
+          "kind": "export",
+          "planned_timeout_ms": 15000,
+          "actual_timeout_ms": 15000,
+          "completed": true,
+          "quiescent": true,
+          "exit_code": 0,
+          "signal": null
+        },
+        {
+          "kind": "export",
+          "planned_timeout_ms": 15000,
+          "actual_timeout_ms": 15000,
+          "completed": true,
+          "quiescent": true,
+          "exit_code": 0,
+          "signal": null
+        },
+        {
+          "kind": "export",
+          "planned_timeout_ms": 15000,
+          "actual_timeout_ms": 15000,
+          "completed": true,
+          "quiescent": true,
+          "exit_code": 0,
+          "signal": null
+        }
+      ],
+      "limits": {
+        "metadata": 1048576,
+        "stderr": 8192,
+        "retained": 2097152,
+        "manifest": 65536,
+        "png": 1048576,
+        "hierarchy": 131072,
+        "geometry": 8192,
+        "context": 2048,
+        "wholeMs": 75000,
+        "perChildMs": 15000,
+        "maxCalls": 7,
+        "maxNodes": 32768,
+        "freeFloor": 67108864
+      },
+      "all_advertised_bytes_and_SHA256_match_actual": true,
+      "receipt_and_manifest_binding_equal": true,
+      "actual_executeGuard_Python_Hosted_path_evidence": true,
+      "original_UI_outcome": "failure",
+      "actual_UI_success": false,
+      "full_artifact_step_preserved": true,
+      "all_OS_failures_future_events_or_guard_fault_tolerance_guaranteed": false
+    },
+    "raw_and_primary_UI": {
+      "raw_bytes": 1181142,
+      "raw_SHA256": "5cdacf958aa22543e973ffff7e2b526fe9a93bac3c974d2bba96355696bedc6c",
+      "raw_downloads_by_Root": 1,
+      "document_author_downloads": 0,
+      "unit": {
+        "total": 278,
+        "passed": 276,
+        "skipped": 2,
+        "failed": 0
+      },
+      "UI": {
+        "total": 8,
+        "unique": 8,
+        "passed": 7,
+        "failed": 1,
+        "reported_total_seconds": 679.472,
+        "sum_of_individually_rounded_case_seconds": 679.473
+      },
+      "failed_case": "ReadingRecoveryUITests/testExportFilePickerCancelKeepsHealthyPositionAndBookmarkAfterRelaunch",
+      "failed_case_seconds": 135.655,
+      "reported_source_line": 519,
+      "export_loop": 1,
+      "context_attempt": 1,
+      "phase": "FIRST export loop; More and library-export-reading tapped; Move context recognizer failed",
+      "accepted_Move_context": false,
+      "export_Cancel_taps": 0,
+      "export_Cancel1_accepted": false,
+      "export_Cancel2_accepted": false,
+      "post_cancel_relaunch_position_or_bookmark_accepted": false,
+      "Restore_case_Cancel_counted_as_export_Cancel": false,
+      "actual_screen_absence_or_product_root_cause_inferred": false,
+      "Native_Release": "skipped after UI failure"
+    },
+    "evidence_read_as_data": {
+      "receipt": {
+        "filename": "receipt.json",
+        "bytes": 1332,
+        "SHA256": "ff0278bc41105cb0ee2dca449ae590266b50b889d3e217e1da4006383a807380"
+      },
+      "manifest": {
+        "filename": "manifest.json",
+        "bytes": 3514,
+        "SHA256": "8affddd1ab600b1cbd13b4101afaab75586be22b4fe7ba02bc731fd6403faa3c"
+      },
+      "classification": {
+        "filename": "Native-attempt1-classification.json",
+        "bytes": 5463,
+        "SHA256": "5413e36e98ef3b16e408fcfe73ef0ffa0b5cf54d36cab1f1d860246d5c1e77be"
+      },
+      "artifact_files_copied_to_document_packet": 0,
+      "raw_log_copied_to_document_packet": false
+    },
+    "historical_fields_scope": "Every pre-existing JSON key/value and the complete previous Markdown prefix are retained as their preparation, controlled37/43, local16.2 and offline9310 replay history. Earlier pending descriptions are not current Hosted nonacceptance.",
+    "unchanged_and_unaccepted": {
+      "Code2_workflow_Python_changed_or_copied_by_author": false,
+      "limits_held": true,
+      "maximum_depth_contract": 64,
+      "UI_direct_ID_fix": "separate author; not executed or accepted here",
+      "FullA_FullB_terminal_observation": "not collected at this preparation; later results require separate exact-head/run entry",
+      "new_main_accepted": false,
+      "physical_provider_write_or_final_backup_bytes_accepted": false,
+      "App": "0.2.28 (30)",
+      "TODO_rows": 32,
+      "TODO_completed": 14,
+      "IOS25_complete": false,
+      "IOS15_complete": false
+    },
+    "document_author_new_execution": {
+      "Git": false,
+      "Node": false,
+      "SDK": false,
+      "API": false,
+      "download": false,
+      "real_experiment": false,
+      "scope": "Static document preparation and hashing already-saved data only"
+    }
   }
 }

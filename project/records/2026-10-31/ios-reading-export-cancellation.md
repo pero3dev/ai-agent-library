@@ -105,3 +105,19 @@ Rootは、main88のReadingRecoveryとNative基底APIだけで検査を構成で�
 9310のFull Bは8件・374Bの実一致・Release監査（199記事、音声1、検証625ファイル、テストcontentなし）を成功した。一方、Full Aは単体開始前の準備がexit70で停止し、UI0件、完全共通検査は1251件を対象に完走した。Runtime26の代表3件・復旧用CI・SDK Archiveも9310で成功した。受理された外部再実行は0回であり、新しいsourceが必要なためAの再実行は行わない。これらの別区画の結果を、書き出し取消や新候補の成功に転用しない。
 
 作者による検査はPythonの全文正逆変換、旧4ケースと新ケース本体・無関係helperのbyte一致、入力画像・文脈・summaryのhash確認までである。Node・SDK・UI・Simulator・書き出し・Git/APIは実行していない。新UIと別担当の診断コード・記録を結合した最終内容の独立レビュー、Hosted compile・Native8・固定Full26・完全共通検査・コピー／Releaseと必要CI、通常mainは未確認とする。実provider保存・外部ファイルの内容・実機・VoiceOver等も未完了で、App0.2.28（30）・IOS-22／25未完了・TODO32行14完了を維持する。
+
+## 677の実階層を踏まえた保存先barの直接識別候補
+
+2026-11-01追記。head `6777328b`の[Native実行](https://github.com/pero3dev/ai-agent-library/actions/runs/41240271170)は、単体278件中276成功・2skip・失敗0、UI8件中旧7成功・新しい書き出し取消ケース1失敗だった。失敗は最初の書き出し後、picker識別前で、`attempt=1`のまま停止した。2回の取消と取消後の再起動には未到達であり、旧7件の成功を新ケースの受入には転用しない。
+
+同じheadの小診断は初めて実Hostedで`collected`、`incomplete_reason=null`となり、画像・文脈・任意階層の3添付を保存した。Rootは87,188 byteのcompact ZIPの全体SHAと選択ファイルを照合した。画像122,951 byte、文脈182 byte、階層16,510 byteをこの候補の作者もデータとして読み、画像を表示して確認した。これが取消試験の成功や、別の新候補のHosted成功を意味するわけではない。
+
+階層には、一つのMain window内にidentifierが`FullDocumentManagerViewControllerNavigationBar`のbarがあり、有限なframeは`0,69,393,108`、左の「ブラウズ」は`0,75,94,44`、右の「移動」は`345,75,40,44`だった。背景の検索navigationには別の「キャンセル」が残っているため、アプリ全体のCancelは識別にも操作にも使わない。下部にはTextField `65,764,312,42`が見えるが、階層のvalue表示は`AI-Agent-Library-R...`に省略されていた。画像には正確な`AI-Agent-Library-Reading-Backup`が見える一方、実際のAX full valueは未観測として扱い、候補のexact label/value条件を通過済みにはしない。戻り後のCancelも未観測である。
+
+保存した文脈は`phase=filtered-library; searchCount=1; libraryCount=1`のままだった。Rootが読んだ別のraw logでは、export tap後に一般bar列挙のindex0を通り、index1へのexistsが反復して、次のdestination guardの記録には到達していなかった。この参照方法で進行しなかった原因は仮説にとどめ、通常toolbarやOS・製品の原因を確定しない。既存の復元取消ケースが同じ固定identifierの直接queryを使って成功した事実を参考に、今回のexport専用helperも、その観測済みIDへ直接matchingする。無関係なnavigation barの`allElementsBoundByIndex`列挙を取り除き、開く前は固定IDが0件であること、開いた後は同IDが一意で存在することを要求する。window内の再確認も固定IDをselectorに使う。階層にはbarのlabel属性が表示されておらず、空labelとの一致は要求せず、読んだlabelはidentifierと合わせて直前再確認用のcontextKeyを比較するだけに使う。
+
+barを含むwindowは一つに限定し、有限で画面内のframe、同bar内のMove、CancelとBrowse戻りの排他的な件数、有効で操作可能な実行対象、barより下の正確なfilename読取witnessを従来どおり全て確認する。Moveとfilenameは操作しない。Browse戻りは最大1回、戻った後のCancelは実際に確認できなければ停止する。識別・戻り・取消直前の全条件再確認は一つの30秒期限を共有する。旧5ケース本体、取消前のliveResume、無関係helper、本文More15秒・export10秒・一覧復帰15秒、2回取消、検索維持、同suite再起動後の公開「続きを読む」・しおり・非先頭見出しの完全表示は変更しない。
+
+次の停止位置を区別するため、各queryやguardの直前・件数取得後に短いphaseと`directBarCount`・必要な件数だけを既存1 KiB文脈へ記録する。filenameのexact件数が0の場合も、その段階を残す。失敗時だけの階層一度・UTF-8全文131,072 byte以下・上限超過時の別名OMITTEDという制限は維持する。新しい待機、provider選択、座標、任意のfirstMatch、保存・移動・filename操作、記事や目次への追加遷移はない。
+
+作者が実施した確認は入力SHA、Pythonによる全文逆変換、旧5ケースと無関係helperのbyte一致、2索引の一段落置換と全逆変換である。新しいNode・SDK・Git/API・Simulator・UI・書き出しは実行していない。677のFull A/Bの終端結果は別途収録中で、新sourceの成功には転用しない。独立レビュー・結合後の新headのHosted compile、Native8・固定Full26・完全共通検査・実コピー／Release・必要CIと通常mainは未受入とする。実provider保存・外部ファイル内容・実機・VoiceOver等、IOS-22／25、TODO32行14完了は引き続き未完了、App0.2.28（30）は不変である。

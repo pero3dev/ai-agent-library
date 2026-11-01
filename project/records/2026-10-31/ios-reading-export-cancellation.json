@@ -1,4 +1,162 @@
 {
+  "followup_677_observed_direct_picker": {
+    "state": "PRIVATE_DIRECT_FIXED_PICKER_ID_UNEXECUTED",
+    "date_JST": "2026-11-01",
+    "actual_parent_reported_by_Root": "6777328b5e50e6eb198efec6a05109d4cfa2bee8",
+    "parent_tree": "b031bafebbf0f0d3397f98f1f580a68d112d8905",
+    "actual_main_reported_by_Root": "88c9ac391459ead50cf5e28b25918f97ac9332cf",
+    "historical_values": "All prior JSON values and Markdown prefix held exactly; new source not accepted",
+    "code": {
+      "path": "ios/AILibraryUITests/ReadingRecoveryUITests.swift",
+      "before_SHA256": "4f9664ee416bdb8954e1d36c1119d7ad069d6faf51ff74ba7b8bfcccdee0fa39",
+      "SHA256": "a76b33d81054cf7c88caa4a9a04b33d980b43f200a334890e851a1dbca12b905",
+      "bytes": 39478,
+      "blob_oid": "562383d1835f70d2744a5e91f77dd0fb7346772d"
+    },
+    "head677_Native": {
+      "run_id": 41240271170,
+      "unit": {
+        "total": 278,
+        "passed": 276,
+        "skipped": 2,
+        "failed": 0
+      },
+      "UI": {
+        "total": 8,
+        "old_passed": 7,
+        "new_failed": 1
+      },
+      "new_case": {
+        "attempt": 1,
+        "stage": "first picker identification after export",
+        "actual_cancels": 0,
+        "postcancel_relaunch": "not reached"
+      },
+      "saved_context": "phase=filtered-library; searchCount=1; libraryCount=1",
+      "generic_index1_exists_repetition": "Root read log540-690: after export, library bar index0 then index1 exists repeated; next destination guard context not reached. Query-stall cause remains hypothesis, not product/OS cause."
+    },
+    "head677_compact": {
+      "actual_Hosted": true,
+      "status": "collected",
+      "incomplete_reason": null,
+      "files": 3,
+      "attachments": [
+        "failure.png",
+        "context.txt",
+        "hierarchy.txt"
+      ],
+      "ZIP": {
+        "bytes": 87188,
+        "SHA256": "165805dae5db614cdd0fce8e5ff989fe846f5427a7976befe1f6e2e4f6f105a9",
+        "verified_by_Root": true
+      },
+      "binding": {
+        "repository": "pero3dev/ai-agent-library",
+        "event": "pull_request",
+        "run_id": "41240271170",
+        "run_attempt": "1",
+        "workflow_SHA": "9062a1b510bc877049ef9e95d7bd9a4cc78974e3",
+        "source_head": "6777328b5e50e6eb198efec6a05109d4cfa2bee8",
+        "full_artifact_upload_outcome": "success"
+      },
+      "pins": {
+        "receipt.json": {
+          "bytes": 1332,
+          "SHA256": "ff0278bc41105cb0ee2dca449ae590266b50b889d3e217e1da4006383a807380"
+        },
+        "manifest.json": {
+          "bytes": 3514,
+          "SHA256": "8affddd1ab600b1cbd13b4101afaab75586be22b4fe7ba02bc731fd6403faa3c"
+        },
+        "context.txt": {
+          "bytes": 182,
+          "SHA256": "08aeb55523b53acc3bf1c434244034b46f8023540f29526a4fb8e336b164a2dc"
+        },
+        "hierarchy.txt": {
+          "bytes": 16510,
+          "SHA256": "1651141f9ca4e34c98a9cc728bb8911fa155f8ff4daaa10900390fb7194d9a58"
+        },
+        "failure.png": {
+          "bytes": 122951,
+          "SHA256": "79a76bed7e45bf4b39a2d1a75674461382a925bc88b4ce55f8a513ba22b7e254"
+        }
+      },
+      "scope": "One failed case and known attachments only; no successful export-cancel UI inference"
+    },
+    "observed": {
+      "PNG_viewed_by_author": true,
+      "hierarchy_read_by_author": true,
+      "navigation_identifier": "FullDocumentManagerViewControllerNavigationBar",
+      "navigation_frame": [
+        0,
+        69,
+        393,
+        108
+      ],
+      "Browse_frame": [
+        0,
+        75,
+        94,
+        44
+      ],
+      "Move_frame": [
+        345,
+        75,
+        40,
+        44
+      ],
+      "scope": "One observed Main window containing bar; background library search Cancel is separate",
+      "filename_TextField_frame": [
+        65,
+        764,
+        312,
+        42
+      ],
+      "filename_debug_value": "AI-Agent-Library-R...",
+      "PNG_filename": "AI-Agent-Library-Reading-Backup",
+      "not_observed": [
+        "full AX filename value",
+        "Cancel after single Browse-back",
+        "new source runtime success",
+        "product or OS cause"
+      ]
+    },
+    "new_contract": {
+      "preexport": "Exact fixed identifier count0, exact filename count0; empty previous eligible key set is justified only by strict direct absence",
+      "direct_identity": "Direct fixed identifier query count1/exists; identifier+label is a read-only contextKey only, not a selector; no unrelated bar index enumeration",
+      "scope": "Exactly one finite visible window containing fixed identifier; same identifier count1 inside window, no empty-label predicate requirement",
+      "preserved": [
+        "Move and filename read-only",
+        "exact filename limits16 and distinct finite bounds8",
+        "Cancel XOR Browse",
+        "at most one Browse-back",
+        "full context rechecked before each tap",
+        "single monotonic30s deadline",
+        "More15/export10/close15",
+        "two cancels",
+        "same filtered query/list after each cancel",
+        "same-suite relaunch and public Resume/bookmark/fully-visible noninitial heading",
+        "old5 case bodies and unrelated helpers"
+      ],
+      "diagnostic_only": "Short phase/count guard markers in existing1KiB context; failure hierarchy exact name/full max131072 and distinct omission unchanged"
+    },
+    "validation": {
+      "author": "Python data/static inverse and byte holding only",
+      "new_Node_SDK_Git_API_UI_Simulator_export_tests": false,
+      "new_independent_review": "pending",
+      "new_actual_parent_binding": "pending",
+      "new_Hosted_acceptance": false,
+      "head677_Full_A_B": "terminal observation in progress by Root; no new-source success substitution",
+      "ordinary_main": "pending; actual main remains88"
+    },
+    "App": "0.2.28(30) unchanged",
+    "TODO": {
+      "total": 32,
+      "complete": 14,
+      "IOS22_complete": false,
+      "IOS25_complete": false
+    }
+  },
   "followup_9310_observed_destination_picker": {
     "state": "PRIVATE_OBSERVED_DESTINATION_PICKER_UNEXECUTED",
     "date_JST": "2026-11-01",

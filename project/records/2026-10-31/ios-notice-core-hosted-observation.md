@@ -1,6 +1,20 @@
-# Notice対応Core観測の固定入口とHosted事前検査案
+# Notice対応Core観測とmainの受入記録
 
-## 通常main88採用とUI単位への結合準備
+## 現在受け入れた範囲と文書提出の残件
+
+2026-11-01追補。実source `3bfe7e740d38225b89b7428b02991d8e12776638` の保存済みmacOS host Core観測は、Rootの固定production検証CLIと独立データレビューで受け入れた。correctness1回・破棄warmup3回・記録15回の全19 raw、3scenario各5標本を対象とする。今回の文書作業では観測・CLI・SDK・Appを再実行していない。
+
+同じCoreコードは通常保護のsquashにより実main `88c9ac391459ead50cf5e28b25918f97ac9332cf` に採用された。その新pushのCommon・Native・Full A/Bも保存した公式結果で成功を確認した。Full A/Bの初回はそれぞれdestination不在とpre-UI canary準備で止まったため、初回失敗を保持し、失敗した2jobだけを同条件で各1回再実行した結果を区別する。attempt2はA18件・B8件の実passed IDが元の26件と重複なく一致し、Bの374BコピーとReleaseも成功した。
+
+main88の新pushではCore host観測・Runtime26・Recovery matrix・SDK workflowは自然発火していない。Coreの19raw／15sample受入は測定source3bfとartifact自身のContent626・40,079,063Bに結び付く。localのContent626・37,744,644Bを混用せず、main88と同じtreeであることを新mainでのCore再測定の結果へ置き換えない。性能予算、App起動・入力・scroll、iOS／実機・VoiceOver、IOS-15全体は未完了である。p95や旧b79との数値優劣は、この保存観測から主張しない。
+
+この追補は記録2本と索引2本だけの独立した提出候補である。PR #320のUI・文字サイズ／stride・Docs6結合・Code4一覧読取の値は、すべて下の「Source12作成時点の準備・観測履歴」に属する未マージの別作業として保持する。そのコード・workflow・UI／Dynamic記録はこの文書単位へ含めない。PR #321の通常統合後の実parent・treeへの結合、最終独立レビュー、文書検査・必要CI・通常mainへの文書反映は後続である。App0.2.28（30）、TODO32行／14完了と実機スキップの未完了を維持する。
+
+## Source12作成時点の準備・観測履歴
+
+以下は旧Source12本文の非見出しbytesを保持し、見出しを1段下げた履歴である。旧時点の「新push未受入」「提出parent未発行」やPR #320のUI／Docs6／Code4チェックは、当該作成段階の状態を表す。現在の受入範囲は上の節と[検査範囲JSON](ios-notice-core-hosted-observation.json)の`current_status`で確認する。
+
+### 通常main88採用とUI単位への結合準備
 
 Coreコード単位は通常保護のsquashにより、2026-10-31T11:36:41Zに実main `88c9ac391459ead50cf5e28b25918f97ac9332cf` へ採用された。実treeは `42a595f687677ceda2203873f01a0864b06f43f6`、全2850のmode/blobは承認source3bfと一致し、single parent・%B本文/trailers・形式検査0のRoot証拠manifest SHA-256は `f1b9fd58b562b5045bebc4e9512ce24a73149d534465cbd7251b4062963f80bf` である。保存host観測と固定CLI・独立レビューf387の受入は実source `3bfe7e740d38225b89b7428b02991d8e12776638` の結果であり、main88で新しくCoreを測定した結果とは呼ばない。
 
@@ -8,9 +22,9 @@ main88の新push CIは別の結果である。FullA初回はiOS18.5/iPhone16のd
 
 この追補は実base88のCoreとUI PR #320の追加を保つ結合準備で、後続の提出parent/commitはまだ発行していない。UIのstride修正は別の未受入コード単位であり、Core5 source・App版・PBX・固定19raw/15sample・予算不採択を保持する。Docsのpublication parentとcurrenthead CI/mainはTODO(採用待ち)。TODO32行/14完了とIOS-15全体の未完了を変えない。
 
-## 実main採用前に準備したhost受入追補（履歴）
+### 実main採用前に準備したhost受入追補（履歴）
 
-## 実source3bfのhost観測と保存結果の受入
+### 実source3bfのhost観測と保存結果の受入
 
 実source `3bfe7e740d38225b89b7428b02991d8e12776638`（tree `42a595f687677ceda2203873f01a0864b06f43f6`）のHosted macOS Core観測と、保存結果に対する固定production検証CLI・独立データレビューを受け入れた。これは同sourceの保存済みhost CLI観測の受入であり、PR #318全体のCI終了・通常mainへの採用はまだ確認していない。コード・App0.2.28（30）・PBXは変更せず、この追補は記録・索引4パスだけの未公開案である。実main SHAとDocs提出基底は **TODO(採用待ち)** とする。
 
@@ -39,7 +53,7 @@ node "<repo>/ios/tests/verify-core-performance-notice-20261031.mjs" \
 
 次はPR #318の実currenthead全必須検査と通常mainをRootが確認し、実main SHA/tree・Docs4の提出parentを結び直して独立レビュー・必要な文書検査を行う。これらは **TODO(採用待ち)** であり、この私有追補自体の公開・commit・main反映は未実施である。
 
-## 先行Source9の候補準備と失敗履歴
+### 先行Source9の候補準備と失敗履歴
 
 最新候補: 通常main `7c1ec1d7319eade2209d8a28fbcdf94661759d7c`（tree `f5ee9c7f5fb54fc4059fc347b27a98b2db50c443`）を基底とする提出parent `fb392378467c4ed238eba0a6495b149b29247e07` からの追加候補である。基底2843から所有9パス・新規7件によりtarget2850を維持する。workflow・固定入口2・索引2・App0.2.28（30）・PBX・Source4・runner・engine・query・計測protocolと、Git子のPATH/TMPDIR環境は保持する。
 
@@ -51,7 +65,7 @@ source/bareへ同じselectionを明示して渡し、既存local origin/key/valu
 
 固定Git argvはversion/exec-path/config-list/cat-file、runnerはrev-parse/show/ls-treeで、credentialやtransport操作を要求しない。Apple公開builtin/config.cのlistは値を出力し、credential.cではhelper設定保存とget/store/eraseのdispatchが分かれていることを一次コードで確認した。この限定の静的根拠を全Git経路や実exec不存在の証明にはしない。fixtureは26case名・件数を維持し、guard SHAと既存2caseの呼び出し順・selection引数期待だけを同期した。新候補のfixture実行・共通検査・独立レビュー・新head CI・Core測定・保存成果物の独立replay・通常mainは未受入である。TODO32行/14完了、IOS-15・予算・実機の未完了を維持する。
 
-## D402までの提出候補（履歴）
+### D402までの提出候補（履歴）
 
 最新候補: 公開済みhead `c1ad6ac58614669f7d0d6e552807fc5b10fbe1b2` への6番目の追加commit候補である。実parent `84f8f3ea1e1a4d3e2c809130af6a0388b7f24564` からの所有9パス・新規7件・target2850を維持し、workflow・固定入口2・索引2・App0.2.28（30）・PBX・Source4・query・計測protocolは保持する。
 
@@ -61,7 +75,7 @@ c1adのprepareは条件付きsurface検査から既存Git設定probeへ進んだ
 
 この変更は拒否原因を観測するための診断であり、policyの許可範囲や有効設定条件は緩めない。fixtureはguard SHAだけを同期し、26case本文・集合と既存の条件付き互換処理を保持する。新候補の独立レビュー・検証・新head CI・Core測定・独立replay・通常mainは未受入であり、TODO32行/14完了、IOS-15・予算・実機の未完了を維持する。
 
-## 先行c1adまでの提出候補（履歴）
+### 先行c1adまでの提出候補（履歴）
 
 最新候補: 公開済みhead `a5e483bb73e257501b81bbf79ebea484a845b2c5` への5番目の追加commit候補である。実parent `84f8f3ea1e1a4d3e2c809130af6a0388b7f24564` からの所有9パス・新規7件・target2850を維持し、workflow・固定入口2・索引2・App0.2.28（30）・PBX・固定Source4は変更しない。
 
@@ -71,7 +85,7 @@ a5eではactionlintが成功した。保存artifactの診断は、元のpredicat
 
 診断のfieldは `diagnostic_does_not_override_rejection` へ改め、以前のfieldと拒否方針は履歴に残す。この条件付き方針は今回の採択範囲であり、任意の残存ファイルの安全性や一般的な設定許可を証明するものではない。新候補のfixture実行・共通検査・新head CI・Core測定・独立replay・通常mainは未受入である。TODO32行/14完了、IOS-15・予算・実機の未完了を維持する。
 
-## 先行a5eまでの提出候補（履歴）
+### 先行a5eまでの提出候補（履歴）
 
 最新候補: 実parent `84f8f3ea1e1a4d3e2c809130af6a0388b7f24564` へのSource9を維持し、公開済みhead `75f8d51cedff8e1b830dc0ecc2a2866bafe0c999` に追加する差分である。App0.2.28（30）・PBX・固定Source4・索引2は保持する。新規7件・所有9パスでtarget2850、TODO32行/14完了は変えない。
 
@@ -79,7 +93,7 @@ a5eではactionlintが成功した。保存artifactの診断は、元のpredicat
 
 次候補は3つの代入とexportを分け、Gitの元の拒否predicateが成立した場合だけ、6固定パスをdirfdとno-followで調べたmetadataを4KiB以下のexclusive JSONへ保存する。設定内容・symlink先・raw例外・絶対pathは出力せず、元の拒否と信頼範囲を維持する。first_rejected_relは元のpredicate時点、metadataは後段の非atomic snapshotとして分ける。fixtureはguard SHAのpinだけを更新し、既存26case本文・集合は保持する。この診断候補の独立レビュー・新head共通検査・Node22/Hosted26・Core19raw/15sample・独立replay・通常mainは未受入である。予算・実機・IOS-15も未完了のまま。
 
-## 先行提出候補の記録（履歴）
+### 先行提出候補の記録（履歴）
 
 現状態: 先行PR316と回転UI単位を通常mainへ統合後の実parent `84f8f3ea1e1a4d3e2c809130af6a0388b7f24564`（tree `3404498d89b9fd771babc3ff97215f22728892ec`）への提出候補である。App0.2.28（30）とPBXをそのまま引き継ぎ、この単位では版を変更しない。Source5と記録・索引4の9所有パス、新規7件によりparent2843からtarget2850へ投影する。Source2独立IR `f31c04d38b90716f38bec693344d15a465efa897eb4b7fa8a12b334cc47fac16`、Source3独立静的IR `aeb8f46ad061703465f3d773ec42163ef14e0f002a6417702124af73be033c39`、初期Rootdocs4の未結合レビュー `b0047d1e7cadd96ec8d37641946ed48ff90a9bc3e8b5f4dfefcaa37069428695`を確認した。
 
@@ -87,7 +101,7 @@ Source3の26件はRootがローカルでpure検証し、26 unique／成功26・�
 
 初回の共通検査は1214件中1199成功・14skip・1失敗、39.544310709秒、exit 1だった。失敗は `tests/unit/harness-tooling.test.mjs` のlockfile監査の先行step検査で、監査とinstallを同じstepに置いていたためである。workflowの既存準備6分を、監査2分とinstall4分の連続stepへ分割した。監査・installの各コマンド、job上限35分、他の工程・guard・26fake・固定入口は保持した。初回失敗の保存ログSHA-256は `932c49b34f31a589febdea10267eab880dbe4d5fb9f0a57c7a6a244769c54235` である。既存Source3静的IRは分割前の履歴として保持し、このworkflow差分の独立レビューと修正後の共通検査・Hosted実行は未受入である。
 
-## 初期未結合案の履歴
+### 初期未結合案の履歴
 
 以下は実parent未確定で作成した初期案の全文restであり、当時の予定・未確認を現時点の結果へ読み替えない。
 
@@ -109,7 +123,7 @@ full Content626、固定source/harness/query、compiler stderr、実binary/ident
 
 最初のHosted prepare/compile、19 raw／15 sample、固定verifierの完全replay、保存結果の独立受入は全て未確認である。macOS host観測が成功しても、App起動・スクロール・iOS／実機・Release、cold cache、性能予算の採択、IOS-15全体の完了とは別に扱う。
 
-## main88新pushの完了とPR320の一覧読取追補（作成時点の記録）
+### main88新pushの完了とPR320の一覧読取追補（作成時点の記録）
 
 実main88の新pushは、保存した2026-10-31T12:26:37Zの公式観測で、Common9・追加deploy・Nativeが成功した。Commonはrun41197576965、docs1214件中1198成功・16skip・失敗0、build97件全成功・browser677件・Firefox14件成功である。Nativeはrun41197577014で278 executed・2skip・失敗0、UI7件・Releaseが成功した。278全件が成功したという数え方にはしない。
 

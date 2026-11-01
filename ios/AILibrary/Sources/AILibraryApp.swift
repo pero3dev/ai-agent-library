@@ -40,7 +40,7 @@ struct AILibraryApp: App {
     }
 
     #if DEBUG
-    private static func requestedUITestDynamicTypeSize() -> DynamicTypeSize? {
+    static func requestedUITestDynamicTypeSize() -> DynamicTypeSize? {
         let environment = ProcessInfo.processInfo.environment
         guard let suite = environment["AILIBRARY_UI_TEST_SUITE"],
               suite.hasPrefix("ailibrary-uitest-"), suite.count < 100 else { return nil }

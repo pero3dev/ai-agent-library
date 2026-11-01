@@ -132,9 +132,9 @@ final class ReaderReflowUITests: NativeReaderUITestCase {
         XCTAssertEqual(search.value as? String, query)
     }
 
-    private func openFixtureLibrary(dynamicTypeProbe: ((String) -> Void)? = nil) throws {
+    private func openFixtureLibrary(dynamicTypeProbe: ((String, XCUIElement?) -> Void)? = nil) throws {
         XCTAssertTrue(app.staticTexts["library-article-count"].waitForExistence(timeout: 45))
-        dynamicTypeProbe?("root")
+        dynamicTypeProbe?("root", nil)
         // The filtered public Button presents the sheet; the unfiltered toolbar
         // Menu does not have the More Actions navigation stack used below.
         try setForegroundArticleQuery("Transformer")
@@ -159,7 +159,7 @@ final class ReaderReflowUITests: NativeReaderUITestCase {
         let count = try singleForegroundControl(app.staticTexts.matching(identifier: "library-article-count"),
                                                name: "fixture article count")
         XCTAssertEqual(count.label, "全1記事")
-        dynamicTypeProbe?("fixture")
+        dynamicTypeProbe?("fixture", count)
     }
 
     private func soleCell(blockID: String, row: Int) -> XCUIElement {
@@ -306,11 +306,15 @@ final class ReaderReflowUITests: NativeReaderUITestCase {
 
 
     /// Diagnostics only. No wait, gesture, screenshot, assertion or fallback navigation.
-    /// Each phase adds at most 16 scalar/frame AX getters, sampled sequentially.
+    /// Each phase adds at most 15 scalar/frame AX getters, sampled sequentially.
     private func dynamicTypeProbeValue(_ query: XCUIElementQuery, stage: String) -> [String: Any] {
         let count = query.count
         guard count == 1 else { return ["status": "not-unique", "matches": count] }
-        guard let value = query.element(boundBy: 0).value as? String, value.utf8.count <= 512,
+        return dynamicTypeProbeValue(resolved: query.element(boundBy: 0), stage: stage)
+    }
+
+    private func dynamicTypeProbeValue(resolved element: XCUIElement, stage: String) -> [String: Any] {
+        guard let value = element.value as? String, value.utf8.count <= 512,
               let data = value.data(using: .utf8),
               let record = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
               DynamicTypeProbeSchema.valid(record, stage: stage) else { return ["status": "unavailable"] }
@@ -374,9 +378,13 @@ final class ReaderReflowUITests: NativeReaderUITestCase {
         XCTAssertNotNil(ownedSuite)
         XCTAssertTrue(ownedSuite?.hasPrefix("ailibrary-uitest-") == true)
         var defaultProbeSamples: [String: Any] = [:]
-        try openFixtureLibrary(dynamicTypeProbe: { stage in
-            defaultProbeSamples[stage] = self.dynamicTypeProbeValue(
-                self.app.staticTexts.matching(identifier: "library-article-count"), stage: stage)
+        try openFixtureLibrary(dynamicTypeProbe: { stage, carrier in
+            if let carrier {
+                defaultProbeSamples[stage] = self.dynamicTypeProbeValue(resolved: carrier, stage: stage)
+            } else {
+                defaultProbeSamples[stage] = self.dynamicTypeProbeValue(
+                    self.app.staticTexts.matching(identifier: "library-article-count"), stage: stage)
+            }
         })
         let article = try singleForegroundControl(app.descendants(matching: .any).matching(
             identifier: "library-article-test-fixtures/native-reader"), name: "fixture article")
@@ -445,9 +453,13 @@ final class ReaderReflowUITests: NativeReaderUITestCase {
             XCTAssertEqual(app.launchEnvironment["AILIBRARY_UI_TEST_SUITE"], requestedSuite)
             requireLayout(portrait: true)
             var modeProbeSamples: [String: Any] = [:]
-            try openFixtureLibrary(dynamicTypeProbe: { stage in
-                modeProbeSamples[stage] = self.dynamicTypeProbeValue(
-                    self.app.staticTexts.matching(identifier: "library-article-count"), stage: stage)
+            try openFixtureLibrary(dynamicTypeProbe: { stage, carrier in
+                if let carrier {
+                    modeProbeSamples[stage] = self.dynamicTypeProbeValue(resolved: carrier, stage: stage)
+                } else {
+                    modeProbeSamples[stage] = self.dynamicTypeProbeValue(
+                        self.app.staticTexts.matching(identifier: "library-article-count"), stage: stage)
+                }
             })
             let resume = try singleForegroundControl(app.buttons.matching(identifier: "library-resume"),
                                                     name: "fixture Continue button")

@@ -1,0 +1,33 @@
+# DEBUG文字サイズ指定の本文テストへの引継ぎ
+
+2026-11-02の私有Source7候補である。実PR320の親 `bc25d2e72e7fb7cf52a186f13abefec52c47a7a8`（tree `e4f16467d1bdfcb6f104a010641b937127233e50`、2874件）へ、既レビューCode3を変更せず記録2・索引2を結合する。新しいSDK・UI成功やmain採用を示す記録ではない。
+
+## 保存された失敗と診断の範囲
+
+[bc25のDynamic初回run](https://github.com/pero3dev/ai-agent-library/actions/runs/41353390704)はビルド後にUI commandがexit65となった。実caseは213.016秒で、ReaderReflowUITestsの467行、stride132.33333333333303が保存時の1.25倍165.4166666666663を超えない条件に失敗した。外側720秒timeoutではなく、標準サイズへの戻りとstrict1 auditは未到達だった。同じ条件でこのUIを再試行して成功へ読み替えていない。
+
+実stdoutのprobeは2phaseを収録した。標準時はRoot・Reader・Tableがlarge、body17・scale1・列幅126/252・stride132.333だった。accessibility5指定で再起動した後はRootだけaccessibility5、ReaderとTableはlarge・body17・scale1・同じ列幅とstrideだった。fixtureは両phaseで2matchのnot-uniqueとなり未観測である。sheet自体がどの値を受信したか、一般のSwiftUI sheet継承規則、自然なOS文字サイズ変更による製品不具合はこの証拠で断定しない。
+
+Rootは公式artifact ID13102428934・head/tree/runとtool/TLSを結び、135,775,400BのZIPから4ranges・246,952Bだけを読み、固定8entryのCRCとbyte SHA、source-head/tree/executionを確認した。全ZIP digestは未照合で、未取得のxcresult・画像・動画を検証した証拠へ広げない。先の一時URL失効によるRange失敗とGET403は別保存し、fresh URLを即時使用した部分読取の成功と区別する。取得や診断の成功はUIの成功ではない。
+
+## 限定する修正
+
+Appの既存DEBUG関数は、canonical UUIDの隔離suiteとdefault/accessibility5だけを認めるbodyを保ち、module内で再利用できるようにprivateだけを外す。既存の本文表示テストsheetへ有効requestと同じ文字サイズを明示適用し、nilの場合は元のsheet initializerを返す。自然なOS設定や通常起動へ追加のfont指定を採択する変更ではない。
+
+fixtureの既存IDや表示は変えない。openFixtureLibraryが既に一意の前面要素として解決し、全1記事のlabelを確認したcountをcallbackへ渡し、そのvalueだけを1回読む。Root2・fixture1・Reader2・Table2・4セル各2でphase最大15getterとなり、元の上限16以内を保つ。これはsource上の明示getter数で、AX IPC回数・取得時間・中間snapshotを保証しない。carrier512B・console1JSON4KiBも維持する。
+
+元53assertの全call本文と順序、2case、selector・全待機/操作、拡大1.25倍超と標準復帰±1pt、しおり・offset・補正gestureなし、workflow720秒とstrict1は保持する。schema enumとproducer形状、NativeReaderViewも同一である。
+
+## 保存済み検証と未受入
+
+Code3のRoot Swift frontend `-parse -D DEBUG` は3ファイルがexit0で、6.807秒・入力fingerprint不変だった。これは構文解析でありApp SDK型検査やXCTest/UIの実行ではない。独立したsource分析とCode3最終レビューはP1/P2=0で、code bytes・正逆・53assert等、App/LibraryのRelease=false投影がbyte一致することを確認した。作者はSDK・tests・Nodeを再実行せず、保存結果とSHAへ結合した。
+
+通常Debugでnil requestの経路は元initializerを保つが、viewgraph・geometry・copyや実runtime無影響を確認した意味ではない。新sourceでRoot・fixtureのsheetActual・Reader・Tableの実値と、元の行間隔・標準復帰・しおり/offset・strict1を確認する必要がある。未到達・欠損を成功へ読み替えず、古い失敗と凍結されたDynamic/Budget/Probe記録を保持する。
+
+## 作業単位と次の操作
+
+所有はCode3と新記録2・索引2の計7パスである。索引はH1直後の1段落だけを追加して旧全文を保つ。親2874件からnew2の2876件へ投影し、既存変更5・非所有2869を保持する。実main0a47との累積差分は別の完全mapで18パスとして追跡し、この小appendへNative-owned SimulatorやStorageGate候補を混ぜない。
+
+App0.2.28（30）・PBX・TODO32行14完了、Core・Conf・Tag・Seedと過去の記録、Original110・Content626を保持する。ユーザーのTODO自律実施と区切った通常commit/PR/main統合の依頼に基づく私有提出候補であり、この作者はGit/API・managed編集や実機操作を行わない。
+
+RootがSource7の最終レビュー・形式・必要検査、実append objectと公式head/mainのfresh照合を行う。最新mainが進んだ場合は全before tupleへ再結合し、必要CI・最終Ready後のfresh policyを満たして通常保護で統合する。新mainpushは別に確認する。新SDK・Hosted・効果、実機・VoiceOver・providerとIOS-11/15/23/25全体は未完了であり、adoption-readyではない。

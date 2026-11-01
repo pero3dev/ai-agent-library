@@ -1,5 +1,7 @@
 # iOS完成版に向けたTODO
 
+[DEBUG文字サイズ指定の本文テストへの引継ぎ](../../records/2026-11-02/ios-dynamic-type-sheet-font-fix.md)は、bc25の実1case213.016秒・stride1.25倍条件の失敗と2phaseの診断を保持する。Rootだけ最大指定を観測しReader/Tableは標準、fixtureは2matchで未観測だったため、既存の隔離DEBUG requestをtest sheetへ明示適用し、既解決の前面countを診断へ渡すCode3候補とする。最大15getter・元53assert/2case・全条件と720秒/strict1を保つ。固定8entryの部分読取はCRC/SHAとID/head/treeへ結ぶが全ZIP digestは未照合、Root構文3入力とCode3独立レビューを新SDK/UI成功へ転用しない。自然OS不具合や一般sheet規則は断定せず、App0.2.28（30）・TODO32行14完了と実機等の未完了を保つ。
+
 [復旧確認タイトルの失敗時診断](../../records/2026-11-02/ios-recovery-confirmation-diagnostics.md)は、main da820のNative初回pretest失敗と再試行UI7成功・1失敗を保持し、既存5秒・1tap・全assertを変えず失敗時だけ固定名の画面と限定contextを残す候補である。旧43＋新8のNode51件とJS/Swift構文、Code3独立レビューは成功したが、新診断分岐・SDK・Source7レビュー・Hosted・通常mainは未受入という候補作成時点の記録を保つ。App0.2.28（30）・TODO32行14完了、実機等の未完了を保つ。
 
 [文字サイズの実環境診断](../../records/2026-11-02/ios-dynamic-type-environment-probe.md)は、PR320 d0dの専用Dynamic実1件197.600秒・stride132.333が1.25倍超を満たさなかった失敗と、初回8workflowの4成功4失敗・Full25/26・Root回転の初回／retry2のpre-UI停止を保持する。DEBUGのUUID隔離suite・有効font入力・専用opt-in時だけroot／sheet／reader／tableと両列frameを有限回読むSource8候補で、元53assert・1.25倍／±1pt・位置／しおり・操作と再起動、720秒／strict1を保つ。r3独立レビューと実macOS schema89入力・Code4構文は成功したが、iOS SDK・実AX／通常Debug geometry・新phase／新head CIと原因解消・通常mainは未受入という作成時点のfreezeを保つ。App0.2.28（30）・TODO32行14完了と実機等の未完了を維持する。

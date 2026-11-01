@@ -425,7 +425,13 @@ struct LibraryView: View {
         .sheet(isPresented: $aboutPresented) { LibraryAboutView(snapshot: store.snapshot) }
         .sheet(isPresented: $readingRestorePresented) { ReadingRestoreCenter(store: store, isPresented: $readingRestorePresented) }
         #if DEBUG
-        .sheet(isPresented: $readerTestPresented) { ReaderTestLibrarySheet() }
+        .sheet(isPresented: $readerTestPresented) {
+            if let size = AILibraryApp.requestedUITestDynamicTypeSize() {
+                ReaderTestLibrarySheet().dynamicTypeSize(size)
+            } else {
+                ReaderTestLibrarySheet()
+            }
+        }
         #endif
         .fileImporter(isPresented: $importPresented, allowedContentTypes: [.folder]) { result in
             switch result {

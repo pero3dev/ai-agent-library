@@ -1,4 +1,282 @@
 {
+  "accepted_e5_and_maincc_adoption_20261101": {
+    "state": "SOURCE_E5_ACCEPTED_ORDINARY_MAIN_CC_ADOPTED",
+    "date_JST": "2026-11-01",
+    "source_head": "e5a952136ae8e8f7caf726f4242733eb4266181e",
+    "source_tree": "91b1b70a56ddbd518178f1d300ec1df20777647a",
+    "actual_parent": "cc268c4a76f09434f27bbc841e3b9ca776ea566e",
+    "actual_parent_tree": "91b1b70a56ddbd518178f1d300ec1df20777647a",
+    "main_adoption": {
+      "actual_main_SHA": "cc268c4a76f09434f27bbc841e3b9ca776ea566e",
+      "actual_parent": "88c9ac391459ead50cf5e28b25918f97ac9332cf",
+      "approved_source_head": "e5a952136ae8e8f7caf726f4242733eb4266181e",
+      "tree": "91b1b70a56ddbd518178f1d300ec1df20777647a",
+      "tracked": 2857,
+      "normal_squash": "ACTUAL ordinary protected squash, no admin/force/bypass",
+      "merged_at": "2026-11-01T14:25:11Z",
+      "fresh2857_same_tree_rebind": true,
+      "raw_squash_body_and_single_parent_checked": true,
+      "merge_proof_manifest_SHA256": "36e6bbd0101700583461039988877611c0a9525e931a400cd730e81c58dd1c2a",
+      "mainpush_at_freeze": "Known mainpush FullB UI-step failure; raw/cause pending; acceptance false; source-e5 not substituted"
+    },
+    "Native": {
+      "run_id": 41312606874,
+      "job_id": 124865953016,
+      "attempt": 1,
+      "unit": {
+        "total": 278,
+        "passed": 276,
+        "skipped": 2,
+        "failed": 0
+      },
+      "UI": {
+        "total": 8,
+        "unique": 8,
+        "passed": 8,
+        "failed": 0,
+        "seconds": 806.017,
+        "actual_cases": [
+          {
+            "class": "NativeReaderUITests",
+            "method": "testContentsBookmarkAndResumeAfterRelaunch",
+            "seconds": 52.675
+          },
+          {
+            "class": "NativeReaderUITests",
+            "method": "testHealthyLegacyHeadingPositionAndBookmarkPersistAfterNativeResumeAndRelaunch",
+            "seconds": 55.16
+          },
+          {
+            "class": "NativeReaderUITests",
+            "method": "testThreeArticlesHaveNativeBodyText",
+            "seconds": 72.465
+          },
+          {
+            "class": "ReadingRecoveryUITests",
+            "method": "testCancelKeepsRecoveryNoticeAfterRelaunch",
+            "seconds": 101.21
+          },
+          {
+            "class": "ReadingRecoveryUITests",
+            "method": "testConfirmedRecoveryPreservesCurrentPositionAndBookmarkAfterRelaunch",
+            "seconds": 109.69
+          },
+          {
+            "class": "ReadingRecoveryUITests",
+            "method": "testConfirmedRecoveryPreservesReadableAndCurrentBookmarksAfterRelaunch",
+            "seconds": 139.916
+          },
+          {
+            "class": "ReadingRecoveryUITests",
+            "method": "testExportFilePickerCancelKeepsHealthyPositionAndBookmarkAfterRelaunch",
+            "seconds": 180.538
+          },
+          {
+            "class": "ReadingRecoveryUITests",
+            "method": "testRestoreFilePickerCancelKeepsHealthyBookmarksAfterRelaunch",
+            "seconds": 94.364
+          }
+        ]
+      },
+      "export_leaf": {
+        "method": "testExportFilePickerCancelKeepsHealthyPositionAndBookmarkAfterRelaunch",
+        "seconds": 180.538,
+        "start_UTC": "2026-11-01T14:04:16.4044140Z",
+        "passed_UTC": "2026-11-01T14:07:16.9429680Z",
+        "export_taps": [
+          "2026-11-01T14:06:02.1076950Z     t =   105.70s Tap \"library-export-reading\" Button",
+          "2026-11-01T14:06:35.3119510Z     t =   138.90s Tap \"library-export-reading\" Button"
+        ],
+        "Browse_back_taps": [
+          "2026-11-01T14:06:16.1010440Z     t =   119.66s Tap \"ブラウズ\" Button",
+          "2026-11-01T14:06:44.5800500Z     t =   148.17s Tap \"ブラウズ\" Button"
+        ],
+        "actual_export_Cancel_taps": [
+          "2026-11-01T14:06:23.5373380Z     t =   127.13s Tap \"キャンセル\" Button",
+          "2026-11-01T14:06:53.4232010Z     t =   157.01s Tap \"キャンセル\" Button"
+        ],
+        "after_two_cancels": {
+          "terminate_UTC": "2026-11-01T14:06:58.4824720Z",
+          "launch_UTC": "2026-11-01T14:06:59.5255250Z",
+          "public_Resume_tap_UTC": "2026-11-01T14:07:10.0650980Z",
+          "bookmark_remove_and_noninitial_math_heading_frame_assertions": "passed as part of leaf"
+        },
+        "accepted_scope": "Two actual Move1 destination -> one Browse-back -> Move0 root Cancel cycles, filtered return, same-suite relaunch and public Resume",
+        "not_exercised_or_not_dumped": [
+          "attempt2 initial root-direct shape",
+          "independent full AX value dump",
+          "real provider write or final backup bytes"
+        ]
+      },
+      "Release": "success; actual representative3 JSON, fixture absent"
+    },
+    "FullA": {
+      "run_id": 41312606885,
+      "job_id": 124865953257,
+      "attempt": 1,
+      "unit": {
+        "total": 278,
+        "passed": 276,
+        "skipped": 2,
+        "failed": 0
+      },
+      "UI": {
+        "total": 18,
+        "unique": 18,
+        "passed": 18,
+        "failed": 0,
+        "seconds": 1068.665
+      },
+      "literal_common": {
+        "total": 1257,
+        "passed": 1242,
+        "skipped": 15,
+        "failed": 0
+      }
+    },
+    "FullB": {
+      "run_id": 41312606885,
+      "job_id": 124865953091,
+      "UI": {
+        "total": 8,
+        "unique": 8,
+        "passed": 8,
+        "failed": 0
+      },
+      "copy": {
+        "expected_bytes": 374,
+        "one_content_equality_guard_succeeded": true,
+        "success_marker_count": 1,
+        "expected_SHA256": "e29cb525957fb4bd72350927aa1cf47659da4aef9964ecbf0d43edb4dfe2cee8",
+        "actual_SHA256_artifact_receipt_directly_read": false,
+        "scope": "374 bytes, not374 cases; one marker, distinct from copy leaf pass"
+      },
+      "Release": {
+        "schema_version": 1,
+        "status": "passed",
+        "native_schema_version": 2,
+        "revision": "4b4511e679e7010d0461d6ba07b50917852609db8055b7c66c050a4748edba5a",
+        "articles": 199,
+        "audio": 1,
+        "verified_files": 625,
+        "verified_bytes": 36958875,
+        "test_content_absent": true
+      }
+    },
+    "strict26": {
+      "actual_A18_B8_unique_disjoint_count": 26,
+      "Root_observer_final_seal": "2e7b1d4a41060364f6432c0005bb12544c905204e85f852567ee3e4584aada6f",
+      "result_SHA256": "946e371d27fac8038b7bb22418eef3cd5770d215b1b7256eeae2374a4ebddaed",
+      "status": "ACCEPTED exact source e5, fixed original26 console set and strict steps"
+    },
+    "Runtime26": {
+      "actual_unique_passed_UI": 3,
+      "scope": "12 actual stage outcomes success; generated acceptance/cleanup JSON not downloaded; exact cleanup branch not echoed"
+    },
+    "Recovery": {
+      "actual_success_gates": 13,
+      "console_leaf_rows": 0,
+      "scope": "ControlledF/R explicit phase install, sentinel/upgrade preservation, strict-one-leaf audit andcleanup gates succeeded; individualcaptured leaf files notdownloaded/counted. Separate restoredinstall, notsameprocessrepairedretry orreadingmigration."
+    },
+    "required11_and_fresh_policy2": {
+      "required11_source_success_count": 11,
+      "Ready_final_epoch": "2026-11-01T14:21:09Z",
+      "fresh_post_Ready_policy_runs": [
+        {
+          "id": 41315770376,
+          "name": "Harness policy PR #321",
+          "head_sha": "e5a952136ae8e8f7caf726f4242733eb4266181e",
+          "created_at": "2026-11-01T14:21:12Z",
+          "run_started_at": "2026-11-01T14:21:12Z",
+          "conclusion": "success"
+        },
+        {
+          "id": 41315770457,
+          "name": "Freshness policy PR #321",
+          "head_sha": "e5a952136ae8e8f7caf726f4242733eb4266181e",
+          "created_at": "2026-11-01T14:21:12Z",
+          "run_started_at": "2026-11-01T14:21:12Z",
+          "conclusion": "success"
+        }
+      ],
+      "before_normal_merge": true
+    },
+    "diagnostic": {
+      "e5_failure_collector_step": "skipped because original UI passed, reported by Root",
+      "new_Hosted_collection_count": 0,
+      "past_actual_Hosted_collections_677_and_a6": 2,
+      "third_collection_claim": false,
+      "code_workflow4_files_changed": false
+    },
+    "source_raw_pins": {
+      "Native": {
+        "file": "job-124865953016.log",
+        "bytes": 1453280,
+        "SHA256": "dabad11a34133df03186b6e2e7bdc3db2a62c6f73245c30e822aee0c3df441f4"
+      },
+      "FullA": {
+        "file": "job-124865953257.log",
+        "bytes": 2202477,
+        "SHA256": "566b3c5cd7501de56b33a471b5ea9b700c691f10fcf967b65c9aa9a5e1886c84"
+      }
+    },
+    "classification_data_pins_unsealed_observer_when_read": {
+      "FullB-attempt1-classification.json": {
+        "bytes": 5693,
+        "SHA256": "880411a69203593faf52072d33a58d2ebb827ddfdb3a2d29fafd46ffb2c6a083"
+      },
+      "Runtime26-attempt1-classification.json": {
+        "bytes": 4577,
+        "SHA256": "32b556070cb913713465ce48ccc5e393ef3cb72cb3bacac65458a85446e5023a"
+      },
+      "Recovery-attempt1-classification.json": {
+        "bytes": 1942,
+        "SHA256": "209e3a8b84b287d5becb84145eb4de912f57145543d9488fd25985a1d46eefb3"
+      }
+    },
+    "history": "All old JSON values and Markdown prefixes retained, including both prior actual Hosted failure collections and all earlier failure stages",
+    "uncompleted": [
+      "physical iPhone",
+      "provider persistence and backup raw bytes",
+      "VoiceOver",
+      "IOS22 overall",
+      "IOS25 overall"
+    ],
+    "App": "0.2.28(30) unchanged",
+    "TODO": {
+      "total": 32,
+      "complete": 14,
+      "IOS22_complete": false,
+      "IOS25_complete": false
+    },
+    "document_author": {
+      "new_Git_API_Node_SDK_download_tests": false,
+      "scope": "Readonly Git fresh full-map/squash/source binding plus Python inverse/protection only; no new runtime or external actions"
+    },
+    "main_proof_data_pins": {
+      "official_after_merge": {
+        "file": "browse-root-after-merge-official.json",
+        "bytes": 24852,
+        "SHA256": "b08e4c398717aba2efff4c9fcd4655568b121fdb646c545463f90941ad2624f8"
+      },
+      "final_merge_lease": {
+        "file": "browse-root-final-merge-lease.json",
+        "bytes": 24314,
+        "SHA256": "d040fe0767642aa8bb158668a3945738376faffa433f11d2f153851e5653d062"
+      },
+      "policy_runs": {
+        "browse-root-ready-policy-0-run-response.json": {
+          "bytes": 30838,
+          "SHA256": "3fca39c11a6691ed1699740ab5089dfb6c743ad9027b6c2d1a607a7eae7ded18"
+        },
+        "browse-root-ready-policy-1-run-response.json": {
+          "bytes": 30850,
+          "SHA256": "8a8291e959f52a99782c0b20c871a0477f41094961a7df113454df1d1e1138b2"
+        }
+      },
+      "managed_adopt_result_SHA256": "6c8c02dba48200f1ee7d05add33cc710742d21976f1fc9fe6142a6acd6c29574"
+    }
+  },
   "followup_a6_observed_browse_root": {
     "state": "PRIVATE_BROWSE_ROOT_WITH_TEST_LOCAL_PROVENANCE_UNEXECUTED",
     "date_JST": "2026-11-01",

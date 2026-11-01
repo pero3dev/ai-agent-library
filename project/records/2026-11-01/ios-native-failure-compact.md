@@ -87,3 +87,13 @@ compact artifact `13084598569` のZIPは150,245 byte・公式SHA256 `f6d7ce5b2c5
 失敗時contextは `destination-action-count`、directBarCount1・moveCount0・cancelCount1・browseBackCount0を記録した。ここでCancel1は一致要素数であり、取消操作を1回実行した意味ではない。この書き出しcaseのCancel実tapは0回で、取消1回目／2回目・取消後再起動・位置／しおりは未受入である。後続Restore caseのCancelを加算せず、画面不存在や製品不具合の原因を識別失敗から断定しない。NativeのRelease監査はUI失敗後skipのまま保つ。
 
 診断Code／workflow4ファイルは変更・複製せず、上限・結合条件・元UIの失敗を維持する。旧677収録と全過去履歴は残し、今回のDoc2／index診断段落案だけをRootの後続7ファイル最終化へ渡す。他のHosted対照・FullA／Bの状態同期・新UI修正は別作業であり、この追記では受入判定を加えない。App0.2.28（30）・TODO32行／14完了・IOS-25／15全体、実機・provider書込み・最終backup bytesは未完了のままである。文書作成者によるGit・API・download・Node・SDK・新実試験は0で、raw／添付／ZIPの複製も0とする。
+
+## e5の元UI成功・収録skipと通常squash mainCC採用
+
+2026-11-01追記。head `e5a95213`のNative初回は単体278件中276成功・2skip・失敗0、UI一意8件が全成功し、報告806.017秒だった。書き出し取消caseも180.538秒で実export2回・実Browse-back2回・実Cancel2回と、同suite再起動後の公開Resume・しおり・非先頭数式位置を通過した。この元UIの成功を受けてfailure-only collectorはskipとなった。skipを収録失敗とも第3のHosted collectedとも数えず、677とa6の実収録2回、旧37／43制御試験と9310保存データ再生を、それぞれの履歴として全て保持する。
+
+今回確認したのは現e5の実Simulator caseの通過であり、2回目のroot直開き分岐、独立full AX value dump、実provider書込みや最終backup bytes、実機の受入ではない。Native Release成功とFullBの199記事／音声1／625ファイル／fixture不在のRelease監査は区画を分ける。FullA18とFullB8の一意・非重複26、1257件中1242成功・15skipの完全共通、374-byteの一内容equalityと成功marker1回は保存raw／Root報告から記録するが、Root observerの最終strict26封印を照合し、通常squash後の実mainCCとe5の全2857mode/blob・同treeをfresh再確認した。
+
+PR #321は実main `cc268c4a76f09434f27bbc841e3b9ca776ea566e` へ通常squashされ、parent main88・同一tree `91b1b70a56ddbd518178f1d300ec1df20777647a` とactual raw本文を照合した。Doc6はこのactual parentへ再結合した文書候補であり、新main pushのCIをe5の結果で代用しない。診断Code／workflow4件、既存raw／画像／ZIP、Core/Fallback4記録への変更・複製は0。今回の文書作者によるNode・SDK・新実試験・download・Git/API操作も0である。App0.2.28（30）・TODO32行14完了、IOS-22／25全体・実機・provider・VoiceOver等の未完了を維持する。
+
+Ready最終本文epochは2026-11-01T14:21:09Z、fresh policy2は同14:21:12Zに作成され、14:21:15Z／14:21:17Z以降に開始して成功したことを保存runへ照合した。通常mergeは14:25:11Zであり、古い本文epochのpolicyを代用しない。mainCCの新pushは、この追補のfreeze時点でFullBのUIstep失敗がRootから報告され、raw待ち・原因未確定で未受入である。製品やseedの問題とは断定せず、source-e5の成功と区別する。Rootの通常squash proof manifest SHA256は `36e6bbd0101700583461039988877611c0a9525e931a400cd730e81c58dd1c2a`、source-e5最終observer result SHA256は `946e371d27fac8038b7bb22418eef3cd5770d215b1b7256eeae2374a4ebddaed` である。

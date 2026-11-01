@@ -309,6 +309,9 @@ struct LibraryView: View {
                             Text("全\(store.listedArticles.count)記事")
                                 .font(.caption).foregroundStyle(.secondary)
                                 .accessibilityIdentifier("library-article-count")
+                                #if DEBUG
+                                .modifier(UITestDynamicTypeProbeValue(stage: store.isTestLibrary ? "fixture" : "root"))
+                                #endif
                         }
                     }
                 } footer: {
@@ -551,6 +554,7 @@ struct LibraryView: View {
 
 #if DEBUG
 private struct ReaderTestLibrarySheet: View {
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @State private var store: LibraryStore?
     @State private var didPrepare = false
     @Environment(\.dismiss) private var dismiss
@@ -559,6 +563,8 @@ private struct ReaderTestLibrarySheet: View {
         Group {
             if let store {
                 LibraryView(store: store)
+                    .environment(\.uiTestDynamicTypeFixtureSize,
+                        UITestDynamicTypeProbe.requestedMode == nil ? nil : UITestDynamicTypeProbe.name(dynamicTypeSize))
             } else {
                 NavigationStack {
                     Group {

@@ -1,0 +1,33 @@
+# 文字サイズの実環境診断
+
+2026-11-02の提出候補を作成時点で凍結した記録である。公開PR #320の実head `d0d0d89e54b0b968a67df3e53d9a17f91aff1dd0`（tree `e985fcc6ff67e2b67faae0e5740063aa5e54accf`・2,870ファイル）へ、診断コード4本・この記録2本・索引2本を1つの通常追加commitとして載せる。実mainはda820であり、これから作るhead・commit・新CIやmain統合はまだ存在しない。
+
+## 元の失敗と診断の目的
+
+d0dの初回は8workflow中4成功・4失敗、固定Full26件は25成功・1失敗だった。[Dedicated Dynamicの初回](https://github.com/pero3dev/ai-agent-library/actions/runs/41342224652)は実1ケースが197.600秒で失敗した。最初の失敗は`ReaderReflowUITests.swift:347`で、同列R24/R25の間隔132.33333333333303が保存時と同じで、要求する165.4166666666663超（1.25倍超）を満たさなかった。A5での保存位置・witness確認後の失敗であり、720秒予算のtimeoutではない。標準文字への復帰とstrict1の成功には到達していない。
+
+Rootの回転専用試験も初回と条件不変の1回の再試行（attempt2）がUI前のETIMEDOUTで止まり、実UIケースは0だった。元Source・Rootの失敗履歴と過去の作成時点の未確認記述を保持し、過去版の回転成功を今回の成功へ読み替えない。
+
+入力がrootに届いたか、sheetへ伝わったか、tableへ届いて幅や折返しへ反映されたかを分ける情報が不足している。原因を確定せず、元の厳密なassertを保って実値を観測する。元artifactは公式digestと一致した132,164,652BのActions artifact（ID 13098207999、SHA-256 `36bff1af1cce0b56506abe05ac18fd329ac6930d8583d190726c0b1a7be26914`）として保存済みで、この単位では再取得や追跡ファイルへの複製を行わない。
+
+## 限定した観測と保持する条件
+
+DEBUG・canonical UUIDの隔離suite・有効な標準／accessibility5入力・新しい専用probe opt-inの4条件をすべて満たす場合だけ、既存AX要素のvalueへ診断値を載せる。rootの実文字サイズ、fixtureの内側と受け取ったsheetの実文字サイズ、readerのbodySizeとfontScale、tableの実文字サイズ・body metric・受け取ったscale・列幅2本・blockIDを区別する。R24/R25の両列frameも各phase1回だけ読む。
+
+carrierは512B、各到達phaseのconsole JSONは1件・4KiB以内である。追加のscalar/frame AX getterは各phase最大16回で、画面上の操作項目・画像・snapshot・待機・gestureは増やさない。root／fixtureは元のreadiness後、reader／tableは元のwitness後の逐次標本であり、同時点・期限内成立・glyph表示を証明しない。追加読取とenvironment/valueの配線は、AX公開や観測タイミングへ影響し得る。回数と出力容量の上限は、frameworkの待機時間や中間allocationの保証ではない。
+
+元の53assert行・2caseと全待機、操作数・再起動を保持する。拡大1.25倍超・標準復帰±1pt・offset・可視性・しおり・「続きを読む」後の補正gesture0、workflowの720秒とstrict1は変更しない。現在のstrict1はprobe JSONを監査しないため、Rootが実stdoutを別途読み、完全な型付きrecordと実条件を照合する必要がある。carrierがないことを観測成功の根拠にしない。
+
+r2の独立レビューではconsumerが部分的なJSONもobservedにするP2が1件あった。元候補と指摘票を変更せず、r3でstage別の完全key集合・既知request/actual・必要な有限正数・列幅2本・blockIDを検査し、Bool数値や欠落・型違い等をunavailableへ寄せた。既知のrequest/actual不一致は診断情報として保持し、runnerRequestとtargetBlockIDを別に記録する。
+
+## 検証済み範囲と未受入
+
+Code4 r3の独立静的レビューはP1/P2=0。Rootは最終sourceからそのまま抽出したFoundation/CoreFoundationの実enumをSwift 6.0.3・MacOSX15.2 SDK・明示target arm64 macOS14でコンパイルし、実89入力（valid19・invalid70）がすべて期待と一致した。Code4全入力のfrontend構文もexit0だった。iOS SDK・XCTest・App型検査・実UIの成功ではない。SHAと実行範囲は同名JSONに残す。
+
+このSource8ではCode4のafter bytesをr3と完全一致させ、beforeをd0dの実blob/modeへ結び、全非所有tuple・索引の元全文・TODO表32行14完了を保持する。通常Debugは4条件なしで新valueをoverrideせず、App3のDEBUG=false source投影は外側空白の正規化後に変更前と一致する（Appだけ末尾空行が加わる）。ただし実A11y公開・通常Debugのgeometry/copy・新phase観測・iOS SDK・新CIは未受入で、完全無影響や根本原因解消とは主張しない。App0.2.28（30）・PBX・読書保存形式とIOS-11/25等の未完了を保つ。
+
+## 所有と統合の区切り
+
+目的は文字サイズ伝播と折返しのどこで差が消えたかを分ける観測である。所有はApp・LibraryView・NativeReaderView・ReaderReflowUITestsの4本、記録2本、索引2本。ユーザーの優先度順の自律作業・小単位commit・通常PR/main統合の依頼を許可根拠とし、実機確認は未完了としてスキップする。この準備の書込みは私有候補だけで、他者の編集と別PR #325のSource7を混ぜない。
+
+最終Source8の独立レビューと形式検査後、期待する親d0dの通常1親追加commitを作り、force=falseのfast-forwardで既存Draft PR #320を更新して、新head初回CIへ進む。元の失敗はそのまま残す。全必要・対象別CIと最終Ready後のfresh policyが成功してから通常保護でmainへ統合し、新mainのpushは別に検証する。公開PR headまたはactual mainが変わった場合は古い結合を使わず、全tuple・索引と影響内容をfreshに再結合する。実機・VoiceOver・実設定／live文字変更、実原因と他TODO全体は未完了である。

@@ -1,4 +1,58 @@
 import XCTest
+import CoreFoundation
+
+
+/// Typed diagnostic records remain observations even when known request/actual values disagree.
+/// Missing fields, unknown names, booleans posing as numbers and wrong stage shapes are not observations.
+private enum DynamicTypeProbeSchema {
+    static let requests: Set<String> = ["default", "accessibility5"]
+    static let actualSizes: Set<String> = ["xSmall", "small", "medium", "large", "xLarge", "xxLarge", "xxxLarge",
+        "accessibility1", "accessibility2", "accessibility3", "accessibility4", "accessibility5"]
+    private static let common: Set<String> = ["schema", "status", "stage", "request", "actual"]
+
+    private static func number(_ value: Any?) -> Double? {
+        guard let number = value as? NSNumber,
+              CFGetTypeID(number) != CFBooleanGetTypeID() else { return nil }
+        let value = number.doubleValue
+        return value.isFinite ? value : nil
+    }
+
+    private static func positive(_ value: Any?) -> Bool {
+        guard let value = number(value) else { return false }
+        return value > 0
+    }
+
+    static func valid(_ record: [String: Any], stage: String) -> Bool {
+        let required: Set<String>
+        switch stage {
+        case "root": required = common
+        case "fixture": required = common.union(["sheetActual"])
+        case "reader": required = common.union(["bodySize", "fontScale"])
+        case "table": required = common.union(["bodySize", "fontScale", "widths", "blockID"])
+        default: return false
+        }
+        guard Set(record.keys) == required, number(record["schema"]) == 1,
+              record["status"] as? String == "observed", record["stage"] as? String == stage,
+              let request = record["request"] as? String, requests.contains(request),
+              let actual = record["actual"] as? String, actualSizes.contains(actual) else { return false }
+        switch stage {
+        case "root": return true
+        case "fixture":
+            guard let incoming = record["sheetActual"] as? String else { return false }
+            return actualSizes.contains(incoming)
+        case "reader":
+            return positive(record["bodySize"]) && positive(record["fontScale"])
+        case "table":
+            guard positive(record["bodySize"]), positive(record["fontScale"]),
+                  let widths = record["widths"] as? [Any], widths.count == 2,
+                  widths.allSatisfy({ positive($0) }),
+                  let blockID = record["blockID"] as? String,
+                  !blockID.isEmpty, blockID.utf8.count <= 128 else { return false }
+            return true
+        default: return false
+        }
+    }
+}
 
 /// Isolated default-text rotation and app-local font-size relaunch regressions.
 /// These are not live system Settings, glyph-position, content-revision,
@@ -78,8 +132,9 @@ final class ReaderReflowUITests: NativeReaderUITestCase {
         XCTAssertEqual(search.value as? String, query)
     }
 
-    private func openFixtureLibrary() throws {
+    private func openFixtureLibrary(dynamicTypeProbe: ((String) -> Void)? = nil) throws {
         XCTAssertTrue(app.staticTexts["library-article-count"].waitForExistence(timeout: 45))
+        dynamicTypeProbe?("root")
         // The filtered public Button presents the sheet; the unfiltered toolbar
         // Menu does not have the More Actions navigation stack used below.
         try setForegroundArticleQuery("Transformer")
@@ -104,6 +159,7 @@ final class ReaderReflowUITests: NativeReaderUITestCase {
         let count = try singleForegroundControl(app.staticTexts.matching(identifier: "library-article-count"),
                                                name: "fixture article count")
         XCTAssertEqual(count.label, "全1記事")
+        dynamicTypeProbe?("fixture")
     }
 
     private func soleCell(blockID: String, row: Int) -> XCUIElement {
@@ -248,6 +304,56 @@ final class ReaderReflowUITests: NativeReaderUITestCase {
         capture("Reflow-R25-portrait-after-live-return")
     }
 
+
+    /// Diagnostics only. No wait, gesture, screenshot, assertion or fallback navigation.
+    /// Each phase adds at most 16 scalar/frame AX getters, sampled sequentially.
+    private func dynamicTypeProbeValue(_ query: XCUIElementQuery, stage: String) -> [String: Any] {
+        let count = query.count
+        guard count == 1 else { return ["status": "not-unique", "matches": count] }
+        guard let value = query.element(boundBy: 0).value as? String, value.utf8.count <= 512,
+              let data = value.data(using: .utf8),
+              let record = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+              DynamicTypeProbeSchema.valid(record, stage: stage) else { return ["status": "unavailable"] }
+        return record
+    }
+
+    private func recordDynamicTypeProbe(phase: String, librarySamples: [String: Any], blockID: String,
+                                       offset: CGFloat, rowHeight: CGFloat, stride: CGFloat) {
+        var samples = librarySamples
+        samples["reader"] = dynamicTypeProbeValue(app.scrollViews.matching(identifier: "native-reader"), stage: "reader")
+        samples["table"] = dynamicTypeProbeValue(app.descendants(matching: .any).matching(
+            identifier: "native-table-cell-\(blockID)-25-1"), stage: "table")
+        var frames: [[String: Any]] = []
+        for row in [24, 25] {
+            for column in [1, 2] {
+                let query = app.descendants(matching: .any).matching(
+                    identifier: "native-table-cell-\(blockID)-\(row)-\(column)")
+                let count = query.count
+                var record: [String: Any] = ["row": row, "column": column, "matches": count]
+                if count == 1 {
+                    let frame = query.element(boundBy: 0).frame
+                    if !frame.isNull, !frame.isInfinite, !frame.isEmpty,
+                       [frame.minX, frame.minY, frame.width, frame.height].allSatisfy(\.isFinite) {
+                        record["status"] = "observed"
+                        record["rect"] = [frame.minX, frame.minY, frame.width, frame.height].map(Double.init)
+                    } else { record["status"] = "invalid-frame" }
+                } else { record["status"] = "not-unique" }
+                frames.append(record)
+            }
+        }
+        let record: [String: Any] = ["schema": 1, "phase": phase,
+            "runnerRequest": app.launchEnvironment["AILIBRARY_UI_TEST_DYNAMIC_TYPE"] ?? "missing",
+            "targetBlockID": blockID,
+            "sampling": "sequential-across-library-and-reader",
+            "librarySampling": "after-ready-before-navigation", "readerSampling": "after-existing-row-witness", "environments": samples, "frames": frames,
+            "offset": Double(offset), "rowHeight": Double(rowHeight), "stride": Double(stride)]
+        if let data = try? JSONSerialization.data(withJSONObject: record, options: [.sortedKeys]), data.count <= 4096 {
+            print("AILibraryDynamicTypeEnvironment " + String(decoding: data, as: UTF8.self))
+        } else {
+            print(#"AILibraryDynamicTypeEnvironment {"schema":1,"status":"unavailable","reason":"encoding-or-4096-byte-limit"}"#)
+        }
+    }
+
     /// App-local DEBUG font overrides exercise saved-position relaunches, not
     /// live system Settings, glyph accuracy, VoiceOver or physical-device use.
     func testFixtureMeasuredRowAndBookmarkSurviveDynamicTypeRelaunches() throws {
@@ -259,13 +365,19 @@ final class ReaderReflowUITests: NativeReaderUITestCase {
                           userInfo: [NSLocalizedDescriptionKey: "A canonical isolated UUID suite is required"])
         }
         app.terminate()
+        app.launchEnvironment["AILIBRARY_UI_TEST_DYNAMIC_TYPE_PROBE"] = "1"
+        defer { app.launchEnvironment.removeValue(forKey: "AILIBRARY_UI_TEST_DYNAMIC_TYPE_PROBE") }
         app.launchEnvironment["AILIBRARY_UI_TEST_DYNAMIC_TYPE"] = "default"
         app.launch()
         requireLayout(portrait: true)
         let ownedSuite = app.launchEnvironment["AILIBRARY_UI_TEST_SUITE"]
         XCTAssertNotNil(ownedSuite)
         XCTAssertTrue(ownedSuite?.hasPrefix("ailibrary-uitest-") == true)
-        try openFixtureLibrary()
+        var defaultProbeSamples: [String: Any] = [:]
+        try openFixtureLibrary(dynamicTypeProbe: { stage in
+            defaultProbeSamples[stage] = self.dynamicTypeProbeValue(
+                self.app.staticTexts.matching(identifier: "library-article-count"), stage: stage)
+        })
         let article = try singleForegroundControl(app.descendants(matching: .any).matching(
             identifier: "library-article-test-fixtures/native-reader"), name: "fixture article")
         article.tap()
@@ -312,6 +424,8 @@ final class ReaderReflowUITests: NativeReaderUITestCase {
         start.press(forDuration: 0.05, thenDragTo: end, withVelocity: .slow, thenHoldForDuration: 0.2)
         let savedWitness = requireRowWitness(blockID: blockID)
         let savedStride = try measuredRowStride(blockID: blockID)
+        recordDynamicTypeProbe(phase: "default-before-departure", librarySamples: defaultProbeSamples,
+            blockID: blockID, offset: savedWitness.offset, rowHeight: savedWitness.rowHeight, stride: savedStride)
         capture("DynamicType-R25-default-before-departure")
 
         let back = fixtureBar.buttons.element(boundBy: 0)
@@ -330,7 +444,11 @@ final class ReaderReflowUITests: NativeReaderUITestCase {
             XCTAssertEqual(app.launchEnvironment["AILIBRARY_UI_TEST_SUITE"], ownedSuite)
             XCTAssertEqual(app.launchEnvironment["AILIBRARY_UI_TEST_SUITE"], requestedSuite)
             requireLayout(portrait: true)
-            try openFixtureLibrary()
+            var modeProbeSamples: [String: Any] = [:]
+            try openFixtureLibrary(dynamicTypeProbe: { stage in
+                modeProbeSamples[stage] = self.dynamicTypeProbeValue(
+                    self.app.staticTexts.matching(identifier: "library-article-count"), stage: stage)
+            })
             let resume = try singleForegroundControl(app.buttons.matching(identifier: "library-resume"),
                                                     name: "fixture Continue button")
             resume.tap()
@@ -343,6 +461,8 @@ final class ReaderReflowUITests: NativeReaderUITestCase {
                                     max(witness.rowHeight, savedWitness.rowHeight),
                                     "The measured R25 must restore within one row height of its saved top offset")
             let currentStride = try measuredRowStride(blockID: blockID)
+            recordDynamicTypeProbe(phase: mode + "-after-relaunch", librarySamples: modeProbeSamples,
+                blockID: blockID, offset: witness.offset, rowHeight: witness.rowHeight, stride: currentStride)
             if mode == "accessibility5" {
                 XCTAssertGreaterThan(currentStride, savedStride * 1.25,
                                      "The measured row spacing must actually grow; a requested font mode alone is not proof")

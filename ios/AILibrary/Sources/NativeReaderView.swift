@@ -530,6 +530,10 @@ struct NativeReaderView: View {
                 }
                 .coordinateSpace(name: "native-article-scroll")
                 .accessibilityIdentifier("native-reader")
+                #if DEBUG
+                .modifier(UITestDynamicTypeProbeValue(stage: "reader", bodySize: bodySize,
+                                                      fontScale: min(4, max(0.8, bodySize / 17))))
+                #endif
                 .task(id: layout) { await restore(using: proxy, layout: layout) }
                 .onChange(of: headingRequestID) { _, _ in
                     if let requestedHeading { jump(to: requestedHeading, using: proxy) }
@@ -1013,6 +1017,9 @@ private struct NativeCodeView: View {
 }
 
 private struct NativeTableView: View {
+    #if DEBUG
+    @ScaledMetric(relativeTo: .body) private var probeBodySize: CGFloat = 17
+    #endif
     let table: NativeTable
     let snapshot: ContentSnapshot
     let fontScale: CGFloat
@@ -1066,11 +1073,23 @@ private struct NativeTableView: View {
             .overlay(Rectangle().stroke(Color.secondary.opacity(0.25), lineWidth: 0.5))
             .accessibilityCustomContent("表の位置", Text(cellPosition(column: column, row: row)), importance: .high)
             .accessibilityIdentifier("native-table-cell-\(blockID)-\(row ?? 0)-\(column + 1)")
+        #if DEBUG
+        if row == 25, column == 0, table.rows.count == 40, table.header.count == 2,
+           UITestDynamicTypeProbe.requestedMode != nil {
+            content.modifier(UITestDynamicTypeProbeValue(stage: "table", bodySize: probeBodySize,
+                fontScale: fontScale, widths: columnWidths, blockID: blockID))
+        } else if row == nil, column == 0 {
+            content.accessibilityFocused(focusedBlock, equals: blockID)
+        } else {
+            content
+        }
+        #else
         if row == nil, column == 0 {
             content.accessibilityFocused(focusedBlock, equals: blockID)
         } else {
             content
         }
+        #endif
     }
 
     private func cellPosition(column: Int, row: Int?) -> String {

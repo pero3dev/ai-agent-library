@@ -391,15 +391,25 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
     private func currentReadingExportPicker(_ expected: ReadingExportPicker, after previousContexts: Set<String>,
                                            deadline: TimeInterval, attempt: Int) throws -> ReadingExportPicker {
         guard ProcessInfo.processInfo.systemUptime < deadline else {
-            throw readingExportFailure("The shared destination-picker deadline expired before the public action", attempt: attempt)
+            throw readingExportFailure("The shared destination-picker deadline expired before the public action [guard=deadline-before]", attempt: attempt)
         }
         // Recheck every context/Move/filename/action witness immediately before the sole scoped tap.
         let contexts = newReadingExportPickers(after: previousContexts, allowsBrowseRoot: expected.isBrowseRoot)
-        guard contexts.count == 1, contexts[0].contextKey == expected.contextKey,
-              contexts[0].requiresBrowseBack == expected.requiresBrowseBack,
-              contexts[0].isBrowseRoot == expected.isBrowseRoot,
-              ProcessInfo.processInfo.systemUptime < deadline else {
-            throw readingExportFailure("The identified destination-picker context changed or expired before its public action", attempt: attempt)
+        // Preserve the original short circuit order; report only its first failed condition.
+        guard contexts.count == 1 else {
+            throw readingExportFailure("The identified destination-picker context changed or expired before its public action [guard=count]", attempt: attempt)
+        }
+        guard contexts[0].contextKey == expected.contextKey else {
+            throw readingExportFailure("The identified destination-picker context changed or expired before its public action [guard=key]", attempt: attempt)
+        }
+        guard contexts[0].requiresBrowseBack == expected.requiresBrowseBack else {
+            throw readingExportFailure("The identified destination-picker context changed or expired before its public action [guard=browse-shape-requires-back]", attempt: attempt)
+        }
+        guard contexts[0].isBrowseRoot == expected.isBrowseRoot else {
+            throw readingExportFailure("The identified destination-picker context changed or expired before its public action [guard=browse-shape-root]", attempt: attempt)
+        }
+        guard ProcessInfo.processInfo.systemUptime < deadline else {
+            throw readingExportFailure("The identified destination-picker context changed or expired before its public action [guard=deadline-after]", attempt: attempt)
         }
         return contexts[0]
     }

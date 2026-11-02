@@ -1,5 +1,11 @@
 # iOS完成版に向けたTODO
 
+[Native所有Simulatorの実main400結合](../../records/2026-11-02/ios-native-owned-simulator.md)は、PR326の通常統合後の実main400/tree1630・追跡2885件へCode4を結び、実差分8・新規4のSource8を私有準備した記録です。workflow/helper/unit3とguard診断/記録/索引5を分け、コード全byteとr1/r2・実索引全文、App0.2.28（30）/TODO32行14完了を保持します。b8d6成功3失敗と別retry2、f13部分停止、e6の9系統と制御1記事130.456秒の成功を別sourceの履歴として追補し、固定時点で進行中だったmain400 pushや新Native/OS効果へ転用しません。最終Source8 IR・共通/形式・必要SDK/CI・通常PR/mainと実機等は未完了です。
+
+以下のr2索引文は未結合準備時点の履歴です。
+
+[Native所有Simulatorの未結合Code4 r2](../../records/2026-11-02/ios-native-owned-simulator.md)は、helper/unitをcold Code2へ更新し、WF c16bとguard診断0114をbyte保持する。prepare5固定readonlyの各60秒残量clip/厳密timeout1回retryと採用precreate label・raw/canonical SHAのcleanup結合を加え、共有210秒/cleanup90秒/read15秒retry0/mutatorretry0/step4分2分を保つ。保存fake80（旧34再実行＋新46）全成功と旧34歴史を分け、2MiB/64entryはinjected拒否で実diskStore未実行と明示する。main057 Native2失敗、efb3失敗/2bc2失敗/374 Revision1失敗とb8d CI9進行snapshotを分離し、通常Menu/restore AXや新実OS/SDK/Hosted効果は未受入。actualparent・Source8 owned/newfiles/tree/countはROOT_REQUIREDで、Root実main後にfresh結合する。App0.2.28（30）/TODO32行14完了・Original110/Content626を保持する。
+
 [改訂回帰のcontainer再取得監査](../../records/2026-11-02/ios-reader-valid-revision-ui.md)は、PR326 b8dの実UI1件87.796秒・全5phase成功と、その後のdata container絶対パス比較失敗を分けて保持する。postfilegate/strict1は未実行でworkflow未受入。現在canonical root・同一owner/seed SHA・同じA世代全内容と正確なB選択を検証するSource7を準備し、Node24境界14件と構文を確認した。旧失敗/初回試験記述失敗と通常Menu AX未解決、Reader/製品/既存期限/全assert/Full26・旧全文/全key/index・App0.2.28（30）/TODO32行14完了を保つ。新CI・postfilegate/strict1・通常mainと実機等は未受入である。
 
 [改訂回帰のfiltered Listセットアップ](../../records/2026-11-02/ios-reader-valid-revision-ui.md)は、PR326 374の実UI1失敗55.789秒とA-before-save一値を保持する。scoped root Moreも既存15秒でusable0のため、同じ記事の公開タイトル検索・exact summaryを持つ一意collection内More・actions sheetから同じ同梱切替へ進む候補を準備する。通常toolbar Menu AXは未解決TODOのままで修復/coverageを受入せず、切替後のfilter解除とnormal Resumeを確認する。firstResume以降の5phase/原全assert/許容差、旧2case53assert/15getter/期限・製品・旧全文/全key/index・App0.2.28（30）/TODO32行14完了を保つ。新UI/CIは未受入である。

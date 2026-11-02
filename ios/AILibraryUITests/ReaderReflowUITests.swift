@@ -54,9 +54,9 @@ private enum DynamicTypeProbeSchema {
     }
 }
 
-/// Isolated default-text rotation and app-local font-size relaunch regressions.
-/// These are not live system Settings, glyph-position, content-revision,
-/// VoiceOver or physical-device acceptance tests.
+/// Isolated fixture reflow cases plus one controlled normal-package revision case.
+/// These are not live system Settings, glyph-position, VoiceOver
+/// or physical-device acceptance tests.
 final class ReaderReflowUITests: NativeReaderUITestCase {
     private var startingOrientation = XCUIDevice.shared.orientation
 
@@ -494,5 +494,189 @@ final class ReaderReflowUITests: NativeReaderUITestCase {
                 app.terminate()
             }
         }
+    }
+
+
+    // Separate normal-contract package scenario. The two fixture cases and
+    // their diagnostic schema above retain their original assertions/actions.
+    private func revisionParagraphWitness(_ blockID: String, phase: String)
+        throws -> (offset: CGFloat, width: CGFloat, height: CGFloat, fraction: CGFloat) {
+        let reader = app.scrollViews["native-reader"]
+        let query = reader.staticTexts.matching(identifier: "native-text-" + blockID)
+        var sampled: (offset: CGFloat, width: CGFloat, height: CGFloat, fraction: CGFloat)?
+        let arrived = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            guard query.count == 1 else { return false }
+            let paragraph = query.element(boundBy: 0)
+            let rect = paragraph.frame
+            let visible = reader.frame.intersection(self.app.frame)
+            let top = max(visible.minY, self.app.navigationBars["保存位置の改訂回帰"].frame.maxY)
+            guard !rect.isNull, !rect.isInfinite, !rect.isEmpty,
+                  [rect.minY, rect.width, rect.height, top, visible.maxY].allSatisfy(\.isFinite),
+                  rect.width > 0, rect.height > 0,
+                  paragraph.label.hasPrefix("REVISION-PARAGRAPH-WITNESS "),
+                  rect.minY <= top + 1, rect.maxY > top + 24,
+                  rect.intersects(visible) else { return false }
+            let offset = rect.minY - top
+            sampled = (offset, rect.width, rect.height, min(1, max(0, -offset / rect.height)))
+            return true
+        }, object: nil)
+        XCTAssertEqual(XCTWaiter.wait(for: [arrived], timeout: 15), .completed,
+                       "First arrival must expose the unique target paragraph at the reading line: " + phase)
+        guard let witness = sampled else {
+            throw NSError(domain: "ReaderReflowUITests", code: 2,
+                          userInfo: [NSLocalizedDescriptionKey: "Missing revision paragraph witness: " + phase])
+        }
+        let record: [String: Any] = ["schema": 1, "phase": phase, "blockID": blockID,
+            "offset": Double(witness.offset), "width": Double(witness.width),
+            "height": Double(witness.height), "fraction": Double(witness.fraction)]
+        let data = try JSONSerialization.data(withJSONObject: record, options: [.sortedKeys])
+        XCTAssertLessThanOrEqual(data.count, 1024)
+        print("AILibraryReaderRevision " + String(decoding: data, as: UTF8.self))
+        return witness
+    }
+
+    /// The controlled title query identifies the same article's public filtered List.
+    /// It neither opens another article nor writes the saved reading state.
+    private func revisionFilteredLibrary() -> XCUIElement? {
+        let prompt = "記事の本文を検索"
+        let searches = app.searchFields.matching(NSPredicate(
+            format: "identifier == %@ OR label == %@", prompt, prompt))
+        let libraries = app.collectionViews.containing(.staticText, identifier: "library-filter-summary")
+        guard searches.count == 1, libraries.count == 1 else { return nil }
+        let search = searches.element(boundBy: 0), library = libraries.element(boundBy: 0)
+        let summaries = library.staticTexts.matching(identifier: "library-filter-summary")
+        guard search.exists, search.value as? String == "保存位置の改訂回帰",
+              library.exists, summaries.count == 1 else { return nil }
+        let summary = summaries.element(boundBy: 0)
+        guard summary.exists, summary.label == "検索: 保存位置の改訂回帰" else { return nil }
+        return library
+    }
+
+    func testValidPackageRevisionAndParagraphReflowPreserveReadingAndBookmark() throws {
+        requireLayout(portrait: true)
+        let ownedSuite = app.launchEnvironment["AILIBRARY_UI_TEST_SUITE"]
+        XCTAssertTrue(ownedSuite?.hasPrefix("ailibrary-uitest-") == true)
+        XCTAssertTrue(app.staticTexts["library-article-count"].waitForExistence(timeout: 45))
+        XCTAssertEqual(app.staticTexts["library-article-count"].label, "全1記事")
+        let article = try singleForegroundControl(app.descendants(matching: .any).matching(
+            identifier: "library-article-reader-regression/revision"), name: "revision article")
+        article.tap()
+        requireNativeBody()
+        let bar = app.navigationBars["保存位置の改訂回帰"]
+        XCTAssertTrue(bar.waitForExistence(timeout: 10))
+        // If xcodebuild erased seeded A during installation, this must fail.
+        XCTAssertTrue(app.staticTexts["native-heading-revision-intro-A"].exists)
+        XCTAssertFalse(app.staticTexts["native-heading-revision-intro-B"].exists)
+        requireHittable(bar.buttons["しおりを追加"])
+        bar.buttons["しおりを追加"].tap()
+        requireHittable(bar.buttons["しおりを削除"])
+        goToContents("保存段落（改訂前）", headingID: "revision-section-A")
+        let reader = app.scrollViews["native-reader"]
+        let target = reader.staticTexts["native-text-revision-anchor-A"]
+        for _ in 0..<8 where !isHittableOnScreen(target, inside: reader, fullyVisible: true) {
+            reader.swipeUp(velocity: .slow)
+        }
+        requireHittable(target, inside: reader, fullyVisible: true)
+        let targetFrame = target.frame, visible = reader.frame.intersection(app.frame)
+        let top = max(visible.minY, bar.frame.maxY)
+        let shift = targetFrame.minY - (top - 48)
+        XCTAssertTrue([shift, top, visible.maxY].allSatisfy(\.isFinite))
+        XCTAssertGreaterThan(shift, 48, "The saved paragraph must differ from the TOC arrival")
+        let startY = visible.maxY - 12
+        XCTAssertGreaterThan(startY - shift, top + 12)
+        let origin = app.coordinate(withNormalizedOffset: .zero)
+        origin.withOffset(CGVector(dx: visible.midX, dy: startY)).press(forDuration: 0.05,
+            thenDragTo: origin.withOffset(CGVector(dx: visible.midX, dy: startY - shift)),
+            withVelocity: .slow, thenHoldForDuration: 0.2)
+        let saved = try revisionParagraphWitness("revision-anchor-A", phase: "A-before-save")
+        XCTAssertGreaterThan(saved.fraction, 0.02, "Save a point inside the paragraph, rather than its heading")
+        XCTAssertLessThan(saved.fraction, 0.8)
+        returnToLibrary() // Public back flushes the measured reading position.
+
+        // Search changes only the public list filter, not the saved reading state.
+        // The normal toolbar Menu AX failure remains a separate unresolved issue.
+        try setForegroundArticleQuery("保存位置の改訂回帰")
+        let filtered = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            self.revisionFilteredLibrary() != nil
+        }, object: nil)
+        let filteredResult = XCTWaiter.wait(for: [filtered], timeout: 15)
+        XCTAssertEqual(filteredResult, .completed,
+                       "The exact public revision query must identify one filtered library")
+        guard filteredResult == .completed, let library = revisionFilteredLibrary() else {
+            throw NSError(domain: "ReaderReflowUITests", code: 3,
+                          userInfo: [NSLocalizedDescriptionKey: "Missing exact revision filtered library"])
+        }
+        let more = try singleForegroundControl(library.buttons.matching(
+            NSPredicate(format: "label == %@", "その他の操作")),
+            name: "revision filtered-list More Actions button")
+        XCTAssertTrue(more.isEnabled)
+        requireHittable(more, inside: library)
+        more.tap()
+        XCTAssertTrue(app.navigationBars["その他の操作"].waitForExistence(timeout: 10))
+        let choose = app.buttons["library-bundled-content"]
+        requireHittable(choose)
+        choose.tap()
+        XCTAssertTrue(app.navigationBars["同梱コンテンツ"].waitForExistence(timeout: 45))
+        XCTAssertEqual(app.staticTexts["bundled-content-current-count"].label, "記事数: 1記事")
+        XCTAssertEqual(app.staticTexts["bundled-content-bundled-count"].label, "記事数: 1記事")
+        let confirm = app.buttons["bundled-content-confirm"]
+        for _ in 0..<5 where !isHittableOnScreen(confirm) { app.swipeUp(velocity: .slow) }
+        requireHittable(confirm)
+        confirm.tap()
+        let notice = app.alerts["コンテンツ"]
+        XCTAssertTrue(notice.waitForExistence(timeout: 45))
+        XCTAssertTrue(notice.staticTexts.matching(NSPredicate(format: "label CONTAINS %@",
+            "同梱コンテンツへ切り替えました")).firstMatch.exists)
+        notice.buttons["閉じる"].tap()
+        let normalLibrary = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            self.app.navigationBars["AI Agent Library"].exists &&
+                !self.app.staticTexts["library-filter-summary"].exists &&
+                !self.app.navigationBars["その他の操作"].exists &&
+                !self.app.navigationBars["同梱コンテンツ"].exists
+        }, object: nil)
+        let normalResult = XCTWaiter.wait(for: [normalLibrary], timeout: 15)
+        XCTAssertEqual(normalResult, .completed,
+                       "Bundled activation must clear filters and return to the normal root library")
+        guard normalResult == .completed else {
+            throw NSError(domain: "ReaderReflowUITests", code: 4,
+                          userInfo: [NSLocalizedDescriptionKey: "Normal library was not restored after activation"])
+        }
+        let resume = try singleForegroundControl(app.buttons.matching(identifier: "library-resume"),
+                                                name: "revision Continue button")
+        resume.tap()
+        XCTAssertTrue(reader.waitForExistence(timeout: 20))
+        // No TOC, query, swipe, drag or other correction after the first Resume.
+        let revised = try revisionParagraphWitness("revision-anchor-B", phase: "B-first-resume")
+        requireHittable(bar.buttons["しおりを削除"])
+        XCTAssertLessThanOrEqual(abs(revised.fraction - saved.fraction), 0.08)
+        XCTAssertLessThanOrEqual(abs(revised.offset - saved.offset), max(revised.height, saved.height))
+
+        XCUIDevice.shared.orientation = .landscapeLeft
+        requireLayout(portrait: false)
+        let landscape = try revisionParagraphWitness("revision-anchor-B", phase: "B-live-landscape")
+        XCTAssertGreaterThan(landscape.width, revised.width + 1, "The actual paragraph must grow wider")
+        XCTAssertLessThan(landscape.height, revised.height - 1, "The actual paragraph must rewrap to fewer lines")
+        XCTAssertLessThanOrEqual(abs(landscape.fraction - revised.fraction), 0.08)
+        requireHittable(bar.buttons["しおりを削除"])
+        XCUIDevice.shared.orientation = .portrait
+        requireLayout(portrait: true)
+        let portrait = try revisionParagraphWitness("revision-anchor-B", phase: "B-live-portrait")
+        XCTAssertEqual(portrait.width, revised.width, accuracy: 1)
+        XCTAssertEqual(portrait.height, revised.height, accuracy: 1)
+        XCTAssertLessThanOrEqual(abs(portrait.fraction - revised.fraction), 0.08)
+        returnToLibrary()
+        app.terminate()
+        app.launch()
+        XCTAssertEqual(app.launchEnvironment["AILIBRARY_UI_TEST_SUITE"], ownedSuite)
+        requireLayout(portrait: true)
+        XCTAssertTrue(app.staticTexts["library-article-count"].waitForExistence(timeout: 45))
+        XCTAssertEqual(app.staticTexts["library-article-count"].label, "全1記事")
+        let restartResume = try singleForegroundControl(app.buttons.matching(identifier: "library-resume"),
+                                                       name: "restarted revision Continue button")
+        restartResume.tap()
+        XCTAssertTrue(reader.waitForExistence(timeout: 20))
+        let restarted = try revisionParagraphWitness("revision-anchor-B", phase: "B-after-relaunch")
+        XCTAssertLessThanOrEqual(abs(restarted.fraction - portrait.fraction), 0.08)
+        requireHittable(bar.buttons["しおりを削除"])
     }
 }

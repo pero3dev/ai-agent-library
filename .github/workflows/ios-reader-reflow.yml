@@ -21,9 +21,9 @@ jobs:
     name: iOS default-text fixture rotation regression
     if: github.repository == 'pero3dev/ai-agent-library' && github.event.repository.private == false && (github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == 'pero3dev/ai-agent-library' && github.event.pull_request.base.repo.full_name == 'pero3dev/ai-agent-library'))
     runs-on: macos-15
-    # Explicit step caps total46min; only list-read timeouts repeat once within their caps.
+    # Explicit step caps total50min; only list-read timeouts repeat once within their caps.
     # Runner loss or forced cancellation can still interrupt owned cleanup.
-    timeout-minutes: 47
+    timeout-minutes: 51
     env:
       DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
       EXPECTED_SOURCE_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
@@ -64,7 +64,7 @@ jobs:
           import { readSimctlInventory } from '../../ios/tests/simctl-inventory-read.mjs';
           
           const stage = process.argv[2];
-          const caps = { inventory: 90000, tools: 180000, content: 180000, simulator: 180000,
+          const caps = { inventory: 180000, tools: 180000, content: 180000, simulator: 300000,
             build: 360000, ui: 600000, cleanup: 150000, audit: 45000, summary: 10000, storage: 15000 };
           assert.ok(Object.hasOwn(caps, stage));
           const deadline = performance.now() + caps[stage];
@@ -111,7 +111,7 @@ jobs:
           
           function listInventory(name, args) {
             const accepted = readSimctlInventory(name, args,
-              attempt => run(attempt, 'xcrun', args, 30000, workspace, false));
+              attempt => run(attempt, 'xcrun', args, 60000, workspace, false));
             json(name + '.accepted.json', { source_head: expected, name, attempt: accepted.attempt,
               arguments: args, stdout_sha256: hash(accepted.stdout) });
             return accepted.stdout;
@@ -127,7 +127,7 @@ jobs:
               const issued = read(attempt + '.intent.json');
               assert.equal(issued.stage, 'simulator'); assert.equal(issued.binary, 'xcrun');
               assert.deepEqual(issued.arguments, args);
-              assert.ok(Number.isInteger(issued.timeout_ms) && issued.timeout_ms > 0 && issued.timeout_ms <= 30000);
+              assert.ok(Number.isInteger(issued.timeout_ms) && issued.timeout_ms > 0 && issued.timeout_ms <= 60000);
               assert.ok(Number.isInteger(issued.remaining_ms) && issued.remaining_ms >= issued.timeout_ms);
               assert.ok(Number.isFinite(issued.stage_deadline_monotonic_ms) && issued.stage_deadline_monotonic_ms > 0);
             };
@@ -407,7 +407,7 @@ jobs:
           chmod 600 "$DRIVER_PATH"
       - name: Bind the exact selected source and Xcode16.4 iOS18.5 inventory
         id: inventory
-        timeout-minutes: 2
+        timeout-minutes: 4
         run: node "$DRIVER_PATH" inventory
       - name: Audit and install existing locked content tooling
         id: tools
@@ -419,7 +419,7 @@ jobs:
         run: node "$DRIVER_PATH" content
       - name: Create and boot one fresh owned iPhone16
         id: simulator
-        timeout-minutes: 4
+        timeout-minutes: 6
         run: node "$DRIVER_PATH" simulator
       - name: Build the representative app and test bundle once
         id: build

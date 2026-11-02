@@ -1,0 +1,167 @@
+{
+  "PR": 320,
+  "actual_first_parent": {
+    "sha": "5826e13b19ae1f71b6d6a67f282245e3d37bd5a2",
+    "tracked": 2878,
+    "tree": "a62d969e222d8d136133bdb11757f1f57686f8f2"
+  },
+  "actual_main_at_preparation": {
+    "not_fresh_GitHub_ref_claim": true,
+    "sha": "0a479ceefd70ce8275a1e3c40c80a72157453060",
+    "tracked": 2865,
+    "tree": "5fd781176666c1920b71ce3e5212303ff9b9001e"
+  },
+  "adoption_ready": false,
+  "design": {
+    "Dynamic": {
+      "UI_ms": 720000,
+      "UI_step_minutes": 13,
+      "job_minutes": [
+        43,
+        52
+      ],
+      "old_job_deficit_minutes": 4,
+      "step_sum_minutes": [
+        47,
+        51
+      ]
+    },
+    "Rotation": {
+      "UI_ms": 600000,
+      "UI_step_minutes": 12,
+      "job_minutes": [
+        47,
+        51
+      ],
+      "step_sum_minutes": [
+        46,
+        50
+      ]
+    },
+    "acceptedBeforeCreate_validateIntent_upper_bound_ms": [
+      30000,
+      60000
+    ],
+    "all_worst_case_commands_fit": false,
+    "cleanup_source_hash_buffer_unchanged": true,
+    "global_run_default30000_unchanged": true,
+    "helper_four_names_timeout_retry1_unchanged": true,
+    "inventory_stage_ms": [
+      90000,
+      180000
+    ],
+    "inventory_step_minutes": [
+      2,
+      4
+    ],
+    "listInventory_per_read_ms": [
+      30000,
+      60000
+    ],
+    "mandatory_synchronized_ownership_guard": true,
+    "new_job_margin_minutes": 1,
+    "simulator_stage_ms": [
+      180000,
+      300000
+    ],
+    "simulator_step_minutes": [
+      4,
+      6
+    ]
+  },
+  "freeze_UTC": "2026-11-02T00:15:28Z",
+  "new_Hosted_effect_accepted": false,
+  "new_head": null,
+  "new_main": null,
+  "parent_observer_snapshot": "このfreeze時点のRoot報告では、実親5826のCommon9・required11・Recovery13 outcome、Native8/8（Core278件＝276成功・2skip）とSDK26 unsigned Archive、Full B8/8は成功している。Nativeのexport/Browse/Cancel各2回とResume位置・しおり、Bの374Bコピー/marker1回とRelease監査は親sourceの受入として保持する。Full A18件はまだ観測中で未受入である。Runtime26は実3leafが2成功・1失敗、元15秒の可視性待機で停止した。timeout後のgeometry可視を期限内成功へ読み替えず、この60秒一覧対策が修復したとは扱わない。これはRootの保存済み観測報告snapshotで、作者は公式APIを再取得していない。新head CIはすべて別に必要である。",
+  "pending": [
+    "Source7 final independent review and formal/common checks",
+    "actual object and fresh official head/main",
+    "newhead inventory/device identity, SDK/UI and original strict1",
+    "ordinary protected main and separate new-mainpush",
+    "physical/VoiceOver/provider remain incomplete"
+  ],
+  "preserved": {
+    "App": "0.2.28(30)",
+    "Full26": true,
+    "PBX_Core_Conf_Tag_Seed_Font_all_history": true,
+    "TODO_complete": 14,
+    "TODO_rows": 32,
+    "assert_calls": 53,
+    "cases": 2,
+    "explicit_getters_per_phase": 15,
+    "strict1": true
+  },
+  "saved_Code3_validation": {
+    "Code3_IR_P1": 0,
+    "Code3_IR_P2": 0,
+    "Root_passed": true,
+    "not_new_Hosted_effect": true,
+    "scope": "Node24.22.1で旧24件と追加14件の計38件が全成功、失敗・skipは0。実workflowから抽出したcallerと所有確認を、模擬executor・仮想時刻・メモリ内の証跡で検査した。45秒応答の成功と旧30秒上限での負例、正確timeout1回だけの回復、残20秒へのclamp・残0秒のspawn0、60秒receiptと60001等改竄時のcleanup前拒否を確認した。YAML2・inline Node2・unit/helperの構文と15stepの算術も成功し、Dynamicは51分/job52分、Rotationは50分/job51分。最終Code3 MFと実行input4の一致を確認した。実OSでの60秒化の効果、SDK・Simulator・UIと新head CI/mainは未受入。"
+  },
+  "saved_Dynamic_5826_failure": {
+    "additional_retry": 0,
+    "exact_exit_tuple": {
+      "error": "spawnSync xcrun ETIMEDOUT",
+      "exit_code": null,
+      "signal": "SIGKILL"
+    },
+    "external_retry_used": 1,
+    "initial": {
+      "UI_cases": 0,
+      "cleanup": "success",
+      "read": "devices-after-boot",
+      "remaining_ms": [
+        90015,
+        58458
+      ],
+      "stage": "simulator",
+      "two_per_read_ms": [
+        30000,
+        30000
+      ]
+    },
+    "not_inferred": [
+      "completion_after30s",
+      "permanent_OS_cause",
+      "XCTest_failure"
+    ],
+    "retry2": {
+      "UI_cases": 0,
+      "cleanup": "success",
+      "read": "runtimes",
+      "remaining_ms": [
+        87846,
+        57839
+      ],
+      "stage": "inventory",
+      "two_per_read_ms": [
+        30000,
+        30000
+      ]
+    },
+    "run": 41362949439,
+    "shared_time_remaining": true
+  },
+  "saved_Dynamic_89": {
+    "body17_48_17": true,
+    "case_seconds": 260.339,
+    "not_substitute_for_new_head": true,
+    "phase_count": 3,
+    "same_Font_Code3_only": true,
+    "stages_per_phase": 4,
+    "strict1": true
+  },
+  "saved_Rotation_5826": {
+    "case_seconds": 210.493,
+    "first_attempt": true,
+    "full_ZIP_bytes": 4073305,
+    "old_code_only": true,
+    "run": 41362949456,
+    "strict1": true,
+    "whole_ZIP_SHA_verified": true
+  },
+  "schema_version": 1,
+  "state": "private_Source7_exact_Code3_bound_before_newCI_or_adoption",
+  "unit": "old21367B prefix exact plus actual caller/deadline/ownership controls; old30 harness retained and not a caller60 proof"
+}

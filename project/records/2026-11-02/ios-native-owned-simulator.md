@@ -161,3 +161,27 @@ e8初回epoch MF `1ae2ea19fd053022a208a7be2e5f1a555bf1f0003071c017a8e1456b93b73c
 workerの既存対象unitは専用1回で51成功・失敗/skip/cancel0、wall0.154254083秒、構文1件もexit0でした。2YAMLのlocked before/after4解析と他AST/run-body保持を、Code3同一YAML SHAへ結びます。actionlint binary/実GitHub式評価・新Hostedは未実施です。旧133/6/40や新SDK、全green suiteはここで再実行せず、新しいtest/assertも追加しません。長くしたjobでも個別期限で失敗し得るため、新Native8/FullA18・Release/cleanupの完了は後続CIで確認します。
 
 全旧MD/JSON/provenance/索引、criteriaとTODO32行14完了、App0.2.28（30）、Native/helper/UI/製品を保持します。将来checkpointの32/16とStorage版0.2.29はこのunitへ適用しません。最終IR/形式・新head必要CI・通常mainと別mainpush観測はRootの後続で、実機/provider/VO/minOS/署名/Storeは未完了です。
+
+## 2026-11-03追補: 151のNative job予算期待値の同期
+
+上記全文は公開151 `15113fe1bad465a5bab32fe78be88a3eb3f752c1` /tree `e6e47f084dbad7929cd5d09abef2869181e1d60a`・追跡2890件までの履歴です。CommonDocs job125583726482の保存raw SHA `b3fcd5de7a32e93dc0fef12403bbe2c38d310e332d378d21aa77154cc523086c` はglobal1488=1469成功1失敗18skipを示し、唯一のnotok923は「workflow uses the same prepared UUID for both tests, then cleans after failure collector」でした。tests/unit/ios-native-simulator-prepare.test.mjs:176が旧 `/timeout-minutes: 40/` を要求し、実Native YAMLの60分に一致しない確定unit契約bugです。製品やhelperのruntime失敗とは区別します。
+
+このunitはPR内追加でmanagedmain400には存在せず、前回のmain400基準検索では期待値が残りました。Code1 SourceMF `838291f7d529962e4a2ab57a13213e2d1befe5efc2aa89858806ecb1cfb4d6d8` は実151 beforetupleを基準にその40→60期待値1literalだけを同期し、既存test/assert数・他判定・個別期限・全helper/YAML/UI/製品を保ちます。worker保存結果は対象2fileの既存184件が1回で184成功・失敗/skip/cancel0、構文成功です。詳しい保存値はJSONへ結び、ここで再実行しません。新しいtest追加や全green/SDK反復はありません。
+
+151の他CIはfreeze `2026-11-02T22:18:11.859510+00:00`・保存公式metadata観測 `2026-11-02T22:16:30.993Z` のsnapshotです。run/jobを別保持し、進行中/queued/未取得を成功へ読み替えません。Rootはこの既知unitbugのためwhole151の完了を待たず修正Sourceを通常FFする方針ですが、その後の151取消し/未完了は旧sourceの結果で、新headの成功には転用しません。新Common/iOS・workflow完了とmainは未受入です。
+
+e8初回とNative control2の途中結果、公式40/50分job cap注記、現Native60/Fullreading75/content-copy50、FullAのTagSearch25秒不成立166.872秒が別課題であることは上の履歴どおり保持します。全旧MD/JSON/index/provenance、App0.2.28（30）/TODO32行14完了を保ち、Doc16/Storage29は適用しません。単一追加commit10用Source5の最終IR/形式と新head必要CI・通常main/別push観測はRoot後続です。
+
+## 2026-11-03追補: Native期待値とAudio競合試験を2意図へ分ける
+
+直前のSource5 r2追補とその単一commit10案は未採択の準備履歴です。MD全文・JSONの全旧key/valueと保存証跡は保持し、今回のSource6で2意図へ置き換えます。実親は公開151 `15113fe1bad465a5bab32fe78be88a3eb3f752c1` /tree `e6e47f084dbad7929cd5d09abef2869181e1d60a`・追跡2890件のままです。
+
+Linux CommonDocs job125583726482はglobal1488=1469成功1失敗18skipで、Native job60に対する旧40期待値だけが失敗しました。Mac FullA job125583727133は別のglobal1488=1471成功2失敗15skipで、同じ期待値に加えて「two independent child processes contend on each audio namespace without overlap」がownerCount2≠1で失敗しました。FullA raw SHAは `eeaa88e1548b3a9ff046a94d80906a0a99ce367d907aec38f8a4816a832d6e2b` です。Swift unit/UI工程はskipで、新しい実UI/Swift結果はありません。
+
+Group1（予定commit10）はNative Code1 SourceMF `838291f7d529962e4a2ab57a13213e2d1befe5efc2aa89858806ecb1cfb4d6d8` の期待値1literalだけで、recordは含めません。保存済み対象2file184成功・失敗/skip/cancel0の1回と構文成功を継承し、再実行しません。Group2（予定commit11）はAudio Code1 SourceMF `3e7a1586b1058b7f7b502fed46a08b507958e0fb53e0c1be636a9d9202fd1f0b` の試験同期と本記録・索引4件です。Audioの保存結果は44成功、失敗/skip/cancel0の対象file1回と構文成功で、Native184や全green/SDKを反復しません。
+
+Audio試験の固定150ms待機では、遅れて起動したchildが最初のownerのrelease後に合法的な直列ownerとなり、ownerCount2を生じるfalse failureがあり得ます。今回のrawには実event時系列がなく、この説明を排他的な実原因とは断定しません。production lock gapは探索で検出されていません。変更は試験内のowner hold→親のBLOCKED確認→RELEASE handshakeに限り、production lock・音声制作・製品コードは変えません。
+
+他151結果はfreeze `2026-11-02T22:33:02.241368+00:00`・保存公式metadata観測 `2026-11-02T22:31:36.049Z` でrun/jobを別に保存しています。queued/進行中/未取得を成功や非triggerへ読み替えません。Rootは既知試験bugのためwhole151終端を待たずレビュー後に通常FFする方針ですが、旧sourceの取消/未完了を新headの成功へ転用しません。新Common/iOS・workflow完了・UI/cleanup/Release・通常mainは未受入です。
+
+e8初回/Native control2の履歴、公式40/50分job cap注記と現在のNative60/Fullreading75/content-copy50、別のTagSearch25秒不成立166.872秒を保持します。旧record/provenance/実151索引全文・App0.2.28（30）・TODO32行14完了を保ち、将来Doc16/Storage29は含めません。最終IR・形式・実commit/新head必要CI・通常main/別push観測はRoot後続です。

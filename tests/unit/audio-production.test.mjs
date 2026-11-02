@@ -386,43 +386,92 @@ test('two independent child processes contend on each audio namespace without ov
   const moduleUrl = new URL('../../scripts/audio/lock.mjs', import.meta.url).href
   const code = `
     import { openSync, closeSync, unlinkSync } from 'node:fs';
+    import { createInterface } from 'node:readline';
     import path from 'node:path';
     const { acquireAudioLock } = await import(${JSON.stringify(moduleUrl)});
+    const reader = createInterface({ input: process.stdin }), commands = [];
+    let waiting, inputClosed = false;
+    reader.on('line', command => { if (waiting) { const next = waiting; waiting = null; next.resolve(command); } else commands.push(command); });
+    reader.on('close', () => { inputClosed = true; if (waiting) waiting.reject(Error('Command input closed')); });
+    const nextCommand = () => commands.length ? Promise.resolve(commands.shift()) : inputClosed ? Promise.reject(Error('Command input closed')) : new Promise((resolve, reject) => { waiting = { resolve, reject }; });
     process.stdout.write('READY\\n');
-    await new Promise(resolve => process.stdin.once('data', resolve));
+    if (await nextCommand() !== 'GO') throw Error('Expected GO');
     let lock;
     try { lock = acquireAudioLock(process.argv[1], process.argv[2]); }
-    catch (error) { if (!/already running|Lock recovery/.test(error.message)) throw error; process.stdout.write('BLOCKED\\n'); process.exit(0); }
+    catch (error) { if (!/already running|Lock recovery/.test(error.message)) throw error; process.stdout.write('BLOCKED\\n'); reader.close(); process.exit(0); }
     const active = path.join(process.argv[1], 'active');
     const handle = openSync(active, 'wx'); closeSync(handle);
+    const release = nextCommand();
     process.stdout.write('OWNER\\n');
-    await new Promise(resolve => setTimeout(resolve, 150));
+    if (await release !== 'RELEASE') throw Error('Expected RELEASE');
     unlinkSync(active);
     if (!lock.release()) throw Error('Lost ownership');
-    process.stdout.write('RELEASED\\n'); process.exit(0);
+    process.stdout.write('RELEASED\\n'); reader.close(); process.exit(0);
   `
   for (const namespace of ['run', 'publication']) for (let round = 0; round < 5; round++) {
     await writeJson(path.join(paths.stateDir, `${namespace}.lock`), { pid: 2147483647, started_at: '2026-09-13T00:00:00Z' })
     const contenders = [0, 1].map(() => {
       const child = spawn(process.execPath, ['--input-type=module', '-e', code, paths.stateDir, namespace], { windowsHide: true })
-      let output = '', errorOutput = ''
-      const ready = new Promise(resolve => child.stdout.on('data', bytes => { output += bytes; if (output.includes('READY\n')) resolve() }))
+      let output = '', errorOutput = '', closed = false
+      const observers = new Set()
+      child.stdout.on('data', bytes => { output += bytes; observers.forEach(check => check()) })
       child.stderr.on('data', bytes => { errorOutput += bytes })
+      const reaped = new Promise(resolve => child.once('close', () => { closed = true; observers.forEach(check => check()); resolve() }))
       const done = new Promise((resolve, reject) => {
         child.once('error', reject)
-        child.once('exit', code => { if (code === 0) resolve(output); else reject(new Error(`Child ${code}: ${errorOutput}`)) })
+        child.once('close', (code, signal) => { if (code === 0) resolve(output); else reject(new Error(`Child ${code ?? signal}: ${errorOutput}`)) })
       })
-      t.after(() => { if (child.exitCode === null) child.kill() })
-      return { child, ready, done }
+      done.catch(() => {})
+      const waitFor = predicate => new Promise((resolve, reject) => {
+        const finish = error => { observers.delete(check); t.signal.removeEventListener('abort', abort); if (error) reject(error); else resolve() }
+        const abort = () => finish(t.signal.reason)
+        const check = () => { if (predicate(output)) finish(); else if (closed) finish(new Error(`Child closed before expected event: ${output} ${errorOutput}`)); else if (t.signal.aborted) abort() }
+        observers.add(check); t.signal.addEventListener('abort', abort, { once: true }); check()
+      })
+      return { child, done, reaped, waitFor, output: () => output }
     })
-    await Promise.all(contenders.map(item => item.ready))
-    contenders.forEach(item => item.child.stdin.end('go\n'))
-    const outputs = await Promise.all(contenders.map(item => item.done))
-    assert.equal(outputs.filter(output => output.includes('OWNER\n')).length, 1)
-    assert.equal(outputs.filter(output => output.includes('BLOCKED\n')).length, 1)
+    const cleanup = async () => {
+      for (const { child } of contenders) { child.stdin.destroy(); if (child.exitCode === null && child.signalCode === null) child.kill('SIGKILL') }
+      let timer
+      try { await Promise.race([Promise.all(contenders.map(item => item.reaped)), new Promise((_, reject) => { timer = setTimeout(() => reject(new Error('Audio contention children were not reaped')), 5000) })]) }
+      finally { clearTimeout(timer) }
+    }
+    t.after(cleanup)
+    const assertHeld = async owner => {
+      assert.equal(owner.child.exitCode, null)
+      assert.equal(owner.output().includes('RELEASED\n'), false)
+      assert.equal(await readFile(path.join(paths.stateDir, 'active'), 'utf8'), '')
+      assert.equal((await readJson(path.join(paths.stateDir, `${namespace}.lock`))).pid, owner.child.pid)
+    }
+    let delayedGoMs = 0
+    try {
+      await Promise.all(contenders.map(item => item.waitFor(output => output.includes('READY\n'))))
+      if (round === 0) {
+        contenders[0].child.stdin.write('GO\n')
+        await contenders[0].waitFor(output => output.includes('OWNER\n'))
+        const heldSince = performance.now()
+        await new Promise(resolve => setTimeout(resolve, 200))
+        delayedGoMs = performance.now() - heldSince
+        assert.ok(delayedGoMs > 150)
+        await assertHeld(contenders[0])
+        contenders[1].child.stdin.write('GO\n')
+      } else contenders.forEach(item => item.child.stdin.write('GO\n'))
+      await Promise.all(contenders.map(item => item.waitFor(output => /OWNER\n|BLOCKED\n/.test(output))))
+      const owners = contenders.filter(item => item.output().includes('OWNER\n'))
+      const blocked = contenders.filter(item => item.output().includes('BLOCKED\n'))
+      assert.equal(owners.length, 1)
+      assert.equal(blocked.length, 1)
+      await blocked[0].done
+      await assertHeld(owners[0])
+      owners[0].child.stdin.end('RELEASE\n')
+      const outputs = await Promise.all(contenders.map(item => item.done))
+      assert.equal(outputs.filter(output => output.includes('OWNER\n')).length, 1)
+      assert.equal(outputs.filter(output => output.includes('BLOCKED\n')).length, 1)
+      assert.equal(outputs.filter(output => output.includes('RELEASED\n')).length, 1)
+      t.diagnostic(`${namespace} round ${round}: OWNER=1 BLOCKED=1 RELEASED=1 childrenClosed=2 delayedGOms=${delayedGoMs.toFixed(3)}`)
+    } finally { await cleanup() }
   }
 })
-
 test('replacement token cannot be released by the old owner and namespaces remain independent', async t => {
   const { stateDir } = await fixture(t)
   const old = acquireAudioLock(stateDir, 'run')

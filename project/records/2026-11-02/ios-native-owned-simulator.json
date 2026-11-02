@@ -2312,5 +2312,612 @@
       "Physical/provider/VoiceOver/minOS/signing/Store remain incomplete"
     ]
   },
-  "runtime_budget_prior_fields_scope": "All prior pending/accepted snapshots and budgets are preserved historical through e8; appended job envelope candidate is current private preparation only."
+  "runtime_budget_prior_fields_scope": "All prior pending/accepted snapshots and budgets are preserved historical through e8; appended job envelope candidate is current private preparation only.",
+  "source151_native_budget_expectation_followup_20261103": {
+    "state": "PRIVATE_SOURCE5_ONE_LITERAL_EXPECTATION_FOLLOWUP_PENDING_IR_AND_NEW_CI",
+    "actual_parent": "15113fe1bad465a5bab32fe78be88a3eb3f752c1",
+    "parent_tree": "e6e47f084dbad7929cd5d09abef2869181e1d60a",
+    "Code1_SourceMF": "838291f7d529962e4a2ab57a13213e2d1befe5efc2aa89858806ecb1cfb4d6d8",
+    "Code1_packetMF": "0e443320f5d417dc961c07cfc242408bbb921e7c7aa379f851f9069a6a93fff2",
+    "Code1_result_SHA256": "c37bf85328fb0818b0b44f3bff9abb491641769f3ba8044ef60128b48d4701f5",
+    "change": "Existing native-simulator-prepare test line176 old workflow40 regex expectation synchronized to actual Native60 only; no test/assert addition or helper/workflow/product change",
+    "confirmed151_failure": {
+      "state": "CONFIRMED_SOURCE151_SINGLE_UNIT_CONTRACT_FAILURE",
+      "source": "15113fe1bad465a5bab32fe78be88a3eb3f752c1",
+      "job": 125583726482,
+      "raw_SHA256": "b3fcd5de7a32e93dc0fef12403bbe2c38d310e332d378d21aa77154cc523086c",
+      "raw_bytes": 648884,
+      "classification_SHA256": "aff1284632081fa4e5af8ab6b189d8d5a1b310f48486736ff8663aaed5129376",
+      "official_job_conclusion": "failure",
+      "Node": {
+        "tests": 1488,
+        "pass": 1469,
+        "fail": 1,
+        "skipped": 18
+      },
+      "raw_duration_ms": 27976.171544,
+      "failed_case": {
+        "number": 923,
+        "name": "workflow uses the same prepared UUID for both tests, then cleans after failure collector",
+        "path": "tests/unit/ios-native-simulator-prepare.test.mjs",
+        "line": 176,
+        "expected": "/timeout-minutes: 40/",
+        "actual_Native_job_minutes": 60,
+        "failureType": "testCodeFailure",
+        "case_seconds": 0.00194123
+      },
+      "scope": "Known stale test expectation only; no product/helper/workflow change; full new-source Common/iOS acceptance pending",
+      "prior_search_gap": "This PR-added test is absent in managedmain400, so the earlier main400-only search missed this head-owned expectation."
+    },
+    "saved_worker_validation": {
+      "targeted_runs": 1,
+      "targeted_files": 2,
+      "tests": 184,
+      "pass": 184,
+      "fail": 0,
+      "skip": 0,
+      "cancelled": 0,
+      "split": "nativeprepare133 + failureattachments51",
+      "wall_seconds": 0.272878792,
+      "syntax_runs": 1,
+      "all7_actual151_input_before_after_SHA_equal": true,
+      "new_tests_added": 0,
+      "global_SDK_UI_reruns": 0
+    },
+    "source151_frozen_snapshot": {
+      "state": "SOURCE151_SAVED_SNAPSHOT_NOT_NEW_HEAD_ACCEPTANCE",
+      "frozen_at_UTC": "2026-11-02T22:18:11.859510+00:00",
+      "metadata_observed_UTC": "2026-11-02T22:16:30.993Z",
+      "source": "15113fe1bad465a5bab32fe78be88a3eb3f752c1",
+      "state_SHA256": "52d5be5a307a60161f6b918d592141620bd0a8bc337b3c27b96fe157814d3cff",
+      "last_snapshot": "snapshot-002-run-refresh.json",
+      "last_snapshot_SHA256": "1612c4b6b93ba60ecf16d80d7a149cf4639b4f96c6f1706bd21991ef4385954e",
+      "all_six_terminal": false,
+      "required11_all_success": false,
+      "runs": {
+        "Common": {
+          "id": 41534778821,
+          "head_sha": "15113fe1bad465a5bab32fe78be88a3eb3f752c1",
+          "run_attempt": 1,
+          "event": "pull_request",
+          "status": "in_progress",
+          "conclusion": null
+        },
+        "Native": {
+          "id": 41534778820,
+          "head_sha": "15113fe1bad465a5bab32fe78be88a3eb3f752c1",
+          "run_attempt": 1,
+          "event": "pull_request",
+          "status": "queued",
+          "conclusion": null
+        },
+        "Full": {
+          "id": 41534778853,
+          "head_sha": "15113fe1bad465a5bab32fe78be88a3eb3f752c1",
+          "run_attempt": 1,
+          "event": "pull_request",
+          "status": "queued",
+          "conclusion": null
+        },
+        "SDK26": {
+          "id": 41534778729,
+          "head_sha": "15113fe1bad465a5bab32fe78be88a3eb3f752c1",
+          "run_attempt": 1,
+          "event": "pull_request",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        "R26": {
+          "id": 41534778730,
+          "head_sha": "15113fe1bad465a5bab32fe78be88a3eb3f752c1",
+          "run_attempt": 1,
+          "event": "pull_request",
+          "status": "in_progress",
+          "conclusion": null
+        },
+        "Recovery": {
+          "id": 41534778762,
+          "head_sha": "15113fe1bad465a5bab32fe78be88a3eb3f752c1",
+          "run_attempt": 1,
+          "event": "pull_request",
+          "status": "queued",
+          "conclusion": null
+        }
+      },
+      "jobs": {
+        "Common": [
+          {
+            "id": 125583726121,
+            "name": "examples",
+            "run_id": 41534778821,
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 125583726380,
+            "name": "harness-windows",
+            "run_id": 41534778821,
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 125583726440,
+            "name": "lint",
+            "run_id": 41534778821,
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 125583726482,
+            "name": "docs",
+            "run_id": 41534778821,
+            "status": "completed",
+            "conclusion": "failure"
+          },
+          {
+            "id": 125583726511,
+            "name": "actionlint",
+            "run_id": 41534778821,
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 125583726690,
+            "name": "build",
+            "run_id": 41534778821,
+            "status": "in_progress",
+            "conclusion": null
+          },
+          {
+            "id": 125583726719,
+            "name": "Safari audio playback regression",
+            "run_id": 41534778821,
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 125583726754,
+            "name": "Audio playback regression",
+            "run_id": 41534778821,
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 125583726779,
+            "name": "harness",
+            "run_id": 41534778821,
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ],
+        "Native": [
+          {
+            "id": 125583726231,
+            "name": "iOS native regression",
+            "run_id": 41534778820,
+            "status": "in_progress",
+            "conclusion": null
+          }
+        ],
+        "Full": [
+          {
+            "id": 125583726782,
+            "name": "iOS published app candidate (content-copy)",
+            "run_id": 41534778853,
+            "status": "in_progress",
+            "conclusion": null
+          },
+          {
+            "id": 125583727133,
+            "name": "iOS published app candidate (reading-state)",
+            "run_id": 41534778853,
+            "status": "in_progress",
+            "conclusion": null
+          }
+        ],
+        "SDK26": [
+          {
+            "id": 125583725242,
+            "name": "iOS SDK 26 unsigned archive preflight",
+            "run_id": 41534778729,
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ],
+        "R26": [
+          {
+            "id": 125583725735,
+            "name": "iOS 26.5 representative UI smoke",
+            "run_id": 41534778730,
+            "status": "in_progress",
+            "conclusion": null
+          }
+        ],
+        "Recovery": [
+          {
+            "id": 125583725884,
+            "name": "iOS initial missing package and restored upgrade preserving data",
+            "run_id": 41534778762,
+            "status": "in_progress",
+            "conclusion": null
+          }
+        ]
+      },
+      "scope": "Other151 runs may still be ongoing. Root advances known unit fix without waiting whole151; any cancelled/incomplete old results stay separate and are not new success."
+    },
+    "search_gap": "Earlier managedmain400-only search missed this PR-added unit, which is absent there. This fix uses actual151 beforetuple and bytes.",
+    "held": {
+      "prior_e8_initial_Native2_and_official40_50_caps": true,
+      "current_job_budgets": "Native60/Fullreading75/content-copy50",
+      "all_individual_deadlines_caps_assertions_roster": true,
+      "all_other_tests_helper_workflow_UI_product": true,
+      "old_MD_JSON_index_provenance": true,
+      "App": "0.2.28(30)",
+      "TODO": "32/14",
+      "futureDoc16_Storage29_applied": false
+    },
+    "Root_continuation": "Known unit bug permits Root ordinary FF to corrected Source after review; it does not accept unfinished or cancelled old151 runs.",
+    "new_head_Common_iOS_workflow_UI_main_accepted": false,
+    "actual_new_commit": null,
+    "external_publication": false
+  },
+  "budget_expectation_prior_fields_scope": "All old snapshots and values remain historical through151/e8 and earlier; only appended one-literal source candidate is current private preparation.",
+  "source151_expectation_audio_two_intent_followup_20261103": {
+    "state": "PRIVATE_SOURCE6_TWO_INTENT_TEST_FOLLOWUP_PENDING_IR_AND_NEW_CI",
+    "actual_parent": "15113fe1bad465a5bab32fe78be88a3eb3f752c1",
+    "parent_tree": "e6e47f084dbad7929cd5d09abef2869181e1d60a",
+    "supersedes_unadopted_Source5_r2": {
+      "SourceMF": "7905dce94040569bb19256e26b3c61f2d8b3e276f21effc3a28f1e3f7f7738ab",
+      "packetMF": "b1aa8173af541f87db1a92d2c0783c51d5ad203d1ff72460cf00a11a4fe7637c",
+      "old_MD_fulltext_JSON_allvalues_kept_as_history": true,
+      "single_commit_plan_adopted": false
+    },
+    "groups": [
+      {
+        "intent": 1,
+        "intended_commit": 10,
+        "scope": [
+          "tests/unit/ios-native-simulator-prepare.test.mjs"
+        ],
+        "change": "Native job60 expectation synchronized from old40 one literal only",
+        "Code1_SourceMF": "838291f7d529962e4a2ab57a13213e2d1befe5efc2aa89858806ecb1cfb4d6d8",
+        "Code1_packetMF": "0e443320f5d417dc961c07cfc242408bbb921e7c7aa379f851f9069a6a93fff2",
+        "saved_validation": {
+          "targeted_runs": 1,
+          "targeted_files": 2,
+          "tests": 184,
+          "pass": 184,
+          "fail": 0,
+          "skip": 0,
+          "cancelled": 0,
+          "split": "nativeprepare133 + failureattachments51",
+          "wall_seconds": 0.272878792,
+          "syntax_runs": 1,
+          "all7_actual151_input_before_after_SHA_equal": true,
+          "new_tests_added": 0,
+          "global_SDK_UI_reruns": 0
+        }
+      },
+      {
+        "intent": 2,
+        "intended_commit": 11,
+        "scope": [
+          "tests/unit/audio-production.test.mjs",
+          "project/records/2026-11-02/ios-native-owned-simulator.md",
+          "project/records/2026-11-02/ios-native-owned-simulator.json",
+          "project/README.md",
+          "project/plans/engineering/ios-app-completion.md"
+        ],
+        "change": "Test-only first owner hold, parent-confirmed contender BLOCKED, then RELEASE handshake; production/audio creation unchanged",
+        "Code1_SourceMF": "3e7a1586b1058b7f7b502fed46a08b507958e0fb53e0c1be636a9d9202fd1f0b",
+        "Code1_packetMF": "507f38e45522c8fd48a72a9988336166ae54b99c85badcda6edbfd1f6800f27a",
+        "saved_validation": {
+          "Node": "v24.22.1",
+          "targeted_runs": 1,
+          "targeted_files": 1,
+          "tests": 44,
+          "pass": 44,
+          "fail": 0,
+          "skip": 0,
+          "cancelled": 0,
+          "wall_seconds": 1.936317,
+          "syntax_runs": 1,
+          "syntax_exit": 0,
+          "test_timeout_ms_unchanged": 30000,
+          "namespaces": [
+            "run",
+            "publication"
+          ],
+          "rounds_each": 5,
+          "closed_children": 20,
+          "all_child_exit0": true,
+          "each_namespace_round0_delayed_GO_after_observed_OWNER_ms": [
+            202.206,
+            202.179
+          ],
+          "other8_rounds_simultaneous_GO": true,
+          "all10_rounds_OWNER1_BLOCKED1": true,
+          "cleanup_only_guard_ms": 5000,
+          "all14_input_hashes_unchanged_during_run": true,
+          "production_changed": false,
+          "Native184_rerun": false
+        }
+      }
+    ],
+    "source151_Linux_CommonDocs_failure": {
+      "state": "CONFIRMED_SOURCE151_SINGLE_UNIT_CONTRACT_FAILURE",
+      "source": "15113fe1bad465a5bab32fe78be88a3eb3f752c1",
+      "job": 125583726482,
+      "raw_SHA256": "b3fcd5de7a32e93dc0fef12403bbe2c38d310e332d378d21aa77154cc523086c",
+      "raw_bytes": 648884,
+      "classification_SHA256": "aff1284632081fa4e5af8ab6b189d8d5a1b310f48486736ff8663aaed5129376",
+      "official_job_conclusion": "failure",
+      "Node": {
+        "tests": 1488,
+        "pass": 1469,
+        "fail": 1,
+        "skipped": 18
+      },
+      "raw_duration_ms": 27976.171544,
+      "failed_case": {
+        "number": 923,
+        "name": "workflow uses the same prepared UUID for both tests, then cleans after failure collector",
+        "path": "tests/unit/ios-native-simulator-prepare.test.mjs",
+        "line": 176,
+        "expected": "/timeout-minutes: 40/",
+        "actual_Native_job_minutes": 60,
+        "failureType": "testCodeFailure",
+        "case_seconds": 0.00194123
+      },
+      "scope": "Known stale test expectation only; no product/helper/workflow change; full new-source Common/iOS acceptance pending",
+      "prior_search_gap": "This PR-added test is absent in managedmain400, so the earlier main400-only search missed this head-owned expectation."
+    },
+    "source151_Mac_FullA_failure": {
+      "state": "CONFIRMED_SOURCE151_MAC_FULLA_TWO_TEST_FAILURES",
+      "source": "15113fe1bad465a5bab32fe78be88a3eb3f752c1",
+      "run": 41534778853,
+      "job": 125583727133,
+      "attempt": 1,
+      "raw_SHA256": "eeaa88e1548b3a9ff046a94d80906a0a99ce367d907aec38f8a4816a832d6e2b",
+      "raw_bytes": 671877,
+      "classification_SHA256": "157b40e7aabce6ec47d72cac4b8940ccc851d1ba8223a30b4153d041c695fe2a",
+      "failure_context_SHA256": "57ec9d4d6753515523c755c2fea3513921241e49bc5b313b97eb26ef8697c569",
+      "official_job_conclusion": "failure",
+      "Node": {
+        "tests": 1488,
+        "pass": 1471,
+        "fail": 2,
+        "skipped": 15
+      },
+      "failures": [
+        {
+          "raw_line": 706,
+          "test": "two independent child processes contend on each audio namespace without overlap",
+          "source_location": "tests/unit/audio-production.test.mjs:384",
+          "assertion_location": ":421",
+          "direct_error": "actual2 !== expected1",
+          "source_cause": "unknown; no causal connection to Native budget change asserted"
+        },
+        {
+          "raw_line": 6683,
+          "test": "workflow uses the same prepared UUID for both tests, then cleans after failure collector",
+          "source_location": "tests/unit/ios-native-simulator-prepare.test.mjs:176",
+          "direct_error": "workflow timeout-minutes60 does not match expected regex40"
+        }
+      ],
+      "Swift_unit_step": "skipped",
+      "UI_step": "skipped",
+      "runtime_cause": "Fixed150ms can allow a delayed second child to become a legal sequential owner after the first releases, producing ownerCount2. Actual event timeline was not captured, so that schedule is a possible false-failure mechanism, not an exclusive proven cause of this run. No production lock gap detected by exploration.",
+      "production_lock_audio_changes": false,
+      "capture_scope": "Closed typed summary only; no raw log/profile absolute paths copied into public record."
+    },
+    "source151_frozen_snapshot": {
+      "state": "SOURCE151_ONLY_FROZEN_OBSERVATION_NOT_NEW_HEAD_ACCEPTANCE",
+      "source": "15113fe1bad465a5bab32fe78be88a3eb3f752c1",
+      "frozen_at_UTC": "2026-11-02T22:33:02.241368+00:00",
+      "metadata_observed_UTC": "2026-11-02T22:31:36.049Z",
+      "state_SHA256": "502f2247c5c33f5ed69e3764f7bdb08e526496cf928bf6eae58a9231c8fc9e9a",
+      "last_snapshot": "snapshot-007-run-refresh.json",
+      "last_snapshot_SHA256": "3815d77527baf1a5071109f1e2ced78eaf7868737e3b66437641b261e28f90d9",
+      "all_six_terminal": false,
+      "required11_all_success": false,
+      "runs": {
+        "Common": {
+          "id": 41534778821,
+          "head_sha": "15113fe1bad465a5bab32fe78be88a3eb3f752c1",
+          "run_attempt": 1,
+          "event": "pull_request",
+          "status": "completed",
+          "conclusion": "failure"
+        },
+        "Native": {
+          "id": 41534778820,
+          "head_sha": "15113fe1bad465a5bab32fe78be88a3eb3f752c1",
+          "run_attempt": 1,
+          "event": "pull_request",
+          "status": "queued",
+          "conclusion": null
+        },
+        "Full": {
+          "id": 41534778853,
+          "head_sha": "15113fe1bad465a5bab32fe78be88a3eb3f752c1",
+          "run_attempt": 1,
+          "event": "pull_request",
+          "status": "queued",
+          "conclusion": null
+        },
+        "SDK26": {
+          "id": 41534778729,
+          "head_sha": "15113fe1bad465a5bab32fe78be88a3eb3f752c1",
+          "run_attempt": 1,
+          "event": "pull_request",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        "R26": {
+          "id": 41534778730,
+          "head_sha": "15113fe1bad465a5bab32fe78be88a3eb3f752c1",
+          "run_attempt": 1,
+          "event": "pull_request",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        "Recovery": {
+          "id": 41534778762,
+          "head_sha": "15113fe1bad465a5bab32fe78be88a3eb3f752c1",
+          "run_attempt": 1,
+          "event": "pull_request",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      },
+      "jobs": {
+        "Common": [
+          {
+            "id": 125583726121,
+            "name": "examples",
+            "run_id": 41534778821,
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 125583726380,
+            "name": "harness-windows",
+            "run_id": 41534778821,
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 125583726440,
+            "name": "lint",
+            "run_id": 41534778821,
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 125583726482,
+            "name": "docs",
+            "run_id": 41534778821,
+            "status": "completed",
+            "conclusion": "failure"
+          },
+          {
+            "id": 125583726511,
+            "name": "actionlint",
+            "run_id": 41534778821,
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 125583726690,
+            "name": "build",
+            "run_id": 41534778821,
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 125583726719,
+            "name": "Safari audio playback regression",
+            "run_id": 41534778821,
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 125583726754,
+            "name": "Audio playback regression",
+            "run_id": 41534778821,
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 125583726779,
+            "name": "harness",
+            "run_id": 41534778821,
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 125593420053,
+            "name": "deploy",
+            "run_id": 41534778821,
+            "status": "completed",
+            "conclusion": "skipped"
+          }
+        ],
+        "Native": [
+          {
+            "id": 125583726231,
+            "name": "iOS native regression",
+            "run_id": 41534778820,
+            "status": "in_progress",
+            "conclusion": null
+          }
+        ],
+        "Full": [
+          {
+            "id": 125583726782,
+            "name": "iOS published app candidate (content-copy)",
+            "run_id": 41534778853,
+            "status": "in_progress",
+            "conclusion": null
+          },
+          {
+            "id": 125583727133,
+            "name": "iOS published app candidate (reading-state)",
+            "run_id": 41534778853,
+            "status": "completed",
+            "conclusion": "failure"
+          }
+        ],
+        "SDK26": [
+          {
+            "id": 125583725242,
+            "name": "iOS SDK 26 unsigned archive preflight",
+            "run_id": 41534778729,
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ],
+        "R26": [
+          {
+            "id": 125583725735,
+            "name": "iOS 26.5 representative UI smoke",
+            "run_id": 41534778730,
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ],
+        "Recovery": [
+          {
+            "id": 125583725884,
+            "name": "iOS initial missing package and restored upgrade preserving data",
+            "run_id": 41534778762,
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ]
+      },
+      "scope": "Official saved151 metadata snapshot; queued/in_progress/missing are not success or nontriggered. Later cancellations or incomplete151 results remain separate old-source observations."
+    },
+    "audio_cause_scope": "Fixed150ms can let a delayed child legitimately acquire sequential ownership after release, causing ownerCount2 false failure. This saved run has no actual event timeline, so exclusive causality is not established. Exploration detected no production lock gap.",
+    "held": {
+      "production_audio_lock_and_creation": true,
+      "all_product_helper_workflow_UI_sources": true,
+      "official_e8_40_50_jobcap_history": true,
+      "current_job_minutes": "Native60/Fullreading75/content-copy50",
+      "all_individual_deadlines_caps_assertions_roster": true,
+      "old_MD_JSON_index_provenance": true,
+      "App": "0.2.28(30)",
+      "TODO": "32/14",
+      "futureDoc16_Storage29_applied": false
+    },
+    "Root_continuation": "Root may advance reviewed known test fixes before all old151 results terminate. Later old151 cancelled/incomplete results are never transferred to new head success.",
+    "actual_new_commits": [
+      null,
+      null
+    ],
+    "new_head_Common_iOS_UI_Release_cleanup_or_main_accepted": false,
+    "external_publication": false
+  },
+  "expectation_audio_prior_fields_scope": "All prior values, including unadopted Source5 r2 single-commit preparation, remain historical. This appended two-intent Source6 supersedes that plan without claiming new Hosted or main acceptance."
 }

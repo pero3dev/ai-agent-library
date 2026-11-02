@@ -2056,5 +2056,261 @@
       "Physical/provider/VoiceOver/minimumOS/audio/signing/Store acceptance remains incomplete"
     ]
   },
-  "intel_stability_prior_fields_scope": "All prior values and their pending/accepted snapshots remain historical through a812 and earlier; the new append describes only this private unaccepted followup."
+  "intel_stability_prior_fields_scope": "All prior values and their pending/accepted snapshots remain historical through a812 and earlier; the new append describes only this private unaccepted followup.",
+  "e8_job_runtime_budget_followup_20261103": {
+    "state": "PRIVATE_SINGLE_COMMIT_SOURCE7_JOB_ENVELOPE_CANDIDATE_NOT_NEW_HEAD_ACCEPTANCE",
+    "actual_parent": "e8f3db7b08d925df337ca63b5ecbaec3b1b488c8",
+    "parent_tree": "5bf131b9466d3a1d68915b90523febce5e026d9d",
+    "parent_tracked": 2890,
+    "Code3_SourceMF": "3c7f18075afd85d267d007e0049d37de54cc2645a488d43fbbf0bb6d0fa6435f",
+    "Code3_packetMF": "70735eea47f98085a20d5ab8025fd5f1b61c11149796b7aa5928bfbb38ee024f",
+    "Code3_result_SHA256": "9aae0160037f7c8fe3e39cfdbdb30489f128ae2696aa15a8e844eb373d3b1bc9",
+    "allowed_changes": [
+      "Native job timeout-minutes40→60",
+      "Full job expression reading-state75/content-copy50; strategy unchanged",
+      "Existing Native failure attachment workflow contract one40→60 expectation; no added tests/assertions"
+    ],
+    "saved_validation": {
+      "existing_targeted_unit_runs": 1,
+      "tests": 51,
+      "pass": 51,
+      "fail": 0,
+      "skip": 0,
+      "cancelled": 0,
+      "wall_seconds": 0.154254083,
+      "syntax": 1,
+      "YAML_documents": 2,
+      "YAML_before_after_parses": 4,
+      "YAML_same_final_code3_SHA_binding": true,
+      "actionlint_binary_or_real_GitHub_expression_run": false,
+      "worker_or_SDK_tests_repeated_by_binder": false
+    },
+    "source_e8_evidence": {
+      "state": "FROZEN_E8_FIRST_EPOCH_AND_SEPARATE_NATIVE_CONTROL2",
+      "record_preparation_UTC": "2026-11-02T21:58:48.615937+00:00",
+      "source": "e8f3db7b08d925df337ca63b5ecbaec3b1b488c8",
+      "tree": "5bf131b9466d3a1d68915b90523febce5e026d9d",
+      "VM": "7f8853ad7d6b5d1c3f1e324b5808006faeb55ee8",
+      "initial_epoch": {
+        "MF": "1ae2ea19fd053022a208a7be2e5f1a555bf1f0003071c017a8e1456b93b73cd8",
+        "result_SHA256": "d3158077e26f8465d9342d8d3b48432eb4c853f7312c56ba43586eb1fd4f8b33",
+        "sealed_at": "2026-11-02T21:45:33.435746+00:00",
+        "all_fixed6_terminal": true,
+        "required11_success": true,
+        "combined_acceptance": false,
+        "runs": {
+          "Common": {
+            "id": 41522329856,
+            "name": "CI",
+            "head_sha": "e8f3db7b08d925df337ca63b5ecbaec3b1b488c8",
+            "head_branch": "codex/ios-native-owned-preparation-diagnostics",
+            "event": "pull_request",
+            "run_attempt": 1,
+            "status": "completed",
+            "conclusion": "success"
+          },
+          "Native": {
+            "id": 41522329831,
+            "name": "iOS native regression",
+            "head_sha": "e8f3db7b08d925df337ca63b5ecbaec3b1b488c8",
+            "head_branch": "codex/ios-native-owned-preparation-diagnostics",
+            "event": "pull_request",
+            "run_attempt": 1,
+            "status": "completed",
+            "conclusion": "failure"
+          },
+          "Full": {
+            "id": 41522329951,
+            "name": "iOS published app candidate",
+            "head_sha": "e8f3db7b08d925df337ca63b5ecbaec3b1b488c8",
+            "head_branch": "codex/ios-native-owned-preparation-diagnostics",
+            "event": "pull_request",
+            "run_attempt": 1,
+            "status": "completed",
+            "conclusion": "cancelled"
+          },
+          "SDK26": {
+            "id": 41522329825,
+            "name": "iOS SDK 26 unsigned archive preflight",
+            "head_sha": "e8f3db7b08d925df337ca63b5ecbaec3b1b488c8",
+            "head_branch": "codex/ios-native-owned-preparation-diagnostics",
+            "event": "pull_request",
+            "run_attempt": 1,
+            "status": "completed",
+            "conclusion": "success"
+          },
+          "R26": {
+            "id": 41522329816,
+            "name": "iOS 26.5 representative UI smoke",
+            "head_sha": "e8f3db7b08d925df337ca63b5ecbaec3b1b488c8",
+            "head_branch": "codex/ios-native-owned-preparation-diagnostics",
+            "event": "pull_request",
+            "run_attempt": 1,
+            "status": "completed",
+            "conclusion": "success"
+          },
+          "Recovery": {
+            "id": 41522329887,
+            "name": "iOS missing package and restored install UI",
+            "head_sha": "e8f3db7b08d925df337ca63b5ecbaec3b1b488c8",
+            "head_branch": "codex/ios-native-owned-preparation-diagnostics",
+            "event": "pull_request",
+            "run_attempt": 1,
+            "status": "completed",
+            "conclusion": "success"
+          }
+        },
+        "Native_initial": "prepare/read-timeout-retry and cleanup-before failure; unit/UI skipped; not replaced by control2",
+        "FullA": {
+          "job": 125541213358,
+          "official_conclusion": "cancelled",
+          "UI": {
+            "total": 7,
+            "pass": 6,
+            "fail": 1,
+            "skip": 0,
+            "seconds_sum": 1240.622
+          },
+          "expected18_complete": false,
+          "failed_UI_leaf": [
+            {
+              "line": 20826,
+              "module": "AILibraryUITests",
+              "id": "PublishedReaderUITests/testCancelContentFolderPickerPreservesFiltersAndReadingAndAllowsMoreActions()",
+              "outcome": "failed",
+              "seconds": 166.872
+            }
+          ],
+          "units": {
+            "total": 278,
+            "pass": 276,
+            "fail": 0,
+            "skip": 2,
+            "seconds_sum": 152.631
+          },
+          "Mac_Node": {
+            "tests": 1488,
+            "pass": 1473,
+            "fail": 0,
+            "skipped": 15
+          },
+          "TagSearch25sec_failure_fixed_by_job_budget": false
+        },
+        "FullB": {
+          "job": 125541212996,
+          "official_conclusion": "success",
+          "UI": {
+            "total": 8,
+            "pass": 8,
+            "fail": 0,
+            "skip": 0,
+            "seconds_sum": 1417.253
+          },
+          "copy374_marker_count": 1,
+          "Release_steps": [
+            {
+              "name": "Build and verify the published Release package",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 20
+            }
+          ]
+        },
+        "R26_UI": {
+          "total": 3,
+          "pass": 3,
+          "fail": 0,
+          "skip": 0,
+          "seconds_sum": 370.105
+        },
+        "SDK26": "official workflow/package/audit stages success; SDK raw not fetched by this observer",
+        "Recovery": "workflow/auditor success; direct child leaf details unreceived",
+        "CommonDocs_Node": {
+          "tests": 1488,
+          "pass": 1470,
+          "fail": 0,
+          "skipped": 18
+        }
+      },
+      "Native_control2": {
+        "MF": "d7a0e62db1f305deebe83b9f8f736a49ba58f7063368116546998a71fff62b81",
+        "result_SHA256": "30935109866e921dc12961f90dbc226456b121136a2a36140f2e94bbc843a984",
+        "sealed_at": "2026-11-02T21:50:25.032454+00:00",
+        "run": 41522329831,
+        "attempt": 2,
+        "job": 125550085190,
+        "official_conclusion": "cancelled",
+        "accepted": false,
+        "units": {
+          "total": 278,
+          "pass": 276,
+          "fail": 0,
+          "skip": 2,
+          "seconds_sum": 107.847
+        },
+        "UI_terminal": {
+          "total": 5,
+          "pass": 5,
+          "fail": 0,
+          "skip": 0,
+          "seconds_sum": 712.216
+        },
+        "UI_starts": 6,
+        "expected8_complete": false,
+        "Release": "skipped",
+        "cleanup": {
+          "status": "cleanup-incomplete",
+          "ok": false,
+          "shutdown_ok": false,
+          "delete_ok": true,
+          "absent_after": true
+        },
+        "new_failure_tag_count": 0
+      },
+      "official_annotations": [
+        {
+          "scope": "Full reading-state",
+          "SHA256": "470f3d660115d30e86e8e2a63d8a4357f5e41858285148be12ad3212ff9c064e",
+          "maximum_job_minutes": 50,
+          "messages": [
+            "The job has exceeded the maximum execution time of 50m0s",
+            "The operation was canceled."
+          ]
+        },
+        {
+          "scope": "Native control2",
+          "SHA256": "25c636f487f7c8d68d332e0759374212a37aae59690a0b155d633a1a515c62bd",
+          "maximum_job_minutes": 40,
+          "messages": [
+            "The job has exceeded the maximum execution time of 40m0s",
+            "Process completed with exit code 1.",
+            "The operation was canceled."
+          ]
+        }
+      ]
+    },
+    "failure_scope": "Official50m/40m job caps explain observed envelope exhaustion; TagSearch25sec/166.872s assertion remains a separate issue, not cured by budget change",
+    "held": {
+      "all_individual_steps_commands_caps_assertions_roster_source": true,
+      "standard_Intel": true,
+      "Native_helper_UI_product": true,
+      "App": "0.2.28(30)",
+      "TODO": "32/14",
+      "old_MD_JSON_provenance_index_history": true,
+      "Full_content_copy_minutes": 50,
+      "future_checkpoint_TODO16_applied": false,
+      "future_Storage_version29_applied": false
+    },
+    "initial_Code2_Source6_scope": "Superseded unadopted preparation; stale Native40 static expectation was synchronized by exact workerCode3 one literal. Runtime26 separate40 expectation held.",
+    "new_Hosted_UI_workflow_cleanup_Release_or_main_accepted": false,
+    "actual_new_commit": null,
+    "external_publication": false,
+    "pending": [
+      "Final Source7/metadata independent review and forms",
+      "Newhead Native8/FullA18 completion, strict assertions and clean cleanup/Release; TagSearch issue separately resolved or diagnosed",
+      "Ordinary protected main and separately observed mainpush results",
+      "Physical/provider/VoiceOver/minOS/signing/Store remain incomplete"
+    ]
+  },
+  "runtime_budget_prior_fields_scope": "All prior pending/accepted snapshots and budgets are preserved historical through e8; appended job envelope candidate is current private preparation only."
 }

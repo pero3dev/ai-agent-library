@@ -325,7 +325,7 @@ test('workflow keeps primary UI run and full artifact before optional nonblockin
   assert.ok(source.indexOf('id: native_full_evidence') < source.indexOf('id: native_failure_compact'));
   const ui = source.slice(source.indexOf('- name: Run native UI smoke'), source.indexOf('- name: Build and verify the Release'));
   assert.ok(ui.includes('id: native_ui')); assert.ok(!ui.includes('continue-on-error')); assert.ok(ui.includes('-only-testing:AILibraryUITests/ReadingRecoveryUITests'));
-  assert.ok(source.includes('timeout-minutes: 40')); assert.ok(source.includes('AILIBRARY_FULL_ARTIFACT_OUTCOME: ${{ steps.native_full_evidence.outcome }}'));
+  assert.ok(source.includes('timeout-minutes: 60')); assert.ok(source.includes('AILIBRARY_FULL_ARTIFACT_OUTCOME: ${{ steps.native_full_evidence.outcome }}'));
   assert.ok(source.includes('path: .local/ios-ci/native-failure-compact/ready'));
   assert.ok(source.includes("steps.native_failure_compact.outputs.closed == 'true'"));
   assert.ok(source.includes("printf '%s\\n' 'closed=true' >> \"$GITHUB_OUTPUT\""));

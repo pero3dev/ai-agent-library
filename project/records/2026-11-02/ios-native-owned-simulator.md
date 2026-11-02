@@ -147,3 +147,17 @@ Group2 Common SourceMF `534171db0492a0a7bc615b34a3ef0c50d1487b8abb3dac96a1f75f78
 他CIはfreeze `2026-11-02T20:32:27.553710+00:00`・公式metadata観測 `2026-11-02T20:29:34.639Z` の保存snapshotに限ります。run側は Common:completed/success、Native:completed/failure、Full:queued/None、SDK26:completed/success、R26:queued/None、Recovery:completed/success でした。job側の状況とrun metadataはJSONで別保持し、進行中/queued/nullを成功にしません。a812 CommonDocsのLinux1455=1437成功18skip、Recoveryのworkflow/auditor成功と直接leaf未受領を区別し、旧70ca/40f/e6や旧arm64 scalar/perfから新成功を補いません。以後のCI結果はこのsnapshotへ遡及しません。
 
 全旧MD/JSON値・索引・provenance・製品/画像/Content/保存形式、App0.2.28（30）/TODO32行14完了、SDK26/R26/Recoveryのhost条件とFull分割/UI/コピー374B/Release条件を保ちます。最終Source/metadata IR・形式・新CI/通常mainと別mainpush観測はRootの後続で、失敗pushも正確に別記します。実機/provider/VoiceOver/minOS/音声/署名/Storeは未完了です。
+
+## 2026-11-03追補: NativeとFull Aのjob予算
+
+上記全文は公開e8 `e8f3db7b08d925df337ca63b5ecbaec3b1b488c8` /tree `5bf131b9466d3a1d68915b90523febce5e026d9d`・追跡2890件までの履歴です。Rootは単一追加コミット用Source7として2YAMLと既存unit期待値1箇所、記録/索引4を結びます。Code3 SourceMF `3c7f18075afd85d267d007e0049d37de54cc2645a488d43fbbf0bb6d0fa6435f` はNative job40→60分、Fullのreading-stateだけ50→75分（content-copy50分保持）、既存failure-attachments unitのNative40→60期待値1literal同期です。個別step/commandの期限、全npm check/caps/assert/roster、standard Intel/source、helper/UI/製品は保持します。Runtime26別workflowの40分期待値も保持します。
+
+Rootが直接取得した公式注記はFullA check125541213358で50m0s超過（SHA `470f3d660115d30e86e8e2a63d8a4357f5e41858285148be12ad3212ff9c064e`）、Native control2 check125550085190で40m0s超過（SHA `25c636f487f7c8d68d332e0759374212a37aae59690a0b155d633a1a515c62bd`）を示しました。これはjob envelopeの是正根拠であり、すべてのUI不成立やcleanup原因が予算だけだったという証明ではありません。
+
+e8初回epoch MF `1ae2ea19fd053022a208a7be2e5f1a555bf1f0003071c017a8e1456b93b73cd8`（seal `2026-11-02T21:45:33.435746+00:00`）と同head Native control2 MF `d7a0e62db1f305deebe83b9f8f736a49ba58f7063368116546998a71fff62b81`（seal `2026-11-02T21:50:25.032454+00:00`）は別に保持します。初回Nativeはprepareのpostboot読取retryとcleanup-before失敗でunit/UI未開始でした。control2はunits278=276成功2skip、UI5terminal成功・6startsで期待8は未完了、Release skippedです。cleanupはcleanup-incomplete/okfalse/shutdownfalseで、delete_ok/absent_after trueも全cleanup成功へ読み替えません。単回controlの途中結果をNative8安定受入へ広げません。
+
+同e8 FullAはunits278=276成功2skip、Mac global1488=1473成功15skip、UI7leaf=6成功1失敗で期待18は未完了です。失敗したPublishedReaderのcontent-folder cancel case166.872秒とTagSearch25秒の不成立は別課題として残し、job75分で直ったとは断定しません。FullBの実8成功1417.253秒、374-byte copy marker1とRelease成功、SDK26 workflow成功、R26実UI3成功、Recovery workflow/auditor成功（direct leaf未受領）、Common/required11成功はこのe8の保存scopeです。以前のheadや新候補の成功へ転用しません。
+
+workerの既存対象unitは専用1回で51成功・失敗/skip/cancel0、wall0.154254083秒、構文1件もexit0でした。2YAMLのlocked before/after4解析と他AST/run-body保持を、Code3同一YAML SHAへ結びます。actionlint binary/実GitHub式評価・新Hostedは未実施です。旧133/6/40や新SDK、全green suiteはここで再実行せず、新しいtest/assertも追加しません。長くしたjobでも個別期限で失敗し得るため、新Native8/FullA18・Release/cleanupの完了は後続CIで確認します。
+
+全旧MD/JSON/provenance/索引、criteriaとTODO32行14完了、App0.2.28（30）、Native/helper/UI/製品を保持します。将来checkpointの32/16とStorage版0.2.29はこのunitへ適用しません。最終IR/形式・新head必要CI・通常mainと別mainpush観測はRootの後続で、実機/provider/VO/minOS/署名/Storeは未完了です。

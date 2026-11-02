@@ -1,0 +1,37 @@
+# Simulator一覧の読取上限と共有期限の整合
+
+2026-11-02の私有Source7候補である。PR320の実親head5826（tree a62d969e、2878件）へ、専用workflow2・既存unitへの追加1・新記録2・索引2を結合する。60秒読取の実Hosted効果、新head CIとmain採用は未受入である。記録のfreezeは `2026-11-02T00:15:28Z` とし、その後の観測結果をこの時点へ遡って代入しない。
+
+## 実親の成功と停止を分けて保持する
+
+[head5826の回転run](https://github.com/pero3dev/ai-agent-library/actions/runs/41362949456)は初回の元caseが210.493秒で成功し、strict1と全outcome、所有Simulatorの削除を確認した。Rootは公式全ZIP4,073,305Bのdigestと実source/treeを照合した。標準文字の固定列幅表について回転・再起動・live portrait復帰・しおりを確認した結果であり、新しい一覧読取予算やDynamic成功へ広げない。
+
+[同じ親のDynamic run](https://github.com/pero3dev/ai-agent-library/actions/runs/41362949439)は初回、boot後のdevices一覧が30秒上限で2回ともSIGKILL/ETIMEDOUTとなった。共有simulator期限の残りは90015→58458msで、build/UI/auditへ進まなかった。Rootに許可された1回の外部retryでも、今度はinventoryのruntimes一覧が30秒上限で2回とも同じ終了tupleとなり、共有期限の残りは87846→57839msだった。両runのcleanupは成功し、UI実行は0件である。失敗した直近境界は1読取の30秒上限であり、共有期限の枯渇ではなかった。30秒を超えれば完了することや恒久的なOS原因を示す証拠ではない。旧失敗は保持し、追加の同一head retryは0回とする。
+
+head89のDynamicが元case260.339秒・strict1に成功し、default→accessibility5→defaultの3phaseでRoot・fixture(sheetActual)・Reader・Tableを全12stage観測した結果は、同一Font Code3の保存済み受入として残す。新headや今回の60秒候補へ代用しない。旧bc25の失敗、旧89回転timeoutとその後の5826回転成功も、それぞれのsourceと条件の履歴として分ける。
+
+## 実callerと所有receiptを同時に揃える
+
+両専用workflowのinline `listInventory`だけを30秒から60秒へ変更する。`acceptedBeforeCreate.validateIntent`の上限も同時に60000msへ揃え、実callerが発行する正常な所有receiptを古い30000ms guardで拒否しないようにする。正の整数、remainingとの大小、stage・source・run/token/name/UUID・command・raw/hash・受理済み結果・正確な初回timeout tupleと既存端末の証明は保持する。global `run` default30秒、純粋helperの4種類whitelist・timeout時1回だけの再読取と3回目なしは変更しない。
+
+inventoryの共有期限を90秒から180秒、stepを2分から4分へ、simulatorを180秒から300秒、stepを4分から6分へ配分する。Rotation UI600秒/step12分は維持して明示step総和50分・job51分とする。Dynamic UI720秒/step13分も維持し、旧宣言の総和47分に対してjob43分だった不足を、新総和51分・job52分へ正す。両方とも総和+1分の明示枠を持つ。
+
+これらの共有期限は全commandの最悪値の総和を必ず収容する約束ではない。期限内で必要なprocessだけを許可し、残りへclampし、枯渇時はspawnせず閉じる。runner消失やOSの停止遅延を含め、cleanupの完遂を時間枠だけで保証しない。create/boot30秒・bootstatus120秒、cleanup共有150秒・直接list30秒/delete60秒、他stage・source固定・bufferと証跡容量を変えない。
+
+## 追加するcontrolと保存条件
+
+旧unit21,367Bのprefixを完全保持し、実workflowからhelper/run/listInventoryと所有cleanup closureを抽出するcontrolを追加する。60秒初回成功、正確なtimeout後の1回再読取、残20秒へのclampと共有80秒での60000/20000再読取、ちょうど60秒を消費した後のspawnfalse、合法な60000ms/正のclamp済み所有receipt、60001・0・負数・小数・remaining不足など追加12種類と旧9種類のprovenance改変拒否を対象にする。旧30秒hardcoded harnessは旧境界のcoverageとして残し、新caller60秒の証明とは数えない。malformed JSON・不適切な終了tuple・runtime意味的不在も誤ったretryやpassへ変換しない。
+
+Node24.22.1で旧24件と追加14件の計38件が全成功、失敗・skipは0。実workflowから抽出したcallerと所有確認を、模擬executor・仮想時刻・メモリ内の証跡で検査した。45秒応答の成功と旧30秒上限での負例、正確timeout1回だけの回復、残20秒へのclamp・残0秒のspawn0、60秒receiptと60001等改竄時のcleanup前拒否を確認した。YAML2・inline Node2・unit/helperの構文と15stepの算術も成功し、Dynamicは51分/job52分、Rotationは50分/job51分。最終Code3 MFと実行input4の一致を確認した。実OSでの60秒化の効果、SDK・Simulator・UIと新head CI/mainは未受入。
+
+設計レビューP1/P2=0は実装前の配分と必須結合に対する判定であり、最終Source7レビューではない。新コードの60秒process実行・Hostedの改善やSDK/UI実行の証拠と、純粋controlと構文の証拠を分ける。新sourceでは正しいinventoryと端末identityが成立してからSDK/UIを受け入れる。
+
+元2case・53assert・phase最大15getter、selector・待機・操作・1.25倍超/標準復帰±1pt・しおり/offset・補正gestureなし、各strict1・Full26を維持する。製品コード、App0.2.28（30）・PBX・TODO32行14完了、Core/Conf/Tag/Seed/Font/Dynamic/Budget/Probeの全履歴とOriginal110・Content626を保つ。改訂UIなど別単位は混ぜない。
+
+## 作業単位と未受入
+
+所有はCode3・新記録2・索引2の7パスで、親2878件からnew2の2880件へ投影する。既存変更5・非所有2873と、実main0a47比の累積22パスを別mapで追跡する。索引はH1直後のprefixだけで旧全文を回復できる。公開記録へprivateログや利用者の絶対パスを収録しない。
+
+このfreeze時点のRoot報告では、実親5826のCommon9・required11・Recovery13 outcome、Native8/8（Core278件＝276成功・2skip）とSDK26 unsigned Archive、Full B8/8は成功している。Nativeのexport/Browse/Cancel各2回とResume位置・しおり、Bの374Bコピー/marker1回とRelease監査は親sourceの受入として保持する。Full A18件はまだ観測中で未受入である。Runtime26は実3leafが2成功・1失敗、元15秒の可視性待機で停止した。timeout後のgeometry可視を期限内成功へ読み替えず、この60秒一覧対策が修復したとは扱わない。これはRootの保存済み観測報告snapshotで、作者は公式APIを再取得していない。新head CIはすべて別に必要である。
+
+ユーザーの優先TODO自律実施・区切った通常commit/PR/mainの依頼に従う私有提出候補である。作者はreadonly GitとPython静的結合だけを行い、Gitwrite/API・managed/元repo編集・SDK/Simulator/testsを実行しない。RootがSource7最終レビュー・形式・実objectとfresh公式head/main、新headの必要CIを確認して通常保護で統合し、新mainpushは別に確認する。60秒の新効果・新CI・main、自然OS font・VoiceOver・provider・実機とIOS-11/15/23/25全体は未受入で、実機はユーザー許可どおり未完了のまま残す。

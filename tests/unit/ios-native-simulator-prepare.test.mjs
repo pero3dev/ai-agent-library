@@ -181,7 +181,7 @@ test('workflow uses the same prepared UUID for both tests, then cleans after fai
   assert.ok(w.indexOf('id: native_simulator') < w.indexOf('name: Run native XCTest'))
   assert.ok(w.indexOf('node ios/tests/native-simulator-prepare.mjs cleanup') > w.indexOf('name: Retain optional selected Native failure attachments'))
   assert.match(w, /name: Clean up only the proven owned Native Simulator\n\s+if: always\(\)/)
-  assert.match(w, /timeout-minutes: 40/); assert.match(w, /persist-credentials: false/)
+  assert.match(w, /timeout-minutes: 60/); assert.match(w, /persist-credentials: false/)
 })
 
 for (const input of [{ xcode: 'Xcode 26.0\nBuild version 17A1\n' }, { sdk: '26.0\n' }]) {

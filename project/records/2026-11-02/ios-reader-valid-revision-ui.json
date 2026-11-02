@@ -309,7 +309,7 @@
       "unit": "passed Node24 --check",
       "workflow_driver": {
         "command": [
-          "/Users/yabukita_shou/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+          "<user-home>/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
           "--check",
           "/private/tmp/ios-reader-revision-container-relocation-source7-preparation-20261102/inline-driver-final-syntax-only.mjs"
         ],

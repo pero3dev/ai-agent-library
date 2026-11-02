@@ -1,5 +1,7 @@
 # project — 計画と実施記録
 
+[Intelの起動・後処理・共通検査の追補](records/2026-11-02/ios-native-owned-simulator.md)は、a812の実boot120秒timeout（共有clip無し）とcleanup本体前Git検証失敗、FullA common3分timeout/最初JSON失敗＋後ENOENT17/CLIassert1（cancelled0）を保持します。Native boot300/shared480/prepare9・Git1call30秒4KiB/cleanup本体90秒step3とCommon6分/既存readiness原子公開を2意図に分ける候補です。新head実起動/後処理/全検査/UIは未受入で、旧全文/JSON/索引/TODO32行14完了/App0.2.28（30）と全品質を保ちます。CIは観測2026-11-02T20:29:34.639Zのsnapshotで、進行中を成功にしません。
+
 [Native準備予算とAppIcon形式の追補](records/2026-11-02/ios-native-owned-simulator.md)は、公開40fのbootstatus共有210秒残り88205msでの失敗と、取得済みSchema2/Storage17・Key Format9の診断を保持します。共有360秒/step7分のCode3（専用Darwin100成功）と実データに限るIcon互換対応を2意図へ分け、per-command120/60秒・所有/cleanup/全品質、旧全文/JSON値/TODO32行14完了/App0.2.28（30）を保ちます。40f初回のCommon9/required11/SDK26/Recovery成功とNative/Full失敗・R261成功2失敗、別retry2取消unknownは別履歴です。最終IR・新headCI/実UI・通常mainと実機等は未受入です。
 
 [Native/Fullの標準Intel runner](records/2026-11-02/ios-native-owned-simulator.md)は、70ca Native初回と通常retry2の取消、Hosted未取得/arm64容量注記を保持し、Native＋Full A/Bのruns-onだけをmacos-15-intelへ移すSource6候補です。固定公式4da230のXcode16.4/SDK18.5と実simulator掲載を根拠に標準public無料labelへ限定し、SDK26/R26/Recovery arm64・全品質/期限・512KiB/1MiB/16MiB/unit97を保ちます。旧FullB/SDK26取消unknown、R263成功/Recovery工程成功とleaf未受領、Common9/LinuxNode1446=1428+18skip、FullA live UI pendingのsnapshotを分離します。Intel実capacity/newHosted/typedproofと最終IR/通常mainは後続で、旧arm64 scalar/perfを転用せず、全旧履歴/TODO32行14完了/App0.2.28（30）を保持します。

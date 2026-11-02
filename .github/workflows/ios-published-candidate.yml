@@ -81,7 +81,7 @@ jobs:
           } | tee .local/ios-published-candidate/evidence/environment.log
       - name: Run the full common checks on the reading-state slice
         if: ${{ matrix.slice == 'reading-state' }}
-        timeout-minutes: 3
+        timeout-minutes: 6
         run: |
           set -euo pipefail
           full_common_tmp_parent="$(cd "${RUNNER_TEMP:?RUNNER_TEMP is required}" && pwd -P)"

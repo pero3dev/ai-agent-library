@@ -129,3 +129,21 @@ FullBのAppIcon診断は同source/run41503863477/attempt1/job125477979194、実c
 40f初回の結果は前sourceや候補と分けて凍結します。Common9/required11/SDK26/Recoveryは成功し、FullA units278件中276成功2skip、Mac Node1446件中1431成功15skipでした。Nativeはbootstatusで失敗、FullA/BはDebug build成功後のUnknown catalog key formatでUI0、copy/Release未到達です。R26初回は1成功2失敗（背景assert/publicUI待ち）で、同headの条件不変control retry2もqueued後cancelled、raw1回404・empty stepsで実行数/UIはunknownです（MF `a200744d003fecf54645b1c36e79cbd06a82a16aa3f0b15a80f29bcb0f4d31c4`）。旧70caの成功を転用せず、新headのNode件数やCI成功を予測しません。
 
 Native/Fullの標準IntelとSDK26/R26/Recoveryのarm64条件、全品質/期限・512KiB inventory/128KiB generic/1MiB receipt/16MiB証跡を保持します。旧arm64 scalar/perfを流用しません。全旧MD/JSON値・索引/TODO32行14完了、App0.2.28（30）と製品を保持し、最終Source/metadata IR・新CI・通常mainと別push・実機/VoiceOver/minOS/追加audio/署名/Storeは未完了です。この結合作業でrepo/Git/API/SDK/tests/ユーザーデータ/publication操作はありません。
+
+## 2026-11-03追補: Intelの起動予算・後処理前検証・共通検査
+
+上記全文は公開PR327 `a812ae0da2cf764b91993847db55c4c571533b9b` /tree `d1f7a538392bd95907f60947385bb85b875be513`・追跡2890件までの履歴です。同親へ、Native Code3とCommon Code2＋記録/索引4を2意図のコミットとして投影する私有Source9候補を追補します。実commit・通常main・新head成功は未採用です。
+
+a812 Native run41515870039/attempt1/job125519169076では、bootstatusが実120000msを使い切りETIMEDOUT/SIGKILL、output incompleteで失敗しました。共有360秒によるclipはfalseで、旧40fの残り88205msへのclipと区別します。Data Migrationの進行表示・plugin変化はあってもterminal成功やNative単体/UI開始は受領していません。診断MF `093f21a2b0a2a7dcda9604700adaaecebdce424100ce65015cb145814e04a12c` /result SHA `935bb5e96a6e7a346b5b49ea120f62075a23da531303f0cd924863b5db42aec3` はZIP47084B・全SHA、選択13 JSON/474996BのCRC/SHA、context8keys/nested、9command（8成功1失敗）へ結びます。provider取得1回と返却file参照の監督読取を分け、provider download自体の期限保証は未証明です。
+
+失敗後のcleanupも、本体前のGit context検証でstatus=nullと想定0の比較に失敗しました。HEAD/treeのどちらのcallかとerror/signalの型付き原因は不明で、timeoutと断定しません。store/cleanup本体とcleanup receiptは未作成、shutdown/delete/absence成功も未証明です。旧40f cleanup成功をこのsourceへ転用しません。
+
+Group1 SourceMF `29e7224bb2782148a18e68b5c0cbc02c005ea4fd49720bd719e608be1041a957` はbootstatus300秒・共有prepare480秒・prepare工程9分と、HEAD/treeを固定Git1call/30秒/4KiBの完全2行full40 objectIDで照合する候補です。失敗時のstage/status/signal/error codeを限定診断し、証明不足で削除しません。cleanup本体90秒・工程3分、job40分、mutation retry0、正確なinventory3readだけ512KiB/他128KiB・receipt1MiB/証跡16MiBと全所有/assertを保ちます。Node24.22.1の対象専用1回で133件（旧100＋新33）が133成功・失敗/skip0、構文2件とlocked YAML before/after2parseもexit0でした。in-memory executorと既存Darwin diskStore fixtureのstub検証であり、実SDK/Git/Simulator commandは実行していません。 共有予算はper-commandが常に全上限を使える保証ではなく、新300秒内の実起動・後処理完了は未受入です。
+
+a812 FullA job125519170321はcommon工程3分timeoutでした。TAP1455件は1421成功19失敗15skip・cancelled0、19件すべてtestCodeFailureです。最初は実parent exit試験のreadiness JSON.parse Unexpectedend、後はENOENT17件とCLI assertion1件です。共通TMP ENOENTとtimeoutは同時観測で、root削除との直接因果や19件全部の製品regressionは確定していません。raw SHA `a285b5de7d9b162d6edf011513da7cd91584c3bbde1e4a1ae126e18d887d67c0` を保持します。
+
+Group2 Common SourceMF `534171db0492a0a7bc615b34a3ef0c50d1487b8abb3dac96a1f75f781311e97d` はcommon工程だけ3→6分、job50分と全npm check/他stepを保ちます。既存signal/exit fixtureの準備JSONをowned siblingへ書き終えてrename公開し、consumer/kill/signals/期限/assert/cleanupを全保持します。Node24.22.1の対象既存6件は1回で6成功・失敗/skip/cancel0（Node372.325875ms/wall0.402951917秒）、構文1・locked YAML2parseも成功しました。新test0でgreen全suite/SDKの反復はせず、製品CLI/helperは変更しません。
+
+他CIはfreeze `2026-11-02T20:32:27.553710+00:00`・公式metadata観測 `2026-11-02T20:29:34.639Z` の保存snapshotに限ります。run側は Common:completed/success、Native:completed/failure、Full:queued/None、SDK26:completed/success、R26:queued/None、Recovery:completed/success でした。job側の状況とrun metadataはJSONで別保持し、進行中/queued/nullを成功にしません。a812 CommonDocsのLinux1455=1437成功18skip、Recoveryのworkflow/auditor成功と直接leaf未受領を区別し、旧70ca/40f/e6や旧arm64 scalar/perfから新成功を補いません。以後のCI結果はこのsnapshotへ遡及しません。
+
+全旧MD/JSON値・索引・provenance・製品/画像/Content/保存形式、App0.2.28（30）/TODO32行14完了、SDK26/R26/Recoveryのhost条件とFull分割/UI/コピー374B/Release条件を保ちます。最終Source/metadata IR・形式・新CI/通常mainと別mainpush観測はRootの後続で、失敗pushも正確に別記します。実機/provider/VoiceOver/minOS/音声/署名/Storeは未完了です。

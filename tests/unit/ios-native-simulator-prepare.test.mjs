@@ -294,9 +294,9 @@ test('malformed successful inventory JSON is not a timeout retry', () => {
   assert.throws(h.prepare); assert.equal(h.calls.filter(x => x.args[2] === 'runtimes').length, 1)
   assert.equal(h.files.has('runtimes-timeout-retry-1'), false)
 })
-test('retry read timeout is clipped to the shared210s remainder without resetting the clock', () => {
+test('retry read timeout is clipped to the shared360s remainder without resetting the clock', () => {
   let h, attempts = 0
-  h = fixture({ storeHook: label => { if (label === 'sdk') h.advance(120000) },
+  h = fixture({ storeHook: label => { if (label === 'sdk') h.advance(C.prepareMs - 90000) },
     intercept: (binary, args, settings) => {
       if (args[2] === 'runtimes' && ++attempts === 1) { h.advance(settings.timeout); return nativeTimeout() }
       return null
@@ -309,7 +309,7 @@ test('retry read timeout is clipped to the shared210s remainder without resettin
 })
 test('first read clips below60s; exhaustion after timeout prevents even a retry spawn', () => {
   let h
-  h = fixture({ storeHook: label => { if (label === 'sdk') h.advance(180000) },
+  h = fixture({ storeHook: label => { if (label === 'sdk') h.advance(C.prepareMs - 30000) },
     intercept: (binary, args, settings) => {
       if (args[2] === 'runtimes') { h.advance(settings.timeout); return nativeTimeout() }
       return null
@@ -396,9 +396,9 @@ test('unchanged command caps apply to all mutations, toolchain checks and cleanu
   for (const label of ['xcode', 'sdk', 'cleanup-before', 'cleanup-before-delete', 'cleanup-after', 'cleanup-shutdown']) assert.equal(cap(label), 15000)
   assert.equal(cap('create'), 30000); assert.equal(cap('boot'), 30000); assert.equal(cap('bootstatus'), 120000); assert.equal(cap('cleanup-delete'), 30000)
   const w = fs.readFileSync(fileURLToPath(new URL('../../.github/workflows/ios-native.yml', import.meta.url)), 'utf8')
-  assert.match(w, /id: native_simulator\n\s+timeout-minutes: 4/)
+  assert.match(w, /id: native_simulator\n\s+timeout-minutes: 7/)
   assert.match(w, /name: Clean up only the proven owned Native Simulator\n\s+if: always\(\)\n\s+timeout-minutes: 2/)
-  assert.equal(C.prepareMs, 210000); assert.equal(C.cleanupMs, 90000)
+  assert.equal(C.prepareMs, 360000); assert.equal(C.cleanupMs, 90000)
 })
 test('exact512KiB inventory output is accepted; one byte above cannot authorize a timeout retry', () => {
   const valid = JSON.stringify({ runtimes: [{ identifier: C.runtime, version: C.version, name: 'iOS 18.5', isAvailable: true }] })
@@ -620,4 +620,71 @@ test('real diskStore still refuses an executor receipt above1MiB before any crea
     assert.equal(h.calls.some(x => x.args[1] === 'create'), false)
     assert.equal(fs.existsSync(path.join(h.receipts, 'ready.json')), false)
   })
+})
+
+test('a60s inventory timeout and122s prefix leave the full120s bootstatus budget under shared360s', () => {
+  let h, runtimeAttempts = 0, prefixMilliseconds = 62000
+  h = fixture({ storeHook: label => { if (label === 'sdk') h.advance(62000) },
+    intercept: (binary, args, settings) => {
+      if (args[2] === 'runtimes' && ++runtimeAttempts === 1) {
+        assert.equal(settings.timeout, 60000)
+        prefixMilliseconds += settings.timeout; h.advance(settings.timeout)
+        return nativeTimeout()
+      }
+      if (args[1] === 'bootstatus') {
+        assert.equal(prefixMilliseconds, 122000)
+        assert.equal(settings.timeout, 120000); assert.equal(settings.maxBuffer, 131072)
+        h.advance(settings.timeout)
+      }
+      return null
+    } })
+  assert.equal(h.prepare().UUID, NEW)
+  assert.equal(runtimeAttempts, 2)
+  assert.equal(h.store.read('runtimes').output_complete, false)
+  assert.equal(h.store.read('runtimes-timeout-retry-1').status, 0)
+  const bootstatus = h.store.read('bootstatus')
+  assert.equal(bootstatus.timeout_ms, 120000); assert.equal(bootstatus.status, 0)
+  assert.equal(bootstatus.returned_within_deadline, true)
+  assert.ok(prefixMilliseconds + bootstatus.timeout_ms < C.prepareMs)
+  assert.equal(h.calls.filter(x => x.args[1] === 'create').length, 1)
+  assert.equal(h.calls.filter(x => x.args[1] === 'boot').length, 1)
+  assert.equal(h.calls.filter(x => x.args[1] === 'bootstatus').length, 1)
+  assert.equal(h.outputs.destination, `platform=iOS Simulator,id=${NEW}`)
+  assert.equal(h.cleanup().ok, true); assert.ok(h.destructive().every(x => x.args[2] === NEW))
+})
+test('bootstatus still clips to the shared remainder and refuses readiness when that remainder expires', () => {
+  let h, assignedTimeout = 0
+  h = fixture({ storeHook: label => { if (label === 'sdk') h.advance(C.prepareMs - 60000) },
+    intercept: (binary, args, settings) => {
+      if (args[1] !== 'bootstatus') return null
+      assignedTimeout = settings.timeout
+      assert.ok(assignedTimeout > 59000 && assignedTimeout < 60000)
+      h.advance(assignedTimeout)
+      return nativeTimeout()
+    } })
+  assert.throws(h.prepare, /command failed: bootstatus/)
+  const receipt = h.store.read('bootstatus')
+  assert.equal(receipt.timeout_ms, assignedTimeout); assert.equal(receipt.error_code, 'ETIMEDOUT')
+  assert.equal(receipt.returned_within_deadline, false)
+  assert.equal(h.calls.filter(x => x.args[1] === 'bootstatus').length, 1)
+  assert.equal(h.files.has('bootstatus-timeout-retry-1'), false)
+  assert.equal(h.outputs.UUID, NEW); assert.equal(h.outputs.destination, undefined)
+  assert.equal(h.cleanup().ok, true); assert.ok(h.destructive().every(x => x.args[2] === NEW))
+})
+test('a full120s bootstatus timeout still fails once even with ample shared preparation time', () => {
+  let h
+  h = fixture({ intercept: (binary, args, settings) => {
+    if (args[1] !== 'bootstatus') return null
+    assert.equal(settings.timeout, 120000)
+    h.advance(settings.timeout)
+    return nativeTimeout()
+  } })
+  assert.throws(h.prepare, /command failed: bootstatus/)
+  const receipt = h.store.read('bootstatus')
+  assert.equal(receipt.timeout_ms, 120000); assert.equal(receipt.error_code, 'ETIMEDOUT')
+  assert.equal(receipt.returned_within_deadline, true)
+  assert.equal(h.calls.filter(x => x.args[1] === 'bootstatus').length, 1)
+  assert.equal(h.files.has('bootstatus-timeout-retry-1'), false)
+  assert.equal(h.outputs.destination, undefined)
+  assert.equal(h.cleanup().ok, true); assert.ok(h.destructive().every(x => x.args[2] === NEW))
 })

@@ -11,7 +11,7 @@ export const nativeSimulatorContract = Object.freeze({
   repository: 'pero3dev/ai-agent-library', runtime: 'com.apple.CoreSimulator.SimRuntime.iOS-18-5',
   version: '18.5', type: 'com.apple.CoreSimulator.SimDeviceType.iPhone-16', model: 'iPhone 16',
   developer: '/Applications/Xcode_16.4.app/Contents/Developer',
-  prepareMs: 210000, cleanupMs: 90000, outputBytes: 128 * 1024,
+  prepareMs: 360000, cleanupMs: 90000, outputBytes: 128 * 1024,
   inventoryOutputBytes: 512 * 1024, receiptBytes: 1024 * 1024, evidenceBytes: 16 * 1024 * 1024
 })
 const C = nativeSimulatorContract

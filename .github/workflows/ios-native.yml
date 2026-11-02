@@ -60,7 +60,7 @@ jobs:
           } | tee .local/ios-ci/evidence/environment.log
       - name: Prepare one fresh owned Native Simulator
         id: native_simulator
-        timeout-minutes: 4
+        timeout-minutes: 7
         run: node ios/tests/native-simulator-prepare.mjs prepare
       - name: Check the frozen AppIcon source assets
         run: |

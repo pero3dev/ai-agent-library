@@ -1,9 +1,12 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import fs from 'node:fs'
+import path from 'node:path'
+import childProcess from 'node:child_process'
+import { syncBuiltinESMExports } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import { createHash } from 'node:crypto'
-import { nativeSimulatorContract as C, prepareNativeSimulator, cleanupNativeSimulator } from '../../ios/tests/native-simulator-prepare.mjs'
+import { nativeSimulatorContract as C, prepareNativeSimulator, cleanupNativeSimulator, main } from '../../ios/tests/native-simulator-prepare.mjs'
 
 const NEW = 'AAAAAAAA-AAAA-4AAA-8AAA-AAAAAAAAAAAA'
 const OLD = 'BBBBBBBB-BBBB-4BBB-8BBB-BBBBBBBBBBBB'
@@ -397,17 +400,17 @@ test('unchanged command caps apply to all mutations, toolchain checks and cleanu
   assert.match(w, /name: Clean up only the proven owned Native Simulator\n\s+if: always\(\)\n\s+timeout-minutes: 2/)
   assert.equal(C.prepareMs, 210000); assert.equal(C.cleanupMs, 90000)
 })
-test('exact128KiB inventory output is accepted; one byte above cannot authorize a timeout retry', () => {
+test('exact512KiB inventory output is accepted; one byte above cannot authorize a timeout retry', () => {
   const valid = JSON.stringify({ runtimes: [{ identifier: C.runtime, version: C.version, name: 'iOS 18.5', isAvailable: true }] })
-  const exact = Buffer.from(valid + ' '.repeat(C.outputBytes - Buffer.byteLength(valid)))
+  const exact = Buffer.from(valid + ' '.repeat(C.inventoryOutputBytes - Buffer.byteLength(valid)))
   const h = fixture({ intercept: (binary, args) => args[2] === 'runtimes' ? {
     status: 0, signal: null, error: null, stdout: exact, stderr: Buffer.alloc(0) } : null })
-  h.prepare(); assert.equal(h.store.read('runtimes').stdout_bytes, C.outputBytes)
-  const over = fixture({ intercept: (binary, args) => args[2] === 'runtimes' ? nativeTimeout({ stdout: Buffer.alloc(C.outputBytes + 1) }) : null })
+  h.prepare(); assert.equal(h.store.read('runtimes').stdout_bytes, C.inventoryOutputBytes)
+  const over = fixture({ intercept: (binary, args) => args[2] === 'runtimes' ? nativeTimeout({ stdout: Buffer.alloc(C.inventoryOutputBytes + 1) }) : null })
   assert.throws(over.prepare); assert.equal(over.calls.filter(x => x.args[2] === 'runtimes').length, 1)
   assert.equal(over.files.has('runtimes-timeout-retry-1'), false)
 })
-test('injected evidence-store2MiB boundary refusal stops before any Simulator command', () => {
+test('injected evidence-store16MiB boundary refusal stops before any Simulator command', () => {
   const bytes = x => Buffer.byteLength(JSON.stringify(x, null, 2) + '\n')
   const h = fixture({ storeHook: (label, value, files) => {
     const total = [...files.values()].reduce((sum, item) => sum + bytes(item), 0)
@@ -443,4 +446,178 @@ test('forged accepted retry pointer and matching hash cannot substitute a succes
   const count = h.calls.length
   assert.throws(h.cleanup, /original Native timeout proof/)
   assert.equal(h.calls.length, count); assert.equal(h.destructive().length, 0)
+})
+
+// Synthetic valid JSON at the observed byte count; the failed real ENOBUFS
+// receipt remains incomplete and is never recast as a successful command.
+function paddedJSON(value, bytes) {
+  const prefix = JSON.stringify(value)
+  assert.ok(Buffer.byteLength(prefix) <= bytes)
+  return Buffer.from(prefix + ' '.repeat(bytes - Buffer.byteLength(prefix)))
+}
+const completeOutput = (stdout, stderr = Buffer.alloc(0)) => ({
+  status: 0, signal: null, error: null, stdout, stderr
+})
+function largeInventoryFixture(bytes = 133117) {
+  let h
+  h = fixture({ intercept: (binary, args) => {
+    if (binary !== '/usr/bin/xcrun' || args[0] !== 'simctl' || args[1] !== 'list') return null
+    const value = args[2] === 'runtimes' ? { runtimes: [
+      { identifier: C.runtime, version: C.version, name: 'iOS 18.5', isAvailable: true }] } :
+      args[2] === 'devicetypes' ? { devicetypes: [{ identifier: C.type, name: C.model }] } :
+      { devices: { [C.runtime]: h.made ? [clone(h.made)] : [] } }
+    return completeOutput(paddedJSON(value, bytes))
+  } })
+  return h
+}
+test('all exact inventory commands accept synthetic133117B through prepare and owned cleanup', () => {
+  const h = largeInventoryFixture()
+  assert.equal(h.prepare().UUID, NEW); assert.equal(h.cleanup().ok, true)
+  for (const label of ['runtimes', 'device-types', 'devices-before-create', 'devices-after-create',
+    'devices-after-boot', 'cleanup-before', 'cleanup-before-delete', 'cleanup-after']) {
+    const receipt = h.store.read(label)
+    assert.equal(receipt.stdout_bytes, 133117); assert.equal(receipt.output_complete, true)
+    assert.equal(receipt.status, 0)
+  }
+  for (const c of h.calls) {
+    assert.equal(c.settings.maxBuffer, c.args[1] === 'list' ? C.inventoryOutputBytes : C.outputBytes)
+  }
+  assert.equal(C.outputBytes, 131072); assert.equal(C.inventoryOutputBytes, 524288)
+  assert.ok(h.destructive().every(x => x.args[2] === NEW))
+})
+test('combined inventory stdout and stderr one byte above512KiB fail without retry or create', () => {
+  const out = paddedJSON({ runtimes: [] }, 133117)
+  const h = fixture({ intercept: (binary, args) => args[2] === 'runtimes' ?
+    completeOutput(out, Buffer.alloc(C.inventoryOutputBytes - out.length + 1)) : null })
+  assert.throws(h.prepare, /command failed: runtimes/)
+  assert.equal(h.store.read('runtimes').output_complete, false)
+  assert.equal(h.calls.filter(x => x.args[2] === 'runtimes').length, 1)
+  assert.equal(h.calls.some(x => x.args[1] === 'create'), false)
+})
+test('complete-looking stdout above512KiB cannot become successful inventory or a timeout retry', () => {
+  const h = fixture({ intercept: (binary, args) => args[2] === 'runtimes' ?
+    completeOutput(paddedJSON({ runtimes: [] }, C.inventoryOutputBytes + 1)) : null })
+  assert.throws(h.prepare, /command failed: runtimes/)
+  assert.equal(h.store.read('runtimes').error_code, null)
+  assert.equal(h.store.read('runtimes').output_complete, false)
+  assert.equal(h.files.has('runtimes-timeout-retry-1'), false)
+  assert.equal(h.outputs.UUID, undefined)
+})
+test('observed ENOBUFS family at133117B stays incomplete and never receives a retry', () => {
+  const h = fixture({ intercept: (binary, args) => args[2] === 'runtimes' ? nativeTimeout({
+    error: Object.assign(new Error('spawnSync /usr/bin/xcrun ENOBUFS'), { code: 'ENOBUFS' }),
+    stdout: paddedJSON({ runtimes: [] }, 133117) }) : null })
+  assert.throws(h.prepare, /command failed: runtimes/)
+  const r = h.store.read('runtimes')
+  assert.equal(r.error_code, 'ENOBUFS'); assert.equal(r.stdout_bytes, 133117); assert.equal(r.output_complete, false)
+  assert.equal(r.timeout_ms, 60000); assert.equal(h.calls.filter(x => x.args[2] === 'runtimes').length, 1)
+  assert.equal(h.files.has('runtimes-timeout-retry-1'), false); assert.equal(h.outputs.UUID, undefined)
+})
+for (const command of ['create', 'boot', 'bootstatus']) {
+  test(command + ': output above128KiB fails once despite the larger inventory budget', () => {
+    const h = fixture({ intercept: (binary, args) => args[1] === command ?
+      completeOutput(Buffer.alloc(C.outputBytes + 1)) : null })
+    assert.throws(h.prepare, new RegExp('command failed: ' + command))
+    assert.equal(h.calls.filter(x => x.args[1] === command).length, 1)
+    assert.equal(h.calls.find(x => x.args[1] === command).settings.maxBuffer, 131072)
+    assert.equal(h.store.read(command).output_complete, false); assert.equal(h.outputs.destination, undefined)
+  })
+}
+for (const command of ['shutdown', 'delete']) {
+  test(command + ': cleanup preserves128KiB output cap and never retries the mutation', () => {
+    const h = fixture({ intercept: (binary, args) => args[1] === command ?
+      completeOutput(Buffer.alloc(C.outputBytes + 1)) : null })
+    h.prepare(); const report = h.cleanup()
+    assert.equal(report.ok, false)
+    assert.equal(h.calls.filter(x => x.args[1] === command).length, 1)
+    assert.equal(h.calls.find(x => x.args[1] === command).settings.maxBuffer, 131072)
+    assert.equal(h.store.read('cleanup-' + command).output_complete, false)
+    assert.ok(h.destructive().every(x => x.args[2] === NEW))
+  })
+}
+for (const [name, tamper] of [
+  ['different-binary', r => { r.binary = '/usr/local/bin/xcrun' }],
+  ['different-role', r => { r.arguments[2] = 'runtimes' }],
+  ['extra-argument', r => { r.arguments.push('--other') }],
+  ['noncanonical-base64', r => { r.stdout_base64 += '!' }],
+  ['wrong-length', r => { r.stdout_bytes-- }],
+  ['wrong-raw-SHA', r => { r.stdout_SHA256 = '0'.repeat(64) }]
+]) {
+  test('large accepted pre-create receipt cannot bypass exact identity/integrity: ' + name, () => {
+    const h = largeInventoryFixture(); h.prepare()
+    tamper(h.files.get('devices-before-create'))
+    // Even recomputing this unkeyed hash does not replace command/stream checks.
+    h.files.get('intent').before_devices_receipt_SHA256 = receiptSHA(h.store.read('devices-before-create'))
+    const before = h.calls.length
+    assert.throws(h.cleanup); assert.equal(h.calls.length, before); assert.equal(h.destructive().length, 0)
+  })
+}
+
+// Exercise main -> real diskStore using only a stubbed builtin executor. This
+// invokes no Git, SDK, Simulator or child process; each filesystem is ours.
+function withDiskFixture(runtimeOutput, body) {
+  const base = fileURLToPath(new URL('../../', import.meta.url))
+  const root = fs.realpathSync(fs.mkdtempSync(path.join(base, '.native-disk-fixture-')))
+  const original = childProcess.spawnSync, log = console.log, calls = []
+  let made = null
+  const event = path.join(root, 'event.json'), output = path.join(root, 'output.txt')
+  fs.writeFileSync(event, JSON.stringify({ repository: { full_name: C.repository }, pull_request: {
+    head: { sha: ctx.source_head }, base: { repo: { full_name: C.repository } } } }))
+  fs.writeFileSync(output, '')
+  const env = { GITHUB_ACTIONS: 'true', GITHUB_REPOSITORY: C.repository, GITHUB_EVENT_NAME: 'pull_request',
+    GITHUB_EVENT_PATH: event, GITHUB_SHA: ctx.checkout_sha, AILIBRARY_NATIVE_SOURCE_HEAD: ctx.source_head,
+    GITHUB_JOB: 'ios-native', GITHUB_RUN_ID: ctx.run_id, GITHUB_RUN_ATTEMPT: ctx.run_attempt,
+    DEVELOPER_DIR: C.developer, GITHUB_WORKSPACE: root, GITHUB_OUTPUT: output }
+  childProcess.spawnSync = (binary, args, options) => {
+    calls.push({ binary, args: [...args], options })
+    if (binary === '/usr/bin/git') return completeOutput(Buffer.from((args[1] === 'HEAD' ? ctx.checkout_sha : ctx.source_tree) + '\n'))
+    if (binary === '/usr/bin/xcodebuild') return completeOutput(Buffer.from('Xcode 16.4\nBuild version 16F6\n'))
+    assert.equal(binary, '/usr/bin/xcrun')
+    if (args[0] === '--sdk') return completeOutput(Buffer.from('18.5\n'))
+    if (args[1] === 'list') {
+      if (args[2] === 'runtimes') return runtimeOutput()
+      const value = args[2] === 'devicetypes' ? { devicetypes: [{ identifier: C.type, name: C.model }] } :
+        { devices: { [C.runtime]: made ? [made] : [] } }
+      return completeOutput(Buffer.from(JSON.stringify(value)))
+    }
+    if (args[1] === 'create') {
+      made = { udid: NEW, name: args[2], state: 'Shutdown', isAvailable: true, deviceTypeIdentifier: C.type }
+      return completeOutput(Buffer.from(NEW + '\n'))
+    }
+    if (args[1] === 'boot') { made.state = 'Booted'; return completeOutput(Buffer.alloc(0)) }
+    if (args[1] === 'bootstatus') return completeOutput(Buffer.alloc(0))
+    if (args[1] === 'shutdown') { made.state = 'Shutdown'; return completeOutput(Buffer.alloc(0)) }
+    if (args[1] === 'delete') { made = null; return completeOutput(Buffer.alloc(0)) }
+    throw new Error('Unexpected stub command')
+  }
+  syncBuiltinESMExports(); console.log = () => {}
+  try { body({ root, env, calls, receipts: path.join(root, '.local/ios-ci/evidence/native-simulator') }) }
+  finally {
+    childProcess.spawnSync = original; syncBuiltinESMExports(); console.log = log
+    fs.rmSync(root, { recursive: true })
+  }
+}
+test('real diskStore persists and rereads512KiB inventory as a bounded Base64 receipt', { skip: process.platform !== 'darwin' }, () => {
+  withDiskFixture(() => completeOutput(paddedJSON({ runtimes: [
+    { identifier: C.runtime, version: C.version, name: 'iOS 18.5', isAvailable: true }] }, C.inventoryOutputBytes)), h => {
+    assert.equal(main(['prepare'], h.env).UUID, NEW)
+    const raw = fs.readFileSync(path.join(h.receipts, 'runtimes.json')), r = JSON.parse(raw)
+    assert.ok(raw.length > 512 * 1024 && raw.length < C.receiptBytes)
+    assert.equal(r.stdout_bytes, C.inventoryOutputBytes); assert.equal(r.output_complete, true)
+    const command = h.calls.find(x => x.args[2] === 'runtimes')
+    assert.equal(command.options.maxBuffer, 524288); assert.equal(command.options.timeout, 60000)
+    assert.equal(C.receiptBytes, 1048576); assert.equal(C.evidenceBytes, 16777216)
+    const outputs = Object.fromEntries(fs.readFileSync(path.join(h.root, 'output.txt'), 'utf8').trim().split('\n').map(row => row.split('=')))
+    assert.equal(main(['cleanup'], { ...h.env, AILIBRARY_NATIVE_OWNER_TOKEN: outputs.owner_token,
+      AILIBRARY_NATIVE_CREATED_UUID: outputs.created_uuid }).ok, true)
+  })
+})
+test('real diskStore still refuses an executor receipt above1MiB before any create', { skip: process.platform !== 'darwin' }, () => {
+  withDiskFixture(() => nativeTimeout({ error: Object.assign(new Error('output cap'), { code: 'ENOBUFS' }),
+    stdout: Buffer.alloc(800000) }), h => {
+    assert.throws(() => main(['prepare'], h.env), /evidence cap/)
+    assert.equal(fs.existsSync(path.join(h.receipts, 'runtimes.json')), false)
+    assert.equal(h.calls.some(x => x.args[1] === 'create'), false)
+    assert.equal(fs.existsSync(path.join(h.receipts, 'ready.json')), false)
+  })
 })

@@ -1,5 +1,7 @@
 # iOS完成版に向けたTODO
 
+[Native一覧読取の出力上限](../../records/2026-11-02/ios-native-owned-simulator.md)は、PR327 d151初回のruntimes60000ms読取がstdout133117Bで旧128KiBを2045B超えENOBUFSとなった事実を保持し、厳密なreadonly inventory3 argvだけ512KiB、他command128KiBへ分けるSource6候補です。receipt read/write1MiBと証跡16MiB/64entryを揃え、全期限・所有/SHA・非timeout再読拒否を保ちます。保存新unit97（旧80＋新17）全成功を記録し、診断ZIP全SHA/選択CRC/SHAとownchild回収を実OS成功へ転用しません。親d151のFull26/必須11等成功、Native失敗とR26初回不明/別retry2を分離し、新head Hosted/最終IR/通常mainは未受入です。旧全文/JSON全key/TODO32行14完了・App0.2.28（30）を保持します。
+
 [Native所有Simulatorの実main400結合](../../records/2026-11-02/ios-native-owned-simulator.md)は、PR326の通常統合後の実main400/tree1630・追跡2885件へCode4を結び、実差分8・新規4のSource8を私有準備した記録です。workflow/helper/unit3とguard診断/記録/索引5を分け、コード全byteとr1/r2・実索引全文、App0.2.28（30）/TODO32行14完了を保持します。b8d6成功3失敗と別retry2、f13部分停止、e6の9系統と制御1記事130.456秒の成功を別sourceの履歴として追補し、固定時点で進行中だったmain400 pushや新Native/OS効果へ転用しません。最終Source8 IR・共通/形式・必要SDK/CI・通常PR/mainと実機等は未完了です。
 
 以下のr2索引文は未結合準備時点の履歴です。

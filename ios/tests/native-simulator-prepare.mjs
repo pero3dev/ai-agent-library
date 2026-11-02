@@ -11,7 +11,8 @@ export const nativeSimulatorContract = Object.freeze({
   repository: 'pero3dev/ai-agent-library', runtime: 'com.apple.CoreSimulator.SimRuntime.iOS-18-5',
   version: '18.5', type: 'com.apple.CoreSimulator.SimDeviceType.iPhone-16', model: 'iPhone 16',
   developer: '/Applications/Xcode_16.4.app/Contents/Developer',
-  prepareMs: 210000, cleanupMs: 90000, outputBytes: 128 * 1024, evidenceBytes: 2 * 1024 * 1024
+  prepareMs: 210000, cleanupMs: 90000, outputBytes: 128 * 1024,
+  inventoryOutputBytes: 512 * 1024, receiptBytes: 1024 * 1024, evidenceBytes: 16 * 1024 * 1024
 })
 const C = nativeSimulatorContract
 const uuidPattern = /^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/i
@@ -22,6 +23,14 @@ const text = x => new TextDecoder('utf-8', { fatal: true }).decode(Buffer.from(x
 const same = (a, b) => assert.deepEqual(a, b, 'Ownership/source context mismatch')
 const encode = x => Buffer.from(JSON.stringify(x, null, 2) + '\n')
 const short = x => String(x ?? '').slice(0, 800)
+
+// Inventory JSON includes every installed platform and its supported device types.
+// Only these exact read-only commands receive the larger bounded output budget.
+function commandOutputBytes(binary, args) {
+  return binary === '/usr/bin/xcrun' && Array.isArray(args) && args.length === 4 &&
+    args[0] === 'simctl' && args[1] === 'list' && ['runtimes', 'devicetypes', 'devices'].includes(args[2]) &&
+    args[3] === '--json' ? C.inventoryOutputBytes : C.outputBytes
+}
 
 function context(value) {
   assert.ok(plain(value), 'Missing CI context')
@@ -41,7 +50,8 @@ function successful(receipt) {
     const out = Buffer.from(receipt.stdout_base64, 'base64'), err = Buffer.from(receipt.stderr_base64, 'base64')
     return receipt.status === 0 && receipt.signal === null && receipt.error_code === null && receipt.error === null &&
       receipt.output_complete === true && receipt.stdout_bytes === out.length && receipt.stderr_bytes === err.length &&
-      out.length + err.length <= C.outputBytes && sha(out) === receipt.stdout_SHA256 && sha(err) === receipt.stderr_SHA256
+      out.length + err.length <= commandOutputBytes(receipt.binary, receipt.arguments) &&
+      sha(out) === receipt.stdout_SHA256 && sha(err) === receipt.stderr_SHA256
   } catch { return false }
 }
 
@@ -50,15 +60,16 @@ function runner({ execute, store, now = () => performance.now(), env = {} }, mil
   const run = (label, binary, args, limit = 15000, required = true) => {
     const remaining = Math.floor(deadline - now()); assert.ok(remaining > 0, 'Native Simulator shared deadline expired')
     const timeout = Math.min(remaining, limit)
+    const outputBytes = commandOutputBytes(binary, args)
     let result
-    try { result = execute(binary, [...args], { timeout, maxBuffer: C.outputBytes, killSignal: 'SIGKILL', env: childEnvironment(env) }) }
+    try { result = execute(binary, [...args], { timeout, maxBuffer: outputBytes, killSignal: 'SIGKILL', env: childEnvironment(env) }) }
     catch (error) { result = { error, status: null, signal: null, stdout: Buffer.alloc(0), stderr: Buffer.alloc(0) } }
     const out = Buffer.from(result.stdout ?? ''), err = Buffer.from(result.stderr ?? '')
     const receipt = { schema_version: 1, binary, arguments: [...args], timeout_ms: timeout,
       status: Number.isInteger(result.status) ? result.status : null, signal: result.signal ?? null,
       error_code: result.error ? short(result.error.code ?? result.error.name ?? 'executor-error') : null,
       error: result.error ? short(result.error.message ?? result.error) : null,
-      output_complete: !result.error && out.length + err.length <= C.outputBytes,
+      output_complete: !result.error && out.length + err.length <= outputBytes,
       stdout_bytes: out.length, stderr_bytes: err.length, stdout_base64: out.toString('base64'), stderr_base64: err.toString('base64'),
       stdout_SHA256: sha(out), stderr_SHA256: sha(err), returned_within_deadline: now() <= deadline }
     store.write(label, receipt)
@@ -124,7 +135,7 @@ function inventoryReceipt(receipt, args) {
       assert.equal(receipt[stream + '_bytes'], bytes.length)
       assert.equal(receipt[stream + '_SHA256'], sha(bytes)); total += bytes.length
     }
-    assert.ok(total <= C.outputBytes)
+    assert.ok(total <= commandOutputBytes(receipt.binary, receipt.arguments))
     return true
   } catch { return false }
 }
@@ -279,12 +290,12 @@ function diskStore(directory) {
   const file = name => { assert.match(name, /^[a-z][a-z0-9-]*$/); return path.join(root, name + '.json') }
   return {
     has: name => fs.existsSync(file(name)),
-    read: name => JSON.parse(readFile(file(name), 512 * 1024).toString('utf8')),
+    read: name => JSON.parse(readFile(file(name), C.receiptBytes).toString('utf8')),
     write: (name, value) => {
       const data = encode(value), entries = fs.readdirSync(root); assert.ok(entries.length < 64)
       let bytes = 0
       for (const entry of entries) { const st = fs.lstatSync(path.join(root, entry)); assert.ok(st.isFile() && !st.isSymbolicLink()); bytes += st.size }
-      assert.ok(data.length <= 512 * 1024 && bytes + data.length <= C.evidenceBytes, 'Native Simulator evidence cap')
+      assert.ok(data.length <= C.receiptBytes && bytes + data.length <= C.evidenceBytes, 'Native Simulator evidence cap')
       const fd = fs.openSync(file(name), fs.constants.O_WRONLY | fs.constants.O_CREAT | fs.constants.O_EXCL | fs.constants.O_NOFOLLOW, 0o600)
       try { fs.writeFileSync(fd, data) } finally { fs.closeSync(fd) }
     }

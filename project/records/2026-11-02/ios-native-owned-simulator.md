@@ -83,3 +83,19 @@ Native workflowとReadingRecovery診断は実親でも元beforeと同一で、�
 同じ固定context時点でmain400の新pushはCommon8成功・build進行中、Native/Fullも進行中でした。PR成功を新mainpush成功へ代用せず、後続結果はRootが別に観測します。この準備は候補コードを実行せず、既存cold80・構文・個別IRを再実行しません。cold80は旧34再実行と新46のinjected executor/clock/in-memory storeであり、2MiB/64entry拒否は実diskStore受入ではありません。
 
 Code4の全byte、r2 JSON全key/valueのsnapshotと内包するr1、Markdownの全旧本文、既存索引本文を保存しました。App0.2.28（30）/PBX/保存契約/Content626と他者の作業を保ちます。最終Source8レビュー・共通/形式・必要SDK/CIと通常PR/mainはRootの後続工程です。新実OS rescue・所有端末の作成/起動/cleanup・guard failurebranch・恒久安定、実機/provider/VoiceOver/最低OS、IOS-11/23/25全体は未受入です。
+
+## 2026-11-03追補: Native一覧読取の出力上限
+
+ここまでの全文は公開PR327の親head `d1518f226dad33917789cef372767d5a33dd7c41` に入った準備履歴として保持します。この追補は同head/tree `9d9af305020990bbf205c16b6876a27ec0a373eb`・追跡2889件へ追加する1コミット、Code2と既存記録/索引4本のSource6私有準備です。実main400との差分全体は累積8パスとして別に扱い、新しいmainやHosted効果の受入とはしません。
+
+Native初回run41483631222は、prepare先頭のruntimes読取でstdout133117Bが旧131072B上限を2045B超え、status null/SIGKILL/ENOBUFS、output_complete falseでした。timeout設定は60000msですが、typed ETIMEDOUTではありません。読取1回で再読なし・UI0・cleanup not-created/UUIDnull/oktrueを保持します。stdoutをJSONとしてparseできても、上限超過の不完全出力を完全成功へ戻しません。診断SHAは `d0e6692ec65e9cb4aa0a8a68444e5e60ce73686822ae141327135fb84077bdb6`、nested context追補SHAは `3a8088deea9fae41db09871257cbb11f5af23eb6aad0bcb63dd0b839205b7a69` です。
+
+限定診断artifact13160424324（11118B）のGETでは全ZIPのstream/readback SHAと、選択6JSON/180619BのCRC/SHAを検証し、context・prepare-failure.context・cleanup.contextがsource/run/attemptへ一致しました。0.480519秒でown childを回収し、TERMは使っていません。retry receiptだけがなく、success_inputs_completeはfalse、runtime acceptanceもfalseです。大きいfull artifact13161866666はGETしていません。reader SourceMF e12e1d.../IR5e6d...の閉じた範囲を維持します。
+
+修正は厳密なreadonly inventory3 argv（runtimes/devicetypes/devicesのJSON一覧）だけを512KiBへ揃え、他commandの128KiB、全期限、mutator retry0、所有証明・SHAと非timeout再読拒否を保ちます。512KiB rawのBase64が約699KiBになるため、diskStoreのreceipt read/writeを1MiBへ同期し、証跡総量16MiB・64entryを上限にします。上限は瞬間的な全allocationや全serviceの静止を保証しません。
+
+workerが封印した最終Code2 SourceMF `3e5547c5aba6c6cf39f7158a1b57ca53c8af3fedff9e90001ea2c1025e5c1588` を全byteで受け取ります。最終Darwinの専用unitは97件（旧80再実行＋新17）が97成功・失敗/skip0、wall 0.306476834秒です。helper/unitの保存JS構文2入力はexit0で、helper不変の最終追補ではunit構文だけを再確認しました。初回97成功のsource/logは別に保存し、その後、既存CLIのDarwin制約に合わせmain→diskStoreの2件だけへ他OS skipを明示した最終sourceを限定再検証しました。新17のうち15はplatform共通、2はDarwin専用で、他OSの95成功＋2skipは想定に留め未実行です。fake executor/clockの制御に加え、Darwin専用2件はstubbed builtin spawnSyncでmainから所有する実FSのdiskStore書込/cleanup読取とreceipt超過拒否を通しています。実xcrun・simctl・GitやSDKは実行していません。 このbinderは試験を再実行しません。実simctl・SDK・Simulator lifecycleや新head Hostedの受入ではありません。
+
+親d151初回CI（MF `17f131d7db68a6dad04969720ebe5406137785f449d18c38183e424938b7710d`）はCommon/SDK26/RecoveryとFull26、Full Aの単体278件中276成功2skip、374Bコピー/Release、必須11のhighest snapshotに成功しました。Nativeの上記失敗と、R26初回run failure/job cancelled/UI不明は残します。R26のraw取得1回失敗は再GETせず、同一headの通常retry2は別の進行中snapshotとして保持し、この修正の効果へ混ぜません。
+
+旧Markdown全文・JSON全key/valueと索引本文/TODO32行14完了、App0.2.28（30）、workflowと製品ソースを保ちます。Source6最終独立レビュー・共通/形式・新head Hosted・通常PR/mainと別mainpushは後続です。通常Menu/restore AXとcapfail、実機/provider/VoiceOver、IOS-11/23/25全体は未完了です。この私有準備では外部publication・Git/API・SDK/localUI・ユーザーデータ操作を行いません。

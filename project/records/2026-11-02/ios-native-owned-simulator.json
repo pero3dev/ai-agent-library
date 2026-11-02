@@ -1117,5 +1117,140 @@
       "IR_MF": "b172328a3df439866ccf70c2b56f1be3634a177079218f0cf8df902e8756e79a",
       "new_effects": "No newSDK/UI/runtime/coldreadstability or diagnostic branch acceptance; oldcold80controls andsyntax only"
     }
-  }
+  },
+  "inventory_buffer_followup_20261103": {
+    "state": "PRIVATE_SOURCE6_OVER_PUBLISHED_PR327_D151_NOT_NEW_MAIN",
+    "parent_head": "d1518f226dad33917789cef372767d5a33dd7c41",
+    "parent_tree": "9d9af305020990bbf205c16b6876a27ec0a373eb",
+    "parent_tracked": 2889,
+    "parent_stage": "Additional one-commit delta over published Draft PR327 head; actual main400 is a separate cumulative baseline",
+    "Code2_SourceMF": "3e5547c5aba6c6cf39f7158a1b57ca53c8af3fedff9e90001ea2c1025e5c1588",
+    "Code2_packetMF": "72470a78733e4add91acdd7dd930dbfbbb9568151f816971a7c7530c75f5c353",
+    "Code2_result_SHA256": "8940858194c08e44c84ddfc0310fd2d034116a5426d3f970117b2ba390ea4388",
+    "observed_failure": {
+      "run": 41483631222,
+      "attempt": 1,
+      "UI": 0,
+      "command": [
+        "simctl",
+        "list",
+        "runtimes",
+        "--json"
+      ],
+      "timeout_ms": 60000,
+      "error_code": "ENOBUFS",
+      "status": null,
+      "signal": "SIGKILL",
+      "stdout_bytes": 133117,
+      "stderr_bytes": 0,
+      "old_cap_bytes": 131072,
+      "excess_bytes": 2045,
+      "output_complete": false,
+      "typed_ETIMEDOUT": false,
+      "readonly_reads": 1,
+      "retry_receipt_present": false,
+      "cleanup": "not-created/UUIDnull/oktrue",
+      "parseable_stdout_is_not_complete_success": true,
+      "typed_diagnostic_SHA256": "d0e6692ec65e9cb4aa0a8a68444e5e60ce73686822ae141327135fb84077bdb6",
+      "nested_context_amendment_SHA256": "3a8088deea9fae41db09871257cbb11f5af23eb6aad0bcb63dd0b839205b7a69"
+    },
+    "diagnostic_read": {
+      "artifact_id": 13160424324,
+      "bytes": 11118,
+      "wholeZIP_SHA256": "ef34b11fe5a57dbead802090596c4df783025596b34edd76e278104ebd763bfc",
+      "whole_stream_and_readback_SHA_verified": true,
+      "selected_entries": 6,
+      "selected_bytes": 180619,
+      "selected_CRC_SHA_verified": true,
+      "source_context_and_nested_contexts_exact": true,
+      "own_child_reaped": true,
+      "seconds": 0.48051879200000003,
+      "missing_optional_retry_only": true,
+      "success_inputs_complete": false,
+      "runtime_acceptance": false,
+      "full_artifact13161866666_GET": false,
+      "reader_SourceMF": "e12e1dfe3c2dd948ef710df64553f23f09c893726cabb33fed3a10f0d0790b43",
+      "reader_IR_MF": "5e6d3883692015e2d7c9109fe6a8868d82a194f3e0f15cb5356206de76a64472"
+    },
+    "change": {
+      "inventory_exact_readonly_argv": [
+        [
+          "simctl",
+          "list",
+          "runtimes",
+          "--json"
+        ],
+        [
+          "simctl",
+          "list",
+          "devicetypes",
+          "--json"
+        ],
+        [
+          "simctl",
+          "list",
+          "devices",
+          "--json"
+        ]
+      ],
+      "inventory_combined_output_bytes": 524288,
+      "other_commands_combined_output_bytes": 131072,
+      "diskStore_receipt_read_write_bytes": 1048576,
+      "receipt_reason": "512KiB raw can require about699KiB Base64 before metadata; old512KiB receipt limit was insufficient",
+      "aggregate_evidence_bytes": 16777216,
+      "entry_limit": 64,
+      "all_deadlines_owner_SHA_and_non_timeout_retry_refusal_held": true
+    },
+    "saved_new_unit": {
+      "passed": 97,
+      "failed": 0,
+      "skipped": 0,
+      "old_tests": 80,
+      "new_tests": 17,
+      "platform": "Darwin",
+      "wall_seconds": 0.30647683400000003,
+      "node_duration_ms": 219.552083,
+      "new_cross_platform": 15,
+      "new_Darwin_only_main_diskStore": 2,
+      "other_OS_expected_only": "95pass+2skip; not run",
+      "first_source97pass_preserved": {
+        "source": "first-run-source",
+        "results": "validation-results.json",
+        "unit_wall_seconds": 0.31886679100000004,
+        "Node_ms": 222.85225
+      },
+      "scope_ja": "fake executor/clockの制御に加え、Darwin専用2件はstubbed builtin spawnSyncでmainから所有する実FSのdiskStore書込/cleanup読取とreceipt超過拒否を通しています。実xcrun・simctl・GitやSDKは実行していません。"
+    },
+    "parent_initial_CI": {
+      "MF": "17f131d7db68a6dad04969720ebe5406137785f449d18c38183e424938b7710d",
+      "scope": "d151 attempt1 only; never new Source6 effect",
+      "Common_SDK26_Recovery": "success",
+      "Full26": "success, fixed18+8",
+      "FullA_units": "278=276pass+2skip",
+      "copy374B_Release": "success",
+      "required11_highest": "success",
+      "Native": "pre-UI preparation failure",
+      "R26_first": "run failure / job cancelled / UI unknown; one raw fetch failed, no repeat GET",
+      "R26_same_head_retry2_snapshot": "in progress; separate from initial and not accepted here"
+    },
+    "preserved": {
+      "App": "0.2.28(30)",
+      "TODO_rows": 32,
+      "TODO_complete": 14,
+      "old_MD_full_prefix": true,
+      "all_parent_JSON_keys_values": true,
+      "whole_parent_indices_inverse": true,
+      "workflow_and_Product_sources": true
+    },
+    "projection_tree_location": "External private SourceMF; omitted from own payload to avoid self reference",
+    "new_commit": null,
+    "external_publication_performed_here": false,
+    "pending": [
+      "Final Source6 independent review/common/forms/fresh refs",
+      "New-head Hosted Native readonly reads/owned lifecycle/cleanup and diagnostic effect",
+      "Ordinary PR327 update/main adoption and separate mainpush",
+      "Physical/provider/VoiceOver and IOS11/23/25 whole acceptance"
+    ]
+  },
+  "inventory_buffer_followup_prior_fields_scope": "All existing keys/values remain the frozen d151 parent record history; the appended followup is current Source6 preparation, not a rewrite of that history"
 }

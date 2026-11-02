@@ -1252,5 +1252,126 @@
       "Physical/provider/VoiceOver and IOS11/23/25 whole acceptance"
     ]
   },
-  "inventory_buffer_followup_prior_fields_scope": "All existing keys/values remain the frozen d151 parent record history; the appended followup is current Source6 preparation, not a rewrite of that history"
+  "inventory_buffer_followup_prior_fields_scope": "All existing keys/values remain the frozen d151 parent record history; the appended followup is current Source6 preparation, not a rewrite of that history",
+  "standard_intel_runner_followup_20261103": {
+    "state": "PRIVATE_SOURCE6_STANDARD_INTEL_CANDIDATE_OVER_PUBLIC_70CA_NOT_NEW_MAIN",
+    "parent": "70ca56784e9c4d57d9e99b6d2fff2c265c98172f",
+    "parent_tree": "c7e96f21700506f8cc1563aa600da4b9c4935849",
+    "parent_tracked": 2889,
+    "Root_adoption": "Limit Native and Full A/B to standard public macos-15-intel after repeated Native cancellation and public non-acquisition/capacity annotations",
+    "code2_SourceMF": "2055a511f60a517563915d7f54f3281cedc3e66da2db526bdbf1c63136b33cfe",
+    "code2_packetMF": "0331d8be8288b6daf9a4ee9c7345a004ae5e64568f199a3853080f6c0c4ab034",
+    "code2_result_SHA256": "7d25dbb93a1d707e30d9b423a290c2eb764290a9dbf6c90f513680dae981659a",
+    "code2_exact_runner_literal_changes": [
+      {
+        "path": ".github/workflows/ios-native.yml",
+        "before": "macos-15",
+        "after": "macos-15-intel",
+        "only_one_literal": true
+      },
+      {
+        "path": ".github/workflows/ios-published-candidate.yml",
+        "before": "macos-15",
+        "after": "macos-15-intel",
+        "only_one_literal": true
+      }
+    ],
+    "frozen_parent_CI_snapshot": {
+      "source": "70ca56784e9c4d57d9e99b6d2fff2c265c98172f",
+      "initial_Native": "run failure/job cancelled; logs/steps unavailable; prepare/UI unknown",
+      "Native_retry2": "separate ordinary same-head attempt2 cancelled, prepare/UI unknown; no further rerun",
+      "FullB_initial": "cancelled; UI/Release unknown",
+      "SDK26_initial": "cancelled; SDK outcome unknown",
+      "R26": "3 UI pass on existing arm64 workflow",
+      "Recovery": "workflow/independent auditor success; child leaf/scalar details unreceived",
+      "Common": "9 success; LinuxNode1446=1428pass+18skip",
+      "FullA_initial": "live functional UI pending at Root adoption snapshot; do not forecast terminal outcome",
+      "source_specific_frozen_snapshot": true,
+      "new_Intel_acceptance": false
+    },
+    "Native_public_annotation_SHA256": "47ca8b3517f68a72620cde0ff64ddd885be9d1d329f8a3a1ca010e2d89c07569",
+    "retry2_MF": "c9f3fe8c8ac2930429fdf2e19cd2105cd4b2bf4530b52166636db17401e910d6",
+    "research": {
+      "MF": "1a234f6b44a2d920d96e2c93a223f2b5189911e65671005bb895243326425fef",
+      "result_SHA256": "43d816a8a388d5855c54cb88d85c8f4a16ae87150148f5cb9fb07a75f3d8e4e7",
+      "official_fixed_commit": "4da2307112a0fad2fd2ecaca8ba7d08683b8c581",
+      "reference_Xcode": "16.4 /16F6",
+      "reference_SDK": "18.5",
+      "reference_installed_simulator": "iOS18.5/iPhone16",
+      "standard_public_label": "macos-15-intel",
+      "public_standard_free_scope": true,
+      "larger_large_xlarge_paid_pool_used": false,
+      "research_native_only_recommendation_is_prior_unadopted_history": true,
+      "Root_current_scope_is_Native_plus_Full_only": true,
+      "future_assigned_image_or_capacity_proven": false
+    },
+    "actionlint": {
+      "primary_source_note_SHA256": "65066d001b3398a5fddec84626cd63ac3fb218ff8fae18e0b79f566a59964df6",
+      "fixed_version": "1.7.12",
+      "known_standard_label_in_source": true,
+      "binary_executed_here": false
+    },
+    "worker_static_validation": {
+      "checks": {
+        "exact_parent_allmap_pure_tree_to_Root_actual70ca_proof": true,
+        "two_raw_literals_only_inverse_exact": true,
+        "YAML_documents": 2,
+        "YAML_before_after_parse_calls": 4,
+        "actual_locked_parseConfiguration_JSON_SCHEMA": true,
+        "all_other_AST_fields_and_inline_scripts_exact": true,
+        "host_arch_static_files": 108,
+        "host_arch_static_hits": 18,
+        "host_arm64_only_blocker_found": false,
+        "actionlint_1_7_12_official_source_knows_standard_Intel_label": true,
+        "actionlint_binary_execution": false,
+        "Native_Code6_helper_and_unit97_bytes_held": true
+      },
+      "architecture_scope": [
+        "Native CLI requires darwin and exact Xcode16.4/SDK18.5/runtime18.5/type iPhone16, with no host arm64 equality.",
+        "Full A/B workflow has no host architecture guard or SystemEnvironment scalar equality. All inline scripts remain byte-identical.",
+        "check-core.sh and check-package.sh invoke xcrun swiftc with native host default; no arm64 target flag. Foundation/CryptoKit consumer behavior still needs Intel Hosted acceptance.",
+        "PBX does not set ARCHS/VALID_ARCHS/EXCLUDED_ARCHS; destination and selected SDK determine Simulator architecture.",
+        "Core performance acceptance fixtures contain literal arm64 identities as synthetic data. Actual core-performance-runner validates both arm64 and x86_64 host targets. Those performance commands are not invoked as Native/Full scalar observations.",
+        "SDK26/R26 explicit arm64 contracts and Recovery/other runners remain untouched. Node unit bodies and fake fixture identities stay unchanged.",
+        "No hidden arm64-only blocker was found in these callers/source. This is static compatibility evidence, not Intel execution proof."
+      ],
+      "operations": {
+        "YAML_validator_processes": 1,
+        "YAML_parse_calls": 4,
+        "unit_tests_rerun": 0,
+        "SDK_Simulator": 0,
+        "dependency_installs": 0,
+        "Git": 0,
+        "API_network": 0,
+        "repository_writes": 0,
+        "branch_mutations": 0,
+        "actionlint_binary": 0
+      },
+      "scope": "Saved worker static/YAML validation only; no new Intel execution, no unit rerun"
+    },
+    "preserved": {
+      "SDK26_R26_Recovery_workflows_arm64_contracts": true,
+      "Native_helper_inventory512KiB_other128KiB_receipt1MiB_evidence16MiB_and_unit97": true,
+      "helper_unit_reverified": false,
+      "quality_assertions_limits_deadlines_and_selection": true,
+      "product_App0_2_28_build30": true,
+      "TODO32_14": true,
+      "old_MD_all_JSON_values_index_text": true
+    },
+    "architecture_limits": [
+      "Reference image differs in host CPU/RAM/OS; current helper does not capture architecture",
+      "Confirm actual host architecture/image plus Xcode/SDK/Runtime and new typed ownership/cleanup proof in new Hosted execution",
+      "Do not transfer prior arm64 geometry scalars, Clock/memory/Core performance or runtime acceptance"
+    ],
+    "projection_tree_location": "External private SourceMF; no self-referential tree in this payload",
+    "new_commit": null,
+    "external_publication": false,
+    "pending": [
+      "Final independent Source6 review/forms/fresh refs",
+      "New-head Intel Hosted actual capacity and assigned host/image/typed UI/unit/Release/owner/cleanup proof",
+      "Ordinary PR/main and separate mainpush",
+      "Physical/provider/VoiceOver/minOS/signing acceptance remains incomplete"
+    ]
+  },
+  "standard_intel_runner_prior_fields_scope": "All previous keys/values are retained parent70ca and earlier frozen history; appended followup is the current unaccepted Intel candidate"
 }

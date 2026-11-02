@@ -99,3 +99,17 @@ workerが封印した最終Code2 SourceMF `3e5547c5aba6c6cf39f7158a1b57ca53c8af3
 親d151初回CI（MF `17f131d7db68a6dad04969720ebe5406137785f449d18c38183e424938b7710d`）はCommon/SDK26/RecoveryとFull26、Full Aの単体278件中276成功2skip、374Bコピー/Release、必須11のhighest snapshotに成功しました。Nativeの上記失敗と、R26初回run failure/job cancelled/UI不明は残します。R26のraw取得1回失敗は再GETせず、同一headの通常retry2は別の進行中snapshotとして保持し、この修正の効果へ混ぜません。
 
 旧Markdown全文・JSON全key/valueと索引本文/TODO32行14完了、App0.2.28（30）、workflowと製品ソースを保ちます。Source6最終独立レビュー・共通/形式・新head Hosted・通常PR/mainと別mainpushは後続です。通常Menu/restore AXとcapfail、実機/provider/VoiceOver、IOS-11/23/25全体は未完了です。この私有準備では外部publication・Git/API・SDK/localUI・ユーザーデータ操作を行いません。
+
+## 2026-11-03追補: NativeとFullの標準Intel runner
+
+上記全文は公開PR327の親head `70ca56784e9c4d57d9e99b6d2fff2c265c98172f` /tree `c7e96f21700506f8cc1563aa600da4b9c4935849`・追跡2889件までの履歴として保持します。この追補は同親へ追加する1コミットのSource6私有準備です。RootはNativeとFull A/Bの2workflowだけを標準公開runner `macos-15-intel` へ移す候補を採択しました。SDK26/R26/Recoveryのarm64条件・製品・品質条件・期限は保持し、ユーザーMacやSDK、課金pool、署名を変更しません。
+
+70caのNative初回と同一headの通常retry2は、ともにjob cancelledでした。初回の公開注記はHosted runnerを取得できなかったこととmacOS arm64容量制約を報告しています（入力SHA `47ca8b3517f68a72620cde0ff64ddd885be9d1d329f8a3a1ca010e2d89c07569`）。初回logs/stepsは取得できず、retry2もraw404/empty stepsでprepare/UIはunknownのままです。空のstepsを実行0の証明にせず、これ以上retryしません。retry2 MFは `c9f3fe8c8ac2930429fdf2e19cd2105cd4b2bf4530b52166636db17401e910d6` です。FullB/SDK26初回の取消も結果unknownで、個別原因をNative注記と同一にはしません。
+
+Rootが引き継いだ同sourceのsnapshotでは、R26は実UI3成功、Recoveryはworkflow/auditor成功（child leaf/scalar未受領）、Common9とLinuxNode1446件中1428成功18skipを確認しています。FullA初回のlive functional UIはまだpendingだったsnapshotとして凍結し、その後の成功や失敗を予測しません。これらを新Intelでの実行結果へ転用しません。
+
+固定した公式runner-images commit `4da2307112a0fad2fd2ecaca8ba7d08683b8c581` のmacOS15 Intel一覧には、Xcode16.4（16F6）/SDK18.5とInstalled SimulatorsのiOS18.5/iPhone16が掲載されています。`macos-15-intel` は公開repositoryの無料対象となる標準labelで、large/xlarge等の有料poolを使いません。調査MF `1a234f6b44a2d920d96e2c93a223f2b5189911e65671005bb895243326425fef` のNative単独推奨は採択前の資料であり、今回のRoot採択はNative＋Fullだけに限定しています。実jobへ割り当てられるimage版やIntelの実容量改善は未確認です。
+
+workerのCode2 SourceMF `2055a511f60a517563915d7f54f3281cedc3e66da2db526bdbf1c63136b33cfe` は、NativeとFull各1箇所のruns-on literalだけの変更です。Fullの1literalはmatrixのA/B両sliceへ及びます。静的auditとYAML検証は保存結果へ結び、actionlint1.7.12の一次sourceでも既知の標準labelを確認していますが、ここでactionlint binaryや既存green test/fulltests/npm ciを再実行しません。SDK26/R26/Recoveryと全assert/許容差/期限/cleanup、512KiB inventory・1MiB receipt・16MiB証跡・unit97は全byte保持し再検証しません。
+
+host CPU/RAM/OS imageが変わるため、旧arm64のgeometry scalar・Clock/memory/Core性能をIntelの受入へ流用しません。現helperにhost architectureの記録fieldはなく、新jobの実architecture/image、Xcode/SDK/Runtime guardとtyped ownership/UI/Release/cleanupを別に確認します。新capacity・新Hosted・最終Source6レビュー/形式・通常PR/mainは未受入です。全旧MD/JSON値・索引/TODO32行14完了、App0.2.28（30）と保存契約を保ちます。この私有準備はGit/API/SDK/localUI/ユーザーデータ・publication操作0です。

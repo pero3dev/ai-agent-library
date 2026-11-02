@@ -535,6 +535,23 @@ final class ReaderReflowUITests: NativeReaderUITestCase {
         return witness
     }
 
+    /// The controlled title query identifies the same article's public filtered List.
+    /// It neither opens another article nor writes the saved reading state.
+    private func revisionFilteredLibrary() -> XCUIElement? {
+        let prompt = "記事の本文を検索"
+        let searches = app.searchFields.matching(NSPredicate(
+            format: "identifier == %@ OR label == %@", prompt, prompt))
+        let libraries = app.collectionViews.containing(.staticText, identifier: "library-filter-summary")
+        guard searches.count == 1, libraries.count == 1 else { return nil }
+        let search = searches.element(boundBy: 0), library = libraries.element(boundBy: 0)
+        let summaries = library.staticTexts.matching(identifier: "library-filter-summary")
+        guard search.exists, search.value as? String == "保存位置の改訂回帰",
+              library.exists, summaries.count == 1 else { return nil }
+        let summary = summaries.element(boundBy: 0)
+        guard summary.exists, summary.label == "検索: 保存位置の改訂回帰" else { return nil }
+        return library
+    }
+
     func testValidPackageRevisionAndParagraphReflowPreserveReadingAndBookmark() throws {
         requireLayout(portrait: true)
         let ownedSuite = app.launchEnvironment["AILIBRARY_UI_TEST_SUITE"]
@@ -576,12 +593,26 @@ final class ReaderReflowUITests: NativeReaderUITestCase {
         XCTAssertLessThan(saved.fraction, 0.8)
         returnToLibrary() // Public back flushes the measured reading position.
 
-        let more = try singleForegroundControl(app.navigationBars.matching(
-            identifier: "AI Agent Library").buttons.matching(
-                NSPredicate(format: "label == %@", "その他の操作")),
-            name: "root library More Actions button")
+        // Search changes only the public list filter, not the saved reading state.
+        // The normal toolbar Menu AX failure remains a separate unresolved issue.
+        try setForegroundArticleQuery("保存位置の改訂回帰")
+        let filtered = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            self.revisionFilteredLibrary() != nil
+        }, object: nil)
+        let filteredResult = XCTWaiter.wait(for: [filtered], timeout: 15)
+        XCTAssertEqual(filteredResult, .completed,
+                       "The exact public revision query must identify one filtered library")
+        guard filteredResult == .completed, let library = revisionFilteredLibrary() else {
+            throw NSError(domain: "ReaderReflowUITests", code: 3,
+                          userInfo: [NSLocalizedDescriptionKey: "Missing exact revision filtered library"])
+        }
+        let more = try singleForegroundControl(library.buttons.matching(
+            NSPredicate(format: "label == %@", "その他の操作")),
+            name: "revision filtered-list More Actions button")
         XCTAssertTrue(more.isEnabled)
+        requireHittable(more, inside: library)
         more.tap()
+        XCTAssertTrue(app.navigationBars["その他の操作"].waitForExistence(timeout: 10))
         let choose = app.buttons["library-bundled-content"]
         requireHittable(choose)
         choose.tap()
@@ -597,6 +628,19 @@ final class ReaderReflowUITests: NativeReaderUITestCase {
         XCTAssertTrue(notice.staticTexts.matching(NSPredicate(format: "label CONTAINS %@",
             "同梱コンテンツへ切り替えました")).firstMatch.exists)
         notice.buttons["閉じる"].tap()
+        let normalLibrary = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            self.app.navigationBars["AI Agent Library"].exists &&
+                !self.app.staticTexts["library-filter-summary"].exists &&
+                !self.app.navigationBars["その他の操作"].exists &&
+                !self.app.navigationBars["同梱コンテンツ"].exists
+        }, object: nil)
+        let normalResult = XCTWaiter.wait(for: [normalLibrary], timeout: 15)
+        XCTAssertEqual(normalResult, .completed,
+                       "Bundled activation must clear filters and return to the normal root library")
+        guard normalResult == .completed else {
+            throw NSError(domain: "ReaderReflowUITests", code: 4,
+                          userInfo: [NSLocalizedDescriptionKey: "Normal library was not restored after activation"])
+        }
         let resume = try singleForegroundControl(app.buttons.matching(identifier: "library-resume"),
                                                 name: "revision Continue button")
         resume.tap()

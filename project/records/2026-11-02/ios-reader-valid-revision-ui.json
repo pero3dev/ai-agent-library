@@ -101,6 +101,86 @@
     "seed_status": "stored-A-seeded",
     "stdout_SHA256": "43d65aded1e98483569aab24cdabf1d19a31555a2b5569c9fd8758f172aafe1a"
   },
+  "PR326_374_filtered_more_setup_followup": {
+    "actual_leaf": {
+      "count": 1,
+      "failed": 1,
+      "passed": 0,
+      "seconds": 55.789
+    },
+    "actual_main_separate": "057fc40049fa40b0f09e45e0d7673ac18111e635",
+    "attempt": 1,
+    "failure": {
+      "action": "scoped root navigation-bar More via unchanged singleForegroundControl15s",
+      "result": "no uniquely foreground/hittable target within existing15s; B switch not reached",
+      "source_line": 87,
+      "underlying_AX_cause": "unresolved; not a product fix or normal toolbar Menu coverage acceptance"
+    },
+    "fresh_remote_and_publication_gate": "Root finalIR/forms/syntax/fresh374 required; ordinary append commit only",
+    "frozen_packets": "All prior packets/Code4/Min17 immutable",
+    "guard_equivalence": "Normal Menu, filtered List Button and actions List share isBusy; bundled snapshot/path/preview guards unchanged. Search only binds filter.query, not ReadingStore. Queued More dispatches after actions-sheet onDismiss. Successful activation clears filters/path.",
+    "new_UI_CI_accepted": false,
+    "normal_toolbar_Menu_AX_TODO": "Unresolved: initial global hitpoint/kAXErrorCannotComplete and scoped root usable0 remain. Filtered setup is not its repair or coverage acceptance.",
+    "not_reached": [
+      "B public activation",
+      "B first Resume",
+      "B landscape/portrait",
+      "B relaunch/bookmark persistence",
+      "postUI repository file gate",
+      "strict1 success"
+    ],
+    "observation_scope": "Live A paragraph only; not disk-saved A position/bookmark/relaunch acceptance",
+    "only_observed_revision_phase": {
+      "blockID": "revision-anchor-A",
+      "fraction": 0.1272321428571425,
+      "height": 298.66666666666674,
+      "offset": -37.9999999999999,
+      "phase": "A-before-save",
+      "schema": 1,
+      "width": 357
+    },
+    "post_activation_gate": "Positive15s expectation for root title, no filter summary, no actions/bundled nav; existing normal Resume must be uniquely foreground before first publictap. No placeholder-empty assumption.",
+    "preserved": "Old2cases53assert/phase15getter/all old helpers, firstResume and entire later fivephase geometry/assertions/tolerances/bookmark/relaunch, workflow/builder/unit/old2WF/products/Full26 unchanged",
+    "prohibited_changes_absent": [
+      "different article selection",
+      "ReadingStore direct write",
+      "post-firstResume query/TOC/swipe/position correction",
+      "coordinate More tap",
+      "fixed sleep",
+      "increased existing timeout or tolerance",
+      "product/guard change"
+    ],
+    "public_parent": "374e5635803239495a61f50e62e0e807859327cd",
+    "receipts": {
+      "compact": {
+        "Root_read_receipt_SHA256": "be80e9a8ed3744933ed0411db97b6390de11073702701f984587008ab348504b",
+        "Root_read_receipt_path": "/private/tmp/ios-pr326-374-small-artifact-reader-output-20261102/696a0150-6f84-4330-bf53-688d7e02230b/helper-result.json",
+        "artifact_id": 13115850369,
+        "bytes": 39110,
+        "missing_required": [
+          "revision-file-gate.json",
+          "acceptance.json"
+        ],
+        "runtime_acceptance": false,
+        "whole_ZIP_SHA256": "8f3bb1eec94b1c810a59cdfcb324683235b6eb6247196234eeb7b61fe75c7f9d",
+        "whole_ZIP_path": "/private/tmp/ios-pr326-374-small-artifact-reader-output-20261102/696a0150-6f84-4330-bf53-688d7e02230b/full.zip"
+      },
+      "witness": {
+        "Root_read_receipt_SHA256": "9a0fd9b4cea32bc9cf7a52e6a3cb08d5b50854ddfa0f7854f93a900aa3645c8e",
+        "Root_read_receipt_path": "/private/tmp/ios-pr326-374-small-artifact-reader-output-20261102/93b63551-bd2a-4722-adca-8363c25cb0f9/helper-result.json",
+        "artifact_id": 13114799609,
+        "bytes": 4680,
+        "missing_required": [],
+        "runtime_acceptance": false,
+        "whole_ZIP_SHA256": "2220ee51d55663a05cc9e1f64e5b1a76d6f296c868ad7b892ec279582a0aa28f",
+        "whole_ZIP_path": "/private/tmp/ios-pr326-374-small-artifact-reader-output-20261102/93b63551-bd2a-4722-adca-8363c25cb0f9/full.zip"
+      }
+    },
+    "run": 41385760628,
+    "seed_status": "stored-A-seeded",
+    "setup_change": "Existing public title query identifies exact query/summary inside one filtered collection; same-list More uses existing15s singleForegroundControl, enabled assertion and inside-library requireHittable, public More Actions sheet then same bundled action",
+    "stdout_SHA256": "e303c1e0a2525764909ad6c7d83594940d122f0d3e012c4158bf14f4290dc116"
+  },
   "PR326_initial_revision_filename_guard_followup": {
     "actual_main_separate": "057fc40049fa40b0f09e45e0d7673ac18111e635",
     "all_controlled_filename_names_static_guard_pass": true,

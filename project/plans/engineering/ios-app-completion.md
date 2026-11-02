@@ -1,5 +1,7 @@
 # iOS完成版に向けたTODO
 
+[改訂回帰のroot More待ち直し](../../records/2026-11-02/ios-reader-valid-revision-ui.md)は、PR326 2bcの実UI1失敗67.198秒とA-before-save一値だけを保持する。seed/public backは通過したがglobal More tapがAX hitpoint異常で停止し、B切替/first Resume/回転/再起動は未到達だった。新caseの対象を正しいroot nav内の一意可視/hittable・enabledなMoreへ既存15秒helperで待ち直すだけで、原assert/許容差/期限・後続操作と製品を保つ。ZIP全SHA/選択CRCと小receiptを根拠にし、新UI/CI成功や根本原因を主張しない。旧全文/全key/index、App0.2.28（30）/TODO32行14完了を保持する。
+
 [改訂回帰の証跡ファイル名の追補](../../records/2026-11-02/ios-reader-valid-revision-ui.md#pr326初回の証跡ファイル名と追補候補)は、PR326 efbの初回seedで大文字を含むinstall-bundled-B.intent.jsonが既存小文字guardに拒否され、install spawn前/UI0だった事実を保持する。新workflowの3command labelだけを小文字へ統一し、guard・期限・assert/tolerances・所有判定を保つ。A/B consumer・Simulator・B build等の成功stageは旧head履歴で、新seed/UI/strict1/CI・通常mainの受入へ代用しない。別Recovery timeoutとNative restore AX/未結合Code4も分け、App0.2.28（30）/TODO32行14完了を維持する。
 
 [有効な本文改訂と段落回転の専用回帰](../../records/2026-11-02/ios-reader-valid-revision-ui.md)は、実SHAが変わるnormal A→Bを公開同梱切替から初回「続きを読む」・しおり・live段落折返し・B再起動へ結ぶ専用1caseを準備する。旧r2のnamespace修正、r3 IR P1/P2=0と3workflow構文/算術、保存Root Node8・旧構文4・macOS-host consumer A/B受理を保存し、SDK未指定の初回host失敗も残す。Root公式proofによるclean detached実main057fc40049faの全2880tupleへの結合は完了した。fresh Source10の新レビュー・iOS SDK/activation/viewport/UI・新CI/mainは未完了で、通常199記事/audio1・Full26、旧全履歴、App0.2.28(30)・TODO32行14完了を保つ。

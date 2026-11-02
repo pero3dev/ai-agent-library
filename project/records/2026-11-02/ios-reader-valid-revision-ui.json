@@ -28,6 +28,79 @@
     "packetMF": "45891021829bba04fd827b23e9020494a7e292231726efc334c4c9a5320c548d",
     "scope": "r3 delta/syntax/arithmetic over provisional Code3, not actualmain binding/new Node8/Host/SDK/activation/UI"
   },
+  "PR326_2bc_root_more_readiness_followup": {
+    "actual_leaf": {
+      "count": 1,
+      "failed": 1,
+      "passed": 0,
+      "seconds": 67.198
+    },
+    "actual_main_separate": "057fc40049fa40b0f09e45e0d7673ac18111e635",
+    "attempt": 1,
+    "failure": {
+      "AX": "hitpoint{-1,-1}/kAXErrorCannotComplete",
+      "action": "global app.buttons[その他の操作].tap",
+      "source_line": 579,
+      "time_error": 63.79,
+      "time_start": 59.74,
+      "underlying_AX_cause": "unproven; no claim of readiness defect as exclusive cause"
+    },
+    "fix": "Same root public Menu tap, now scoped to AI Agent Library navigation bar; reuse unchanged singleForegroundControl15s visible/hittable uniqueness and assert currently enabled",
+    "frozen_other_work": "Code4/Min17 and all old packets untouched",
+    "new_UI_or_CI_success": false,
+    "next": "Root finalIR/forms/syntax/fresh2bc branch gate and append commit; no force/head rewrite",
+    "not_reached": [
+      "public B activation",
+      "B first Resume",
+      "B landscape/portrait witnesses",
+      "B relaunch/bookmark persistence",
+      "post-UI repository file gate",
+      "strict1 success"
+    ],
+    "observation_scope": "Live A geometry only; not persisted A position/bookmark or relaunch acknowledgement",
+    "only_observed_revision_phase": {
+      "blockID": "revision-anchor-A",
+      "fraction": 0.11718749999999964,
+      "height": 298.66666666666674,
+      "offset": -34.9999999999999,
+      "phase": "A-before-save",
+      "schema": 1,
+      "width": 357
+    },
+    "other2bc_CI": "still Root observation; no new API/result substitution",
+    "prior_return": "public back/readerClosed/search/count existing assertions passed; these do not prove the root More target readiness",
+    "public_dismiss_source_review": "Unfiltered More is Menu, not actions sheet; confirm clears bundledPresented, onDismiss dispatch activates and publishes message, alert close clears message; no missing additional public dismiss found",
+    "public_parent": "2bc4480d83d75e92cf001f6276fbe81086f18646",
+    "receipts": {
+      "compact": {
+        "Root_read_receipt_SHA256": "c4013ac67f78ec6c2f2729a5cad2ff4058a1842df49f8d06fe819e21299062e2",
+        "Root_read_receipt_path": "/private/tmp/ios-pr326-2bc-small-artifact-reader-output-20261102/55620d15-59ea-4f65-b608-fe81db499802/helper-result.json",
+        "artifact_id": 13113389537,
+        "bytes": 39178,
+        "missing_required": [
+          "revision-file-gate.json",
+          "acceptance.json"
+        ],
+        "runtime_acceptance": false,
+        "whole_ZIP_SHA256": "81205e9f5dbbf7b66131841542aa2453b1f08d35843d6d4d045db3fcfd366e30",
+        "whole_ZIP_path": "/private/tmp/ios-pr326-2bc-small-artifact-reader-output-20261102/55620d15-59ea-4f65-b608-fe81db499802/full.zip"
+      },
+      "witness": {
+        "Root_read_receipt_SHA256": "7c54cc2b93288a842ae2d8f1856b90251cafa7606362364ebba9f72b923bbb03",
+        "Root_read_receipt_path": "/private/tmp/ios-pr326-2bc-small-artifact-reader-output-20261102/226ee5b6-ecb7-461a-944c-45efc2629560/helper-result.json",
+        "artifact_id": 13113870831,
+        "bytes": 4722,
+        "missing_required": [],
+        "runtime_acceptance": false,
+        "whole_ZIP_SHA256": "97955b0bb6cb5d23335b554ac95649f9a2b8fb7c344d22ac38ca5778d1be92f5",
+        "whole_ZIP_path": "/private/tmp/ios-pr326-2bc-small-artifact-reader-output-20261102/226ee5b6-ecb7-461a-944c-45efc2629560/full.zip"
+      }
+    },
+    "run": 41380657989,
+    "scope_preserved": "Old2cases53assert/phase15getter/shared helper/new5phase witness/all old assertions/tolerances/later actions/600s/labelguard/builder/unit/old2WF/products unchanged",
+    "seed_status": "stored-A-seeded",
+    "stdout_SHA256": "43d65aded1e98483569aab24cdabf1d19a31555a2b5569c9fd8758f172aafe1a"
+  },
   "PR326_initial_revision_filename_guard_followup": {
     "actual_main_separate": "057fc40049fa40b0f09e45e0d7673ac18111e635",
     "all_controlled_filename_names_static_guard_pass": true,

@@ -29,3 +29,13 @@ Code6 r3 SourceMFは`f7fbd17f8e85e0345202c57696a10988d4e2e55237dc54a72e28e78199a
 最小追補は新workflow内のinstall-bundled-B・seed-stored-A・after-stored-Bという3つのcommand labelだけを小文字へ統一する。guardは広げず、run/json/put/output/listInventoryから生成される全固定名・既知の組立名とinventoryの1回retry派生を同じguardへ静的照合し、旧3負例も残す。builder/unit/Reader、旧2case/53assert/各phase15getter、原assert/tolerances/期限、strict1、Full26、所有cleanupと出力容量は変更しない。
 
 旧記録全文・JSONの全既存key/value・旧索引全文は回復可能なまま保持する。今回の初回failureと成功stageは履歴で、新head追加で旧runがcancelされても新headのSDK/UI/CIへ代用しない。別Recoveryのfinally timeout/UI未確認、Nativeのrestore AXとCode4未来テンプレートも別未解決/未結合として保つ。新headのseed/実UI/geometry/strict1・必要CIと通常main/mainpushは未受入である。Rootがfresh publicparent/branchを確認して同一PRへ追加commitを行い、forceや公開headの書換えは行わない。
+
+## PR326 2bcのroot More対象の待ち直し
+
+[2bcの専用改訂run](https://github.com/pero3dev/ai-agent-library/actions/runs/41380657989)はseedを通過し、実UI1件が67.198秒で失敗した。確認できた改訂witnessはA-before-saveの1値だけで、offset約-35、width357、height約298.667、fraction0.1171875だった。これはlive A段落の観測で、A位置のdisk保存・しおりの再起動保持・B切替の受入ではない。既存のpublic back・readerClosed/search/count確認後、579行のglobal「その他の操作」tapが59.74～63.79秒にhitpoint{-1,-1}/kAXErrorCannotCompleteで停止した。B切替・first Resume・回転・再起動とpost-UI file gate/strict1成功は未到達である。
+
+最小追補は新caseのこのraw tapだけを、実rootタイトルAI Agent Libraryのnavigation bar内のMoreへscopeし、既存15秒singleForegroundControlで現在一意の可視/hittable対象を待ち、enabledを明示assertして同じpublic tapを行う変更である。AXの根本原因を断定せず、固定sleep・座標tap・任意scroll・期限増・guard緩和・復帰後の補正を加えない。共通generic helper、旧2case/53assert/各phase15getter、新5phase witnessと全既存許容差・後続操作、UI600秒、命名修正済workflow/builder/unit/既存2workflowと製品は保持する。
+
+App sourceでは通常rootのMoreはMenuで、bundled選択を直接previewへ渡す。confirmでbundled sheetを閉じ、onDismissからactivationし、その後のalert「閉じる」でmessageを消す。追加のactions/bundled dismissが欠ける決定的な不整合は見つからず、後続操作も変更しない。これは静的な遷移確認で、未到達B/初回Resume成功を主張しない。
+
+根拠はRootが取得したwitness ZIP4722B SHA97955b0bb6cb5d23335b554ac95649f9a2b8fb7c344d22ac38ca5778d1be92f5とcompact ZIP39178B SHA81205e9f5dbbf7b66131841542aa2453b1f08d35843d6d4d045db3fcfd366e30で、全ZIP SHAと選択entryのCRC/SHAを再照合した。小read receiptのpath/SHAは同名JSONに固定する。新head UI/CI・他の2bc CI、別Recovery/restore AXの受入へ拡張しない。旧記録と全JSON既存key/index全文・全旧packet/Code4/Min17を保持し、Rootの独立IR・形式/構文・fresh publicparent確認後に同一PRへ追加commitする。

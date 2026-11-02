@@ -576,7 +576,12 @@ final class ReaderReflowUITests: NativeReaderUITestCase {
         XCTAssertLessThan(saved.fraction, 0.8)
         returnToLibrary() // Public back flushes the measured reading position.
 
-        app.buttons["その他の操作"].tap()
+        let more = try singleForegroundControl(app.navigationBars.matching(
+            identifier: "AI Agent Library").buttons.matching(
+                NSPredicate(format: "label == %@", "その他の操作")),
+            name: "root library More Actions button")
+        XCTAssertTrue(more.isEnabled)
+        more.tap()
         let choose = app.buttons["library-bundled-content"]
         requireHittable(choose)
         choose.tap()

@@ -1,5 +1,7 @@
 # iOS完成版に向けたTODO
 
+[有効な本文改訂と段落回転の専用回帰](../../records/2026-11-02/ios-reader-valid-revision-ui.md)は、実SHAが変わるnormal A→Bを公開同梱切替から初回「続きを読む」・しおり・live段落折返し・B再起動へ結ぶ専用1caseを準備する。旧r2のnamespace修正、r3 IR P1/P2=0と3workflow構文/算術、保存Root Node8・旧構文4・macOS-host consumer A/B受理を保存し、SDK未指定の初回host失敗も残す。Root公式proofによるclean detached実main057fc40049faの全2880tupleへの結合は完了した。fresh Source10の新レビュー・iOS SDK/activation/viewport/UI・新CI/mainは未完了で、通常199記事/audio1・Full26、旧全履歴、App0.2.28(30)・TODO32行14完了を保つ。
+
 [Simulator一覧の読取上限と共有期限の整合](../../records/2026-11-02/ios-simulator-inventory-read-budget.md)は、head5826の回転初回210.493秒/strict1成功と、Dynamic初回・許可retryの30秒一覧読取2回停止を分けて保持する。両inline callerのlist読取と所有receipt上限を同期して60秒へ、共有inventory180秒/step4分・simulator300秒/step6分へ配分し、Rotation総和50/job51・Dynamic旧総和47/job43不足を総和51/job52へ揃える。global default30秒・純helper/4読取・再読取1回/cleanupと全条件を保ち、旧unit21367B prefixを保ったactualcaller/期限/所有controlsを加える。新60秒効果・新CI/Source7最終受入/mainと実機等は未受入、App0.2.28（30）・TODO32行14完了を維持する。
 
 [回転UIの共有時間枠の追加配分](../../records/2026-11-02/ios-reader-rotation-ui-budget.md)は、head89 retry2の実command419977ms・SIGKILL/ETIMEDOUTと、t219秒のR24計測中で完了leaf0だった事実を保持する。inline workflowの5literalだけでUI stage/spawn600秒・step12分・総和46分/job47分へ配分し、総和+1分と元全assert/2case/53assert/15getter・strict1・Dynamic720秒・容量/cleanupを保つ。同一head89のDynamic3phase/12stage成功は保存済みCode3の受入として区別し、新600秒CIへ転用しない。新レビュー・SDK/Hosted/通常mainと効果、実機等は未受入で、App0.2.28（30）・TODO32行14完了を保つ。

@@ -1,0 +1,198 @@
+{
+  "Code6_r2_history": {
+    "IR_packetMF": "38a00ad5516ca3913659d24cd690fd063e7d34def0d5f3f7ac10a4cbab2aecc3",
+    "IR_result_SHA256": "965aeda8b67aeb9a1e31c9e1846de13249eda1991faa0a9192735d2481608e15",
+    "P1": 0,
+    "P2": 0,
+    "SourceMF": "d180a75142aa9eef60945f88f927a8314d81757dd36ca3c2b59c4a9492d23ab2",
+    "delta": "new dedicated workflow create/owned two namespace literals only; strict builder unchanged",
+    "fresh_Source10_review_not_substituted": true,
+    "packetMF": "e720643f104742f787b8b77659b85e0f12e4088030c87670476c0135398c7483",
+    "r1_P2": "namespace mismatch, original r1 retained"
+  },
+  "Code6_r3": {
+    "IR_packetMF": "5f9fd208d2a97ae16dd5e5f4858caf31d743f247943c0bf7378fcb0bf8785012",
+    "IR_result_SHA256": "0f30e41e6e577b6b0d920c90a7e4d08863a0b235e5e73fef75285916a41faa55",
+    "P1": 0,
+    "P2": 0,
+    "Revision_budget": {
+      "UI_ms": 600000,
+      "UI_step": 11,
+      "job": 54,
+      "steps": 17,
+      "sum": 53
+    },
+    "Root_syntax_result_SHA256": "3c9789a1d84d90dee5cdefd783591ece8e30dcf4f6d20d54aba557bb07e03853",
+    "SourceMF": "f7fbd17f8e85e0345202c57696a10988d4e2e55237dc54a72e28e78199acab8a",
+    "builder_unit8_Reader_r2_exactcarry": true,
+    "packetMF": "45891021829bba04fd827b23e9020494a7e292231726efc334c4c9a5320c548d",
+    "scope": "r3 delta/syntax/arithmetic over provisional Code3, not actualmain binding/new Node8/Host/SDK/activation/UI"
+  },
+  "Root_actual_parent_admission": {
+    "Root_actualmerge_proof_SHA256": "f9f7bf5f8430c508cbc9ef68f0a34e258615d0b1af1eec648621fc5d5eabeb3e",
+    "Root_attestation_not_transport_authentication": true,
+    "Root_contract_SHA256": "5c1b438e0f348e6c8b982bd318d867b6463c93aa3143d7990dd956d01cee9aca",
+    "actual_base": "0a479ceefd70ce8275a1e3c40c80a72157453060",
+    "actual_main": "057fc40049fa40b0f09e45e0d7673ac18111e635",
+    "approved_head": "b8c67d492364232ea2d276b2ca3f31ab6579dfd7",
+    "merged_PR_SHA256": "e1e3290ffd04a7578c1d16926cbefa66cfc47207ea3791a7e9f60ed8b4375eea",
+    "official_ref_SHA256": "ff130019b89100354dd8603abce3dfaaba66405e96bb8e3aff30bdb07d9206d5",
+    "proof_manifest_SHA256": "651986ab393c64b42ffb257e7797b12c79d5c7f477e48dca53f63b9526d4a722"
+  },
+  "actual_commit": null,
+  "actual_parent": {
+    "Root_provided_oid_local_main_binding": "not a new GitHub freshness claim",
+    "sha": "057fc40049fa40b0f09e45e0d7673ac18111e635",
+    "tracked": 2880,
+    "tree": "6d1d79bb47e1850ddb73ca7d8d215157d89c6a0e"
+  },
+  "adoption_ready": false,
+  "composition": {
+    "Code": 6,
+    "index_prefix_appends": 2,
+    "new_records": 2
+  },
+  "latest_workflows_budget_preserved": {
+    "Dynamic": {
+      "UI_ms": 720000,
+      "UI_step": 13,
+      "inventory_ms": 180000,
+      "inventory_step": 4,
+      "job": 52,
+      "owner_upper_ms": 60000,
+      "read_ms": 60000,
+      "simulator_ms": 300000,
+      "simulator_step": 6,
+      "sum": 51
+    },
+    "Rotation": {
+      "UI_ms": 600000,
+      "UI_step": 12,
+      "inventory_ms": 180000,
+      "inventory_step": 4,
+      "job": 51,
+      "owner_upper_ms": 60000,
+      "read_ms": 60000,
+      "simulator_ms": 300000,
+      "simulator_step": 6,
+      "sum": 50
+    },
+    "both_exact_inventory_one_name_only": true,
+    "observed_actual_main_budgets": {
+      ".github/workflows/ios-reader-dynamic-type.yml": {
+        "UI_spawn_ms": 720000,
+        "UI_stage_ms": 720000,
+        "UI_step_minutes": 13,
+        "job_minutes": 52,
+        "total_step_minutes": 51
+      },
+      ".github/workflows/ios-reader-reflow.yml": {
+        "UI_spawn_ms": 600000,
+        "UI_stage_ms": 600000,
+        "UI_step_minutes": 12,
+        "job_minutes": 51,
+        "total_step_minutes": 50
+      }
+    }
+  },
+  "new_head": null,
+  "new_main": null,
+  "old_CI_results_separated": {
+    "new_b8_CI": "unaccepted at template preparation, not new Code6 or Source10 success",
+    "old_Dynamic_initial_and_retry2": "30s x2 preUI failure/UI0, retained",
+    "old_R26_or_other_rotation_witness": "old source/case scope only, not unique-paragraph revision evidence"
+  },
+  "owned": 10,
+  "pending": [
+    "fresh Source10 independent review",
+    "new iOS SDK/all UItests compile",
+    "actual activation/first Resume/paragraph rotation/relaunch exact1 UI",
+    "new head necessary CI",
+    "normal protected main merge and separate mainpush proof",
+    "physical iPhone/live OS font/VoiceOver and broader corpus acceptance"
+  ],
+  "preserved": {
+    "App": "0.2.28(30)",
+    "Content626": true,
+    "Dynamic720_strict1_Full26": true,
+    "Original110": true,
+    "PBX": true,
+    "TODO_complete": 14,
+    "TODO_rows": 32,
+    "all_nonowned_mode_blob_tuples": true,
+    "old_assertions": 53,
+    "old_cases": 2,
+    "old_indices_whole_bytes_and_all_failure_records": true,
+    "old_probe_getters": 15
+  },
+  "saved_Root_controls": {
+    "Node8": {
+      "inputs_unchanged": true,
+      "node": "24.22.1",
+      "passed": 8,
+      "result_SHA256": "adb8bff94bb7f0e5c6a550819bd4220fb62ed97bb04cdff3eab3d5decad0ca45",
+      "seconds": 0.42175966699999995,
+      "tests": 8
+    },
+    "execution_independent_review": {
+      "P1": 0,
+      "P2": 0,
+      "packetMF": "24ce3cb2e4c18c1746784e28c2c8a4ab45f5279ab7a900bf1455bee5028c4ec3",
+      "result_SHA256": "33935e16d78e7eac1d985ae2bf61adaf9d75e927b73528e841caafd9ed27c21e",
+      "scope": "Node8/syntax4/actualmain0a47 Host5 blob equality and actual macOS-host A/B consumer; initial failure separate; no iOS SDK/UI/activation acceptance"
+    },
+    "host_consumer_r2": {
+      "A": {
+        "PNG": 0,
+        "articles": 1,
+        "audio": 0,
+        "blocks": 17,
+        "files": 3
+      },
+      "B": {
+        "PNG": 0,
+        "articles": 1,
+        "audio": 0,
+        "blocks": 21,
+        "files": 3
+      },
+      "OUT": "separate sibling",
+      "commands": 4,
+      "compile_settings_added": [
+        "-swift-version 5",
+        "-sdk MacOSX15.2.sdk",
+        "-target arm64-apple-macosx14.0"
+      ],
+      "consumer": "actual macOS-host ContentValidator and snapshot.document(for:)",
+      "inputs_unchanged": true,
+      "not_iOS_SDK_activation_viewport_or_UI": true,
+      "pass": true,
+      "product_source_changes": 0,
+      "result_SHA256": "ae6a05952a027722471263f70e05c642f76f76b5fa2e3734d86938344a5582c0",
+      "seconds": 9.61852975
+    },
+    "host_initial_failure": {
+      "compile_exit": 1,
+      "reason": "SDK unspecified; standard library not found",
+      "result_SHA256": "1ee6ad8745676984cbb2aeafe15e08ddc206b624197b7076de8ac5950a50fb77",
+      "retained": true
+    },
+    "syntax4": {
+      "passed": 4,
+      "result_SHA256": "79d38f5634756d8ad651c7d7c9ab6b1b449c00839897e6bd8c4744eac9673995",
+      "scope": "legacy r2 syntax4; only exact-carried builder/unit/Reader retained; current r3 workflows have separately saved syntax3, not new runtime success"
+    }
+  },
+  "schema_version": 1,
+  "scope": "One real valid normal A→B package transition, unique paragraph first Resume, bookmark, live paragraph wrapping/position, B relaunch; not normal199/audio1 or Full26 acceptance",
+  "state": "private-fresh-actualmain-Source10-before-final-review-newCI-or-adoption",
+  "template_preparation_snapshot": {
+    "CI8": "observing/unaccepted at template preparation; not Code6 UI or future Source10 CI",
+    "PR320_public_head": "b8c67d492364232ea2d276b2ca3f31ab6579dfd7",
+    "PR320_single_parent": "5826e13b19ae1f71b6d6a67f282245e3d37bd5a2",
+    "actual_main": "0a479ceefd70ce8275a1e3c40c80a72157453060",
+    "actual_merge_proof": "Root supplies later; no adapter invocation now",
+    "tracked": 2880,
+    "tree": "6d1d79bb47e1850ddb73ca7d8d215157d89c6a0e"
+  }
+}

@@ -242,7 +242,7 @@ jobs:
             assert.equal(phone[0].identifier, 'com.apple.CoreSimulator.SimDeviceType.iPhone-16');
             const source = fs.readFileSync(path.join(workspace, 'ios/AILibraryUITests/ReaderReflowUITests.swift'), 'utf8');
             assert.deepEqual([...source.matchAll(/\bfunc\s+(test\w+)\s*\(/g)].map(match => match[1]),
-              ['testFixtureMeasuredRowAndBookmarkSurviveRotatedRelaunchAndLiveReturn', 'testFixtureMeasuredRowAndBookmarkSurviveDynamicTypeRelaunches']);
+              ['testFixtureMeasuredRowAndBookmarkSurviveRotatedRelaunchAndLiveReturn', 'testFixtureMeasuredRowAndBookmarkSurviveDynamicTypeRelaunches', 'testValidPackageRevisionAndParagraphReflowPreserveReadingAndBookmark']);
             json('selection.json', { source_head: head, source_tree: tree, source_sha256: sourceHashes(), selector,
               event_name: process.env.GITHUB_EVENT_NAME, event_commit: process.env.GITHUB_SHA,
               repository: process.env.GITHUB_REPOSITORY, runner: 'macos-15', macOS, architecture, Xcode, SDK,

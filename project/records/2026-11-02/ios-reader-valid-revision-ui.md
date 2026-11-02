@@ -1,0 +1,23 @@
+# 有効な本文改訂と段落回転の専用回帰
+
+2026-11-02の小作業単位である。Rootが公式ref・merged PR320・actualmerge proof/manifestとSHAを提供した後のclean detached実main `057fc40049fa40b0f09e45e0d7673ac18111e635`（tree `6d1d79bb47e1850ddb73ca7d8d215157d89c6a0e`、2880件）へ、Code6・新記録2・索引2のSource10だけを私有再結合した時点の記録である。実コミット・公開PR・新CI・main反映はこの記録では未完了であり、作成後の実結果は別追記で扱う。
+
+代表記事の既存確認に加え、実native JSONとmanifest.filesのSHAが変わる有効なA→Bを対象にする。共通articleIDでunique本文段落を保持し、前方4段落・heading・target blockIDを変える。fresh隔離suiteでrepository Aを実読込し、本文中途としおりを公開操作で保存する。同梱Bへ公開画面から切り替え、補正gestureなしの初回「続きを読む」でBの段落・近い位置・しおりを確認し、live縦横でparagraph実幅・高さ・位置、その後のB再起動復帰を要求する専用1caseを追加した。duplicate/fallbackのCore行列や通常199記事・音声1・Full26全体の確認をこの1記事/audio0/PNG0のcontrolled scenarioへ置き換えない。
+
+私有Code6 r1の独立IRはP1=0/P2=1で、専用workflow create/ownedの旧reader-reflow名とbuilderの厳密reader-revision要求の不一致を検出した。r1を保持し、r2で新workflowの2literalだけをreader-revisionへ統一した。builderを両名前許容に緩めず、他5候補をbyte保持した。旧2負例は不一致、新create/owned/builderの3source templateは一致する。r2差分IRはP1/P2=0だった。これは私有Code6のレビューであり、fresh Source10の最終レビューと新CIの代わりにはならない。
+
+RootのNode24.22.1による8 controlsは8/8、約0.422秒、入力不変だった。workflow YAML3と各inline DRIVER、builder、unitのNode構文、Swift frontend DEBUG parseの4検査も成功した。これは構文と制御試験であり、iOS SDK typecheck・UItests全compile・Simulatorの成功を意味しない。
+
+Rootのhost consumer初回はSDK未指定でstandard libraryを見つけられずcompile exit1だった。旧failureとログを保持し、OUTを別siblingへ変更し、compileに`-swift-version 5`・`-sdk MacOSX15.2.sdk`・`-target arm64-apple-macosx14.0`の3設定を加えた別r2実行が成功した。製品/source変更はない。実macOS-host ContentValidatorとsnapshot.document(for:)でA/Bが各1記事・audio0・PNG0・3files、17/21blocksとして受理され、4commands約9.619秒、入力不変を記録した。これはmacOS-host consumer受理だけであり、iOS SDK・実activation・読書位置保存・viewport・回転・UIを受理したものではない。Rootはhost入力5ファイルの実main0a47 Git blob一致も照合し、実行証跡の独立IRはP1/P2=0（result SHA `33935e16d78e7eac1d985ae2bf61adaf9d75e927b73528e841caafd9ed27c21e`）だった。fresh Source10の新CI・UI実証へは代入しない。
+
+旧Code6 r2 SourceMFは`d180a75142aa9eef60945f88f927a8314d81757dd36ca3c2b59c4a9492d23ab2`、packetMFは`e720643f104742f787b8b77659b85e0f12e4088030c87670476c0135398c7483`。r2 IR result SHAは`965aeda8b67aeb9a1e31c9e1846de13249eda1991faa0a9192735d2481608e15`。Node8・syntax4・host初回failure/r2 successのSHAとscopeは同名JSONに固定する。大きなbinary・trace・cacheはtrackedへ入れない。
+
+今回の再結合では、actual mainの全2880 mode/type/blobが承認済みb8（tree `6d1d79bb47e1850ddb73ca7d8d215157d89c6a0e`）と一致すること、実Git commitOID・tree・Root承認base0a47を唯一の親とすることを照合する。旧0a47・未merge head b8・仮想VM e686をactual mainへ代入しない。Rootのfresh公式ref `refs/heads/main` とmerged PR320 RESTを実OIDへ結合し、proof manifestの全member・SHAを照合する。local origin/mainの一致やsymbolic mainを要求せず、ユーザーmain/origin refを動かさない。
+
+既存workflow2の双方へ新methodのexact inventory1hunkだけを追加し、r3 afterの逆復元でactualmainの他全byteを回復する。read/owner60秒・inventory180秒/step4・simulator300秒/step6、Rotation sum50/job51/UI600秒/step12・Dynamic sum51/job52/UI720秒/step13を保持する。新Revision workflowは17steps/sum53/job54/UI600秒/step11、builder・unit8・Readerはr2 exactcarryである。旧索引全文・全失敗記録・PBX/App0.2.28(30)・TODO32/14・全非所有tuple・Original110・Content626を保持し、新Source10は2880から5newを加えた2885件、10paths（既存5/new5）として実mapから計算する。
+
+Code6 r3 SourceMFは`f7fbd17f8e85e0345202c57696a10988d4e2e55237dc54a72e28e78199acab8a`、packetMFは`45891021829bba04fd827b23e9020494a7e292231726efc334c4c9a5320c548d`。r3差分IRはP1/P2=0、Rootは3workflowのYAML/inlineNodeと17/15step算術、r2 exactcarryを確認した。新Node8・host・SDK・activation・viewport・UI成功へ転用しない。保存Host5のsourceはactual mainの5Git blobへ再照合するが、macOS-host受理を再実行したとは扱わない。
+
+このSource10を1コミット・通常PRの小単位として提出し、fresh Source10独立レビュー・共通/必要検査・iOS SDK compile・新専用exact1と既存回転/Dynamic等の必要CI、実objectと公式head/main照合を経て通常保護でmainへ統合する。mainpushは別確認である。実機・live OS font・VoiceOverや他記事/runtime等は未完了として残し、ユーザーの方針に従い実機待ちで停止しない。IOS-11全体の完了やTODO完了数は変更しない。
+
+準備時点のPR320新public headはb8（単一親5826、2880件）で、8CIは観測中・未受入だった。旧R26等の既存回転witnessは旧source/case内に留め、Dynamic初回afterbootとretry2runtimesの30秒×2/UI0失敗も保持する。新b8のCI、Code6のunique paragraph UI、さらにSource10新CIは別結果である。actualmain未提示の準備段階ではadapter invocation・Source10封印は0であり、Root後送のproofで実親を結合した後にも新Source10最終レビューと新CI/UIが必要である。

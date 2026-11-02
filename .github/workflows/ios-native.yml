@@ -19,6 +19,7 @@ jobs:
     timeout-minutes: 40
     env:
       DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
+      AILIBRARY_NATIVE_SOURCE_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
     defaults:
       run:
         shell: bash
@@ -54,9 +55,13 @@ jobs:
             xcodebuild -version
             node --version
             npm --version
-            echo 'Simulator: iPhone 16 / iOS 18.5'
+            echo 'Simulator target: fresh owned iPhone 16 / iOS 18.5; preparation records actual inventory.'
             echo 'Scope: all AILibraryTests and existing native UI smoke tests; physical-device acceptance is not executed.'
           } | tee .local/ios-ci/evidence/environment.log
+      - name: Prepare one fresh owned Native Simulator
+        id: native_simulator
+        timeout-minutes: 4
+        run: node ios/tests/native-simulator-prepare.mjs prepare
       - name: Check the frozen AppIcon source assets
         run: |
           set -euo pipefail
@@ -98,11 +103,14 @@ jobs:
             | tee .local/ios-ci/evidence/all-published-package.json
       # This runs the XCTest unit target, including UIKit/math and audio regression.
       - name: Run native XCTest on the iPhone Simulator
+        env:
+          AILIBRARY_NATIVE_DESTINATION: ${{ steps.native_simulator.outputs.destination }}
         run: |
           set -euo pipefail
+          test -n "$AILIBRARY_NATIVE_DESTINATION"
           xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary \
             -configuration Debug \
-            -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.5' \
+            -destination "$AILIBRARY_NATIVE_DESTINATION" \
             -destination-timeout 120 \
             -derivedDataPath .local/ios-ci/DebugDerivedData \
             -resultBundlePath .local/ios-ci/evidence/unit.xcresult \
@@ -125,11 +133,14 @@ jobs:
       # Recovery tests cover cancel/confirm, isolated relaunch and restore-picker cancellation.
       - name: Run native UI smoke tests on the iPhone Simulator
         id: native_ui
+        env:
+          AILIBRARY_NATIVE_DESTINATION: ${{ steps.native_simulator.outputs.destination }}
         run: |
           set -euo pipefail
+          test -n "$AILIBRARY_NATIVE_DESTINATION"
           xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary \
             -configuration Debug \
-            -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.5' \
+            -destination "$AILIBRARY_NATIVE_DESTINATION" \
             -destination-timeout 120 \
             -derivedDataPath .local/ios-ci/DebugDerivedData \
             -resultBundlePath .local/ios-ci/evidence/ui.xcresult \
@@ -185,6 +196,22 @@ jobs:
         with:
           name: ios-native-failure-compact-${{ github.run_id }}-${{ github.run_attempt }}
           path: .local/ios-ci/native-failure-compact/ready
+          include-hidden-files: true
+          if-no-files-found: ignore
+          retention-days: 90
+      - name: Clean up only the proven owned Native Simulator
+        if: always()
+        timeout-minutes: 2
+        env:
+          AILIBRARY_NATIVE_OWNER_TOKEN: ${{ steps.native_simulator.outputs.owner_token }}
+          AILIBRARY_NATIVE_CREATED_UUID: ${{ steps.native_simulator.outputs.created_uuid }}
+        run: node ios/tests/native-simulator-prepare.mjs cleanup
+      - name: Retain bounded Native Simulator ownership receipts
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ios-native-simulator-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/ios-ci/evidence/native-simulator
           include-hidden-files: true
           if-no-files-found: ignore
           retention-days: 90

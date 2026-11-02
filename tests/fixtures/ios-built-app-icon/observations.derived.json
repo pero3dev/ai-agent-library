@@ -121,5 +121,30 @@
     "Exact CAR pixel data not decoded",
     "Home and physical QA incomplete",
     "Rows/fields are facts from captured reader; size/index linking is an explicit observed-format inference"
-  ]
+  ],
+  "debug_state9": {
+    "status": "controlled sanitized derived metadata; not raw CAR/PNG or pixel acceptance",
+    "fixture": "debug-state9-car.derived.json",
+    "source_head": "40f24a27cf9f75d5e2dd7e9425f13affbd528c6b",
+    "run": 41503863477,
+    "attempt": 1,
+    "artifact": 13170288162,
+    "ZIP_bytes": 67237,
+    "ZIP_SHA256": "56ed5a3a5c1257d5bcd565a71c5c283f55220b7687beb4572ab843d2b996fd2a",
+    "reader_stdout_bytes": 4676,
+    "reader_stdout_SHA256": "676744fc671b3e2a9fe617484f12ac87a8e0d64b49746e012906a555e60a474f",
+    "key_format_variant": "observed Schema2/Storage17 state9; exact918/918.8 and appearance-any0",
+    "required_CAR_scales": [
+      3
+    ],
+    "derivation": "Header binding fields and named icon/mapping fields retained; timestamp/authoring/thinning/storage/hash diagnostics omitted. Packed rows use controlled names and retain only non-primary type/idiom/scale/State.",
+    "capture_and_failing_audit": "separate invocations; exact failing audit stdout bytes not received",
+    "claim_limits": [
+      "No raw CAR/PNG copied",
+      "No CAR or PNG pixels decoded",
+      "Not generic Apple format specification",
+      "Future tool/key/state variants remain unaccepted",
+      "Home Screen/physical/signing/Store acceptance incomplete"
+    ]
+  }
 }

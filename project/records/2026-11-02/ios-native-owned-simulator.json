@@ -1373,5 +1373,305 @@
       "Physical/provider/VoiceOver/minOS/signing acceptance remains incomplete"
     ]
   },
-  "standard_intel_runner_prior_fields_scope": "All previous keys/values are retained parent70ca and earlier frozen history; appended followup is the current unaccepted Intel candidate"
+  "standard_intel_runner_prior_fields_scope": "All previous keys/values are retained parent70ca and earlier frozen history; appended followup is the current unaccepted Intel candidate",
+  "intel_budget_and_icon_followup_20261103": {
+    "state": "PRIVATE_TWO_INTENT_SOURCE_FOLLOWUP_OVER_PUBLIC40F_NOT_NEW_MAIN",
+    "actual_parent": "40f24a27cf9f75d5e2dd7e9425f13affbd528c6b",
+    "parent_tree": "9fb493f10eea4671fd0d744d2111968eaad35552",
+    "parent_tracked": 2889,
+    "group1": {
+      "intent": "Shared Native preparation budget",
+      "Code3MF": "1391bb0ac26a105a62d237346f9751ddc907f47936d53636a26fefc6f6d02248",
+      "packetMF": "3a38f018c83ec72f7cef7f57818b996cf4e75710cb9c1ce78bea32f64ad0c7c4",
+      "prior_independent_IR_MF": "b6b181a80ea27ee832f94c748f573c481ec89aba57875f77b0548ce2ff62b7a7",
+      "prior_IR_scope": "Code3 only; record/index/metadata/overallmap/icon not reviewed there",
+      "prepareMs": {
+        "before": 210000,
+        "after": 360000
+      },
+      "workflow_prepare_step_minutes": {
+        "before": 4,
+        "after": 7
+      },
+      "validation": {
+        "dedicated_units": {
+          "tests": 100,
+          "pass": 100,
+          "fail": 0,
+          "skip": 0,
+          "platform": "Darwin",
+          "old": 97,
+          "new": 3,
+          "wall_seconds": 0.272808,
+          "Node_duration_ms": 225.968334
+        },
+        "other_OS_expected_only": "98pass+2Darwin-onlyskip, not executed",
+        "JS_syntax2": "pass",
+        "actual_locked_YAML_before_after2parse": "pass",
+        "YAML_budget_arithmetic": {
+          "schema_version": 1,
+          "status": "pass",
+          "YAML_documents": 1,
+          "before_after_parses": 2,
+          "actual_locked_validator": "parseConfiguration / js-yaml5.4.1 JSON_SCHEMA",
+          "changed_AST_field": [
+            "jobs",
+            "ios-native",
+            "steps",
+            "id:native_simulator",
+            "timeout-minutes"
+          ],
+          "all_other_AST_fields_and_run_bodies_exact": true,
+          "raw_one_literal_only": true,
+          "shared_prepare_ms": 360000,
+          "prepare_step_ms": 420000,
+          "prepare_slack_ms": 60000,
+          "cleanup_shared_ms": 90000,
+          "cleanup_step_ms": 120000,
+          "cleanup_slack_ms": 30000,
+          "job_ms": 2400000,
+          "explicit_step_budgets": [
+            {
+              "id": "native_simulator",
+              "name": "Prepare one fresh owned Native Simulator",
+              "minutes": 7
+            },
+            {
+              "id": "native_failure_compact",
+              "name": "Collect selected Native failure attachments within a small budget",
+              "minutes": 2
+            },
+            {
+              "id": null,
+              "name": "Clean up only the proven owned Native Simulator",
+              "minutes": 2
+            }
+          ],
+          "explicit_step_total_ms": 660000,
+          "non_explicit_steps_share_remaining_job_envelope_ms": 1740000,
+          "arithmetic_limit": "Envelope arithmetic only; no assertion that generation/XCTest/UI/Release fits this headroom. Per-command maxima can still be clipped by the shared deadline.",
+          "unit_tests_repeated_here": 0,
+          "SDK_Simulator_Git_API": 0
+        },
+        "new_cases": [
+          "prefix122s including first60s timeout and successful retry leaves full120s bootstatus and ready within360s",
+          "bootstatus clips below60s when shared remainder is insufficient and deadline failure cannot hand off ready",
+          "full120s timeout still fails once even with ample shared time; no bootstatus retry"
+        ]
+      },
+      "limits": [
+        "Shared360s does not guarantee every possible combination of retries can consume its maximum; per-command min(remaining,cap) still clips/fails closed",
+        "bootstatus120s and inventory60s/generic15/30s,cleanup90s/step2min/job40min and all Native ownership/caps/selectors/assertions stay unchanged",
+        "Real Data Migration may still exceed120s; no new Hosted/Simulator/UI success claimed",
+        "Old failed clipped result remains failed and retry127609B is not high-output Hosted proof",
+        "Record/index binding and current-source independentIR/newheadCI/ordinary protected merge are Root followup"
+      ]
+    },
+    "group2": {
+      "intent": "Observed AppIcon catalog format compatibility plus current record/index",
+      "CodeMF": "d671c78c512966503fcc6f85eb8904d303da4a39b68e2aa9d2143e9531fbc510",
+      "packetMF": "1fce9ad5a3d44d68fd78322ad795ec6ca838721dbde9ae1057e0af639a1a7b93",
+      "result_SHA256": "92de01e24455552d8a348a93eabc933fe2137725f869963268a86dd3e82a0aae",
+      "saved_worker_validation": {
+        "single_affected_invocation": {
+          "total_tests": 30,
+          "pass": 30,
+          "fail": 0,
+          "skip": 0,
+          "platform": "Darwin",
+          "wall_seconds": 0.24087237500000003,
+          "Node_duration_ms": 189.098083
+        },
+        "public_affected_tests": 28,
+        "old_public22_held": true,
+        "new_public": 6,
+        "private_received_capture_checks": 2,
+        "mutations_rejected": {
+          "KeyFormat_two_variants": 24,
+          "new9_header_tool_appearance_state": 24,
+          "new9_named_rendition_joins_quality": 19
+        },
+        "syntax_parser_unit": "2exit0",
+        "native_budget100_rerun": false,
+        "old_and_new_pure_validator_received_input": "verified4676B captured stdout rejected old UnknownKeyFormat, new metadata validation required3 accepted phone60/index4/nameid6849/180px; no SDK/assetutil call"
+      },
+      "scope_summary": {
+        "supported_variants": [
+          "Existing exact10 ordered own string keys with original Schema2/Storage17/ios and positive tool/version constraints retained",
+          "Only observed exact9 ordered own string keys with Schema2/Storage17/ios/CoreUI918/Dump918.8/AssetStorageVersion exact Xcode16.4(16F6)viaAssetCatalogSimulatorAgent/PlatformVersion17.0/Appearances ownonlyUIAppearanceAny:number0/allrowsStateNormal"
+        ],
+        "strict_unknown_policy": "Missing/sparse/inherited/type/duplicate/extra/ordered-key mismatch and unobserved new9 tool/appearance/state variants fail; future918.9 not accepted for new9",
+        "actual_capture_scope": {
+          "Root_semantic_result_SHA256": "07abbed1a916c6566226d8c5f5e3e1c11ced7ec4e2008a43942289d8abee34ec",
+          "artifact": 13170288162,
+          "ZIP_bytes": 67237,
+          "ZIP_SHA256": "56ed5a3a5c1257d5bcd565a71c5c283f55220b7687beb4572ab843d2b996fd2a",
+          "reader_stdout_bytes": 4676,
+          "reader_stdout_SHA256": "676744fc671b3e2a9fe617484f12ac87a8e0d64b49746e012906a555e60a474f",
+          "capture_and_failing_audit": "separate invocations; exact failing audit stdout not received",
+          "CAR_PNG_pixel_acceptance": false
+        },
+        "limitations": [
+          "Newfixture is controlled sanitized metadata, not raw CAR/PNG or all capture fields; private actual rows and public fixture results are distinct",
+          "Existing Mac plist adapter uses plutil with controlled XML/binary fixtures, not assetutil or SDK",
+          "Legacy10 keeps its original positive finite tool version semantics; strict918/918.8 applies to added9 only",
+          "No actual newhead CLI/built Debug/Release/Archive or UI success accepted; no CAR pixel/Home/physical/signing/Store acceptance",
+          "Root final NativeCode3+IconCode4+record/index binding, independent final review, common/newHosted and protected merge remain pending"
+        ]
+      },
+      "derived_fixture_scope": {
+        "observed_header_and_named_binding_fields": true,
+        "PackedImage2_rows": "controlled witness, not raw CAR or pixels",
+        "timestamp_and_absolute_runner_paths_removed": true,
+        "legacy_exact10_and_old_provenance_all_values_held": true,
+        "fixture_is_not_new_Hosted_or_runtime_acceptance": true
+      }
+    },
+    "Native40f_diagnostic": {
+      "source_parent": "40f24a27cf9f75d5e2dd7e9425f13affbd528c6b",
+      "Root_typed_result_SHA256": "11bcd795221e9a99f80bfc83c195edc9fa0c165c98777fef1c71d30a731a4124",
+      "transport_and_selected_and_stream_verification": "Root previously verified onceGET; not repeated here",
+      "runtimes_first": {
+        "timeout_ms": 60000,
+        "status": null,
+        "signal": "SIGKILL",
+        "error_code": "ETIMEDOUT",
+        "output_complete": false,
+        "returned_within_deadline": true,
+        "stdout_bytes": 0
+      },
+      "runtimes_retry1": {
+        "timeout_ms": 60000,
+        "status": 0,
+        "signal": null,
+        "error_code": null,
+        "output_complete": true,
+        "returned_within_deadline": true,
+        "stdout_bytes": 127609
+      },
+      "bootstatus": {
+        "timeout_ms": 88205,
+        "status": null,
+        "signal": "SIGKILL",
+        "error_code": "ETIMEDOUT",
+        "output_complete": false,
+        "returned_within_deadline": false,
+        "stdout_bytes": 10695
+      },
+      "retry_stdout_below_old128KiB": true,
+      "no_high_output_Hosted_effect_claim": true,
+      "known_failure": "bootstatus per-command120s was clipped by shared210s remaining88205ms; full120s success remains unknown",
+      "cleanup": "Root reported same owned UUID shutdown/delete/absent_after true; not new runtime operation"
+    },
+    "Icon40f_diagnostic": {
+      "typed_SHA256": "07abbed1a916c6566226d8c5f5e3e1c11ced7ec4e2008a43942289d8abee34ec",
+      "reader_SourceMF": "658d02cd79061e674d44b9db010d7389ac4da77302d8766e4d5d16c7646321aa",
+      "reader_packetMF": "5ea1e1ebb8054704f63eb1bc3b9cabfff50db4387bae893c4337060c757633d7",
+      "reader_IR_MF": "2e86f7e4eedee24f32bb849d51eb939a869181046f232eec6f5a006a7a87df4c",
+      "Root_actual_GETs": 1,
+      "run": 41503863477,
+      "attempt": 1,
+      "job": 125477979194,
+      "artifact": 13170288162,
+      "ZIP_bytes": 67237,
+      "ZIP_SHA256": "56ed5a3a5c1257d5bcd565a71c5c283f55220b7687beb4572ab843d2b996fd2a",
+      "selected8_bytes": 12155,
+      "selected8_CRC_local_SHA": true,
+      "capture_saved7_received_SHA_exact": true,
+      "commands3_exit0_no_signal_error_truncation": true,
+      "plist_binary_and_JSON_equal": true,
+      "SchemaVersion": 2,
+      "StorageVersion": 17,
+      "Platform": "ios",
+      "CoreUIVersion": 918,
+      "DumpToolVersion": 918.8,
+      "Key_Format": [
+        "kCRThemeScaleName",
+        "kCRThemeIdiomName",
+        "kCRThemeSubtypeName",
+        "kCRThemeDimension2Name",
+        "kCRThemeDimension1Name",
+        "kCRThemeIdentifierName",
+        "kCRThemeElementName",
+        "kCRThemePartName",
+        "kCRThemeStateName"
+      ],
+      "phone3x_icon_rows": 4,
+      "MultiSized_join": true,
+      "capture_and_failing_audit": "separate invocations; exact bytes of failing audit stdout not received",
+      "CAR_pixels_Home_Store_physical_acceptance": false
+    },
+    "source40f_initial_CI_and_separate_retry": {
+      "source_head": "40f24a27cf9f75d5e2dd7e9425f13affbd528c6b",
+      "VM": "3a53a361b04c4c9750f319fdeb656cd318086676",
+      "tree": "9fb493f10eea4671fd0d744d2111968eaad35552",
+      "attempt": 1,
+      "Common9": "success",
+      "required11": "success",
+      "SDK26": "workflow success; separate arm64 SDK26 scope",
+      "Recovery": "workflow/auditor success; direct UI leaf detail unreceived",
+      "FullA_units": {
+        "total": 278,
+        "pass": 276,
+        "fail": 0,
+        "skip": 2,
+        "seconds_sum": 199.101
+      },
+      "FullA_Node": {
+        "tests": 1446,
+        "pass": 1431,
+        "fail": 0,
+        "skipped": 15
+      },
+      "CommonLinux_Node": {
+        "tests": 1446,
+        "pass": 1428,
+        "fail": 0,
+        "skipped": 18
+      },
+      "Native": "prepare bootstatus failed after shared210s clipped timeout; UI0",
+      "FullA_and_FullB": "Debug build succeeded then Unknown catalog key format; UI0; copy/Release not reached",
+      "R26_attempt1": {
+        "total": 3,
+        "pass": 1,
+        "fail": 2,
+        "skip": 0,
+        "seconds_sum": 351.57
+      },
+      "R26_attempt2": {
+        "job": 125493921177,
+        "conclusion": "cancelled",
+        "raw": "one GET404 BlobNotFound",
+        "steps": "successful empty array; execution count unknown",
+        "UI": "unknown/unreceived",
+        "MF": "a200744d003fecf54645b1c36e79cbd06a82a16aa3f0b15a80f29bcb0f4d31c4"
+      },
+      "combined_acceptance": false,
+      "previous70ca_or_d151_success_transferred": false
+    },
+    "preserved": {
+      "all_prior_MD_and_JSON_values": true,
+      "old_index_text": true,
+      "TODO32_14": true,
+      "App0_2_28_build30": true,
+      "all_product_and_images_Assets": true,
+      "standard_Intel_Native_Full_and_arm64_SDK26_R26_Recovery": true,
+      "percommand_bootstatus120_inventory60_cleanup90_job40": true,
+      "inventory512KiB_generic128KiB_receipt1MiB_evidence16MiB": true,
+      "ownership_assertions_failclosed_cleanup": true,
+      "old_arm64_scalar_performance_transferred": false
+    },
+    "projection_tree_location": "External private SourceMF; no self-referential projected tree in this payload",
+    "actual_new_commit": null,
+    "external_publication": false,
+    "new_Hosted_UI_Release_boot120_acceptance": false,
+    "pending": [
+      "Final full Source/metadata independent review and forms",
+      "Root new-head publication and source-bound Hosted CI",
+      "New360 budget actual bootstatus within120s, Full26/UI/copy/Release and separate R26 evidence",
+      "Ordinary protected main and separate push CI",
+      "Physical device, VoiceOver, minimumOS, extra audio, signed/Store acceptance remain incomplete"
+    ]
+  },
+  "intel_budget_and_icon_prior_fields_scope": "All existing fields remain unchanged history through published40f and prior epochs; appended fields describe the unaccepted new Source candidate"
 }

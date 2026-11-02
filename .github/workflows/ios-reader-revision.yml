@@ -334,7 +334,7 @@ jobs:
             // The owned Simulator is fresh. Never replace an already installed app.
             const absent = run('before-install-container', 'xcrun', ['simctl', 'get_app_container', owner.UUID, bundleID, 'data'], 30000, workspace, false);
             assert.notEqual(absent.exit_code, 0); assert.equal(absent.error, null); assert.equal(absent.signal, null);
-            run('install-bundled-B', 'xcrun', ['simctl', 'install', owner.UUID, built.app], 60000);
+            run('install-bundled-b', 'xcrun', ['simctl', 'install', owner.UUID, built.app], 60000);
             const installed_app = run('seed-app-container', 'xcrun', ['simctl', 'get_app_container', owner.UUID, bundleID, 'app']).stdout.trim();
             const data_container = run('seed-data-container', 'xcrun', ['simctl', 'get_app_container', owner.UUID, bundleID, 'data']).stdout.trim();
             const info = JSON.parse(run('installed-app-info', '/usr/bin/plutil', ['-convert', 'json', '-o', '-', path.join(installed_app, 'Info.plist')]).stdout);
@@ -343,7 +343,7 @@ jobs:
             json('seed-context.json', context);
             const installedB = auditRevisionPackage(path.join(installed_app, 'Content'), 'B');
             assert.equal(installedB.document_sha256, read('revision-fixtures.json').B.document_sha256);
-            const seeded = JSON.parse(run('seed-stored-A', 'node', ['ios/tests/create-reader-revision-fixtures.mjs', 'seed',
+            const seeded = JSON.parse(run('seed-stored-a', 'node', ['ios/tests/create-reader-revision-fixtures.mjs', 'seed',
               '--context', path.join(evidence, 'seed-context.json'),
               '--fixtures', path.join(root, 'revision-fixtures/fixtures.json')], 30000).stdout);
             assert.equal(seeded.status, 'stored-A-seeded'); assert.equal(seeded.UUID, owner.UUID);
@@ -370,7 +370,7 @@ jobs:
             const context = { ...read('seed-context.json'), installed_app, data_container };
             json('after-context.json', context);
             auditRevisionPackage(path.join(installed_app, 'Content'), 'B');
-            const gate = JSON.parse(run('after-stored-B', 'node', ['ios/tests/create-reader-revision-fixtures.mjs', 'after-ui',
+            const gate = JSON.parse(run('after-stored-b', 'node', ['ios/tests/create-reader-revision-fixtures.mjs', 'after-ui',
               '--context', path.join(evidence, 'after-context.json'), '--fixtures', path.join(root, 'revision-fixtures/fixtures.json'),
               '--seed', path.join(evidence, 'seed.json')], 30000).stdout);
             assert.equal(gate.status, 'stored-B-selected-and-A-retained'); json('revision-file-gate.json', gate);

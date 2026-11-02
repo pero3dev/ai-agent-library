@@ -21,3 +21,11 @@ Code6 r3 SourceMFは`f7fbd17f8e85e0345202c57696a10988d4e2e55237dc54a72e28e78199a
 このSource10を1コミット・通常PRの小単位として提出し、fresh Source10独立レビュー・共通/必要検査・iOS SDK compile・新専用exact1と既存回転/Dynamic等の必要CI、実objectと公式head/main照合を経て通常保護でmainへ統合する。mainpushは別確認である。実機・live OS font・VoiceOverや他記事/runtime等は未完了として残し、ユーザーの方針に従い実機待ちで停止しない。IOS-11全体の完了やTODO完了数は変更しない。
 
 準備時点のPR320新public headはb8（単一親5826、2880件）で、8CIは観測中・未受入だった。旧R26等の既存回転witnessは旧source/case内に留め、Dynamic初回afterbootとretry2runtimesの30秒×2/UI0失敗も保持する。新b8のCI、Code6のunique paragraph UI、さらにSource10新CIは別結果である。actualmain未提示の準備段階ではadapter invocation・Source10封印は0であり、Root後送のproofで実親を結合した後にも新Source10最終レビューと新CI/UIが必要である。
+
+## PR326初回の証跡ファイル名と追補候補
+
+[PR326初回の専用改訂run](https://github.com/pero3dev/ai-agent-library/actions/runs/41376013178)はpublic head efb29df（main057とは別）を実checkoutした。inventory・tools・A/B生成と実consumer監査・専用Simulator・B app/test bundle buildは成功したが、seed工程のrunがinstall-bundled-B.intent.jsonを保存しようとして既存の小文字限定guardに拒否された。intent保存前で当該install spawnは0、A seed・UI実行・strict1と読書位置/段落回転/再起動の受入には未到達だった。所有cleanupとstorage/compact/full保持の成功をUI成功へ数えない。
+
+最小追補は新workflow内のinstall-bundled-B・seed-stored-A・after-stored-Bという3つのcommand labelだけを小文字へ統一する。guardは広げず、run/json/put/output/listInventoryから生成される全固定名・既知の組立名とinventoryの1回retry派生を同じguardへ静的照合し、旧3負例も残す。builder/unit/Reader、旧2case/53assert/各phase15getter、原assert/tolerances/期限、strict1、Full26、所有cleanupと出力容量は変更しない。
+
+旧記録全文・JSONの全既存key/value・旧索引全文は回復可能なまま保持する。今回の初回failureと成功stageは履歴で、新head追加で旧runがcancelされても新headのSDK/UI/CIへ代用しない。別Recoveryのfinally timeout/UI未確認、Nativeのrestore AXとCode4未来テンプレートも別未解決/未結合として保つ。新headのseed/実UI/geometry/strict1・必要CIと通常main/mainpushは未受入である。Rootがfresh publicparent/branchを確認して同一PRへ追加commitを行い、forceや公開headの書換えは行わない。

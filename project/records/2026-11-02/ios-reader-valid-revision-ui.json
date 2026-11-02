@@ -28,6 +28,38 @@
     "packetMF": "45891021829bba04fd827b23e9020494a7e292231726efc334c4c9a5320c548d",
     "scope": "r3 delta/syntax/arithmetic over provisional Code3, not actualmain binding/new Node8/Host/SDK/activation/UI"
   },
+  "PR326_initial_revision_filename_guard_followup": {
+    "actual_main_separate": "057fc40049fa40b0f09e45e0d7673ac18111e635",
+    "all_controlled_filename_names_static_guard_pass": true,
+    "attempt": 1,
+    "cause": "put lowercase filename guard rejects install-bundled-B.intent.json before its write/spawn; deterministic harness failure, not UI assertion or app rendering/storage evidence",
+    "classification_SHA256": "724af44dfdf6998b5c0cec5ad230f7778537aee37546cfaca8c1a5ef64db39ed",
+    "fix": "Three command labels lowercase only: install-bundled-b/seed-stored-a/after-stored-b; existing filename guard, caps/deadlines/ownership/strict1/Reader/assertions/tolerances unchanged",
+    "fresh_remote_and_append_commit_gate": "Root required; no branch/ref/main adoption here",
+    "job": 125056293720,
+    "new_head_UI_or_CI_accepted": false,
+    "not_reached": [
+      "B install intent/spawn",
+      "stored A seed",
+      "UI case execution (0)",
+      "strict1",
+      "paragraph/first Resume/rotation/relaunch acceptance"
+    ],
+    "other_Recovery_finally_timeout": "separate incomplete UI case; not used as this cause",
+    "public_parent": "efb29df6c7a81e30de29d804aff48340b234dd03",
+    "raw_SHA256": "281698cc3722d0b2e4f994dabbdd70b40beb64e5dabf7c0efb855b943fd035c8",
+    "retention": "Initial failure and any oldhead successful stages remain history even if new append head cancels old runs; not newhead CI acceptance",
+    "run": 41376013178,
+    "successful_stages": [
+      "inventory",
+      "tools",
+      "content: A+B actual consumer",
+      "simulator",
+      "build: bundled B app and test bundle",
+      "owned cleanup",
+      "storage/compact/full retention"
+    ]
+  },
   "Root_actual_parent_admission": {
     "Root_actualmerge_proof_SHA256": "f9f7bf5f8430c508cbc9ef68f0a34e258615d0b1af1eec648621fc5d5eabeb3e",
     "Root_attestation_not_transport_authentication": true,

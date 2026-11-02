@@ -62,7 +62,7 @@ jobs:
           import { spawnSync } from 'node:child_process';
           import { selectUITestTarget } from '../../ios/tests/xctestrun-metadata.mjs';
           import { readSimctlInventory } from '../../ios/tests/simctl-inventory-read.mjs';
-          import { auditRevisionPackage } from '../../ios/tests/create-reader-revision-fixtures.mjs';
+          import { auditRevisionPackage, validateSeedContext, revisionOwnerIdentity } from '../../ios/tests/create-reader-revision-fixtures.mjs';
           
           const stage = process.argv[2];
           const caps = { inventory: 180000, tools: 180000, content: 180000, simulator: 300000,
@@ -347,12 +347,15 @@ jobs:
               '--context', path.join(evidence, 'seed-context.json'),
               '--fixtures', path.join(root, 'revision-fixtures/fixtures.json')], 30000).stdout);
             assert.equal(seeded.status, 'stored-A-seeded'); assert.equal(seeded.UUID, owner.UUID);
-            assert.equal(seeded.source_head, expected); json('seed.json', seeded); sameSource();
+            assert.equal(seeded.source_head, expected); assert.deepEqual(seeded.owner, revisionOwnerIdentity(context));
+            json('seed.json', seeded); sameSource();
           }
           
           function ui() {
             sameSource(); const owner = owned(), built = read('build.json'), seeded = read('seed.json');
+            const seedReceiptSHA256 = hash(fs.readFileSync(path.join(evidence, 'seed.json')));
             assert.equal(seeded.status, 'stored-A-seeded'); assert.equal(seeded.source_head, expected); assert.equal(seeded.UUID, owner.UUID);
+            assert.deepEqual(seeded.owner, revisionOwnerIdentity({ ...owner, bundle_id: bundleID }));
             assert.equal(built.source_head, expected); assert.equal(built.UUID, owner.UUID); assert.equal(built.selector, selector);
             assert.equal(fs.realpathSync(built.xctestrun), built.xctestrun); assert.equal(path.dirname(built.xctestrun), products);
             assert.equal(hash(fs.readFileSync(built.xctestrun)), built.xctestrun_sha256);
@@ -360,14 +363,21 @@ jobs:
               '-destination', `platform=iOS Simulator,id=${owner.UUID}`, '-destination-timeout', '60',
               '-resultBundlePath', path.join(evidence, 'ui.xcresult'), '-parallel-testing-enabled', 'NO', '-jobs', '2',
               '-only-testing:' + selector, 'CODE_SIGNING_ALLOWED=NO', 'test-without-building'], 600000, workspace, false);
-            json('execution.json', { source_head: expected, UUID: owner.UUID, OS: '18.5', selector, ...result, stdout: undefined });
+            json('execution.json', { source_head: expected, UUID: owner.UUID, OS: '18.5', selector,
+              seed_receipt_sha256: seedReceiptSHA256, ...result, stdout: undefined });
             assert.equal(result.exit_code, 0); assert.equal(result.signal, null); assert.equal(result.error, null);
+            assert.equal(hash(fs.readFileSync(path.join(evidence, 'seed.json'))), seedReceiptSHA256);
             // Inspect actual repository files before owned cleanup removes the device.
-            // Reinstallation may change the app-container UUID; data A must survive.
+            // Reacquire current app/data locations: container UUIDs may change.
+            // The same owned seed generation and every A byte must survive.
             const installed_app = run('after-app-container', 'xcrun', ['simctl', 'get_app_container', owner.UUID, bundleID, 'app']).stdout.trim();
             const data_container = run('after-data-container', 'xcrun', ['simctl', 'get_app_container', owner.UUID, bundleID, 'data']).stdout.trim();
-            assert.equal(data_container, seeded.data_container);
-            const context = { ...read('seed-context.json'), installed_app, data_container };
+            const context = { ...owner, bundle_id: bundleID, installed_app, data_container };
+            const devicesRoot = fs.realpathSync(path.join(process.env.HOME, 'Library/Developer/CoreSimulator/Devices'));
+            validateSeedContext(context, devicesRoot);
+            assert.deepEqual(revisionOwnerIdentity(context), seeded.owner);
+            const info = JSON.parse(run('after-installed-app-info', '/usr/bin/plutil', ['-convert', 'json', '-o', '-', path.join(installed_app, 'Info.plist')]).stdout);
+            assert.equal(info.CFBundleIdentifier, bundleID);
             json('after-context.json', context);
             auditRevisionPackage(path.join(installed_app, 'Content'), 'B');
             const gate = JSON.parse(run('after-stored-b', 'node', ['ios/tests/create-reader-revision-fixtures.mjs', 'after-ui',
@@ -428,12 +438,14 @@ jobs:
             sameSource(); const owner = owned(), execution = read('execution.json');
             assert.equal(execution.source_head, expected); assert.equal(execution.UUID, owner.UUID); assert.equal(execution.OS, '18.5');
             assert.equal(execution.selector, selector); assert.equal(execution.exit_code, 0); assert.equal(execution.error, null); assert.equal(execution.signal, null);
+            assert.equal(hash(fs.readFileSync(path.join(evidence, 'seed.json'))), execution.seed_receipt_sha256);
             const tree = JSON.parse(run('raw-ui-tests', 'xcrun', ['xcresulttool', 'get', 'test-results', 'tests',
               '--path', path.join(evidence, 'ui.xcresult')]).stdout);
             const test = auditTree(tree, selector, owner.UUID);
             const gate = read('revision-file-gate.json');
             assert.equal(gate.status, 'stored-B-selected-and-A-retained');
             assert.equal(gate.source_head, expected); assert.equal(gate.UUID, owner.UUID);
+            assert.deepEqual(gate.owner, revisionOwnerIdentity({ ...owner, bundle_id: bundleID }));
             assert.equal(read('seed.json').status, 'stored-A-seeded');
             json('acceptance.json', { source_head: expected, status: 'exact-one-valid-package-revision-paragraph-case-passed',
               selector, test, file_gate: read('revision-file-gate.json'), source_sha256: sourceHashes(),

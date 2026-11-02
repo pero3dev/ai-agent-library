@@ -181,6 +181,147 @@
     "setup_change": "Existing public title query identifies exact query/summary inside one filtered collection; same-list More uses existing15s singleForegroundControl, enabled assertion and inside-library requireHittable, public More Actions sheet then same bundled action",
     "stdout_SHA256": "e303c1e0a2525764909ad6c7d83594940d122f0d3e012c4158bf14f4290dc116"
   },
+  "PR326_b8d_container_relocation_followup": {
+    "Root_exact_b8d_binding": {
+      "SHA256": "7876a92690a780e13405d1424b25f5382180396453768da39e6d68dbb1fddcbd",
+      "all2885_equal_head": true,
+      "fullmap": "projected_Source5_filtered_more",
+      "path": "/private/tmp/ios-reader-valid-revision-ui-publication-20261102/append-b8d-VM-and-Draft4-proof.json",
+      "tracked": 2885,
+      "tree": "612893c2c5c680227d1c5f9625930c72f7d558d9"
+    },
+    "Root_observation": {
+      "SHA256": "38e7a5609c3f06a2525a0a8f74f10f3c12a06893f2412e42455249e38ffdffcb",
+      "manifest_SHA256": "fe5d8f3208bc5c7b9f33193afba0831d227573ba510279cd8721a638eb8f459f",
+      "manifest_path": "/private/tmp/ios-pr326-b8d-Revision-data-review-20261102/manifest.json",
+      "path": "/private/tmp/ios-pr326-b8d-Revision-data-review-20261102/result.json",
+      "scope": "Root rehashed both whole ZIPs and selected CRC/SHA; this Source7 does not perform a network read"
+    },
+    "actual_UI": {
+      "bookmark_and_position_assertions": "original executed UI case passed; source unchanged",
+      "exit_code": 0,
+      "fail": 0,
+      "leaf_count": 1,
+      "pass": 1,
+      "phases": [
+        {
+          "blockID": "revision-anchor-A",
+          "fraction": 0.1272321428571425,
+          "height": 298.66666666666674,
+          "offset": -37.9999999999999,
+          "phase": "A-before-save",
+          "schema": 1,
+          "width": 357
+        },
+        {
+          "blockID": "revision-anchor-B",
+          "fraction": 0.1272321428571438,
+          "height": 298.6666666666664,
+          "offset": -38.00000000000024,
+          "phase": "B-first-resume",
+          "schema": 1,
+          "width": 357
+        },
+        {
+          "blockID": "revision-anchor-B",
+          "fraction": 0.1269841269841275,
+          "height": 147,
+          "offset": -18.666666666666742,
+          "phase": "B-live-landscape",
+          "schema": 1,
+          "width": 698
+        },
+        {
+          "blockID": "revision-anchor-B",
+          "fraction": 0.1272321428571438,
+          "height": 298.6666666666664,
+          "offset": -38.00000000000024,
+          "phase": "B-live-portrait",
+          "schema": 1,
+          "width": 357
+        },
+        {
+          "blockID": "revision-anchor-B",
+          "fraction": 0.1272321428571438,
+          "height": 298.6666666666664,
+          "offset": -38.00000000000024,
+          "phase": "B-after-relaunch",
+          "schema": 1,
+          "width": 357
+        }
+      ],
+      "seconds": 87.796
+    },
+    "actual_main_separate": "057fc40049fa40b0f09e45e0d7673ac18111e635",
+    "adoption_ready": false,
+    "attempt": 1,
+    "fix": "Reacquire current canonical app/data roots for the same owned simulator and bundle. Validate original seed identity and root relationships, same generation A and every A byte/inventory, selected exact B and immutable fixtures. Separate only observation-root metadata from package identity.",
+    "fresh_remote_binding": "ROOT_REQUIRED; saved b8d fullmap already independently confirmed by Root",
+    "job": 125100975587,
+    "limits": [
+      "Apple update guidance does not prove the cause of this Simulator path change.",
+      "Hash equality proves package content and lineage within this controlled run, not inode continuity or an OS migration cause.",
+      "Original UI assertions, 5 phases, first Resume and prohibition on subsequent position correction remain byte-exact; no runtime copy/reseed is added.",
+      "Normal unfiltered toolbar Menu AX remains unresolved; filtered public setup does not repair or accept that surface.",
+      "New Source7 CI/strict1/file gate/necessary CI/protected main and separate mainpush remain unaccepted; physical device/live OS font/VoiceOver and full corpus remain incomplete."
+    ],
+    "new_UI_CI_accepted": false,
+    "new_head": null,
+    "ownership": "Immutable repository/source/UUID/bundle/run/attempt/token/name/preexisting UUIDs match seed and after context exactly; seed JSON SHA is retained across UI and final audit; post Info.plist bundle ID is checked.",
+    "post_UI": {
+      "B_selected_A_retained_file_gate_executed": false,
+      "cause_of_container_relocation": "not proven",
+      "current_container_UUID": "6C9B8C8F-3031-4A6C-9B09-420A17D331CF",
+      "old_container_UUID": "FC38E71D-2255-4B6B-A037-1576520EE9A9",
+      "reason": "absolute data container equality; same owned simulator UUID, different container UUID",
+      "status": "failed_before_file_gate",
+      "strict1_executed": false,
+      "workflow_accepted": false
+    },
+    "primary_sources": [
+      "https://developer.apple.com/library/archive/technotes/tn2285/_index.html",
+      "https://developer.apple.com/videos/play/wwdc2019/418/"
+    ],
+    "private_controls": {
+      "failed": 0,
+      "initial_failure": "13/14 passed. New negative test used ambiguous assert.throws message overload; only move its label to third argument. Initial output retained, production audit unchanged.",
+      "node": "24.22.1",
+      "old_eight_test_purposes_byte_prefix_held": true,
+      "passed": 14,
+      "result_SHA256": "88c75035025b2889b01a2d9b3cff77a5f7327ae53278029705278e13f38f084a",
+      "result_path": "/private/tmp/ios-reader-revision-container-relocation-source7-preparation-20261102/local-controls-r2.json",
+      "skipped": 0,
+      "tests": 14
+    },
+    "public_parent": "b8d192c56a8d47d0c3b764f5ee8855f038d6ddaf",
+    "public_parent_tree": "612893c2c5c680227d1c5f9625930c72f7d558d9",
+    "raw_failure": {
+      "SHA256": "56a54f7ae2352250fc2dd5e053c9cc997d8a7dd653f25dbd73310db138f50e78",
+      "bytes": 83177,
+      "path": "/private/tmp/ios-reader-valid-revision-PR326-b8d-initial-ci-observation-20261102/job-125100975587.log"
+    },
+    "receipt": "Old/current data, storage and A roots plus path_changed; initial A pointer SHA and current pointer SHA; complete A/B audits retained.",
+    "run": 41390618667,
+    "scope": "Controlled1article,0audio,0PNG; not full199, physical or normal Menu AX acceptance",
+    "static_syntax": {
+      "YAML": "PyYAML-safe-load-passed",
+      "builder": "passed Node24 --check",
+      "unit": "passed Node24 --check",
+      "workflow_driver": {
+        "command": [
+          "/Users/yabukita_shou/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+          "--check",
+          "/private/tmp/ios-reader-revision-container-relocation-source7-preparation-20261102/inline-driver-final-syntax-only.mjs"
+        ],
+        "exit": 0,
+        "seconds": 0.052565916000000046,
+        "stderr_SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "timeout": false
+      }
+    },
+    "whole_workflow_runtime_acceptance": false
+  },
   "PR326_initial_revision_filename_guard_followup": {
     "actual_main_separate": "057fc40049fa40b0f09e45e0d7673ac18111e635",
     "all_controlled_filename_names_static_guard_pass": true,

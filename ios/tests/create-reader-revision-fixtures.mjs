@@ -156,6 +156,14 @@ export function validateSeedContext(context, devicesRoot) {
   return context;
 }
 
+// Paths are observation locations, not persistent app-data identities.
+// This immutable subset binds both observations to the same exclusive seed run.
+export function revisionOwnerIdentity(context) {
+  return { repository: context.repository, source_head: context.source_head, UUID: context.UUID,
+    bundle_id: context.bundle_id, run_id: context.run_id, run_attempt: context.run_attempt,
+    token: context.token, name: context.name, preexisting_UUIDs: [...context.preexisting_UUIDs] };
+}
+
 function storagePath(context) {
   let current = context.data_container;
   for (const component of ['Library', 'Application Support']) {
@@ -187,6 +195,7 @@ export function seedStoredRevisionA(context, fixtures, devicesRoot) {
   fs.writeFileSync(path.join(storage, 'current.json'), encoded({ directory: generation }), { flag: 'wx', mode: 0o600 });
   return { schema_version: 1, status: 'stored-A-seeded', source_head: context.source_head,
     UUID: context.UUID, bundle_id: BUNDLE, run_id: context.run_id, run_attempt: context.run_attempt,
+    owner: revisionOwnerIdentity(context),
     data_container: context.data_container, storage_root: storage, generation_A: generation,
     stored_A: auditRevisionPackage(target, 'A'), bundled_B: fixtures.B,
     pointer_sha256: digest(fs.readFileSync(path.join(storage, 'current.json'))),
@@ -197,19 +206,39 @@ export function auditStoredRevisionB(context, fixtures, seed, devicesRoot) {
   assert.equal(seed.source_head, context.source_head); assert.equal(seed.UUID, context.UUID);
   assert.equal(seed.bundle_id, context.bundle_id); assert.equal(seed.run_id, context.run_id);
   assert.equal(seed.run_attempt, context.run_attempt);
-  assert.equal(seed.data_container, context.data_container); assert.match(seed.generation_A, UUID);
-  const storage = storagePath(context); ordinaryDirectory(storage); assert.equal(storage, seed.storage_root);
+  assert.equal(seed.schema_version, 1); assert.equal(seed.status, 'stored-A-seeded');
+  assert.deepEqual(seed.owner, revisionOwnerIdentity(context)); assert.match(seed.generation_A, UUID);
+  // The historical root may no longer exist. Authenticate its exact relationship
+  // to the seed's owned device and generation without reopening or rewriting it.
+  assert.ok(path.isAbsolute(seed.data_container)); assert.equal(path.normalize(seed.data_container), seed.data_container);
+  assert.equal(path.dirname(seed.data_container), path.join(devicesRoot, context.UUID, 'data/Containers/Data/Application'));
+  assert.match(path.basename(seed.data_container), UUID);
+  assert.equal(seed.storage_root, path.join(seed.data_container, 'Library/Application Support/LibraryContent'));
+  assert.equal(seed.stored_A.root, path.join(seed.storage_root, 'versions', seed.generation_A));
+  assert.equal(seed.pointer_sha256, digest(encoded({ directory: seed.generation_A })));
+  assert.deepEqual(seed.bundled_B, fixtures.B);
+  const storage = storagePath(context); ordinaryDirectory(storage);
+  ordinaryDirectory(path.join(storage, 'versions'));
   const pointer = path.join(storage, 'current.json'), stat = fs.lstatSync(pointer);
   assert.ok(stat.isFile() && !stat.isSymbolicLink() && stat.size <= 1024);
   const value = JSON.parse(fs.readFileSync(pointer, 'utf8')); assert.deepEqual(Object.keys(value), ['directory']);
   assert.match(value.directory, UUID); assert.notEqual(value.directory, seed.generation_A);
   const storedB = auditRevisionPackage(path.join(storage, 'versions', value.directory), 'B');
   const oldA = auditRevisionPackage(path.join(storage, 'versions', seed.generation_A), 'A');
-  assert.deepEqual(oldA, seed.stored_A); assert.deepEqual(auditRevisionPackage(fixtures.B.root, 'B'), fixtures.B);
+  const { root: currentARoot, ...currentAIdentity } = oldA;
+  const { root: seededARoot, ...seededAIdentity } = seed.stored_A;
+  assert.equal(currentARoot, path.join(storage, 'versions', seed.generation_A));
+  assert.deepEqual(currentAIdentity, seededAIdentity);
+  assert.deepEqual(auditRevisionPackage(fixtures.B.root, 'B'), fixtures.B);
   assert.deepEqual(auditRevisionPackage(fixtures.A.root, 'A'), fixtures.A);
   return { schema_version: 1, status: 'stored-B-selected-and-A-retained', source_head: context.source_head,
     UUID: context.UUID, generation_A: seed.generation_A, generation_B: value.directory,
-    A_unchanged: true, B: storedB, bundled_B_unchanged: true };
+    owner: revisionOwnerIdentity(context), A_unchanged: true, A: oldA, B: storedB, bundled_B_unchanged: true,
+    containers: { seeded_data_root: seed.data_container, current_data_root: context.data_container,
+      seeded_storage_root: seed.storage_root, current_storage_root: storage,
+      seeded_A_root: seededARoot, current_A_root: currentARoot,
+      path_changed: seed.data_container !== context.data_container },
+    seed_pointer_sha256: seed.pointer_sha256, current_pointer_sha256: digest(fs.readFileSync(pointer)) };
 }
 
 function args(values) {

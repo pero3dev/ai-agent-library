@@ -137,3 +137,109 @@ test('post-UI pointer cannot escape versions or select a fake digest package', t
     assert.throws(() => auditStoredRevisionB(s.context, s.fixtures, seed, s.devices));
   }
 });
+
+
+function selectRevisionB(s, seed) {
+  const generationB = randomUUID().toUpperCase();
+  materialize(path.join(seed.storage_root, 'versions', generationB), revisionPackageBytes('B'));
+  fs.writeFileSync(path.join(seed.storage_root, 'current.json'), JSON.stringify({ directory: generationB }));
+  return generationB;
+}
+
+test('a real data-root rename retains the original A generation, all bytes, owner, and B selection', t => {
+  const s = scope(t), seed = seedStoredRevisionA(s.context, s.fixtures, s.devices);
+  const generationB = selectRevisionB(s, seed), seedBefore = JSON.stringify(seed);
+  const currentRoot = path.join(path.dirname(s.context.data_container), randomUUID().toUpperCase());
+  fs.renameSync(s.context.data_container, currentRoot);
+  assert.equal(fs.existsSync(s.context.data_container), false);
+  const context = { ...s.context, data_container: currentRoot };
+  const result = auditStoredRevisionB(context, s.fixtures, seed, s.devices);
+  assert.equal(result.status, 'stored-B-selected-and-A-retained');
+  assert.equal(result.generation_A, seed.generation_A); assert.equal(result.generation_B, generationB);
+  assert.equal(result.containers.path_changed, true);
+  assert.equal(result.containers.seeded_data_root, seed.data_container);
+  assert.equal(result.containers.current_data_root, currentRoot);
+  assert.equal(result.A.document_sha256, seed.stored_A.document_sha256);
+  assert.deepEqual(result.A.inventory, seed.stored_A.inventory);
+  assert.deepEqual(result.owner, seed.owner); assert.equal(JSON.stringify(seed), seedBefore);
+});
+
+test('same-root post-UI audit also emits the old and current roots without changing the seed receipt', t => {
+  const s = scope(t), seed = seedStoredRevisionA(s.context, s.fixtures, s.devices);
+  selectRevisionB(s, seed); const before = JSON.stringify(seed);
+  const result = auditStoredRevisionB(s.context, s.fixtures, seed, s.devices);
+  assert.equal(result.containers.path_changed, false);
+  assert.equal(result.containers.current_storage_root, seed.storage_root);
+  assert.deepEqual(result.A, seed.stored_A); assert.equal(JSON.stringify(seed), before);
+  assert.equal(result.seed_pointer_sha256, seed.pointer_sha256);
+  assert.notEqual(result.current_pointer_sha256, seed.pointer_sha256);
+});
+
+test('post-UI ownership rejects each changed immutable seed field, even with valid-shaped values', t => {
+  const s = scope(t), seed = seedStoredRevisionA(s.context, s.fixtures, s.devices); selectRevisionB(s, seed);
+  const replacements = { repository: 'other/repository', source_head: 'b'.repeat(40), UUID: randomUUID().toUpperCase(),
+    bundle_id: 'other.app', run_id: '124', run_attempt: '2', token: randomUUID(), name: seed.owner.name + '-other',
+    preexisting_UUIDs: [randomUUID().toUpperCase()] };
+  for (const [field, value] of Object.entries(replacements)) {
+    const changed = structuredClone(seed); changed.owner[field] = value;
+    assert.throws(() => auditStoredRevisionB(s.context, s.fixtures, changed, s.devices), field);
+  }
+  for (const field of ['source_head', 'UUID', 'bundle_id', 'run_id', 'run_attempt']) {
+    assert.throws(() => auditStoredRevisionB(s.context, s.fixtures, { ...seed, [field]: replacements[field] }, s.devices), field);
+  }
+  const token = randomUUID();
+  assert.throws(() => auditStoredRevisionB({ ...s.context, token,
+    name: `AILibrary-reader-revision-123-1-${token}` }, s.fixtures, seed, s.devices));
+});
+
+test('historical root relationships, generation, pointer SHA, and seed kind remain mandatory', t => {
+  const s = scope(t), seed = seedStoredRevisionA(s.context, s.fixtures, s.devices); selectRevisionB(s, seed);
+  const mutations = [
+    value => { value.data_container += '/child'; },
+    value => { value.data_container = path.join(s.root, randomUUID().toUpperCase()); },
+    value => { value.data_container += '/../' + path.basename(value.data_container); },
+    value => { value.storage_root += '/elsewhere'; },
+    value => { value.stored_A.root += '/elsewhere'; },
+    value => { value.generation_A = randomUUID().toUpperCase(); },
+    value => { value.pointer_sha256 = '0'.repeat(64); },
+    value => { value.status = 'other'; },
+    value => { value.schema_version = 2; },
+    value => { value.bundled_B.document_sha256 = '0'.repeat(64); }
+  ];
+  for (const mutate of mutations) {
+    const changed = structuredClone(seed); mutate(changed);
+    assert.throws(() => auditStoredRevisionB(s.context, s.fixtures, changed, s.devices));
+  }
+});
+
+test('current container must be canonical, direct, on the owned device, and not a symlink or empty replacement', t => {
+  const s = scope(t), seed = seedStoredRevisionA(s.context, s.fixtures, s.devices); selectRevisionB(s, seed);
+  const empty = path.join(path.dirname(s.context.data_container), randomUUID().toUpperCase()); fs.mkdirSync(empty);
+  const alias = path.join(path.dirname(s.context.data_container), randomUUID().toUpperCase());
+  fs.symlinkSync(s.context.data_container, alias);
+  for (const context of [{ ...s.context, data_container: empty }, { ...s.context, data_container: alias },
+    { ...s.context, data_container: s.context.data_container + '/child' },
+    { ...s.context, data_container: s.context.data_container + '/../' + path.basename(s.context.data_container) },
+    { ...s.context, UUID: randomUUID().toUpperCase() }, { ...s.context, bundle_id: 'other.app' }]) {
+    assert.throws(() => auditStoredRevisionB(context, s.fixtures, seed, s.devices));
+  }
+  const versions = path.join(seed.storage_root, 'versions'), moved = path.join(s.root, 'held-versions');
+  fs.renameSync(versions, moved); fs.symlinkSync(moved, versions);
+  assert.throws(() => auditStoredRevisionB(s.context, s.fixtures, seed, s.devices));
+});
+
+test('the current root must retain the original A generation and every A file, not just a valid selected B', t => {
+  const s = scope(t), seed = seedStoredRevisionA(s.context, s.fixtures, s.devices); selectRevisionB(s, seed);
+  const originalA = path.join(seed.storage_root, 'versions', seed.generation_A), hidden = path.join(s.root, 'old-a');
+  fs.renameSync(originalA, hidden);
+  assert.throws(() => auditStoredRevisionB(s.context, s.fixtures, seed, s.devices)); fs.renameSync(hidden, originalA);
+  for (const relative of Object.keys(revisionPackageBytes('A'))) {
+    const file = path.join(originalA, relative), bytes = fs.readFileSync(file);
+    fs.appendFileSync(file, 'changed');
+    assert.throws(() => auditStoredRevisionB(s.context, s.fixtures, seed, s.devices), undefined, relative);
+    fs.writeFileSync(file, bytes);
+  }
+  const storedB = JSON.parse(fs.readFileSync(path.join(seed.storage_root, 'current.json'))).directory;
+  const bFile = path.join(seed.storage_root, 'versions', storedB, 'source.txt'); fs.appendFileSync(bFile, 'changed');
+  assert.throws(() => auditStoredRevisionB(s.context, s.fixtures, seed, s.devices));
+});

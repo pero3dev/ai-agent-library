@@ -1,5 +1,7 @@
 # project — 計画と実施記録
 
+[改訂回帰のcontainer再取得監査](records/2026-11-02/ios-reader-valid-revision-ui.md)は、PR326 b8dの実UI1件87.796秒・全5phase成功と、その後のdata container絶対パス比較失敗を分けて保持する。postfilegate/strict1は未実行でworkflow未受入。現在canonical root・同一owner/seed SHA・同じA世代全内容と正確なB選択を検証するSource7を準備し、Node24境界14件と構文を確認した。旧失敗/初回試験記述失敗と通常Menu AX未解決、Reader/製品/既存期限/全assert/Full26・旧全文/全key/index・App0.2.28（30）/TODO32行14完了を保つ。新CI・postfilegate/strict1・通常mainと実機等は未受入である。
+
 [改訂回帰のfiltered Listセットアップ](records/2026-11-02/ios-reader-valid-revision-ui.md)は、PR326 374の実UI1失敗55.789秒とA-before-save一値を保持する。scoped root Moreも既存15秒でusable0のため、同じ記事の公開タイトル検索・exact summaryを持つ一意collection内More・actions sheetから同じ同梱切替へ進む候補を準備する。通常toolbar Menu AXは未解決TODOのままで修復/coverageを受入せず、切替後のfilter解除とnormal Resumeを確認する。firstResume以降の5phase/原全assert/許容差、旧2case53assert/15getter/期限・製品・旧全文/全key/index・App0.2.28（30）/TODO32行14完了を保つ。新UI/CIは未受入である。
 
 [改訂回帰のroot More待ち直し](records/2026-11-02/ios-reader-valid-revision-ui.md)は、PR326 2bcの実UI1失敗67.198秒とA-before-save一値だけを保持する。seed/public backは通過したがglobal More tapがAX hitpoint異常で停止し、B切替/first Resume/回転/再起動は未到達だった。新caseの対象を正しいroot nav内の一意可視/hittable・enabledなMoreへ既存15秒helperで待ち直すだけで、原assert/許容差/期限・後続操作と製品を保つ。ZIP全SHA/選択CRCと小receiptを根拠にし、新UI/CI成功や根本原因を主張しない。旧全文/全key/index、App0.2.28（30）/TODO32行14完了を保持する。

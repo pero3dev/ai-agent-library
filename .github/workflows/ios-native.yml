@@ -60,7 +60,7 @@ jobs:
           } | tee .local/ios-ci/evidence/environment.log
       - name: Prepare one fresh owned Native Simulator
         id: native_simulator
-        timeout-minutes: 7
+        timeout-minutes: 9
         run: node ios/tests/native-simulator-prepare.mjs prepare
       - name: Check the frozen AppIcon source assets
         run: |
@@ -201,7 +201,7 @@ jobs:
           retention-days: 90
       - name: Clean up only the proven owned Native Simulator
         if: always()
-        timeout-minutes: 2
+        timeout-minutes: 3
         env:
           AILIBRARY_NATIVE_OWNER_TOKEN: ${{ steps.native_simulator.outputs.owner_token }}
           AILIBRARY_NATIVE_CREATED_UUID: ${{ steps.native_simulator.outputs.created_uuid }}

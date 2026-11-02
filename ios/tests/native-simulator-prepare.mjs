@@ -11,7 +11,7 @@ export const nativeSimulatorContract = Object.freeze({
   repository: 'pero3dev/ai-agent-library', runtime: 'com.apple.CoreSimulator.SimRuntime.iOS-18-5',
   version: '18.5', type: 'com.apple.CoreSimulator.SimDeviceType.iPhone-16', model: 'iPhone 16',
   developer: '/Applications/Xcode_16.4.app/Contents/Developer',
-  prepareMs: 360000, cleanupMs: 90000, outputBytes: 128 * 1024,
+  prepareMs: 480000, cleanupMs: 90000, outputBytes: 128 * 1024,
   inventoryOutputBytes: 512 * 1024, receiptBytes: 1024 * 1024, evidenceBytes: 16 * 1024 * 1024
 })
 const C = nativeSimulatorContract
@@ -208,7 +208,7 @@ export function prepareNativeSimulator(options) {
     assert.equal(afterCreate.device.state, 'Shutdown', 'Fresh Simulator must initially be Shutdown')
     store.write('created', { context: ctx, token, UUID, name: intent.name, runtime_identifier: C.runtime, device_type_identifier: C.type })
     run('boot', '/usr/bin/xcrun', ['simctl', 'boot', UUID], 30000)
-    run('bootstatus', '/usr/bin/xcrun', ['simctl', 'bootstatus', UUID, '-b'], 120000)
+    run('bootstatus', '/usr/bin/xcrun', ['simctl', 'bootstatus', UUID, '-b'], 300000)
     const booted = ownedRow(devices(json(prepareInventory(run, 'devices-after-boot').receipt)), intent, UUID)
     assert.equal(booted.device.isAvailable, true); assert.equal(booted.device.state, 'Booted')
     const destination = nativeSimulatorDestination(UUID)
@@ -308,6 +308,42 @@ function childEnvironment(env) {
   for (const key of ['HOME', 'USER', 'LOGNAME', 'TMPDIR', 'LANG', 'LC_ALL']) if (env[key]) result[key] = env[key]
   return result
 }
+// One read-only proof, without printing Git output, error messages or CI secrets.
+export function readNativeGitIdentity({ execute, env = {}, expectedCheckout, report = line => console.error(line) }) {
+  assert.ok(typeof execute === 'function' && typeof expectedCheckout === 'string' &&
+    /^[a-f0-9]{40}$/.test(expectedCheckout), 'Invalid Native Git identity inputs')
+  let result, threw = false
+  try {
+    result = execute('/usr/bin/git', ['rev-parse', 'HEAD', 'HEAD^{tree}'],
+      { timeout: 30000, maxBuffer: 4096, killSignal: 'SIGKILL', env: childEnvironment(env) })
+  } catch (error) { result = { status: null, signal: null, error }; threw = true }
+  const value = plain(result) ? result : {}, code = value.error?.code
+  const kind = x => x === null ? 'null' : typeof x
+  const fail = reason => {
+    report('AILibraryNativeGitIdentity ' + JSON.stringify({ schema_version: 1, stage: 'git-identity', reason,
+      timeout_ms: 30000, output_cap_bytes: 4096, executor_threw: threw,
+      status: Number.isInteger(value.status) ? value.status : null, status_type: kind(value.status),
+      signal: value.signal === null ? null :
+        ['SIGKILL', 'SIGTERM', 'SIGINT', 'SIGABRT', 'SIGSEGV', 'SIGHUP', 'SIGBUS'].includes(value.signal) ? value.signal : 'OTHER',
+      signal_type: kind(value.signal), error_code: code == null ? null :
+        ['ETIMEDOUT', 'ENOBUFS', 'ENOENT', 'EACCES', 'EPERM', 'EIO', 'EINVAL'].includes(code) ? code : 'OTHER',
+      error_code_type: kind(code), stdout_bytes: Buffer.isBuffer(value.stdout) ? value.stdout.length : null,
+      stderr_bytes: Buffer.isBuffer(value.stderr) ? value.stderr.length : null }))
+    throw new Error('Native Git identity proof failed')
+  }
+  if (threw) fail('executor-threw')
+  if (!plain(result)) fail('result-shape')
+  if (!Buffer.isBuffer(value.stdout) || !Buffer.isBuffer(value.stderr)) fail('stream-type')
+  if (value.stdout.length + value.stderr.length > 4096) fail('output-cap')
+  if (value.status !== 0 || value.signal !== null || (value.error !== null && value.error !== undefined)) fail('command-result')
+  let output
+  try { output = new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(value.stdout) }
+  catch { fail('invalid-utf8') }
+  const match = /^([a-f0-9]{40})\n([a-f0-9]{40})\n$/.exec(output)
+  if (!match || match[0] !== output) fail('identity-format')
+  if (match[1] !== expectedCheckout) fail('checkout-mismatch')
+  return { checkout_sha: match[1], source_tree: match[2] }
+}
 function cliContext(env, execute, childEnv) {
   assert.equal(process.platform, 'darwin'); assert.equal(env.GITHUB_ACTIONS, 'true')
   assert.equal(env.GITHUB_REPOSITORY, C.repository); assert.ok(['push', 'pull_request'].includes(env.GITHUB_EVENT_NAME))
@@ -318,14 +354,10 @@ function cliContext(env, execute, childEnv) {
   assert.equal(source, env.AILIBRARY_NATIVE_SOURCE_HEAD)
   if (env.GITHUB_EVENT_NAME === 'push') assert.equal(source, env.GITHUB_SHA)
   else assert.equal(event.pull_request?.base?.repo?.full_name, C.repository)
-  const git = args => {
-    const r = execute('/usr/bin/git', args, { timeout: 10000, maxBuffer: 4096, killSignal: 'SIGKILL', env: childEnv })
-    assert.equal(r.status, 0); assert.ok(!r.error && !r.signal); return Buffer.from(r.stdout).toString('utf8').trim()
-  }
-  assert.equal(git(['rev-parse', 'HEAD']), env.GITHUB_SHA)
+  const identity = readNativeGitIdentity({ execute, env: childEnv, expectedCheckout: env.GITHUB_SHA })
   return context({ repository: env.GITHUB_REPOSITORY, job: env.GITHUB_JOB, run_id: env.GITHUB_RUN_ID,
-    run_attempt: env.GITHUB_RUN_ATTEMPT, source_head: source, checkout_sha: env.GITHUB_SHA,
-    source_tree: git(['rev-parse', 'HEAD^{tree}']), developer_dir: env.DEVELOPER_DIR })
+    run_attempt: env.GITHUB_RUN_ATTEMPT, source_head: source, checkout_sha: identity.checkout_sha,
+    source_tree: identity.source_tree, developer_dir: env.DEVELOPER_DIR })
 }
 function output(file, key, value) {
   assert.ok(!/[\r\n]/.test(value)); assert.ok(['owner_token', 'created_uuid', 'destination'].includes(key))

@@ -6,7 +6,7 @@ import childProcess from 'node:child_process'
 import { syncBuiltinESMExports } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import { createHash } from 'node:crypto'
-import { nativeSimulatorContract as C, prepareNativeSimulator, cleanupNativeSimulator, main } from '../../ios/tests/native-simulator-prepare.mjs'
+import { nativeSimulatorContract as C, prepareNativeSimulator, cleanupNativeSimulator, main, readNativeGitIdentity } from '../../ios/tests/native-simulator-prepare.mjs'
 
 const NEW = 'AAAAAAAA-AAAA-4AAA-8AAA-AAAAAAAAAAAA'
 const OLD = 'BBBBBBBB-BBBB-4BBB-8BBB-BBBBBBBBBBBB'
@@ -294,7 +294,7 @@ test('malformed successful inventory JSON is not a timeout retry', () => {
   assert.throws(h.prepare); assert.equal(h.calls.filter(x => x.args[2] === 'runtimes').length, 1)
   assert.equal(h.files.has('runtimes-timeout-retry-1'), false)
 })
-test('retry read timeout is clipped to the shared360s remainder without resetting the clock', () => {
+test('retry read timeout is clipped to the shared480s remainder without resetting the clock', () => {
   let h, attempts = 0
   h = fixture({ storeHook: label => { if (label === 'sdk') h.advance(C.prepareMs - 90000) },
     intercept: (binary, args, settings) => {
@@ -394,11 +394,11 @@ test('unchanged command caps apply to all mutations, toolchain checks and cleanu
   const h = fixture(); h.prepare(); h.cleanup()
   const cap = label => h.store.read(label).timeout_ms
   for (const label of ['xcode', 'sdk', 'cleanup-before', 'cleanup-before-delete', 'cleanup-after', 'cleanup-shutdown']) assert.equal(cap(label), 15000)
-  assert.equal(cap('create'), 30000); assert.equal(cap('boot'), 30000); assert.equal(cap('bootstatus'), 120000); assert.equal(cap('cleanup-delete'), 30000)
+  assert.equal(cap('create'), 30000); assert.equal(cap('boot'), 30000); assert.equal(cap('bootstatus'), 300000); assert.equal(cap('cleanup-delete'), 30000)
   const w = fs.readFileSync(fileURLToPath(new URL('../../.github/workflows/ios-native.yml', import.meta.url)), 'utf8')
-  assert.match(w, /id: native_simulator\n\s+timeout-minutes: 7/)
-  assert.match(w, /name: Clean up only the proven owned Native Simulator\n\s+if: always\(\)\n\s+timeout-minutes: 2/)
-  assert.equal(C.prepareMs, 360000); assert.equal(C.cleanupMs, 90000)
+  assert.match(w, /id: native_simulator\n\s+timeout-minutes: 9/)
+  assert.match(w, /name: Clean up only the proven owned Native Simulator\n\s+if: always\(\)\n\s+timeout-minutes: 3/)
+  assert.equal(C.prepareMs, 480000); assert.equal(C.cleanupMs, 90000)
 })
 test('exact512KiB inventory output is accepted; one byte above cannot authorize a timeout retry', () => {
   const valid = JSON.stringify({ runtimes: [{ identifier: C.runtime, version: C.version, name: 'iOS 18.5', isAvailable: true }] })
@@ -570,7 +570,10 @@ function withDiskFixture(runtimeOutput, body) {
     DEVELOPER_DIR: C.developer, GITHUB_WORKSPACE: root, GITHUB_OUTPUT: output }
   childProcess.spawnSync = (binary, args, options) => {
     calls.push({ binary, args: [...args], options })
-    if (binary === '/usr/bin/git') return completeOutput(Buffer.from((args[1] === 'HEAD' ? ctx.checkout_sha : ctx.source_tree) + '\n'))
+    if (binary === '/usr/bin/git') {
+      assert.deepEqual(args, ['rev-parse', 'HEAD', 'HEAD^{tree}'])
+      return completeOutput(Buffer.from(ctx.checkout_sha + '\n' + ctx.source_tree + '\n'))
+    }
     if (binary === '/usr/bin/xcodebuild') return completeOutput(Buffer.from('Xcode 16.4\nBuild version 16F6\n'))
     assert.equal(binary, '/usr/bin/xcrun')
     if (args[0] === '--sdk') return completeOutput(Buffer.from('18.5\n'))
@@ -622,7 +625,7 @@ test('real diskStore still refuses an executor receipt above1MiB before any crea
   })
 })
 
-test('a60s inventory timeout and122s prefix leave the full120s bootstatus budget under shared360s', () => {
+test('a60s inventory timeout and122s prefix leave the full300s bootstatus budget under shared480s', () => {
   let h, runtimeAttempts = 0, prefixMilliseconds = 62000
   h = fixture({ storeHook: label => { if (label === 'sdk') h.advance(62000) },
     intercept: (binary, args, settings) => {
@@ -633,7 +636,7 @@ test('a60s inventory timeout and122s prefix leave the full120s bootstatus budget
       }
       if (args[1] === 'bootstatus') {
         assert.equal(prefixMilliseconds, 122000)
-        assert.equal(settings.timeout, 120000); assert.equal(settings.maxBuffer, 131072)
+        assert.equal(settings.timeout, 300000); assert.equal(settings.maxBuffer, 131072)
         h.advance(settings.timeout)
       }
       return null
@@ -643,7 +646,7 @@ test('a60s inventory timeout and122s prefix leave the full120s bootstatus budget
   assert.equal(h.store.read('runtimes').output_complete, false)
   assert.equal(h.store.read('runtimes-timeout-retry-1').status, 0)
   const bootstatus = h.store.read('bootstatus')
-  assert.equal(bootstatus.timeout_ms, 120000); assert.equal(bootstatus.status, 0)
+  assert.equal(bootstatus.timeout_ms, 300000); assert.equal(bootstatus.status, 0)
   assert.equal(bootstatus.returned_within_deadline, true)
   assert.ok(prefixMilliseconds + bootstatus.timeout_ms < C.prepareMs)
   assert.equal(h.calls.filter(x => x.args[1] === 'create').length, 1)
@@ -671,20 +674,130 @@ test('bootstatus still clips to the shared remainder and refuses readiness when 
   assert.equal(h.outputs.UUID, NEW); assert.equal(h.outputs.destination, undefined)
   assert.equal(h.cleanup().ok, true); assert.ok(h.destructive().every(x => x.args[2] === NEW))
 })
-test('a full120s bootstatus timeout still fails once even with ample shared preparation time', () => {
+test('a full300s bootstatus timeout still fails once even with ample shared preparation time', () => {
   let h
   h = fixture({ intercept: (binary, args, settings) => {
     if (args[1] !== 'bootstatus') return null
-    assert.equal(settings.timeout, 120000)
+    assert.equal(settings.timeout, 300000)
     h.advance(settings.timeout)
     return nativeTimeout()
   } })
   assert.throws(h.prepare, /command failed: bootstatus/)
   const receipt = h.store.read('bootstatus')
-  assert.equal(receipt.timeout_ms, 120000); assert.equal(receipt.error_code, 'ETIMEDOUT')
+  assert.equal(receipt.timeout_ms, 300000); assert.equal(receipt.error_code, 'ETIMEDOUT')
   assert.equal(receipt.returned_within_deadline, true)
   assert.equal(h.calls.filter(x => x.args[1] === 'bootstatus').length, 1)
   assert.equal(h.files.has('bootstatus-timeout-retry-1'), false)
   assert.equal(h.outputs.destination, undefined)
   assert.equal(h.cleanup().ok, true); assert.ok(h.destructive().every(x => x.args[2] === NEW))
 })
+
+// The CLI Git prelude uses only this injected read-only executor on every platform.
+function gitIdentityFixture(response = completeOutput(Buffer.from(ctx.checkout_sha + '\n' + ctx.source_tree + '\n'))) {
+  const calls = [], diagnostics = []
+  return { calls, diagnostics, read: () => readNativeGitIdentity({ expectedCheckout: ctx.checkout_sha,
+    env: { HOME: '/fixture-home', GITHUB_TOKEN: 'private-env-token', ACTIONS_ID_TOKEN_REQUEST_TOKEN: 'private-env-token' },
+    execute: (binary, args, options) => { calls.push({ binary, args, options }); return typeof response === 'function' ? response() : response },
+    report: line => diagnostics.push(line) }) }
+}
+test('Git identity reads both exact40hex lines once with30s/4096B and a filtered environment', () => {
+  const h = gitIdentityFixture()
+  assert.deepEqual(h.read(), { checkout_sha: ctx.checkout_sha, source_tree: ctx.source_tree })
+  assert.equal(h.calls.length, 1); assert.equal(h.diagnostics.length, 0)
+  const c = h.calls[0]
+  assert.equal(c.binary, '/usr/bin/git'); assert.deepEqual(c.args, ['rev-parse', 'HEAD', 'HEAD^{tree}'])
+  assert.equal(c.options.timeout, 30000); assert.equal(c.options.maxBuffer, 4096); assert.equal(c.options.killSignal, 'SIGKILL')
+  assert.equal(c.options.env.HOME, '/fixture-home'); assert.equal(c.options.env.DEVELOPER_DIR, C.developer)
+  assert.equal(c.options.env.GITHUB_TOKEN, undefined); assert.equal(c.options.env.ACTIONS_ID_TOKEN_REQUEST_TOKEN, undefined)
+  assert.equal(c.options.env.GIT_OPTIONAL_LOCKS, '0'); assert.equal(c.options.env.GIT_ALLOW_PROTOCOL, '')
+})
+test('Git identity accepts exactly4096 combined bytes without logging stderr content', () => {
+  const r = completeOutput(Buffer.from(ctx.checkout_sha + '\n' + ctx.source_tree + '\n'))
+  r.stderr = Buffer.alloc(4096 - r.stdout.length, 120)
+  const h = gitIdentityFixture(r); assert.equal(h.read().source_tree, ctx.source_tree)
+  assert.equal(h.calls.length, 1); assert.equal(h.diagnostics.length, 0)
+})
+for (const [name, changes] of [
+  ['nonzero', { status: 19 }], ['null-status', { status: null }],
+  ['boolean-status', { status: false }], ['string-status', { status: '0' }],
+  ['signal', { signal: 'SIGTERM' }], ['undefined-signal', { signal: undefined }],
+  ['unknown-signal', { signal: 'private-signal-token' }],
+  ['unknown-code', { error: Object.assign(new Error('private-error-message'), { code: 'private-code-token' }) }],
+  ['typed-timeout', { status: null, signal: 'SIGKILL', error: Object.assign(new Error('private-error-message'), { code: 'ETIMEDOUT' }) }],
+  ['output-error', { error: Object.assign(new Error('private-error-message'), { code: 'ENOBUFS' }) }]
+]) {
+  test('Git identity fails closed once with bounded typed diagnostics: ' + name, () => {
+    const h = gitIdentityFixture({ ...completeOutput(Buffer.from(ctx.checkout_sha + '\n' + ctx.source_tree + '\n')), ...changes })
+    assert.throws(h.read, /^Error: Native Git identity proof failed$/); assert.equal(h.calls.length, 1)
+    assert.equal(h.diagnostics.length, 1)
+    const line = h.diagnostics[0], d = JSON.parse(line.slice('AILibraryNativeGitIdentity '.length))
+    assert.equal(d.schema_version, 1); assert.equal(d.stage, 'git-identity'); assert.equal(d.reason, 'command-result')
+    assert.equal(d.timeout_ms, 30000); assert.equal(d.output_cap_bytes, 4096)
+    assert.equal(d.status_type, changes.status === null ? 'null' : typeof (changes.status ?? 0))
+    assert.equal(d.status, Number.isInteger(changes.status ?? 0) && changes.status !== null ? changes.status ?? 0 : null)
+    if (changes.error) assert.equal(d.error_code, changes.error.code === 'private-code-token' ? 'OTHER' : changes.error.code)
+    if (changes.signal === 'private-signal-token') assert.equal(d.signal, 'OTHER')
+    for (const secret of ['private-error-message', 'private-env-token', 'private-signal-token', 'private-code-token', ctx.checkout_sha, ctx.source_tree]) assert.equal(line.includes(secret), false)
+    assert.ok(Buffer.byteLength(line) < 1024)
+  })
+}
+test('Git identity executor throw emits fixed fields without leaking message/code/signal bodies or retrying', () => {
+  const h = gitIdentityFixture(() => { throw Object.assign(new Error('private-error-message'), { code: 'private-code-token' }) })
+  assert.throws(h.read, /^Error: Native Git identity proof failed$/); assert.equal(h.calls.length, 1)
+  const d = JSON.parse(h.diagnostics[0].slice('AILibraryNativeGitIdentity '.length))
+  assert.equal(d.reason, 'executor-threw'); assert.equal(d.executor_threw, true)
+  assert.equal(d.status, null); assert.equal(d.signal, null); assert.equal(d.error_code, 'OTHER'); assert.equal(d.error_code_type, 'string')
+  assert.equal(h.diagnostics[0].includes('private-'), false)
+})
+for (const [name, stdout] of [
+  ['missing-tree', ctx.checkout_sha + '\n'], ['short-head', 'b'.repeat(39) + '\n' + ctx.source_tree + '\n'],
+  ['uppercase', 'B'.repeat(40) + '\n' + ctx.source_tree + '\n'], ['nonhex-tree', ctx.checkout_sha + '\n' + 'g'.repeat(40) + '\n'],
+  ['extra-line', ctx.checkout_sha + '\n' + ctx.source_tree + '\n' + 'a'.repeat(40) + '\n'],
+  ['extra-empty-line', ctx.checkout_sha + '\n' + ctx.source_tree + '\n\n'],
+  ['missing-final-LF', ctx.checkout_sha + '\n' + ctx.source_tree],
+  ['CRLF', ctx.checkout_sha + '\r\n' + ctx.source_tree + '\r\n'],
+  ['leading-whitespace', ' ' + ctx.checkout_sha + '\n' + ctx.source_tree + '\n'],
+  ['trailing-whitespace', ctx.checkout_sha + '\n' + ctx.source_tree + ' \n'],
+  ['BOM', '\uFEFF' + ctx.checkout_sha + '\n' + ctx.source_tree + '\n']
+]) {
+  test('Git identity rejects malformed two-line stdout with no body logging: ' + name, () => {
+    const h = gitIdentityFixture(completeOutput(Buffer.from(stdout)))
+    assert.throws(h.read, /Native Git identity proof failed/); assert.equal(h.calls.length, 1)
+    const d = JSON.parse(h.diagnostics[0].slice('AILibraryNativeGitIdentity '.length))
+    assert.equal(d.reason, 'identity-format'); assert.equal(d.stdout_bytes, Buffer.byteLength(stdout))
+    assert.equal(h.diagnostics[0].includes(stdout), false)
+  })
+}
+test('Git identity rejects invalid UTF8 before using a replacement character or a partial identity', () => {
+  const h = gitIdentityFixture(completeOutput(Buffer.concat([Buffer.from(ctx.checkout_sha + '\n'), Buffer.from([0xc3, 0x28]), Buffer.from('\n')])))
+  assert.throws(h.read, /Native Git identity proof failed/); assert.equal(h.calls.length, 1)
+  assert.equal(JSON.parse(h.diagnostics[0].slice('AILibraryNativeGitIdentity '.length)).reason, 'invalid-utf8')
+})
+test('Git identity binds the returned checkout to the expected environment SHA', () => {
+  const h = gitIdentityFixture(completeOutput(Buffer.from(ctx.source_tree + '\n' + ctx.checkout_sha + '\n')))
+  assert.throws(h.read, /Native Git identity proof failed/); assert.equal(h.calls.length, 1)
+  assert.equal(JSON.parse(h.diagnostics[0].slice('AILibraryNativeGitIdentity '.length)).reason, 'checkout-mismatch')
+})
+for (const [name, stdout, stderr] of [
+  ['combined-one-over', Buffer.from(ctx.checkout_sha + '\n' + ctx.source_tree + '\n'), Buffer.alloc(4015)],
+  ['stdout-one-over', Buffer.alloc(4097), Buffer.alloc(0)], ['both-at4096', Buffer.alloc(4096), Buffer.alloc(4096)]
+]) {
+  test('Git identity enforces the combined4096B cap without retry: ' + name, () => {
+    const h = gitIdentityFixture({ ...completeOutput(stdout), stderr })
+    assert.throws(h.read, /Native Git identity proof failed/); assert.equal(h.calls.length, 1)
+    const d = JSON.parse(h.diagnostics[0].slice('AILibraryNativeGitIdentity '.length))
+    assert.equal(d.reason, 'output-cap'); assert.equal(d.stdout_bytes + d.stderr_bytes, stdout.length + stderr.length)
+  })
+}
+for (const [name, response] of [
+  ['null-result', null], ['array-result', []], ['string-stdout', { ...completeOutput(Buffer.alloc(0)), stdout: 'private-stdout-body' }],
+  ['null-stderr', { ...completeOutput(Buffer.alloc(0)), stderr: null }]
+]) {
+  test('Git identity rejects invalid executor/stream types: ' + name, () => {
+    const h = gitIdentityFixture(response)
+    assert.throws(h.read, /Native Git identity proof failed/); assert.equal(h.calls.length, 1)
+    const d = JSON.parse(h.diagnostics[0].slice('AILibraryNativeGitIdentity '.length))
+    assert.equal(d.reason, name.endsWith('result') ? 'result-shape' : 'stream-type')
+    assert.equal(h.diagnostics[0].includes('private-stdout-body'), false)
+  })
+}

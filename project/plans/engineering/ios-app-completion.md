@@ -1,5 +1,7 @@
 # iOS完成版に向けたTODO
 
+この記録の作成時点で、[到達済み見出しの読書位置修正](../../records/2026-11-03/ios-reached-heading-reading-position.md)を準備した。旧Intel診断では到達した見出しの実測値が整列期限後に保存されず、保存済みの先頭へ復帰していた。現在の要求・描画世代と完全可視の同じ実測値を一度だけ保持する候補で、期限・raw保全・中断保護を保つ。同じ6ファイルのSDK型検査と専用arm64 UI2件は成功した。追加9件は単体メソッドの定義数であり、新しい通常単体・Native8・Full26・Release、通常mainや新分岐通過は未受入。作成時点のApp0.2.28（30）と候補0.2.29（31）を区別し、TODO32行14完了と実機等の未完了を保つ。
+
 [b05後の標準macos-15候補と別ARM459診断](../../records/2026-11-02/ios-native-owned-simulator.md)では、実arm64/Xcode16.4で元2ケース成功とcleanupを別診断の範囲に限り保存し、OS原因や通常8/278/26の成功へ転用しない。Root採択のNative/Full標準runner2行と単体期待値1箇所だけをCode3-r2へまとめ、訂正後Published29件は28成功1skip。b05 docsの公式successは件数未受領、他CIはpendingとし、Native60/Full95-70・全caps/所有/roster/wait/assert・App28/TODO32行14完了を保持する私有Source7である。新commit/head・CI/main・実機等は未受入。
 
 [f7de初回CIとcheckout fixture修正](../../records/2026-11-02/ios-native-owned-simulator.md)では、9workflow/19job終端・必須10成功とdocs失敗を保存する。Common/Full Aのテストfixture2原因だけをCode2-r2で修正する私有Source6で、Mac専用194件=193成功1skipと実Linux/Node22未検証を分ける。Native cancelled・unit278不明、Full B3/8とcopy/Release未受入、strict3のguard推論・SDK26 unsigned範囲を保持し、新head CI/通常main/実機等は未受入のままとする。旧全文/JSON値・TODO32行14完了と原criteriaを保つ。

@@ -1,5 +1,7 @@
 # project — 計画と実施記録
 
+[自用の読書位置・復旧機能の受入](records/2026-11-04/ios-personal-reading-recovery-acceptance.md)で、通常main0885／App0.2.30（32）へ反映されたIOS-11・IOS-18の実装と主要な自動確認を採択した。Source cd22の全9workflow・必須11とReady後2検査、Native297・UI8・Full26、読書3専用UIの実child、復旧F/Rと52B検証ファイルを各範囲で照合し、TODOを16/32へ更新する。実機・VoiceOver・追加failure UI・性能、mainpush別CIは未完了として分け、他30状態・全criteria・過去14/32の記録を保つ。
+
 [保存コンテンツの容量表示候補](records/2026-11-02/ios-storage-usage-preview.md)は、実main1f75／tree7429の2897tupleへStorage Code8をbyte保持して結ぶSource12の準備である。App候補30（32）、metadataの論理bytesを参考表示し、再確認／閉じるだけを扱う。削除／Gate／IOS21全体完了を含めない。cdf2 mainのNative287／UI8とFull26成功・CommonのEC2guard拒否、PR330の必要11／Common Linux成功を分け、実APTはAzure144、新EC2152はfakeIOのみとする。最新の678入力合成SDK型検査1回は成功したがRuntime297／Storage新head CI／mainは未受入。Reader6／UI f998、TODO全32行14完了とcriteriaを保ち、Source12の共通1回・4形式・最終IRを待つ。
 
 [Linuxブラウザー依存物のEC2ミラー対応候補](records/2026-11-04/ci-playwright-ec2-mirror.md)は、通常main cdf2の取得前guard拒否を保存し、実観測したeast2の152B完全一致profileだけを追加する。既存Azureと残る公式93B、source・署名・所有・期限・fallback復元を保ち、対象fakeIO89件とCode2独立レビューP1/P2=0を確認した。共通・形式・最終Sourceと新head Hostedは別範囲で、実sudo／APTの成功は未受入。App0.2.29（31）・TODO32行14完了と全criteriaを維持する。

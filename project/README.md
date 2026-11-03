@@ -1,5 +1,7 @@
 # project — 計画と実施記録
 
+[保存コンテンツの容量表示候補](records/2026-11-02/ios-storage-usage-preview.md)は、実main1f75／tree7429の2897tupleへStorage Code8をbyte保持して結ぶSource12の準備である。App候補30（32）、metadataの論理bytesを参考表示し、再確認／閉じるだけを扱う。削除／Gate／IOS21全体完了を含めない。cdf2 mainのNative287／UI8とFull26成功・CommonのEC2guard拒否、PR330の必要11／Common Linux成功を分け、実APTはAzure144、新EC2152はfakeIOのみとする。最新の678入力合成SDK型検査1回は成功したがRuntime297／Storage新head CI／mainは未受入。Reader6／UI f998、TODO全32行14完了とcriteriaを保ち、Source12の共通1回・4形式・最終IRを待つ。
+
 [Linuxブラウザー依存物のEC2ミラー対応候補](records/2026-11-04/ci-playwright-ec2-mirror.md)は、通常main cdf2の取得前guard拒否を保存し、実観測したeast2の152B完全一致profileだけを追加する。既存Azureと残る公式93B、source・署名・所有・期限・fallback復元を保ち、対象fakeIO89件とCode2独立レビューP1/P2=0を確認した。共通・形式・最終Sourceと新head Hostedは別範囲で、実sudo／APTの成功は未受入。App0.2.29（31）・TODO32行14完了と全criteriaを維持する。
 
 [書き出し取消UIの確認方式](records/2026-11-03/ios-export-picker-snapshot.md)では、mainの初期Browse-root拒否と1834の最終再走査deadline超過を分けて記録する。fresh snapshotの標準属性T0と同scopeのlive action T1へ取得方法を変え、各opening自身で厳格なRootを証明するpolicyを採る。共有30秒・2Cancel・closure/再起動後のしおりと位置を保ち、実Back0をBack検証済みと数えない。pure host13群28assertは成功、同Code1の既存SDK型検査だけは成功、Runtime・30秒内改善・新head CIは未受入。App0.2.29（31）候補とTODO32行14完了、実機等の未完了を保つ。

@@ -1,0 +1,350 @@
+{
+  "schema_version": 1,
+  "state": "STORAGE_PREVIEW_AFTER_READER29_PREPARATION_SNAPSHOT",
+  "snapshot_at_UTC": "2026-11-03T11:43:08.645540+00:00",
+  "snapshot_scope": "Creation-time logical PR-head rebase only; not a live product adoption or ordinary-main acceptance state.",
+  "old_Code8_MF": "3165869e2e2c4212d20587ad48fc4a92cbc544502d2bd6d2e657d61a4777709f",
+  "logical_public_Reader_head": "1834a4fe9bcaac009974b01709a26755f55e449f",
+  "App_at_snapshot": {
+    "ordinary_main": "0.2.28(30)",
+    "Reader_PR_candidate": "0.2.29(31)",
+    "Storage_candidate": "0.2.30(32)"
+  },
+  "logical_rebase": {
+    "code8": 8,
+    "new3_absence_confirmed": true,
+    "before5_checked": true,
+    "nonPBX_payload7_exact_old_Code8": true,
+    "PBX": "same storage registration3 plus current Reader29/31 to Storage30/32 four scalars",
+    "Reader6_and_new9_definitions_preserved": true
+  },
+  "design": {
+    "metadata_only": true,
+    "mutating_actions": false,
+    "logical_sizes_not_free_allocated_reclaimable_bytes": true,
+    "pointer_acceptance_bytes": 4096,
+    "pointer_sampling_with_growth_sentinel_bytes": 4097,
+    "entries_max": 8192,
+    "depth_max": 12,
+    "generation_max": 256,
+    "kernel_IO_wallclock_bound_guaranteed": false,
+    "atomic_crossprocess_snapshot": false,
+    "StorageGate_included": false
+  },
+  "historical_evidence": {
+    "independent_IR_MF": "1899178584c769dc838d2fa06ae49bbd1f435bb16acdac12c2e2ab4770eb1ce0",
+    "P1": 0,
+    "P2": 0,
+    "reuse_scope": "same7 nonPBX bytes and same PBX registrations only; new PBX rebase/integration need independent review",
+    "host10": {
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "seconds": 16.558258875,
+      "scope": "old macOS Foundation inputs only; current Reader29 integration not executed",
+      "initial_failure": "one pass/nine failed cases;31assert retained"
+    },
+    "old_SDK": {
+      "SDK": "iPhoneSimulator18.2",
+      "base": "400b2adf66bdf1b953ba89ec57b71f3f4ef2352d",
+      "App": "0.2.28(30)",
+      "operation": "Debug build-for-testing; no tests executed",
+      "exit": 0,
+      "seconds": 57.009679791,
+      "current_candidate_acceptance": false,
+      "initial_outer_sandbox_failure_retained": true
+    }
+  },
+  "actual_future_parent": null,
+  "Root_acceptance": null,
+  "Source": null,
+  "requests": null,
+  "actual_commit": null,
+  "new_Host_SDK_npmcheck_run": false,
+  "TODO": {
+    "rows": 32,
+    "complete": 14,
+    "criteria": "all original rows unchanged",
+    "IOS21_complete": false,
+    "Reader_whole_checkpoint_complete": false
+  },
+  "pending": [
+    "PR328 exact-source required/custom/sourceCI/independent IR and ordinary Reader29 main",
+    "fresh actualmain raw canonical/fullmap/before5/new3 and exact version29 binding",
+    "new capacity Source common/forms/SDK/necessary CI/independent review and ordinary main",
+    "physical iPhone and VoiceOver incomplete skipped",
+    "retention/removal/update/distribution designs outside scope"
+  ],
+  "separate_mainpush3": "future same Reader actualmain official observations required; unfinished status/null kept, never success inference",
+  "reader_ui_followup_binding_preparation": {
+    "state": "READER_UI_FOLLOWUP_BINDING_PREPARATION_ONLY",
+    "future_actual_parent": null,
+    "future_approved_reader_head": null,
+    "future_tree": null,
+    "Source12": null,
+    "requests": null,
+    "commits": null,
+    "candidate_tracked_hint": 2895,
+    "candidate_hint_is_not_observed_main_count": true,
+    "Code8_MF": "7e91940d67be71c40952ab23d938aabd4b452cfa4858f7b23ed74b90f08b470a",
+    "historical_SDK_scopes": {
+      "state": "SEPARATE_HISTORICAL_TYPECHECK_SCOPES_ONLY",
+      "Storage_Code8": {
+        "MF": "7e91940d67be71c40952ab23d938aabd4b452cfa4858f7b23ed74b90f08b470a",
+        "candidate_App": "0.2.30(32)",
+        "not_actual_parent_bound": true
+      },
+      "old_composition_SDK": {
+        "manifest_path": "/private/tmp/ios-storage-preview-reader29-composition-sdk-preflight-20261103/manifest.json",
+        "MF": "a7f5407c035631685c71ead986fd24b814a4f76f93aedfa37737e65c0eff7dec",
+        "result_SHA256": "eecc39f35c0efcc6df1be80f565aee31367b1b3ab670ff6c3cd9d2fb24cd7388",
+        "scope": "Reader public1834 plus Storage8/App30; old UI beforef97a, generic unsigned SDK18.2 typecheck only; no newUI f998 runtime or futureparent acceptance"
+      },
+      "new_UI_SDK": {
+        "manifest_path": "/private/tmp/ios-reader-export-picker-snapshot-sdk-preflight-20261103/manifest.json",
+        "MF": "cbbb1b5a82a45acf2dbbfc38a7e78b7954d170c021ca1eb9db8cd3ea59968c3b",
+        "result_SHA256": "31d9a11383d1a42bcf78d6b4b37ff388212eb5283bf182ca0d98d0a02f113c5a",
+        "scope": "Reader public1834/App29 plus UI f998 only, no Storage; SDK18.2 typecheck only"
+      },
+      "future_combined_Storage_new_UI_Runtime_or_CI_accepted": false,
+      "new_executions_here": 0
+    },
+    "TODO": [
+      32,
+      14
+    ],
+    "all32criteria_preserved_required": true,
+    "readerWholeAcceptanceIncomplete": true,
+    "whole_checkpoint_accepted": false,
+    "IOS21_completed": false,
+    "observed_public_candidate": {
+      "state": "OBSERVED_PUBLIC_0486_BYTE_COMPATIBILITY_ONLY_NOT_ORDINARY_MAIN_BINDING",
+      "public_head": "0486be5f43acecad3723971ed8833b08488dfe86",
+      "public_tree": "44d287ec73b5cb942367e7067dfbc0bbff10ac25",
+      "actual_public_tracked": 2895,
+      "SourceMF": "402e0c667d7cb0cbb1dbd86f1c533ee5b7d90e7f966ecc6207c2f7d3d5e8c912",
+      "actual_pair_proof_SHA256": "9a58809f617b9fbf74c6cd360f91d7d8e6782bda991f1b05f3bc4e3ff5edf650",
+      "fullmap_reference": {
+        "path": "/private/tmp/ios-reader-export-picker-snapshot-source5-preparation-20261103/allmaps/final.json",
+        "SHA256": "715d71e0394a6873679cb7b1a20bcefe94fd1706ee15fa6a1c7e43578a7b60a0"
+      },
+      "Draft": true,
+      "source_CI_in_progress_not_accepted": true,
+      "ordinary_main_accepted": false,
+      "before5_tuples_match_frozen_Code8": true,
+      "new3_absent": true,
+      "PBX29_before_frozen": true,
+      "Reader6_protected_reference_and_newUI_f998_tuple_match": true,
+      "new_record2_absent": true,
+      "algebra_only_if_future_actual_main_has_this_exact_map": {
+        "parent": 2895,
+        "after_Code8_add3": 2898,
+        "after_Source12_add5": 2900,
+        "owned_paths": 12,
+        "new_paths": 5
+      },
+      "Source12_tree_commit_requests_generated": false,
+      "actual_future_main": null
+    },
+    "unit_roster_projection_only": {
+      "Reader_source_reference": 287,
+      "Storage_source_methods": 10,
+      "expected_after_feature": 297,
+      "new_feature_actual_raw_ID_count": null,
+      "SDK_App19_Unit8_UI6_are_compile_file_counts_not_runtime297": true
+    }
+  },
+  "reader0486_payload_preparation_creation_time_addendum": {
+    "state": "CREATION_TIME_PAYLOAD12_DRAFT_ONLY_NOT_ACTUAL_MAIN_BINDING_OR_ACCEPTANCE",
+    "snapshot_at_UTC": "2026-11-03T14:14:24.492778+00:00",
+    "snapshot_source": {
+      "origin": "Root in-session instruction; no worker API read",
+      "path": "/private/tmp/ios-storage-preview-after-reader0486-payload-preparation-20261103/Root-creation-snapshot.json",
+      "SHA256": "41bc744494bf826802337b843da0f9aadb419b927cb44d4c9ba0ed512e5e082b",
+      "worker_API_observations": 0,
+      "Root_reported_snapshot": {
+        "state": "ROOT_REPORTED_CREATION_TIME_READER0486_CI_SNAPSHOT_NOT_MAIN_ACCEPTANCE",
+        "captured_UTC": "2026-11-03T14:14:24.492778+00:00",
+        "source": "Root in-session instruction; no worker API read",
+        "public_head": "0486be5f43acecad3723971ed8833b08488dfe86",
+        "public_tree": "44d287ec73b5cb942367e7067dfbc0bbff10ac25",
+        "tracked": 2895,
+        "required11": "success",
+        "Common": "success",
+        "Full26": "success",
+        "SDK26": "success",
+        "Dynamic": "success",
+        "Rotation": "success",
+        "Revision": "success",
+        "Native_UI_stage": "success",
+        "Native_Release": "in_progress",
+        "Recovery": "same-condition retry1 in_progress",
+        "R26": "same-condition retry1 in_progress",
+        "ordinary_main_accepted": false,
+        "whole_feature_accepted": false,
+        "future_actual_main": null,
+        "worker_new_Git_API_SDK_Host_tests": 0
+      }
+    },
+    "Reader_cumulative_source_scope": {
+      "Source_paths": 14,
+      "new_paths": 4,
+      "means": "current Reader cumulative source only; not Storage owned count"
+    },
+    "Storage_payload_scope": {
+      "Code8_MF": "7e91940d67be71c40952ab23d938aabd4b452cfa4858f7b23ed74b90f08b470a",
+      "code_paths": 8,
+      "record_paths": 2,
+      "index_paths": 2,
+      "owned_paths": 12,
+      "new_paths": 5,
+      "candidate_App": "0.2.30(32)",
+      "algebra_only_if_actual_eventual_main_has_same_2895_tuple_map": {
+        "parent": 2895,
+        "after_Code8_add3": 2898,
+        "after_payload12_add5": 2900
+      }
+    },
+    "future_actual_main": null,
+    "SourceMF": null,
+    "requests": null,
+    "commit": null,
+    "tree": null,
+    "render": null,
+    "historical_SDK_evidence_scope": {
+      "a7f540": "Reader1834 plus Storage8/App30 and old UI only; typecheck only",
+      "cbbb1b5": "new UI f998/App29 with no Storage only; typecheck only",
+      "combined_Runtime_proven": false,
+      "new_Storage_Source_CI_proven": false,
+      "ordinary_main_proven": false,
+      "thirty_seconds_or_cause_resolution_proven": false
+    },
+    "unit_roster_projection_only": {
+      "Reader_source_methods": 287,
+      "Storage_source_methods": 10,
+      "planned_after_feature": 297,
+      "SDK_compile_file_counts": {
+        "App": 19,
+        "Unit": 8,
+        "UI": 6
+      },
+      "SDK_counts_are_runtime_test_counts": false,
+      "actual_raw_IDs": null,
+      "actual_pass": null,
+      "actual_skip": null,
+      "actual_feature_CI": null
+    },
+    "held_constraints": {
+      "TODO_rows": 32,
+      "TODO_complete": 14,
+      "all_criteria_unchanged_required": true,
+      "Reader6_preserved_required": true,
+      "UI_f998_preserved_required": true,
+      "read_only_advisory_capacity_UI_only": true,
+      "deletion_included": false,
+      "Gate_included": false,
+      "IOS21_complete": false,
+      "whole_feature_accepted": false,
+      "ordinary_main_accepted": false
+    },
+    "execution_scope": {
+      "metadata_file_processing_only": true,
+      "new_Git_API_SDK_Host_tests": 0,
+      "source_apply": 0,
+      "old_source_edits": 0,
+      "general_binder_growth": 0,
+      "fixture_growth": 0,
+      "proposal_growth": 0
+    },
+    "snapshot_time_semantics": "Worker capture time for the Root report, not the timestamp of the Root message or an API observation."
+  },
+  "ci330_source12_preparation_20261104": {
+    "state": "ACTUAL_MAIN1F75_SOURCE12_INPUT_PREPARATION_BEFORE_ONE_PRIVATE_COMMON",
+    "captured_UTC": "2026-11-03T16:17:08.907610+00:00",
+    "time_semantics": "This producer capture time for already sealed evidence, not fresh API observation time.",
+    "prior_fields": "All prior fields/text retained as historical creation snapshots, not live adoption status.",
+    "actual_parent": {
+      "sha": "1f752a7cef0c1e4593d7900e51338d56d30587e0",
+      "tree": "742956d165dc3d6ca95713f47ff2bd644eccb2d0",
+      "tracked": 2897,
+      "sole_parent": "cdf2b6e5259f42ff547d8ff804dc62992fd8542a",
+      "proof_SHA256": "a3da50c727acd175e432b649e54f732d31fde540c8559e63e51b01baabf1a470",
+      "fullmap_SHA256": "4dc6f6f769b1abab7184b372f761695d6efbb4cdd944a895a574b751e590be36"
+    },
+    "Code8_MF": "7e91940d67be71c40952ab23d938aabd4b452cfa4858f7b23ed74b90f08b470a",
+    "Code8_bytes_changed": false,
+    "scope": {
+      "code": 8,
+      "records": 2,
+      "indices": 2,
+      "owned12": 12,
+      "new5": 5,
+      "after_code": 2900,
+      "after_records": 2902,
+      "nonowned": 2890,
+      "App_candidate": "0.2.30(32)",
+      "Reader6_UI_f998_held": true,
+      "deletion_Gate_retention_policy_IOS21_complete": false
+    },
+    "cdf2_mainpush_history": {
+      "main": "cdf2b6e5259f42ff547d8ff804dc62992fd8542a",
+      "observer_MF": "da79bb75653da2b9c01a868524dd079e46fbd3872e39caf1327ffe55324d9d30",
+      "Native": "actual287=285pass2knownskip;UI8pass;Back2Cancel2closure2;Release3/140;ownedcleanup",
+      "Full": "A18+B8disjoint26pass;A287units;374Bcopy1;Release199/625;eachownedcleanup",
+      "Common": "8success1buildconfigurationfailure at unknownEC2152mirror; no failure reclassification"
+    },
+    "PR330_repair_history": {
+      "PR": 330,
+      "head": "84adb3385f802d4837ae7d56678fa7350ee39882",
+      "tree": "742956d165dc3d6ca95713f47ff2bd644eccb2d0",
+      "primary_gate_MF": "6b0bd9455d9cea83700df7b5369ad2255f2ae4b3bd2077df3d115445659ba985",
+      "primary_gate_result_SHA256": "f8df8ca0f07be4a85f04cf3ba0ad40ae4b4dba21d4671a3b41467d62b4ec1035",
+      "required11_CommonLinux": "success in sealed primary gate",
+      "actual_APT": "LegacyAzure144 only: metadata/download/install/complete,43packages. NewEC2152 realAPT unexecuted.",
+      "new_EC2_152": "old78+new11 all89 fakeIO passed; no Hosted152APT acceptance",
+      "Linux_root_units": "1528=1509pass19skip0fail",
+      "website": "97pass;235pages;browser677pass5skip;Firefox14pass",
+      "PR_Native": "separate scope; primary gate did not accept Native termination",
+      "normal_main": "Root ordinary protected squash1f75/rawcanonical/full2897 proof received; its future mainpush not accepted here"
+    },
+    "latest_composition_SDK": {
+      "manifest_final": "155d7a020ccb4c2b82901fb2163cd328869cb39dd1e889e65dbca8d2763a4931",
+      "result_SHA256": "50ce374e32be8f6583e6bcf2dcd276e7e8fed1241c60cc2602663d4befcdf5d2",
+      "Root_data_IR_SHA256": "c2a906e8695116c0ecc653fed09bcaf73665e74f1cfb17294424375c86077c43",
+      "exit": 0,
+      "seconds": 48.45679025,
+      "scope": "Code8exact+public84ad Reader6/UI f998; Xcode16.2/SDK18.2,unsigned generic Debug build-for-testing jobs2; no tests executed",
+      "botharch_file_counts": {
+        "App": 19,
+        "generated_asset": 1,
+        "Unit": 8,
+        "UI": 6
+      },
+      "all678_inputs_and_protection_held": true,
+      "actual_parent_Storage_commit_or_runtime_acceptance": false
+    },
+    "unit_definition_scope": {
+      "Reader": 287,
+      "Storage_new": 10,
+      "candidate": 297,
+      "Runtime297_executed": false,
+      "Native_Full_fixed287_acceptance_literal": "not present; only git-conventions sample text287 retained",
+      "UI_roster": "Native8/Full18+8 unchanged"
+    },
+    "TODO": {
+      "rows": 32,
+      "done": 14,
+      "allcriteria_unchanged": true
+    },
+    "current_Source12": {
+      "common_check": "not yet invoked; record is pre-common creation snapshot",
+      "forms_Source_IR": "pending final private validation",
+      "actual_parent_bound": "1f752a7cef0c1e4593d7900e51338d56d30587e0",
+      "SourceMF": null,
+      "requests": "prepared later by this source task; actual issued requests0",
+      "commit": null,
+      "newhead_CI_or_normal_Storage_main_accepted": false
+    },
+    "producer_new_API_Git_public_SDK_Host_Runtime": 0
+  }
+}

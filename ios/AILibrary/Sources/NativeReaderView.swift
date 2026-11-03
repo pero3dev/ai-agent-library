@@ -13,13 +13,6 @@ private enum NativeReaderScrollTarget: Hashable {
     case block(String)
 }
 
-private struct NativeReaderLayoutIdentity: Hashable {
-    let source: String
-    let width: CGFloat
-    let height: CGFloat
-    let bodySize: CGFloat
-}
-
 enum NativeReaderScrollBounds {
     /// These exclusions overlap in the same scroll-bounds coordinates. Never
     /// add the safe area again when UIKit already included it in adjusted insets.
@@ -87,17 +80,23 @@ enum NativeReaderScrollPlacement: Equatable {
 final class NativeReaderScrollAnchors: NSObject {
     private final class WeakMarker {
         weak var view: UIView?
-        init(_ view: UIView) { self.view = view }
+        let layout: NativeReaderLayoutIdentity
+        init(_ view: UIView, layout: NativeReaderLayoutIdentity) { self.view = view; self.layout = layout }
     }
     private enum Layout {
         case ready(UIScrollView, CGFloat)
         case rootNotReady, targetMissing, unavailable, interrupted
     }
     private weak var rootMarker: UIView?
+    private var rootRenderedLayout: NativeReaderLayoutIdentity?
+    private var renderedLayouts = NativeReaderRenderedLayoutReceipt()
+    private var placementRenderedLayout: NativeReaderRenderedLayoutReceipt.Snapshot?
     private var targets: [String: WeakMarker] = [:]
     private var ends: [String: WeakMarker] = [:]
     private weak var observedPan: UIPanGestureRecognizer?
     private var observedScrollID: ObjectIdentifier?
+    private var placementWindowID: ObjectIdentifier?
+    private var placementRootSize: CGSize?
     private weak var pendingLayoutFrame: NativeReaderLayoutFrame?
     private(set) var interactionEpoch: UInt64 = 0
     private(set) var userPanEpoch: UInt64 = 0
@@ -107,14 +106,17 @@ final class NativeReaderScrollAnchors: NSObject {
 
     deinit { observedPan?.removeTarget(self, action: #selector(rootPanChanged(_:))) }
 
-    @MainActor func registerRoot(_ view: UIView) {
+    @MainActor func registerRoot(_ view: UIView, layout: NativeReaderLayoutIdentity) {
+        renderedLayouts.report(layout)
+        rootRenderedLayout = layout
         rootMarker = view
         updatePanObservation()
     }
-    func registerTarget(_ view: UIView, id: String, isEnd: Bool = false) {
+    func registerTarget(_ view: UIView, id: String, isEnd: Bool = false, layout: NativeReaderLayoutIdentity) {
+        renderedLayouts.report(layout)
         if isEnd {
-            if ends[id]?.view !== view { ends[id] = WeakMarker(view) }
-        } else if targets[id]?.view !== view { targets[id] = WeakMarker(view) }
+            if ends[id]?.view !== view || ends[id]?.layout != layout { ends[id] = WeakMarker(view, layout: layout) }
+        } else if targets[id]?.view !== view || targets[id]?.layout != layout { targets[id] = WeakMarker(view, layout: layout) }
     }
 
     @MainActor private func rootScrollView() -> UIScrollView? {
@@ -150,6 +152,14 @@ final class NativeReaderScrollAnchors: NSObject {
     @MainActor func beginPlacement() -> UInt64 {
         pendingLayoutFrame?.cancel()
         updatePanObservation()
+        placementRenderedLayout = renderedLayouts.capture()
+        if let scroll = rootScrollView(), let window = scroll.window {
+            placementWindowID = ObjectIdentifier(window)
+            placementRootSize = scroll.bounds.size
+        } else {
+            placementWindowID = nil
+            placementRootSize = nil
+        }
         #if DEBUG
         geometrySampleCount = 0
         #endif
@@ -211,6 +221,34 @@ final class NativeReaderScrollAnchors: NSObject {
             blockMinY: start.convert(start.bounds, to: scroll).minY,
             blockMaxY: end.convert(end.bounds, to: scroll).minY,
             readingLineY: scroll.contentOffset.y + visibleTop)
+    }
+
+    /// Observe only; a completion cannot scroll, materialize, or start a new wait.
+    @MainActor func fullyVisibleTarget(_ id: String, interactionEpoch expectedEpoch: UInt64,
+        layout: NativeReaderLayoutIdentity) -> Bool {
+        updatePanObservation()
+        guard interactionEpoch == expectedEpoch, !isUserInteracting,
+              renderedLayouts.matches(placementRenderedLayout, expected: layout),
+              rootRenderedLayout == layout, targets[id]?.layout == layout, ends[id]?.layout == layout,
+              let root = rootMarker, let window = root.window, let scroll = rootScrollView(),
+              !(scroll is UITextView), scroll.isScrollEnabled, scroll.window === window,
+              placementWindowID == ObjectIdentifier(window), placementRootSize == scroll.bounds.size,
+              scroll.bounds.width.isFinite, scroll.bounds.width > 0,
+              scroll.bounds.height.isFinite, scroll.bounds.height > 0,
+              scroll.contentOffset.y.isFinite,
+              let top = NativeReaderScrollBounds.visibleTopInset(adjustedTopInset: scroll.adjustedContentInset.top,
+                safeAreaTopInset: scroll.safeAreaInsets.top),
+              scroll.adjustedContentInset.bottom.isFinite, scroll.adjustedContentInset.bottom >= 0,
+              scroll.safeAreaInsets.bottom.isFinite, scroll.safeAreaInsets.bottom >= 0,
+              let start = targets[id]?.view, let end = ends[id]?.view,
+              start.window === window, end.window === window,
+              start.isDescendant(of: scroll), end.isDescendant(of: scroll) else { return false }
+        return NativeReaderPlacementPolicy.fullyVisibleTargetInterval(
+            start: Double(start.convert(start.bounds, to: scroll).minY),
+            end: Double(end.convert(end.bounds, to: scroll).minY),
+            visibleTop: Double(scroll.contentOffset.y + top),
+            visibleBottom: Double(scroll.contentOffset.y + scroll.bounds.height -
+                max(scroll.adjustedContentInset.bottom, scroll.safeAreaInsets.bottom)))
     }
 
     @MainActor private func layout(of id: String, intraBlockFraction: Double? = nil) -> Layout {
@@ -363,6 +401,7 @@ private struct NativeReaderScrollMarker: UIViewRepresentable {
     let anchors: NativeReaderScrollAnchors
     var blockID: String? = nil
     var isEnd = false
+    var layout: NativeReaderLayoutIdentity? = nil
 
     @MainActor func makeUIView(context: Context) -> UIView {
         let view = UIView(frame: .zero)
@@ -374,8 +413,9 @@ private struct NativeReaderScrollMarker: UIViewRepresentable {
 
     @MainActor func updateUIView(_ view: UIView, context: Context) { register(view) }
     @MainActor private func register(_ view: UIView) {
-        if let blockID { anchors.registerTarget(view, id: blockID, isEnd: isEnd) }
-        else { anchors.registerRoot(view) }
+        guard let layout else { return }
+        if let blockID { anchors.registerTarget(view, id: blockID, isEnd: isEnd, layout: layout) }
+        else { anchors.registerRoot(view, layout: layout) }
     }
 }
 
@@ -510,7 +550,7 @@ struct NativeReaderView: View {
                             NativeBlockView(block: block, snapshot: snapshot,
                                             fontScale: min(4, max(0.8, bodySize / 17)),
                                             availableWidth: max(1, viewport.size.width - 36),
-                                            focusedBlock: $focusedBlockID, scrollAnchors: scrollAnchors)
+                                            focusedBlock: $focusedBlockID, scrollAnchors: scrollAnchors, layout: layout)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .id(NativeReaderScrollTarget.container(block.id))
                                 .background {
@@ -522,7 +562,7 @@ struct NativeReaderView: View {
                         }
                     }
                     .background(alignment: .top) {
-                        NativeReaderScrollMarker(anchors: scrollAnchors).frame(height: 0)
+                        NativeReaderScrollMarker(anchors: scrollAnchors, layout: layout).frame(height: 0)
                     }
                     .padding(.horizontal, 18)
                     .padding(.top, 20)
@@ -602,12 +642,12 @@ struct NativeReaderView: View {
         let interactionEpoch = scrollAnchors.beginPlacement()
         let request = NativeReadingPlacementRequest(purpose: destination.focusBlockID != nil ? .explicitNavigation :
             (previousProgress == nil ? .automaticResume : .automaticReflow), userPanEpoch: userCancelledEpoch ?? currentPanEpoch,
-            generation: generation)
+            generation: generation, directHeadingBlockID: directHeadingID(container: destination.blockID, focus: destination.focusBlockID))
         progressSession.beginPlacement(request)
         var outcome = NativeReaderPlacementPolicy.Outcome.cancelled
         defer {
             completePlacement(outcome, target: destination.blockID, focus: destination.focusBlockID,
-                generation: generation, request: request, previousBlockID: previousBlockID,
+                generation: generation, interactionEpoch: interactionEpoch, layout: layout, request: request, previousBlockID: previousBlockID,
                 previousProgress: previousProgress, flush: false)
         }
         if userCancelledEpoch != nil { outcome = .interrupted; return }
@@ -647,6 +687,7 @@ struct NativeReaderView: View {
         let generation = UUID()
         let previousBlockID = currentBlockID
         let previousProgress = currentProgress
+        let layout = trackingLayout
         restoreGeneration = generation
         navigationTask?.cancel()
         saveTask?.cancel()
@@ -662,18 +703,19 @@ struct NativeReaderView: View {
         focusedBlockID = nil
         let interactionEpoch = scrollAnchors.beginPlacement()
         let request = NativeReadingPlacementRequest(purpose: .explicitNavigation,
-                                                   userPanEpoch: scrollAnchors.userPanEpoch, generation: generation)
+                                                   userPanEpoch: scrollAnchors.userPanEpoch, generation: generation,
+                                                   directHeadingBlockID: directHeadingID(container: blockID, focus: leaf))
         progressSession.beginPlacement(request)
         if let outcome = preparationExit(generation: generation, interactionEpoch: interactionEpoch) {
             completePlacement(outcome, target: blockID, focus: leaf, generation: generation,
-                request: request, previousBlockID: previousBlockID, previousProgress: previousProgress, flush: false)
+                interactionEpoch: interactionEpoch, layout: layout, request: request, previousBlockID: previousBlockID, previousProgress: previousProgress, flush: false)
             return
         }
         materializeContainer(blockID, using: proxy)
         navigationTask = Task { @MainActor in
             if let outcome = preparationExit(generation: generation, interactionEpoch: interactionEpoch) {
                 completePlacement(outcome, target: blockID, focus: leaf, generation: generation,
-                    request: request, previousBlockID: previousBlockID, previousProgress: previousProgress, flush: true)
+                    interactionEpoch: interactionEpoch, layout: layout, request: request, previousBlockID: previousBlockID, previousProgress: previousProgress, flush: true)
                 return
             }
             // A deferred task starts one correction budget, retaining the epoch
@@ -682,7 +724,7 @@ struct NativeReaderView: View {
                 interactionEpoch: interactionEpoch, startedAt: CACurrentMediaTime())
             let outcome = await finishPlacement(of: leaf, container: blockID, using: proxy, policy: policy)
             completePlacement(outcome, target: blockID, focus: leaf, generation: generation,
-                request: request, previousBlockID: previousBlockID, previousProgress: previousProgress, flush: true)
+                interactionEpoch: interactionEpoch, layout: layout, request: request, previousBlockID: previousBlockID, previousProgress: previousProgress, flush: true)
         }
     }
 
@@ -745,8 +787,30 @@ struct NativeReaderView: View {
         }
     }
 
+    private func directHeadingID(container: String?, focus: String?) -> String? {
+        guard let container, focus == container,
+              document.blocks.contains(where: { $0.id == container && $0.type == "heading" }) else { return nil }
+        return container
+    }
+
+    @MainActor private func reachedNavigationMeasurement(_ outcome: NativeReaderPlacementPolicy.Outcome,
+        target: String?, focus: String?, generation: UUID, interactionEpoch: UInt64,
+        layout: NativeReaderLayoutIdentity?, request: NativeReadingPlacementRequest,
+        measured: NativeReadingSample?) -> NativeReadingReachedNavigation? {
+        guard outcome == .exhausted, case .explicitNavigation = request.purpose,
+              let heading = request.directHeadingBlockID,
+              heading == directHeadingID(container: target, focus: focus),
+              let measured, measured.blockID == heading,
+              let layout, layout == trackingLayout, layout.source == document.source_sha256,
+              preparationExit(generation: generation, interactionEpoch: interactionEpoch) == nil,
+              scrollAnchors.fullyVisibleTarget(heading, interactionEpoch: interactionEpoch, layout: layout) else { return nil }
+        return NativeReadingReachedNavigation(generation: generation,
+            userPanEpoch: scrollAnchors.userPanEpoch, sample: measured)
+    }
+
     @MainActor private func completePlacement(_ outcome: NativeReaderPlacementPolicy.Outcome,
-        target: String?, focus: String?, generation: UUID, request: NativeReadingPlacementRequest,
+        target: String?, focus: String?, generation: UUID, interactionEpoch: UInt64, layout: NativeReaderLayoutIdentity?,
+        request: NativeReadingPlacementRequest,
         previousBlockID: String?,
         previousProgress: NativeReadingSample?, flush: Bool) {
         guard restoreGeneration == generation else { return }
@@ -755,9 +819,11 @@ struct NativeReaderView: View {
         let userMoved = userPanEpoch != request.userPanEpoch || isUserInteracting
         let observedBlock = outcome == .aligned && !userMoved ? target : scrollAnchors.readingBlockID(in: document.blocks.map(\.id))
         let measured = observedBlock.flatMap { progress(for: $0) }
+        let reached = reachedNavigationMeasurement(outcome, target: target, focus: focus, generation: generation,
+            interactionEpoch: interactionEpoch, layout: layout, request: request, measured: measured)
         let completion = progressSession.completePlacement(placementAligned: outcome == .aligned, request: request,
             currentUserPanEpoch: userPanEpoch, isUserInteracting: isUserInteracting,
-            measured: measured)
+            measured: measured, placementExhausted: outcome == .exhausted, reachedNavigation: reached)
         guard completion.effect != .ignoreSuperseded else { return }
         if completion.effect.consumesOneShot { navigationState.consume(headingRequestID: headingRequestID) }
         // Failed automatic placement keeps both its saved point and cache. A
@@ -850,14 +916,15 @@ private struct NativeBlockView: View {
     let availableWidth: CGFloat
     let focusedBlock: AccessibilityFocusState<String?>.Binding
     let scrollAnchors: NativeReaderScrollAnchors
+    let layout: NativeReaderLayoutIdentity
 
     var body: some View {
         rendered
             .background(alignment: .top) {
-                NativeReaderScrollMarker(anchors: scrollAnchors, blockID: block.id).frame(height: 0)
+                NativeReaderScrollMarker(anchors: scrollAnchors, blockID: block.id, layout: layout).frame(height: 0)
             }
             .background(alignment: .bottom) {
-                NativeReaderScrollMarker(anchors: scrollAnchors, blockID: block.id, isEnd: true).frame(height: 0)
+                NativeReaderScrollMarker(anchors: scrollAnchors, blockID: block.id, isEnd: true, layout: layout).frame(height: 0)
             }
             .id(NativeReaderScrollTarget.block(block.id))
     }
@@ -892,7 +959,7 @@ private struct NativeBlockView: View {
                             ForEach(item.blocks) { child in
                                 NativeBlockView(block: child, snapshot: snapshot, fontScale: fontScale,
                                                 availableWidth: max(1, availableWidth - markerWidth - 10),
-                                                focusedBlock: focusedBlock, scrollAnchors: scrollAnchors)
+                                                focusedBlock: focusedBlock, scrollAnchors: scrollAnchors, layout: layout)
                             }
                         }
                     }
@@ -908,7 +975,7 @@ private struct NativeBlockView: View {
                     ForEach(block.blocks ?? []) { child in
                         NativeBlockView(block: child, snapshot: snapshot, fontScale: fontScale,
                                         availableWidth: max(1, availableWidth - 15),
-                                        focusedBlock: focusedBlock, scrollAnchors: scrollAnchors)
+                                        focusedBlock: focusedBlock, scrollAnchors: scrollAnchors, layout: layout)
                     }
                 }.foregroundStyle(.secondary)
             }.fixedSize(horizontal: false, vertical: true)

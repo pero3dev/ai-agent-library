@@ -1,9 +1,8 @@
-name: iOS native regression
+name: NEVERMERGE - ReaderCode6 reached-heading validation (2 current cases)
 
 on:
   push:
-    branches: [main]
-  pull_request:
+    branches: [codex/ios-native-reached-heading-fix-diagnostic]
 
 permissions:
   contents: read
@@ -14,12 +13,13 @@ concurrency:
 
 jobs:
   ios-native:
-    name: iOS native regression
+    name: NEVERMERGE - current ReaderCode6 public recovery-position validation (2)
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/codex/ios-native-reached-heading-fix-diagnostic' && github.repository == 'pero3dev/ai-agent-library' && !github.event.deleted }}
     runs-on: macos-15
-    timeout-minutes: 60
+    timeout-minutes: 45
     env:
       DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
-      AILIBRARY_NATIVE_SOURCE_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+      AILIBRARY_NATIVE_SOURCE_HEAD: ${{ github.sha }}
     defaults:
       run:
         shell: bash
@@ -53,11 +53,37 @@ jobs:
           mkdir -p .local/ios-ci/evidence
           {
             xcodebuild -version
+            uname -m
             node --version
             npm --version
             echo 'Simulator target: fresh owned iPhone 16 / iOS 18.5; preparation records actual inventory.'
-            echo 'Scope: all AILibraryTests and existing native UI smoke tests; physical-device acceptance is not executed.'
+            echo 'NEVERMERGE ReaderCode6 validation only: 2 current public recovery-position cases with normal app payload.'
+            echo 'No normal Unit, Release, Native8, Full26 or physical-device acceptance.'
           } | tee .local/ios-ci/evidence/environment.log
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import { readFileSync, writeFileSync } from 'node:fs';
+          const env = process.env, branch = 'refs/heads/codex/ios-native-reached-heading-fix-diagnostic';
+          assert.equal(env.GITHUB_ACTIONS, 'true'); assert.equal(env.GITHUB_EVENT_NAME, 'push');
+          assert.equal(env.GITHUB_REF, branch); assert.equal(env.GITHUB_JOB, 'ios-native');
+          assert.equal(env.GITHUB_REPOSITORY, 'pero3dev/ai-agent-library');
+          const event = JSON.parse(readFileSync(env.GITHUB_EVENT_PATH, 'utf8'));
+          assert.equal(event.repository.full_name, env.GITHUB_REPOSITORY); assert.equal(event.repository.private, false);
+          assert.equal(event.deleted, false); assert.match(env.GITHUB_SHA, /^[a-f0-9]{40}$/);
+          assert.equal(event.after, env.GITHUB_SHA); assert.equal(env.AILIBRARY_NATIVE_SOURCE_HEAD, env.GITHUB_SHA);
+          writeFileSync('.local/ios-ci/evidence/diagnostic-scope.json', JSON.stringify({
+            status: 'NEVERMERGE-diagnostic-scope-only', repository: env.GITHUB_REPOSITORY, event: env.GITHUB_EVENT_NAME,
+            ref: env.GITHUB_REF, job: env.GITHUB_JOB, source_head: env.GITHUB_SHA, checkout_expected: env.GITHUB_SHA,
+            run_id: env.GITHUB_RUN_ID, run_attempt: env.GITHUB_RUN_ATTEMPT,
+            selected_case_IDs: [
+              'ReadingRecoveryUITests/testConfirmedRecoveryPreservesCurrentPositionAndBookmarkAfterRelaunch()',
+              'ReadingRecoveryUITests/testExportFilePickerCancelKeepsHealthyPositionAndBookmarkAfterRelaunch()'
+            ], selected_count: 2, original_profile: 'Native3+Recovery5 isolated canonical UUID suite; 2-case subset only',
+            ReaderCode6_MF: '968f7df69f2658942c8c389a9884f25ee9ca0036ef42e529ed9a78aec8fb13cb',
+            normal_Unit_Release_Native8_Full26_acceptance: false,
+            compact_scope: 'Unchanged first failed case only; full ui.xcresult retains both selected cases'
+          }, null, 2) + '\n', { flag: 'wx', mode: 0o600 });
+          NODE
       - name: Prepare one fresh owned Native Simulator
         id: native_simulator
         timeout-minutes: 9
@@ -75,34 +101,9 @@ jobs:
             npm run ios:prepare:fixtures
             npm run ios:test:content:representative
             npm run ios:test:fixtures
-            npm run ios:test:core:representative
-            bash ios/tests/check-core.sh --fixtures
           } 2>&1 | tee .local/ios-ci/evidence/content-and-core.log
-      - name: Generate and validate every published article in an isolated package
-        env:
-          TMPDIR: /private/tmp
-        run: |
-          set -euo pipefail
-          full_package_root="$(mktemp -d /private/tmp/ailibrary-ios-all-published.XXXXXX)"
-          trap 'rm -rf "$full_package_root"' EXIT
-          node scripts/build-ios-native-content.mjs --all-published --output "$full_package_root/Content" \
-            2>&1 | tee .local/ios-ci/evidence/all-published-generation.log
-          expected_articles="$(node --input-type=module <<'NODE'
-          import { execFileSync } from 'node:child_process';
-          import { readFileSync } from 'node:fs';
-          import { parseFrontMatter, parseScalar, toLines } from './scripts/lib/md-utils.mjs';
-          const files = execFileSync('git', ['ls-files', '-z', 'docs'], {encoding:'utf8'})
-            .split('\0').filter(file => file.endsWith('.md') && !file.endsWith('/README.md'));
-          const count = files.filter(file => parseFrontMatter(toLines(readFileSync(file, 'utf8')))?.fields
-            .some(field => field.key === 'status' && parseScalar(field.value) === 'published')).length;
-          if (!count) throw new Error('No tracked published articles');
-          console.log(count);
-          NODE
-          )"
-          bash ios/tests/check-package.sh "$full_package_root/Content" "$expected_articles" \
-            | tee .local/ios-ci/evidence/all-published-package.json
-      # This runs the XCTest unit target, including UIKit/math and audio regression.
-      - name: Run native XCTest on the iPhone Simulator
+      # Diagnostic setup builds the same app and UI target without running normal units.
+      - name: Build the two selected original UI cases for the Debug icon audit
         env:
           AILIBRARY_NATIVE_DESTINATION: ${{ steps.native_simulator.outputs.destination }}
         run: |
@@ -113,10 +114,11 @@ jobs:
             -destination "$AILIBRARY_NATIVE_DESTINATION" \
             -destination-timeout 120 \
             -derivedDataPath .local/ios-ci/DebugDerivedData \
-            -resultBundlePath .local/ios-ci/evidence/unit.xcresult \
             -parallel-testing-enabled NO -jobs 2 \
-            -only-testing:AILibraryTests CODE_SIGNING_ALLOWED=NO test \
-            2>&1 | tee .local/ios-ci/evidence/xctest.log
+            -only-testing:AILibraryUITests/ReadingRecoveryUITests/testConfirmedRecoveryPreservesCurrentPositionAndBookmarkAfterRelaunch \
+            -only-testing:AILibraryUITests/ReadingRecoveryUITests/testExportFilePickerCancelKeepsHealthyPositionAndBookmarkAfterRelaunch \
+            CODE_SIGNING_ALLOWED=NO build-for-testing \
+            2>&1 | tee .local/ios-ci/evidence/ui-build.log
       - name: Audit AppIcon metadata in the actual Debug app
         run: |
           set -euo pipefail
@@ -128,10 +130,9 @@ jobs:
             .local/ios-ci/DebugDerivedData/Build/Products/Debug-iphonesimulator/AILibrary.app \
             --required-scales 3 \
             2>&1 | tee .local/ios-ci/evidence/debug-app-icon.json
-      # The existing two UI tests cover nonempty bodies, TOC, bookmarks and relaunch.
-      # Offline launch, copying, internal links and legacy migration need more UI tests.
-      # Recovery tests cover cancel/confirm, isolated relaunch and restore-picker cancellation.
-      - name: Run native UI smoke tests on the iPhone Simulator
+      # Current Dae public UI methods and their full assertions remain unchanged.
+      # This two-case diagnostic never establishes normal Native8 acceptance.
+      - name: Run only the two original recovery-position diagnostic cases
         id: native_ui
         env:
           AILIBRARY_NATIVE_DESTINATION: ${{ steps.native_simulator.outputs.destination }}
@@ -145,34 +146,16 @@ jobs:
             -derivedDataPath .local/ios-ci/DebugDerivedData \
             -resultBundlePath .local/ios-ci/evidence/ui.xcresult \
             -parallel-testing-enabled NO -jobs 2 \
-            -only-testing:AILibraryUITests/NativeReaderUITests \
-            -only-testing:AILibraryUITests/ReadingRecoveryUITests CODE_SIGNING_ALLOWED=NO test \
+            -only-testing:AILibraryUITests/ReadingRecoveryUITests/testConfirmedRecoveryPreservesCurrentPositionAndBookmarkAfterRelaunch \
+            -only-testing:AILibraryUITests/ReadingRecoveryUITests/testExportFilePickerCancelKeepsHealthyPositionAndBookmarkAfterRelaunch \
+            CODE_SIGNING_ALLOWED=NO test \
             2>&1 | tee .local/ios-ci/evidence/xctest-ui.log
-      - name: Build and verify the Release package
-        run: |
-          set -euo pipefail
-          xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary \
-            -configuration Release -destination 'generic/platform=iOS Simulator' \
-            -derivedDataPath .local/ios-ci/ReleaseDerivedData -jobs 2 \
-            CODE_SIGNING_ALLOWED=NO build \
-            2>&1 | tee .local/ios-ci/evidence/release-build.log
-          node ios/tests/check-release-package.mjs \
-            .local/ios-ci/ReleaseDerivedData/Build/Products/Release-iphonesimulator/AILibrary.app \
-            | tee .local/ios-ci/evidence/release-package.json
-          if ! node ios/tests/capture-built-app-icon.mjs .local/ios-ci/ReleaseDerivedData/Build/Products/Release-iphonesimulator/AILibrary.app \
-            --output .local/ios-ci/evidence/native-release-icon-inputs; then
-            printf '%s\n' 'AppIcon diagnostic capture failed; continuing required icon audit.' >&2
-          fi
-          node ios/tests/check-built-app-icon.mjs \
-            .local/ios-ci/ReleaseDerivedData/Build/Products/Release-iphonesimulator/AILibrary.app \
-            --required-scales 2,3 \
-            2>&1 | tee .local/ios-ci/evidence/release-app-icon.json
-      - name: Retain test results and compact build evidence
+      - name: Retain both diagnostic case results and compact build evidence
         id: native_full_evidence
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: ios-native-evidence-${{ github.run_id }}
+          name: ios-native-reading-position-diagnostic-evidence-${{ github.run_id }}-${{ github.run_attempt }}
           path: .local/ios-ci/evidence
           include-hidden-files: true
           if-no-files-found: ignore
@@ -194,7 +177,7 @@ jobs:
         if: always() && !cancelled() && steps.native_ui.outcome == 'failure' && steps.native_failure_compact.outputs.closed == 'true'
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: ios-native-failure-compact-${{ github.run_id }}-${{ github.run_attempt }}
+          name: ios-native-reading-position-diagnostic-failure-${{ github.run_id }}-${{ github.run_attempt }}
           path: .local/ios-ci/native-failure-compact/ready
           include-hidden-files: true
           if-no-files-found: ignore
@@ -210,7 +193,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: ios-native-simulator-${{ github.run_id }}-${{ github.run_attempt }}
+          name: ios-native-reading-position-diagnostic-simulator-${{ github.run_id }}-${{ github.run_attempt }}
           path: .local/ios-ci/evidence/native-simulator
           include-hidden-files: true
           if-no-files-found: ignore

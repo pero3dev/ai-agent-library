@@ -85,6 +85,7 @@ final class LibraryStore: ObservableObject {
     private let snapshotLoader: (() throws -> ContentSnapshot)?
     private var loadGeneration: UUID?
     private var importing = false
+    private var storagePreviewGeneration: UUID?
 
     var snapshot: ContentSnapshot? { loadedContent?.snapshot }
     var searchIndex: LibrarySearchIndex? { loadedContent?.searchIndex }
@@ -195,6 +196,28 @@ final class LibraryStore: ObservableObject {
             guard loadGeneration == generation, !Task.isCancelled else { return }
             loadError = error.localizedDescription
         }
+    }
+
+    /// Observation does not acquire a new snapshot or change loading/reading state.
+    /// Keep the displayed snapshot alive; the ledger remains advisory only.
+    func previewStorageUsage() async -> ContentStoragePreview? {
+        guard !isTestLibrary, !isLoading, !Task.isCancelled else { return nil }
+        let request = UUID()
+        storagePreviewGeneration = request
+        defer { if storagePreviewGeneration == request { storagePreviewGeneration = nil } }
+        let repository = self.repository
+        let displayedSnapshot = snapshot
+        let work = Task.detached(priority: .utility) {
+            try withExtendedLifetime(displayedSnapshot) { try repository.previewStorageUsage() }
+        }
+        do {
+            let value = try await withTaskCancellationHandler {
+                try await work.value
+            } onCancel: { work.cancel() }
+            guard storagePreviewGeneration == request, !Task.isCancelled, !isLoading,
+                  snapshot?.root == displayedSnapshot?.root else { return nil }
+            return value
+        } catch { return nil }
     }
 
     /// Read-only preview. It validates the installed and bundled packages without

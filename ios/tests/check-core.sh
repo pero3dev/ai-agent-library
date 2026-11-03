@@ -14,6 +14,7 @@ xcrun swiftc -module-cache-path "$test_root/module-cache" \
   ios/AILibrary/Sources/Models.swift \
   ios/AILibrary/Sources/NativeDocument.swift \
   ios/AILibrary/Sources/ContentValidator.swift \
+  ios/AILibrary/Sources/ContentStoragePreview.swift \
   ios/AILibrary/Sources/ContentRepository.swift \
   ios/AILibrary/Sources/ReadingStore.swift \
   ios/tests/CoreSmoke.swift -o "$test_root/core-smoke"

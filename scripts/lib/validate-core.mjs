@@ -56,10 +56,12 @@ const TODO_VARIANT_RE = /TODO\s*[(（]\s*要確認\s*[)）]/
  * 1 ドキュメントを検証する。
  * @param {string} repoRel リポジトリルートからの相対パス(docs/NN-section/name.md、区切りは /)
  * @param {string} text ファイル内容
- * @returns {{line: number, check: string, message: string}[]}
+ * @returns {import('./document-types.d.mts').ValidationIssue[]}
  */
 export function validateDoc(repoRel, text) {
+  /** @type {import('./document-types.d.mts').ValidationIssue[]} */
   const issues = []
+  /** @param {number} line @param {import('./document-types.d.mts').ValidationCheck} check @param {string} message */
   const push = (line, check, message) => issues.push({ line, check, message })
   const lines = toLines(text)
   const isReadme = /^docs\/\d{2}-[a-z0-9]+(?:-[a-z0-9]+)*\/README\.md$/.test(repoRel)
@@ -74,9 +76,13 @@ export function validateDoc(repoRel, text) {
   const fmEndLine = fm && !fm.unclosed ? fm.endLine : 0
 
   // --- 本文の見出し・TODO 行を収集(フェンス外・front matter 外のみ) ---
-  const h1s = [] // { line, text }
-  const h2s = [] // { line, text }
-  const h3s = [] // { line, text }
+  /** @type {{line: number, text: string}[]} */
+  const h1s = []
+  /** @type {{line: number, text: string}[]} */
+  const h2s = []
+  /** @type {{line: number, text: string}[]} */
+  const h3s = []
+  /** @type {import('./document-types.d.mts').SourceIssue[]} */
   const todoIssues = []
   // 記入ガイドなどの HTML コメントを内容として数えない。改行数は維持する。
   const visibleLines = toLines(lines.join('\n').replace(/<!--[\s\S]*?(?:-->|$)/g, match => match.replace(/[^\n]/g, ' ')))
@@ -122,6 +128,7 @@ export function validateDoc(repoRel, text) {
     push(1, 'front-matter', 'front matter が閉じられていません(--- が見つかりません)')
   } else {
     for (const error of fm.errors) push(error.line, 'front-matter', error.message)
+    /** @type {Map<string, import('./document-types.d.mts').FrontMatterField>} */
     const byKey = new Map()
     for (const f of fm.fields) {
       if (byKey.has(f.key)) push(f.line, 'front-matter', `フィールド ${f.key} が重複しています`)
@@ -141,7 +148,8 @@ export function validateDoc(repoRel, text) {
       if (!byKey.has(key)) push(fm.endLine, 'front-matter', `必須フィールド ${key} がありません`)
     }
 
-    const get = key => (byKey.has(key) ? { ...byKey.get(key), plain: unquote(byKey.get(key).value) } : null)
+    /** @param {string} key */
+    const get = key => { const field = byKey.get(key); return field ? { ...field, plain: unquote(field.value) } : null }
 
     const titleF = get('title')
     if (titleF) {
@@ -176,7 +184,7 @@ export function validateDoc(repoRel, text) {
     if (luF) {
       const m = luF.plain.match(/^(\d{4})-(\d{2})-(\d{2})$/)
       const d = m ? new Date(`${luF.plain}T00:00:00Z`) : null
-      if (!m || Number.isNaN(d.getTime()) || d.toISOString().slice(0, 10) !== luF.plain) {
+      if (!m || !d || Number.isNaN(d.getTime()) || d.toISOString().slice(0, 10) !== luF.plain) {
         push(luF.line, 'front-matter', `last_updated "${luF.plain}" は YYYY-MM-DD の実在日付ではありません`)
       } else if (d.getTime() > Date.now() + 24 * 60 * 60 * 1000) {
         // タイムゾーン差(JST と CI の UTC)を考慮して 1 日だけ猶予を持たせる

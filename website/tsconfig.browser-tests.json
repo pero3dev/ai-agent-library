@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": ["node"],
+    "checkJs": true,
+    "plugins": []
+  },
+  "include": ["tests/browser/**/*.ts", "tests/browser/**/*.mjs", "playwright.config.mjs"],
+  "exclude": ["node_modules", "out", "content", "vendor"]
+}

@@ -3,10 +3,14 @@ import { lstatSync, readFileSync } from 'node:fs'
 import path from 'node:path'
 
 const profiles = /\b[A-Z]:[\\/]+Users[\\/]+[^\\/\s<>:"'`|()*\[\]{}]+|(?<![a-zA-Z0-9:./\\])\/(?:Users|home)\/[^/\s<>:"'`|()*\[\]{}]+/gi
+/** @param {import('node:crypto').BinaryLike} bytes */
 export const sha256 = bytes => createHash('sha256').update(bytes).digest('hex')
+/** @param {string} text */
 export const profileOccurrences = text => [...text.matchAll(profiles)].length
+/** @param {string} text */
 export const redactProfilePaths = text => text.replace(profiles, '<user-home>')
 
+/** @param {string} root @param {string[]} files @param {import('./document-types.d.mts').PublicRecordsContract} contract */
 export function checkPublicRecords(root, files, contract) {
   const problems = []
   const frozen = contract.public_records?.legacy ?? {}

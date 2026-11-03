@@ -1,6 +1,8 @@
 {
   "private": true,
-  "engines": { "node": "^22.22.2 || ^24.15.0 || >=26.0.0" },
+  "engines": {
+    "node": "^22.22.2 || ^24.15.0 || >=26.0.0"
+  },
   "scripts": {
     "audio:plan": "node scripts/audio-run.mjs --plan",
     "audio:doctor": "node scripts/audio-run.mjs --doctor",
@@ -26,14 +28,19 @@
     "check:docs": "npm run validate && npm run links",
     "harness:run": "node scripts/harness-run.mjs",
     "eval:harness": "node scripts/eval-harness.mjs",
-    "test:harness:windows": "node --test tests/unit/hooks.test.mjs tests/unit/freshness-run.test.mjs tests/unit/harness-run.test.mjs tests/unit/markdown-validation.test.mjs tests/unit/harness-tooling.test.mjs tests/unit/audio-production.test.mjs tests/unit/audio-publication.test.mjs tests/unit/audio-runtime.test.mjs tests/unit/audio-synthesis.test.mjs tests/unit/audio-authorship.test.mjs tests/unit/audio-tool-installation.test.mjs"
+    "test:harness:windows": "node --test tests/unit/hooks.test.mjs tests/unit/freshness-run.test.mjs tests/unit/harness-run.test.mjs tests/unit/markdown-validation.test.mjs tests/unit/harness-tooling.test.mjs tests/unit/audio-production.test.mjs tests/unit/audio-publication.test.mjs tests/unit/audio-runtime.test.mjs tests/unit/audio-synthesis.test.mjs tests/unit/audio-authorship.test.mjs tests/unit/audio-tool-installation.test.mjs",
+    "typecheck": "tsc -p scripts/tsconfig.json"
   },
   "devDependencies": {
+    "@types/js-yaml": "4.0.9",
+    "@types/markdown-it": "14.2.0",
+    "@types/node": "22.20.5",
     "github-slugger": "2.0.0",
     "js-yaml": "5.4.1",
     "markdown-it": "14.3.1",
     "markdownlint-cli": "^0.49.1",
-    "smol-toml": "1.7.2"
+    "smol-toml": "1.7.2",
+    "typescript": "6.0.3"
   },
   "overrides": {
     "markdownlint-cli": {

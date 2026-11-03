@@ -11,9 +11,13 @@ import { fileURLToPath } from 'node:url'
 import { collectDocs, existsCaseSensitive, REPO_ROOT, splitLocalDestination, toRepoRel } from './lib/md-utils.mjs'
 import { parseMarkdownLinks } from './lib/markdown-links.mjs'
 
+/** @param {string} [repoRoot] @param {import('./lib/document-types.d.mts').LinkOptions} [options] */
 export function collectLinkTargets(repoRoot = REPO_ROOT, { additionalFiles = [] } = {}) {
+  /** @type {Map<string, import('./lib/document-types.d.mts').LinkTarget>} */
   const targets = new Map()
+  /** @param {string} abs */
   const add = abs => targets.set(abs, { abs, repoRel: toRepoRel(abs, repoRoot) })
+  /** @param {string} dir */
   const walk = dir => {
     if (!existsSync(dir)) return
     for (const entry of readdirSync(dir, { withFileTypes: true })) {
@@ -45,19 +49,24 @@ export function collectLinkTargets(repoRoot = REPO_ROOT, { additionalFiles = [] 
   return [...targets.values()].sort((a, b) => a.repoRel.localeCompare(b.repoRel))
 }
 
+/** @param {string} [repoRoot] @param {import('./lib/document-types.d.mts').LinkOptions} [options] @returns {import('./lib/document-types.d.mts').LinkResult} */
 export function checkLinks(repoRoot = REPO_ROOT, options = {}) {
   const problems = []
   let checkedLinks = 0
   const targets = collectLinkTargets(repoRoot, options)
+  /** @type {Map<string, import('./lib/document-types.d.mts').ParsedMarkdown>} */
   const parsed = new Map()
   const directoryCache = new Map() // 1 回の走査だけで共有し、編集後の再実行で古い一覧を使わない。
+  /** @param {string} abs */
   const load = abs => {
-    if (!parsed.has(abs)) parsed.set(abs, parseMarkdownLinks(readFileSync(abs, 'utf8')))
-    return parsed.get(abs)
+    let value = parsed.get(abs)
+    if (!value) { value = parseMarkdownLinks(readFileSync(abs, 'utf8')); parsed.set(abs, value) }
+    return value
   }
   for (const target of targets) {
     for (const link of load(target.abs).links) {
       const raw = link.target
+      /** @param {string} message */
       const report = message => problems.push(`${target.repoRel}:${link.line}: リンク "${raw}" — ${message}`)
       const destination = splitLocalDestination(raw)
       if (destination.external) continue
@@ -131,7 +140,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
       }
     }
   } catch (error) {
-    console.error(`check-links: ${error.message}`)
+    console.error(`check-links: ${error instanceof Error ? error.message : String(error)}`)
     process.exitCode = 1
   }
 }

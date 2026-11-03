@@ -7,11 +7,12 @@ import { execFileSync } from 'node:child_process'
 import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import ts from 'typescript'
+import { load as loadYaml } from 'js-yaml'
 
 interface Project { id: string; cwd: string; config: string }
 interface Exception { path: string; kind: 'historical' | 'vendor' | 'frozen'; sha256: string; boundary?: string; reason: string }
-interface Wrapper { path: string; target: string; kind: 'reexport' | 'side-effect' | 'cli'; sha256?: string }
-export interface Contract { schema_version: 1; typescript: string; projects: Project[]; exceptions: Exception[]; wrappers: Wrapper[] }
+interface Wrapper { path: string; target: string; kind: 'reexport' | 'default-reexport' | 'commonjs' | 'side-effect' | 'cli'; sha256?: string }
+export interface Contract { schema_version: 1; typescript: string; implementation_language: 'typescript'; projects: Project[]; exceptions: Exception[]; wrappers: Wrapper[] }
 interface Options { contract?: Contract; compilerForProject?: (cwd: string) => typeof ts }
 const sourcePattern = /\.(?:[cm]?[jt]s|[jt]sx)$/i
 const declarationPattern = /\.d\.(?:ts|mts|cts)$/i
@@ -23,7 +24,7 @@ const digest = (value: unknown): value is string => typeof value === 'string' &&
 
 export function readContract(root: string): Contract {
   const raw: unknown = JSON.parse(fs.readFileSync(path.join(root, 'harness/typecheck.json'), 'utf8'))
-  if (!object(raw) || raw.schema_version !== 1 || typeof raw.typescript !== 'string' || !Array.isArray(raw.projects) || !raw.projects.length || !Array.isArray(raw.exceptions) || !Array.isArray(raw.wrappers)) throw new Error('Invalid typecheck contract')
+  if (!object(raw) || raw.schema_version !== 1 || raw.implementation_language !== 'typescript' || typeof raw.typescript !== 'string' || !Array.isArray(raw.projects) || !raw.projects.length || !Array.isArray(raw.exceptions) || !Array.isArray(raw.wrappers)) throw new Error('Invalid typecheck contract')
   const projects = raw.projects.map((item: unknown): Project => {
     if (!object(item) || typeof item.id !== 'string' || !(item.cwd === '.' || relative(item.cwd)) || !relative(item.config)) throw new Error('Invalid typecheck project')
     return { id: item.id, cwd: item.cwd, config: item.config }
@@ -35,12 +36,12 @@ export function readContract(root: string): Contract {
     return { path: item.path, kind: item.kind, sha256: item.sha256, reason: item.reason, ...(typeof item.boundary === 'string' ? { boundary: item.boundary } : {}) }
   })
   const wrappers = raw.wrappers.map((item: unknown): Wrapper => {
-    if (!object(item) || !relative(item.path) || !relative(item.target) || !['reexport', 'side-effect', 'cli'].includes(String(item.kind)) || item.kind === 'cli' && !digest(item.sha256)) throw new Error('Invalid compatibility wrapper')
-    if (item.kind !== 'reexport' && item.kind !== 'side-effect' && item.kind !== 'cli') throw new Error('Unknown wrapper kind')
+    if (!object(item) || !relative(item.path) || !relative(item.target) || !['reexport', 'default-reexport', 'commonjs', 'side-effect', 'cli'].includes(String(item.kind)) || item.kind === 'cli' && !digest(item.sha256)) throw new Error('Invalid compatibility wrapper')
+    if (item.kind !== 'reexport' && item.kind !== 'default-reexport' && item.kind !== 'commonjs' && item.kind !== 'side-effect' && item.kind !== 'cli') throw new Error('Unknown wrapper kind')
     return { path: item.path, target: item.target, kind: item.kind, ...(typeof item.sha256 === 'string' ? { sha256: item.sha256 } : {}) }
   })
   for (const list of [projects.map(item => item.id), projects.map(item => item.config), exceptions.map(item => item.path), wrappers.map(item => item.path)]) if (new Set(list).size !== list.length) throw new Error('Duplicate typecheck contract entry')
-  return { schema_version: 1, typescript: raw.typescript, projects, exceptions, wrappers }
+  return { schema_version: 1, typescript: raw.typescript, implementation_language: 'typescript', projects, exceptions, wrappers }
 }
 
 export function inventorySources(root: string): string[] {
@@ -91,18 +92,64 @@ export function wrapperShape(text: string, wrapper: Wrapper, compiler: typeof ts
   const source = compiler.createSourceFile(wrapper.path, text, compiler.ScriptTarget.Latest, true, compiler.ScriptKind.JS)
   const target = './' + path.posix.basename(wrapper.target)
   if (wrapper.kind === 'reexport') return source.statements.length === 1 && compiler.isExportDeclaration(source.statements[0]) && source.statements[0].exportClause === undefined && source.statements[0].isTypeOnly === false && source.statements[0].moduleSpecifier !== undefined && compiler.isStringLiteral(source.statements[0].moduleSpecifier) && source.statements[0].moduleSpecifier.text === target
+  if (wrapper.kind === 'default-reexport') {
+    const statement = source.statements[0]
+    if (source.statements.length !== 1 || !statement || !compiler.isExportDeclaration(statement) || statement.isTypeOnly || !statement.moduleSpecifier || !compiler.isStringLiteral(statement.moduleSpecifier) || statement.moduleSpecifier.text !== target || !statement.exportClause || !compiler.isNamedExports(statement.exportClause) || statement.exportClause.elements.length !== 1) return false
+    const specifier = statement.exportClause.elements[0]
+    return !specifier.isTypeOnly && specifier.name.text === 'default' && (!specifier.propertyName || specifier.propertyName.text === 'default')
+  }
+  if (wrapper.kind === 'commonjs') {
+    if (!wrapper.path.endsWith('.cjs') || !wrapper.target.endsWith('.cts') || source.statements.length !== 1 || !compiler.isExpressionStatement(source.statements[0])) return false
+    const expression = source.statements[0].expression
+    return compiler.isBinaryExpression(expression) && expression.operatorToken.kind === compiler.SyntaxKind.EqualsToken && compiler.isPropertyAccessExpression(expression.left) && compiler.isIdentifier(expression.left.expression) && expression.left.expression.text === 'module' && expression.left.name.text === 'exports' && compiler.isCallExpression(expression.right) && compiler.isIdentifier(expression.right.expression) && expression.right.expression.text === 'require' && expression.right.arguments.length === 1 && compiler.isStringLiteral(expression.right.arguments[0]) && expression.right.arguments[0].text === target
+  }
   if (wrapper.kind === 'side-effect') return source.statements.length === 1 && compiler.isImportDeclaration(source.statements[0]) && source.statements[0].importClause === undefined && compiler.isStringLiteral(source.statements[0].moduleSpecifier) && source.statements[0].moduleSpecifier.text === target
   let guarded = 0, importedTarget = false
+  const guards = new Set([
+    'process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)',
+    'process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url)',
+    'process.argv[1]&&pathToFileURL(path.resolve(process.argv[1])).href===import.meta.url',
+    'process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href'
+  ])
   for (const statement of source.statements) {
     if (compiler.isImportDeclaration(statement) || compiler.isExportDeclaration(statement)) {
       const specifier = statement.moduleSpecifier
       if (!specifier || !compiler.isStringLiteral(specifier) || ![target, 'node:path', 'node:url'].includes(specifier.text)) return false
       if (specifier.text === target) importedTarget = true
     } else if (compiler.isIfStatement(statement)) {
-      if (++guarded !== 1 || statement.elseStatement || statement.expression.getText(source).replace(/\s/g, '') !== 'process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)') return false
+      if (++guarded !== 1 || statement.elseStatement || !guards.has(statement.expression.getText(source).replace(/\s/g, ''))) return false
     } else return false
   }
   return guarded === 1 && importedTarget
+}
+
+/** Workflow implementations belong in the same checked TS inventory as other code. */
+function checkWorkflowScripts(root: string, problems: string[]) {
+  const directory = path.join(root, '.github/workflows')
+  if (!fs.existsSync(directory)) return { files: 0, inline_node_implementations: 0 }
+  if (fs.lstatSync(directory).isSymbolicLink() || !fs.statSync(directory).isDirectory()) { problems.push('Workflow directory must be a regular directory'); return { files: 0, inline_node_implementations: 0 } }
+  let files = 0, inline = 0
+  for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+    if (!/\.ya?ml$/.test(entry.name)) continue
+    files++
+    if (!entry.isFile() || entry.isSymbolicLink()) { problems.push(`Workflow must be a regular file: ${entry.name}`); continue }
+    let value: unknown
+    try { value = loadYaml(fs.readFileSync(path.join(directory, entry.name), 'utf8')) } catch { problems.push(`Cannot parse workflow: ${entry.name}`); continue }
+    if (!object(value) || !object(value.jobs)) { problems.push(`Workflow jobs are missing: ${entry.name}`); continue }
+    for (const [jobName, job] of Object.entries(value.jobs)) {
+      if (!object(job) || !Array.isArray(job.steps)) continue
+      for (const [index, step] of job.steps.entries()) {
+        if (!object(step)) continue
+        const source = typeof step.run === 'string' ? step.run : ''
+        const commandLines = source.replace(/\\\r?\n/g, ' ').split(/\r?\n/).filter(line => !line.trimStart().startsWith('#'))
+        const nodeInline = commandLines.some(line => /\bnode\b[^\n]*(?:<<|--(?:eval|print)\b|(?:^|\s)-[ep])/.test(line))
+        const generatedDriver = commandLines.some(line => /\bcat\b[^\n]*(?:\.[cm]?[jt]s\b|\$\{?DRIVER_PATH\}?)[^\n]*<</.test(line))
+        const githubScript = typeof step.uses === 'string' && /^actions\/github-script@/.test(step.uses) && object(step.with) && typeof step.with.script === 'string'
+        if (nodeInline || generatedDriver || githubScript) { inline++; problems.push(`Inline Node implementation must move to checked TypeScript: .github/workflows/${entry.name}:${jobName}:${index + 1}`) }
+      }
+    }
+  }
+  return { files, inline_node_implementations: inline }
 }
 
 export function checkTypeCoverage(root: string, options: Options = {}) {
@@ -141,16 +188,23 @@ export function checkTypeCoverage(root: string, options: Options = {}) {
     if (exception.boundary && !declarations.has(exception.boundary)) problems.push(`Frozen declaration boundary is not in a strict program: ${file}`)
   }
   const counts = { implementations: 0, declarations: 0, wrappers: 0, historical: 0, vendor: 0, frozen: 0, unclassified: 0 }
+  const implementation_languages = { typescript: 0, javascript: 0 }
   for (const file of inventory) {
     const bytes = fs.readFileSync(path.join(root, file)), text = bytes.toString('utf8'), exception = exceptions.get(file), wrapper = wrappers.get(file)
     if (!exception && suppressed(ts, text, file)) problems.push(`Type suppression is forbidden: ${file}`)
     if (exception) { counts[exception.kind]++; if (hash(bytes) !== exception.sha256) problems.push(`Exception hash changed: ${file}`); continue }
     if (wrapper) { counts.wrappers++; if (!wrapperShape(text, wrapper)) problems.push(`Compatibility wrapper changed or exceeds its fixed AST: ${file}`); continue }
     if (declarations.has(file)) { counts.declarations++; continue }
-    if (implementationProjects.has(file)) { counts.implementations++; continue }
+    if (implementationProjects.has(file)) {
+      counts.implementations++
+      if (javascriptPattern.test(file)) { implementation_languages.javascript++; problems.push(`JavaScript implementation must be migrated to TypeScript: ${file}`) }
+      else implementation_languages.typescript++
+      continue
+    }
     counts.unclassified++; problems.push(`Unclassified source: ${file}`)
   }
-  return { schema_version: 1, verified: problems.length === 0, evidence: 'strict-program-source-coverage', semantic_diagnostics: 'separate-typecheck-commands', wrapper_verification: 'fixed-ast-and-cli-hash', inventory: inventory.length, counts, programs, problems }
+  const workflow_scripts = checkWorkflowScripts(root, problems)
+  return { schema_version: 1, verified: problems.length === 0, evidence: 'strict-program-source-coverage', semantic_diagnostics: 'separate-typecheck-commands', wrapper_verification: 'fixed-ast-and-cli-hash', inventory: inventory.length, counts, implementation_languages, workflow_scripts, programs, problems }
 }
 
 export function main(argv = process.argv.slice(2)) {

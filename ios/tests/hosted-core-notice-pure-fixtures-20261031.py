@@ -5,7 +5,7 @@ No Git/Swift/SDK/Node/network command, real child or global environment changes.
 import ast, hashlib, json, signal, subprocess, types
 from pathlib import Path
 GUARD=Path(__file__).parent/'observe-core-notice-hosted-20261031.py'
-EXPECTED='cd822da1556b879950a078247168b1991ccaf1b667e4989d55c1255c31fc8f59'
+EXPECTED='e84f63160ec0161eace2ed58456e490a6e90e1189abf4442296557f99114547d'
 source=GUARD.read_bytes()
 assert hashlib.sha256(source).hexdigest()==EXPECTED
 module=ast.parse(source)

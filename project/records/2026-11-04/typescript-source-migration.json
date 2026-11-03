@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "task": "typescript-source-migration",
+  "started_on": "2026-11-04",
+  "base_sha": "518f30523c66a18c8a8ecc60fc6e498b56909109",
+  "state": "implementation-and-local-verification-complete",
+  "coverage": {
+    "schema_version": 1,
+    "verified": true,
+    "evidence": "strict-program-source-coverage",
+    "semantic_diagnostics": "separate-typecheck-commands",
+    "wrapper_verification": "fixed-ast-and-cli-hash",
+    "inventory": 521,
+    "counts": {
+      "implementations": 302,
+      "declarations": 18,
+      "wrappers": 190,
+      "historical": 6,
+      "vendor": 1,
+      "frozen": 4,
+      "unclassified": 0
+    },
+    "implementation_languages": {
+      "typescript": 302,
+      "javascript": 0
+    },
+    "workflow_scripts": {
+      "files": 17,
+      "inline_node_implementations": 0
+    },
+    "programs": [
+      {
+        "id": "node",
+        "compiler": "6.0.3",
+        "implementations": 66,
+        "declarations": 6
+      },
+      {
+        "id": "node-browser",
+        "compiler": "6.0.3",
+        "implementations": 10,
+        "declarations": 2
+      },
+      {
+        "id": "unit-tests",
+        "compiler": "6.0.3",
+        "implementations": 155,
+        "declarations": 13
+      },
+      {
+        "id": "ios-node",
+        "compiler": "6.0.3",
+        "implementations": 30,
+        "declarations": 10
+      },
+      {
+        "id": "ios-reader",
+        "compiler": "6.0.3",
+        "implementations": 1,
+        "declarations": 1
+      },
+      {
+        "id": "ci-node",
+        "compiler": "6.0.3",
+        "implementations": 51,
+        "declarations": 2
+      },
+      {
+        "id": "website-ui",
+        "compiler": "6.0.3",
+        "implementations": 58,
+        "declarations": 0
+      },
+      {
+        "id": "website-node",
+        "compiler": "6.0.3",
+        "implementations": 34,
+        "declarations": 0
+      },
+      {
+        "id": "website-browser-tests",
+        "compiler": "6.0.3",
+        "implementations": 15,
+        "declarations": 0
+      },
+      {
+        "id": "website-unit-tests",
+        "compiler": "6.0.3",
+        "implementations": 39,
+        "declarations": 0
+      },
+      {
+        "id": "website-contracts",
+        "compiler": "6.0.3",
+        "implementations": 0,
+        "declarations": 1
+      }
+    ],
+    "problems": []
+  },
+  "verification": {
+    "dependencies": "Three npm ci --ignore-scripts installations succeeded; lockfiles unchanged.",
+    "root_check": "exit 0; six strict programs; 1574 tests: 1474 passed, 0 failed, 100 existing skipped; one immutable POSIX-only test file separately not-run on Windows",
+    "website_unit": "99 passed; 0 failed; 0 skipped",
+    "website_build": "230/230 routes; 12 initial scripts; 962476 raw bytes; 307969 gzip bytes",
+    "website_typecheck": "All five strict/noEmit programs passed",
+    "independent_review": "All component, embedded-source and integration reviews approved; unresolved findings 0",
+    "github": "Exact-head CI, merge, main CI and Pages/HTTP proof are recorded in the corresponding pull request final evidence comment after this record is committed."
+  },
+  "limitations": [
+    "Windows does not prove macOS/Xcode/Simulator or physical-device execution.",
+    "One immutable POSIX-only test file is separately not-run by the Windows collector; Linux/macOS run the original source.",
+    "Notice pure fixtures pass 26/26 for old and new sources in an isolated SIGKILL=9 POSIX model; native Windows lacks SIGKILL and both fail identically.",
+    "The baseline PR 329 publication probe verifies the HTTP child only; final task publication is bound to the corresponding PR final evidence.",
+    "Browser smoke: 34/35 passed initially; the same performance threshold passed on isolated recheck."
+  ],
+  "immutable_policy": "Four SHA-fixed files, six historical evidence files, and one vendor file are retained.",
+  "integrated_main": "4a70ea5df998d03349bcecb4bf57b2a9a32ac367"
+}

@@ -1,19 +1,15 @@
 (() => {
   'use strict';
   const headings = [...document.querySelectorAll('main h1[id],main h2[id],main h3[id],main h4[id]')];
-  /** @param {ReaderBridgeMessage} message */
-  const bridge = message => {
+  const bridge = (message: ReaderBridgeMessage) => {
     const handler = window.webkit?.messageHandlers?.reader;
     if (!handler || typeof handler.postMessage !== 'function') return false;
     handler.postMessage(message);
     return true;
   };
-  /** @param {unknown} value @param {number} min @param {number} max @param {number} fallback */
-  const bounded = (value, min, max, fallback) => typeof value === 'number' && Number.isFinite(value) ? Math.max(min, Math.min(max, value)) : fallback;
-  /** @param {number | undefined} value */
-  const setFontScale = value => document.documentElement.style.setProperty('--font-scale', String(bounded(value, .8, 4, 1)));
-  /** @param {unknown} id */
-  const goToHeading = id => {
+  const bounded = (value: unknown, min: number, max: number, fallback: number) => typeof value === 'number' && Number.isFinite(value) ? Math.max(min, Math.min(max, value)) : fallback;
+  const setFontScale = (value: number | undefined) => document.documentElement.style.setProperty('--font-scale', String(bounded(value, .8, 4, 1)));
+  const goToHeading = (id: unknown) => {
     const target = typeof id === 'string' ? document.getElementById(id) : null;
     if (!target) return false;
     target.scrollIntoView();
@@ -23,8 +19,7 @@
   window.reader = Object.freeze({
     setFontScale,
     goToHeading,
-    /** @param {ReaderRestoreState} [value] */
-    restore(value = {}) {
+    restore(value: ReaderRestoreState = {}) {
       restoring = true;
       setFontScale(value.fontScale);
       requestAnimationFrame(() => requestAnimationFrame(() => {
@@ -35,8 +30,7 @@
     }
   });
   let frame = 0;
-  /** @returns {ReaderBridgeMessage} */
-  const position = () => {
+  const position = (): ReaderBridgeMessage => {
     const current = headings.filter(element => element.getBoundingClientRect().top <= 100).at(-1);
     return { type: 'position', heading: current?.id || '', fraction: bounded(scrollY / Math.max(1, document.documentElement.scrollHeight - innerHeight), 0, 1, 0) };
   };

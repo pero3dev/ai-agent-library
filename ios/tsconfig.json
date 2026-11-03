@@ -13,6 +13,6 @@
     "verbatimModuleSyntax": true,
     "erasableSyntaxOnly": true
   },
-  "include": ["tests/**/*.mjs", "tests/**/*.mts", "tests/**/*.ts", "tools/**/*.mjs"],
+  "include": ["tests/**/*.mjs", "tests/**/*.mts", "tests/**/*.ts", "tools/**/*.mjs", "tools/**/*.mts"],
   "exclude": ["node_modules", "DerivedData", "build", "AILibrary/Content", "AILibrary/TestContent", "tests/core-performance-runner.mjs", "tests/verify-core-performance.mjs", "tests/verify-core-performance-notice-20261031.mjs"]
 }

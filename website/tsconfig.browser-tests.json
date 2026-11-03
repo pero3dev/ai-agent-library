@@ -6,6 +6,6 @@
     "checkJs": true,
     "plugins": []
   },
-  "include": ["tests/browser/**/*.ts", "tests/browser/**/*.mjs", "playwright.config.mjs"],
+  "include": ["tests/browser/**/*.ts", "tests/browser/**/*.mjs", "playwright.config.mjs", "playwright.config.mts"],
   "exclude": ["node_modules", "out", "content", "vendor"]
 }

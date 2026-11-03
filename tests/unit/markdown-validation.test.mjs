@@ -11,6 +11,7 @@ import { validateDoc } from '../../scripts/lib/validate-core.mjs'
 
 const file = 'docs/01-concepts/agent-loop.md'
 const valid = readFileSync(path.join(REPO_ROOT, file), 'utf8').replace(/\r\n/g, '\n')
+/** @param {string} text */
 const messages = text => validateDoc(file, text).map(issue => issue.message).join('\n')
 
 test('Markdown validation parses explicit links without linkifying bare mail or URLs', () => {
@@ -26,6 +27,7 @@ test('existing article and BOM/CRLF remain valid; template comments do not alter
     .replace('title: "Agent ループ"', 'title: \'Agent ループ\'')
   assert.deepEqual(validateDoc(file, commented), [])
   const fm = parseFrontMatter(toLines('---\ntitle: "# value" # comment\n---'))
+  assert.ok(fm)
   assert.equal(fm.fields[0].value, '"# value"')
   assert.deepEqual(validateDoc(file, valid.replace(/^# Agent ループ$/m, ' # Agent ループ #')), [])
 })
@@ -49,6 +51,7 @@ test('front matter rejects malformed scalar quotes and array values without reje
 
 test('code fence only closes with matching marker, sufficient length, and whitespace tail', () => {
   const input = ['````markdown', '```python', '# fake title', '```', '~~~~', '```` trailing', '`````', '# real title']
+  /** @type {string[]} */
   const outside = []
   const result = forEachLine(input, (line, _number, inFence) => { if (!inFence) outside.push(line) })
   assert.deepEqual(outside, ['# real title'])
@@ -58,6 +61,7 @@ test('code fence only closes with matching marker, sufficient length, and whites
 })
 
 test('fences inside blockquotes and false fence info do not expose example headings', () => {
+  /** @type {string[]} */
   const outside = []
   forEachLine(['> ~~~markdown', '> # sample', '> ~~~ lang', '> ~~~', '# real'], (line, _number, inside) => {
     if (!inside) outside.push(line)
@@ -105,6 +109,7 @@ test('destination decoding preserves query/fragment and rejects encoded absolute
   assert.equal(splitLocalDestination('//example.test/path').external, true)
 })
 
+/** @param {import('node:test').TestContext} t */
 function fixture(t) {
   const base = path.resolve(os.tmpdir())
   const dir = mkdtempSync(path.join(base, 'ai-agent-library-links-'))
@@ -113,6 +118,7 @@ function fixture(t) {
     assert.ok(path.basename(dir).startsWith('ai-agent-library-links-'))
     rmSync(dir, { recursive: true, force: true })
   })
+  /** @param {string} file @param {string} content */
   const write = (file, content) => {
     const abs = path.join(dir, file)
     mkdirSync(path.dirname(abs), { recursive: true })

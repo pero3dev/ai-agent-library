@@ -11,6 +11,7 @@ import { BYTE_CONTRACT, createObservationVerifier, parseVerificationArgs, verify
 
 const candidate = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const revision = 'c'.repeat(40); // Expected caller revision may differ while frozen bytes stay fixed.
+/** @param {unknown} value */
 const json = value => `${JSON.stringify(value, null, 2)}\n`;
 const savedRoot = '/private/tmp/frozen-host-observation', savedCorpus = '/private/tmp/frozen-host-Content';
 const executable = `${savedRoot}/published-core-benchmark`;
@@ -30,9 +31,14 @@ const fixtureContract = Object.freeze({
   published_sources_sha256: sha256(json(fixtureSources))
 });
 
+/** @template T @param {(state:Awaited<ReturnType<typeof fixtureState>>)=>Promise<T>} action @returns {Promise<T>} */
 async function fixture(action) {
   const root = await mkdtemp(path.join(await realpath(os.tmpdir()), 'core-observation-acceptance-'));
-  try {
+  try { return await action(await fixtureState(root)); }
+  finally { await rm(root, { recursive: true, force: true }); }
+}
+/** @param {string} root */
+async function fixtureState(root) {
     const observation = path.join(root, 'observation'), corpus = path.join(root, 'Content'), trustedRunnerDirectory = path.join(root, 'trusted-runner');
     await mkdir(observation); await mkdir(trustedRunnerDirectory);
     await writeFile(path.join(trustedRunnerDirectory, 'core-performance-runner.mjs'), fixtureRunner);
@@ -46,7 +52,7 @@ async function fixture(action) {
     const binary = Buffer.from('synthetic binary bytes; must never be executed\n');
     const flags = ['-parse-as-library', '-swift-version', '5', '-O', '-whole-module-optimization', '-target', 'arm64-apple-macosx14.0',
       '-sdk', '/nonexistent/MacOSX15.2.sdk', '-module-cache-path', `${savedRoot}/module-cache`];
-    const identity = { schema_version: 1, source_revision: revision, ...structuredClone(fixtureContract), ...counts,
+    const identity = { schema_version: 1, source_revision: revision, ...mutableContract(), ...counts,
       corpus_revision: manifest.revision, article_order_sha256: idsDigest(articles.map(article => article.id)),
       compiler_version: 'Apple Swift version 6.0.3 (synthetic fixture)\nTarget: arm64-apple-macosx14.0', compiler_flags: flags,
       compiler_command: ['/nonexistent/usr/bin/swiftc', ...flags, ...CORE_SOURCES.map(source => `${savedRoot}/${path.basename(source)}`),
@@ -67,7 +73,11 @@ async function fixture(action) {
     await writeFile(path.join(observation, 'core-performance-queries.json'), fixtureQueries);
     await writeFile(path.join(observation, 'published-core-benchmark'), binary);
     await writeFile(path.join(observation, 'compiler.stderr.txt'), '');
-    const identityHash = sha256(json(identity)), order = [], records = [];
+    const identityHash = sha256(json(identity));
+    /** @type {{mode:string,kind:string,ordinal:number,process_id:number,invocation_id:string,command:string[],raw_file:string}[]} */
+    const order = [];
+    /** @type {import('../../ios/tests/core-performance-runner.mjs').PerformanceRecord[]} */
+    const records = [];
     const expected = [{ mode: 'correctness', kind: 'correctness', ordinal: 0 }];
     for (const mode of SCENARIOS) {
       expected.push({ mode, kind: 'discarded-warmup', ordinal: 0 });
@@ -93,9 +103,7 @@ async function fixture(action) {
         raw_samples: records.slice(2 + index * 6, 7 + index * 6), descriptive: summarize(records.slice(2 + index * 6, 7 + index * 6)) })),
       elapsed_runner_seconds: 3.25, limits: ['No timing threshold or SLO acceptance', 'No p95 estimate from five samples', 'Not iOS app memory/input latency/scrolling/image decoding',
         'RSS is not isolated allocation size; do not subtract high-water marks', 'IOS-15 remains open'] };
-    const state = { root, observation, corpus, trustedRunnerDirectory, identity, summary, records, options: { observation, corpus, revision },
-      verify: createObservationVerifier({ trustedByteContract: fixtureContract, trustedRunnerDirectory }) };
-    state.save = async () => {
+    const save = async () => {
       const newHash = sha256(json(identity)); summary.identity_sha256 = newHash;
       await writeFile(path.join(observation, 'identity.json'), json(identity));
       for (const [index, record] of records.entries()) {
@@ -105,48 +113,50 @@ async function fixture(action) {
       }
       await writeFile(path.join(observation, 'summary.json'), json(summary));
     };
+    const state = { root, observation, corpus, trustedRunnerDirectory, identity, summary, records, save, options: { observation, corpus, revision },
+      verify: createObservationVerifier({ trustedByteContract: fixtureContract, trustedRunnerDirectory }) };
     await state.save();
-    return await action(state);
-  } finally { await rm(root, { recursive: true, force: true }); }
+    return state;
 }
 
-test('complete synthetic saved result accepts 19 raw records and recomputed 5x3 statistics without executing artifacts', async () => {
+test('complete synthetic saved result accepts 19 raw records and recomputed 5x3 statistics without executing artifacts', { skip: process.platform === 'win32' ? "The immutable preregistered corpus reader requires POSIX absolute paths" : false }, async () => {
   await fixture(async state => {
     const receipt = await state.verify(state.options);
     assert.equal(receipt.status, 'accepted-host-observation'); assert.equal(receipt.performance_budget, 'unadopted');
     assert.equal(receipt.source_revision, revision); assert.equal(receipt.raw_invocations, 19); assert.equal(receipt.measured_samples, 15);
     assert.equal(state.identity.expected_article_count, 3); assert.equal(state.identity.query_count, 3);
-    assert.match(receipt.revision_provenance, /independently bind/);
+    assert.match(stringFixture(receipt.revision_provenance), /independently bind/);
     assert.equal(state.summary.scenarios[0].descriptive.wall_seconds.median, 0.003);
     assert.equal(state.summary.scenarios[0].discarded_warmup.wall_seconds, 0.009);
   });
 });
 
-test('only explicit trusted JavaScript policy accepts synthetic observations; builtin API and CLI reject them', async () => {
+test('only explicit trusted JavaScript policy accepts synthetic observations; builtin API and CLI reject them', { skip: process.platform === 'win32' ? "The immutable preregistered corpus reader requires POSIX absolute paths" : false }, async () => {
   await fixture(async state => {
     await assert.rejects(verifyProductionObservation(state.options), /Preregistered byte identity mismatch|Trusted runner artifact contract changed/);
-    await assert.rejects(verifyProductionObservation({ ...state.options, trustedByteContract: fixtureContract }), /Unexpected\/missing fields/);
+    await assert.rejects(Reflect.apply(verifyProductionObservation, undefined, [{ ...state.options, trustedByteContract: fixtureContract }]), /Unexpected\/missing fields/);
     const cliArgs = [path.join(candidate, 'ios/tests/verify-core-performance.mjs'), '--observation', state.observation,
       '--corpus', state.corpus, '--revision', revision];
     await assert.rejects(execute(process.execPath, cliArgs, { timeout: 5000, maxBuffer: 256 * 1024,
       env: { ...process.env, CORE_PERFORMANCE_CONTRACT: json(fixtureContract), NODE_ENV: 'test' } }), error => {
-      assert.equal(error.code, 1); assert.equal(error.stdout, '');
-      assert.match(error.stderr, /Core observation rejected:.*(?:Preregistered byte identity mismatch|Trusted runner artifact contract changed)/s);
+      const failure = objectFixture(error);
+      assert.equal(failure.code, 1); assert.equal(failure.stdout, '');
+      assert.match(stringFixture(failure.stderr), /Core observation rejected:.*(?:Preregistered byte identity mismatch|Trusted runner artifact contract changed)/s);
       return true;
     });
     await assert.rejects(execute(process.execPath, [...cliArgs, '--contract', 'candidate-policy.json'], { timeout: 5000, maxBuffer: 256 * 1024 }), /Expected --observation/);
-    state.identity.trusted_byte_contract = structuredClone(fixtureContract); await state.save();
+    Reflect.set(state.identity, 'trusted_byte_contract', mutableContract()); await state.save();
     await assert.rejects(state.verify(state.options), /Unexpected\/missing fields/);
   });
 });
 
-test('factory validates bounded exact policy shape and freezes a deep copy before candidate IO', async () => {
-  const policy = () => ({ trustedByteContract: structuredClone(fixtureContract), trustedRunnerDirectory: '/nonexistent/trusted-runner' });
-  for (const mutate of [
-    value => { value.extra = true; },
-    value => { value.trustedByteContract.extra = true; },
+test('factory validates bounded exact policy shape and freezes a deep copy before candidate IO', { skip: process.platform === 'win32' ? "The immutable preregistered corpus reader requires POSIX absolute paths" : false }, async () => {
+  const policy = () => ({ trustedByteContract: mutableContract(), trustedRunnerDirectory: '/nonexistent/trusted-runner' });
+  for (const mutate of /** @type {((value:ReturnType<typeof policy>)=>void)[]} */ ([
+    value => { Reflect.set(value, 'extra', true); },
+    value => { Reflect.set(value.trustedByteContract, 'extra', true); },
     value => { delete value.trustedByteContract.production_source_sha256[CORE_SOURCES[0]]; },
-    value => { value.trustedByteContract.production_source_sha256[CORE_SOURCES[0]] = ['a'.repeat(64)]; },
+    value => { Reflect.set(value.trustedByteContract.production_source_sha256, CORE_SOURCES[0], ['a'.repeat(64)]); },
     value => { value.trustedByteContract.runner_sha256 = 'not-a-digest'; },
     value => { value.trustedByteContract.query_count = 0; },
     value => { value.trustedByteContract.query_count = 4097; },
@@ -155,9 +165,9 @@ test('factory validates bounded exact policy shape and freezes a deep copy befor
     value => { value.trustedByteContract.expected_count_method = ''; },
     value => { value.trustedByteContract.expected_count_method = 'x'.repeat(8193); },
     value => { value.trustedRunnerDirectory = '../candidate-policy'; }
-  ]) { const value = policy(); mutate(value); assert.throws(() => createObservationVerifier(value)); }
+  ])) { const value = policy(); mutate(value); assert.throws(() => createObservationVerifier(value)); }
   await fixture(async state => {
-    const input = { trustedByteContract: structuredClone(fixtureContract), trustedRunnerDirectory: state.trustedRunnerDirectory };
+    const input = { trustedByteContract: mutableContract(), trustedRunnerDirectory: state.trustedRunnerDirectory };
     const verify = createObservationVerifier(input);
     input.trustedByteContract.production_source_sha256[CORE_SOURCES[0]] = 'f'.repeat(64);
     input.trustedByteContract.query_count = 100;
@@ -171,13 +181,14 @@ test('factory validates bounded exact policy shape and freezes a deep copy befor
 });
 
 test('synthetic acceptance runs once in a sparse module tree without docs or live Core/harness/query files',
-  { skip: process.env.AILIBRARY_CORE_ACCEPTANCE_SPARSE_CHILD === '1' }, async () => {
+  { skip: process.platform === 'win32' ? "The immutable preregistered corpus reader requires POSIX absolute paths" : (process.env.AILIBRARY_CORE_ACCEPTANCE_SPARSE_CHILD === '1') }, async () => {
     const root = await mkdtemp(path.join(await realpath(os.tmpdir()), 'core-observation-sparse-'));
     try {
       for (const relative of ['ios/tests/verify-core-performance.mjs', 'ios/tests/core-performance-runner.mjs', 'tests/unit/ios-core-performance-acceptance.test.mjs']) {
         const output = path.join(root, relative); await mkdir(path.dirname(output), { recursive: true });
         await writeFile(output, await readFile(path.join(candidate, relative)));
       }
+      /** @type {NodeJS.ProcessEnv} */
       const childEnv = { ...process.env, AILIBRARY_CORE_ACCEPTANCE_SPARSE_CHILD: '1' };
       delete childEnv.NODE_TEST_CONTEXT; // Start one reporter-owning runner, not a nested worker protocol.
       const child = await execute(process.execPath, ['--test', '--test-reporter=spec',
@@ -187,13 +198,13 @@ test('synthetic acceptance runs once in a sparse module tree without docs or liv
     } finally { await rm(root, { recursive: true, force: true }); }
   });
 
-test('missing raw correctness, measured sample, stderr, identity or summary fails closed', async () => {
+test('missing raw correctness, measured sample, stderr, identity or summary fails closed', { skip: process.platform === 'win32' ? "The immutable preregistered corpus reader requires POSIX absolute paths" : false }, async () => {
   for (const name of ['00-correctness-correctness-0.json', '02-validation-recorded-1.json', '02-validation-recorded-1.stderr.txt', 'identity.json', 'summary.json']) {
     await fixture(async state => { await rm(path.join(state.observation, name)); await assert.rejects(state.verify(state.options)); });
   }
 });
 
-test('each invocation enforces the combined raw stdout/stderr byte bound, including its exact inclusive edge', async () => {
+test('each invocation enforces the combined raw stdout/stderr byte bound, including its exact inclusive edge', { skip: process.platform === 'win32' ? "The immutable preregistered corpus reader requires POSIX absolute paths" : false }, async () => {
   for (const index of [0, 1, 2]) await fixture(async state => {
     const rawName = state.summary.order[index].raw_file;
     const raw = await readFile(path.join(state.observation, rawName));
@@ -213,7 +224,8 @@ test('each invocation enforces the combined raw stdout/stderr byte bound, includ
   });
 });
 
-test('sequential warmup/sample timing totals must fit the deadline and runner elapsed time, allowing only documented clock precision', async () => {
+test('sequential warmup/sample timing totals must fit the deadline and runner elapsed time, allowing only documented clock precision', { skip: process.platform === 'win32' ? "The immutable preregistered corpus reader requires POSIX absolute paths" : false }, async () => {
+  /** @param {Awaited<ReturnType<typeof fixtureState>>} state */
   const saveConsistentStatistics = async state => {
     for (const scenario of state.summary.scenarios) scenario.descriptive = summarize(scenario.raw_samples);
     await state.save();
@@ -248,29 +260,29 @@ test('sequential warmup/sample timing totals must fit the deadline and runner el
   });
 });
 
-test('wrong caller revision, Source4, harness, runner, query, or query-source identity fails even after rehashing metadata', async () => {
+test('wrong caller revision, Source4, harness, runner, query, or query-source identity fails even after rehashing metadata', { skip: process.platform === 'win32' ? "The immutable preregistered corpus reader requires POSIX absolute paths" : false }, async () => {
   await fixture(async state => { await assert.rejects(state.verify({ ...state.options, revision: 'd'.repeat(40) }), /revision mismatch/); });
-  for (const mutate of [
+  for (const mutate of /** @type {((state:Awaited<ReturnType<typeof fixtureState>>)=>void|Promise<void>)[]} */ ([
     state => { state.identity.source_revision = 'd'.repeat(40); },
     state => { state.identity.production_source_sha256[CORE_SOURCES[2]] = 'd'.repeat(64); },
-    ...['harness_sha256', 'runner_sha256', 'query_sha256', 'query_source_sha256'].map(name => state => { state.identity[name] = 'd'.repeat(64); }),
+    ...['harness_sha256', 'runner_sha256', 'query_sha256', 'query_source_sha256'].map(name => /** @param {Awaited<ReturnType<typeof fixtureState>>} state */ state => { Reflect.set(state.identity, name, 'd'.repeat(64)); }),
     state => { state.identity.query_count = fixtureContract.query_count + 1; }
-  ]) await fixture(async state => { mutate(state); await state.save(); await assert.rejects(state.verify(state.options), /revision mismatch|byte identity/); });
+  ])) await fixture(async state => { mutate(state); await state.save(); await assert.rejects(state.verify(state.options), /revision mismatch|byte identity/); });
   for (const name of ['ContentValidator.swift', 'PublishedCoreBenchmark.swift', 'core-performance-queries.json', 'published-core-benchmark']) {
     await fixture(async state => { await writeFile(path.join(state.observation, name), 'forged bytes'); await assert.rejects(state.verify(state.options), /Frozen/); });
   }
 });
 
-test('raw oracle digest/count/order/query identity and embedded sample disagreements fail', async () => {
-  for (const mutate of [
-    state => { state.records[8].query_results[0].ordered_ids_sha256 = 'f'.repeat(64); },
-    state => { state.records[8].query_results[0].result_count++; },
-    state => { state.records[8].query_results.reverse(); },
+test('raw oracle digest/count/order/query identity and embedded sample disagreements fail', { skip: process.platform === 'win32' ? "The immutable preregistered corpus reader requires POSIX absolute paths" : false }, async () => {
+  for (const mutate of /** @type {((state:Awaited<ReturnType<typeof fixtureState>>)=>void|Promise<void>)[]} */ ([
+    state => { requiredFixture(state.records[8].query_results)[0].ordered_ids_sha256 = 'f'.repeat(64); },
+    state => { requiredFixture(state.records[8].query_results)[0].result_count++; },
+    state => { requiredFixture(state.records[8].query_results).reverse(); },
     state => { state.records[8].query_sha256 = 'f'.repeat(64); },
     state => { state.records[2].article_order_sha256 = 'f'.repeat(64); },
     state => { state.records[2].wall_seconds = 0.25; },
     state => { state.records[0].correctness = 'claimed-correct'; }
-  ]) await fixture(async state => { mutate(state); await state.save(); await assert.rejects(state.verify(state.options)); });
+  ])) await fixture(async state => { mutate(state); await state.save(); await assert.rejects(state.verify(state.options)); });
   await fixture(async state => {
     const record = structuredClone(state.records[2]); record.wall_seconds = 0.25;
     await writeFile(path.join(state.observation, state.summary.order[2].raw_file), json(record));
@@ -278,8 +290,8 @@ test('raw oracle digest/count/order/query identity and embedded sample disagreem
   });
 });
 
-test('warmup mixing, reordered/incomplete protocol, PID or UUID reuse, and raw path traversal fail', async () => {
-  for (const mutate of [
+test('warmup mixing, reordered/incomplete protocol, PID or UUID reuse, and raw path traversal fail', { skip: process.platform === 'win32' ? "The immutable preregistered corpus reader requires POSIX absolute paths" : false }, async () => {
+  for (const mutate of /** @type {((state:Awaited<ReturnType<typeof fixtureState>>)=>void|Promise<void>)[]} */ ([
     state => { state.summary.order[1].kind = 'recorded'; },
     state => { state.summary.scenarios[0].raw_samples[0] = state.records[1]; },
     state => { state.summary.order.reverse(); },
@@ -288,7 +300,7 @@ test('warmup mixing, reordered/incomplete protocol, PID or UUID reuse, and raw p
     state => { state.summary.order[2].invocation_id = state.summary.order[1].invocation_id; state.summary.order[2].command[5] = state.records[2].invocation_id = state.records[1].invocation_id; },
     state => { state.summary.order[2].raw_file = '../outside.json'; },
     state => { state.summary.order[2].raw_file = '/private/tmp/outside.json'; }
-  ]) await fixture(async state => {
+  ])) await fixture(async state => {
     mutate(state);
     // Keep filesystem fixture creation inside its owner; traversal is metadata only.
     await writeFile(path.join(state.observation, 'summary.json'), json(state.summary));
@@ -296,14 +308,14 @@ test('warmup mixing, reordered/incomplete protocol, PID or UUID reuse, and raw p
   });
 });
 
-test('forged descriptive statistics and nonfinite, missing, zero or unsafe metrics are rejected', async () => {
-  for (const metric of ['wall_seconds', 'process_peak_resident_bytes']) {
-    for (const statistic of ['median', 'minimum', 'maximum', 'range']) await fixture(async state => {
+test('forged descriptive statistics and nonfinite, missing, zero or unsafe metrics are rejected', { skip: process.platform === 'win32' ? "The immutable preregistered corpus reader requires POSIX absolute paths" : false }, async () => {
+  for (const metric of /** @type {const} */ (['wall_seconds', 'process_peak_resident_bytes'])) {
+    for (const statistic of /** @type {const} */ (['median', 'minimum', 'maximum', 'range'])) await fixture(async state => {
       state.summary.scenarios[0].descriptive[metric][statistic] += 1;
       await state.save(); await assert.rejects(state.verify(state.options), /descriptive statistics/);
     });
     for (const value of [null, 0, -1, '0.5']) await fixture(async state => {
-      state.records[2][metric] = value; await state.save(); await assert.rejects(state.verify(state.options));
+      Reflect.set(state.records[2], metric, value); await state.save(); await assert.rejects(state.verify(state.options));
     });
   }
   await fixture(async state => {
@@ -321,37 +333,39 @@ test('forged descriptive statistics and nonfinite, missing, zero or unsafe metri
   });
 });
 
-test('compiler flags, targets, spawn policy, OS, protocol and command mismatch are rejected without opening metadata paths', async () => {
-  for (const mutate of [
+test('compiler flags, targets, spawn policy, OS, protocol and command mismatch are rejected without opening metadata paths', { skip: process.platform === 'win32' ? "The immutable preregistered corpus reader requires POSIX absolute paths" : false }, async () => {
+  for (const mutate of /** @type {((state:Awaited<ReturnType<typeof fixtureState>>)=>void|Promise<void>)[]} */ ([
     state => { state.identity.compiler_flags[3] = '-Onone'; },
     state => { state.identity.toolchain_selection.resolved.swift_version = '6'; },
     state => { state.identity.toolchain_selection.resolved.target = 'arm64-apple-ios18.0'; },
     state => { state.identity.toolchain_selection.sdk.version = '13.0'; },
     state => { state.identity.toolchain_selection.sdk.version = '9'.repeat(500); },
-    state => { state.identity.toolchain_selection.sdk.settings_sha256 = ['a'.repeat(64)]; },
+    state => { Reflect.set(state.identity.toolchain_selection.sdk, 'settings_sha256', ['a'.repeat(64)]); },
     state => { state.identity.spawn_environment.operator_TMPDIR_inherited = true; },
     state => { state.identity.protocol.recorded_per_scenario = 4; },
     state => { state.identity.os.platform = 'linux'; },
     state => { state.identity.compiler_command[12] = '/private/tmp/other.swift'; },
     state => { state.summary.order[2].command[0] = '/private/tmp/untrusted-command'; },
     state => { state.records[2].host_os_version = 'different OS'; }
-  ]) await fixture(async state => { mutate(state); await state.save(); await assert.rejects(state.verify(state.options)); });
+  ])) await fixture(async state => { mutate(state); await state.save(); await assert.rejects(state.verify(state.options)); });
 });
 
-test('corpus drift, forged article provenance, extra files and symlinks fail the shared inventory contract', async () => {
-  for (const mutate of [
+test('corpus drift, forged article provenance, extra files and symlinks fail the shared inventory contract', { skip: process.platform === 'win32' ? "The immutable preregistered corpus reader requires POSIX absolute paths" : false }, async () => {
+  for (const mutate of /** @type {((state:Awaited<ReturnType<typeof fixtureState>>)=>void|Promise<void>)[]} */ ([
     async state => { await writeFile(path.join(state.corpus, 'articles/fixture.json'), 'changed'); },
     async state => { await writeFile(path.join(state.corpus, 'unexpected.txt'), 'extra'); },
     async state => { await symlink('articles/fixture.json', path.join(state.corpus, 'linked')); },
     async state => {
-      const manifest = JSON.parse(await readFile(path.join(state.corpus, 'manifest.json'))); manifest.articles[0].source_sha256 = 'd'.repeat(64);
+      const manifest = objectFixture(JSON.parse(await readFile(path.join(state.corpus, 'manifest.json'), 'utf8')));
+      assert.ok(Array.isArray(manifest.articles));
+      objectFixture(manifest.articles[0]).source_sha256 = 'd'.repeat(64);
       await writeFile(path.join(state.corpus, 'manifest.json'), json(manifest));
       const { manifest: ignored, ...counts } = await inventoryCorpus(state.corpus); Object.assign(state.identity, counts); await state.save();
     }
-  ]) await fixture(async state => { await mutate(state); await assert.rejects(state.verify(state.options)); });
+  ])) await fixture(async state => { await mutate(state); await assert.rejects(state.verify(state.options)); });
 });
 
-test('artifact and ancestor symlinks, special files, oversized inputs and unnormalized paths fail before unbounded reads', async () => {
+test('artifact and ancestor symlinks, special files, oversized inputs and unnormalized paths fail before unbounded reads', { skip: process.platform === 'win32' ? "The immutable preregistered corpus reader requires POSIX absolute paths" : false }, async () => {
   await fixture(async state => {
     await symlink(state.observation, path.join(state.root, 'linked-observation'));
     await assert.rejects(state.verify({ ...state.options, observation: path.join(state.root, 'linked-observation') }), /symlink/);
@@ -366,7 +380,7 @@ test('artifact and ancestor symlinks, special files, oversized inputs and unnorm
     await assert.rejects(state.verify(state.options), /linked/);
   });
   await fixture(async state => { await rm(path.join(state.observation, 'identity.json')); await mkdir(path.join(state.observation, 'identity.json')); await assert.rejects(state.verify(state.options), /special/); });
-  for (const [name, size] of [['identity.json', 1_048_577], ['summary.json', 2_097_153], ['02-validation-recorded-1.json', 1_048_577], ['published-core-benchmark', 64 * 1_048_576 + 1]]) {
+  for (const [name, size] of /** @type {[string,number][]} */ ([['identity.json', 1_048_577], ['summary.json', 2_097_153], ['02-validation-recorded-1.json', 1_048_577], ['published-core-benchmark', 64 * 1_048_576 + 1]])) {
     await fixture(async state => { await truncate(path.join(state.observation, name), size); await assert.rejects(state.verify(state.options), /oversized/); });
   }
 });
@@ -377,3 +391,13 @@ test('verification CLI requires exactly three named options and never accepts ex
   for (const args of [[], ['--run'], ['--observation', '/saved', '--corpus', '/Content', '--exec', '/bin/sh'],
     ['--observation', '/saved', '--observation', '/other', '--revision', revision]]) assert.throws(() => parseVerificationArgs(args));
 });
+
+/** @returns {{-readonly [K in keyof import('../../ios/tests/verify-core-performance.mjs').ByteContract]:import('../../ios/tests/verify-core-performance.mjs').ByteContract[K]} & {production_source_sha256:Record<string,string>}} */
+function mutableContract() { return {...fixtureContract, production_source_sha256: {...fixtureContract.production_source_sha256}}; }
+
+/** @template T @param {T|null|undefined} value @returns {T} */
+function requiredFixture(value) { assert.ok(value !== null && value !== undefined); return value; }
+/** @param {unknown} value @returns {Record<string,unknown>} */
+function objectFixture(value) { assert.ok(value !== null && typeof value === 'object' && !Array.isArray(value)); return /** @type {Record<string,unknown>} */ (value); }
+/** @param {unknown} value @returns {string} */
+function stringFixture(value) { assert.equal(typeof value, 'string'); if(typeof value !== 'string') throw new Error('Expected string'); return value; }

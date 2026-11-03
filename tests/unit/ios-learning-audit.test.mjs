@@ -1,4 +1,5 @@
 import test from 'node:test';
+import { requiredFixture } from '../helpers/json-fixtures.mjs';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
@@ -11,16 +12,26 @@ import { auditNativeLearningContent } from '../../ios/tests/learning-content-aud
 // This fixture is authored by hand, without the learning producer or its parser.
 // Rehashing a changed index is deliberate: package integrity alone cannot prove
 // its semantic agreement with the independently retained Markdown sources.
+/** @param {import('node:crypto').BinaryLike} data */
 const digest = data => createHash('sha256').update(data).digest('hex');
 const roadmapPath = 'docs/00-overview/learning-roadmap.md';
 const firstID = '01-concepts/one', secondID = '01-concepts/two', roadmapID = '00-overview/learning-roadmap';
+/** @typedef {{type:string,article_id?:string,heading_id?:string,chapter_id?:string,url?:string}} FixtureTarget */
+/** @typedef {{type:string,text:string,target?:FixtureTarget}} FixtureInline */
+/** @param {string} text @param {FixtureTarget} target @returns {FixtureInline} */
 const link = (text, target) => ({ type: 'link', text, target });
+/** @param {string} value @returns {FixtureInline} */
 const text = value => ({ type: 'text', text: value });
+/** @param {string} id @param {string} [heading] @returns {FixtureTarget} */
 const article = (id, heading) => ({ type: 'article', article_id: id, ...(heading ? { heading_id: heading } : {}) });
+/** @param {...FixtureInline} inlines */
 const step = (...inlines) => ({ inlines });
+/** @param {string} id @param {string} title @param {number} level */
 const heading = (id, title, level) => ({ id, title, level });
+/** @param {string} title @param {string[]} tags @param {string} body @param {string} [status] */
 const source = (title, tags, body, status = 'published') => `---\ntitle: "${title}"\ncategory: "concepts"\nlevel: "basic"\nstatus: "${status}"\nlast_updated: "2026-10-25"\ntags: ${JSON.stringify(tags)}\n---\n\n# ${title}\n\n${body}\n`;
 
+/** @param {import('node:test').TestContext} t */
 async function fixture(t) {
   const temporary = await realpath(await mkdtemp(path.join(os.tmpdir(), 'ailibrary-ios-learning-audit-')));
   t.after(() => rm(temporary, { recursive: true, force: true }));
@@ -45,6 +56,7 @@ async function fixture(t) {
     ['docs/01-concepts/README.md', '# 01-concepts — 基礎\n\n第一と`第二`を学びます。\n\n```markdown\n| [偽記事](fake.md) | コード例 |\n```\n\n| 記事 | 内容 |\n| --- | --- |\n| [紛らわしい第一][second] | 第二を先に |\n| [第一](one.md) | 第一 |\n| [下書き](draft.md) | 下書き |\n| `planned.md` | 計画 |\n\n[second]: ./two.md\n'],
     ['GLOSSARY.md', '# 用語集\n\n```markdown\n### 偽用語(Fake)\n\n[偽](docs/01-concepts/missing.md)\n```\n\n## 一覧\n\n### 用語(Term)\n\n定義の**太字**。\n次の行。→ [第一](docs/01-concepts/one.md#本文) / [第二][second]\n\n後段の[関連](docs/01-concepts/one.md#本文-1)。\n\n[second]: docs/01-concepts/two.md\n\n### 用語(Term)\n\n詳細は執筆予定。\n\n## 別一覧\n\n### 別語\n\n`別`の定義。\n']
   ]);
+  /** @param {string} file @param {string} data */
   const put = async (file, data) => { await mkdir(path.dirname(path.join(root, file)), { recursive: true }); await writeFile(path.join(root, file), data); };
   for (const [file, value] of files) await put(file, value);
   const sourcePaths = [roadmapPath, `docs/${firstID}.md`, `docs/${secondID}.md`];
@@ -56,7 +68,7 @@ async function fixture(t) {
   const index = {
     schema_version: 1,
     source_sha256: Object.fromEntries([...files].filter(([file]) => !file.endsWith('/draft.md')).sort(([a], [b]) => a.localeCompare(b)).map(([file, value]) => [file, digest(value)])),
-    article_tags: { [roadmapID]: ['overview'], [firstID]: ['first-tag', 'shared'], [secondID]: ['shared'] },
+    article_tags: /** @type {Record<string,string[]>} */ ({ [roadmapID]: ['overview'], [firstID]: ['first-tag', 'shared'], [secondID]: ['shared'] }),
     chapters: [
       { id: '00-overview', title: '00-overview — 全体像', description: '章の説明です。', article_ids: [roadmapID] },
       { id: '01-concepts', title: '01-concepts — 基礎', description: '第一と第二を学びます。', article_ids: [secondID, firstID] }
@@ -77,7 +89,8 @@ async function fixture(t) {
       { id: '別語', name: '別語', english: null, summary: '別の定義。', links: [] }
     ]
   };
-  const manifest = { schema_version: 2, revision: '', articles: sourcePaths.map((file, position) => ({ id: file.replace(/^docs\//, '').replace(/\.md$/, ''), source_path: file, source_sha256: digest(files.get(file)), headings: headings[position] })), audio: [], files: {} };
+  const manifest = { schema_version: 2, revision: '', articles: sourcePaths.map((file, position) => ({ id: file.replace(/^docs\//, '').replace(/\.md$/, ''), source_path: file, source_sha256: digest(requiredFixture(files.get(file))), headings: headings[position] })), audio: [], files: /** @type {Record<string,string>} */ ({}) };
+  /** @param {string|Buffer} bytes @param {typeof manifest} [valueManifest] */
   const saveRaw = async (bytes, valueManifest = manifest) => {
     await mkdir(path.join(content, 'assets/learning'), { recursive: true });
     await writeFile(path.join(content, 'assets/learning/index.json'), bytes);
@@ -86,6 +99,7 @@ async function fixture(t) {
     await writeFile(path.join(content, 'manifest.json'), JSON.stringify(valueManifest));
     return valueManifest;
   };
+  /** @param {unknown} [value] @param {typeof manifest} [valueManifest] */
   const save = (value = index, valueManifest = manifest) => saveRaw(JSON.stringify(value, null, 2) + '\n', valueManifest);
   const options = { root, content };
   await save();
@@ -113,7 +127,7 @@ test('independent learning audit accepts hand-authored sources and preserves can
   assert.equal((await value.audit()).result, 'passed');
   // An actual H3 remains an entry inside a quote; fence examples do not. Use
   // source lines for term boundaries instead of scanning only root headings.
-  const quoted = value.files.get('GLOSSARY.md').replace('### 用語(Term)', '> ### 用語(Term)');
+  const quoted = requiredFixture(value.files.get('GLOSSARY.md')).replace('### 用語(Term)', '> ### 用語(Term)');
   await value.put('GLOSSARY.md', quoted);
   split.source_sha256['GLOSSARY.md'] = digest(quoted);
   await value.save(split);
@@ -121,6 +135,7 @@ test('independent learning audit accepts hand-authored sources and preserves can
 });
 
 test('rehashing metadata cannot hide tags, README order/title/description, article coverage or route prose changes', async t => {
+  /** @type {[string,(data:Awaited<ReturnType<typeof fixture>>['index'])=>unknown,RegExp][]} */
   const cases = [
     ['tags', data => data.article_tags[firstID] = ['shared'], /canonical article tags/],
     ['tag order', data => data.article_tags[firstID].reverse(), /canonical article tags/],
@@ -140,9 +155,9 @@ test('rehashing metadata cannot hide tags, README order/title/description, artic
     ['route all wording', data => data.routes[1].steps[0].inlines.pop(), /canonical route/],
     ['route order', data => data.routes.reverse(), /canonical A–H/],
     ['route link label', data => data.routes[0].steps[1].inlines[0].text = '変更', /canonical route/],
-    ['external C example', data => data.routes[2].steps[0].inlines[0].target.url = 'https://example.com/other', /canonical route/],
-    ['F anchor', data => data.routes[5].steps[0].inlines[0].target.heading_id = 'hの前提', /canonical route/],
-    ['H anchor removed', data => delete data.routes[7].steps[0].inlines[0].target.heading_id, /canonical route/]
+    ['external C example', data => requiredFixture(data.routes[2].steps[0].inlines[0].target).url = 'https://example.com/other', /canonical route/],
+    ['F anchor', data => requiredFixture(data.routes[5].steps[0].inlines[0].target).heading_id = 'hの前提', /canonical route/],
+    ['H anchor removed', data => delete requiredFixture(data.routes[7].steps[0].inlines[0].target).heading_id, /canonical route/]
   ];
   for (const [name, mutate, error] of cases) await t.test(name, async t => {
     const value = await fixture(t), data = structuredClone(value.index);
@@ -152,6 +167,7 @@ test('rehashing metadata cannot hide tags, README order/title/description, artic
 });
 
 test('rehashing a glossary cannot hide IDs, names, summaries, later links, duplicates, fence examples or term omissions', async t => {
+  /** @type {[string,(data:Awaited<ReturnType<typeof fixture>>['index'])=>unknown][]} */
   const cases = [
     ['ID', data => data.glossary[0].id = 'arbitrary-id'],
     ['name', data => data.glossary[0].name = '変更'],
@@ -179,20 +195,20 @@ test('learning audit checks the exact canonical source SHA set and its published
     if (name === 'missing') delete data.source_sha256[roadmapPath];
     if (name === 'extra') data.source_sha256['README.md'] = 'a'.repeat(64);
     if (name === 'unsafe') data.source_sha256['../private.md'] = 'a'.repeat(64);
-    if (name === 'draft') data.source_sha256['docs/01-concepts/draft.md'] = digest(value.files.get('docs/01-concepts/draft.md'));
+    if (name === 'draft') data.source_sha256['docs/01-concepts/draft.md'] = digest(requiredFixture(value.files.get('docs/01-concepts/draft.md')));
     await value.save(data);
     await assert.rejects(value.audit(), /source SHA/);
   });
   await t.test('forged heading added to manifest and sidecar', async t => {
     const value = await fixture(t), manifest = structuredClone(value.manifest), data = structuredClone(value.index);
     manifest.articles[1].headings.push(heading('invented', '捏造', 2));
-    data.routes[3].steps[0].inlines[0].target.heading_id = 'invented';
+    requiredFixture(data.routes[3].steps[0].inlines[0].target).heading_id = 'invented';
     await value.save(data, manifest);
     await assert.rejects(value.audit(), /source heading projection/);
   });
   await t.test('source-bound identity and current article hash', async t => {
     const value = await fixture(t);
-    for (const mutation of [manifest => manifest.articles[1].source_path = '../private.md', manifest => manifest.articles[1].source_sha256 = 'f'.repeat(64), manifest => manifest.articles.push(manifest.articles[1])]) {
+    for (const mutation of /** @type {((manifest:Awaited<ReturnType<typeof fixture>>['manifest'])=>unknown)[]} */ ([manifest => manifest.articles[1].source_path = '../private.md', manifest => manifest.articles[1].source_sha256 = 'f'.repeat(64), manifest => manifest.articles.push(manifest.articles[1])])) {
       const manifest = structuredClone(value.manifest); mutation(manifest); await value.save(structuredClone(value.index), manifest);
       await assert.rejects(value.audit(), /source-bound identity|current article source SHA|Duplicate learning manifest article/);
     }
@@ -212,6 +228,7 @@ test('learning audit checks the exact canonical source SHA set and its published
 });
 
 test('updating source hashes does not make stale learning metadata agree with changed canonical sources', async t => {
+  /** @type {[string,string,(source:string)=>string,RegExp][]} */
   const changes = [
     ['article tags', `docs/${firstID}.md`, value => value.replace('first-tag', 'changed-tag'), /canonical article tags/],
     ['chapter order', 'docs/01-concepts/README.md', value => value.replace('| [紛らわしい第一][second] | 第二を先に |\n| [第一](one.md) | 第一 |', '| [第一](one.md) | 第一 |\n| [紛らわしい第一][second] | 第二を後に |'), /README article order/],
@@ -221,7 +238,7 @@ test('updating source hashes does not make stale learning metadata agree with ch
   ];
   for (const [name, file, change, error] of changes) await t.test(name, async t => {
     const value = await fixture(t), data = structuredClone(value.index), manifest = structuredClone(value.manifest);
-    const changed = change(value.files.get(file)); await value.put(file, changed);
+    const changed = change(requiredFixture(value.files.get(file))); await value.put(file, changed);
     data.source_sha256[file] = digest(changed);
     const selected = manifest.articles.find(article => article.source_path === file);
     if (selected) selected.source_sha256 = digest(changed);
@@ -231,18 +248,19 @@ test('updating source hashes does not make stale learning metadata agree with ch
 });
 
 test('learning schema rejects unsafe references, unknown fields and types, duplicate IDs and bounded data', async t => {
+  /** @type {[string,(data:Awaited<ReturnType<typeof fixture>>['index'])=>unknown,RegExp][]} */
   const cases = [
     ['schema', data => data.schema_version = 2, /schema version/],
-    ['unknown top field', data => data.html = '<script>ignored</script>', /index fields/],
+    ['unknown top field', data => Reflect.set(data, 'html', '<script>ignored</script>'), /index fields/],
     ['unknown inline', data => data.routes[0].steps[0].inlines[0].type = 'html', /fields|inline type/],
     ['unknown target', data => data.routes[0].steps[0].inlines[0].target = { type: 'script', url: 'https://example.com/' }, /target type/],
     ['target article', data => data.routes[0].steps[0].inlines[0].target = article('../private'), /target article/],
-    ['target heading', data => data.routes[3].steps[0].inlines[0].target.heading_id = 'missing', /target heading/],
-    ['target chapter', data => data.routes[0].steps[0].inlines[0].target.chapter_id = '../private', /target chapter/],
-    ['target credentials', data => data.routes[2].steps[0].inlines[0].target.url = 'https://user:secret@example.com/', /HTTPS without credentials/],
-    ['target insecure', data => data.routes[2].steps[0].inlines[0].target.url = 'http://example.com/', /HTTPS without credentials/],
-    ['target JS', data => data.routes[2].steps[0].inlines[0].target.url = 'javascript:alert(1)', /HTTPS without credentials/],
-    ['target extra field', data => data.routes[2].steps[0].inlines[0].target.html = '<script>', /external target fields/],
+    ['target heading', data => requiredFixture(data.routes[3].steps[0].inlines[0].target).heading_id = 'missing', /target heading/],
+    ['target chapter', data => requiredFixture(data.routes[0].steps[0].inlines[0].target).chapter_id = '../private', /target chapter/],
+    ['target credentials', data => requiredFixture(data.routes[2].steps[0].inlines[0].target).url = 'https://user:secret@example.com/', /HTTPS without credentials/],
+    ['target insecure', data => requiredFixture(data.routes[2].steps[0].inlines[0].target).url = 'http://example.com/', /HTTPS without credentials/],
+    ['target JS', data => requiredFixture(data.routes[2].steps[0].inlines[0].target).url = 'javascript:alert(1)', /HTTPS without credentials/],
+    ['target extra field', data => Reflect.set(requiredFixture(requiredFixture(data.routes[2].steps[0].inlines[0].target)), 'html', '<script>'), /external target fields/],
     ['route count', data => data.routes.pop(), /route count/],
     ['step count', data => data.routes[0].steps = Array(129).fill(step(text('a'))), /route step count/],
     ['inline count', data => data.routes[0].steps[0].inlines = Array(65).fill(text('a')), /route inline count/],
@@ -253,10 +271,10 @@ test('learning schema rejects unsafe references, unknown fields and types, dupli
     ['duplicate tag', data => data.article_tags[firstID] = ['a', 'a'], /Duplicate learning tags/],
     ['duplicate glossary ID', data => data.glossary[1].id = data.glossary[0].id, /Duplicate learning glossary IDs/],
     ['UTF8 string bytes', data => data.routes[0].label = '字'.repeat(5462), /oversized learning route label/],
-    ['heading bytes', data => data.routes[3].steps[0].inlines[0].target.heading_id = '字'.repeat(86), /oversized learning target heading/],
+    ['heading bytes', data => requiredFixture(data.routes[3].steps[0].inlines[0].target).heading_id = '字'.repeat(86), /oversized learning target heading/],
     ['NUL text', data => data.routes[6].steps[0].inlines[0].text = 'a\0b', /route inline text/],
-    ['wrong tags type', data => data.article_tags[firstID] = null, /tag count/],
-    ['wrong glossary type', data => data.glossary = {}, /glossary term count/]
+    ['wrong tags type', data => Reflect.set(data.article_tags, firstID, null), /tag count/],
+    ['wrong glossary type', data => Reflect.set(data, 'glossary', {}), /glossary term count/]
   ];
   for (const [name, mutate, error] of cases) await t.test(name, async t => {
     const value = await fixture(t), data = structuredClone(value.index);
@@ -266,6 +284,7 @@ test('learning schema rejects unsafe references, unknown fields and types, dupli
 });
 
 test('canonical link safety and source structure are checked even after declaring fresh source hashes', async t => {
+  /** @type {[string,string,(source:string)=>string,RegExp][]} */
   const changes = [
     ['external HTTP', roadmapPath, value => value.replace('https://github.com/pero3dev/ai-agent-library/blob/0123456789abcdef/examples/README.md', 'http://example.com/'), /HTTPS without credentials/],
     ['external credentials', roadmapPath, value => value.replace('https://github.com/pero3dev/ai-agent-library/blob/0123456789abcdef/examples/README.md', 'https://user:secret@example.com/'), /HTTPS without credentials/],
@@ -281,7 +300,7 @@ test('canonical link safety and source structure are checked even after declarin
   ];
   for (const [name, file, change, error] of changes) await t.test(name, async t => {
     const value = await fixture(t), data = structuredClone(value.index), manifest = structuredClone(value.manifest);
-    const changed = change(value.files.get(file)); await value.put(file, changed);
+    const changed = change(requiredFixture(value.files.get(file))); await value.put(file, changed);
     data.source_sha256[file] = digest(changed);
     const selected = manifest.articles.find(article => article.source_path === file);
     if (selected) selected.source_sha256 = digest(changed);
@@ -291,7 +310,7 @@ test('canonical link safety and source structure are checked even after declarin
 });
 
 test('learning audit never follows package or source symlinks or accepts unsafe paths, missing sidecars or oversized bytes', async t => {
-  for (const name of ['index', 'manifest', 'index directory', 'source', 'source directory', 'content']) await t.test(`symlink ${name}`, async t => {
+  for (const name of ['index', 'manifest', 'index directory', 'source', 'source directory', 'content']) await t.test(`symlink ${name}`, { skip: process.platform === 'win32' ? "This source/package boundary fixture requires file and directory symlinks" : false }, async t => {
     const value = await fixture(t);
     const target = name === 'index' ? path.join(value.content, 'assets/learning/index.json') : name === 'manifest' ? path.join(value.content, 'manifest.json') :
       name === 'index directory' ? path.join(value.content, 'assets/learning') : name === 'source' ? path.join(value.root, `docs/${firstID}.md`) :
@@ -342,7 +361,7 @@ test('learning audit never follows package or source symlinks or accepts unsafe 
   });
   await t.test('source missing or changed status', async t => {
     const value = await fixture(t), manifest = structuredClone(value.manifest), data = structuredClone(value.index);
-    const file = `docs/${firstID}.md`, changed = value.files.get(file).replace('status: "published"', 'status: "draft"');
+    const file = `docs/${firstID}.md`, changed = requiredFixture(value.files.get(file)).replace('status: "published"', 'status: "draft"');
     await value.put(file, changed); data.source_sha256[file] = digest(changed); manifest.articles[1].source_sha256 = digest(changed);
     await value.save(data, manifest); await assert.rejects(value.audit(), /selected source is published/);
     await rm(path.join(value.root, file)); await assert.rejects(value.audit(), /ENOENT/);
@@ -357,6 +376,7 @@ test('learning audit module import has no package read, write, generation or CLI
 });
 
 test('raw learning JSON rejects duplicate decoded keys and depth beyond the native consumer limit before JSON.parse erases evidence', async t => {
+  /** @type {[string,(data:string)=>string|Buffer,RegExp][]} */
   const cases = [
     ['schema 2 followed by 1', raw => '{"schema_version":2,' + raw.slice(1), /duplicate.*decoded key/],
     ['same schema repeated', raw => '{"schema_version":1,' + raw.slice(1), /duplicate.*decoded key/],

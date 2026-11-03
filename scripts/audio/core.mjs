@@ -2,17 +2,30 @@ import { createHash } from 'node:crypto'
 import { mkdir, readFile, rename, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { collectDocs, forEachLine, parseFrontMatter, toLines, unquote } from '../lib/md-utils.mjs'
+import { errorCode } from './errors.mjs'
 
+/** @typedef {import('./contracts.ts').Article} Article */
+/** @typedef {import('./contracts.ts').SourceSection} SourceSection */
+/** @typedef {import('./contracts.ts').SupplementalBundle} SupplementalBundle */
+/** @typedef {import('./contracts.ts').SupplementalEntry} SupplementalEntry */
+/** @typedef {import('./contracts.ts').AudioScript} AudioScript */
+/** @typedef {{heading: string, excerpt: string}} SupplementalBlock */
+
+/** @param {import('node:crypto').BinaryLike} value */
 export const sha256 = value => createHash('sha256').update(value).digest('hex')
+/** @param {string} text */
 export const sourceDigest = text => sha256(text.replace(/\r\n?/g, '\n'))
+// Persistence does not establish a domain type, including when a fallback exists.
+/** @param {string} file @param {unknown} [fallback] @returns {Promise<unknown>} */
 export async function readJson(file, fallback) {
   try { return JSON.parse(await readFile(file, 'utf8')) } catch (error) {
-    if (error.code === 'ENOENT' && arguments.length > 1) return fallback
+    if (errorCode(error) === 'ENOENT' && arguments.length > 1) return fallback
     throw error
   }
 }
 // Generated artifacts can be recreated. Preserve malformed evidence instead of retrying
 // the same broken cache forever. Never use this recovery for queue/account/source data.
+/** @param {string} file @param {unknown} [fallback] @returns {Promise<unknown>} */
 export async function readGeneratedJson(file, fallback = null) {
   try { return await readJson(file, fallback) } catch (error) {
     if (!(error instanceof SyntaxError)) throw error
@@ -21,6 +34,7 @@ export async function readGeneratedJson(file, fallback = null) {
     return fallback
   }
 }
+/** @param {string} file @param {unknown} value @param {{renameFile?: typeof rename, pause?: (milliseconds: number) => Promise<unknown>}} [options] */
 export async function writeJson(file, value, { renameFile = rename, pause = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds)) } = {}) {
   await mkdir(path.dirname(file), { recursive: true })
   const temporary = `${file}.${process.pid}.tmp`
@@ -29,17 +43,21 @@ export async function writeJson(file, value, { renameFile = rename, pause = mill
   // Keep the atomic rename and the previous complete file; never delete it as a fallback.
   for (let attempt = 0; attempt < 8; attempt++) {
     try { await renameFile(temporary, file); return } catch (error) {
-      if (!['EPERM', 'EACCES', 'EBUSY'].includes(error.code) || attempt === 7) throw error
+      if (!['EPERM', 'EACCES', 'EBUSY'].includes(errorCode(error) ?? '') || attempt === 7) throw error
       await pause(40 * 2 ** Math.min(attempt, 4))
     }
   }
 }
+/** @param {string} articlePath */
 export function assertSafeArticlePath(articlePath) {
   if (!/^docs\/\d{2}-[a-z0-9-]+\/[a-z0-9-]+\.md$/.test(articlePath)) throw new Error(`Invalid article path: ${articlePath}`)
   return articlePath
 }
+/** @param {string} articlePath */
 export function articleSlug(articlePath) { return assertSafeArticlePath(articlePath).replace(/^docs\//, '').replace(/\.md$/, '').replaceAll('/', '--') }
+/** @param {string} repoRoot @param {{section?: string}} [options] @returns {Promise<Article[]>} */
 export async function discoverArticles(repoRoot, { section } = {}) {
+  /** @type {Article[]} */
   const articles = []
   for (const file of collectDocs(repoRoot)) {
     if (!/^\d{2}-/.test(file.section) || file.isReadme || (section && file.section !== section)) continue
@@ -53,7 +71,9 @@ export async function discoverArticles(repoRoot, { section } = {}) {
   }
   return articles
 }
+/** @param {string} source @returns {SourceSection[]} */
 export function sourceSections(source) {
+  /** @type {string[]} */
   const titles = []
   forEachLine(toLines(source), (line, _lineNo, inFence) => {
     if (inFence) return
@@ -62,9 +82,15 @@ export function sourceSections(source) {
   })
   return titles.map((title, index) => ({ id: `s${String(index + 1).padStart(3, '0')}`, title }))
 }
-export class QuotaError extends Error { constructor(message) { super(message); this.name = 'QuotaError' } }
+export class QuotaError extends Error {
+  /** @param {string} message */
+  constructor(message) { super(message); this.name = 'QuotaError' }
+}
+/** @param {string} source @returns {SupplementalBlock[]} */
 export function supplementalBlocks(source) {
-  const lines = toLines(source), starts = []
+  const lines = toLines(source)
+  /** @type {{level: number, heading: string, line: number}[]} */
+  const starts = []
   forEachLine(lines, (line, index, inFence) => {
     if (inFence) return
     const heading = line.match(/^(#{1,3})\s+(.+)$/)
@@ -72,6 +98,7 @@ export function supplementalBlocks(source) {
   })
   return starts.flatMap((item, index) => item.level === 3 ? [{ heading: item.heading, excerpt: lines.slice(item.line + 1, starts[index + 1]?.line ?? lines.length).join('\n').trim() }] : [])
 }
+/** @param {string} term @param {string} source */
 function termInSource(term, source) {
   if (term.length < 2) return false
   const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
@@ -79,12 +106,16 @@ function termInSource(term, source) {
     ? new RegExp(`(?<![a-zA-Z0-9])${escaped}(?![a-zA-Z0-9])`, 'i').test(source)
     : source.toLocaleLowerCase().includes(term.toLocaleLowerCase())
 }
+/** @param {string | undefined} repoRoot @param {Article} article @returns {Promise<SupplementalBundle>} */
 export async function readSupplementalSources(repoRoot, article) {
   if (!repoRoot) return { schema_version: 1, entries: [] }
+  const sourceRoot = repoRoot
+  /** @type {SupplementalEntry[]} */
   const entries = []
+  /** @param {string} documentPath @param {(block: SupplementalBlock) => boolean} select */
   async function addDocument(documentPath, select) {
     let source
-    try { source = await readFile(path.join(repoRoot, documentPath), 'utf8') } catch (error) { if (error.code === 'ENOENT') return; throw error }
+    try { source = await readFile(path.join(sourceRoot, documentPath), 'utf8') } catch (error) { if (errorCode(error) === 'ENOENT') return; throw error }
     if (documentPath.startsWith('docs/')) {
       const fields = parseFrontMatter(toLines(source))?.fields ?? []
       if (unquote(fields.find(field => field.key === 'status')?.value ?? '') !== 'published') return
@@ -107,6 +138,7 @@ export async function readSupplementalSources(repoRoot, article) {
   })
   return { schema_version: 1, entries }
 }
+/** @param {SupplementalBundle | null | undefined} bundle @param {Map<string, string | null> | Record<string, string | null>} documents */
 export function validateSupplementalSnapshot(bundle, documents) {
   if (bundle?.schema_version !== 1 || !Array.isArray(bundle.entries) || !bundle.entries.length || bundle.entries.length > 14) return ['補助資料の形式が不正です']
   const errors = [], seen = new Set()
@@ -131,7 +163,8 @@ export function validateSupplementalSnapshot(bundle, documents) {
   }
   return errors
 }
-export async function validateSupplementalMaterial(bundle, repoRoot, { readDocument = documentPath => readFile(path.join(repoRoot, documentPath), 'utf8') } = {}) {
+/** @param {SupplementalBundle | null | undefined} bundle @param {string | undefined} repoRoot @param {{readDocument?: (documentPath: string) => Promise<string>}} [options] */
+export async function validateSupplementalMaterial(bundle, repoRoot, { readDocument = documentPath => { if (!repoRoot) throw new Error('A repository root is required to read supplemental evidence'); return readFile(path.join(repoRoot, documentPath), 'utf8') } } = {}) {
   const documents = new Map()
   for (const entry of Array.isArray(bundle?.entries) ? bundle.entries : []) {
     if (entry?.document_path !== 'GLOSSARY.md') {
@@ -142,32 +175,42 @@ export async function validateSupplementalMaterial(bundle, repoRoot, { readDocum
   }
   return validateSupplementalSnapshot(bundle, documents)
 }
+/** @param {SupplementalBundle | null | undefined} bundle */
 export const supplementalDigest = bundle => bundle?.entries?.length ? sha256(JSON.stringify(bundle)) : null
+/** @param {string} base @param {string | null | undefined} supplemental */
 export const productionDigest = (base, supplemental) => supplemental ? sha256(JSON.stringify({ base, supplemental_digest: supplemental })) : base
-export class PrerequisiteError extends Error { constructor(message) { super(message); this.name = 'PrerequisiteError' } }
+export class PrerequisiteError extends Error {
+  /** @param {string} message */
+  constructor(message) { super(message); this.name = 'PrerequisiteError' }
+}
+/** @param {unknown} value @returns {value is Record<string, unknown>} */
+const scriptRecord = value => value !== null && typeof value === 'object' && !Array.isArray(value)
+/** @param {unknown} script @param {SourceSection[]} sections */
 export function validateScript(script, sections) {
   const problems = []
-  if (!script || !Array.isArray(script.chapters) || script.chapters.length < 2) return ['台本には導入とまとめを含む複数の章が必要です']
+  if (!scriptRecord(script) || !Array.isArray(script.chapters) || script.chapters.length < 2) return ['台本には導入とまとめを含む複数の章が必要です']
   if (JSON.stringify(script).includes('\uFFFD')) problems.push('台本に文字化けを示す置換文字があります')
   const ids = new Set(), covered = new Set(), roles = new Set()
   let total = 0
   for (const chapter of script.chapters) {
-    if (!/^[a-z0-9-]+$/.test(chapter.id ?? '') || ids.has(chapter.id)) problems.push('章 ID が不正または重複しています')
+    if (!scriptRecord(chapter)) { problems.push('章の形式が不正です'); continue }
+    if (typeof chapter.id !== 'string' || !/^[a-z0-9-]+$/.test(chapter.id) || ids.has(chapter.id)) problems.push('章 ID が不正または重複しています')
     ids.add(chapter.id)
-    if (!chapter.title?.trim()) problems.push('章タイトルがありません')
+    if (typeof chapter.title !== 'string' || !chapter.title.trim()) problems.push('章タイトルがありません')
     if (!Array.isArray(chapter.source_sections)) problems.push('元記事との対応がありません')
-    for (const id of chapter.source_sections ?? []) {
+    for (const id of Array.isArray(chapter.source_sections) ? chapter.source_sections : []) {
       if (!sections.some(section => section.id === id)) problems.push(`存在しない参照: ${id}`)
       covered.add(id)
     }
     if (!Array.isArray(chapter.turns) || chapter.turns.length < 2) { problems.push('各章に対話が必要です'); continue }
     let previous = null
     for (const turn of chapter.turns) {
-      if (!['listener', 'explainer'].includes(turn.role)) problems.push('話者の役割が不正です')
+      if (!scriptRecord(turn)) { problems.push('発話の形式が不正です'); continue }
+      if (turn.role !== 'listener' && turn.role !== 'explainer') problems.push('話者の役割が不正です')
       if (typeof turn.text !== 'string' || !turn.text.trim() || turn.text.length > 6000) problems.push('発話が空または長すぎます')
-      if (/https?:\/\/|```|<\/?(?:script|audio|iframe)/i.test(turn.text ?? '')) problems.push('読み上げに不要な URL・コードブロック・HTML があります')
+      if (/https?:\/\/|```|<\/?(?:script|audio|iframe)/i.test(typeof turn.text === 'string' ? turn.text : '')) problems.push('読み上げに不要な URL・コードブロック・HTML があります')
       if (previous === turn.text) problems.push('同一発話が連続しています')
-      previous = turn.text; roles.add(turn.role); total += turn.text?.length ?? 0
+      previous = turn.text; roles.add(turn.role); total += typeof turn.text === 'string' ? turn.text.length : 0
     }
   }
   if (total < 300) problems.push('記事の詳細を扱う台本として短すぎます')
@@ -176,6 +219,7 @@ export function validateScript(script, sections) {
   for (const section of sections) if (!covered.has(section.id)) problems.push(`元記事の節が未対応です: ${section.id} ${section.title}`)
   return problems
 }
+/** @param {string} text @param {number} [maxChars] */
 export function splitSpeech(text, maxChars = 180) {
   if (!Number.isInteger(maxChars) || maxChars < 20 || maxChars > 500) throw new Error('max_chunk_chars must be 20..500')
   const chunks = []

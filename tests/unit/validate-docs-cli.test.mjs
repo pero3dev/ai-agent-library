@@ -8,6 +8,7 @@ import { REPO_ROOT } from '../../scripts/lib/md-utils.mjs'
 
 const article = 'docs/01-concepts/agent-loop.md'
 const valid = readFileSync(path.join(REPO_ROOT, article), 'utf8')
+/** @param {import('node:test').TestContext} t @param {boolean} [withArticle] */
 function fixture(t, withArticle = true) {
   const base = path.resolve(os.tmpdir())
   const root = mkdtempSync(path.join(base, 'ai-agent-library-validator-cli-'))
@@ -16,6 +17,7 @@ function fixture(t, withArticle = true) {
     assert.ok(path.basename(root).startsWith('ai-agent-library-validator-cli-'))
     rmSync(root, { recursive: true, force: true })
   })
+  /** @param {string} file @param {string} text */
   const write = (file, text) => { mkdirSync(path.dirname(path.join(root, file)), { recursive: true }); writeFileSync(path.join(root, file), text) }
   for (const file of ['scripts/validate-docs.mjs', 'scripts/lib/md-utils.mjs', 'scripts/lib/validate-core.mjs']) {
     mkdirSync(path.dirname(path.join(root, file)), { recursive: true })
@@ -23,9 +25,11 @@ function fixture(t, withArticle = true) {
   }
   mkdirSync(path.join(root, 'docs'), { recursive: true })
   if (withArticle) write(article, valid)
+  /** @param {string[]} args @param {string} [cwd] */
   const run = (args, cwd = root) => spawnSync(process.execPath, [path.join(root, 'scripts/validate-docs.mjs'), ...args], { cwd, encoding: 'utf8', windowsHide: true, timeout: 10000 })
   return { root, write, run }
 }
+/** @param {import('node:child_process').SpawnSyncReturns<string>} result */
 function failed(result) {
   assert.equal(result.status, 1, result.stdout + result.stderr)
   assert.doesNotMatch(result.stdout, /OK:/)

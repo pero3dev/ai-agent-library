@@ -4,11 +4,13 @@ import { parseMarkdownLinks } from './markdown-links.mjs'
 
 const markdown = new MarkdownIt({ html: true, linkify: false, typographer: false })
 
+/** @param {string} text */
 export function referenceComparable(text) {
   const headings = parseMarkdownLinks(text).headings.filter(heading => heading.level === 2)
   const reference = headings.findIndex(heading => heading.text === '参考資料')
   const lines = text.split('\n')
   if (reference >= 0) lines.splice(headings[reference].line, (headings[reference + 1]?.line ?? lines.length + 1) - headings[reference].line - 1)
+  /** @param {import('markdown-it/lib/token.mjs').default} token @returns {unknown} */
   const tokenValue = token => ({
     type: token.type, tag: token.tag, nesting: token.nesting, markup: token.markup, info: token.info,
     content: token.children?.length ? undefined : token.content,

@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { requiredFixture, objectFixture } from '../helpers/json-fixtures.mjs';
 import { test } from 'node:test';
 import { mkdtemp, mkdir, readFile, writeFile, chmod, rm, symlink, realpath } from 'node:fs/promises';
 import os from 'node:os';
@@ -11,6 +12,7 @@ const baseArgs = ['--run', '--repo', '/repo', '--revision', 'a'.repeat(40), '--c
 const architecture = os.arch() === 'x64' ? 'x86_64' : os.arch();
 const triple = `${architecture}-apple-macosx14.0`;
 const otherArchitecture = architecture === 'arm64' ? 'x86_64' : 'arm64';
+/** @template T @param {(fixture:{root:string,compiler:string,realCompiler:string,sdk:string,sdkAlias:string,options:Record<string,string>})=>Promise<T>} action @param {{compilerMajor?:number}} [settings] @returns {Promise<T>} */
 async function fixture(action, { compilerMajor = 6 } = {}) {
   const root = await mkdtemp(path.join(candidate, '.core-toolchain-test-'));
   try {
@@ -22,15 +24,15 @@ async function fixture(action, { compilerMajor = 6 } = {}) {
     const compiler = path.join(toolchainRoot, 'swiftc'); await symlink('frontend-fixture', compiler);
     const sdkAlias = path.join(root, 'MacOSX.sdk'); await symlink('MacOSX15.2.sdk', sdkAlias);
     await writeFile(path.join(sdk, 'SDKSettings.json'), JSON.stringify({ CanonicalName: 'macosx15.2', Version: '15.2' }));
-    const options = parseArgs([...baseArgs, '--swiftc', compiler, '--sdk', sdkAlias, '--target', triple, '--swift-version', '5']);
+    const options = requiredFixture(parseArgs([...baseArgs, '--swiftc', compiler, '--sdk', sdkAlias, '--target', triple, '--swift-version', '5']));
     return await action({ root, compiler, realCompiler, sdk, sdkAlias, options });
   } finally { await rm(root, { recursive: true, force: true }); }
 }
 
 test('strict CLI accepts all four selectors and rejects unknown/duplicate/partial/freeform flags', () => {
   const explicit = ['--swiftc', '/tool/swiftc', '--sdk', '/sdk', '--target', triple, '--swift-version', '5'];
-  assert.equal(parseArgs([...baseArgs, ...explicit])['--swift-version'], '5');
-  assert.equal(parseArgs(baseArgs)['--revision'], 'a'.repeat(40));
+  assert.equal(requiredFixture(parseArgs([...baseArgs, ...explicit]))['--swift-version'], '5');
+  assert.equal(requiredFixture(parseArgs(baseArgs))['--revision'], 'a'.repeat(40));
   for (const suffix of [
     ['--swiftc', '/compiler'], [...explicit, '--sdk', '/other'], [...explicit, '--compiler-args', '-Onone'],
     [...explicit, '--eval', 'process.exit(0)'], [...explicit, '--shell', '/bin/bash'],
@@ -40,7 +42,7 @@ test('strict CLI accepts all four selectors and rejects unknown/duplicate/partia
   ]) assert.throws(() => parseArgs([...baseArgs, ...suffix]));
 });
 
-test('compiler and SDK symlinks resolve in identity while swiftc invocation name is retained', async () => {
+test('compiler and SDK symlinks resolve in identity while swiftc invocation name is retained', { skip: process.platform === 'win32' ? "Toolchain fixtures require POSIX symlinks and executable shebang files" : false }, async () => {
   await fixture(async ({ compiler, realCompiler, sdk, sdkAlias, options }) => {
     const selected = await selectToolchain(options);
     assert.equal(selected.compiler, compiler);
@@ -55,7 +57,7 @@ test('compiler and SDK symlinks resolve in identity while swiftc invocation name
   });
 });
 
-test('actual Node fake-compiler process receives exact typed Swift5/O/WMO/target/SDK flags and source argv', async () => {
+test('actual Node fake-compiler process receives exact typed Swift5/O/WMO/target/SDK flags and source argv', { skip: process.platform === 'win32' ? "Toolchain fixtures require POSIX symlinks and executable shebang files" : false }, async () => {
   await fixture(async ({ root, compiler, sdk, options }) => {
     const selected = await selectToolchain(options);
     const sources = ['Models', 'NativeDocument', 'ContentValidator', 'ReadingStore'].map(name => path.join(root, `${name}.swift`));
@@ -65,7 +67,7 @@ test('actual Node fake-compiler process receives exact typed Swift5/O/WMO/target
     assert.deepEqual(command.flags, ['-parse-as-library', '-swift-version', '5', '-O', '-whole-module-optimization', '-target', triple, '-sdk', await realpath(sdk), '-module-cache-path', cache]);
     assert.deepEqual(command.args, [...command.flags, ...sources, harness, '-o', output]);
     const executed = await runBounded(command.executable, command.args);
-    const actual = JSON.parse(executed.stdout);
+    const actual = objectFixture(JSON.parse(executed.stdout.toString('utf8')));
     assert.deepEqual(actual.args, command.args);
     assert(actual.fixture);
     const identity = { compiler_command: [command.executable, ...command.args], compiler_flags: command.flags, toolchain_selection: selected.selection,
@@ -82,15 +84,17 @@ test('actual Node fake-compiler process receives exact typed Swift5/O/WMO/target
   });
 });
 
-test('default selection records xcrun paths/default target and explicit Swift5 mode without real xcrun', async () => {
+test('default selection records xcrun paths/default target and explicit Swift5 mode without real xcrun', { skip: process.platform === 'win32' ? "Toolchain fixtures require POSIX symlinks and executable shebang files" : false }, async () => {
   await fixture(async ({ compiler, sdkAlias }) => {
+    /** @type {[string,string[]][]} */
     const calls = [];
+    /** @param {string} executable @param {string[]} args */
     const bounded = async (executable, args) => {
       calls.push([executable, args]);
       if (executable === '/usr/bin/xcrun') return { stdout: Buffer.from(args[0] === '--find' ? compiler : sdkAlias) };
       return runBounded(executable, args);
     };
-    const selected = await selectToolchain(parseArgs(baseArgs), bounded);
+    const selected = await selectToolchain(requiredFixture(parseArgs(baseArgs)), bounded);
     assert.equal(selected.target, triple); assert.equal(selected.swiftVersion, '5');
     assert.equal(selected.selection.mode, 'xcrun-defaults');
     assert.equal(selected.selection.requested.target, null); assert.equal(selected.selection.requested.swift_version, null);
@@ -98,7 +102,7 @@ test('default selection records xcrun paths/default target and explicit Swift5 m
   });
 });
 
-test('invalid architecture/deployment/SDK/platform/missing paths fail before any compile', async () => {
+test('invalid architecture/deployment/SDK/platform/missing paths fail before any compile', { skip: process.platform === 'win32' ? "Toolchain fixtures require POSIX symlinks and executable shebang files" : false }, async () => {
   await fixture(async ({ root, sdk, options }) => {
     await assert.rejects(selectToolchain({ ...options, '--target': `${otherArchitecture}-apple-macosx14.0` }), /architecture/);
     await assert.rejects(selectToolchain(options, runBounded, 'unsupported'), /architecture/);
@@ -114,7 +118,7 @@ test('invalid architecture/deployment/SDK/platform/missing paths fail before any
   });
 });
 
-test('Swift6 mode cannot be selected with a Swift5 compiler; unknown mode is rejected', async () => {
+test('Swift6 mode cannot be selected with a Swift5 compiler; unknown mode is rejected', { skip: process.platform === 'win32' ? "Toolchain fixtures require POSIX symlinks and executable shebang files" : false }, async () => {
   await fixture(async ({ options }) => {
     await assert.rejects(selectToolchain({ ...options, '--swift-version': '6' }), /unsupported/);
     await assert.rejects(selectToolchain({ ...options, '--swift-version': '4.2' }), /unsupported/);

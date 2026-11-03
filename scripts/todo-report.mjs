@@ -24,7 +24,9 @@ if (beforeIdx !== -1 && !/^\d{4}-\d{2}$/.test(before ?? '')) {
   process.exit(1)
 }
 
-const todos = [] // { file, line, month, text }
+/** @typedef {{file: string, line: number, month: string, text: string}} Todo */
+/** @type {Todo[]} */
+const todos = []
 for (const d of collectDocs()) {
   const text = readFileSync(d.abs, 'utf8')
   forEachLine(toLines(text), (line, lineNo, inFence) => {
@@ -42,10 +44,12 @@ if (asJson) {
   process.exit(0)
 }
 
+/** @type {Map<string, Todo[]>} */
 const byMonth = new Map()
 for (const t of todos) {
-  if (!byMonth.has(t.month)) byMonth.set(t.month, [])
-  byMonth.get(t.month).push(t)
+  const items = byMonth.get(t.month) ?? []
+  items.push(t)
+  byMonth.set(t.month, items)
 }
 const months = [...byMonth.keys()].sort()
 
@@ -54,7 +58,7 @@ console.log('')
 console.log('| 最終確認 | 件数 | ファイル数 |')
 console.log('| --- | --- | --- |')
 for (const m of months) {
-  const items = byMonth.get(m)
+  const items = byMonth.get(m) ?? []
   console.log(`| ${m} | ${items.length} | ${new Set(items.map(i => i.file)).size} |`)
 }
 console.log(`| 合計 | ${todos.length} | ${new Set(todos.map(t => t.file)).size} |`)
@@ -62,7 +66,7 @@ for (const m of months) {
   console.log('')
   console.log(`## ${m}`)
   console.log('')
-  for (const t of byMonth.get(m)) {
+  for (const t of byMonth.get(m) ?? []) {
     const excerpt = t.text.length > 80 ? `${t.text.slice(0, 80)}…` : t.text
     console.log(`- ${t.file}:L${t.line} — ${excerpt}`)
   }

@@ -12,6 +12,7 @@ const source = path.join(root, 'website/public/favicon.svg');
 const catalog = path.join(root, 'ios/AILibrary/Assets.xcassets');
 const icons = path.join(catalog, 'AppIcon.appiconset');
 const SOURCE_SHA256 = 'f9fc05866f8a15027f02e4e76c1a7bf58ece9aa89f573638d06ab5ed5ef37de1';
+/** @type {Record<string, string>} */
 const PNG_SHA256 = {
   "40": "bad6cf046206b780cb1051e2c2b6120c1fe528253f9cd4bfafc12c1ea3ab9b74",
   "58": "2c5e256e24f64930ee931b9bfeb453001cb556dba418cbf73cefa0788e1bba96",
@@ -29,12 +30,15 @@ const images = [
   }))),
   { idiom: 'ios-marketing', size: '1024x1024', scale: '1x', filename: 'AppIcon-1024.png' }
 ];
+/** @param {import('node:crypto').BinaryLike} bytes */
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
+/** @param {string} file */
 const regular = file => {
   const stat = lstatSync(file);
   assert.ok(stat.isFile() && !stat.isSymbolicLink() && stat.size > 0 && stat.size <= 1024 * 1024, `Invalid icon input: ${file}`);
   return readFileSync(file);
 };
+/** @param {Buffer} bytes @param {string | number} size */
 function png(bytes, size) {
   assert.ok(bytes.length >= 45 && bytes.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10])), 'PNG signature');
   assert.equal(bytes.readUInt32BE(8), 13); assert.equal(bytes.toString('ascii', 12, 16), 'IHDR');
@@ -54,14 +58,16 @@ function png(bytes, size) {
   assert.ok(data && end && offset === bytes.length, 'Complete PNG required');
   assert.equal(hash(bytes), PNG_SHA256[size], 'PNG does not match frozen source/renderer fingerprint');
 }
+/** @param {string} folder @param {boolean} [create] */
 function directory(folder, create = false) {
   if (create) mkdirSync(folder, { recursive: true });
   const stat = lstatSync(folder);
   assert.ok(stat.isDirectory() && !stat.isSymbolicLink(), `Invalid catalog directory: ${folder}`);
 }
+/** @param {string} file @param {string | Uint8Array} bytes */
 function put(file, bytes) {
   try { assert.ok(lstatSync(file).isFile() && !lstatSync(file).isSymbolicLink(), `Invalid output: ${file}`); }
-  catch (error) { if (error.code !== 'ENOENT') throw error; }
+  catch (error) { if (!(error instanceof Error && 'code' in error && error.code === 'ENOENT')) throw error; }
   writeFileSync(file, bytes);
 }
 async function main() {
@@ -74,6 +80,7 @@ async function main() {
     // Resolve only for generation. --check requires Node built-ins only.
     const sharp = createRequire(path.join(root, 'website/package.json'))('sharp');
     assert.equal(sharp.versions.sharp, '0.35.5', 'Use the existing pinned website Sharp');
+    /** @type {[string, Buffer][]} */
     const generated = [];
     for (const size of Object.keys(PNG_SHA256)) {
       const bytes = await sharp(svg, { density: 72 * Number(size) / 32, limitInputPixels: 1024 * 1024 })
@@ -87,8 +94,8 @@ async function main() {
     put(path.join(icons, 'Contents.json'), JSON.stringify({ images, info }, null, 2) + '\n');
   }
   directory(catalog); directory(icons);
-  assert.deepEqual(JSON.parse(regular(path.join(catalog, 'Contents.json'))), { info });
-  assert.deepEqual(JSON.parse(regular(path.join(icons, 'Contents.json'))), { images, info });
+  assert.deepEqual(JSON.parse(regular(path.join(catalog, 'Contents.json')).toString('utf8')), { info });
+  assert.deepEqual(JSON.parse(regular(path.join(icons, 'Contents.json')).toString('utf8')), { images, info });
   assert.deepEqual(readdirSync(catalog).sort(), ['AppIcon.appiconset', 'Contents.json']);
   assert.deepEqual(readdirSync(icons).sort(), ['Contents.json', ...Object.keys(PNG_SHA256).map(size => `AppIcon-${size}.png`)].sort());
   for (const size of Object.keys(PNG_SHA256)) png(regular(path.join(icons, `AppIcon-${size}.png`)), size);

@@ -8,8 +8,10 @@ import { matchesPattern, parseRegistry, readRegistry, selectSystems } from '../.
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 const now = '2026-09-10T07:23:00+09:00'
+/** @param {string} id @param {string} [docs] @param {string} [research] @param {number} [cadence] */
 const row = (id, docs = '`docs/01-concepts/*.md`', research = '`research/core/*.md`', cadence = 42) =>
   `| \`${id}\` | 系統 ${id} | ${docs} | ${research} | ${cadence} |`
+/** @param {...string} rows */
 const table = (...rows) => [
   '<!-- freshness-registry:start -->',
   '',
@@ -19,9 +21,12 @@ const table = (...rows) => [
   '',
   '<!-- freshness-registry:end -->'
 ].join('\n')
+/** @param {string} id @param {number} [cadenceDays] */
 const system = (id, cadenceDays = 42) => ({ id, title: id, docs: ['docs/example.md'], research: ['research/example.md'], cadenceDays })
+/** @param {Parameters<typeof selectSystems>} args */
 const selectedIds = (...args) => selectSystems(...args).map(item => item.id)
 
+/** @param {import('node:test').TestContext} t @param {string} [markdown] @param {string[]} [extraFiles] */
 function fixture(t, markdown = table(row('one')), extraFiles = []) {
   const directory = mkdtempSync(path.join(os.tmpdir(), 'freshness-registry-'))
   t.after(() => rmSync(directory, { recursive: true, force: true }))
@@ -104,10 +109,10 @@ test('weekly focus reserves the third slot for the nearest pending deadline', ()
 
 test('six weekly focus and rotation pairs cover the full catalog despite repeated urgent work', () => {
   const registry = readRegistry(root)
-  const state = { systems: {}, pending: [{ system_id: 'compliance', due_at: '2026-09-01' }] }
+  const state = { systems: /** @type {Record<string, {last_attempted_at: string, last_verified_at: string}>} */ ({}), pending: [{ system_id: 'compliance', due_at: '2026-09-01' }] }
   const covered = new Set()
   for (let week = 0; week < 6; week++) {
-    for (const [mode, day] of [['weekly_focus', 0], ['rotation', 3]]) {
+    for (const [mode, day] of /** @type {[string, number][]} */ ([['weekly_focus', 0], ['rotation', 3]])) {
       const date = new Date(Date.UTC(2026, 8, 14 + 7 * week + day))
       for (const entry of selectSystems(registry, state, { mode, now: date })) {
         covered.add(entry.id)

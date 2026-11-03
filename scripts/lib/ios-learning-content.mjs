@@ -11,8 +11,10 @@ const maxLearningBytes = 4 * 1024 * 1024;
 const maxStringBytes = 16384;
 const parser = new MarkdownIt({ html: false, linkify: false, typographer: false });
 const articlePattern = /^\d{2}-[a-z0-9-]+\/[a-z0-9-]+$/;
+/** @template T @param {Iterable<[string, T]>} values @returns {Record<string, T>} */
 const sortedObject = values => Object.fromEntries([...values].sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0));
 
+/** @param {unknown} value @param {string} label @param {{empty?: boolean}} [options] */
 function text(value, label, { empty = false } = {}) {
   if (typeof value !== 'string' || (!empty && !value.trim()) || Buffer.byteLength(value) > maxStringBytes) {
     throw new Error(`Invalid or oversized learning ${label}`);
@@ -20,7 +22,9 @@ function text(value, label, { empty = false } = {}) {
   return value;
 }
 
+/** @param {import('./ios-types.d.mts').MarkdownToken[] | null} [tokens] @returns {string} */
 function plain(tokens = []) {
+  if (!tokens) return '';
   return tokens.map(token => {
     if (['text', 'code_inline'].includes(token.type)) return token.content;
     if (['softbreak', 'hardbreak'].includes(token.type)) return '\n';
@@ -30,6 +34,7 @@ function plain(tokens = []) {
   }).join('');
 }
 
+/** @param {string} source */
 function body(source) {
   const lines = toLines(source);
   const fm = parseFrontMatter(lines);
@@ -38,9 +43,12 @@ function body(source) {
   return lines.join('\n');
 }
 
+/** @param {import('./ios-types.d.mts').MarkdownToken[]} tokens */
 function tableRows(tokens) {
+  /** @type {import('./ios-types.d.mts').MarkdownToken[][][]} */
   const rows = [];
   let inBody = false;
+  /** @type {import('./ios-types.d.mts').MarkdownToken[][] | undefined} */
   let row;
   for (let index = 0; index < tokens.length; index++) {
     const token = tokens[index];
@@ -53,6 +61,7 @@ function tableRows(tokens) {
   return rows;
 }
 
+/** @param {import('./ios-types.d.mts').MarkdownToken[]} tokens */
 function links(tokens) {
   const result = [];
   for (let index = 0; index < tokens.length; index++) {
@@ -61,29 +70,39 @@ function links(tokens) {
     if (token.type !== 'link_open') continue;
     const close = tokens.findIndex((next, nextIndex) => nextIndex > index && next.type === 'link_close');
     if (close < 0) throw new Error('Unclosed learning link');
-    result.push({ href: token.attrGet('href'), label: text(plain(tokens.slice(index + 1, close)), 'link label') });
+    result.push({ href: token.attrGet('href') ?? '', label: text(plain(tokens.slice(index + 1, close)), 'link label') });
     index = close;
   }
   return result;
 }
 
-/** Optional, hash-listed metadata. It does not add fields to manifest2 or document1. */
+/** Optional, hash-listed metadata. It does not add fields to manifest2 or document1.
+ * @param {{root?: string, articles?: import('./ios-types.d.mts').LearningArticle[]}} [options]
+ */
 export async function buildNativeLearningIndex({ root, articles } = {}) {
   if (!Array.isArray(articles) || articles.length < 1 || articles.length > 2000) throw new Error('Invalid learning article count');
+  if (!root) throw new Error('Learning metadata requires root');
   root = await realpath(root);
+  /** @type {Map<string, import('./ios-types.d.mts').LearningArticle>} */
   const bySource = new Map();
+  /** @type {Map<string, import('./ios-types.d.mts').LearningArticle>} */
   const byID = new Map();
+  /** @type {Map<string, string>} */
   const sourceSHAs = new Map();
+  /** @type {Map<string, string>} */
   const sources = new Map();
+  /** @param {string} file @returns {Promise<string>} */
   const read = async file => {
-    if (!sources.has(file)) {
+    const cached = sources.get(file);
+    if (cached !== undefined) return cached;
       const bytes = await readSource(root, file);
       if (!bytes.length || bytes.length > maxSourceBytes) throw new Error(`Invalid or oversized learning source: ${file}`);
-      sources.set(file, bytes.toString('utf8'));
+      const source = bytes.toString('utf8');
+      sources.set(file, source);
       sourceSHAs.set(file, sha256(bytes));
-    }
-    return sources.get(file);
+      return source;
   };
+  /** @type {Map<string, string[]>} */
   const tags = new Map();
   for (const article of articles) {
     if (!article || !articlePattern.test(article.id) || article.source_path !== `docs/${article.id}.md` ||
@@ -96,7 +115,7 @@ export async function buildNativeLearningIndex({ root, articles } = {}) {
     if (sourceSHAs.get(article.source_path) !== article.source_sha256) throw new Error(`Stale learning article source: ${article.id}`);
     const fm = parseFrontMatter(toLines(source));
     const fields = fm?.fields.filter(field => field.key === 'tags');
-    if (!fm || fm.unclosed || fm.errors.length || fields.length !== 1) throw new Error(`Missing or invalid learning tags: ${article.id}`);
+    if (!fm || fm.unclosed || fm.errors.length || !fields || fields.length !== 1) throw new Error(`Missing or invalid learning tags: ${article.id}`);
     const values = parseTagsArray(fields[0].value);
     if (!values || values.length > 64 || new Set(values).size !== values.length ||
         values.some(value => !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value) || value.length > 128)) {
@@ -118,11 +137,12 @@ export async function buildNativeLearningIndex({ root, articles } = {}) {
     const paragraph = tokens.slice(heading + 3).findIndex(token => token.type === 'paragraph_open' && token.level === 0);
     if (paragraph < 0) throw new Error(`Missing learning chapter description: ${id}`);
     const description = text(plain(tokens[heading + 4 + paragraph]?.children), 'chapter description');
+    /** @type {string[]} */
     const articleIDs = [];
     for (const row of tableRows(tokens)) for (const cell of row) for (const link of links(cell)) {
       const target = splitLocalDestination(link.href);
       if (target.error) throw new Error(`Invalid learning chapter link: ${link.href}`);
-      if (target.external || !/^(?:\.\/)?[a-z0-9-]+\.md$/.test(target.pathname)) continue;
+      if (target.external || !target.pathname || !/^(?:\.\/)?[a-z0-9-]+\.md$/.test(target.pathname)) continue;
       const resolved = path.posix.join(`docs/${id}`, target.pathname);
       const article = bySource.get(resolved);
       if (!article) {
@@ -131,7 +151,7 @@ export async function buildNativeLearningIndex({ root, articles } = {}) {
         if (bytes.length > maxSourceBytes) throw new Error(`Oversized learning chapter draft: ${resolved}`);
         const fm = parseFrontMatter(toLines(bytes.toString('utf8')));
         const statuses = fm?.fields.filter(field => field.key === 'status');
-        if (!fm || fm.unclosed || fm.errors.length || statuses.length !== 1 || parseScalar(statuses[0].value) !== 'draft') throw new Error(`Unknown learning chapter article: ${resolved}`);
+        if (!fm || fm.unclosed || fm.errors.length || !statuses || statuses.length !== 1 || parseScalar(statuses[0].value) !== 'draft') throw new Error(`Unknown learning chapter article: ${resolved}`);
         continue;
       }
       if (articleIDs.includes(article.id)) throw new Error(`Duplicate learning chapter article: ${article.id}`);
@@ -142,6 +162,8 @@ export async function buildNativeLearningIndex({ root, articles } = {}) {
     chapters.push({ id, title, description, article_ids: articleIDs });
   }
 
+  const selected = new Map([...bySource].map(([source, article]) => [source, article.id]));
+  /** @param {string} href @param {string} sourcePath @returns {import('./ios-types.d.mts').LearningTarget} */
   const destination = (href, sourcePath) => {
     const split = splitLocalDestination(href);
     if (split.error) throw new Error(`Invalid learning destination: ${href}`);
@@ -150,7 +172,7 @@ export async function buildNativeLearningIndex({ root, articles } = {}) {
       if (url.protocol !== 'https:' || url.username || url.password) throw new Error(`Learning external destination requires HTTPS: ${href}`);
       return { type: 'external', url: text(url.href, 'external URL') };
     }
-    if (split.suffix.startsWith('?')) throw new Error(`Learning internal destinations cannot contain a query: ${href}`);
+    if (split.suffix?.startsWith('?')) throw new Error(`Learning internal destinations cannot contain a query: ${href}`);
     const resolved = split.pathname ? path.posix.normalize(path.posix.join(path.posix.dirname(sourcePath), split.pathname)) : sourcePath;
     if (resolved.startsWith('../') || resolved.startsWith('/') || resolved.includes('\\')) throw new Error(`Unsafe learning destination: ${href}`);
     const article = bySource.get(resolved);
@@ -159,22 +181,24 @@ export async function buildNativeLearningIndex({ root, articles } = {}) {
       return { type: 'article', article_id: article.id, ...(split.fragment ? { heading_id: text(split.fragment, 'article heading') } : {}) };
     }
     const chapter = resolved.match(/^docs\/(\d{2}-[a-z0-9-]+)\/README\.md$/)?.[1];
-    if (chapterIDs.has(chapter) && !split.fragment) return { type: 'chapter', chapter_id: chapter };
+    if (chapter && chapterIDs.has(chapter) && !split.fragment) return { type: 'chapter', chapter_id: chapter };
     // Relative article typos must not silently become external links.
     if (/^docs\/\d{2}-[a-z0-9-]+\/[a-z0-9-]+\.md$/.test(resolved)) throw new Error(`Unknown learning article: ${href}`);
-    const rewritten = rewriteLink(href, sourcePath, bySource);
+    const rewritten = rewriteLink(href, sourcePath, selected);
     const url = new URL(rewritten.href);
     if (url.protocol !== 'https:' || url.username || url.password) throw new Error(`Learning external destination requires HTTPS: ${href}`);
     return { type: 'external', url: text(url.href, 'external URL') };
   };
+  /** @param {import('./ios-types.d.mts').MarkdownToken[]} tokens */
   const routeInlines = tokens => {
+    /** @type {import('./ios-types.d.mts').LearningInline[]} */
     const result = [];
     for (let index = 0; index < tokens.length; index++) {
       const token = tokens[index];
       if (token.type === 'link_open') {
         const close = tokens.findIndex((next, nextIndex) => nextIndex > index && next.type === 'link_close');
         if (close < 0) throw new Error('Unclosed learning route link');
-        result.push({ type: 'link', text: text(plain(tokens.slice(index + 1, close)), 'route link label'), target: destination(token.attrGet('href'), 'docs/00-overview/learning-roadmap.md') });
+        result.push({ type: 'link', text: text(plain(tokens.slice(index + 1, close)), 'route link label'), target: destination(token.attrGet('href') ?? '', 'docs/00-overview/learning-roadmap.md') });
         index = close;
       } else if (!token.nesting) {
         result.push({ type: 'text', text: text(plain([token]), 'route text', { empty: true }) });
@@ -193,20 +217,22 @@ export async function buildNativeLearningIndex({ root, articles } = {}) {
     if (row.length !== 3) throw new Error('Learning routes require three columns');
     const type = plain(row[0]).trim().match(/^([A-H]):\s*(.+)$/);
     if (!type) throw new Error('Invalid learning route identity');
+    /** @type {import('./ios-types.d.mts').LearningStep[]} */
     const steps = [{ inlines: [] }];
     for (const inline of routeInlines(row[2])) {
-      if (inline.type === 'link') steps.at(-1).inlines.push(inline);
+      if (inline.type === 'link') steps[steps.length - 1].inlines.push(inline);
       else {
         const chunks = inline.text.split('→');
         chunks.forEach((chunk, index) => {
           if (index) steps.push({ inlines: [] });
-          if (chunk) steps.at(-1).inlines.push({ type: 'text', text: chunk });
+          if (chunk) steps[steps.length - 1].inlines.push({ type: 'text', text: chunk });
         });
       }
     }
     for (const step of steps) {
       if (step.inlines[0]?.type === 'text') step.inlines[0].text = step.inlines[0].text.trimStart();
-      if (step.inlines.at(-1)?.type === 'text') step.inlines.at(-1).text = step.inlines.at(-1).text.trimEnd();
+      const last = step.inlines.at(-1);
+      if (last?.type === 'text') last.text = last.text.trimEnd();
       step.inlines = step.inlines.filter(inline => inline.type !== 'text' || inline.text);
       if (!step.inlines.length) throw new Error('Empty learning route step');
       if (step.inlines.length > 64) throw new Error('Learning route step exceeds 64 inlines');
@@ -223,13 +249,16 @@ export async function buildNativeLearningIndex({ root, articles } = {}) {
   for (let index = 0; index < glossaryTokens.length; index++) {
     const token = glossaryTokens[index];
     if (token.type !== 'heading_open' || token.tag !== 'h3') continue;
-    const heading = glossaryHeadings.find(value => value.line === token.map[0] + 1);
+    if (!token.map) throw new Error('Missing learning glossary anchor');
+    const line = token.map[0] + 1;
+    const heading = glossaryHeadings.find(value => value.line === line);
     if (!heading) throw new Error('Missing learning glossary anchor');
     const end = glossaryTokens.findIndex((next, nextIndex) => nextIndex > index && next.type === 'heading_open' && Number(next.tag.slice(1)) <= 3);
     const section = glossaryTokens.slice(index + 3, end < 0 ? undefined : end);
     const paragraph = section.findIndex(next => next.type === 'paragraph_open' && next.level === 0);
     if (paragraph < 0) throw new Error(`Missing learning glossary definition: ${heading.id}`);
     const name = heading.text.match(/^(.+?)\s*(?:[（(](.+)[）)])?$/);
+    if (!name) throw new Error('Missing learning glossary term name');
     const details = section.filter(next => next.type === 'inline').flatMap(next => links(next.children || [])).map(link => ({ label: link.label, target: destination(link.href, 'GLOSSARY.md') }));
     if (details.length > 256) throw new Error('Learning glossary term exceeds 256 links');
     glossary.push({ id: text(heading.id, 'glossary ID'), name: text(name[1].trim(), 'term name'), english: name[2] ? text(name[2].trim(), 'English term') : null,

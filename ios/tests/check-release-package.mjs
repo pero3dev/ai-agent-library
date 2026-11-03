@@ -7,8 +7,10 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const normalContentRoot = fileURLToPath(new URL('../AILibrary/Content/', import.meta.url));
+/** @param {import('node:crypto').BinaryLike} data */
 const sha256 = data => createHash('sha256').update(data).digest('hex');
 
+/** @param {string} directory @param {string} [prefix] @returns {Promise<string[]>} */
 async function regularFiles(directory, prefix = '') {
   const files = [];
   assert.ok((await lstat(directory)).isDirectory(), `Not a directory: ${directory}`);
@@ -24,6 +26,7 @@ async function regularFiles(directory, prefix = '') {
   return files.sort();
 }
 
+/** @param {string} appRoot @param {{sourceContentRoot?: string}} [options] */
 export async function verifyReleasePackage(appRoot, { sourceContentRoot = normalContentRoot } = {}) {
   const app = path.resolve(appRoot);
   assert.ok((await lstat(app)).isDirectory(), 'Release application must be a real directory');
@@ -31,13 +34,14 @@ export async function verifyReleasePackage(appRoot, { sourceContentRoot = normal
     await lstat(path.join(app, 'TestContent'));
     assert.fail('Release application includes TestContent');
   } catch (error) {
-    if (error.code !== 'ENOENT') throw error;
+    if (!(error instanceof Error && 'code' in error && error.code === 'ENOENT')) throw error;
   }
   const content = path.join(app, 'Content');
   const manifestData = await readFile(path.join(content, 'manifest.json'));
   assert.deepEqual(manifestData, await readFile(path.join(sourceContentRoot, 'manifest.json')),
     'Release manifest differs from the audited normal package');
-  const manifest = JSON.parse(manifestData);
+  /** @type {{schema_version: number, revision: string, articles: {id: string, is_test_fixture?: boolean}[], audio: unknown[], files: Record<string, string>}} */
+  const manifest = JSON.parse(manifestData.toString('utf8'));
   assert.equal(manifest.schema_version, 2, 'Expected native package schema 2');
   assert.ok(Array.isArray(manifest.articles) && manifest.articles.length > 0, 'Normal articles are missing');
   assert.ok(manifest.articles.every(article => article.is_test_fixture !== true
@@ -72,7 +76,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     assert.equal(process.argv.length, 3, 'Usage: node ios/tests/check-release-package.mjs <Release AILibrary.app>');
     console.log(JSON.stringify(await verifyReleasePackage(process.argv[2]), null, 2));
   } catch (error) {
-    console.error(`Release package audit failed: ${error.message}`);
+    console.error(`Release package audit failed: ${error instanceof Error ? error.message : String(error)}`);
     process.exitCode = 1;
   }
 }

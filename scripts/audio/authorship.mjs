@@ -1,27 +1,41 @@
 import { createHash } from 'node:crypto'
 import { closeSync, existsSync, fsyncSync, lstatSync, mkdirSync, openSync, readFileSync, readdirSync, realpathSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
+import { errorCode, errorMessage } from './errors.mjs'
+
+/** @typedef {import('./contracts.ts').SourceBinding} SourceBinding */
+/** @typedef {import('./contracts.ts').ScriptAgent} ScriptAgent */
+/** @typedef {import('./contracts.ts').ScriptAuthorship} ScriptAuthorship */
 
 const hashPattern = /^[a-f0-9]{64}$/
+/** @type {ScriptAgent[]} */
 const agentOrder = ['codex', 'claude']
+/** @param {unknown} value */
 const hash = value => createHash('sha256').update(JSON.stringify(value)).digest('hex')
 export class AuthorshipError extends Error {
+  /** @param {string} message */
   constructor(message) { super(`Script authorship: ${message}`); this.name = 'AuthorshipError' }
 }
+/** @type {(condition: unknown, message: string) => asserts condition} */
 const requireValue = (condition, message) => { if (!condition) throw new AuthorshipError(message) }
+/** @param {unknown} value @returns {value is Record<string, unknown>} */
+const recordObject = value => value !== null && typeof value === 'object' && !Array.isArray(value)
 
+/** @param {unknown} agents @returns {ScriptAgent[]} */
 export function normalizeScriptAgents(agents) {
   requireValue(Array.isArray(agents) && agents.length > 0 && agents.every(agent => agentOrder.includes(agent)) && new Set(agents).size === agents.length, 'agents must be unique known writers (codex, claude)')
   return agentOrder.filter(agent => agents.includes(agent))
 }
 
+/** @param {unknown} value @param {{allowMissingScript?: boolean}} [options] @returns {SourceBinding} */
 function binding(value, { allowMissingScript = false } = {}) {
-  requireValue(/^docs\/\d{2}-[a-z0-9-]+\/[a-z0-9][a-z0-9/-]*\.md$/.test(value?.article_path ?? '') && !value.article_path.split('/').includes('..'), 'invalid article path')
-  requireValue(hashPattern.test(value.source_digest ?? ''), 'invalid source digest')
-  requireValue(hashPattern.test(value.script_sha256 ?? '') || (allowMissingScript && value.script_sha256 === null), 'invalid canonical script digest')
+  requireValue(recordObject(value) && typeof value.article_path === 'string' && /^docs\/\d{2}-[a-z0-9-]+\/[a-z0-9][a-z0-9/-]*\.md$/.test(value.article_path) && !value.article_path.split('/').includes('..'), 'invalid article path')
+  requireValue(typeof value.source_digest === 'string' && hashPattern.test(value.source_digest), 'invalid source digest')
+  requireValue(typeof value.script_sha256 === 'string' && hashPattern.test(value.script_sha256) || (allowMissingScript && value.script_sha256 === null), 'invalid canonical script digest')
   return { article_path: value.article_path, source_digest: value.source_digest, script_sha256: value.script_sha256 }
 }
 
+/** @param {string} jobDir @param {boolean} [create] */
 function directories(jobDir, create = false) {
   // Check every existing path component: an ignored job is still not a link target.
   const absolute = path.resolve(jobDir)
@@ -32,30 +46,32 @@ function directories(jobDir, create = false) {
   }
   const directory = path.join(realpathSync(absolute), 'authorship')
   let stat
-  try { stat = lstatSync(directory) } catch (error) { if (error.code !== 'ENOENT') throw new AuthorshipError(`cannot inspect authorship history: ${error.message}`) }
+  try { stat = lstatSync(directory) } catch (error) { if (errorCode(error) !== 'ENOENT') throw new AuthorshipError(`cannot inspect authorship history: ${errorMessage(error)}`) }
   if (stat) requireValue(stat.isDirectory() && !stat.isSymbolicLink(), 'authorship history must be a regular directory')
   else if (create) mkdirSync(directory)
   return directory
 }
 
+/** @param {string} file @param {SourceBinding} expected @returns {ScriptAuthorship} */
 function readRecord(file, expected) {
   try {
     const stat = lstatSync(file)
     requireValue(stat.isFile() && !stat.isSymbolicLink() && stat.size < 4096, 'record must be a small regular file')
-    const record = JSON.parse(readFileSync(file, 'utf8'))
-    requireValue(record?.schema_version === 1 && Object.keys(record).sort().join(',') === 'agents,article_path,schema_version,script_sha256,source_digest', 'invalid record schema')
+    const record = /** @type {unknown} */ (JSON.parse(readFileSync(file, 'utf8')))
+    requireValue(recordObject(record) && record.schema_version === 1 && Object.keys(record).sort().join(',') === 'agents,article_path,schema_version,script_sha256,source_digest', 'invalid record schema')
     const actual = binding(record)
-    requireValue(Object.keys(expected).every(key => expected[key] === actual[key]), 'record source/script binding mismatch')
+    requireValue(expected.article_path === actual.article_path && expected.source_digest === actual.source_digest && expected.script_sha256 === actual.script_sha256, 'record source/script binding mismatch')
     const agents = normalizeScriptAgents(record.agents)
     requireValue(JSON.stringify(agents) === JSON.stringify(record.agents), 'record agents must use canonical order')
-    return { ...record, agents, legacy: false }
+    return { schema_version: 1, ...actual, agents, legacy: false }
   } catch (error) {
     if (error instanceof AuthorshipError) throw error
-    throw new AuthorshipError(`cannot read current record: ${error.message}`)
+    throw new AuthorshipError(`cannot read current record: ${errorMessage(error)}`)
   }
 }
 
 /** Legacy Claude is allowed only when the job has no author history at all. */
+/** @param {string} jobDir @param {Partial<SourceBinding>} value @returns {ScriptAuthorship | null} */
 export function readScriptAuthorship(jobDir, value) {
   try {
     const expected = binding(value, { allowMissingScript: true })
@@ -68,11 +84,12 @@ export function readScriptAuthorship(jobDir, value) {
     return readRecord(file, expected)
   } catch (error) {
     if (error instanceof AuthorshipError) throw error
-    throw new AuthorshipError(`cannot inspect current history: ${error.message}`)
+    throw new AuthorshipError(`cannot inspect current history: ${errorMessage(error)}`)
   }
 }
 
 /** Append before saving script.json. Existing records are immutable, including agents. */
+/** @param {string} jobDir @param {Partial<SourceBinding> & {agents: unknown}} value @returns {ScriptAuthorship} */
 export function recordScriptAuthorship(jobDir, value) {
   const expected = binding(value)
   const record = { schema_version: 1, ...expected, agents: normalizeScriptAgents(value.agents) }
@@ -91,13 +108,14 @@ export function recordScriptAuthorship(jobDir, value) {
     fsyncSync(descriptor)
   } catch (error) {
     // A torn record remains visible and fails closed; it is never treated as legacy.
-    if (error.code === 'EEXIST') return existingRecord()
-    throw new AuthorshipError(`could not persist immutable record: ${error.message}`)
+    if (errorCode(error) === 'EEXIST') return existingRecord()
+    throw new AuthorshipError(`could not persist immutable record: ${errorMessage(error)}`)
   } finally { if (descriptor !== undefined) closeSync(descriptor) }
   return { ...record, legacy: false }
 }
 
 /** Operator seed: an expected hash is mandatory and the actual script is read locally. */
+/** @param {string} jobDir @param {{article_path?: string, source_digest?: string, agents?: unknown, expected_script_sha256?: string}} [options] */
 export function seedScriptAuthorship(jobDir, { article_path, source_digest, agents, expected_script_sha256 } = {}) {
   binding({ article_path, source_digest, script_sha256: expected_script_sha256 })
   directories(jobDir)

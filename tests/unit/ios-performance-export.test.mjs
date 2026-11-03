@@ -8,16 +8,20 @@ import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { exportPerformance, metricReference, normalizeMetrics, validateClockCSV, verifiedCase, verifiedDetails, performanceScenario, verifiedScenarioContext, bindLongScrollInput, parseLongScrollProtocol, performanceNotMeasured } from '../../ios/tests/export-performance.mjs';
+import { resultObject } from '../../ios/tests/xcresult-json.mjs';
 
 const exporter = fileURLToPath(new URL('../../ios/tests/export-performance.mjs', import.meta.url));
 const identifier = 'PublishedPerformanceUITests/testLaunchToPublishedReadiness()';
+/** @param {string} result @param {string} [id] */
 const caseNode = (result, id = identifier) => ({ nodeType: 'Test Case', nodeIdentifier: id, result });
+/** @param {string} result */
 const report = result => ({ testNodes: [{ nodeType: 'Test Suite', children: [caseNode(result)] }] });
 const posixOnly = { skip: process.platform === 'win32' ? 'The xcrun executable/symlink fixture uses POSIX; no actual Xcode process runs' : false };
 
 // Legacy wire fields are documented by xcresulttool formatDescription --legacy.
 // Most durations below are synthetic. The explicitly labelled 247-byte fixture
 // and Clock identity came from run40188893652, not a timing target or baseline.
+/** @param {unknown[]} [samples] @param {string} [unit] */
 function metricSummary(samples = ['3.00', '1.00', '2.00'], unit = 'synthetic-unit') {
   return {
     _type: { _name: 'ActionTestSummary' }, identifier: { _value: identifier },
@@ -33,6 +37,7 @@ function metricSummary(samples = ['3.00', '1.00', '2.00'], unit = 'synthetic-uni
   };
 }
 
+/** @param {unknown[]} [samples] */
 function clockSummary(samples) {
   const summary = metricSummary(samples, 's'), metric = summary.performanceMetrics._values[0];
   metric.identifier._value = 'com.apple.dt.XCTMetric_Clock.time.monotonic';
@@ -52,12 +57,14 @@ const csvFixture = (overrides = {}) => {
 // bundle or host-specific path/device UUID is required by the portable tests.
 const observedCSV = csvHeader + '\n"iPhone 16 iOS Simulator 18.5","Test Scheme Action","13.6226208 s","[13.72942072, 15.904793718, 11.233647974]","0"';
 const observedSamples = ['13.72942072', '15.904793718', '11.233647974'];
+/** @param {unknown[]} [samples] */
 const normalizedClock = samples => normalizeMetrics(clockSummary(samples), identifier, 'Passed')[0];
 
 function reference(id = 'summary-id', testID = identifier) {
   return { _type: { _name: 'ActionTestMetadata' }, identifier: { _value: testID }, summaryRef: { id: { _value: id } } };
 }
 
+/** @param {import('node:test').TestContext} t */
 function temporary(t) {
   const root = realpathSync(mkdtempSync(path.join(os.tmpdir(), 'ailibrary-ios-performance-test-')));
   t.after(() => rmSync(root, { recursive: true, force: true }));
@@ -66,6 +73,8 @@ function temporary(t) {
 
 // Runs the actual exporter CLI with a local xcrun double. This exercises command
 // selection, exit status and retained files without Xcode, Simulator or a device.
+/** @typedef {{context?: object, protocolInput?: string, protocolBytes?: Buffer, caseID?: string, scenario?: string}} PerformanceFixtureOptions */
+/** @param {import('node:test').TestContext} t @param {string} [mode] @param {PerformanceFixtureOptions} [fixtureOptions] */
 function runFixtureCLI(t, mode = 'complete', fixtureOptions = {}) {
   const root = temporary(t);
   const result = path.join(root, 'raw.xcresult');
@@ -96,7 +105,7 @@ function runFixtureCLI(t, mode = 'complete', fixtureOptions = {}) {
     outputs.plan = { summaries: [reference('summary-id', id)] };
     outputs.summary.identifier._value = id;
   }
-  if (mode === 'legacy-status-missing') delete outputs.summary.testStatus;
+  if (mode === 'legacy-status-missing') Reflect.deleteProperty(outputs.summary, 'testStatus');
   if (mode === 'legacy-status-conflict') outputs.summary.testStatus._value = 'Failure';
   if (mode === 'foreign-metric') outputs.summary.performanceMetrics._values[0].identifier._value = 'foreign.metric';
   if (mode === 'wrong-unit') outputs.summary.performanceMetrics._values[0].unitOfMeasurement._value = 'ms';
@@ -145,7 +154,7 @@ else if (args.includes('object')) {
     return readFileSync(path.join(output, directory, 'raw.csv'), 'utf8');
   };
   return { run, root, context, contextBytes, database, databaseBytes, output, rawCSV,
-    get summary() { return JSON.parse(readFileSync(path.join(output, 'performance-summary.json'), 'utf8')); }, commands: () => readFileSync(commands, 'utf8').trim().split('\n').map(JSON.parse) };
+    get summary() { return JSON.parse(readFileSync(path.join(output, 'performance-summary.json'), 'utf8')); }, commands: () => readFileSync(commands, 'utf8').trim().split('\n').map(line => /** @type {string[]} */ (JSON.parse(line))) };
 }
 
 test('one passed dedicated case retains its actual report identifier', () => {
@@ -192,7 +201,7 @@ test('actual numeric zeros remain different from absent measurements', () => {
 });
 
 test('missing or blank metric units and names are never invented', () => {
-  const missing = metricSummary(); delete missing.performanceMetrics._values[0].unitOfMeasurement;
+  const missing = metricSummary(); Reflect.deleteProperty(missing.performanceMetrics._values[0], 'unitOfMeasurement');
   assert.throws(() => normalizeMetrics(missing, identifier, 'Passed'));
   for (const unit of ['', '  ']) assert.throws(() => normalizeMetrics(metricSummary(undefined, unit), identifier, 'Passed'));
   const unnamed = metricSummary(); unnamed.performanceMetrics._values[0].displayName._value = '';
@@ -267,6 +276,7 @@ test('the CLI accepts the verified clock identity and matching CSV without adopt
   assert.equal(value.summary.acceptance_status, 'unadopted');
   assert.equal(value.rawCSV(), csvFixture());
   const csvCommand = value.commands().find(args => args.includes('export'));
+  assert.ok(csvCommand, 'CSV export command is retained');
   assert.deepEqual(csvCommand.slice(0, 3), ['xcresulttool', 'export', 'metrics']);
   assert.equal(csvCommand[csvCommand.indexOf('--test-id') + 1], identifier);
   assert.ok(value.commands().filter(args => args.includes('object')).every(args => args.includes('--legacy')));
@@ -292,7 +302,7 @@ test('an absent recorded-metrics flag is rejected after raw CSV is retained', po
 test('legacy Success only maps to the verified modern Passed result', () => {
   for (const status of [undefined, '', 'Failure', 'Passed', 'success']) {
     const value = metricSummary();
-    if (status === undefined) delete value.testStatus;
+    if (status === undefined) Reflect.deleteProperty(value, 'testStatus');
     else value.testStatus._value = status;
     assert.throws(() => normalizeMetrics(value, identifier, 'Passed'), /Passed\/Success mapping/);
   }
@@ -312,6 +322,7 @@ test('contradictory or missing legacy status rejects the CLI result independentl
   }
 });
 
+/** @param {{result: string, output: string, context: string}} options */
 function rejectedCLI(options) {
   const run = spawnSync(process.execPath, [exporter, '--result', options.result, '--output', options.output, '--context', options.context], {
     encoding: 'utf8', timeout: 15000, env: { ...process.env, PATH: '' },
@@ -432,11 +443,11 @@ test('a foreign metric ID, display name, unit or non-Double sample is refused', 
 });
 
 test('CSV destination and configuration must agree with the sole actual expected device and plan', () => {
-  for (const update of [value => { value.devices = []; }, value => { value.devices.push({ ...value.devices[0] }); },
+  for (const update of /** @type {((value: ReturnType<typeof detailsFixture>) => void)[]} */ ([value => { value.devices = []; }, value => { value.devices.push({ ...value.devices[0] }); },
     value => { value.devices[0].osVersion = '18.4'; }, value => { value.devices[0].deviceName = 'iPhone 15'; },
     value => { value.devices[0].platform = 'iOS'; }, value => { value.testPlanConfigurations = []; },
     value => { value.testPlanConfigurations[0].configurationName = 'Other'; },
-    value => { value.testPlanConfigurations.push({ ...value.testPlanConfigurations[0] }); }]) {
+    value => { value.testPlanConfigurations.push({ ...value.testPlanConfigurations[0] }); }] )) {
     const details = detailsFixture(); update(details);
     assert.throws(() => validateClockCSV(csvFixture(), normalizedClock(), details));
   }
@@ -579,6 +590,7 @@ const scrollID = 'PublishedPerformanceUITests/testLongArticleBoundedScroll()';
 // The source hash is pinned to an existing article. The JSON/CSV/protocol and
 // subprocesses below are synthetic, never a Simulator timing observation.
 const scrollSource = readFileSync(new URL('../../docs/03-implementation/openai-prompting.md', import.meta.url));
+/** @returns {import('../../ios/tests/xcresult-types.ts').ScrollWorkload & {extra?: unknown}} */
 const scrollWorkload = () => ({ ...performanceScenario(scrollName).scroll_witness });
 function scrollInputFixture() {
   const fixed = scrollWorkload();
@@ -588,6 +600,7 @@ function scrollInputFixture() {
       { type: 'heading', heading_id: fixed.end_heading_id, inlines: [{ type: 'text', text: fixed.end_label }] }] };
   const documentBytes = Buffer.from(JSON.stringify(document));
   const audit = { status: 'passed', articles: 4 };
+  /** @type {{schema_version: number, articles: {id: string, title?: string, source_path?: string, source_sha256?: string, document_path?: string}[], files: Record<string, string>}} */
   const manifest = { schema_version: 2, articles: [{ id: fixed.article_id, title: fixed.article_title,
     source_path: fixed.source_path, source_sha256: fixed.expected_source_sha256, document_path: fixed.document_path },
     ...['a', 'b', 'c'].map(id => ({ id }))],
@@ -596,15 +609,20 @@ function scrollInputFixture() {
 }
 const scrollContext = () => {
   const input = scrollInputFixture();
-  return { expected_articles: 4, configuration: 'Debug', actual_app_package: input.audit,
+  return { expected_articles: /** @type {number|string} */ (4), configuration: 'Debug', actual_app_package: input.audit,
     scenario: scrollName, test_method: 'testLongArticleBoundedScroll', scroll_witness: scrollWorkload(),
     scroll_input_binding: bindLongScrollInput(scrollSource, input.manifestBytes, input.documentBytes, input.audit) };
 };
+/** @typedef {Omit<import('../../ios/tests/xcresult-types.ts').ScrollInvocation, 'end_offset_points'> & {end_offset_points: unknown, extra?: unknown}} InvocationFixture */
+/** @typedef {Omit<import('../../ios/tests/xcresult-types.ts').ScrollProtocol, 'invocations'> & {invocations: InvocationFixture[], extra?: unknown}} ProtocolFixture */
+/** @returns {ProtocolFixture} */
 const scrollProtocol = () => ({ schema_version: 1, scenario: scrollName, metric: 'XCTClockMetric', expected_articles: 4,
   workload: scrollWorkload(), declared_recorded_iterations: 3, block_invocations: 4, discarded_warmup_invocations: 1,
   invocations: [1, 2, 3, 4].map(index => ({ index, swipes: index + 3, start_fully_visible: true,
     end_initially_fully_visible: false, end_fully_visible: true, start_offset_points: 8, end_offset_points: 140.5 })) });
+/** @param {ProtocolFixture} [value] */
 const protocolBytes = (value = scrollProtocol()) => Buffer.from('synthetic Xcode prefix AILIBRARY_LONG_SCROLL_PROTOCOL ' + JSON.stringify(value) + '\n');
+/** @returns {PerformanceFixtureOptions} */
 const scrollFixture = () => ({ scenario: scrollName, caseID: scrollID, context: scrollContext(), protocolBytes: protocolBytes() });
 
 test('long-scroll is explicit while launch/search selection and not-measured semantics stay distinct', () => {
@@ -633,9 +651,9 @@ test('actual input binding hashes source/document/manifest bytes and checks the 
 test('source changes, wrong manifest identity/hash and an unpassed or wrong-count package audit fail input binding', () => {
   const input = scrollInputFixture();
   assert.throws(() => bindLongScrollInput(Buffer.concat([scrollSource, Buffer.from('\n')]), input.manifestBytes, input.documentBytes, input.audit));
-  for (const change of [m => { m.articles[0].source_path = 'other.md'; }, m => { m.articles[0].title = 'Other'; },
+  for (const change of /** @type {((m: ReturnType<typeof scrollInputFixture>['manifest']) => void)[]} */ ([m => { m.articles[0].source_path = 'other.md'; }, m => { m.articles[0].title = 'Other'; },
     m => { m.articles[0].source_sha256 = '0'.repeat(64); }, m => { m.files = {}; },
-    m => { m.articles.push({ ...m.articles[0] }); }, m => { m.schema_version = 1; }]) {
+    m => { m.articles.push({ ...m.articles[0] }); }, m => { m.schema_version = 1; }])) {
     const manifest = structuredClone(input.manifest); change(manifest);
     assert.throws(() => bindLongScrollInput(scrollSource, Buffer.from(JSON.stringify(manifest)), input.documentBytes, input.audit));
   }
@@ -645,9 +663,9 @@ test('source changes, wrong manifest identity/hash and an unpassed or wrong-coun
 });
 
 test('a correctly rehashed document still fails if its fixed headings are missing, duplicated, reversed or renamed', () => {
-  for (const change of [d => { d.blocks.shift(); }, d => { d.blocks.push(d.blocks[0]); }, d => { d.blocks.reverse(); },
+  for (const change of /** @type {((d: ReturnType<typeof scrollInputFixture>['document']) => void)[]} */ ([d => { d.blocks.shift(); }, d => { d.blocks.push(d.blocks[0]); }, d => { d.blocks.reverse(); },
     d => { d.blocks[0].inlines[0].text = 'another label'; }, d => { d.article_id = 'other'; },
-    d => { d.source_sha256 = '1'.repeat(64); }]) {
+    d => { d.source_sha256 = '1'.repeat(64); }])) {
     const input = scrollInputFixture(); change(input.document); const bytes = Buffer.from(JSON.stringify(input.document));
     input.manifest.files[scrollWorkload().document_path] = createHash('sha256').update(bytes).digest('hex');
     assert.throws(() => bindLongScrollInput(scrollSource, Buffer.from(JSON.stringify(input.manifest)), bytes, input.audit));
@@ -655,12 +673,12 @@ test('a correctly rehashed document still fails if its fixed headings are missin
 });
 
 test('scroll context requires exact workload, generated binding, configuration, article count and explicit matching method', () => {
-  for (const change of [c => { delete c.scenario; }, c => { c.test_method = 'testLaunchToPublishedReadiness'; },
+  for (const change of /** @type {((c: ReturnType<typeof scrollContext>) => void)[]} */ ([c => { Reflect.deleteProperty(c, 'scenario'); }, c => { c.test_method = 'testLaunchToPublishedReadiness'; },
     c => { c.configuration = 'Release'; }, c => { c.expected_articles = '4'; }, c => { c.expected_articles = 3; },
     c => { c.scroll_witness.maximum_swipes = 17; }, c => { c.scroll_witness.extra = true; },
-    c => { c.scroll_input_binding.source_sha256 = '0'.repeat(64); }, c => { delete c.scroll_input_binding; },
+    c => { c.scroll_input_binding.source_sha256 = '0'.repeat(64); }, c => { Reflect.deleteProperty(c, 'scroll_input_binding'); },
     c => { c.scroll_input_binding.document_sha256 = 'a'.repeat(64); }, c => { c.scroll_input_binding.manifest_sha256 = ''; },
-    c => { c.scroll_input_binding.actual_Debug_package_audit = 'unavailable'; }, c => { c.actual_app_package.articles = 5; }]) {
+    c => { c.scroll_input_binding.actual_Debug_package_audit = 'unavailable'; }, c => { c.actual_app_package.articles = 5; }])) {
     const context = scrollContext(); change(context); assert.throws(() => verifiedScenarioContext(context, scrollName));
   }
 });
@@ -685,11 +703,11 @@ test('missing, duplicate, truncated, malformed, oversized and invalid-UTF8 proto
 });
 
 test('extra/missing/reordered invocations, mismatched declarations and foreign protocols fail closed', () => {
-  for (const change of [p => { p.invocations.pop(); }, p => { p.invocations.push(p.invocations[3]); },
+  for (const change of /** @type {((p: ProtocolFixture) => void)[]} */ ([p => { p.invocations.pop(); }, p => { p.invocations.push(p.invocations[3]); },
     p => { p.invocations.reverse(); }, p => { p.invocations[1].index = 1; }, p => { p.block_invocations = 3; },
     p => { p.declared_recorded_iterations = 4; }, p => { p.discarded_warmup_invocations = 0; },
     p => { p.expected_articles = 199; }, p => { p.metric = 'XCTMemoryMetric'; }, p => { p.scenario = searchName; },
-    p => { p.workload.end_heading_id = 'other'; }, p => { p.extra = true; }, p => { delete p.schema_version; }]) {
+    p => { p.workload.end_heading_id = 'other'; }, p => { p.extra = true; }, p => { Reflect.deleteProperty(p, 'schema_version'); }])) {
     const value = scrollProtocol(); change(value); assert.throws(() => parseLongScrollProtocol(protocolBytes(value), scrollContext()));
   }
 });
@@ -697,11 +715,11 @@ test('extra/missing/reordered invocations, mismatched declarations and foreign p
 test('the exact16-drag bound and start tolerance accept their boundaries and reject overflow, zero or invalid witnesses', () => {
   const value = scrollProtocol(); value.invocations[0].swipes = 16; value.invocations[0].start_offset_points = 64;
   assert.equal(parseLongScrollProtocol(protocolBytes(value), scrollContext()).protocol.invocations[0].swipes, 16);
-  for (const change of [p => { p.swipes = 0; }, p => { p.swipes = 17; }, p => { p.swipes = 1.5; },
+  for (const change of /** @type {((p: InvocationFixture) => void)[]} */ ([p => { p.swipes = 0; }, p => { p.swipes = 17; }, p => { p.swipes = 1.5; },
     p => { p.start_offset_points = 64.001; }, p => { p.start_offset_points = -0.1; },
     p => { p.end_offset_points = -1; }, p => { p.end_offset_points = '140'; },
     p => { p.start_fully_visible = false; }, p => { p.end_initially_fully_visible = true; },
-    p => { p.end_fully_visible = false; }, p => { delete p.swipes; }, p => { p.extra = true; }]) {
+    p => { p.end_fully_visible = false; }, p => { Reflect.deleteProperty(p, 'swipes'); }, p => { p.extra = true; }])) {
     const record = scrollProtocol(); change(record.invocations[0]); assert.throws(() => parseLongScrollProtocol(protocolBytes(record), scrollContext()));
   }
 });
@@ -712,7 +730,7 @@ test('explicit scroll CLI combines its validated protocol with the same strict t
   assert.equal(value.summary.scenario, scrollName); assert.equal(value.summary.test_id, scrollID);
   assert.deepEqual(value.summary.metrics[0].samples, [3, 1, 2]);
   assert.equal(value.summary.csv_validation.status, 'matched-clock-and-typed-values');
-  assert.deepEqual(value.summary.scroll_observation.protocol.invocations.map(item => item.swipes), [4, 5, 6, 7]);
+  assert.deepEqual(value.summary.scroll_observation.protocol.invocations.map((/** @type {import('../../ios/tests/xcresult-types.ts').ScrollInvocation} */ item) => item.swipes), [4, 5, 6, 7]);
   assert.ok(existsSync(path.join(value.output, 'long-scroll-protocol.json')));
   assert.ok(!value.summary.not_measured.includes('scrolling'));
   assert.equal(value.summary.acceptance_status, 'unadopted');
@@ -756,15 +774,17 @@ test('the actual workflow export shell forwards exact arguments under nounset fo
   skip: process.platform === 'win32' ? 'The hosted macOS Bash workflow and POSIX executable argv fixture require /bin/bash' : false,
 }, t => {
   const workflow = loadYaml(readFileSync(new URL('../../.github/workflows/ios-performance.yml', import.meta.url), 'utf8'));
-  const steps = workflow.jobs['ios-published-readiness'].steps.filter(step => step.name === 'Export typed samples and retain raw unvalidated CSV');
+  resultObject(workflow); resultObject(workflow.jobs); const job = workflow.jobs['ios-published-readiness']; resultObject(job); assert.ok(Array.isArray(job.steps));
+  const steps = /** @type {unknown[]} */ (job.steps).map(step => { resultObject(step); return step }).filter(step => step.name === 'Export typed samples and retain raw unvalidated CSV');
   assert.equal(steps.length, 1);
   assert.equal(steps[0].if, 'always()');
-  assert.equal(typeof steps[0].run, 'string');
+  assert.ok(typeof steps[0].run === 'string');
   const root = temporary(t), bin = path.join(root, 'bin');
   mkdirSync(bin);
   // Only capture argv from the actual YAML shell block; do not run the exporter or Xcode.
   writeFileSync(path.join(bin, 'node'), '#!/bin/sh\nprintf \'%s\\0\' "$@"\n', { mode: 0o755 });
   for (const scenario of ['launch-to-published-readiness', 'search-query-to-visible-witness', 'long-article-bounded-scroll']) {
+    /** @type {import('node:child_process').SpawnSyncReturns<string>} */
     const run = spawnSync('/bin/bash', ['--noprofile', '--norc', '-e', '-u', '-o', 'pipefail', '-c', steps[0].run], {
       cwd: root, encoding: 'utf8', timeout: 5000, maxBuffer: 4096,
       env: { PATH: bin, LC_ALL: 'C', PERFORMANCE_SCENARIO: scenario },

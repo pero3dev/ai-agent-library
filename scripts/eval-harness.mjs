@@ -9,19 +9,25 @@ import { parseFrontMatter, parseScalar, toLines } from './lib/md-utils.mjs';
 import { formatCommitMessage } from './lib/git-conventions.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+/** @param {unknown} value @returns {value is Record<string, unknown>} */
+const recordObject = value => value !== null && typeof value === 'object' && !Array.isArray(value);
 export const SCRATCH_DIRECTORY = '.harness-eval-scratch';
 export const suites = Object.freeze([
   'sync-harness.test.mjs', 'hooks.test.mjs', 'markdown-validation.test.mjs',
   'freshness-policy.test.mjs', 'harness-policy.test.mjs', 'github-evidence.test.mjs',
   'freshness-run.test.mjs', 'freshness-registry.test.mjs', 'harness-run.test.mjs',
 ]);
+/** @param {string[]} args */
 const git = (...args) => run('git', args, { cwd: root }).stdout.trim();
+/** @param {string} binary @param {string[]} args @param {Omit<import('node:child_process').SpawnSyncOptionsWithStringEncoding, 'encoding'>} [options] */
 function run(binary, args, options = {}) {
   const result = spawnSync(binary, args, { encoding: 'utf8', windowsHide: true, timeout: 600000, maxBuffer: 16 * 1024 * 1024, ...options });
   if (result.error || result.status !== 0) throw new Error(`${path.basename(binary)} failed: ${result.error?.message ?? (result.stderr || result.stdout).slice(-3000)}`);
   return result;
 }
+/** @param {string[]} argv */
 export function parseOptions(argv) {
+  /** @type {import('./types/evaluation.d.mts').EvaluationOptions} */
   const options = { mode: 'fixture', scenario: 'authoring', ref: 'HEAD' };
   for (let i = 0; i < argv.length; i += 2) {
     const key = argv[i].slice(2);
@@ -34,19 +40,28 @@ export function parseOptions(argv) {
   if (options.mode === 'collect' && !options.run) throw new Error('collect requires --run');
   return options;
 }
+/** @param {string} text @returns {import('./types/evaluation.d.mts').EvaluationEventSummary} */
 export function summarizeEvents(text) {
-  const events = text.split(/\r?\n/).filter(Boolean).map(line => JSON.parse(line));
+  /** @type {import('./types/evaluation.d.mts').EvaluationEvent[]} */
+  const events = text.split(/\r?\n/).filter(Boolean).map(line => {
+    /** @type {unknown} */
+    const event = JSON.parse(line);
+    if (!recordObject(event) || typeof event.type !== 'string') throw new Error('Invalid evaluation event');
+    return { ...event, type: event.type };
+  });
+  /** @param {import('./types/evaluation.d.mts').EvaluationEvent} event @returns {Record<string, unknown>} */
+  const item = event => recordObject(event.item) ? event.item : {};
   const completed = events.filter(event => event.type === 'item.completed');
   const turns = events.filter(event => event.type === 'turn.completed');
   return {
     thread_id: events.find(event => event.type === 'thread.started')?.thread_id ?? null,
     completed_turns: turns.length,
     failed_turns: events.filter(event => event.type === 'turn.failed' || event.type === 'error').length,
-    command_count: completed.filter(event => event.item?.type === 'command_execution').length,
-    command_failures: completed.filter(event => event.item?.type === 'command_execution' && event.item.exit_code !== 0).length,
+    command_count: completed.filter(event => item(event).type === 'command_execution').length,
+    command_failures: completed.filter(event => item(event).type === 'command_execution' && item(event).exit_code !== 0).length,
     usage: turns.at(-1)?.usage ?? null,
     // This is an observed command list, not proof every instruction was loaded.
-    commands: completed.filter(event => event.item?.type === 'command_execution').map(event => event.item.command),
+    commands: completed.filter(event => item(event).type === 'command_execution').map(event => item(event).command),
   };
 }
 function evaluationHome() {
@@ -55,6 +70,7 @@ function evaluationHome() {
   assertUnlinked(home, common);
   return home;
 }
+/** @param {string} target @param {string} anchor */
 export function assertUnlinked(target, anchor) {
   target = path.resolve(target);
   anchor = path.resolve(anchor);
@@ -62,10 +78,11 @@ export function assertUnlinked(target, anchor) {
   if (relative === '..' || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative)) throw new Error('Evaluation path escaped its owned directory');
   for (let current = target; ; current = path.dirname(current)) {
     try { if (fs.lstatSync(current).isSymbolicLink()) throw new Error('Linked evaluation paths are not accepted'); }
-    catch (error) { if (error.code !== 'ENOENT') throw error; }
+    catch (error) { if (!(error instanceof Error) || !('code' in error) || error.code !== 'ENOENT') throw error; }
     if (current === anchor) break;
   }
 }
+/** @param {string} listing */
 export function assertArchiveTree(listing) {
   for (const row of listing.split('\0').filter(Boolean)) {
     const entry = /^100(?:644|755) blob [a-f0-9]{40}\t([\s\S]+)$/.exec(row);
@@ -74,6 +91,7 @@ export function assertArchiveTree(listing) {
   }
 }
 /** Only a newly prepared, owned checkout gets this scratch directory and local Git exclusion. */
+/** @param {string} checkout @param {string} ownedDirectory */
 export function prepareExecutionEnvironment(checkout, ownedDirectory) {
   const owned = path.resolve(ownedDirectory);
   const target = path.resolve(checkout);
@@ -102,9 +120,10 @@ export function prepareExecutionEnvironment(checkout, ownedDirectory) {
     applies_to: ['dependency-install', 'agent-and-child-processes'],
   };
 }
+/** @param {import('./types/evaluation.d.mts').ExecutionContract} contract @param {NodeJS.ProcessEnv} [parent] */
 export function executionEnvironment(contract, parent = process.env) {
   const keys = ['TEMP', 'TMP', 'TMPDIR', 'NODE_DISABLE_COMPILE_CACHE', 'npm_config_cache'];
-  if (!contract || !['cwd', 'scratch_directory', 'temporary_directory', 'npm_cache_directory'].every(key => typeof contract[key] === 'string' && path.isAbsolute(contract[key])) || !contract.environment || Object.keys(contract.environment).length !== keys.length || !keys.every(key => Object.hasOwn(contract.environment, key)) || contract.environment.TEMP !== contract.temporary_directory || contract.environment.TMP !== contract.temporary_directory || contract.environment.TMPDIR !== contract.temporary_directory || contract.environment.NODE_DISABLE_COMPILE_CACHE !== '1' || contract.environment.npm_config_cache !== contract.npm_cache_directory) throw new Error('Invalid prepared execution environment');
+  if (!contract || !/** @type {const} */ (['cwd', 'scratch_directory', 'temporary_directory', 'npm_cache_directory']).every(key => typeof contract[key] === 'string' && path.isAbsolute(contract[key])) || !contract.environment || Object.keys(contract.environment).length !== keys.length || !keys.every(key => Object.hasOwn(contract.environment, key)) || contract.environment.TEMP !== contract.temporary_directory || contract.environment.TMP !== contract.temporary_directory || contract.environment.TMPDIR !== contract.temporary_directory || contract.environment.NODE_DISABLE_COMPILE_CACHE !== '1' || contract.environment.npm_config_cache !== contract.npm_cache_directory) throw new Error('Invalid prepared execution environment');
   for (const file of [contract.scratch_directory, contract.temporary_directory, contract.npm_cache_directory]) assertUnlinked(file, contract.cwd);
   if (contract.scratch_directory !== path.join(contract.cwd, SCRATCH_DIRECTORY) || contract.temporary_directory !== path.join(contract.scratch_directory, 'tmp') || contract.npm_cache_directory !== path.join(contract.scratch_directory, 'npm-cache') || !fs.statSync(contract.temporary_directory).isDirectory() || !fs.statSync(contract.npm_cache_directory).isDirectory()) throw new Error('Invalid prepared scratch path');
   // Windows の環境キーは大小文字を区別しない。古い NPM_CONFIG_CACHE 等を
@@ -113,12 +132,14 @@ export function executionEnvironment(contract, parent = process.env) {
   const inherited = Object.fromEntries(Object.entries(parent).filter(([key]) => !overridden.has(key.toLowerCase())));
   return { ...inherited, ...contract.environment };
 }
+/** @param {string} text */
 export function articleStatus(text) {
   const front = parseFrontMatter(toLines(text));
   if (!front || front.unclosed || front.errors.length) return null;
   const fields = front.fields.filter(field => field.key === 'status');
   return fields.length === 1 ? parseScalar(fields[0].value) : null;
 }
+/** @param {string} directory */
 function ownedRun(directory) {
   const home = evaluationHome();
   const target = path.resolve(directory);
@@ -127,6 +148,7 @@ function ownedRun(directory) {
   assertUnlinked(path.join(target, 'evaluation.json'), home);
   return target;
 }
+/** @param {import('./types/evaluation.d.mts').EvaluationOptions} options */
 function prepare(options) {
   const ref = git('rev-parse', '--verify', `${options.ref}^{commit}`);
   if (!/^[a-f0-9]{40}$/.test(ref)) throw new Error('Expected a resolved commit');
@@ -157,10 +179,11 @@ function prepare(options) {
   fs.writeFileSync(path.join(directory, 'evaluation.json'), `${JSON.stringify(record, null, 2)}\n`);
   return { directory, ...record };
 }
+/** @param {string} directory */
 function collect(directory) {
   const owned = ownedRun(directory);
-  const record = JSON.parse(fs.readFileSync(path.join(owned, 'evaluation.json'), 'utf8'));
-  if (record.schema_version !== 1 || record.scenario !== 'authoring' || record.checkout !== path.join(owned, 'checkout') || !/^[a-f0-9]{40}$/.test(record.fixture_sha)) throw new Error('Invalid evaluation ownership record');
+  const record = /** @type {unknown} */ (JSON.parse(fs.readFileSync(path.join(owned, 'evaluation.json'), 'utf8')));
+  if (!recordObject(record) || record.schema_version !== 1 || record.scenario !== 'authoring' || record.checkout !== path.join(owned, 'checkout') || typeof record.fixture_sha !== 'string' || !/^[a-f0-9]{40}$/.test(record.fixture_sha)) throw new Error('Invalid evaluation ownership record');
   for (const file of ['events.jsonl', 'summary.json', 'checkout', 'checkout/docs/01-concepts/termination-budget.md']) assertUnlinked(path.join(owned, file), owned);
   const events = path.join(owned, 'events.jsonl');
   const observed = fs.existsSync(events) ? summarizeEvents(fs.readFileSync(events, 'utf8')) : null;
@@ -174,6 +197,7 @@ function collect(directory) {
   return report;
 }
 /** The saved summary retains every path and command; stdout explicitly reports bounded previews. */
+/** @param {Partial<import('./types/evaluation.d.mts').EvaluationRecord>} report */
 export function consoleSummary(report) {
   if (!report.summary_file) return report;
   const { commands, ...observed } = report.observed ?? {};
@@ -190,10 +214,15 @@ export function consoleSummary(report) {
     full_report: report.summary_file, collected_at: report.collected_at,
   };
 }
+/** @param {import('./types/evaluation.d.mts').PreparedEvaluation} prepared @param {(binary: string, args: string[], options: Omit<import('node:child_process').SpawnSyncOptionsWithStringEncoding, 'encoding'>) => unknown} [runner] */
 export function seedDependencies(prepared, runner = run) {
   const environment = executionEnvironment(prepared.execution_contract);
   const recordFile = path.join(prepared.directory, 'evaluation.json');
-  const record = JSON.parse(fs.readFileSync(recordFile, 'utf8'));
+  const raw = /** @type {unknown} */ (JSON.parse(fs.readFileSync(recordFile, 'utf8')));
+  // This step only preserves existing JSON metadata; it executes the prepared contract below.
+  /** @type {Record<string, unknown>} */
+  const record = Object.fromEntries(Object.entries(raw ?? {}));
+  /** @type {{command: string, result: string, started_at: string, completed_at?: string}} */
   const dependency = { command: prepared.execution_contract.dependency_install_command, result: 'running', started_at: new Date().toISOString() };
   const save = () => fs.writeFileSync(recordFile, `${JSON.stringify({ ...record, dependency_install: dependency }, null, 2)}\n`);
   save();
@@ -209,7 +238,10 @@ export function seedDependencies(prepared, runner = run) {
   }
   return environment;
 }
+/** @param {import('./types/evaluation.d.mts').EvaluationOptions} options */
 async function agent(options) {
+  if (!options.binary) throw new Error('agent mode requires an absolute native Codex executable');
+  const binary = options.binary;
   const auth = run(options.binary, ['login', 'status']);
   if (!/ChatGPT/i.test(auth.stdout + auth.stderr)) throw new Error('This evaluation requires existing ChatGPT login; it does not configure API credentials');
   const prepared = prepare(options);
@@ -222,12 +254,14 @@ async function agent(options) {
   const stderr = fs.openSync(path.join(directory, 'stderr.txt'), 'w');
   process.stdout.write(`${JSON.stringify({ status: 'running', directory, version })}\n`);
   const exitCode = await new Promise((resolve, reject) => {
-    const child = spawn(options.binary, ['exec', '--ephemeral', '--json', '-s', 'workspace-write', '-c', 'approval_policy="never"', '-o', path.join(directory, 'last-message.txt'), '-'], { cwd: prepared.checkout, env: executionEnvironment(prepared.execution_contract), windowsHide: true, timeout: 15 * 60000, stdio: ['pipe', stdout, stderr] });
+    const child = spawn(binary, ['exec', '--ephemeral', '--json', '-s', 'workspace-write', '-c', 'approval_policy="never"', '-o', path.join(directory, 'last-message.txt'), '-'], { cwd: prepared.checkout, env: executionEnvironment(prepared.execution_contract), windowsHide: true, timeout: 15 * 60000, stdio: ['pipe', stdout, stderr] });
     child.on('error', reject); child.on('close', resolve);
+    if (!child.stdin) { reject(new Error('Agent stdin is unavailable')); return; }
     child.stdin.on('error', () => {});
     child.stdin.end(fs.readFileSync(path.join(directory, 'prompt.txt')));
   }).finally(() => { fs.closeSync(stdout); fs.closeSync(stderr); });
-  const record = JSON.parse(fs.readFileSync(recordFile, 'utf8'));
+  const record = /** @type {unknown} */ (JSON.parse(fs.readFileSync(recordFile, 'utf8')));
+  if (!recordObject(record)) throw new Error('Invalid evaluation ownership record');
   Object.assign(record, { evidence_class: 'actual-agent', binary: options.binary, version, started_at: startedAt.toISOString(), ended_at: new Date().toISOString(), elapsed_ms: Date.now() - startedAt.getTime(), exit_code: exitCode, status: exitCode === 0 ? 'executed' : 'failed' });
   fs.writeFileSync(recordFile, `${JSON.stringify(record, null, 2)}\n`);
   return collect(directory);
@@ -235,7 +269,7 @@ async function agent(options) {
 export async function main(argv = process.argv.slice(2)) {
   const options = parseOptions(argv);
   if (options.mode === 'prepare') return prepare(options);
-  if (options.mode === 'collect') return collect(options.run);
+  if (options.mode === 'collect') { if (!options.run) throw new Error('collect requires --run'); return collect(options.run); }
   if (options.mode === 'agent') return agent(options);
   const result = run(process.execPath, ['--test', ...suites.map(file => path.join(root, 'tests/unit', file))], { cwd: root });
   return { evidence_class: 'offline-fixture', passed: true, suites, report: result.stdout, actual_agent: 'not-run', github: 'not-run', publication: 'not-run' };

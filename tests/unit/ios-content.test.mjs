@@ -1,4 +1,5 @@
 import test from 'node:test';
+import { requiredFixture } from '../helpers/json-fixtures.mjs';
 import assert from 'node:assert/strict';
 import { mkdtemp, mkdir, readFile, realpath, rm, symlink, writeFile } from 'node:fs/promises';
 import os from 'node:os';
@@ -9,14 +10,17 @@ import { runInNewContext } from 'node:vm';
 import { audioMetadata, buildContent, parseArticle, readSource, renderArticle, rewriteLink, sha256, validateOutput } from '../../scripts/lib/ios-content.mjs';
 import { parseLegacyBuildOptions, validateLegacyBuildOutput } from '../../scripts/build-ios-content.mjs';
 
+/** @param {string} title @param {string} [body] */
 const source = (title, body = '本文です。') => `---\ntitle: "${title}"\ncategory: "concepts"\nlevel: "basic"\nstatus: "published"\nlast_updated: "2026-10-22"\n---\n\n# ${title}\n\n## この記事の目的\n\n${body}\n`;
 const paths = ['docs/01-concepts/one.md', 'docs/01-concepts/two.md', 'docs/11-llm-internals/three.md'];
+/** @type {import('../../scripts/lib/ios-types.d.mts').IOSRenderDependencies} */
 const mockDependencies = {
   renderMath: (value, display) => `<math data-display="${display}"><mtext>${value.replaceAll('<', '&lt;')}</mtext></math>`,
   renderDiagrams: async charts => new Map([...charts.keys()].flatMap(key => ['light', 'dark'].map(theme => [`assets/diagrams/${key}-${theme}.svg`, Buffer.from('<svg xmlns="http://www.w3.org/2000/svg"></svg>')]))),
   mathAssets: new Map([['assets/katex/katex.min.css', Buffer.from('/* offline fixture */')]])
 };
 
+/** @param {import('node:test').TestContext} t */
 async function fixture(t) {
   const root = await realpath(await mkdtemp(path.join(os.tmpdir(), 'ailibrary-ios-test-')));
   t.after(() => rm(root, { recursive: true, force: true }));
@@ -29,7 +33,7 @@ async function fixture(t) {
     ['ios/renderer/reader.css', 'body { color: black; }']
   ]);
   for (const [name, content] of files) { await mkdir(path.dirname(path.join(root, name)), { recursive: true }); await writeFile(path.join(root, name), content); }
-  const episode = { id: 'test-episode', title: '第一記事 音声', article_path: paths[0], parts: 1, source_digest: sha256(files.get(paths[0])), audio_sha256: 'a'.repeat(64), audio_url: 'https://github.com/pero3dev/ai-agent-library/releases/download/test/episode.mp3', duration_seconds: 123, attribution: 'VOICEVOX Nemo（女声1・男声1）', voices: [{ license_url: 'https://voicevox.hiroshiba.jp/nemo/term/' }], chapters: [{ id: 'intro', title: '導入', start_seconds: 0 }, { id: 'main', title: '本文', start_seconds: 60 }] };
+  const episode = { id: 'test-episode', title: '第一記事 音声', article_path: paths[0], parts: 1, source_digest: sha256(requiredFixture(files.get(paths[0]))), audio_sha256: 'a'.repeat(64), audio_url: 'https://github.com/pero3dev/ai-agent-library/releases/download/test/episode.mp3', duration_seconds: 123, attribution: 'VOICEVOX Nemo（女声1・男声1）', voices: [{ license_url: 'https://voicevox.hiroshiba.jp/nemo/term/' }], chapters: [{ id: 'intro', title: '導入', start_seconds: 0 }, { id: 'main', title: '本文', start_seconds: 60 }] };
   await mkdir(path.join(root, 'website/audio'), { recursive: true });
   await writeFile(path.join(root, 'website/audio/catalog.json'), JSON.stringify({ schema_version: 1, episodes: [episode] }));
   return { root, files, episode, selection: { schema_version: 1, articles: paths, audio_article: paths[0] }, output: path.join(root, 'bundle/Content') };
@@ -73,7 +77,8 @@ test('legacy CLI accepts temporary output only and preserves both native package
 
 test('audio metadata obeys the same positive 24-hour limit as the native package consumer', async t => {
   const value = await fixture(t);
-  const article = parseArticle(value.files.get(paths[0]), paths[0]);
+  const article = parseArticle(requiredFixture(value.files.get(paths[0])), paths[0]);
+  /** @param {number} duration */
   const metadata = duration => audioMetadata({ schema_version: 1, episodes: [{ ...value.episode, duration_seconds: duration,
     chapters: [{ id: 'intro', title: '導入', start_seconds: 0 }] }] }, article, paths[0]);
   assert.equal(metadata(0.25).duration_seconds, 0.25);
@@ -187,26 +192,30 @@ test('invalid catalog URL and chapter order are rejected before bundle write', a
 
 test('reader restores an exact fraction and offers a separate explicit heading jump without a native bridge', async () => {
   const reader = await readFile(new URL('../../ios/renderer/reader.js', import.meta.url), 'utf8');
+  /** @type {number[]} */
   const positions = [];
+  /** @type {string[]} */
   const scales = [];
   let jumped = 0;
   const heading = { id: 'section', scrollIntoView: () => jumped++, getBoundingClientRect: () => ({ top: 0 }) };
+  /** @type {{ scrollTo(x:number,y:number):unknown, reader?: {restore(state?:{heading?:string,fraction?:number,fontScale?:number}):void, goToHeading(id:string):boolean, setFontScale(value:number):void}}} */
   const window = { scrollTo: (x, y) => positions.push(y) };
+  /** @type {Record<string,()=>void>} */
   const handlers = {};
   runInNewContext(reader, {
     window, innerHeight: 100, scrollY: 0,
-    document: { querySelectorAll: () => [heading], getElementById: id => id === 'section' ? heading : null, addEventListener: () => {}, documentElement: { scrollHeight: 1000, style: { setProperty: (key, value) => scales.push(value) } } },
-    requestAnimationFrame: callback => { callback(); return 1; }, cancelAnimationFrame: () => {}, addEventListener: (name, callback) => { handlers[name] = callback; }
+    document: { querySelectorAll: () => [heading], getElementById: /** @param {string} id */ id => id === 'section' ? heading : null, addEventListener: () => {}, documentElement: { scrollHeight: 1000, style: { setProperty: /** @param {string} key @param {string} value */ (key, value) => scales.push(value) } } },
+    requestAnimationFrame: /** @param {()=>void} callback */ callback => { callback(); return 1; }, cancelAnimationFrame: () => {}, addEventListener: /** @param {string} name @param {()=>void} callback */ (name, callback) => { handlers[name] = callback; }
   });
-  window.reader.restore({ heading: 'section', fraction: .6, fontScale: 1.2 });
+  requiredFixture(window.reader).restore({ heading: 'section', fraction: .6, fontScale: 1.2 });
   assert.equal(positions.at(-1), 540);
   assert.equal(jumped, 0);
-  assert.equal(window.reader.goToHeading('section'), true);
+  assert.equal(requiredFixture(window.reader).goToHeading('section'), true);
   assert.equal(jumped, 1);
-  window.reader.restore({ heading: 'section', fraction: 0 });
+  requiredFixture(window.reader).restore({ heading: 'section', fraction: 0 });
   assert.equal(jumped, 2);
-  window.reader.setFontScale(20);
-  assert.equal(scales.at(-1), 4);
-  assert.equal(window.reader.goToHeading('missing'), false);
+  requiredFixture(window.reader).setFontScale(20);
+  assert.equal(scales.at(-1), '4');
+  assert.equal(requiredFixture(window.reader).goToHeading('missing'), false);
   assert.doesNotThrow(() => handlers.pagehide());
 });

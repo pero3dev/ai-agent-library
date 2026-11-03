@@ -14,10 +14,14 @@ const LIMIT = Object.freeze({ info: MiB, car: 64 * MiB, pngCount: 16,
   floor: 700000000, topLevelNames: 4096 });
 const PHASES = new Set(['native-debug-icon-inputs', 'native-release-icon-inputs',
   'published-debug-icon-inputs', 'published-release-icon-inputs', 'archive-icon-inputs']);
+/** @param {import('node:crypto').BinaryLike} bytes */
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
-const message = error => String(error?.message ?? error).replace(/[\r\n\0]/g, ' ').slice(0, 512);
+/** @param {unknown} error */
+const message = error => String(error instanceof Error ? error.message : error && typeof error === 'object' && 'message' in error ? error.message ?? error : error).replace(/[\r\n\0]/g, ' ').slice(0, 512);
+/** @param {unknown} value */
 const json = value => Buffer.from(JSON.stringify(value, null, 2) + '\n');
 
+/** @param {string} directory */
 function realDirectory(directory) {
   const absolute = path.resolve(directory);
   for (let cursor = absolute;; cursor = path.dirname(cursor)) {
@@ -28,6 +32,7 @@ function realDirectory(directory) {
   assert.equal(fs.realpathSync(absolute), absolute, 'Directory must be canonical');
   return absolute;
 }
+/** @template T @param {string} file @param {number} maximum @param {(fd: number, size: number) => T} callback @returns {T} */
 function regularFD(file, maximum, callback) {
   const stat = fs.lstatSync(file);
   assert.ok(stat.isFile() && !stat.isSymbolicLink(), 'Expected regular input file');
@@ -41,6 +46,7 @@ function regularFD(file, maximum, callback) {
     return result;
   } finally { fs.closeSync(fd); }
 }
+/** @param {string} file @param {number} maximum */
 function readLimited(file, maximum) {
   return regularFD(file, maximum, (fd, size) => {
     const bytes = Buffer.alloc(size); let offset = 0;
@@ -51,6 +57,7 @@ function readLimited(file, maximum) {
     return bytes;
   });
 }
+/** @param {string} file @param {number} maximum @param {number} [prefixMaximum] */
 function fileDigest(file, maximum, prefixMaximum = 0) {
   return regularFD(file, maximum, (fd, size) => {
     const digest = createHash('sha256'), chunk = Buffer.alloc(Math.min(64 * 1024, size));
@@ -64,6 +71,7 @@ function fileDigest(file, maximum, prefixMaximum = 0) {
     return { bytes: size, sha256: digest.digest('hex'), prefix };
   });
 }
+/** @param {Buffer} prefix */
 function pngHeader(prefix) {
   assert.ok(prefix.length >= 33 && prefix.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10])), 'PNG signature');
   let cursor = 8, optimized = false;
@@ -83,6 +91,7 @@ function pngHeader(prefix) {
   throw new Error('IHDR not found in bounded prefix');
 }
 
+/** @param {string} appRoot @param {string} outputDirectory */
 export function captureBuiltAppIcon(appRoot, outputDirectory) {
   const workspace = realDirectory(process.cwd());
   const app = realDirectory(path.resolve(appRoot));
@@ -98,14 +107,20 @@ export function captureBuiltAppIcon(appRoot, outputDirectory) {
   fs.mkdirSync(output, { mode: 0o700 });
   assert.ok(free() >= LIMIT.floor, 'Diagnostic post-mkdir free-space floor');
   let outputBytes = 0;
-  const saved = [], errors = [];
+  /** @type {import('./capture-icon-types.d.mts').SavedIconFile[]} */
+  const saved = [];
+  /** @type {import('./capture-icon-types.d.mts').CaptureError[]} */
+  const errors = [];
+  /** @type {import('./capture-icon-types.d.mts').IconCapture} */
   const record = { schema_version: 1, purpose: 'built-AppIcon-input-diagnostic-only', product_acceptance: false,
     status: 'partial', phase: path.basename(output), app, output,
     limits: LIMIT, source_of_tool_selection: 'Fixed /usr/bin/xcrun using this job DEVELOPER_DIR; no SDK selection or installation',
     developer_directory: typeof process.env.DEVELOPER_DIR === 'string' ? process.env.DEVELOPER_DIR.slice(0, 4096) : null,
     Info: null, PNGs: [], Assets_car: null, commands: [], errors, saved,
     not_verified: ['AppIcon acceptance', 'CAR rendition correctness', 'PNG pixels or opacity', 'Home Screen or Store'] };
+  /** @param {string} phase @param {unknown} reason */
   const error = (phase, reason) => { if (errors.length < 32) errors.push({ phase, message: message(reason) }); };
+  /** @param {string} name @param {string | Uint8Array} bytes @param {boolean} [receipt] */
   function put(name, bytes, receipt = false) {
     assert.ok(/^[A-Za-z0-9][A-Za-z0-9_.-]{0,95}$/.test(name), 'Unsafe evidence filename');
     const buffer = Buffer.isBuffer(bytes) ? bytes : Buffer.from(bytes);
@@ -117,6 +132,7 @@ export function captureBuiltAppIcon(appRoot, outputDirectory) {
     assert.ok(free() >= LIMIT.floor, 'Diagnostic post-write floor');
     if (!receipt) saved.push({ filename: name, bytes: buffer.length, sha256: hash(buffer) });
   }
+  /** @param {string} label @param {string} binary @param {string[]} args @param {number} maximum @param {number} timeout @param {Buffer} [input] */
   function command(label, binary, args, maximum, timeout, input) {
     let result;
     try { result = spawnSync(binary, args, { input, encoding: 'buffer', shell: false,
@@ -141,9 +157,11 @@ export function captureBuiltAppIcon(appRoot, outputDirectory) {
       record.Info = { bytes: bytes.length, sha256: hash(bytes), raw: 'Info.plist' };
       const decoded = command('info-plist', '/usr/bin/plutil', ['-convert', 'json', '-o', '-', '-'], LIMIT.info, 5000, bytes);
       if (decoded.exit_code === 0 && !decoded.error && !decoded.truncated) {
+        /** @type {Record<string, unknown>} */
         const info = JSON.parse(decoded.stdoutBytes.toString('utf8'));
         assert.ok(info && typeof info === 'object' && !Array.isArray(info), 'Info must decode to object');
-        const summary = { primary: info.CFBundleIcons?.CFBundlePrimaryIcon ?? null,
+        const icons = info.CFBundleIcons;
+        const summary = { primary: icons && typeof icons === 'object' && 'CFBundlePrimaryIcon' in icons ? icons.CFBundlePrimaryIcon ?? null : null,
           UIDeviceFamily: info.UIDeviceFamily ?? null,
           CFBundleSupportedPlatforms: info.CFBundleSupportedPlatforms ?? null,
           CFBundlePackageType: info.CFBundlePackageType ?? null };
@@ -171,7 +189,7 @@ export function captureBuiltAppIcon(appRoot, outputDirectory) {
         const name = pngs[index], file = path.join(app, name);
         try {
           const digest = fileDigest(file, LIMIT.pngTotal, 128 * 1024);
-          const entry = { filename: name, bytes: digest.bytes, sha256: digest.sha256, header: pngHeader(digest.prefix), raw: null };
+          const entry = { filename: name, bytes: digest.bytes, sha256: digest.sha256, header: pngHeader(digest.prefix), raw: /** @type {string | null} */ (null) };
           record.PNGs.push(entry);
           if (rawBytes + digest.bytes <= LIMIT.pngRawTotal) {
             const bytes = readLimited(file, LIMIT.pngRawTotal);

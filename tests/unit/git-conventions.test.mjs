@@ -17,6 +17,7 @@ const pr = { title, body, branch: 'chore/git-conventions' }
 const message = (overrides = {}) => formatCommitMessage({ type: 'chore', scope: 'harness', summary: 'Git 操作の記載形式を統一する', reason: '表記の揺れを防ぐため', validation: '単体試験に成功', ...overrides })
 const script = fileURLToPath(new URL('../../scripts/check-git-conventions.mjs', import.meta.url))
 
+/** @param {import('node:test').TestContext} t */
 function directory(t) {
   const parent = fs.realpathSync(os.tmpdir())
   const dir = fs.mkdtempSync(path.join(parent, 'git-conventions-test-'))
@@ -30,13 +31,16 @@ function directory(t) {
   return dir
 }
 
+/** @param {import('node:test').TestContext} t */
 function fixture(t) {
   const root = directory(t)
+  /** @param {string[]} args @param {string} [input] */
   const git = (args, input) => fixtureGit(args, { cwd: root, encoding: 'utf8', input, windowsHide: true, stdio: ['pipe', 'pipe', 'pipe'] }).trim()
   git(['init', '--quiet', '--initial-branch=main'])
   git(['config', 'user.name', 'Test User'])
   git(['config', 'user.email', 'test@example.com'])
   const tree = git(['mktree'], '')
+  /** @param {string} text @param {string[]} [parents] */
   const commit = (text, parents = []) => git(['commit-tree', tree, ...parents.flatMap(sha => ['-p', sha]), '-F', '-'], text)
   const base = commit('legacy commit intentionally outside adoption range\n')
   git(['update-ref', 'refs/heads/main', base])
@@ -196,6 +200,7 @@ test('event checks live PR edits and full base/head objects, rejects non-PR and 
   const head = repo.commit(message(), [repo.base])
   const event = { pull_request: { title, body, base: { sha: repo.base, ref: 'main' }, head: { sha: head, ref: pr.branch } } }
   const eventFile = path.join(repo.root, 'event.json')
+  /** @param {unknown} value */
   const run = value => { fs.writeFileSync(eventFile, JSON.stringify(value)); return checkGitConventions(['--event', eventFile], repo.root) }
   assert.equal(run(event).valid, true)
   assert.equal(run({ pull_request: { ...event.pull_request, title: 'temporary' } }).valid, false)
@@ -219,7 +224,9 @@ test('CLI validates message and range JSON, writes squash body only, and has fai
   fs.writeFileSync(messageFile, message())
   fs.writeFileSync(prFile, JSON.stringify({ title, body, headRefName: pr.branch }))
   assert.equal(checkGitConventions(['--message-file', messageFile, '--agent', 'codex'], repo.root).valid, true)
-  assert.equal(checkGitConventions(['--pr-file', prFile, '--base', repo.base, '--head', head], repo.root).checked_commits, 1)
+  const rangeResult = checkGitConventions(['--pr-file', prFile, '--base', repo.base, '--head', head], repo.root)
+  assert.ok('checked_commits' in rangeResult)
+  assert.equal(rangeResult.checked_commits, 1)
   fs.writeFileSync(prFile, JSON.stringify({ ...pr, headRefOid: repo.base }))
   assert.throws(() => checkGitConventions(['--pr-file', prFile, '--base', repo.base, '--head', head], repo.root), /metadata/)
   fs.writeFileSync(prFile, JSON.stringify(pr))
@@ -232,7 +239,7 @@ test('CLI validates message and range JSON, writes squash body only, and has fai
   }
   assert.equal(repo.git(['rev-parse', 'HEAD']), repo.base)
   fs.writeFileSync(messageFile, 'WIP\n')
-  assert.throws(() => execFileSync(process.execPath, [script, '--message-file', messageFile], { cwd: repo.root, windowsHide: true, stdio: 'pipe' }), error => error.status === 1)
+  assert.throws(() => execFileSync(process.execPath, [script, '--message-file', messageFile], { cwd: repo.root, windowsHide: true, stdio: 'pipe' }), error => error instanceof Error && 'status' in error && error.status === 1)
 })
 
 test('squash output cannot overwrite its input through a hardlink or filesystem case alias', t => {
@@ -242,6 +249,7 @@ test('squash output cannot overwrite its input through a hardlink or filesystem 
   const original = JSON.stringify(pr)
   fs.writeFileSync(input, original)
   fs.linkSync(input, hardlink)
+  /** @param {string} output */
   const run = output => checkGitConventions(['--squash-file', input, '--body-file', output], root)
   assert.throws(() => run(hardlink), /別ファイル/)
   assert.equal(fs.readFileSync(input, 'utf8'), original)

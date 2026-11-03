@@ -5,7 +5,10 @@ import { discoverArticles } from './audio/core.mjs'
 import { defaultStateDirectory, doctor, loadConfig, runProduction } from './audio/pipeline.mjs'
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
+/** @typedef {{mode: string | null, resume?: boolean, retry_held?: boolean, section?: string, limit?: string, config?: string, state_dir?: string, help?: boolean}} AudioArguments */
+/** @param {string[]} args @returns {AudioArguments} */
 export function parseArguments(args) {
+  /** @type {AudioArguments} */
   const options = { mode: null }
   for (let index = 0; index < args.length; index++) {
     const arg = args[index]
@@ -14,7 +17,8 @@ export function parseArguments(args) {
     else if (arg === '--retry-held') options.retry_held = true
     else if (['--section', '--limit', '--config', '--state-dir'].includes(arg)) {
       if (!args[index + 1] || args[index + 1].startsWith('--')) throw new Error(`Missing value: ${arg}`)
-      options[arg.slice(2).replaceAll('-', '_')] = args[++index]
+      const key = /** @type {'section' | 'limit' | 'config' | 'state_dir'} */ (arg.slice(2).replaceAll('-', '_'))
+      options[key] = args[++index]
     } else if (arg === '--help') options.help = true
     else throw new Error(`Unknown argument: ${arg}`)
   }

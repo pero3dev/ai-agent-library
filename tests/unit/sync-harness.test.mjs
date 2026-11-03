@@ -3,8 +3,16 @@ import { mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSyn
 import os from 'node:os'
 import path from 'node:path'
 import test from 'node:test'
-import { sharedSkills, sharedRoles, syncHarness } from '../../scripts/sync-harness.mjs'
+import { sharedSkills, sharedRoles, syncHarness, renderRole } from '../../scripts/sync-harness.mjs'
 
+test('role JSON checks consumed tools while preserving unused Codex metadata and serialized hooks', () => {
+  const role = { name: sharedRoles[0], description: '説明', instructions: '指示', claude_tools: [1], claude_hooks: 'legacy metadata' }
+  assert.match(renderRole(role, 'codex'), /sandbox_mode = "read-only"/)
+  assert.throws(() => renderRole(role, 'claude'), /claude_tools/)
+  assert.match(renderRole({ ...role, claude_tools: ['Read'] }, 'claude'), /hooks: "legacy metadata"/)
+})
+
+/** @param {import('node:test').TestContext} t */
 function fixture(t) {
   const base = path.resolve(os.tmpdir())
   const root = mkdtempSync(path.join(base, 'ai-agent-library-sync-'))
@@ -21,6 +29,7 @@ function fixture(t) {
   fsRoleSources(root)
   return root
 }
+/** @param {string} root */
 function fsRoleSources(root) { mkdirSync(path.join(root, 'harness/roles'), { recursive: true }); for (const role of sharedRoles) writeFileSync(path.join(root,'harness/roles',role+'.json'), readFileSync(new URL('../../harness/roles/'+role+'.json', import.meta.url))); }
 
 test('check reports missing outputs without writing; generation is deterministic and excludes Codex-only skill', t => {
@@ -107,7 +116,7 @@ test('a dangling output file link never creates its target', t => {
   const root = fixture(t)
   const target = path.join(root, 'user-owned-missing-file.md')
   try { symlinkSync(target, path.join(root, 'CLAUDE.md'), 'file') } catch (error) {
-    if (error.code === 'EPERM') return t.skip('File symlink creation requires platform permission; Linux CI covers this case')
+    if (error instanceof Error && 'code' in error && error.code === 'EPERM') return t.skip('File symlink creation requires platform permission; Linux CI covers this case')
     throw error
   }
   assert.throws(() => syncHarness(root, { write: true }), /symlink/)
@@ -121,7 +130,7 @@ test('canonical instruction links are rejected before reading or copying their c
   writeFileSync(target, 'Not an instruction source.\n')
   rmSync(source)
   try { symlinkSync(target, source, 'file') } catch (error) {
-    if (error.code === 'EPERM') return t.skip('File symlink creation requires platform permission; Linux CI covers this case')
+    if (error instanceof Error && 'code' in error && error.code === 'EPERM') return t.skip('File symlink creation requires platform permission; Linux CI covers this case')
     throw error
   }
   assert.throws(() => syncHarness(root, { write: true }), /symlink/)

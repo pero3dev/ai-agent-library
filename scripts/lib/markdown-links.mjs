@@ -8,7 +8,9 @@ import { parseFrontMatter, toLines } from './md-utils.mjs'
 
 const parser = new MarkdownIt({ html: true, linkify: false, typographer: false })
 
+/** @param {import('markdown-it/lib/token.mjs').default[] | null} [tokens] @returns {string} */
 function inlineText(tokens = []) {
+  if (!tokens) return ''
   return tokens.map(token => {
     if (token.type === 'image') return inlineText(token.children)
     if (token.type === 'softbreak' || token.type === 'hardbreak') return '\n'
@@ -16,7 +18,10 @@ function inlineText(tokens = []) {
   }).join('')
 }
 
-/** GitHub/Nextra が使う github-slugger による見出し ID とパーサが解決したリンク。 */
+/** GitHub/Nextra が使う github-slugger による見出し ID とパーサが解決したリンク。
+ * @param {string} text
+ * @returns {import('./document-types.d.mts').ParsedMarkdown}
+ */
 export function parseMarkdownLinks(text) {
   const lines = toLines(text)
   const fm = parseFrontMatter(lines)
@@ -29,6 +34,7 @@ export function parseMarkdownLinks(text) {
   const headings = []
   let inTable = false
   let blockLine = 1
+  /** @param {string} content */
   const htmlAnchors = content => {
     for (const tag of content.replace(/<!--[\s\S]*?(?:-->|$)/g, '').matchAll(/<[A-Za-z][^>]*>/g)) {
       for (const match of tag[0].matchAll(/\s(?:id|name)\s*=\s*(?:"([^"]+)"|'([^']+)'|([^\s>]+))/g)) {
@@ -46,7 +52,7 @@ export function parseMarkdownLinks(text) {
       const headingText = inlineText(tokens[index + 1]?.children)
       const id = slugger.slug(headingText)
       anchors.add(id)
-      headings.push({ text: headingText, id, level: Number(token.tag.slice(1)), line: token.map[0] + 1 })
+      headings.push({ text: headingText, id, level: Number(token.tag.slice(1)), line: (token.map?.[0] ?? blockLine - 1) + 1 })
     }
     if (token.type !== 'inline') continue
     let line = blockLine
@@ -57,7 +63,7 @@ export function parseMarkdownLinks(text) {
       if (child.type === 'link_open' || child.type === 'image') {
         const close = children.findIndex((candidate, next) => next > i && candidate.type === 'link_close')
         links.push({
-          target: child.attrGet(child.type === 'image' ? 'src' : 'href'), line, inTable,
+          target: child.attrGet(child.type === 'image' ? 'src' : 'href') ?? '', line, inTable,
           label: child.type === 'image' ? inlineText(child.children) : inlineText(children.slice(i + 1, close)),
         })
       }

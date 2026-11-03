@@ -1,4 +1,5 @@
 import test from 'node:test';
+import { requiredFixture, objectFixture, stringFixture } from '../helpers/json-fixtures.mjs';
 import assert from 'node:assert/strict';
 import { mkdtemp, mkdir, readFile, realpath, rm, symlink, writeFile } from 'node:fs/promises';
 import { execFileSync, spawnSync } from 'node:child_process';
@@ -11,8 +12,11 @@ import { sha256 } from '../../scripts/lib/ios-content.mjs';
 
 const repositoryRoot = fileURLToPath(new URL('../../', import.meta.url));
 const articlePaths = ['docs/01-concepts/one.md', 'docs/01-concepts/two.md', 'docs/11-llm-internals/three.md'];
+/** @param {string} title @param {string} [status] */
 const articleSource = (title, status = 'published') => `---\ntitle: "${title}"\ncategory: "concepts"\nlevel: "basic"\nstatus: "${status}"\nlast_updated: "2026-10-25"\n---\n\n# ${title}\n\n## この記事の目的\n\n原文の文章です。\n`;
+/** @param {string} file */
 const idFor = file => file.replace(/^docs\//, '').replace(/\.md$/, '');
+/** @param {string[]} files */
 const records = files => files.map(file => ({ source_path: file, id: idFor(file) }));
 const fixtureLicenses = new Map([
   ['assets/katex/LICENSE.txt', 'KaTeX fixture notice'],
@@ -22,11 +26,13 @@ const sourceLicensePaths = new Map([
   ['assets/katex/LICENSE.txt', 'node_modules/katex/LICENSE'],
   ['assets/licenses/Mermaid-LICENSE.txt', 'node_modules/mermaid/LICENSE']
 ]);
+/** @type {import('../../scripts/lib/ios-types.d.mts').IOSNativeDependencies} */
 const mockDependencies = { async renderAssets(requests) {
   assert.equal(requests.size, 0, 'Text-only fixture must not use a browser');
   return { files: new Map([...fixtureLicenses].map(([file, text]) => [file, Buffer.from(text)])), metadata: new Map() };
 } };
 
+/** @param {import('node:test').TestContext} t @param {{toolsDirectory?:string}} [options] */
 async function fixture(t, { toolsDirectory } = {}) {
   const temporary = await realpath(await mkdtemp(path.join(os.tmpdir(), 'ailibrary-ios-audit-test-')));
   t.after(() => rm(temporary, { recursive: true, force: true }));
@@ -41,7 +47,7 @@ async function fixture(t, { toolsDirectory } = {}) {
   const toolsRoot = path.join(root, toolsDirectory ?? 'ios/tools');
   const sources = new Map(articlePaths.map((file, index) => [file, articleSource(`記事${index + 1}`)]));
   const selection = { schema_version: 1, articles: articlePaths, audio_article: articlePaths[0], diagram_descriptions: {} };
-  const episode = { id: 'test-episode', title: '音声', article_path: articlePaths[0], part: 1, parts: 1, script_sha256: 'b'.repeat(64), source_digest: sha256(sources.get(articlePaths[0])), audio_sha256: 'a'.repeat(64), audio_url: 'https://github.com/pero3dev/ai-agent-library/releases/download/test/audio.mp3', duration_seconds: 60, attribution: 'VOICEVOX Nemo', voices: [{ license_url: 'https://voicevox.hiroshiba.jp/nemo/term/' }], chapters: [{ id: 'intro', title: '導入', start_seconds: 0 }] };
+  const episode = { id: 'test-episode', title: '音声', article_path: articlePaths[0], part: 1, parts: 1, script_sha256: 'b'.repeat(64), source_digest: sha256(requiredFixture(sources.get(articlePaths[0]))), audio_sha256: 'a'.repeat(64), audio_url: 'https://github.com/pero3dev/ai-agent-library/releases/download/test/audio.mp3', duration_seconds: 60, attribution: 'VOICEVOX Nemo', voices: [{ license_url: 'https://voicevox.hiroshiba.jp/nemo/term/' }], chapters: [{ id: 'intro', title: '導入', start_seconds: 0 }] };
   episode.audio_url = `https://github.com/pero3dev/ai-agent-library/releases/download/test-${episode.source_digest.slice(0, 16)}-${episode.script_sha256.slice(0, 16)}/episode-${episode.audio_sha256.slice(0, 16)}.mp3`;
   const trustedAudioDeclarations = [{ episode_id: episode.id, article_id: episode.article_path.slice(5, -3), article_path: episode.article_path, audio_url: episode.audio_url, audio_sha256: episode.audio_sha256, source_digest: episode.source_digest, script_sha256: episode.script_sha256, credit: episode.attribution, license_url: episode.voices[0].license_url }];
   const files = new Map([
@@ -51,6 +57,7 @@ async function fixture(t, { toolsDirectory } = {}) {
     ['website/audio/catalog.json', JSON.stringify({ schema_version: 1, episodes: [episode] })],
     ...sources
   ]);
+  /** @param {string} file @param {string} content */
   const put = async (file, content) => { await mkdir(path.dirname(path.join(root, file)), { recursive: true }); await writeFile(path.join(root, file), content); };
   for (const [file, content] of files) await put(file, content);
   // Only module resolution is exercised here; these stubs contain no renderer
@@ -61,12 +68,13 @@ async function fixture(t, { toolsDirectory } = {}) {
     ['node_modules/katex/index.cjs', 'module.exports = { renderToString() { throw new Error("Text-only fixture must not render math"); } };'],
     ['node_modules/mermaid/package.json', JSON.stringify({ name: 'mermaid', type: 'module' })],
     ['node_modules/mermaid/dist/mermaid.esm.min.mjs', 'export default {};'],
-    ...[...sourceLicensePaths].map(([file, source]) => [source, fixtureLicenses.get(file)])
+    ...[...sourceLicensePaths].map(([file, source]) => /** @type {[string,string]} */ ([source, requiredFixture(fixtureLicenses.get(file))]))
   ]);
   for (const [file, content] of toolingFiles) await put(path.relative(root, path.join(toolsRoot, file)), content);
   return { temporary, root, toolsRoot, selection, trustedAudioDeclarations, put, output: path.join(temporary, 'export', 'Content') };
 }
 
+/** @param {string} output @param {Awaited<ReturnType<typeof buildNativeContent>>} value */
 async function saveManifest(output, value) {
   value.revision = sha256(JSON.stringify({ schema_version: 2, articles: value.articles, audio: value.audio, files: value.files }));
   await writeFile(path.join(output, 'manifest.json'), JSON.stringify(value));
@@ -80,7 +88,7 @@ test('audit CLI distinguishes representative, fixture, production and explicit t
   for (const args of [['--all-published'], ['--content', 'x'], ['--fixtures', '--all-published', '--content', 'x'], ['--published-library', '--content', 'x'], ['--fixtures', '--published-library'], ['--fixtures', '--fixtures'], ['--content'], ['--content', '--all-published'], ['--all-published', '--content', ''], ['--all-published', '--content', 'x', '--content', 'y'], ['--unknown'], ['false']]) assert.throws(() => parseNativeAuditOptions(args), /Usage/);
 });
 
-test('audit input authority keeps canonical profiles fixed and temporary input separate without symlinks', async t => {
+test('audit input authority keeps canonical profiles fixed and temporary input separate without symlinks', { skip: process.platform === 'win32' ? "This source/package boundary fixture requires file and directory symlinks" : false }, async t => {
   const { root, temporary, output } = await fixture(t);
   const canonical = path.join(root, 'ios/AILibrary/Content');
   assert.equal(await resolveNativeAuditContent(root), canonical);
@@ -98,7 +106,7 @@ test('audit input authority keeps canonical profiles fixed and temporary input s
   await assert.rejects(resolveNativeAuditContent(root, { profile: 'unknown' }), /Unknown/);
 });
 
-test('published source inventory independently excludes README and draft while enforcing source status and symlinks', async t => {
+test('published source inventory independently excludes README and draft while enforcing source status and symlinks', { skip: process.platform === 'win32' ? "This source/package boundary fixture requires file and directory symlinks" : false }, async t => {
   const { root, put } = await fixture(t);
   await put('docs/01-concepts/zero.md', articleSource('先頭'));
   await put('docs/01-concepts/draft.md', articleSource('下書き', 'draft'));
@@ -124,12 +132,12 @@ test('link audit covers selected fragments, site routes and safe repository fall
   const article = { id: '01-concepts/one', source_path: articlePaths[0] }, selected = new Map(articlePaths.map(file => [file, idFor(file)]));
   assert.deepEqual(expectedNativeAuditLink('#%E8%A6%8B%E5%87%BA%E3%81%97', article, selected), { kind: 'article', article_id: article.id, heading_id: '見出し' });
   assert.deepEqual(expectedNativeAuditLink('two.md?ignored=1#%E8%A6%8B%E5%87%BA%E3%81%97', article, selected), { kind: 'article', article_id: '01-concepts/two', heading_id: '見出し' });
-  assert.equal(expectedNativeAuditLink('README.md?q=1#section', article, selected).url, 'https://pero3dev.github.io/ai-agent-library/docs/concepts?q=1#section');
-  assert.equal(expectedNativeAuditLink('../../GLOSSARY.md?ignored=1#term', article, selected).url, 'https://pero3dev.github.io/ai-agent-library/glossary#term');
-  assert.equal(expectedNativeAuditLink('../../README.md?ignored=1#start', article, selected).url, 'https://pero3dev.github.io/ai-agent-library/#start');
-  assert.equal(expectedNativeAuditLink('../../examples/python/sample/README.md?ignored=1#usage', article, selected).url, 'https://pero3dev.github.io/ai-agent-library/docs/examples/sample#usage');
-  assert.equal(expectedNativeAuditLink('../../research/調査 note.md?ignored=1#考察', article, selected).url, 'https://github.com/pero3dev/ai-agent-library/blob/main/research/%E8%AA%BF%E6%9F%BB%20note.md#%E8%80%83%E5%AF%9F');
-  assert.equal(expectedNativeAuditLink('HTTPS://example.com/a#式', article, selected).url, 'https://example.com/a#%E5%BC%8F');
+  assert.equal(externalURL(expectedNativeAuditLink('README.md?q=1#section', article, selected)), 'https://pero3dev.github.io/ai-agent-library/docs/concepts?q=1#section');
+  assert.equal(externalURL(expectedNativeAuditLink('../../GLOSSARY.md?ignored=1#term', article, selected)), 'https://pero3dev.github.io/ai-agent-library/glossary#term');
+  assert.equal(externalURL(expectedNativeAuditLink('../../README.md?ignored=1#start', article, selected)), 'https://pero3dev.github.io/ai-agent-library/#start');
+  assert.equal(externalURL(expectedNativeAuditLink('../../examples/python/sample/README.md?ignored=1#usage', article, selected)), 'https://pero3dev.github.io/ai-agent-library/docs/examples/sample#usage');
+  assert.equal(externalURL(expectedNativeAuditLink('../../research/調査 note.md?ignored=1#考察', article, selected)), 'https://github.com/pero3dev/ai-agent-library/blob/main/research/%E8%AA%BF%E6%9F%BB%20note.md#%E8%80%83%E5%AF%9F');
+  assert.equal(externalURL(expectedNativeAuditLink('HTTPS://example.com/a#式', article, selected)), 'https://example.com/a#%E5%BC%8F');
   for (const href of ['http://example.com', 'https://user:secret@example.com/', '//example.com', 'javascript:alert(1)', '/etc/passwd', '..%2F..%2F..%2Fsecret', '..%5Csecret', '%00', '%ZZ', '#%ZZ']) assert.throws(() => expectedNativeAuditLink(href, article, selected));
 });
 
@@ -139,7 +147,7 @@ test('full diagram-map audit rejects missing, stale or malformed source descript
   for (const descriptions of [{}, { [first]: '図の説明', [second]: '余分' }, { [first]: '' }, { invalid: '不正キー' }, { [first]: 'x'.repeat(16385) }, null, []]) assert.throws(() => assertNativeAuditDescriptions(new Set([first]), descriptions));
 });
 
-test('full audit accepts an actual text-only package and rejects exact-set, source SHA and source-path tampering', async t => {
+test('full audit accepts an actual text-only package and rejects exact-set, source SHA and source-path tampering', { skip: process.platform === 'win32' ? "This source/package boundary fixture requires file and directory symlinks" : false }, async t => {
   const { root, output, put, selection, trustedAudioDeclarations } = await fixture(t);
   await put('docs/01-concepts/four.md', articleSource('追加記事'));
   await put('docs/01-concepts/draft.md', articleSource('下書き', 'draft'));
@@ -190,8 +198,8 @@ test('license audit rejects altered bytes even with recomputed file SHA and mani
     await writeFile(licensePath, altered);
     await saveManifest(output, forged);
     await assert.rejects(auditNativeContent(options), error => {
-      assert.match(error.message, /Bundled license matches installed source/);
-      assert.ok(error.message.includes(file));
+      assert.match(error instanceof Error ? error.message : String(error), /Bundled license matches installed source/);
+      assert.ok(error instanceof Error && error.message.includes(file));
       return true;
     });
     await writeFile(licensePath, original);
@@ -207,9 +215,10 @@ test('license audit uses the selected tooling directory and fails closed for mis
   assert.equal((await auditNativeContent(options)).result, 'passed');
   for (const [file, source] of sourceLicensePaths) {
     const sourcePath = path.join(toolsRoot, source), original = await readFile(sourcePath);
+    /** @param {unknown} error */
     const cannotRead = error => {
-      assert.match(error.message, /Cannot read installed source license/);
-      assert.ok(error.message.includes(file));
+      assert.match(error instanceof Error ? error.message : String(error), /Cannot read installed source license/);
+      assert.ok(error instanceof Error && error.message.includes(file));
       return true;
     };
     await rm(sourcePath);
@@ -232,3 +241,6 @@ test('audit module import has no package-read or CLI side effect and invalid CLI
   assert.match(JSON.parse(failure.stdout).error, /Usage/);
   assert.equal(failure.stderr, '');
 });
+
+/** @param {ReturnType<typeof expectedNativeAuditLink>} target */
+function externalURL(target) { assert.equal(target.kind, 'external'); if(target.kind !== 'external') throw new Error('Expected external target'); return target.url; }

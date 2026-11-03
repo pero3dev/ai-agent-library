@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url'
 // Nextra's remark plugin imports this package directly, bypassing mdx-components.
 // Keep both bundlers on the project-owned renderer, including next dev.
 const mermaidImport = '@theguild/remark-mermaid/mermaid'
-const mermaidRenderer = './components/mdx/mermaid.jsx'
+const mermaidRenderer = './components/mdx/mermaid.tsx'
 
 // 注: 記事の自動装飾(TODO・アンチパターン・チェックリスト・用語リンク)は
 // scripts/sync-content.mjs + lib/doc-decorations.mjs で sync 時に行う。
@@ -40,16 +40,20 @@ const config = withNextra({
 })
 
 const loaderAdapter = fileURLToPath(new URL('./scripts/nextra-loader.cjs', import.meta.url))
+/** @param {unknown} value */
 function adaptLoaders(value) {
   if (!value || typeof value !== 'object') return
-  if (typeof value.loader === 'string' && /[/\\]nextra[/\\]loader\.cjs$/.test(value.loader)) value.loader = loaderAdapter
+  if ('loader' in value && typeof value.loader === 'string' && /[/\\]nextra[/\\]loader\.cjs$/.test(value.loader)) value.loader = loaderAdapter
   for (const child of Object.values(value)) adaptLoaders(child)
 }
 adaptLoaders(config.turbopack)
 const webpack = config.webpack
-config.webpack = (webpackConfig, options) => {
+if (typeof webpack !== 'function') throw new Error('Nextra webpack adapter is unavailable')
+/** @type {NonNullable<import('next').NextConfig['webpack']>} */
+const wrappedWebpack = (webpackConfig, options) => {
   const result = webpack(webpackConfig, options)
   adaptLoaders(result.module?.rules)
   return result
 }
+config.webpack = wrappedWebpack
 export default config

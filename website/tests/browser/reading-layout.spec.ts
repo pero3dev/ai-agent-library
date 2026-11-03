@@ -1,0 +1,89 @@
+import { test, expect } from '@playwright/test'
+import type { Page } from '@playwright/test'
+import { requireValue } from './test-values'
+
+const base = process.env.NEXT_PUBLIC_BASE_PATH || ''
+const article = `${base}/docs/architecture/workflow-vs-agent`
+const toc = (page: Page) => page.locator('.article-section-toc')
+
+test('current-section TOC keeps every H2 and changes only its H3 children', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(article)
+  const headings = await page.locator('article h2').allTextContents()
+  await expect(toc(page).locator(':scope > ul > li > a')).toHaveCount(headings.length)
+  for (const [index, heading] of headings.entries()) {
+    await expect(toc(page).locator(':scope > ul > li > a').nth(index)).toHaveText(heading.replace(/#$/, ''))
+  }
+  await expect(toc(page).locator('.article-toc-children a')).toHaveCount(0)
+  await toc(page).getByRole('link', { name: '本文', exact: true }).click()
+  await expect(toc(page).locator('.article-toc-children a')).toHaveCount(5)
+  await toc(page).getByRole('link', { name: '実務での注意点', exact: true }).click()
+  await expect(toc(page).locator('.article-toc-children a')).toHaveText(['アンチパターン', 'チェックリスト'])
+  await expect(toc(page).locator('[aria-current="location"]')).toHaveText('実務での注意点')
+  await toc(page).getByRole('link', { name: 'チェックリスト', exact: true }).focus()
+  await page.keyboard.press('Enter')
+  await expect(page).toHaveURL(new RegExp(encodeURIComponent('チェックリスト')))
+  await expect(toc(page).locator('[aria-current="location"]')).toHaveText('チェックリスト')
+  await expect(page.locator('.r1-preview-toolbar, [data-layout-preview]')).toHaveCount(0)
+})
+
+test('direct heading links and client navigation update the current section', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(`${article}#${encodeURIComponent('チェックリスト')}`)
+  await expect(toc(page).locator('[aria-current="location"]')).toHaveText('チェックリスト')
+  await page.reload()
+  await expect(toc(page).locator('[aria-current="location"]')).toHaveText('チェックリスト')
+  await page.locator('article').getByRole('link', { name: 'AI Agent とは何か', exact: true }).last().click()
+  await expect(page.locator('article h1')).toHaveText('AI Agent とは何か')
+  await expect(toc(page).locator(':scope > ul > li > a')).toHaveCount(await page.locator('article h2').count())
+  await expect(toc(page).getByRole('link', { name: 'チェックリスト', exact: true })).toHaveCount(0)
+})
+
+for (const theme of ['light', 'dark'] as const) test(`delayed diagram keeps direct heading position and current section: ${theme}`, async ({ page }) => {
+  const diagram = 'aeadd4058b26a4e88295f971'
+  const pattern = `**/_mermaid/${diagram}-*.svg`
+  let releaseDiagram: (() => void) | undefined
+  let reportRequest: (() => void) | undefined
+  const gate = new Promise<void>(resolve => { releaseDiagram = resolve })
+  const requested = new Promise<void>(resolve => { reportRequest = resolve })
+  await page.route(pattern, async route => {
+    requireValue(reportRequest, 'diagram request observer')()
+    await gate
+    await route.continue()
+  })
+  try {
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await page.addInitScript(theme => localStorage.setItem('theme', theme), theme)
+    await page.goto(`${article}#${encodeURIComponent('チェックリスト')}`)
+    await requested
+    await page.evaluate(() => document.fonts.ready)
+    await expect(toc(page).locator('[aria-current="location"]')).toHaveText('チェックリスト')
+    const heading = page.locator('article [id="チェックリスト"]')
+    const top = () => heading.evaluate(element => element.getBoundingClientRect().top + window.scrollY)
+    const before = await top()
+    requireValue(releaseDiagram, 'diagram response gate')()
+    const image = page.locator(`.static-mermaid > img.mermaid-${theme}[src$="/${diagram}-${theme}.svg"]`)
+    await expect.poll(() => image.evaluate((element: HTMLImageElement) => element.complete && element.naturalWidth > 0)).toBe(true)
+    // Compare document coordinates as well as the visible active section. Browser
+    // scroll anchoring can compensate a layout shift without making it harmless.
+    await expect.poll(top).toBeCloseTo(before, 0)
+    await expect(toc(page).locator('[aria-current="location"]')).toHaveText('チェックリスト')
+  } finally {
+    requireValue(releaseDiagram, 'diagram response gate')()
+    await page.unroute(pattern)
+  }
+})
+
+test('complete native TOC remains available without JavaScript', async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 1440, height: 900 } })
+  try {
+    const page = await context.newPage()
+    await page.goto(article)
+    await expect(toc(page)).toHaveCount(0)
+    await expect(page.locator('.nextra-toc').getByRole('link', { name: 'チェックリスト', exact: true })).toBeVisible()
+    await page.locator('.nextra-toc').getByRole('link', { name: 'チェックリスト', exact: true }).click()
+    await expect(page).toHaveURL(new RegExp(encodeURIComponent('チェックリスト')))
+  } finally {
+    await context.close()
+  }
+})

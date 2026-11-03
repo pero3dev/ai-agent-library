@@ -1,0 +1,23 @@
+import Link from 'next/link'
+import sectionsData from '../../generated/sections.json'
+import type { Section } from '../../lib/content-types'
+
+const sections: Section[] = sectionsData
+
+/** 全セクションのカードグリッド。データは sync が生成した sections.json(件数・セクション数はここが正) */
+export function SectionGrid() {
+  return (
+    <div className="section-grid">
+      {sections.map(section => (
+        <Link prefetch={false} key={section.slug} href={section.route} className="section-card">
+          <div className="section-card-head">
+            <span className="section-num">{section.num}</span>
+            <span className="section-count">{section.count} 本</span>
+          </div>
+          <h3 className="section-title">{section.title.replace(/^\d\d\.\s*/, '')}</h3>
+          <p className="section-desc">{section.description}</p>
+        </Link>
+      ))}
+    </div>
+  )
+}

@@ -1,0 +1,207 @@
+{
+  "schema_version": 1,
+  "source_base": "eb0c80a22375db454998246ad30c7e0fbc752423",
+  "status": "implementation-verified-locally",
+  "source_snapshot": {
+    "algorithm": "sha256 of sorted paths and normalized Git blob IDs",
+    "files": 351,
+    "digest": "ccc6ecb8009bf2625c17f1da94584164e63880cb2f17c52df4178d57b543ce15"
+  },
+  "coverage": {
+    "verified": true,
+    "inventory": 351,
+    "counts": {
+      "implementations": 258,
+      "declarations": 18,
+      "wrappers": 64,
+      "historical": 6,
+      "vendor": 1,
+      "frozen": 4,
+      "unclassified": 0
+    },
+    "programs": [
+      {
+        "id": "node",
+        "compiler": "6.0.3",
+        "implementations": 66,
+        "declarations": 7
+      },
+      {
+        "id": "node-browser",
+        "compiler": "6.0.3",
+        "implementations": 10,
+        "declarations": 2
+      },
+      {
+        "id": "unit-tests",
+        "compiler": "6.0.3",
+        "implementations": 152,
+        "declarations": 13
+      },
+      {
+        "id": "ios-node",
+        "compiler": "6.0.3",
+        "implementations": 27,
+        "declarations": 10
+      },
+      {
+        "id": "ios-reader",
+        "compiler": "6.0.3",
+        "implementations": 1,
+        "declarations": 1
+      },
+      {
+        "id": "ci-node",
+        "compiler": "6.0.3",
+        "implementations": 1,
+        "declarations": 1
+      },
+      {
+        "id": "website-ui",
+        "compiler": "6.0.3",
+        "implementations": 57,
+        "declarations": 0
+      },
+      {
+        "id": "website-node",
+        "compiler": "6.0.3",
+        "implementations": 34,
+        "declarations": 0
+      },
+      {
+        "id": "website-browser-tests",
+        "compiler": "6.0.3",
+        "implementations": 15,
+        "declarations": 0
+      },
+      {
+        "id": "website-unit-tests",
+        "compiler": "6.0.3",
+        "implementations": 39,
+        "declarations": 0
+      },
+      {
+        "id": "website-contracts",
+        "compiler": "6.0.3",
+        "implementations": 0,
+        "declarations": 1
+      }
+    ]
+  },
+  "frozen": [
+    {
+      "path": "tests/unit/ios-core-performance-notice-20261031.test.mjs",
+      "sha256": "43126d0daa63ceea3d6d520098b47b6c540c00283f70bd406b45a6d68212e712",
+      "boundary": "tests/unit/ios-core-performance-notice-20261031.test.d.mts",
+      "reason": "Immutable Notice guard fixture with no exported runtime API; fixed test body is not typechecked"
+    },
+    {
+      "path": "ios/tests/core-performance-runner.mjs",
+      "sha256": "4276643f3c0df1e21d62f020c0ebd5ec32639b536fa6933806e7ad611edcaf5f",
+      "boundary": "ios/tests/core-performance-runner.d.mts",
+      "reason": "Immutable preregistered performance evidence; declaration interoperability only"
+    },
+    {
+      "path": "ios/tests/verify-core-performance-notice-20261031.mjs",
+      "sha256": "c911db411741ddfa60af310a6d1906f565f3413375a6538655b29053a28d5784",
+      "boundary": "ios/tests/verify-core-performance-notice-20261031.d.mts",
+      "reason": "Immutable preregistered performance evidence; declaration interoperability only"
+    },
+    {
+      "path": "ios/tests/verify-core-performance.mjs",
+      "sha256": "15880ac76ec61af487d888684fa8910a5f74e74a43a717bb839442ce7fa30c51",
+      "boundary": "ios/tests/verify-core-performance.d.mts",
+      "reason": "Immutable preregistered performance evidence; declaration interoperability only"
+    }
+  ],
+  "local_validation": {
+    "node": "24.19.0",
+    "root_check": {
+      "exit_code": 0,
+      "tests": 1556,
+      "passed": 1456,
+      "skipped": 100,
+      "failed": 0,
+      "not_run_files": [
+        "tests/unit/ios-core-performance-notice-20261031.test.mjs"
+      ],
+      "not_run_reason": "Immutable POSIX fixture on Windows; Linux/macOS CI executes the original bytes"
+    },
+    "minimum_node": {
+      "version": "22.22.2",
+      "harness_tests": 33,
+      "passed": 33,
+      "failed": 0,
+      "skipped": 0
+    },
+    "website_unit": {
+      "tests": 99,
+      "passed": 99,
+      "failed": 0,
+      "skipped": 0
+    },
+    "website_browser": {
+      "tests": 682,
+      "passed": 677,
+      "failed": 0,
+      "skipped": 5,
+      "skip_reason": "isolated audio fixture only"
+    },
+    "static_build": {
+      "baseline_seconds": [
+        319.4118229,
+        433.9875733,
+        400.5652823
+      ],
+      "candidate_seconds": [
+        473.2244815,
+        388.3409303,
+        242.0561314
+      ],
+      "routes": 230,
+      "covered_routes": 230,
+      "initial_js": {
+        "scripts": 12,
+        "raw_bytes": 962476,
+        "gzip_bytes": 307969
+      },
+      "timing_limit": "Concurrent load; no causal speed claim"
+    },
+    "audits": {
+      "high_or_critical": 0,
+      "packages": [
+        "root",
+        "website",
+        "ios/tools"
+      ],
+      "low_and_moderate": "retained"
+    },
+    "actionlint": "1.7.12"
+  },
+  "evidence_levels": {
+    "independent_review": "cross-ownership source review; unresolved findings checked before submission",
+    "github_and_publication": "https://github.com/pero3dev/ai-agent-library/pull/329 - final evidence comment",
+    "not_claimed": [
+      "actual Agent hook firing",
+      "physical iPhone Safari AirPods",
+      "paid model or real speech synthesis"
+    ]
+  },
+  "main_sync_history": [
+    {
+      "sha": "cdf2b6e5259f42ff547d8ff804dc62992fd8542a",
+      "js_ts_snapshot_unchanged": true,
+      "source_snapshot_digest": "5038bd40573ce21a94adaaf2f8e549e5fee622ea265c3ca1842a11be0e8ffe09"
+    },
+    {
+      "sha": "1f752a7cef0c1e4593d7900e51338d56d30587e0",
+      "js_ts_snapshot_unchanged": false,
+      "scope": "Upstream EC2 mirror behavior and 11 additional cases ported to checked MTS; source count unchanged",
+      "source_snapshot_digest": "ccc6ecb8009bf2625c17f1da94584164e63880cb2f17c52df4178d57b543ce15"
+    }
+  ],
+  "integrated_main": {
+    "sha": "1f752a7cef0c1e4593d7900e51338d56d30587e0",
+    "original_benchmark_base_retained": true
+  }
+}

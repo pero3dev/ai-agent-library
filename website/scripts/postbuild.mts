@@ -13,6 +13,7 @@ import { materializeExportSegments } from '../lib/export-segments.mjs'
 import { addTitleSearchAliases } from '../lib/search-titles.mjs'
 import { addSecurityMeta, initialScriptBudget } from '../lib/export-policy.mjs'
 import { publicUrl } from '../lib/page-metadata.mjs'
+import { assertPagesMetadata, assertSections, assertStringArray } from '../lib/generated-data.mts'
 
 // Rust 側の辞書と browser Intl の分割が違っても、完全な日本語タイトルを失わない。
 // HTML は読み取り、索引へ渡すコピーにのみ別名を追加する。
@@ -56,7 +57,8 @@ if (existsSync('out')) {
   // ルート網羅チェック(C5): sync が出力した期待ルート generated/routes.json が
   // すべて out/ に HTML として生成されているか照合する。古い .next キャッシュ等で
   // 一部ルートが欠落したまま「ビルド成功」する事故を、ここで確実に失敗へ変える。
-  const routes = JSON.parse(readFileSync('generated/routes.json', 'utf8'))
+  const routes: unknown = JSON.parse(readFileSync('generated/routes.json', 'utf8'))
+  assertStringArray(routes, 'routes')
   const missing = routes.filter(route => {
     const rel = route.replace(/^\//, '')
     return !existsSync(`out/${rel}.html`) && !existsSync(`out/${rel}/index.html`)
@@ -69,7 +71,8 @@ if (existsSync('out')) {
   }
   console.log(`postbuild: ルート網羅チェック OK(${routes.length}/${routes.length})`)
   const descriptions = new Set()
-  const pagesMetadata = JSON.parse(readFileSync('generated/pages.json', 'utf8'))
+  const pagesMetadata: unknown = JSON.parse(readFileSync('generated/pages.json', 'utf8'))
+  assertPagesMetadata(pagesMetadata)
   let articleCount = 0
   for (const route of routes) {
     const rel = route === '/' ? 'index' : route.slice(1)
@@ -99,7 +102,8 @@ if (existsSync('out')) {
   const html = readFileSync(docsIndex, 'utf8')
   // サイドバーのリンクで漏れを隠さないよう、記事本文だけを対象にする。
   const article = html.match(/<article\b[^>]*>([\s\S]*?)<\/article>/i)?.[1] ?? ''
-  const sections = JSON.parse(readFileSync('generated/sections.json', 'utf8'))
+  const sections: unknown = JSON.parse(readFileSync('generated/sections.json', 'utf8'))
+  assertSections(sections)
   const missingSections = missingSectionLinks(article, sections, process.env.NEXT_PUBLIC_BASE_PATH || '')
   if (skip.errors.length || missingSections.length) {
     for (const error of skip.errors) console.error(`postbuild: ${error}`)

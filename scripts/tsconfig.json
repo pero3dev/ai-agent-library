@@ -15,5 +15,5 @@
     "forceConsistentCasingInFileNames": true
   },
   "include": ["**/*.mjs", "**/*.mts", "**/*.ts", "../.codex/hooks/*.mjs", "../.claude/hooks/*.mjs"],
-  "exclude": ["../node_modules", "../.local"]
+  "exclude": ["../node_modules", "../.local", "lib/ios-*.mjs", "build-ios-*.mjs"]
 }

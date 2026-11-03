@@ -32,8 +32,14 @@ import { articleMarkdown } from '../lib/article-markdown.mjs'
 import { copyFileForRoute } from '../lib/article-copy.mjs'
 import { observationReport } from '../../scripts/freshness-observation-report.mjs'
 import { generatedContentLoaderSource } from '../lib/nextra-generated-loader.mjs'
+import { generatedLayoutSource } from '../lib/nextra-generated-layout.mjs'
 import { readmeArticleOrder, rewriteMarkdownRoutes } from '../lib/markdown-routes.mjs'
 import { forEachLine, parseFrontMatter, parseTagsArray, toLines, unquote } from '../../scripts/lib/md-utils.mjs'
+import type { AudioArticle, ArticleSummary, GlossaryEntry, LinkedGlossaryEntry, PagesMetadata, Section, TagGroup } from '../lib/content-types.ts'
+
+interface ContentFile { abs: string; repoRel: string; outRel: string; section: string; slug: string }
+interface ContentSection { dirName: string; slug: string }
+interface ArticleMetadata extends AudioArticle { status: string | null; level: string | null; tags: string[] }
 
 // 原本は素の Markdown としてパースし(remark-mdx を含めない = 本文の < や { を JSX と誤解釈しない)、
 // 装飾コンポーネントを注入した結果を MDX として直列化する(エスケープは remark-mdx が正しく行う)
@@ -63,10 +69,10 @@ const GEN_DIR = path.join(WEBSITE_ROOT, 'generated')
 const BASE_PATH = '/docs'
 
 /** セクションディレクトリ名(NN-name)→ ルートセグメント(name) */
-const stripOrder = name => name.replace(/^\d\d-/, '')
+const stripOrder = (name: string) => name.replace(/^\d\d-/, '')
 
 /** サイドバー・トップページでのセクション表示名 */
-const SECTION_TITLES = {
+const SECTION_TITLES: Record<string, string> = {
   overview: '00. 概要',
   concepts: '01. 基礎概念',
   architecture: '02. 設計',
@@ -85,13 +91,13 @@ const SECTION_TITLES = {
   'human-ai': '15. 人と AI の協働'
 }
 
-const warnings = [] // 非致命(サイドバー末尾送りなど)
-const errors = [] // 致命(未解決リンク・読込失敗・許可されない MDX)。1 件でも exit 1
+const warnings: string[] = [] // 非致命(サイドバー末尾送りなど)
+const errors: string[] = [] // 致命(未解決リンク・読込失敗・許可されない MDX)。1 件でも exit 1
 
 /* ---------- MDX 安全性ガード(C3) ---------- */
 
 /** 生成 MDX を再パースし、許可コンポーネント以外の JSX / ESM / {式} / 生 HTML を検出したら errors に積む */
-function assertSafeMdx(mdx, repoRel) {
+function assertSafeMdx(mdx: string, repoRel: string) {
   const bad = findUnsafeMdx(mdx)
   if (bad.length) {
     errors.push(
@@ -102,36 +108,38 @@ function assertSafeMdx(mdx, repoRel) {
 
 /* ---------- パースユーティリティ ---------- */
 
-function getFrontMatterBlock(text) {
+function getFrontMatterBlock(text: string) {
   return parseFrontMatter(toLines(text))
 }
 
-function getTitle(text) {
+function getTitle(text: string): string {
   const fm = getFrontMatterBlock(text)
   const field = fm?.fields.find(field => field.key === 'title')
   if (field) return unquote(field.value)
-  return text.match(/^#\s+(.+)$/m)?.[1]?.trim() ?? null
+  const heading = text.match(/^#\s+(.+)$/m)?.[1]?.trim()
+  if (!heading) throw new Error('公開コンテンツのタイトルがありません')
+  return heading
 }
 
-function getFrontMatterField(text, name) {
+function getFrontMatterField(text: string, name: string) {
   const fm = getFrontMatterBlock(text)
   const field = fm?.fields.find(field => field.key === name)
   return field ? unquote(field.value) : null
 }
 
-function getFrontMatterTags(text) {
+function getFrontMatterTags(text: string) {
   const fm = getFrontMatterBlock(text)
   const field = fm?.fields.find(field => field.key === 'tags')
   return field ? (parseTagsArray(field.value) ?? []) : []
 }
 
 /** セクション README の収録表から、ファイルの掲載順を得る */
-function parseReadmeOrder(text) {
+function parseReadmeOrder(text: string) {
   return readmeArticleOrder(mdParser.parse(text))
 }
 
 /** セクション README の H1 直後の説明段落(トップページのセクショングリッド用) */
-function parseReadmeDescription(text) {
+function parseReadmeDescription(text: string) {
   let seenH1 = false
   for (const line of text.split('\n')) {
     if (/^#\s/.test(line)) {
@@ -146,15 +154,15 @@ function parseReadmeDescription(text) {
 }
 
 /** コードフェンスを除去したテキストを返す(GLOSSARY の書式例フェンス対策) */
-function stripCodeFences(text) {
-  const lines = []
+function stripCodeFences(text: string) {
+  const lines: string[] = []
   forEachLine(toLines(text), (line, _lineNo, inFence) => lines.push(inFence ? '' : line))
   return lines.join('\n')
 }
 
 /** GLOSSARY.md → 構造化データ。見出しは「用語名(English)」形式(全角括弧) */
-function parseGlossary(text, routeMap) {
-  const entries = []
+function parseGlossary(text: string, routeMap: ReadonlyMap<string, string>): GlossaryEntry[] {
+  const entries: GlossaryEntry[] = []
   const body = stripCodeFences(text)
   for (const block of body.split(/^### /m).slice(1)) {
     const [headingLine, ...rest] = block.split('\n')
@@ -179,9 +187,9 @@ function parseGlossary(text, routeMap) {
 /* ---------- 収集 ---------- */
 
 async function collectFiles() {
-  const routeMap = new Map() // 'docs/01-concepts/agent-loop.md' -> '/docs/concepts/agent-loop'
-  const files = [] // { abs, repoRel, outRel, section, slug }
-  const sections = [] // { dirName, slug }
+  const routeMap = new Map<string, string>() // 'docs/01-concepts/agent-loop.md' -> '/docs/concepts/agent-loop'
+  const files: ContentFile[] = []
+  const sections: ContentSection[] = []
 
   const entries = await readdir(DOCS_DIR, { withFileTypes: true })
   for (const e of entries.filter(d => d.isDirectory()).sort((a, b) => a.name.localeCompare(b.name))) {
@@ -233,7 +241,7 @@ async function collectFiles() {
 
 /* ---------- 変換 ---------- */
 
-function ensureFrontMatter(text, repoRel) {
+function ensureFrontMatter(text: string, repoRel: string) {
   if (text.startsWith('---\n')) return text
   const m = text.match(/^#\s+(.+)$/m)
   const title = (m ? m[1] : path.posix.basename(repoRel, '.md')).trim().replace(/"/g, '\\"')
@@ -241,8 +249,8 @@ function ensureFrontMatter(text, repoRel) {
 }
 
 /** OUT_DIR 配下の .md/.mdx から、ビルドで生成されるべきルート一覧を導出する(C5 のルート網羅チェック用) */
-async function collectContentRoutes(dir, base = '') {
-  const routes = []
+async function collectContentRoutes(dir: string, base = ''): Promise<string[]> {
+  const routes: string[] = []
   for (const entry of await readdir(dir, { withFileTypes: true })) {
     const rel = base ? `${base}/${entry.name}` : entry.name
     if (entry.isDirectory()) {
@@ -262,7 +270,7 @@ async function main() {
   const includeDrafts = process.env.INCLUDE_DRAFTS === '1'
 
   // 全ファイルを一度だけ読み、CRLF を LF へ正規化する(C2)。読み込み失敗は致命(C4)
-  const texts = new Map()
+  const texts = new Map<string, string>()
   for (const file of files) {
     try {
       texts.set(file.repoRel, (await readFile(file.abs, 'utf8')).replace(/\r\n/g, '\n'))
@@ -288,7 +296,7 @@ async function main() {
   const glossaryText = (await readFile(path.join(REPO_ROOT, 'GLOSSARY.md'), 'utf8')).replace(/\r\n/g, '\n')
   const glossaryJson = parseGlossary(glossaryText, routeMap)
   const glossaryForLinks = glossaryJson
-    .filter(e => e.href && e.summary)
+    .filter((e): e is LinkedGlossaryEntry => Boolean(e.href && e.summary))
     .sort((a, b) => b.name.length - a.name.length)
 
   // ディレクトリ自体は消さず中身だけ再生成する(Windows の CWD ロック等による EBUSY を避ける)
@@ -300,15 +308,17 @@ async function main() {
   }
 
   // 記事の変換と、タイトル・README・タグ情報の収集
-  const titles = new Map() // repoRel -> title
-  const readmeTexts = new Map() // sectionSlug -> README 原文
-  const articleMeta = [] // タグ別一覧用 { title, route, level, tags }
-  const pagesMeta = {}
-  const charts = new Map()
+  const titles = new Map<string, string>() // repoRel -> title
+  const readmeTexts = new Map<string, string>() // sectionSlug -> README 原文
+  const articleMeta: ArticleMetadata[] = []
+  const pagesMeta: PagesMetadata = {}
+  const charts = new Map<string, string>()
   let count = 0
   for (const file of activeFiles) {
     const text = texts.get(file.repoRel)
     if (text == null) continue // 読込失敗は上で errors に記録済み
+    const route = routeMap.get(file.repoRel)
+    if (!route) throw new Error(`公開ルートがありません: ${file.repoRel}`)
     titles.set(file.repoRel, getTitle(text))
     if (file.slug === 'index' && file.section) readmeTexts.set(file.section, text)
     if (file.repoRel.startsWith('docs/') && file.slug !== 'index') {
@@ -319,13 +329,12 @@ async function main() {
         section: file.section,
         section_title: SECTION_TITLES[file.section] ?? file.section,
         status: getFrontMatterField(text, 'status'),
-        route: routeMap.get(file.repoRel),
+        route,
         level: getFrontMatterField(text, 'level'),
         tags: getFrontMatterTags(text)
       })
     }
 
-    const route = routeMap.get(file.repoRel)
     pagesMeta[route] = { title: getTitle(text), description: plainSummary(text, getTitle(text)), last_updated: getFrontMatterField(text, 'last_updated'), source_path: file.repoRel }
     let out = ensureFrontMatter(file.slug === 'index' ? publicSectionIndex(text, file.repoRel, texts, getTitle) : text, file.repoRel)
     const tree = mdParser.parse(out)
@@ -345,7 +354,7 @@ async function main() {
   }
 
   // トップレベルの並び順(_meta.js)
-  const topMeta = { index: 'はじめに' }
+  const topMeta: Record<string, string> = { index: 'はじめに' }
   for (const s of sections) topMeta[s.slug] = SECTION_TITLES[s.slug] ?? s.slug
   topMeta.examples = 'サンプルコード'
   await writeFile(path.join(OUT_DIR, '_meta.js'), `export default ${JSON.stringify(topMeta, null, 2)}\n`, 'utf8')
@@ -354,7 +363,7 @@ async function main() {
   for (const s of sections) {
     const readme = readmeTexts.get(s.slug) ?? ''
     const order = parseReadmeOrder(readme)
-    const meta = { index: 'セクション概要' }
+    const meta: Record<string, string> = { index: 'セクション概要' }
     for (const slug of order) {
       meta[slug] = titles.get(`docs/${s.dirName}/${slug}.md`) ?? slug
     }
@@ -372,7 +381,8 @@ async function main() {
   await writeFile(path.join(GEN_DIR, 'mermaid-charts.json'), JSON.stringify(Object.fromEntries(charts), null, 2), 'utf8')
   await writeFile(path.join(GEN_DIR, 'freshness.json'), JSON.stringify(observationReport(REPO_ROOT, { today: new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Tokyo' }).format(new Date()) }), null, 2), 'utf8')
   await writeFile(path.join(GEN_DIR, 'nextra-loader.mjs'), generatedContentLoaderSource(), 'utf8')
-  const sectionsJson = sections.map(s => ({
+  await writeFile(path.join(GEN_DIR, 'nextra-layout.mjs'), generatedLayoutSource(), 'utf8')
+  const sectionsJson: Section[] = sections.map(s => ({
     slug: s.slug,
     num: s.dirName.slice(0, 2),
     title: SECTION_TITLES[s.slug] ?? s.slug,
@@ -386,14 +396,14 @@ async function main() {
   await writeFile(path.join(GEN_DIR, 'glossary.json'), JSON.stringify(glossaryJson, null, 2), 'utf8')
 
   // generated/tags.json(タグ別一覧ページ用)。件数の多い順 → 同数はタグ名順
-  const tagMap = new Map()
+  const tagMap = new Map<string, ArticleSummary[]>()
   for (const a of articleMeta) {
     for (const tag of a.tags) {
       if (!tagMap.has(tag)) tagMap.set(tag, [])
-      tagMap.get(tag).push({ title: a.title, route: a.route, level: a.level })
+      tagMap.get(tag)!.push({ title: a.title, route: a.route, level: a.level })
     }
   }
-  const tagsJson = [...tagMap.entries()]
+  const tagsJson: TagGroup[] = [...tagMap.entries()]
     .map(([tag, articles]) => ({ tag, count: articles.length, articles }))
     .sort((a, b) => b.count - a.count || a.tag.localeCompare(b.tag))
   await writeFile(path.join(GEN_DIR, 'tags.json'), JSON.stringify(tagsJson, null, 2), 'utf8')
@@ -403,7 +413,7 @@ async function main() {
   if (audioFixture && (audioFixture !== 'tests/browser/fixtures/audio-catalog.json' || process.env.NEXT_PUBLIC_BASE_PATH !== '/__audio-test')) {
     throw new Error('音声テスト用カタログは専用 fixture と /__audio-test ベースパスでのみ利用できます')
   }
-  const audioSource = JSON.parse(await readFile(path.join(WEBSITE_ROOT, audioFixture || 'audio/catalog.json'), 'utf8'))
+  const audioSource: unknown = JSON.parse(await readFile(path.join(WEBSITE_ROOT, audioFixture || 'audio/catalog.json'), 'utf8'))
   const audioArticles = articleMeta.filter(a => a.status === 'published').map(({ article_path, source_digest, title, route, section, section_title }) => ({ article_path, source_digest, title, route, section, section_title }))
   await writeFile(path.join(GEN_DIR, 'audio.json'), JSON.stringify(buildAudioCatalog(audioSource, audioArticles, { testOnly: Boolean(audioFixture) }), null, 2), 'utf8')
 

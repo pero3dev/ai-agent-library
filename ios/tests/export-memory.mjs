@@ -5,6 +5,18 @@ import { closeSync, constants, fstatSync, ftruncateSync, lstatSync, mkdirSync, m
 import path from 'node:path'
 import { performance } from 'node:perf_hooks'
 import { pathToFileURL } from 'node:url'
+import { legacyNode, resultDetails, resultObject } from './xcresult-json.mjs'
+/** @typedef {import('./xcresult-types.ts').LegacyNode} LegacyNode */
+/** @typedef {import('./xcresult-types.ts').MemoryCandidate} MemoryCandidate */
+/** @typedef {import('./xcresult-types.ts').ResultDetails} ResultDetails */
+/** @typedef {import('./xcresult-types.ts').CompactEntry} CompactEntry */
+/** @typedef {import('./xcresult-types.ts').CsvInventory} CsvInventory */
+/** @typedef {import('./xcresult-types.ts').CsvInventoryEntry} CsvInventoryEntry */
+/** @typedef {import('./xcresult-types.ts').CsvCandidate} CsvCandidate */
+/** @typedef {import('./xcresult-types.ts').ExportOptions} ExportOptions */
+/** @typedef {import('./xcresult-types.ts').MemoryExportOptions} MemoryExportOptions */
+/** @typedef {{coefficient: bigint, scale: number}} ExactDecimal */
+/** @typedef {{numerator: bigint, denominator: bigint}} Fraction */
 
 // Fixed source adoption from PR296 fb29 / run40748853889 attempt1 raw JSON/CSV.
 // Baselines remain unadopted budgets; this contract verifies recorded wire data.
@@ -36,44 +48,60 @@ export const memoryCaps = Object.freeze({ json: 512 * 1024, legacySummary: 1024 
 const sourcePaths = Object.freeze(['.github/workflows/ios-memory.yml',
   'ios/AILibraryUITests/PublishedPerformanceUITests.swift', 'ios/tests/export-memory.mjs',
   'tests/unit/ios-memory-export.test.mjs'])
+/** @param {import('node:crypto').BinaryLike} bytes */
 const digest = bytes => createHash('sha256').update(bytes).digest('hex')
+/** @param {unknown} value @returns {value is Record<string, unknown>} */
 const plain = value => value !== null && typeof value === 'object' && !Array.isArray(value)
+/** @param {Uint8Array} bytes */
 const utf8 = bytes => new TextDecoder('utf-8', { fatal: true }).decode(bytes)
+/** @param {{dev: number|bigint, ino: number|bigint}} stat */
 const inode = stat => `${stat.dev}:${stat.ino}`
+/** @param {unknown} value @returns {value is string} */
 const spelling = value => typeof value === 'string' && value.length > 0 && value.length <= 500 && !/[\0\r\n]/.test(value)
+/** @param {unknown} value @returns {value is string} */
 const hex40 = value => typeof value === 'string' && /^[a-f0-9]{40}$/.test(value)
+/** @param {unknown} value @returns {value is string} */
 const hex64 = value => typeof value === 'string' && /^[a-f0-9]{64}$/.test(value)
+/** @param {unknown} value */
 const positiveInteger = value => (typeof value === 'string' && /^[1-9]\d*$/.test(value) && value.length <= 20) ||
-  (Number.isSafeInteger(value) && value > 0)
+  (typeof value === 'number' && Number.isSafeInteger(value) && value > 0)
 
+/** @param {unknown} value @param {(node: Record<string, unknown>) => void} visit */
 function walk(value, visit) {
   if (!value || typeof value !== 'object') return
-  visit(value)
+  if (!Array.isArray(value)) visit(/** @type {Record<string, unknown>} */ (value))
   for (const child of Array.isArray(value) ? value : Object.values(value)) walk(child, visit)
 }
 
+/** @param {unknown} id @returns {id is string} */
 function caseID(id) {
   return ['PublishedPerformanceUITests/', 'AILibraryUITests/PublishedPerformanceUITests/',
     'AILibraryUITests.PublishedPerformanceUITests/'].some(prefix => id === prefix + memoryObservation.test_method + '()')
 }
 
+/** @param {unknown} tests @returns {import('./xcresult-types.ts').ResultCase} */
 function selectedCase(tests) {
+  resultObject(tests)
+  /** @type {Record<string, unknown>[]} */
   const cases = []
   walk(tests.testNodes, node => { if (node.nodeType === 'Test Case') cases.push(node) })
-  if (cases.length !== 1 || !caseID(cases[0].nodeIdentifier) || !['Passed', 'Failed'].includes(cases[0].result)) {
+  if (cases.length !== 1 || !caseID(cases[0].nodeIdentifier) || (cases[0].result !== 'Passed' && cases[0].result !== 'Failed')) {
     throw new Error('Expected exactly one executed, fixed memory case')
   }
-  return cases[0]
+  return { nodeIdentifier: cases[0].nodeIdentifier, result: cases[0].result }
 }
 
-export function verifyMemoryCase(tests, details) {
+/** @param {unknown} tests @param {unknown} rawDetails */
+export function verifyMemoryCase(tests, rawDetails) {
+  resultObject(tests)
+  const details = resultDetails(rawDetails)
   const selected = selectedCase(tests)
   if (selected.result !== 'Passed' || details.testIdentifier !== selected.nodeIdentifier ||
       details.testResult !== 'Passed' || details.hasPerformanceMetrics !== true) {
     throw new Error('Memory test list/details must identify the same passed case with metrics')
   }
   walk(tests.testNodes, node => {
-    if (['Test Plan', 'UI test bundle', 'Test Suite'].includes(node.nodeType) &&
+    if (typeof node.nodeType === 'string' && ['Test Plan', 'UI test bundle', 'Test Suite'].includes(node.nodeType) &&
         node.result !== undefined && node.result !== 'Passed') throw new Error('Failed or skipped test container')
   })
   if (!Array.isArray(details.devices) || details.devices.length !== 1 ||
@@ -84,7 +112,9 @@ export function verifyMemoryCase(tests, details) {
   return selected.nodeIdentifier
 }
 
-function planReference(root) {
+/** @param {unknown} value */
+function planReference(value) {
+  const root = legacyNode(value)
   if (root._type?._name !== 'ActionsInvocationRecord') throw new Error('Unexpected legacy invocation type')
   const actions = root.actions?._values
   if (!Array.isArray(actions) || actions.length !== 1) throw new Error('Expected one dedicated legacy action')
@@ -93,18 +123,24 @@ function planReference(root) {
   return ref
 }
 
-function summaryReference(plan, id) {
+/** @param {unknown} value @param {string} id */
+function summaryReference(value, id) {
+  const plan = legacyNode(value)
   if (plan._type?._name !== 'ActionTestPlanRunSummaries') throw new Error('Unexpected legacy plan type')
+  /** @type {LegacyNode[]} */
   const cases = []
   walk(plan, node => {
-    if (node._type?._name === 'ActionTestMetadata') cases.push(node)
+    const legacy = legacyNode(node)
+    if (legacy._type?._name === 'ActionTestMetadata') cases.push(legacy)
   })
   if (cases.length !== 1 || cases[0].identifier?._value !== id ||
       !spelling(cases[0].summaryRef?.id?._value)) throw new Error('Expected one exact legacy case summary reference')
   return cases[0].summaryRef.id._value
 }
 
-export function selectLegacySummary(root, plan, summary, selectedID) {
+/** @param {unknown} root @param {unknown} plan @param {unknown} value @param {string} selectedID */
+export function selectLegacySummary(root, plan, value, selectedID) {
+  const summary = legacyNode(value)
   if (!caseID(selectedID)) throw new Error('Foreign legacy memory case')
   const planRef = planReference(root), summaryRef = summaryReference(plan, selectedID)
   if (summary._type?._name !== 'ActionTestSummary' || summary.identifier?._value !== selectedID ||
@@ -112,6 +148,7 @@ export function selectLegacySummary(root, plan, summary, selectedID) {
   return { plan_ref: planRef, summary_ref: summaryRef }
 }
 
+/** @param {unknown} context @param {unknown} expectedHead */
 export function verifyMemoryProvenance(context, expectedHead) {
   if (!hex40(expectedHead) || !plain(context) || context.schema_version !== 1 ||
       context.expected_source_head !== expectedHead || context.checkout_head !== expectedHead ||
@@ -119,14 +156,14 @@ export function verifyMemoryProvenance(context, expectedHead) {
   for (const [key, value] of Object.entries(memoryObservation)) {
     if (context[key] !== value) throw new Error('Foreign memory scenario, method, application or article')
   }
-  if (context.configuration !== 'Debug' || !Number.isInteger(context.expected_articles) ||
+  if (context.configuration !== 'Debug' || typeof context.expected_articles !== 'number' || !Number.isInteger(context.expected_articles) ||
       context.expected_articles < 4 || context.expected_articles > 2000) throw new Error('Expected independently counted full Debug package')
   const hashes = context.source_sha256
   if (!plain(hashes) || Object.keys(hashes).length !== sourcePaths.length ||
       sourcePaths.some(name => !hex64(hashes[name]))) throw new Error('Controlled Source4 hashes required')
   const github = context.github
   if (!plain(github) || github.repository !== 'pero3dev/ai-agent-library' ||
-      !['pull_request', 'push'].includes(github.event_name) || !positiveInteger(github.run_id) ||
+      (github.event_name !== 'pull_request' && github.event_name !== 'push') || !positiveInteger(github.run_id) ||
       !positiveInteger(github.run_attempt) || !hex40(github.sha) || !hex40(github.workflow_sha) ||
       typeof github.workflow_ref !== 'string' || github.workflow_ref.length > 1000 ||
       !github.workflow_ref.startsWith('pero3dev/ai-agent-library/.github/workflows/ios-memory.yml@') ||
@@ -151,6 +188,7 @@ export function verifyMemoryProvenance(context, expectedHead) {
     note: 'Context matches the separately supplied expected head; an independent consumer must join official head/event/run/attempt and source receipts.' }
 }
 
+/** @param {unknown} value */
 function numberToken(value) {
   if (typeof value !== 'string' && typeof value !== 'number') throw new Error('Invalid typed measurement value')
   const token = String(value)
@@ -160,7 +198,9 @@ function numberToken(value) {
   return number
 }
 
-export function normalizeMemoryCandidates(summary, selectedID) {
+/** @param {unknown} value @param {string} selectedID @returns {MemoryCandidate[]} */
+export function normalizeMemoryCandidates(value, selectedID) {
+  const summary = legacyNode(value)
   if (summary._type?._name !== 'ActionTestSummary' || summary.identifier?._value !== selectedID ||
       !caseID(selectedID) || summary.testStatus?._value !== 'Success') throw new Error('Unexpected typed memory summary')
   const metrics = summary.performanceMetrics?._values
@@ -175,7 +215,7 @@ export function normalizeMemoryCandidates(summary, selectedID) {
     const values = metric.measurements?._values
     if (!Array.isArray(values) || values.length !== 3 || values.some(value => value?._type?._name !== 'Double' ||
         typeof value._value !== 'string')) throw new Error('Expected exactly three typed Double string tokens per candidate')
-    const raw = values.map(value => value._value)
+    const raw = values.map(value => { if (typeof value._value !== 'string') throw new Error('Expected Double string'); return value._value })
     if (metric.baselineAverage?._type?._name !== 'Double' || typeof metric.baselineAverage._value !== 'string' || metric.baselineName?._type?._name !== 'String' ||
         typeof metric.baselineName._value !== 'string') throw new Error('Expected typed memory baseline metadata')
     numberToken(metric.baselineAverage._value)
@@ -185,9 +225,12 @@ export function normalizeMemoryCandidates(summary, selectedID) {
   })
 }
 
-export function validateMemoryMetricSet(candidates, contract = trustedMemoryContract) {
-  if (contract !== trustedMemoryContract) throw new Error('Runtime memory contract overrides are forbidden')
+/** @param {unknown} candidates @param {unknown} [untrustedContract] */
+export function validateMemoryMetricSet(candidates, untrustedContract = trustedMemoryContract) {
+  if (untrustedContract !== trustedMemoryContract) throw new Error('Runtime memory contract overrides are forbidden')
+  const contract = trustedMemoryContract
   if (!Array.isArray(candidates) || candidates.length !== contract.metrics.length) throw new Error('Expected the exact fixed three memory metrics')
+  /** @type {Map<unknown, Record<string, unknown>>} */
   const byID = new Map()
   for (const candidate of candidates) {
     if (!plain(candidate) || byID.has(candidate.identifier)) throw new Error('Duplicate or invalid memory metric')
@@ -199,17 +242,22 @@ export function validateMemoryMetricSet(candidates, contract = trustedMemoryCont
         candidate.sample_count !== contract.sample_count || !Array.isArray(candidate.raw_samples) ||
         candidate.raw_samples.length !== contract.sample_count || !Array.isArray(candidate.samples) ||
         candidate.samples.length !== contract.sample_count ||
-        candidate.raw_samples.some((value, index) => typeof value !== 'string' || numberToken(value) !== candidate.samples[index])) throw new Error('Memory metadata or three typed samples differ from the fixed contract')
+        candidate.raw_samples.some((value, index) => typeof value !== 'string' || numberToken(value) !== (/** @type {unknown[]} */ (candidate.samples))[index])) throw new Error('Memory metadata or three typed samples differ from the fixed contract')
     if (!plain(candidate.baseline) || typeof candidate.baseline.average_raw !== 'string' || candidate.baseline.name !== '' ||
         !equalMemoryDecimalTokens(candidate.baseline.average_raw, contract.csv.baseline)) throw new Error('Unexpected unadopted memory baseline')
     return { ...expected, raw_samples: [...candidate.raw_samples], samples: [...candidate.samples],
-      sample_count: contract.sample_count, baseline: { ...candidate.baseline, acceptance: 'unadopted' },
+      sample_count: contract.sample_count, baseline: { ...candidate.baseline, average_raw: candidate.baseline.average_raw, name: candidate.baseline.name, acceptance: 'unadopted' },
       interpretation: 'verified-raw-observation' }
   })
   return { status: 'matched-fixed-memory-metric-set', confirmed: true, metrics, candidate_count: candidates.length }
 }
 
-export function validateMemoryCSV(files, candidates, details, context, contract = trustedMemoryContract) {
+/** @param {unknown} files @param {unknown} candidates @param {unknown} [rawDetails] @param {unknown} [context] @param {unknown} [untrustedContract] */
+export function validateMemoryCSV(files, candidates, rawDetails, context, untrustedContract = trustedMemoryContract) {
+  if (untrustedContract !== trustedMemoryContract) throw new Error('Runtime memory contract overrides are forbidden')
+  const contract = trustedMemoryContract
+  const details = resultDetails(rawDetails)
+  resultObject(context)
   const typed = validateMemoryMetricSet(candidates, contract)
   if (!Array.isArray(files) || files.length !== contract.csv.file_count) throw new Error('Expected exactly one dedicated memory CSV')
   const file = files[0]
@@ -236,7 +284,7 @@ export function validateMemoryCSV(files, candidates, details, context, contract 
   if (columns.get('Destination') !== destinationLabel || columns.get('Configuration') !== contract.csv.configuration) throw new Error('CSV destination or configuration differs from actual result metadata')
   const metrics = typed.metrics.map(metric => {
     const average = columns.get(metric.display_name + ' (Average)'), iterations = columns.get(metric.display_name + ' (Iterations)')
-    const match = /^([+-]?(?:\d+(?:\.\d+)?|\.\d+)) kB$/.exec(average)
+    const match = /^([+-]?(?:\d+(?:\.\d+)?|\.\d+)) kB$/.exec(average ?? '')
     if (!match) throw new Error('Expected the observed plain decimal kB average spelling')
     const comparison = compareMemoryCSVNumbers(metric.raw_samples, iterations, match[1])
     const baseline = columns.get(metric.display_name + ' (Baseline)')
@@ -252,6 +300,7 @@ export function validateMemoryCSV(files, candidates, details, context, contract 
 
 // Parsing and numeric correlation alone do not adopt a memory metric, unit or
 // CSV wire schema. These helpers cannot enable acceptance in the exporter.
+/** @param {unknown} bytes */
 export function parseMemoryCSV(bytes) {
   if (!Buffer.isBuffer(bytes) || !bytes.length || bytes.length > memoryCaps.csv) throw new Error('Expected bounded CSV bytes')
   if (bytes[0] === 0xef && bytes[1] === 0xbb && bytes[2] === 0xbf) throw new Error('Unexpected CSV byte-order marker')
@@ -291,6 +340,7 @@ export function parseMemoryCSV(bytes) {
   return { header, row }
 }
 
+/** @param {unknown} value */
 function memoryDecimal(value) {
   const number = numberToken(value), token = String(value)
   const match = /^([+-]?)(?:(\d+)(?:\.(\d*))?|\.(\d+))(?:[eE]([+-]?\d+))?$/.exec(token)
@@ -301,17 +351,22 @@ function memoryDecimal(value) {
   const coefficient = BigInt((match[2] ?? '0') + fraction) * (match[1] === '-' ? -1n : 1n)
   return { coefficient, scale: fraction.length - exponent, number, token }
 }
+/** @param {number} exponent */
 const memoryPower10 = exponent => 10n ** BigInt(exponent)
+/** @param {ExactDecimal} value @param {number} scale */
 const memoryDecimalUnits = (value, scale) => value.coefficient * memoryPower10(scale - value.scale)
+/** @param {ExactDecimal} left @param {ExactDecimal} right */
 const sameMemoryDecimal = (left, right) => {
   const scale = Math.max(0, left.scale, right.scale)
   return memoryDecimalUnits(left, scale) === memoryDecimalUnits(right, scale)
 }
 
+/** @param {unknown} left @param {unknown} right */
 export function equalMemoryDecimalTokens(left, right) {
   return sameMemoryDecimal(memoryDecimal(left), memoryDecimal(right))
 }
 
+/** @param {number} value */
 function exactMemoryDouble(value) {
   if (!Number.isFinite(value)) throw new Error('Cannot represent a non-finite binary64 value')
   if (value === 0) return { coefficient: 0n, scale: 0 }
@@ -328,17 +383,22 @@ function exactMemoryDouble(value) {
   return { coefficient, scale }
 }
 
+/** @param {bigint} value */
 const memoryAbsolute = value => value < 0n ? -value : value
+/** @param {bigint} numerator @param {bigint} denominator */
 function memoryFraction(numerator, denominator) {
   if (denominator <= 0n) throw new Error('Invalid exact arithmetic denominator')
   let a = memoryAbsolute(numerator), b = denominator
   while (b !== 0n) { const next = a % b; a = b; b = next }
   return { numerator: numerator / a, denominator: denominator / a }
 }
+/** @param {Fraction} left @param {Fraction} right */
 const addMemoryFractions = (left, right) => memoryFraction(left.numerator * right.denominator + right.numerator * left.denominator,
   left.denominator * right.denominator)
+/** @param {Fraction} value */
 const memoryFractionReceipt = value => ({ numerator: value.numerator.toString(), denominator: value.denominator.toString() })
 
+/** @param {unknown} rawSamples @param {unknown} csvIterations @param {unknown} csvAverage */
 export function compareMemoryCSVNumbers(rawSamples, csvIterations, csvAverage) {
   if (!Array.isArray(rawSamples) || rawSamples.length !== 3 ||
       typeof csvIterations !== 'string' || csvIterations.length > memoryCaps.csv ||
@@ -391,19 +451,22 @@ export function compareMemoryCSVNumbers(rawSamples, csvIterations, csvAverage) {
       typed_mean_numerator: sum.toString(), typed_mean_denominator: (count * decimalDenominator).toString() } }
 }
 
+/** @param {string} parent @param {string} child */
 function includesPath(parent, child) {
   const relative = path.relative(parent, child)
   return relative === '' || (relative !== '..' && !relative.startsWith('..' + path.sep) && !path.isAbsolute(relative))
 }
 
+/** @param {string} file */
 function noSymlinkAncestors(file) {
   for (let current = file; ; current = path.dirname(current)) {
     try { if (lstatSync(current).isSymbolicLink()) throw new Error('Symbolic link in evidence/input path') }
-    catch (error) { if (error.code !== 'ENOENT') throw error }
+    catch (error) { if (!(error instanceof Error) || !('code' in error) || error.code !== 'ENOENT') throw error }
     if (path.dirname(current) === current) break
   }
 }
 
+/** @param {string} file @param {number} cap */
 function stableFile(file, cap) {
   noSymlinkAncestors(file)
   const initial = lstatSync(file, { bigint: true })
@@ -432,10 +495,13 @@ const names = new Set(['modern-tests.json', 'modern-details.json', 'legacy-root.
   'csv-export-stdout.txt', 'csv-export-inventory.json', 'csv-export-manifest.json'])
 // The dedicated passed-case summary includes verbose UI activity records.
 // Only this fixed raw output name receives a larger cap; callers cannot raise it.
+/** @param {string} name */
 const memoryJSONCap = name => name === 'legacy-summary.json' ? memoryCaps.legacySummary : memoryCaps.json
 const memoryDiagnosticNames = new Set(['csv-export-stdout.txt', 'csv-export-inventory.json', 'csv-export-manifest.json'])
+/** @param {string} name */
 const memoryCommandOutputCap = name => name === 'csv-export-stdout.txt' ? memoryCaps.csvDiagnostic : memoryJSONCap(name)
 
+/** @param {CompactEntry[]} entries */
 export function enforceCompactCaps(entries) {
   if (!Array.isArray(entries)) throw new Error('Invalid evidence inventory')
   let total = 0
@@ -454,8 +520,9 @@ export function enforceCompactCaps(entries) {
   return total
 }
 
+/** @param {ExportOptions} input */
 export function writeOwnedEvidence(input) {
-  const options = Object.fromEntries(['result', 'output', 'context'].map(key => [key, path.resolve(input[key])]))
+  const options = { result: path.resolve(input.result), output: path.resolve(input.output), context: path.resolve(input.context) }
   for (const value of Object.values(options)) noSymlinkAncestors(value)
   for (const file of [options.result, options.context]) {
     if (includesPath(file, options.output) || includesPath(options.output, file)) throw new Error('Input/output overlap')
@@ -467,8 +534,12 @@ export function writeOwnedEvidence(input) {
   const parent = lstatSync(path.dirname(options.output), { bigint: true })
   if (!parent.isDirectory()) throw new Error('Output parent must already be a real directory')
   mkdirSync(options.output, { mode: 0o700 })
-  const rootIdentity = lstatSync(options.output, { bigint: true }), inventory = []
+  const rootIdentity = lstatSync(options.output, { bigint: true })
+  /** @type {CompactEntry[]} */
+  const inventory = []
+  /** @type {Map<string, {inode: string, size: bigint, mtime: bigint, ctime: bigint}>} */
   const written = new Map()
+  /** @type {string|null} */
   let csvIdentity = null
   function assertIdentity() {
     for (const file of Object.values(options)) noSymlinkAncestors(file)
@@ -490,6 +561,7 @@ export function writeOwnedEvidence(input) {
   }
   return {
     options, contextBytes: context.bytes, assertIdentity,
+    /** @param {string} name @param {string|Uint8Array} value */
     write(name, value) {
       if (!names.has(name) && !/^csv\/[a-zA-Z0-9_.-]+\.csv$/.test(name)) throw new Error('Unknown evidence leaf')
       const bytes = Buffer.isBuffer(value) ? value : Buffer.from(value)
@@ -519,6 +591,7 @@ export function writeOwnedEvidence(input) {
     // A deadline can expire just after a successful receipt was written. Downgrade
     // only our still-identical summary/manifest in that failure path; never open
     // a replacement, linked leaf or unowned output with truncation enabled.
+    /** @param {string} name @param {string|Uint8Array} value */
     writeFailureReceipt(name, value) {
       if (!['summary.json', 'manifest.json'].includes(name)) throw new Error('Not a failure receipt')
       const previous = written.get(name)
@@ -547,11 +620,13 @@ export function writeOwnedEvidence(input) {
   }
 }
 
+/** @param {Buffer} bytes @param {number} [cap] @returns {unknown} */
 function json(bytes, cap = memoryCaps.json) {
   if (!Buffer.isBuffer(bytes) || bytes.length > cap) throw new Error('Oversized JSON evidence')
   return JSON.parse(utf8(bytes))
 }
 
+/** @returns {CsvInventory} */
 function csvInventoryState() {
   return { schema_version: 1, status: 'collecting', traversal_complete: false, observed_entries: 0,
     entries_omitted: 0, captured_csv_files: 0, retained_opaque_manifest: false, entries: [], issues: [],
@@ -559,13 +634,21 @@ function csvInventoryState() {
       CSV_files: memoryCaps.csvFiles, CSV_bytes: memoryCaps.csv, inventory_bytes: memoryCaps.csvDiagnostic } }
 }
 
+/** @param {string} directory @param {() => void} checkpoint @param {(file: CsvCandidate) => void} capture @param {CsvInventory} inventory @param {(bytes: Buffer) => void} captureManifest */
 function collectCSV(directory, checkpoint, capture, inventory, captureManifest) {
+  /** @type {CsvCandidate[]} */
   const found = [], identities = new Set()
-  let stopped = false, firstError = null, opaqueManifest = null
+  let stopped = false
+  /** @type {Error|null} */
+  let firstError = null
+  /** @type {{file: string, bytes: number, sha256: string}|null} */
+  let opaqueManifest = null
+  /** @param {string} code @param {string} message */
   function reject(code, message) {
     if (!inventory.issues.includes(code)) inventory.issues.push(code)
     firstError ??= new Error(message)
   }
+  /** @param {CsvInventoryEntry} entry */
   function append(entry) {
     const bytes = Buffer.byteLength(JSON.stringify({ ...inventory, entries: [...inventory.entries, entry] }, null, 2))
     // Reserve room for sixteen CSV names, one opaque manifest and failure status.
@@ -577,6 +660,7 @@ function collectCSV(directory, checkpoint, capture, inventory, captureManifest) 
     inventory.entries.push(entry)
     return true
   }
+  /** @param {string} folder @param {number} depth */
   function visit(folder, depth) {
     checkpoint()
     if (depth > 4) throw new Error('Unexpected CSV export depth')
@@ -598,11 +682,14 @@ function collectCSV(directory, checkpoint, capture, inventory, captureManifest) 
         reject('relative-path-cap', 'CSV export relative path exceeds its bounded allowance'); continue
       }
       const file = path.join(folder, name), stat = lstatSync(file, { bigint: true })
+      /** @type {CsvInventoryEntry} */
       const entry = { relative_path: relative,
         kind: stat.isSymbolicLink() ? 'symbolic-link' : stat.isDirectory() ? 'directory' : stat.isFile() ? 'regular-file' : 'non-regular',
         bytes: stat.isFile() && stat.size <= BigInt(Number.MAX_SAFE_INTEGER) ? Number(stat.size) : null,
         eligible_csv: false, captured_as: null, rejection: null }
-      let read = null, diagnosticManifest = false
+      /** @type {ReturnType<typeof stableFile>|null} */
+      let read = null
+      let diagnosticManifest = false
       if (stat.isSymbolicLink()) { entry.rejection = 'symbolic-link'; reject(entry.rejection, 'CSV export symbolic link') }
       else if (name === 'manifest.json') {
         if (relative !== 'manifest.json' || !stat.isFile()) {
@@ -658,12 +745,14 @@ function collectCSV(directory, checkpoint, capture, inventory, captureManifest) 
   return { files: found, error: firstError, opaqueManifest }
 }
 
+/** @param {unknown} error */
 function failure(error) {
   return { schema_version: 1, status: 'failed-or-unavailable', accepted_measurements: null,
-    metric_contract_accepted: false, error: String(error.message).slice(0, 2000),
+    metric_contract_accepted: false, error: (error instanceof Error ? error.message : String(error)).slice(0, 2000),
     protocol_payload_verified: false, product_performance_acceptance: false }
 }
 
+/** @param {number} deadline @param {number} now */
 export function memoryCommandBudget(deadline, now) {
   if (!Number.isFinite(deadline) || !Number.isFinite(now)) throw new Error('Invalid memory export deadline')
   const remaining = Math.floor(deadline - now)
@@ -671,15 +760,22 @@ export function memoryCommandBudget(deadline, now) {
   return Math.min(memoryCaps.childMilliseconds, remaining)
 }
 
+/** @param {MemoryExportOptions} options */
 export function exportMemory(options) {
   if (!hex40(options.expectedHead)) throw new Error('A separate expected-head 40hex argument is required')
   const started = performance.now(), deadline = started + memoryCaps.exportMilliseconds
-  const evidence = writeOwnedEvidence(options), commands = []
-  let csvInventory = null, csvInventoryWritten = false
+  const evidence = writeOwnedEvidence(options)
+  /** @type {{binary: string, arguments: string[], timeout_ms: number, exit_code: number|null, signal: NodeJS.Signals|null, error: string|null, stdout_bytes: number, stderr_bytes: number, stderr_tail: string}[]} */
+  const commands = []
+  /** @type {CsvInventory|null} */
+  let csvInventory = null
+  let csvInventoryWritten = false
   // These are boundary checks around synchronous work, not an atomic wall-clock
   // cancellation guarantee for filesystem calls or an entire process tree.
   const checkpoint = () => { memoryCommandBudget(deadline, performance.now()) }
+  /** @template T @param {() => T} action @returns {T} */
   const bounded = action => { checkpoint(); const value = action(); checkpoint(); return value }
+  /** @param {string[]} args @param {string} outputName */
   const run = (args, outputName) => {
     checkpoint()
     evidence.assertIdentity()
@@ -697,6 +793,7 @@ export function exportMemory(options) {
     checkpoint()
     return result.stdout ?? Buffer.alloc(0)
   }
+  /** @param {string[]} args @param {string} name */
   const rawJSON = (args, name) => {
     const bytes = run(args, name); bounded(() => evidence.write(name, bytes)); return bounded(() => json(bytes, memoryJSONCap(name)))
   }
@@ -707,8 +804,8 @@ export function exportMemory(options) {
     bounded(() => evidence.write('provenance.json', JSON.stringify(provenance, null, 2) + '\n'))
     const tests = rawJSON(['get', 'test-results', 'tests', '--path', evidence.options.result, '--compact'], 'modern-tests.json')
     const initial = bounded(() => selectedCase(tests))
-    const details = rawJSON(['get', 'test-results', 'test-details', '--test-id', initial.nodeIdentifier,
-      '--path', evidence.options.result, '--compact'], 'modern-details.json')
+    const details = resultDetails(rawJSON(['get', 'test-results', 'test-details', '--test-id', initial.nodeIdentifier,
+      '--path', evidence.options.result, '--compact'], 'modern-details.json'))
     const id = bounded(() => verifyMemoryCase(tests, details))
     const root = rawJSON(['get', 'object', '--legacy', '--path', evidence.options.result, '--format', 'json'], 'legacy-root.json')
     const planRef = bounded(() => planReference(root))
@@ -765,8 +862,11 @@ export function exportMemory(options) {
   }
 }
 
+/** @param {string[]} args */
 function parseOptions(args) {
-  const allowed = new Set(['result', 'output', 'context', 'expected-head']), options = {}
+  const allowed = new Set(['result', 'output', 'context', 'expected-head'])
+  /** @type {Record<string, string>} */
+  const options = {}
   for (let index = 0; index < args.length; index += 2) {
     const flag = args[index], key = flag?.slice(2)
     if (!flag?.startsWith('--') || !allowed.has(key) || Object.hasOwn(options, key) ||

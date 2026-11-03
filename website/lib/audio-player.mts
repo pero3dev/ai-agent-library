@@ -30,15 +30,15 @@ export interface PlayerSnapshot<E extends PlaybackEpisode = AudioEpisode> {
 }
 type MediaErrorLike = { code?: number } | null
 type SourceLike = Pick<HTMLSourceElement, 'type' | 'src' | 'addEventListener' | 'removeEventListener' | 'remove'>
-export interface AudioLike extends Pick<HTMLAudioElement, 'currentTime' | 'duration' | 'readyState' | 'playbackRate' | 'ended' | 'pause' | 'load' | 'play' | 'removeAttribute' | 'addEventListener' | 'removeEventListener'> {
+export interface AudioLike<S extends SourceLike = SourceLike> extends Pick<HTMLAudioElement, 'currentTime' | 'duration' | 'readyState' | 'playbackRate' | 'ended' | 'pause' | 'load' | 'play' | 'removeAttribute' | 'addEventListener' | 'removeEventListener'> {
   error: MediaErrorLike
-  ownerDocument: { createElement(name: 'source'): SourceLike }
-  appendChild(node: SourceLike): unknown
+  ownerDocument: { createElement(name: 'source'): S }
+  appendChild(node: S): unknown
 }
-interface StorageLike { getItem(key: string): string | null | undefined; setItem(key: string, value: string): unknown }
-interface MediaSessionLike {
-  playbackState: MediaSessionPlaybackState
-  metadata: unknown
+export interface StorageLike { getItem(key: string): string | null | undefined; setItem(key: string, value: string): unknown }
+export interface MediaSessionLike {
+  playbackState?: MediaSessionPlaybackState
+  metadata?: unknown
   setPositionState?(state: MediaPositionState): void
   setActionHandler(action: MediaSessionAction, handler: ((details: MediaSessionActionDetails) => void) | null): void
 }
@@ -146,8 +146,8 @@ function mediaErrorMessage(error: MediaErrorLike) {
 }
 
 /** A single media element survives route changes. No network request or playback on restore. */
-export function createAudioController<E extends PlaybackEpisode>({ audio, episodes, storage, mediaSession, MediaMetadataClass }: {
-  audio: AudioLike
+export function createAudioController<E extends PlaybackEpisode, S extends SourceLike>({ audio, episodes, storage, mediaSession, MediaMetadataClass }: {
+  audio: AudioLike<S>
   episodes: readonly E[]
   storage?: StorageLike | null
   mediaSession?: MediaSessionLike | null
@@ -176,7 +176,7 @@ export function createAudioController<E extends PlaybackEpisode>({ audio, episod
   let requestVersion = 0
   let destroyed = false
   let metadataId: string | null = null
-  let source: { node: SourceLike; onError: EventListener } | null = null
+  let source: { node: S; onError: EventListener } | null = null
 
   function emit(patch: Partial<PlayerSnapshot<E>> = {}) {
     state = { ...state, ...patch }

@@ -1,44 +1,60 @@
 import { readFileSync } from 'node:fs'
 import { execFileSync } from 'node:child_process'
 import { comparisonBase } from './comparison-base.mjs'
+import { isRecord, errorMessage } from './json-guards.mjs'
 
 // Load beside this implementation, never from the PR candidate checkout.
-export const GIT_CONVENTIONS = JSON.parse(readFileSync(new URL('../../harness/git-conventions.json', import.meta.url), 'utf8'))
+const rawContract = /** @type {unknown} */ (JSON.parse(readFileSync(new URL('../../harness/git-conventions.json', import.meta.url), 'utf8')))
+assertGitConventionContract(rawContract)
+export const GIT_CONVENTIONS = rawContract
 const contract = GIT_CONVENTIONS
 const japanese = /[\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Han}]/u
 const shaPattern = /^(?:[a-f0-9]{40}|[a-f0-9]{64})$/
 const footerField = /^\s*(?:[-*#>]\s*)?(?:Agent|Co-authored-by|Generated-by)\s*:/i
 const placeholder = /^(?:TODO|TBD|FIXME|未記入|未入力|要記入|ここに.*|.*を記載(?:してください)?|[?？]+|<[^>]+>|\{\{[^}]+\}\}|\[[^\]]*(?:記入|選択)[^\]]*\])$/i
 
+/** @param {unknown} [config] */
 export function validateGitConventions(config = contract) {
   const problems = []
-  if (!config || typeof config !== 'object' || Array.isArray(config)) return ['Git 契約は object で指定してください']
+  if (!isRecord(config)) return ['Git 契約は object で指定してください']
+  const subject = isRecord(config.subject) ? config.subject : {}
+  const automation = isRecord(config.automation) ? config.automation : {}
+  const agents = isRecord(config.agents) ? config.agents : {}
+  /** @param {unknown} value @param {string} label @param {RegExp} pattern */
   const list = (value, label, pattern) => {
     if (!Array.isArray(value) || !value.length || value.some(item => typeof item !== 'string' || !pattern.test(item)) || new Set(value).size !== value.length) problems.push(`Git 契約の ${label} は重複のない非空配列にしてください`)
   }
   if (config.schema_version !== 1) problems.push('未対応の Git 契約 schema_version です')
-  list(config.subject?.types, 'subject.types', /^[a-z]+$/)
-  list(config.subject?.scopes, 'subject.scopes', /^[a-z]+$/)
-  if (!Number.isSafeInteger(config.subject?.max_codepoints) || config.subject.max_codepoints < 20 || config.subject.max_codepoints > 200 || config.subject.japanese_required !== true || config.subject.breaking_marker !== false) problems.push('Git 契約の subject 設定が不正です')
+  list(subject.types, 'subject.types', /^[a-z]+$/)
+  list(subject.scopes, 'subject.scopes', /^[a-z]+$/)
+  if (typeof subject.max_codepoints !== 'number' || !Number.isSafeInteger(subject.max_codepoints) || subject.max_codepoints < 20 || subject.max_codepoints > 200 || subject.japanese_required !== true || subject.breaking_marker !== false) problems.push('Git 契約の subject 設定が不正です')
   list(config.commit_sections, 'commit_sections', /^[^\s:\r\n]+$/)
   list(config.pr_sections, 'pr_sections', /^[^\r\n#]+$/)
-  if (config.commit_sections?.length !== 3 || config.pr_sections?.length !== 3) problems.push('commit / PR は対応する 3 節が必要です')
-  const agentEntries = Object.entries(config.agents ?? {})
-  if (!agentEntries.length || agentEntries.some(([key, identity]) => !/^[a-z]+$/.test(key) || ['none', 'automation'].includes(key) || typeof identity !== 'string' || !/^[^<>\r\n]+ <[^<>\s@]+@[^<>\s@]+>$/.test(identity)) || new Set(agentEntries.map(([, identity]) => identity.toLowerCase())).size !== agentEntries.length) problems.push('Git 契約の Agent 名義が不正です')
+  if (!Array.isArray(config.commit_sections) || config.commit_sections.length !== 3 || !Array.isArray(config.pr_sections) || config.pr_sections.length !== 3) problems.push('commit / PR は対応する 3 節が必要です')
+  const agentEntries = Object.entries(agents)
+  if (!agentEntries.length || agentEntries.some(([key, identity]) => !/^[a-z]+$/.test(key) || ['none', 'automation'].includes(key) || typeof identity !== 'string' || !/^[^<>\r\n]+ <[^<>\s@]+@[^<>\s@]+>$/.test(identity)) || new Set(agentEntries.map(([, identity]) => String(identity).toLowerCase())).size !== agentEntries.length) problems.push('Git 契約の Agent 名義が不正です')
   list(config.agent_values, 'agent_values', /^[a-z]+(?:,[a-z]+)*$/)
-  if (Array.isArray(config.agent_values) && (['none', 'automation', ...agentEntries.map(([key]) => key)].some(key => !config.agent_values.includes(key)) || config.agent_values.some(value => !['none', 'automation'].includes(value) && value.split(',').some(key => !Object.hasOwn(config.agents ?? {}, key))))) problems.push('Git 契約の agent_values と agents が一致しません')
-  list(config.automation?.subjects, 'automation.subjects', /^[a-z]+\([a-z]+\): \S[^\r\n]*$/)
-  if (typeof config.automation?.generated_by !== 'string' || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(config.automation.generated_by)) problems.push('Git 契約の generated_by が不正です')
+  const agentValues = config.agent_values
+  if (Array.isArray(agentValues) && (['none', 'automation', ...agentEntries.map(([key]) => key)].some(key => !agentValues.includes(key)) || agentValues.some(value => typeof value !== 'string' || !['none', 'automation'].includes(value) && value.split(',').some(key => !Object.hasOwn(agents, key))))) problems.push('Git 契約の agent_values と agents が一致しません')
+  list(automation.subjects, 'automation.subjects', /^[a-z]+\([a-z]+\): \S[^\r\n]*$/)
+  if (typeof automation.generated_by !== 'string' || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(automation.generated_by)) problems.push('Git 契約の generated_by が不正です')
   if (config.range_policy !== 'canonical-squash-and-automation') problems.push('range_policy は canonical-squash-and-automation にしてください')
   list(config.branch_prefixes, 'branch_prefixes', /^(?:codex|claude)$/)
   if (typeof config.base_branch !== 'string' || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(config.base_branch)) problems.push('base_branch が不正です')
   return problems
 }
 
-export function validateSubject(subject, { allowPrNumber = false } = {}) {
+/** @param {unknown} value @returns {asserts value is import('./git-types.d.mts').GitConventionContract} */
+function assertGitConventionContract(value) {
+  const problems = validateGitConventions(value)
+  if (problems.length) throw new Error(problems.join('\n'))
+}
+
+/** @param {unknown} input @param {{allowPrNumber?: boolean}} [options] */
+export function validateSubject(input, { allowPrNumber = false } = {}) {
   const problems = []
-  if (typeof subject !== 'string') return ['件名が文字列ではありません']
-  if (allowPrNumber) subject = subject.replace(/ \(#[1-9]\d*\)$/, '')
+  if (typeof input !== 'string') return ['件名が文字列ではありません']
+  const subject = allowPrNumber ? input.replace(/ \(#[1-9]\d*\)$/, '') : input
   if (/ \(#\d+\)$/.test(subject)) problems.push('PR title の PR 番号 suffix または commit の重複 suffix は省いてください')
   if ([...subject].length > contract.subject.max_codepoints) problems.push(`件名は ${contract.subject.max_codepoints} Unicode code point 以内にしてください`)
   if (/[\p{Cc}\p{Cf}]/u.test(subject)) problems.push('件名に制御文字を含められません')
@@ -54,6 +70,7 @@ export function validateSubject(subject, { allowPrNumber = false } = {}) {
   return problems
 }
 
+/** @param {unknown} branch */
 export function validateBranch(branch) {
   if (typeof branch !== 'string') return ['PR の head branch が文字列ではありません']
   if (/^automation\/freshness-\d{8}t\d{9}z-[a-f0-9]{8}$/.test(branch)) return []
@@ -61,6 +78,7 @@ export function validateBranch(branch) {
   return match && [...contract.subject.types, ...contract.branch_prefixes].includes(match[1]) ? [] : ['PR の head branch は type/kebab-slug、codex/kebab-slug、claude/kebab-slug または所定の automation/freshness-<runId> にしてください（main は不可）']
 }
 
+/** @param {unknown} text @param {string[]} problems */
 function normalize(text, problems) {
   if (typeof text !== 'string') { problems.push('本文が文字列ではありません'); return '' }
   const value = text.replace(/\r\n/g, '\n').replace(/\n+$/, '')
@@ -68,7 +86,9 @@ function normalize(text, problems) {
   return value
 }
 
+/** @param {string[]} lines @param {string[]} problems */
 function fenceStates(lines, problems) {
+  /** @type {string | null} */
   let fence = null
   let comment = false
   const outside = lines.map(line => {
@@ -88,7 +108,7 @@ function fenceStates(lines, problems) {
         comment = false
         i = end + 3
       } else if (line[i] === '`') {
-        const run = /^`+/.exec(line.slice(i))[0]
+        const run = /^`+/.exec(line.slice(i))?.[0] ?? '`'
         let end = line.indexOf(run, i + run.length)
         while (end >= 0 && (line[end - 1] === '`' || line[end + run.length] === '`')) end = line.indexOf(run, end + run.length)
         // An unmatched backtick is literal text, so a subsequent comment
@@ -106,6 +126,7 @@ function fenceStates(lines, problems) {
   return outside
 }
 
+/** @param {string} text @param {string[]} problems @param {{allowAutomation?: boolean, expectedAgent?: string}} [options] */
 function splitFooter(text, problems, { allowAutomation = true, expectedAgent } = {}) {
   const lines = text.split('\n')
   const outside = fenceStates(lines, problems)
@@ -119,6 +140,7 @@ function splitFooter(text, problems, { allowAutomation = true, expectedAgent } =
   const agent = footer[0].slice('Agent: '.length)
   if (!contract.agent_values.includes(agent) || (!allowAutomation && agent === 'automation')) problems.push(`未対応の Agent: ${agent}`)
   if (expectedAgent !== undefined && agent !== expectedAgent) problems.push(`Agent は指定された ${expectedAgent} と一致させてください`)
+  /** @type {string[]} */
   const credits = []
   let generated = false
   for (let i = 1; i < footer.length; i++) {
@@ -130,7 +152,7 @@ function splitFooter(text, problems, { allowAutomation = true, expectedAgent } =
     if (credits.some(item => item.toLowerCase().endsWith(`<${match[2].toLowerCase()}>`))) problems.push('Co-authored-by が重複しています')
     credits.push(identity)
     for (const [key, canonical] of Object.entries(contract.agents)) {
-      if ((match[1].toLowerCase() === key || match[2].toLowerCase() === /<([^>]+)>/.exec(canonical)[1]) && identity !== canonical) problems.push(`AI の共同編集者は ${canonical} と完全一致させてください`)
+      if ((match[1].toLowerCase() === key || match[2].toLowerCase() === /<([^>]+)>/.exec(canonical)?.[1]) && identity !== canonical) problems.push(`AI の共同編集者は ${canonical} と完全一致させてください`)
     }
   }
   for (const [key, identity] of Object.entries(contract.agents)) {
@@ -144,9 +166,11 @@ function splitFooter(text, problems, { allowAutomation = true, expectedAgent } =
   return { content: lines.slice(0, start - 1).join('\n'), footer: footer.join('\n'), agent }
 }
 
+/** @param {string} content @param {string[]} labels @param {'pr' | 'commit'} kind @param {string[]} problems */
 function sections(content, labels, kind, problems) {
   const lines = content.split('\n')
   const outside = fenceStates(lines, problems)
+  /** @type {{index: number, label: string, first: string}[]} */
   const found = []
   const commitLabel = new RegExp(`^(${labels.map(label => label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')}):(?: (.*))?$`)
   for (let i = 0; i < lines.length; i++) {
@@ -168,7 +192,9 @@ function sections(content, labels, kind, problems) {
   })
 }
 
+/** @param {unknown} text @param {{agent?: string}} [options] */
 export function validateCommitMessage(text, options = {}) {
+  /** @type {string[]} */
   const problems = []
   const normalized = normalize(text, problems)
   const [subject] = normalized.split('\n')
@@ -182,6 +208,7 @@ export function validateCommitMessage(text, options = {}) {
   return problems
 }
 
+/** @param {import('./git-types.d.mts').PrMetadata} [metadata] */
 export function validatePr({ title, body, branch, headRefName, baseRefName } = {}) {
   if (branch !== undefined && headRefName !== undefined && branch !== headRefName) return ['branch と headRefName が一致しません']
   if (branch === undefined) branch = headRefName
@@ -192,6 +219,7 @@ export function validatePr({ title, body, branch, headRefName, baseRefName } = {
   return problems
 }
 
+/** @param {import('./git-types.d.mts').CommitFormat} [options] */
 export function formatCommitMessage({ type, scope, summary, reason, validation, impact = 'なし', agent = 'codex', generatedBy } = {}) {
   for (const [key, value] of Object.entries({ type, scope, summary, reason, validation, impact, agent })) if (typeof value !== 'string') throw new Error(`${key} は文字列で指定してください`)
   const trailers = [`Agent: ${agent}`]
@@ -204,24 +232,28 @@ export function formatCommitMessage({ type, scope, summary, reason, validation, 
   return message
 }
 
+/** @param {import('./git-types.d.mts').PrMetadata} [metadata] */
 export function formatSquashMessage({ title, body } = {}) {
   const problems = validateSubject(title)
   const result = splitFooter(normalize(body, problems), problems, { allowAutomation: false })
   const values = sections(result.content, contract.pr_sections, 'pr', problems)
   if (problems.length) throw new Error(problems.join('\n'))
+  if (typeof title !== 'string') throw new Error('件名が文字列ではありません')
   const output = `${contract.commit_sections.map((label, i) => `${label}:\n${values[i]}`).join('\n\n')}\n\n${result.footer}\n`
   const commitProblems = validateCommitMessage(`${title}\n\n${output}`)
   if (commitProblems.length) throw new Error(commitProblems.join('\n'))
   return { subject: title, body: output }
 }
 
+/** @param {string} root @param {...string} args */
 const git = (root, ...args) => execFileSync('git', args, { cwd: root, encoding: 'utf8', windowsHide: true, timeout: 15000, maxBuffer: 8 * 1024 * 1024, stdio: ['ignore', 'pipe', 'pipe'] })
+/** @param {import('./git-types.d.mts').CommitRange} [options] */
 export function validateCommitRange({ root = process.cwd(), base, head } = {}) {
-  if (!shaPattern.test(base ?? '') || !shaPattern.test(head ?? '') || base.length !== head.length) throw new Error('base/head は同じ長さの完全な小文字 Git SHA で指定してください')
+  if (typeof base !== 'string' || typeof head !== 'string' || !shaPattern.test(base) || !shaPattern.test(head) || base.length !== head.length) throw new Error('base/head は同じ長さの完全な小文字 Git SHA で指定してください')
   for (const sha of [base, head]) if (git(root, 'cat-file', '-t', sha).trim() !== 'commit') throw new Error(`commit object がありません: ${sha}`)
   // No candidate code is checked out or run; immutable commit objects are read only.
   const rows = git(root, 'rev-list', '--reverse', '--parents', `${base}..${head}`, '--').split('\n').filter(Boolean)
-  const result = { problems: [], checked_commits: 0, checked_merges: 0 }
+  const result = { problems: /** @type {string[]} */ ([]), checked_commits: 0, checked_merges: 0 }
   for (const row of rows) {
     const [sha, ...parents] = row.split(' ')
     if (parents.length > 1) result.checked_merges++
@@ -232,11 +264,17 @@ export function validateCommitRange({ root = process.cwd(), base, head } = {}) {
   return result
 }
 
-/** Squash is the published commit contract; intermediate ordinary messages remain visible as advisory findings. */
+/** Squash is the published commit contract; intermediate ordinary messages remain visible as advisory findings.
+ * @param {import('./git-types.d.mts').CommitRange} [options]
+ */
 export function validatePrRange({ root = process.cwd(), base, head, pr } = {}) {
+  if (typeof base !== 'string' || typeof head !== 'string') throw new Error('base/head は完全な SHA が必要です')
   const effective = comparisonBase(root, base, head)
   const result = validateCommitRange({ root, base: effective, head })
-  const blocking = [], advisory = []
+  /** @type {string[]} */
+  const blocking = []
+  /** @type {string[]} */
+  const advisory = []
   const rows = git(root, 'rev-list', '--reverse', `${effective}..${head}`, '--').split('\n').filter(Boolean)
   for (const sha of rows) {
     const message = git(root, 'show', '--no-patch', '--format=%B', sha, '--')
@@ -245,6 +283,6 @@ export function validatePrRange({ root = process.cwd(), base, head, pr } = {}) {
     for (const problem of problems) (automation ? blocking : advisory).push(`${sha}: ${problem}`)
   }
   if (!rows.length) blocking.push('新規コミットがない base/head は PR 検査に使用できません')
-  try { const squash = formatSquashMessage(pr); blocking.push(...validateCommitMessage(`${squash.subject}\n\n${squash.body}`)) } catch (error) { blocking.push(error.message) }
+  try { const squash = formatSquashMessage(pr); blocking.push(...validateCommitMessage(`${squash.subject}\n\n${squash.body}`)) } catch (error) { blocking.push(errorMessage(error)) }
   return { ...result, problems: blocking, advisory_problems: advisory, comparison_base: effective, squash_validated: true }
 }

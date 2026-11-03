@@ -1,6 +1,9 @@
 import { pageMetadata } from '../../lib/page-metadata.mjs'
 import Link from 'next/link'
-import tags from '../../generated/tags.json'
+import tagsData from '../../generated/tags.json'
+import type { TagGroup } from '../../lib/content-types'
+
+const tags: TagGroup[] = tagsData
 
 export const metadata = pageMetadata("/tags", "タグ別一覧", "記事のタグからAI Agentの学習テーマを横断して探せます。")
 

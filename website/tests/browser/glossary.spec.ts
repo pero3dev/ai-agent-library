@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test'
+import { requireValue } from './test-values'
 
 const path = `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/docs/concepts/tool-use`
 
@@ -18,7 +19,7 @@ for (const width of [375, 1440]) {
     await page.mouse.move(0, 0)
     await term.hover()
     await expect(tooltip).toBeVisible()
-    const bounds = await tooltip.boundingBox()
+    const bounds = requireValue(await tooltip.boundingBox(), 'visible glossary tooltip')
     expect(bounds.x).toBeGreaterThanOrEqual(7)
     expect(bounds.x + bounds.width).toBeLessThanOrEqual(width - 7)
     await page.mouse.move(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2, { steps: 15 })
@@ -39,16 +40,16 @@ for (const width of [375, 1440]) {
     await term.blur()
     await term.focus()
     await expect(tooltip).toBeVisible()
-    const zoomBounds = await tooltip.boundingBox()
+    const zoomBounds = requireValue(await tooltip.boundingBox(), 'zoomed glossary tooltip')
     expect(zoomBounds.x).toBeGreaterThanOrEqual(7)
     expect(zoomBounds.x + zoomBounds.width).toBeLessThanOrEqual(width - 7)
     await page.setViewportSize({ width: width === 375 ? 320 : 640, height: 700 })
     await expect(tooltip).toBeVisible()
     await expect.poll(async () => {
       const bounds = await tooltip.boundingBox()
-      return bounds.x >= 7 && bounds.x + bounds.width <= page.viewportSize().width - 7
+      return Boolean(bounds && bounds.x >= 7 && bounds.x + bounds.width <= requireValue(page.viewportSize(), 'resized viewport').width - 7)
     }).toBe(true)
-    const href = await term.getAttribute('href')
+    const href = requireValue(await term.getAttribute('href'), 'glossary article destination')
     await page.keyboard.press('Enter')
     await expect(page).toHaveURL(new RegExp(href.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(?:\\.html)?(?:#.*)?$'))
   })

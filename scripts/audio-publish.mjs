@@ -3,6 +3,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { execFileSync } from 'node:child_process'
 import { runPublication } from './audio/publication.mjs'
+import { errorMessage } from './audio/errors.mjs'
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const args = process.argv.slice(2)
@@ -12,6 +13,7 @@ if (args.includes('--help')) {
 } else {
   try {
     const commonGit = execFileSync('git', ['rev-parse', '--git-common-dir'], { cwd: root, encoding: 'utf8', windowsHide: true }).trim()
+    /** @type {{root: string, stateDir: string, manifestFiles?: string[], apply?: boolean, autoMerge?: boolean, minimumBatch?: number}} */
     const options = { root, stateDir: path.resolve(root, commonGit, 'audio-learning'), manifestFiles: undefined }
     for (let index = 0; index < args.length; index++) {
       const arg = args[index]
@@ -29,5 +31,5 @@ if (args.includes('--help')) {
     const result = await runPublication(options)
     console.log(JSON.stringify(result, null, 2))
     if (result.held.length && !result.ready.length) process.exitCode = 2
-  } catch (error) { console.error(JSON.stringify({ status: 'blocked', reason: error.message })); process.exitCode = 1 }
+  } catch (error) { console.error(JSON.stringify({ status: 'blocked', reason: errorMessage(error) })); process.exitCode = 1 }
 }

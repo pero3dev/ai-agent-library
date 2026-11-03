@@ -97,8 +97,13 @@ export function parseTagsArray(value) {
   const inner = m[1].trim()
   if (!inner) return []
   // tag はケバブケースなので、引用符内のコンマや複雑な YAML 値は対象外。
-  const tags = inner.split(',').map(s => parseScalar(s.trim()))
-  return tags.every(tag => typeof tag === 'string' && tag !== '') ? tags : null
+  const tags = []
+  for (const raw of inner.split(',')) {
+    const tag = parseScalar(raw.trim())
+    if (tag === null || tag === '') return null
+    tags.push(tag)
+  }
+  return tags
 }
 
 /**

@@ -10,7 +10,7 @@ const LEVEL_LABELS: Record<string, string> = {
 export interface DocMetadata {
   level?: string
   tags?: string[]
-  last_updated?: string
+  last_updated?: string | null
   source_path?: string
 }
 

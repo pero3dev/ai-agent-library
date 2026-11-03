@@ -1,5 +1,8 @@
 import Link from 'next/link'
-import sections from '../../generated/sections.json'
+import sectionsData from '../../generated/sections.json'
+import type { Section } from '../../lib/content-types'
+
+const sections: Section[] = sectionsData
 
 /** 全セクションのカードグリッド。データは sync が生成した sections.json(件数・セクション数はここが正) */
 export function SectionGrid() {

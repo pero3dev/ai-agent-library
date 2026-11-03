@@ -1,4 +1,7 @@
 import test from 'node:test';
+import { requiredFixture, objectFixture, stringFixture } from '../helpers/json-fixtures.mjs';
+import { revisionManifestFixture } from '../helpers/ios-fixtures.mjs';
+import { nativeDocumentFixture } from '../helpers/native-document-fixture.mts';
 import assert from 'node:assert/strict';
 import * as fs from 'node:fs';
 import os from 'node:os';
@@ -8,7 +11,9 @@ import { revisionPackageBytes, createRevisionFixtures, auditRevisionPackage,
   validateSeedContext, seedStoredRevisionA, auditStoredRevisionB,
   REVISION_TARGET_TEXT } from '../../ios/tests/create-reader-revision-fixtures.mjs';
 
+/** @param {import('node:crypto').BinaryLike} bytes */
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
+/** @param {import('node:test').TestContext} t */
 function scope(t) {
   const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'reader-revision-control-')));
   t.after(() => fs.rmSync(root, { recursive: true }));
@@ -25,6 +30,7 @@ function scope(t) {
     installed_app: app, data_container: data };
   return { root, fixtures, devices, context };
 }
+/** @param {string} root @param {ReturnType<typeof revisionPackageBytes>} files */
 function materialize(root, files) {
   fs.mkdirSync(root);
   for (const [relative, bytes] of Object.entries(files)) {
@@ -35,28 +41,28 @@ function materialize(root, files) {
 
 test('actual A/B native bytes and source bytes have distinct real manifest digests and one common semantic paragraph', () => {
   const A = revisionPackageBytes('A'), B = revisionPackageBytes('B');
-  const ma = JSON.parse(A['manifest.json']), mb = JSON.parse(B['manifest.json']);
+  const ma = revisionManifestFixture(JSON.parse(A['manifest.json'].toString('utf8'))), mb = revisionManifestFixture(JSON.parse(B['manifest.json'].toString('utf8')));
   const file = ma.articles[0].document_path;
-  for (const [files, manifest] of [[A, ma], [B, mb]]) {
+  for (const [files, manifest] of /** @type {[ReturnType<typeof revisionPackageBytes>,ReturnType<typeof revisionManifestFixture>][]} */ ([[A, ma], [B, mb]])) {
     assert.deepEqual(Object.keys(files).sort(), ['manifest.json', file, 'source.txt'].sort());
     assert.equal(manifest.files[file], sha(files[file])); assert.equal(manifest.files['source.txt'], sha(files['source.txt']));
-    const doc = JSON.parse(files[file]);
+    const doc = nativeDocumentFixture(JSON.parse(files[file].toString('utf8')));
     assert.equal(doc.source_sha256, sha(files['source.txt']));
     assert.equal(doc.source_sha256, manifest.articles[0].source_sha256);
-    assert.equal(doc.blocks.filter(b => b.inlines[0].text === REVISION_TARGET_TEXT).length, 1);
+    assert.equal(doc.blocks.filter(b => 'inlines' in b && 'text' in b.inlines[0] && b.inlines[0].text === REVISION_TARGET_TEXT).length, 1);
     assert.equal(manifest.articles[0].is_test_fixture, undefined);
     assert.notEqual(manifest.articles[0].id, 'test-fixtures/native-reader');
     assert.notEqual(manifest.articles[0].source_path, 'ios/fixtures/native-reader.md');
   }
   assert.notEqual(ma.files[file], mb.files[file]);
-  const da = JSON.parse(A[file]), db = JSON.parse(B[file]);
-  assert.notEqual(da.blocks.find(b => b.inlines[0].text === REVISION_TARGET_TEXT).id,
-    db.blocks.find(b => b.inlines[0].text === REVISION_TARGET_TEXT).id);
+  const da = nativeDocumentFixture(JSON.parse(A[file].toString('utf8'))), db = nativeDocumentFixture(JSON.parse(B[file].toString('utf8')));
+  assert.notEqual(requiredFixture(da.blocks.find(b => 'inlines' in b && 'text' in b.inlines[0] && b.inlines[0].text === REVISION_TARGET_TEXT)).id,
+    requiredFixture(db.blocks.find(b => 'inlines' in b && 'text' in b.inlines[0] && b.inlines[0].text === REVISION_TARGET_TEXT)).id);
   assert.ok(db.blocks.length > da.blocks.length);
   assert.notDeepEqual(ma.articles[0].headings, mb.articles[0].headings);
 });
 
-test('fixture output is exclusive: an existing package or symlink is never replaced', t => {
+test('fixture output is exclusive: an existing package or symlink is never replaced', { skip: process.platform === 'win32' ? "This revision ownership fixture requires file and directory symlinks" : false }, t => {
   const s = scope(t); const old = fs.readFileSync(path.join(s.fixtures.B.root, 'manifest.json'));
   const same = path.join(s.root, 'same');
   assert.throws(() => createRevisionFixtures({ ownedRoot: same, bundledRoot: same }));
@@ -69,7 +75,7 @@ test('fixture output is exclusive: an existing package or symlink is never repla
   assert.equal(fs.existsSync(path.join(s.root, 'unused')), false);
 });
 
-test('wrong bytes, extra files, extra directories, and symlinks fail the exact-case package audit', t => {
+test('wrong bytes, extra files, extra directories, and symlinks fail the exact-case package audit', { skip: process.platform === 'win32' ? "This revision ownership fixture requires file and directory symlinks" : false }, t => {
   const s = scope(t), file = path.join(s.fixtures.A.root, 'source.txt');
   assert.throws(() => auditRevisionPackage(s.fixtures.A.root, 'B'));
   assert.throws(() => auditRevisionPackage(s.fixtures.B.root, 'A'));
@@ -98,14 +104,14 @@ test('fresh seed copies real A, writes a UUID pointer, and rejects a second seed
   const s = scope(t), seed = seedStoredRevisionA(s.context, s.fixtures, s.devices);
   assert.equal(seed.status, 'stored-A-seeded');
   const pointer = path.join(seed.storage_root, 'current.json'), before = fs.readFileSync(pointer);
-  assert.equal(JSON.parse(before).directory, seed.generation_A);
+  assert.equal(objectFixture(JSON.parse(before.toString('utf8'))).directory, seed.generation_A);
   assert.equal(seed.stored_A.document_sha256, s.fixtures.A.document_sha256);
   assert.throws(() => seedStoredRevisionA(s.context, s.fixtures, s.devices));
   assert.ok(fs.readFileSync(pointer).equals(before));
   assert.deepEqual(auditRevisionPackage(s.fixtures.B.root, 'B'), s.fixtures.B);
 });
 
-test('an existing storage directory or a symlinked Library is never modified by seed', t => {
+test('an existing storage directory or a symlinked Library is never modified by seed', { skip: process.platform === 'win32' ? "This revision ownership fixture requires file and directory symlinks" : false }, t => {
   const s = scope(t); const library = path.join(s.context.data_container, 'Library');
   fs.symlinkSync(s.root, library);
   assert.throws(() => seedStoredRevisionA(s.context, s.fixtures, s.devices));
@@ -139,6 +145,7 @@ test('post-UI pointer cannot escape versions or select a fake digest package', t
 });
 
 
+/** @param {ReturnType<typeof scope>} s @param {ReturnType<typeof seedStoredRevisionA>} seed */
 function selectRevisionB(s, seed) {
   const generationB = randomUUID().toUpperCase();
   materialize(path.join(seed.storage_root, 'versions', generationB), revisionPackageBytes('B'));
@@ -181,11 +188,11 @@ test('post-UI ownership rejects each changed immutable seed field, even with val
     bundle_id: 'other.app', run_id: '124', run_attempt: '2', token: randomUUID(), name: seed.owner.name + '-other',
     preexisting_UUIDs: [randomUUID().toUpperCase()] };
   for (const [field, value] of Object.entries(replacements)) {
-    const changed = structuredClone(seed); changed.owner[field] = value;
+    const changed = structuredClone(seed); Reflect.set(changed.owner, field, value);
     assert.throws(() => auditStoredRevisionB(s.context, s.fixtures, changed, s.devices), field);
   }
   for (const field of ['source_head', 'UUID', 'bundle_id', 'run_id', 'run_attempt']) {
-    assert.throws(() => auditStoredRevisionB(s.context, s.fixtures, { ...seed, [field]: replacements[field] }, s.devices), field);
+    assert.throws(() => auditStoredRevisionB(s.context, s.fixtures, { ...seed, [field]: Reflect.get(replacements, field) }, s.devices), field);
   }
   const token = randomUUID();
   assert.throws(() => auditStoredRevisionB({ ...s.context, token,
@@ -194,6 +201,7 @@ test('post-UI ownership rejects each changed immutable seed field, even with val
 
 test('historical root relationships, generation, pointer SHA, and seed kind remain mandatory', t => {
   const s = scope(t), seed = seedStoredRevisionA(s.context, s.fixtures, s.devices); selectRevisionB(s, seed);
+  /** @type {((value:ReturnType<typeof seedStoredRevisionA>)=>void)[]} */
   const mutations = [
     value => { value.data_container += '/child'; },
     value => { value.data_container = path.join(s.root, randomUUID().toUpperCase()); },
@@ -212,7 +220,7 @@ test('historical root relationships, generation, pointer SHA, and seed kind rema
   }
 });
 
-test('current container must be canonical, direct, on the owned device, and not a symlink or empty replacement', t => {
+test('current container must be canonical, direct, on the owned device, and not a symlink or empty replacement', { skip: process.platform === 'win32' ? "This revision ownership fixture requires file and directory symlinks" : false }, t => {
   const s = scope(t), seed = seedStoredRevisionA(s.context, s.fixtures, s.devices); selectRevisionB(s, seed);
   const empty = path.join(path.dirname(s.context.data_container), randomUUID().toUpperCase()); fs.mkdirSync(empty);
   const alias = path.join(path.dirname(s.context.data_container), randomUUID().toUpperCase());
@@ -236,10 +244,10 @@ test('the current root must retain the original A generation and every A file, n
   for (const relative of Object.keys(revisionPackageBytes('A'))) {
     const file = path.join(originalA, relative), bytes = fs.readFileSync(file);
     fs.appendFileSync(file, 'changed');
-    assert.throws(() => auditStoredRevisionB(s.context, s.fixtures, seed, s.devices), undefined, relative);
+    assert.throws(() => auditStoredRevisionB(s.context, s.fixtures, seed, s.devices), () => true, relative);
     fs.writeFileSync(file, bytes);
   }
-  const storedB = JSON.parse(fs.readFileSync(path.join(seed.storage_root, 'current.json'))).directory;
+  const storedB = stringFixture(objectFixture(JSON.parse(fs.readFileSync(path.join(seed.storage_root, 'current.json'), 'utf8'))).directory);
   const bFile = path.join(seed.storage_root, 'versions', storedB, 'source.txt'); fs.appendFileSync(bFile, 'changed');
   assert.throws(() => auditStoredRevisionB(s.context, s.fixtures, seed, s.devices));
 });

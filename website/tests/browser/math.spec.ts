@@ -1,19 +1,22 @@
 import { test, expect } from '@playwright/test'
+import type { Locator, Page } from '@playwright/test'
+import type { Nodes } from 'mdast'
 import { readFileSync, readdirSync } from 'node:fs'
 import { unified } from 'unified'
 import remarkParse from 'remark-parse'
 import remarkMath from 'remark-math'
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
-const route = (section, slug) => `${basePath}/docs/${section}/${slug}`
+const route = (section: string, slug: string) => `${basePath}/docs/${section}/${slug}`
 const sourceDirectory = new URL('../../../docs/11-llm-internals/', import.meta.url)
 const parser = unified().use(remarkParse).use(remarkMath)
 
-function collectMath(node, result = []) {
+interface Formula { display: boolean; value: string }
+function collectMath(node: Nodes, result: Formula[] = []): Formula[] {
   if (node.type === 'math' || node.type === 'inlineMath') {
     result.push({ display: node.type === 'math', value: node.value })
   }
-  for (const child of node.children ?? []) collectMath(child, result)
+  if ('children' in node) for (const child of node.children) collectMath(child, result)
   return result
 }
 
@@ -35,25 +38,26 @@ articles.push({
 })
 
 const cases = articles.flatMap(article => [
-  { ...article, width: 375, theme: 'light' },
-  { ...article, width: 1440, theme: 'dark' }
+  { ...article, width: 375, theme: 'light' as const },
+  { ...article, width: 1440, theme: 'dark' as const }
 ])
 for (const slug of ['transformer-architecture', 'alignment-theory']) {
   const article = articles.find(item => item.slug === slug)
-  for (const [width, theme] of [[390, 'dark'], [430, 'light'], [768, 'light']]) {
+  if (!article) throw new Error(`Missing math article: ${slug}`)
+  for (const [width, theme] of [[390, 'dark'], [430, 'light'], [768, 'light']] as const) {
     cases.push({ ...article, width, theme })
   }
 }
 
-async function openArticle(page, section, slug, theme) {
+async function openArticle(page: Page, section: string, slug: string, theme: 'light' | 'dark') {
   await page.addInitScript(value => localStorage.setItem('theme', value), theme)
   const response = await page.goto(route(section, slug))
-  expect(response.status()).toBe(200)
+  expect(response?.status()).toBe(200)
   await expect(page.locator('html')).toHaveClass(new RegExp(`\\b${theme}\\b`))
   await page.evaluate(() => document.fonts.ready)
 }
 
-async function expectNoPageOverflow(page) {
+async function expectNoPageOverflow(page: Page) {
   expect(await page.evaluate(() => ({
     document: document.documentElement.scrollWidth - document.documentElement.clientWidth,
     body: document.body.scrollWidth - document.documentElement.clientWidth
@@ -78,6 +82,7 @@ for (const { section, slug, math, width, theme } of cases) {
       const rendering = await formulas.evaluateAll(elements => elements.map(element => {
         const mathml = element.querySelector('.katex-mathml')
         const html = element.querySelector('.katex-html')
+        if (!mathml || !html) throw new Error('Each formula must contain MathML and its visual rendering')
         const bounds = mathml.getBoundingClientRect()
         const style = getComputedStyle(mathml)
         return {
@@ -123,10 +128,10 @@ for (const { section, slug, math, width, theme } of cases) {
       if (section === 'llm-internals') {
         const rawEmphasis = await page.locator('article').evaluate(element => {
           const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT)
-          const found = []
+          const found: string[] = []
           while (walker.nextNode()) {
             const node = walker.currentNode
-            if (!node.parentElement.closest('pre, code, .katex, script, style') && node.textContent.includes('**')) {
+            if (!node.parentElement?.closest('pre, code, .katex, script, style') && node.textContent?.includes('**')) {
               found.push(node.textContent.trim())
             }
           }
@@ -138,7 +143,7 @@ for (const { section, slug, math, width, theme } of cases) {
   })
 }
 
-for (const theme of ['light', 'dark']) {
+for (const theme of ['light', 'dark'] as const) {
   test.describe(`long display formula keyboard access ${theme}`, () => {
     test.use({ viewport: { width: 390, height: 844 }, colorScheme: theme })
 
@@ -184,16 +189,17 @@ for (const theme of ['light', 'dark']) {
   })
 }
 
-async function expectFormulaNotClipped(formula, edge) {
+async function expectFormulaNotClipped(formula: Locator, edge: 'left' | 'right') {
   const dimensions = await formula.evaluate((element, selectedEdge) => {
     const bounds = element.getBoundingClientRect()
     const visual = element.querySelector('.katex-html')
+    if (!visual) throw new Error('The formula must have a visual KaTeX rendering')
     const walker = document.createTreeWalker(visual, NodeFilter.SHOW_TEXT)
-    const boxes = []
+    const boxes: DOMRect[] = []
     while (walker.nextNode()) {
       // KaTeX uses zero-width characters in its alignment machinery. Only
       // measure text that paints a glyph, including fraction/subscript text.
-      if (!walker.currentNode.textContent.replace(/[\s\u200b]/g, '')) continue
+      if (!walker.currentNode.textContent?.replace(/[\s\u200b]/g, '')) continue
       const range = document.createRange()
       range.selectNodeContents(walker.currentNode)
       boxes.push(...Array.from(range.getClientRects()))

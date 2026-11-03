@@ -1,5 +1,9 @@
 // Project-owned adapter for generated Markdown. Implementation is regenerated
 // from the lockfile-installed Nextra by sync-content; dependencies stay intact.
+/**
+ * @this {{ async(): (error: unknown, result?: string) => void }}
+ * @param {string} code
+ */
 module.exports = async function generatedContentLoader(code) {
   const callback = this.async()
   try {

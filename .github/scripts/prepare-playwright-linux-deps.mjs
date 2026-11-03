@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises';
-import path from 'node:path';
+// The supported Ubuntu APT layout uses POSIX paths on every fixture host.
+import path from 'node:path/posix';
 import { createHash } from 'node:crypto';
 import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
@@ -11,10 +12,14 @@ export const MIRROR_FILE = '/etc/apt/apt-mirrors.txt';
 export const LIMITS = Object.freeze({ metadataSeconds: 60, downloadSeconds: 180, outputBytes: 64 * 1024 });
 const MIRROR_URI = `mirror+file:${MIRROR_FILE}`;
 const REPOSITORY = 'pero3dev/ai-agent-library';
+/** @param {import('node:crypto').BinaryLike} bytes */
 const hash = (bytes) => createHash('sha256').update(bytes).digest('hex');
-const fail = (message) => { throw new Error(message); };
+/** @param {string} message @returns {never} */
+function fail(message) { throw new Error(message); }
+/** @param {AbortSignal | undefined} signal */
 const checkAbort = (signal) => { if (signal?.aborted) fail('Preparation interrupted; no install will start.'); };
 
+/** @param {string} bundle @param {unknown[]} versions */
 export function parsePlaywrightPackages(bundle, versions) {
   if (versions.length !== 5 || versions.some((version) => version !== SUPPORTED_PLAYWRIGHT))
     fail('Unsupported Playwright lock/install version; manual dependency-table review required.');
@@ -22,17 +27,19 @@ export function parsePlaywrightPackages(bundle, versions) {
   const tables = [...bundle.matchAll(pattern)];
   if (tables.length !== 1) fail('Unknown or ambiguous Playwright dependency-table format.');
   const arrays = tables[0].slice(1).map((text) => {
+    /** @type {unknown} */
     let packages;
     try { packages = JSON.parse(text); } catch { fail('Dependency table is not a plain JSON string array.'); }
     if (!Array.isArray(packages) || packages.length === 0 || packages.length > 128
         || packages.some((token) => typeof token !== 'string' || !/^[a-z0-9][a-z0-9+.-]*$/.test(token))
         || new Set(packages).size !== packages.length)
       fail('Invalid dependency package array.');
-    return packages;
+    return /** @type {string[]} */ (packages);
   });
   return [...new Set(arrays.flat())].sort();
 }
 
+/** @param {import('./linux-deps-types.d.mts').HostContext} context @param {string} osRelease */
 export function validateHost(context, osRelease) {
   const env = context.env;
   if (context.platform !== 'linux' || context.arch !== 'x64' || env.GITHUB_ACTIONS !== 'true'
@@ -40,7 +47,7 @@ export function validateHost(context, osRelease) {
       || env.RUNNER_ENVIRONMENT !== 'github-hosted' || env.GITHUB_REPOSITORY !== REPOSITORY
       || env.PLAYWRIGHT_DEPS_PUBLIC_REPOSITORY !== 'true')
     fail('Only this public repository on a GitHub-hosted Linux x64 CI runner is supported.');
-  if (!path.isAbsolute(env.GITHUB_WORKSPACE || '') || path.normalize(env.GITHUB_WORKSPACE) !== env.GITHUB_WORKSPACE
+  if (typeof env.GITHUB_WORKSPACE !== 'string' || !path.isAbsolute(env.GITHUB_WORKSPACE) || path.normalize(env.GITHUB_WORKSPACE) !== env.GITHUB_WORKSPACE
       || context.cwd !== env.GITHUB_WORKSPACE
       || context.scriptPath !== path.join(env.GITHUB_WORKSPACE, '.github/scripts/prepare-playwright-linux-deps.mjs'))
     fail('The script must run from its owned GitHub workspace.');
@@ -58,6 +65,7 @@ export function validateHost(context, osRelease) {
     fail('Only Ubuntu 24.04 noble is supported; review sources before changing this guard.');
 }
 
+/** @param {Buffer} bytes */
 export function parseMirror(bytes) {
   // actions/runner-images configure-apt-sources.sh, reviewed at c74a28e5f894
   // (blob b3f5b2b180df8eb39fcbba034f616e03a69e775c). Unknown layouts fail closed.
@@ -70,6 +78,7 @@ export function parseMirror(bytes) {
   return Buffer.from(retained);
 }
 
+/** @param {string} uri */
 function safeUri(uri) {
   if (uri === MIRROR_URI) return;
   let parsed;
@@ -85,12 +94,15 @@ function safeUri(uri) {
   if (parsed.port || (!ubuntu && !thirdParty)) fail('Unreviewed APT source host/path; no URI values are logged.');
 }
 
+/** @param {{name: string, text: string}[]} files */
 export function validateSources(files) {
   let mirrorStanzas = 0;
   for (const { name, text } of files) {
+    /** @type {{uris: string[], suites: string[], components: string[], signedBy?: string}[]} */
     const stanzas = [];
     if (name.endsWith('.sources')) {
       for (const block of text.split(/\n\s*\n/)) {
+        /** @type {Map<string, string>} */
         const fields = new Map();
         for (const line of block.split('\n')) {
           if (!line.trim() || line.startsWith('#')) continue;
@@ -104,8 +116,8 @@ export function validateSources(files) {
         if (!fields.get('Types')?.split(' ').every((type) => ['deb', 'deb-src'].includes(type))
             || !fields.get('URIs') || !fields.get('Suites') || !fields.get('Components'))
           fail('Incomplete deb822 source stanza.');
-        stanzas.push({ uris: fields.get('URIs').split(/ +/), suites: fields.get('Suites').split(/ +/),
-          components: fields.get('Components').split(/ +/), signedBy: fields.get('Signed-By') });
+        stanzas.push({ uris: (fields.get('URIs') ?? '').split(/ +/), suites: (fields.get('Suites') ?? '').split(/ +/),
+          components: (fields.get('Components') ?? '').split(/ +/), signedBy: fields.get('Signed-By') });
       }
     } else if (name.endsWith('.list')) {
       for (const line of text.split('\n')) {
@@ -134,11 +146,13 @@ export function validateSources(files) {
   if (!mirrorStanzas) fail('No reviewed Ubuntu archive mirror source was found.');
 }
 
+/** @param {import('./linux-deps-types.d.mts').Snapshot} actual @param {import('./linux-deps-types.d.mts').Snapshot} expected */
 function sameSnapshot(actual, expected) {
   return actual.mode === expected.mode && actual.dev === expected.dev && actual.ino === expected.ino
     && actual.uid === expected.uid && actual.bytes.equals(expected.bytes);
 }
 
+/** @param {import('./linux-deps-types.d.mts').PreparationIo} io @param {import('./linux-deps-types.d.mts').NamedSnapshot[]} snapshots */
 async function unchanged(io, snapshots) {
   const expectedNames = snapshots.filter((file) => file.path !== MIRROR_FILE).map((file) => file.path).sort();
   if (JSON.stringify(await io.sourceNames()) !== JSON.stringify(expectedNames))
@@ -149,24 +163,35 @@ async function unchanged(io, snapshots) {
   }
 }
 
+/** @param {{io: import('./linux-deps-types.d.mts').PreparationIo, context: import('./linux-deps-types.d.mts').HostContext, signal?: AbortSignal}} options */
 export async function prepare({ io, context, signal }) {
   const os = await io.read('/usr/lib/os-release', 8192);
   validateHost(context, os.bytes.toString('utf8'));
   const workspace = await io.directory(context.cwd);
   if (workspace.uid !== context.uid) fail('Workspace ownership does not match this runner user.');
   const root = context.cwd;
+  /** @param {string} name @param {number} limit @returns {Promise<Record<string, unknown>>} */
   const readJson = async (name, limit) => {
     const file = await io.read(name, limit);
-    try { return JSON.parse(file.bytes); } catch { fail('Unknown package JSON format; input values are intentionally omitted.'); }
+    try {
+      /** @type {unknown} */
+      const value = JSON.parse(file.bytes.toString('utf8'));
+      if (!value || typeof value !== 'object' || Array.isArray(value)) fail('Unknown package JSON format; input values are intentionally omitted.');
+      return /** @type {Record<string, unknown>} */ (value);
+    } catch { fail('Unknown package JSON format; input values are intentionally omitted.'); }
   };
   const lock = await readJson(path.join(root, 'website/package-lock.json'), 2 * 1024 * 1024);
   const core = await readJson(path.join(root, 'website/node_modules/playwright-core/package.json'), 16384);
   const playwright = await readJson(path.join(root, 'website/node_modules/playwright/package.json'), 16384);
   if (lock.lockfileVersion !== 3 || core.name !== 'playwright-core' || playwright.name !== 'playwright') fail('Unsupported installed package identity or lock schema.');
-  const versions = [lock.packages?.['node_modules/playwright-core']?.version, lock.packages?.['node_modules/playwright']?.version,
-    lock.packages?.['node_modules/@playwright/test']?.version, core.version, playwright.version];
+  /** @param {unknown} value @returns {Record<string, unknown>} */
+  const fields = value => value && typeof value === 'object' && !Array.isArray(value) ? /** @type {Record<string, unknown>} */ (value) : {};
+  const lockPackages = fields(lock.packages);
+  const versions = [fields(lockPackages['node_modules/playwright-core']).version, fields(lockPackages['node_modules/playwright']).version,
+    fields(lockPackages['node_modules/@playwright/test']).version, core.version, playwright.version];
   const bundle = await io.read(path.join(root, 'website/node_modules/playwright-core/lib/coreBundle.js'), 12 * 1024 * 1024);
   const packages = parsePlaywrightPackages(bundle.bytes.toString('utf8'), versions);
+  /** @type {import('./linux-deps-types.d.mts').NamedSnapshot[]} */
   const sources = [];
   const names = await io.sourceNames();
   if (names.length === 0 || names.length > 32) fail('Unexpected APT source-file count.');
@@ -176,6 +201,7 @@ export async function prepare({ io, context, signal }) {
     sources.push({ ...file, path: name, limit: 16 * 1024 });
   }
   const mirror = { ...await io.read(MIRROR_FILE, 4096), path: MIRROR_FILE, limit: 4096 };
+  /** @param {import('./linux-deps-types.d.mts').NamedSnapshot} file */
   const snapshotSummary = (file) => ({ path: file.path, sha256: hash(file.bytes), bytes: file.bytes.length, mode: file.mode.toString(8), realpath: file.path });
   // Save bounded identity/hash diagnostics even when a future source/mirror
   // layout is rejected. Never print source contents or arbitrary URI values.
@@ -186,11 +212,12 @@ export async function prepare({ io, context, signal }) {
   let activeMirror = mirror;
   io.log({ phase: 'preflight', ubuntu: '24.04', codename: 'noble', playwright: SUPPORTED_PLAYWRIGHT,
     packages: packages.length, sources: sources.map(snapshotSummary), mirror: snapshotSummary(mirror) });
+  /** @param {number} attempt */
   const runFetch = async (attempt) => {
-    for (const [phase, seconds, args] of [
+    for (const [phase, seconds, args] of /** @type {[string, number, string[]][]} */ ([
       ['metadata', LIMITS.metadataSeconds, ['-o', 'Acquire::Retries=0', '-o', 'APT::Update::Error-Mode=any', 'update']],
       ['download', LIMITS.downloadSeconds, ['-o', 'Acquire::Retries=0', 'install', '-y', '--download-only', '--no-install-recommends', ...packages]],
-    ]) {
+    ])) {
       checkAbort(signal);
       await unchanged(io, [...sources, activeMirror]);
       io.log({ phase, attempt, timeout_seconds: seconds });
@@ -268,13 +295,15 @@ finally:
  os.close(fd)
 `;
 
+/** @param {{args: string[], seconds: number | null}} options */
 export function commandSpec({ args, seconds }) {
   return { command: '/usr/bin/sudo', args: seconds === null
     ? ['-n', '/usr/bin/apt-get', ...args]
     : ['-n', '/usr/bin/timeout', '--signal=TERM', '--kill-after=5s', `${seconds}s`, '/usr/bin/apt-get', ...args] };
 }
 
-export async function runChild(spec, { spawnChild = spawn, killGroup = (pid, signal) => process.kill(-pid, signal) } = {}) {
+/** @param {import('./linux-deps-types.d.mts').ProcessSpec} spec @param {import('./linux-deps-types.d.mts').ChildOptions} [options] @returns {Promise<import('./linux-deps-types.d.mts').ProcessResult>} */
+export async function runChild(spec, { spawnChild = (command, args, options) => spawn(command, args, { ...options, stdio: 'pipe' }), killGroup = (pid, signal) => process.kill(-pid, signal) } = {}) {
   const { command, args } = spec;
   return await new Promise((resolve, reject) => {
     // timeout runs as root so its process-group deadline also reaches root apt.
@@ -282,14 +311,16 @@ export async function runChild(spec, { spawnChild = spawn, killGroup = (pid, sig
       env: { PATH: '/usr/sbin:/usr/bin:/sbin:/bin', LANG: 'C.UTF-8', LC_ALL: 'C.UTF-8', DEBIAN_FRONTEND: 'noninteractive' } });
     let bytes = 0;
     let stopped = false;
+    /** @type {unknown} */
     let failure;
     const stop = () => {
       if (stopped || !spec.interruptible) return;
       stopped = true;
       // sudo relays this signal to root timeout. Wait for close before restoring
       // config; the root deadline remains the backstop if relay is delayed.
-      try { killGroup(child.pid, 'SIGTERM'); } catch (error) { if (error.code !== 'ESRCH') failure = error; }
+      try { if (child.pid !== undefined) killGroup(child.pid, 'SIGTERM'); } catch (error) { if (!(error instanceof Error) || !('code' in error) || error.code !== 'ESRCH') failure = error; }
     };
+    /** @param {Uint8Array} chunk */
     const consume = (chunk) => {
       bytes += chunk.length;
       // Do not echo APT output: source URLs can contain credentials. Log phase,
@@ -312,17 +343,21 @@ export async function runChild(spec, { spawnChild = spawn, killGroup = (pid, sig
   });
 }
 
+/** @param {{fsApi?: import('./linux-deps-types.d.mts').PreparationFilesystem, run?: (spec: import('./linux-deps-types.d.mts').ProcessSpec) => Promise<import('./linux-deps-types.d.mts').ProcessResult>}} [options] @returns {import('./linux-deps-types.d.mts').PreparationIo} */
 export function realIo({ fsApi = fs, run = runChild } = {}) {
   let loggedBytes = 0;
+  /** @param {string} name */
   const directory = async (name) => {
     const st = await fsApi.lstat(name);
-    if (!st.isDirectory() || st.isSymbolicLink() || await fsApi.realpath(name) !== name) fail('Unsupported directory identity.');
-    return st;
+    if (!st.isDirectory?.() || st.isSymbolicLink() || await fsApi.realpath(name) !== name) fail('Unsupported directory identity.');
+    return { ...st, uid: st.uid };
   };
+  /** @param {string} name @param {number} limit */
   const read = async (name, limit) => {
     const st = await fsApi.lstat(name);
-    if (!st.isFile() || st.isSymbolicLink() || st.size > limit || await fsApi.realpath(name) !== name)
+    if (!st.isFile?.() || st.isSymbolicLink() || typeof st.size !== 'number' || st.size > limit || await fsApi.realpath(name) !== name)
       fail('Unsupported regular-file identity or size.');
+    if (!fsApi.open || typeof st.dev !== 'number' || typeof st.ino !== 'number' || typeof st.uid !== 'number' || typeof st.mode !== 'number') fail('Unsupported regular-file identity or size.');
     const handle = await fsApi.open(name, 'r');
     try {
       const opened = await handle.stat();
@@ -337,8 +372,9 @@ export function realIo({ fsApi = fs, run = runChild } = {}) {
     read, directory,
     async sourceNames() {
       const names = [];
-      try { await fsApi.lstat('/etc/apt/sources.list'); names.push('/etc/apt/sources.list'); } catch (error) { if (error.code !== 'ENOENT') throw error; }
+      try { await fsApi.lstat('/etc/apt/sources.list'); names.push('/etc/apt/sources.list'); } catch (error) { if (!(error instanceof Error) || !('code' in error) || error.code !== 'ENOENT') throw error; }
       await directory('/etc/apt/sources.list.d');
+      if (!fsApi.readdir) fail('Source directory enumeration is unavailable.');
       for (const name of await fsApi.readdir('/etc/apt/sources.list.d')) {
         if (name.endsWith('.list') || name.endsWith('.sources')) {
           if (!/^[A-Za-z0-9_.-]+\.(?:list|sources)$/.test(name)) fail('Unsupported APT source filename.');
@@ -373,7 +409,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
       uid: process.getuid?.(), cwd: process.cwd(), env: process.env, scriptPath: fileURLToPath(import.meta.url) } });
   } catch (error) {
     // Errors never include raw source/child contents or arbitrary URI values.
-    process.stderr.write(`Playwright Linux dependencies: ${error.message}\n`);
+    process.stderr.write(`Playwright Linux dependencies: ${error instanceof Error ? error.message : String(error)}\n`);
     process.exitCode = controller.signal.aborted ? 130 : 1;
   } finally {
     process.off('SIGINT', interrupt);

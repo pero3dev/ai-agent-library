@@ -1,16 +1,18 @@
 import { test as base, expect } from '@playwright/test'
+import type { Page } from '@playwright/test'
 import { readFileSync, readdirSync } from 'node:fs'
 import { createServer } from 'node:http'
+import type { AudioCatalog } from '../../lib/content-types'
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
-const route = pathname => `${basePath}${pathname}`
-const catalog = JSON.parse(readFileSync(new URL('../../generated/audio.json', import.meta.url), 'utf8'))
+const route = (pathname: string) => `${basePath}${pathname}`
+const catalog: AudioCatalog = JSON.parse(readFileSync(new URL('../../generated/audio.json', import.meta.url), 'utf8'))
 const fixtureBuild = Boolean(catalog.test_only)
-const player = page => page.getByRole('complementary', { name: '音声プレイヤー' })
-const media = page => page.locator('audio[data-library-audio]')
+const player = (page: Page) => page.getByRole('complementary', { name: '音声プレイヤー' })
+const media = (page: Page) => page.locator('audio[data-library-audio]')
 const releasePrefix = 'https://github.com/pero3dev/ai-agent-library/releases/download/audio-test/'
 const fixtureMp3 = readFileSync(new URL('./fixtures/tone-60s.mp3', import.meta.url))
-const fixtureBundles = new Map()
+const fixtureBundles = new Map<string, string>()
 if (fixtureBuild) {
   const chunks = new URL('../../out/_next/static/chunks/', import.meta.url)
   for (const filename of readdirSync(chunks).filter(name => name.endsWith('.js'))) {
@@ -19,9 +21,16 @@ if (fixtureBuild) {
   }
 }
 
-const test = base.extend({
+interface FixtureAudio {
+  releaseRequests: (string | undefined)[]
+  assetRequests: { url: string | undefined; range: string | undefined }[]
+  failAssetRequests: boolean
+  releasePrefix: string
+  rewrittenBundles: number
+}
+const test = base.extend<{ fixtureAudio: FixtureAudio }>({
   fixtureAudio: async ({ page }, use) => {
-    const state = { releaseRequests: [], assetRequests: [], failAssetRequests: false, releasePrefix: '', rewrittenBundles: 0 }
+    const state: FixtureAudio = { releaseRequests: [], assetRequests: [], failAssetRequests: false, releasePrefix: '', rewrittenBundles: 0 }
     // Native WebKit media requests can bypass Playwright routing. Both release
     // redirects and asset responses therefore use actual loopback HTTP servers.
     const server = createServer((request, response) => {
@@ -51,30 +60,34 @@ const test = base.extend({
       })
       response.end(request.method === 'HEAD' ? undefined : fixtureMp3.subarray(start, end + 1))
     })
-    await new Promise((resolve, reject) => {
+    await new Promise<void>((resolve, reject) => {
       server.once('error', reject)
       server.listen(0, '127.0.0.1', resolve)
     })
-    const assetOrigin = `http://127.0.0.1:${server.address().port}`
+    const assetAddress = server.address()
+    if (!assetAddress || typeof assetAddress === 'string') throw new Error('The asset server must expose a TCP port')
+    const assetOrigin = `http://127.0.0.1:${assetAddress.port}`
     const releases = createServer((request, response) => {
       state.releaseRequests.push(request.url)
       // Separate extensionless asset URLs preserve episode identity after redirect.
-      const assetId = request.url.endsWith('/agent-loop.mp3') ? 'asset-1' : 'asset-2'
+      const assetId = request.url?.endsWith('/agent-loop.mp3') ? 'asset-1' : 'asset-2'
       response.writeHead(302, { location: `${assetOrigin}/${assetId}`, 'cache-control': 'no-store', 'content-length': '0' })
       response.end()
     })
-    await new Promise((resolve, reject) => {
+    await new Promise<void>((resolve, reject) => {
       releases.once('error', reject)
       releases.listen(0, '127.0.0.1', resolve)
     })
-    state.releasePrefix = `http://127.0.0.1:${releases.address().port}/releases/download/audio-test/`
+    const releaseAddress = releases.address()
+    if (!releaseAddress || typeof releaseAddress === 'string') throw new Error('The release server must expose a TCP port')
+    state.releasePrefix = `http://127.0.0.1:${releaseAddress.port}/releases/download/audio-test/`
     try {
       expect(fixtureBundles.size, 'The isolated build must contain fixture catalog URLs').toBeGreaterThan(0)
       // Rewrite only fixture data in the exported JS, not HTMLMediaElement APIs.
       // This gives native media backends reachable URLs without external traffic.
       await page.route('**/_next/static/chunks/*.js', async request => {
         const filename = new URL(request.request().url()).pathname.split('/').at(-1)
-        const body = fixtureBundles.get(filename)
+        const body = filename ? fixtureBundles.get(filename) : undefined
         if (!body) return request.continue()
         state.rewrittenBundles += 1
         await request.fulfill({ contentType: 'text/javascript', body: body.replaceAll(releasePrefix, state.releasePrefix) })
@@ -84,8 +97,8 @@ const test = base.extend({
     } finally {
       server.closeAllConnections()
       releases.closeAllConnections()
-      await new Promise((resolve, reject) => releases.close(error => error ? reject(error) : resolve()))
-      await new Promise((resolve, reject) => server.close(error => error ? reject(error) : resolve()))
+      await new Promise<void>((resolve, reject) => releases.close(error => error ? reject(error) : resolve()))
+      await new Promise<void>((resolve, reject) => server.close(error => error ? reject(error) : resolve()))
     }
   }
 })
@@ -95,7 +108,7 @@ test.beforeEach(async ({ page }) => {
 })
 test.afterEach(async ({ page }, info) => {
   if (info.status !== info.expectedStatus) await info.attach('native-media-state', {
-    body: JSON.stringify(await media(page).evaluateAll(elements => elements.map(audio => ({
+    body: JSON.stringify(await media(page).evaluateAll((elements: HTMLAudioElement[]) => elements.map(audio => ({
       paused: audio.paused, readyState: audio.readyState, networkState: audio.networkState,
       currentTime: audio.currentTime, error: audio.error ? { code: audio.error.code, message: audio.error.message } : null,
       source: audio.querySelector('source')?.getAttribute('src'), type: audio.querySelector('source')?.type
@@ -109,7 +122,7 @@ test('audio library reports real coverage and has a keyboard skip target', async
   await expect(page.getByRole('heading', { name: '音声で学ぶ', exact: true })).toBeVisible()
   await expect(page.locator('.audio-library-summary')).toContainText(`${new Set(catalog.episodes.map(item => item.article_path)).size}`)
   await expect(media(page)).toHaveCount(1)
-  expect(await media(page).evaluate(audio => audio.paused && !audio.getAttribute('src'))).toBe(true)
+  expect(await media(page).evaluate((audio: HTMLAudioElement) => audio.paused && !audio.getAttribute('src'))).toBe(true)
   await expect(media(page).locator('source[src]')).toHaveCount(0)
   if (!catalog.episodes.length) {
     await expect(page.getByText('音声は現在準備中です。', { exact: false })).toBeVisible()
@@ -168,47 +181,50 @@ test.describe('isolated fixture audio playback', () => {
   test.beforeEach(async ({ fixtureAudio }) => { expect(fixtureAudio.assetRequests).toHaveLength(0) })
 
   test('starts redirected MP3 from article, navigates, seeks chapters and restores without requesting media', async ({ page, fixtureAudio }, testInfo) => {
-    const errors = []
+    const errors: string[] = []
     page.on('pageerror', error => errors.push(error.message))
     await page.goto(route('/docs/concepts/agent-loop'))
     await page.getByRole('region', { name: 'この記事の音声' }).getByRole('button', { name: '音声で聴く', exact: true }).click()
-    await expect.poll(() => media(page).evaluate(audio => !audio.paused && audio.readyState > 0)).toBe(true)
+    await expect.poll(() => media(page).evaluate((audio: HTMLAudioElement) => !audio.paused && audio.readyState > 0)).toBe(true)
     await expect(media(page).locator('source')).toHaveAttribute('type', 'audio/mpeg')
     const episode = catalog.episodes.find(item => item.id === 'audio-test-agent-loop-v1')
+    if (!episode) throw new Error('The isolated catalog must contain the Agent loop episode')
     await expect(media(page).locator('source')).toHaveAttribute('src', episode.audio_url.replace(releasePrefix, fixtureAudio.releasePrefix))
     expect(fixtureAudio.releaseRequests.length).toBeGreaterThan(0)
     expect(fixtureAudio.assetRequests.length).toBeGreaterThan(0)
     expect(fixtureAudio.assetRequests.every(request => request.url === '/asset-1')).toBe(true)
-    await media(page).evaluate(audio => { audio.dataset.identity = 'keep-me' })
+    await media(page).evaluate((audio: HTMLAudioElement) => { audio.dataset.identity = 'keep-me' })
     await player(page).getByRole('button', { name: '15秒進む' }).click()
-    await expect.poll(() => media(page).evaluate(audio => audio.currentTime)).toBeGreaterThan(14)
+    await expect.poll(() => media(page).evaluate((audio: HTMLAudioElement) => audio.currentTime)).toBeGreaterThan(14)
     await player(page).getByRole('button', { name: '15秒戻る' }).click()
-    await expect.poll(() => media(page).evaluate(audio => audio.currentTime)).toBeLessThan(5)
+    await expect.poll(() => media(page).evaluate((audio: HTMLAudioElement) => audio.currentTime)).toBeLessThan(5)
     await player(page).getByLabel('再生速度').selectOption('1.5')
-    await expect.poll(() => media(page).evaluate(audio => audio.playbackRate)).toBe(1.5)
+    await expect.poll(() => media(page).evaluate((audio: HTMLAudioElement) => audio.playbackRate)).toBe(1.5)
     await player(page).getByRole('button', { name: '章・再生リスト' }).click()
     await player(page).getByRole('button', { name: '0:20 試験用の仕組み' }).click()
-    await expect.poll(() => media(page).evaluate(audio => audio.currentTime)).toBeGreaterThanOrEqual(20)
-    const reportUrl = new URL(await player(page).getByRole('link', { name: '内容の問題を報告' }).getAttribute('href'))
+    await expect.poll(() => media(page).evaluate((audio: HTMLAudioElement) => audio.currentTime)).toBeGreaterThanOrEqual(20)
+    const reportHref = await player(page).getByRole('link', { name: '内容の問題を報告' }).getAttribute('href')
+    if (!reportHref) throw new Error('The problem report link must have a destination')
+    const reportUrl = new URL(reportHref)
     expect(reportUrl.searchParams.get('body')).toContain('audio-test-agent-loop-v1')
     await page.screenshot({ path: testInfo.outputPath('audio-desktop.png') })
     await player(page).getByRole('link', { name: '音声の一覧へ' }).click()
     await expect(page).toHaveURL(/\/audio$/)
     await expect(media(page)).toHaveAttribute('data-identity', 'keep-me')
-    expect(await media(page).evaluate(audio => audio.paused)).toBe(false)
+    expect(await media(page).evaluate((audio: HTMLAudioElement) => audio.paused)).toBe(false)
     await player(page).getByRole('button', { name: '一時停止', exact: true }).click()
-    const position = await media(page).evaluate(audio => audio.currentTime)
+    const position = await media(page).evaluate((audio: HTMLAudioElement) => audio.currentTime)
     fixtureAudio.releaseRequests.length = 0
     fixtureAudio.assetRequests.length = 0
     await page.reload()
     await expect(player(page)).toBeVisible()
     await expect(player(page).getByLabel('再生速度')).toHaveValue('1.5')
-    expect(await media(page).evaluate(audio => audio.paused && !audio.getAttribute('src'))).toBe(true)
+    expect(await media(page).evaluate((audio: HTMLAudioElement) => audio.paused && !audio.getAttribute('src'))).toBe(true)
     await expect(media(page).locator('source[src]')).toHaveCount(0)
     expect(fixtureAudio.releaseRequests).toEqual([])
     expect(fixtureAudio.assetRequests).toEqual([])
     await player(page).getByRole('button', { name: '再生', exact: true }).click()
-    await expect.poll(() => media(page).evaluate(audio => audio.currentTime)).toBeGreaterThanOrEqual(position - 1)
+    await expect.poll(() => media(page).evaluate((audio: HTMLAudioElement) => audio.currentTime)).toBeGreaterThanOrEqual(position - 1)
     expect(errors).toEqual([])
   })
 
@@ -222,16 +238,16 @@ test.describe('isolated fixture audio playback', () => {
     const queue = page.getByRole('region', { name: '保存した再生リスト' })
     await queue.getByRole('button', { name: '再生試験: ツール使用を上へ' }).click()
     await expect(queue.locator('li').first()).toContainText('ツール使用')
-    expect(await media(page).evaluate(audio => audio.paused)).toBe(true)
+    expect(await media(page).evaluate((audio: HTMLAudioElement) => audio.paused)).toBe(true)
     await page.getByRole('button', { name: 'リストを再生', exact: true }).click()
-    await expect.poll(() => media(page).evaluate(audio => !audio.paused && audio.readyState > 0)).toBe(true)
+    await expect.poll(() => media(page).evaluate((audio: HTMLAudioElement) => !audio.paused && audio.readyState > 0)).toBe(true)
     await expect(player(page).locator('.audio-player-title')).toContainText('ツール使用')
-    await media(page).evaluate(audio => { audio.currentTime = 59.7 })
+    await media(page).evaluate((audio: HTMLAudioElement) => { audio.currentTime = 59.7 })
     await expect(player(page).locator('.audio-player-title')).toContainText('Agent ループ')
-    await expect.poll(() => media(page).evaluate(audio => !audio.paused && audio.readyState > 0)).toBe(true)
+    await expect.poll(() => media(page).evaluate((audio: HTMLAudioElement) => !audio.paused && audio.readyState > 0)).toBe(true)
     await queue.getByRole('button', { name: '再生試験: Agent ループをリストから外す' }).click()
     await expect(player(page).locator('.audio-player-title')).toContainText('ツール使用')
-    expect(await media(page).evaluate(audio => audio.paused)).toBe(true)
+    expect(await media(page).evaluate((audio: HTMLAudioElement) => audio.paused)).toBe(true)
   })
 
   test('mobile player fits the viewport and storage failures leave playback available', async ({ page }, testInfo) => {
@@ -241,10 +257,11 @@ test.describe('isolated fixture audio playback', () => {
     })
     await page.goto(route('/docs/concepts/agent-loop'))
     await page.getByRole('region', { name: 'この記事の音声' }).getByRole('button', { name: '音声で聴く', exact: true }).click()
-    await expect.poll(() => media(page).evaluate(audio => !audio.paused && audio.readyState > 0)).toBe(true)
+    await expect.poll(() => media(page).evaluate((audio: HTMLAudioElement) => !audio.paused && audio.readyState > 0)).toBe(true)
     await player(page).getByRole('button', { name: '章・再生リスト' }).click()
     await expect(player(page)).toContainText('このブラウザーでは再生位置を保存できません')
     const logo = await page.getByRole('link', { name: 'Home page', exact: true }).first().boundingBox()
+    if (!logo) throw new Error('The site logo must have a visible box')
     expect(logo.height).toBeLessThan(40)
     expect(await player(page).evaluate(element => element.scrollWidth <= window.innerWidth)).toBe(true)
     await expect(player(page).getByRole('button', { name: '15秒戻る' })).toBeVisible()
@@ -260,7 +277,7 @@ test.describe('isolated fixture audio playback', () => {
     const failedRequests = fixtureAudio.assetRequests.length
     fixtureAudio.failAssetRequests = false
     await player(page).getByRole('button', { name: '再試行', exact: true }).click()
-    await expect.poll(() => media(page).evaluate(audio => !audio.paused && audio.readyState > 0)).toBe(true)
+    await expect.poll(() => media(page).evaluate((audio: HTMLAudioElement) => !audio.paused && audio.readyState > 0)).toBe(true)
     expect(fixtureAudio.assetRequests.length).toBeGreaterThan(failedRequests)
     await expect(player(page).getByRole('alert')).toHaveCount(0)
     await expect(player(page).locator('.audio-player-title')).toContainText('Agent ループ')
@@ -278,7 +295,7 @@ test.describe('isolated fixture audio playback', () => {
     await expect(player(page)).toHaveCount(0)
     await page.getByLabel('公開済みだけ表示').check()
     await page.locator('.audio-library-list > li').first().getByRole('button', { name: '音声で聴く', exact: true }).click()
-    await expect.poll(() => media(page).evaluate(audio => !audio.paused && audio.readyState > 0)).toBe(true)
-    expect(await media(page).evaluate(audio => audio.currentTime)).toBeLessThan(5)
+    await expect.poll(() => media(page).evaluate((audio: HTMLAudioElement) => !audio.paused && audio.readyState > 0)).toBe(true)
+    expect(await media(page).evaluate((audio: HTMLAudioElement) => audio.currentTime)).toBeLessThan(5)
   })
 })

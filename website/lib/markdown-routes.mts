@@ -1,37 +1,38 @@
 import path from 'node:path'
 import { splitLocalDestination } from '../../scripts/lib/md-utils.mjs'
+import type { Nodes, Root } from 'mdast'
 
 /** remark のリンク・参照定義ノードだけを変換する。コードや本文文字列は触らない。 */
-export function rewriteMarkdownRoutes(tree, repoRel, routeMap) {
-  const errors = []
-  const visit = node => {
-    if (['link', 'image', 'definition'].includes(node.type)) {
+export function rewriteMarkdownRoutes(tree: Root, repoRel: string, routeMap: ReadonlyMap<string, string>) {
+  const errors: string[] = []
+  const visit = (node: Nodes) => {
+    if (node.type === 'link' || node.type === 'image' || node.type === 'definition') {
       const target = splitLocalDestination(node.url)
       if (target.error) errors.push(`${repoRel}:${node.position?.start.line ?? 1}: ${node.url} — ${target.error}`)
-      else if (!target.external && target.pathname.endsWith('.md')) {
+      else if (!target.external && target.pathname?.endsWith('.md')) {
         const resolved = path.posix.normalize(path.posix.join(path.posix.dirname(repoRel), target.pathname))
         const route = routeMap.get(resolved)
         if (route) node.url = `${route}${target.suffix}`
         else errors.push(`${repoRel}: 未解決の .md リンク → ${node.url}(サイトに存在しないルート)`)
       }
     }
-    for (const child of node.children ?? []) visit(child)
+    if ('children' in node) for (const child of node.children) visit(child)
   }
   visit(tree)
   return errors
 }
 
 /** セクション収録表の実際のリンク先から順序を得る(参照形式にも対応)。 */
-export function readmeArticleOrder(tree) {
-  const definitions = new Map()
-  const key = identifier => identifier.trim().replace(/\s+/g, ' ').toUpperCase()
-  const collect = node => {
+export function readmeArticleOrder(tree: Root) {
+  const definitions = new Map<string, string>()
+  const key = (identifier: string) => identifier.trim().replace(/\s+/g, ' ').toUpperCase()
+  const collect = (node: Nodes) => {
     if (node.type === 'definition' && !definitions.has(key(node.identifier))) definitions.set(key(node.identifier), node.url)
-    for (const child of node.children ?? []) collect(child)
+    if ('children' in node) for (const child of node.children) collect(child)
   }
   collect(tree)
-  const order = []
-  const visit = (node, inTable = false) => {
+  const order: string[] = []
+  const visit = (node: Nodes, inTable = false) => {
     inTable ||= node.type === 'table'
     const url = node.type === 'link' ? node.url : node.type === 'linkReference' ? definitions.get(key(node.identifier)) : null
     if (inTable && url) {
@@ -41,7 +42,7 @@ export function readmeArticleOrder(tree) {
         if (!order.includes(name)) order.push(name)
       }
     }
-    for (const child of node.children ?? []) visit(child, inTable)
+    if ('children' in node) for (const child of node.children) visit(child, inTable)
   }
   visit(tree)
   return order

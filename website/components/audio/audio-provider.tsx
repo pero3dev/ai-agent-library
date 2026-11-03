@@ -5,7 +5,7 @@ import type { ReactNode } from 'react'
 import catalogData from '../../generated/audio.json'
 import { createAudioController, initialPlayerSnapshot } from '../../lib/audio-player.mjs'
 import type { AudioController, PlayerSnapshot } from '../../lib/audio-player.mts'
-import type { AudioCatalog } from '../../lib/content-types'
+import type { AudioCatalog, AudioEpisode } from '../../lib/content-types'
 import { AudioPlayer } from './audio-player'
 
 const catalog: AudioCatalog = catalogData
@@ -26,7 +26,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     if (!element.current) return
     let storage: Storage | undefined
     try { storage = window.localStorage } catch { /* Private/storage-restricted browsing still plays. */ }
-    const player = createAudioController({
+    const player = createAudioController<AudioEpisode, HTMLSourceElement>({
       audio: element.current, episodes: catalog.episodes, storage,
       mediaSession: navigator.mediaSession, MediaMetadataClass: window.MediaMetadata
     })

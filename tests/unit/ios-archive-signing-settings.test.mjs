@@ -23,15 +23,15 @@ test('accepts actual Xcode signing-disabled output with omitted empty credential
 test('accepts only empty strings when optional signing credential fields are present', () => {
   const explicit = { ...observedSettings, ...Object.fromEntries(credentialFields.map(field => [field, ''])) };
   assert.doesNotThrow(() => assertSigningDisabledBuildSettings(explicit));
-  delete explicit.CODE_SIGN_IDENTITY;
-  delete explicit.PROVISIONING_PROFILE;
+  Reflect.deleteProperty(explicit, 'CODE_SIGN_IDENTITY');
+  Reflect.deleteProperty(explicit, 'PROVISIONING_PROFILE');
   assert.doesNotThrow(() => assertSigningDisabledBuildSettings(explicit));
 });
 
 test('requires both signing suppression flags rather than treating missing as disabled', () => {
   for (const field of ['CODE_SIGNING_ALLOWED', 'CODE_SIGNING_REQUIRED']) {
     const missing = { ...observedSettings };
-    delete missing[field];
+    Reflect.deleteProperty(missing, field);
     assert.throws(() => assertSigningDisabledBuildSettings(missing), new RegExp(field));
   }
   assert.throws(() => assertSigningDisabledBuildSettings({}), /CODE_SIGNING_ALLOWED/);

@@ -16,15 +16,28 @@ const BUNDLE = 'dev.pero3.aiagentlibrary.prototype';
 const UUID = /^[A-F0-9]{8}(?:-[A-F0-9]{4}){3}-[A-F0-9]{12}$/;
 const TARGET = { A: 'revision-anchor-A', B: 'revision-anchor-B' };
 const HEADING = { A: 'revision-section-A', B: 'revision-section-B' };
+/** @typedef {'A'|'B'} RevisionLabel */
+/** @typedef {{type: 'paragraph', id: string, inlines: {type: 'text', text: string}[]} | {type: 'heading', id: string, heading_id: string, level: number, inlines: {type: 'text', text: string}[]}} RevisionBlock */
+/** @typedef {{repository: string, bundle_id: string, source_head: string, UUID: string, run_id: string, run_attempt: string, token: string, name: string, preexisting_UUIDs: string[], data_container: string, installed_app: string}} SeedContext */
+/** @typedef {{A: ReturnType<typeof auditRevisionPackage>, B: ReturnType<typeof auditRevisionPackage>}} RevisionFixtures */
+/** @typedef {ReturnType<typeof seedStoredRevisionA>} RevisionSeed */
+/** @param {unknown} value @returns {asserts value is Record<string, unknown>} */
+function object(value) { assert.ok(value !== null && typeof value === 'object' && !Array.isArray(value), 'Expected revision fixture object'); }
+/** @param {RevisionLabel} label */
 const headingTitle = label => label === 'A' ? '保存段落（改訂前）' : '保存段落（改訂後）';
+/** @param {import('node:crypto').BinaryLike} bytes */
 const digest = bytes => createHash('sha256').update(bytes).digest('hex');
+/** @param {unknown} value */
 const encoded = value => Buffer.from(JSON.stringify(value, null, 2) + '\n');
+/** @param {string} id @param {string} text @returns {Extract<RevisionBlock, {type: 'paragraph'}>} */
 const paragraph = (id, text) => ({ id, type: 'paragraph', inlines: [{ type: 'text', text }] });
+/** @param {string} id @param {string} title @returns {Extract<RevisionBlock, {type: 'heading'}>} */
 const heading = (id, title) => ({ id: 'heading-' + id, type: 'heading', heading_id: id, level: 2,
   inlines: [{ type: 'text', text: title }] });
 
+/** @param {string} label @returns {Record<string, Buffer>} */
 export function revisionPackageBytes(label) {
-  assert.ok(['A', 'B'].includes(label));
+  assert.ok(label === 'A' || label === 'B');
   const inserted = label === 'B' ? Array.from({ length: 4 }, (_, i) => paragraph('inserted-B-' + i,
     `改訂後に前方へ追加した説明 ${i + 1}。保存した段落の識別子や目次が変わっても、本文の意味を使って続きへ戻ります。`)) : [];
   const blocks = [heading('revision-intro-' + label, label === 'A' ? 'Aだけの開始地点' : 'Bだけの開始地点'),
@@ -53,25 +66,29 @@ export function revisionPackageBytes(label) {
   // existing repository unit fixtures, not the reserved reader-test profile.
   assert.notEqual(article.id, 'test-fixtures/native-reader');
   assert.notEqual(article.source_path, 'ios/fixtures/native-reader.md');
-  assert.equal(article.is_test_fixture, undefined);
+  assert.equal(Object.hasOwn(article, 'is_test_fixture'), false);
   const manifest = encoded({ schema_version: 2, revision: 'reader-revision-' + label,
     articles: [article], audio: [], files: { [documentPath]: digest(document), 'source.txt': digest(source) } });
   return { 'manifest.json': manifest, [documentPath]: document, 'source.txt': source };
 }
 
+/** @param {string} directory */
 function ordinaryDirectory(directory) {
   const stat = fs.lstatSync(directory); assert.ok(stat.isDirectory() && !stat.isSymbolicLink());
   assert.equal(fs.realpathSync(directory), directory); return directory;
 }
+/** @param {string} parent @param {string} name */
 function missingChild(parent, name) {
   ordinaryDirectory(parent); assert.ok(name && path.basename(name) === name && name !== '.' && name !== '..');
   const child = path.join(parent, name); assert.ok(!fs.existsSync(child));
   assert.throws(() => fs.lstatSync(child), { code: 'ENOENT' }); return child;
 }
+/** @param {string} directory */
 function exclusiveOutput(directory) {
   assert.ok(path.isAbsolute(directory)); assert.equal(path.normalize(directory), directory);
   return missingChild(path.dirname(directory), path.basename(directory));
 }
+/** @param {string} directory @param {Record<string, Buffer>} values */
 function materialize(directory, values) {
   fs.mkdirSync(directory, { mode: 0o700 });
   for (const [relative, bytes] of Object.entries(values)) {
@@ -82,13 +99,20 @@ function materialize(directory, values) {
       if (!fs.existsSync(next)) fs.mkdirSync(next, { mode: 0o700 });
       ordinaryDirectory(next); parent = next;
     }
-    fs.writeFileSync(path.join(parent, pieces.at(-1)), bytes, { flag: 'wx', mode: 0o600 });
+    const leaf = pieces.at(-1); assert.ok(leaf); fs.writeFileSync(path.join(parent, leaf), bytes, { flag: 'wx', mode: 0o600 });
   }
 }
+/** @param {string} directory @param {string} label */
 export function auditRevisionPackage(directory, label) {
+  assert.ok(label === 'A' || label === 'B');
   ordinaryDirectory(directory);
-  const expected = revisionPackageBytes(label), actual = [], directories = [];
+  const expected = revisionPackageBytes(label);
+  /** @type {string[]} */
+  const actual = [];
+  /** @type {string[]} */
+  const directories = [];
   let entries = 0;
+  /** @param {string} current @param {string} [prefix] @param {number} [depth] */
   function walk(current, prefix = '', depth = 0) {
     assert.ok(depth <= 2);
     for (const name of fs.readdirSync(current)) {
@@ -107,8 +131,11 @@ export function auditRevisionPackage(directory, label) {
     const bytes = fs.readFileSync(path.join(directory, name)); assert.ok(bytes.equals(expected[name]), name);
     inventory.push({ path: name, bytes: bytes.length, sha256: digest(bytes) });
   }
-  const manifest = JSON.parse(expected['manifest.json']);
-  const document = JSON.parse(expected[manifest.articles[0].document_path]);
+  // These are bytes generated by revisionPackageBytes and compared above.
+  /** @type {{revision: string, articles: {document_path: string}[], files: Record<string, string>}} */
+  const manifest = JSON.parse(expected['manifest.json'].toString('utf8'));
+  /** @type {{source_sha256: string, blocks: RevisionBlock[]}} */
+  const document = JSON.parse(expected[manifest.articles[0].document_path].toString('utf8'));
   assert.equal(manifest.files[manifest.articles[0].document_path], digest(expected[manifest.articles[0].document_path]));
   assert.equal(document.source_sha256, digest(expected['source.txt']));
   assert.equal(document.blocks.filter(block => block.inlines[0].text === REVISION_TARGET_TEXT).length, 1);
@@ -116,6 +143,7 @@ export function auditRevisionPackage(directory, label) {
     source_sha256: document.source_sha256, target_block_id: TARGET[label], heading_id: HEADING[label], inventory };
 }
 
+/** @param {{ownedRoot: string, bundledRoot: string}} options */
 export function createRevisionFixtures({ ownedRoot, bundledRoot }) {
   assert.notEqual(ownedRoot, bundledRoot);
   exclusiveOutput(ownedRoot); exclusiveOutput(bundledRoot);
@@ -134,16 +162,21 @@ export function createRevisionFixtures({ ownedRoot, bundledRoot }) {
   return receipt;
 }
 
+/** @param {unknown} context @param {string} devicesRoot @returns {SeedContext} */
 export function validateSeedContext(context, devicesRoot) {
+  object(context);
   ordinaryDirectory(devicesRoot);
   assert.equal(context.repository, REPO); assert.equal(context.bundle_id, BUNDLE);
+  assert.ok(typeof context.source_head === 'string' && typeof context.UUID === 'string');
   assert.match(context.source_head, /^[a-f0-9]{40}$/); assert.match(context.UUID, UUID);
+  assert.ok(typeof context.run_id === 'string' && typeof context.run_attempt === 'string' && typeof context.token === 'string');
   assert.match(context.run_id, /^[0-9]+$/); assert.match(context.run_attempt, /^[0-9]+$/);
   assert.match(context.token, /^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/);
   assert.equal(context.name, `AILibrary-reader-revision-${context.run_id}-${context.run_attempt}-${context.token}`);
   assert.ok(Array.isArray(context.preexisting_UUIDs) && !context.preexisting_UUIDs.includes(context.UUID));
-  assert.ok(context.preexisting_UUIDs.every(value => UUID.test(value)));
+  assert.ok(context.preexisting_UUIDs.every(value => typeof value === 'string' && UUID.test(value)));
   const deviceData = path.join(devicesRoot, context.UUID, 'data', 'Containers');
+  assert.ok(typeof context.data_container === 'string' && typeof context.installed_app === 'string');
   ordinaryDirectory(context.data_container); ordinaryDirectory(context.installed_app);
   const dataRelative = path.relative(deviceData, context.data_container).split(path.sep);
   assert.equal(dataRelative.length, 3); assert.equal(dataRelative[0], 'Data');
@@ -153,17 +186,19 @@ export function validateSeedContext(context, devicesRoot) {
   const appRelative = path.relative(deviceData, context.installed_app).split(path.sep);
   assert.equal(appRelative.length, 4); assert.equal(appRelative[0], 'Bundle'); assert.equal(appRelative[1], 'Application');
   assert.match(appRelative[2], UUID); assert.equal(appRelative[3], 'AILibrary.app');
-  return context;
+  return /** @type {SeedContext} */ (context);
 }
 
 // Paths are observation locations, not persistent app-data identities.
 // This immutable subset binds both observations to the same exclusive seed run.
+/** @param {SeedContext} context */
 export function revisionOwnerIdentity(context) {
   return { repository: context.repository, source_head: context.source_head, UUID: context.UUID,
     bundle_id: context.bundle_id, run_id: context.run_id, run_attempt: context.run_attempt,
     token: context.token, name: context.name, preexisting_UUIDs: [...context.preexisting_UUIDs] };
 }
 
+/** @param {SeedContext} context */
 function storagePath(context) {
   let current = context.data_container;
   for (const component of ['Library', 'Application Support']) {
@@ -173,6 +208,7 @@ function storagePath(context) {
   }
   return path.join(current, 'LibraryContent');
 }
+/** @param {SeedContext} context */
 function makeSupport(context) {
   let current = context.data_container;
   for (const component of ['Library', 'Application Support']) {
@@ -182,8 +218,17 @@ function makeSupport(context) {
   }
   return current;
 }
-export function seedStoredRevisionA(context, fixtures, devicesRoot) {
-  validateSeedContext(context, devicesRoot);
+/** @param {unknown} value @returns {RevisionFixtures} */
+function validatedFixtures(value) {
+  object(value); object(value.A); object(value.B);
+  assert.ok(typeof value.A.root === 'string' && typeof value.B.root === 'string');
+  const A = auditRevisionPackage(value.A.root, 'A'), B = auditRevisionPackage(value.B.root, 'B');
+  assert.deepEqual(A, value.A); assert.deepEqual(B, value.B);
+  return { A, B };
+}
+/** @param {unknown} rawContext @param {unknown} rawFixtures @param {string} devicesRoot */
+export function seedStoredRevisionA(rawContext, rawFixtures, devicesRoot) {
+  const context = validateSeedContext(rawContext, devicesRoot), fixtures = validatedFixtures(rawFixtures);
   const A = auditRevisionPackage(fixtures.A.root, 'A'), B = auditRevisionPackage(fixtures.B.root, 'B');
   assert.deepEqual(A, fixtures.A); assert.deepEqual(B, fixtures.B);
   const storage = storagePath(context); assert.ok(!fs.existsSync(storage));
@@ -201,8 +246,13 @@ export function seedStoredRevisionA(context, fixtures, devicesRoot) {
     pointer_sha256: digest(fs.readFileSync(path.join(storage, 'current.json'))),
     scope: 'Setup only; actual A loading, public B selection, viewport and bookmark require UI.' };
 }
-export function auditStoredRevisionB(context, fixtures, seed, devicesRoot) {
-  validateSeedContext(context, devicesRoot);
+/** @param {unknown} rawContext @param {unknown} rawFixtures @param {unknown} rawSeed @param {string} devicesRoot */
+export function auditStoredRevisionB(rawContext, rawFixtures, rawSeed, devicesRoot) {
+  const context = validateSeedContext(rawContext, devicesRoot), fixtures = validatedFixtures(rawFixtures);
+  object(rawSeed); object(rawSeed.stored_A);
+  // Every persisted seed field consumed below is checked against context,
+  // deterministic package bytes and its original owned path relationships.
+  const seed = /** @type {RevisionSeed} */ (rawSeed);
   assert.equal(seed.source_head, context.source_head); assert.equal(seed.UUID, context.UUID);
   assert.equal(seed.bundle_id, context.bundle_id); assert.equal(seed.run_id, context.run_id);
   assert.equal(seed.run_attempt, context.run_attempt);
@@ -221,7 +271,9 @@ export function auditStoredRevisionB(context, fixtures, seed, devicesRoot) {
   ordinaryDirectory(path.join(storage, 'versions'));
   const pointer = path.join(storage, 'current.json'), stat = fs.lstatSync(pointer);
   assert.ok(stat.isFile() && !stat.isSymbolicLink() && stat.size <= 1024);
-  const value = JSON.parse(fs.readFileSync(pointer, 'utf8')); assert.deepEqual(Object.keys(value), ['directory']);
+  /** @type {unknown} */
+  const value = JSON.parse(fs.readFileSync(pointer, 'utf8')); object(value); assert.deepEqual(Object.keys(value), ['directory']);
+  assert.ok(typeof value.directory === 'string');
   assert.match(value.directory, UUID); assert.notEqual(value.directory, seed.generation_A);
   const storedB = auditRevisionPackage(path.join(storage, 'versions', value.directory), 'B');
   const oldA = auditRevisionPackage(path.join(storage, 'versions', seed.generation_A), 'A');
@@ -241,13 +293,16 @@ export function auditStoredRevisionB(context, fixtures, seed, devicesRoot) {
     seed_pointer_sha256: seed.pointer_sha256, current_pointer_sha256: digest(fs.readFileSync(pointer)) };
 }
 
+/** @param {string[]} values */
 function args(values) {
-  const command = values.shift(); assert.ok(['generate', 'seed', 'after-ui'].includes(command));
+  const command = values.shift(); assert.ok(command && ['generate', 'seed', 'after-ui'].includes(command));
+  /** @type {Record<string, string>} */
   const out = { command };
-  while (values.length) { const key = values.shift(); assert.ok(['--owned-root', '--bundled-root', '--context', '--fixtures', '--seed'].includes(key));
+  while (values.length) { const key = values.shift(); assert.ok(key && ['--owned-root', '--bundled-root', '--context', '--fixtures', '--seed'].includes(key));
     assert.equal(out[key], undefined); const value = values.shift(); assert.ok(value && path.isAbsolute(value)); out[key] = value; }
   return out;
 }
+/** @param {string} file @returns {unknown} */
 function boundedJSON(file) {
   const stat = fs.lstatSync(file); assert.ok(stat.isFile() && !stat.isSymbolicLink() && stat.size <= 131072);
   return JSON.parse(fs.readFileSync(file, 'utf8'));
@@ -263,7 +318,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
         : ['--context', '--fixtures', '--seed', 'command'];
       assert.deepEqual(Object.keys(options).sort(), expected);
       assert.equal(process.env.GITHUB_ACTIONS, 'true'); assert.equal(process.env.GITHUB_REPOSITORY, REPO);
-      const context = boundedJSON(options['--context']); assert.equal(context.source_head, process.env.EXPECTED_SOURCE_HEAD);
+      const context = boundedJSON(options['--context']); object(context); assert.equal(context.source_head, process.env.EXPECTED_SOURCE_HEAD);
       assert.equal(context.run_id, process.env.GITHUB_RUN_ID); assert.equal(context.run_attempt, process.env.GITHUB_RUN_ATTEMPT);
       const fixtures = boundedJSON(options['--fixtures']);
       const devices = fs.realpathSync(path.join(os.homedir(), 'Library/Developer/CoreSimulator/Devices'));
@@ -271,5 +326,5 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
         : auditStoredRevisionB(context, fixtures, boundedJSON(options['--seed']), devices);
     }
     console.log(JSON.stringify(result, null, 2));
-  } catch (error) { console.error('Reader revision fixture operation failed: ' + error.message); process.exitCode = 1; }
+  } catch (error) { console.error('Reader revision fixture operation failed: ' + (error instanceof Error ? error.message : String(error))); process.exitCode = 1; }
 }

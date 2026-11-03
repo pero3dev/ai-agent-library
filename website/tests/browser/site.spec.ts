@@ -1,8 +1,9 @@
 import { test, expect } from '@playwright/test'
 import { readFileSync } from 'node:fs'
+import { requireValue } from './test-values'
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
-const route = value => `${basePath}${value}`
+const route = (value: string) => `${basePath}${value}`
 
 test('static export serves canonical RSC prefetch segment filenames', async ({ request }) => {
   for (const pathname of [
@@ -10,7 +11,7 @@ test('static export serves canonical RSC prefetch segment filenames', async ({ r
     '/docs/concepts/tool-use/__next.docs.$oc$mdxPath.__PAGE__.txt'
   ]) {
     const response = await request.get(route(pathname))
-    expect(response.status()).toBe(200)
+    expect(response?.status()).toBe(200)
     expect(response.headers()['content-type']).toContain('text/plain')
     expect(await response.text()).not.toMatch(/<!doctype html/i)
   }
@@ -19,7 +20,7 @@ test('static export serves canonical RSC prefetch segment filenames', async ({ r
 for (const pathname of ['/', '/glossary', '/roadmap', '/tags', '/review-missing-page']) {
   test(`keyboard skip link moves focus to main: ${pathname}`, async ({ page }) => {
     const response = await page.goto(route(pathname))
-    expect(response.status()).toBe(pathname === '/review-missing-page' ? 404 : 200)
+    expect(response?.status()).toBe(pathname === '/review-missing-page' ? 404 : 200)
     await page.keyboard.press('Tab')
     await expect(page.locator('a[href="#nextra-skip-nav"]')).toBeFocused()
     await page.keyboard.press('Enter')
@@ -53,7 +54,7 @@ test('dependency graph shows every section and navigates from a node', async ({ 
 })
 
 test('strict static Mermaid assets preserve diagrams across theme changes and original-size reading', async ({ page }) => {
-  const errors = []
+  const errors: string[] = []
   page.on('pageerror', error => errors.push(error.message))
   page.on('console', message => {
     if (message.type() === 'error' && message.text().includes('mermaid')) errors.push(message.text())
@@ -71,15 +72,15 @@ test('strict static Mermaid assets preserve diagrams across theme changes and or
     await expect(diagram).toHaveAttribute('src', new RegExp(`-${dark ? 'dark' : 'light'}\\.svg$`))
     await expect(diagram).toBeVisible()
     // Labels survive a fresh render, regardless of generated CSS/theme values.
-    await expect.poll(() => diagram.evaluate(image => image.complete && image.naturalWidth > 0)).toBe(true)
+    await expect.poll(() => diagram.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true)
   }
   await page.setViewportSize({ width: 640, height: 800 })
   const summary = figure.locator('summary')
   await summary.focus(); await summary.press('Enter')
   const original = figure.locator('.mermaid-original-scroll img:visible')
   await expect(original).toBeVisible()
-  await expect.poll(() => original.evaluate(image => image.complete && image.naturalWidth > 0)).toBe(true)
-  expect(await original.evaluate(image => Math.abs(image.getBoundingClientRect().width - image.naturalWidth))).toBeLessThan(2)
+  await expect.poll(() => original.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true)
+  expect(await original.evaluate((image: HTMLImageElement) => Math.abs(image.getBoundingClientRect().width - image.naturalWidth))).toBeLessThan(2)
   await summary.focus(); await summary.press('Enter')
   await expect(original).toBeHidden()
   await expect(summary).toBeFocused()
@@ -138,7 +139,10 @@ for (const [query, expectedPath] of [
     if (query === 'Agent') test.setTimeout(90_000)
     await page.goto(route('/docs'))
     const results = await page.evaluate(async ({ query, basePath }) => {
-      const pagefind = await import(`${basePath}/_pagefind/pagefind.js`)
+      const pagefind: {
+        options(value: { baseUrl: string }): Promise<void>
+        search(query: string): Promise<{ results: { data(): Promise<{ url: string }> }[] }>
+      } = await import(`${basePath}/_pagefind/pagefind.js`)
       await pagefind.options({ baseUrl: `${basePath}/` })
       const result = await pagefind.search(query)
       return Promise.all(result.results.map(async item => (await item.data()).url))
@@ -160,9 +164,9 @@ for (const [query, expectedPath] of [
     await expect(search).toHaveAttribute('aria-activedescendant', /.+/)
     const activeId = await search.getAttribute('aria-activedescendant')
     const selected = page.locator(`[role="option"][id="${activeId}"]`)
-    const selectedHref = await selected.getAttribute('href')
+    const selectedHref = requireValue(await selected.getAttribute('href'), 'selected search result destination')
     expect(selectedHref).toMatch(new RegExp(`^${basePath}/`))
-    const navigationRequests = []
+    const navigationRequests: { url: string; elapsedMs: number }[] = []
     const started = Date.now()
     page.on('request', request => {
       if (request.url().includes(selectedHref.split('#')[0])) navigationRequests.push({

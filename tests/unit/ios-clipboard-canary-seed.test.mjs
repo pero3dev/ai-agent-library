@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { requiredFixture, objectFixture, objectArrayFixture } from '../helpers/json-fixtures.mjs';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
@@ -8,6 +9,7 @@ import { seedClipboardCanary } from '../../ios/tests/clipboard-canary-seed.mjs';
 const UUID = '11111111-1111-4111-8111-111111111111';
 const canaryText = 'AILibrary-code-copy-canary:9001:1:aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa\n';
 const canary = () => Buffer.from(canaryText);
+/** @param {import('node:crypto').BinaryLike} value */
 const hash = value => createHash('sha256').update(value).digest('hex');
 const passed = () => ({ exit_code: 0, signal: null, error_code: null, error: null });
 const timeout = () => ({ exit_code: null, signal: 'SIGKILL',
@@ -16,21 +18,24 @@ const timeout = () => ({ exit_code: null, signal: 'SIGKILL',
 const posixTimeoutStderr = "An error was encountered processing the command (domain=NSPOSIXErrorDomain, code=60):\nThe operation couldn’t be completed. Operation timed out\nOperation timed out\n";
 const posixTimeout = () => ({ ...passed(), exit_code: 60, stderr_text: posixTimeoutStderr });
 
+/** @param {unknown} receipt @param {number} plannedTimeout @param {{timeout_ms:number}} permit @returns {unknown} */
 const executed = (receipt, plannedTimeout, permit) => {
   if (!receipt || typeof receipt !== 'object' || Array.isArray(receipt)) return receipt;
   return { ...receipt, spawned: true, planned_timeout_ms: plannedTimeout, actual_timeout_ms: permit.timeout_ms };
 };
 
+/** @param {{receipt:unknown,elapsed?:number|'timeout'}[]} responses */
 function scripted(responses) {
   let clock = 0;
+  /** @type {{name:string,destination:string,input:Buffer,timeout_ms:number,planned_timeout_ms:number}[]} */
   const calls = [];
-  return { calls, now: () => clock, execute: (name, destination, input, plannedTimeout, acquirePermit) => {
+  return { calls, now: () => clock, execute: /** @type {Parameters<typeof seedClipboardCanary>[2]} */ ( (name, destination, input, plannedTimeout, acquirePermit) => {
     const permit = acquirePermit(), limit = permit.timeout_ms;
     calls.push({ name, destination, input: Buffer.from(input), timeout_ms: limit, planned_timeout_ms: plannedTimeout });
     const response = responses[calls.length - 1]; assert.ok(response, 'Unexpected additional execution');
     clock += response.elapsed === 'timeout' ? limit : (response.elapsed ?? 1);
     return executed(response.receipt, plannedTimeout, permit);
-  } };
+  }) };
 }
 
 test('first success seeds once and returns only input identity and receipts', () => {
@@ -47,20 +52,20 @@ test('the exact observed timeout permits one second seed', () => {
   const result = seedClipboardCanary(UUID, canary(), fixture.execute, fixture.now);
   assert.equal(result.accepted_attempt, 'seed-timeout-retry-1');
   assert.deepEqual(fixture.calls.map(call => call.name), ['seed', 'seed-timeout-retry-1']);
-  assert.ok(fixture.calls.every(call => call.destination === UUID && call.input.equals(canary())));
+  assert.ok(fixture.calls.every(call => call.destination === UUID && requiredFixture(call.input).equals(canary())));
   assert.deepEqual(result.attempts.map(attempt => attempt.actual_timeout_ms), [30000, 30000]);
 });
 
 test('an ambiguous first write followed by the same write preserves canary bytes', () => {
-  let clipboard, calls = 0, clock = 0;
+  let clipboard = Buffer.alloc(0), calls = 0, clock = 0;
   const result = seedClipboardCanary(UUID, canary(), (name, destination, input, plannedTimeout, acquirePermit) => {
     const permit = acquirePermit(), limit = permit.timeout_ms;
     assert.equal(destination, UUID); clipboard = Buffer.from(input); calls += 1;
     clock += calls === 1 ? limit : 1;
     return executed(calls === 1 ? timeout() : passed(), plannedTimeout, permit);
   }, () => clock);
-  assert.equal(calls, 2); assert.ok(clipboard.equals(canary()));
-  assert.equal(result.input_SHA256, hash(clipboard));
+  assert.equal(calls, 2); assert.ok(requiredFixture(clipboard).equals(canary()));
+  assert.equal(result.input_SHA256, hash(requiredFixture(clipboard)));
 });
 
 test('a second timeout fails without a third call', () => {
@@ -125,13 +130,15 @@ test('only canonical destinations and a bounded controlled canary can reach the 
     [UUID, Buffer.from(canaryText + '\n')],
   ]) {
     let calls = 0;
-    assert.throws(() => seedClipboardCanary(destination, input, () => { calls += 1; return passed(); }, () => 0));
+    assert.throws(() => Reflect.apply(seedClipboardCanary, undefined, [destination, input, () => { calls += 1; return passed(); }, () => 0]));
     assert.equal(calls, 0);
   }
 });
 
 test('a callback cannot change captured bytes or destination for the second attempt', () => {
-  const original = canary(), expected = Buffer.from(original), inputs = []; let clock = 0;
+  const original = canary(), expected = Buffer.from(original);
+  /** @type {Buffer[]} */
+  const inputs = []; let clock = 0;
   const result = seedClipboardCanary(UUID, original, (name, destination, input, plannedTimeout, acquirePermit) => {
     const permit = acquirePermit(), limit = permit.timeout_ms;
     assert.equal(destination, UUID); inputs.push(Buffer.from(input));
@@ -183,6 +190,7 @@ test('a callback returning after the pair deadline is not accepted', () => {
 // Read actual workflow source; run its unchanged strict runner and the complete
 // new slice branch with fake process/clock/receipt storage. No command or file
 // write is provided to this code. The import bridge only supplies a fake clock.
+/** @param {{slice?:string,seedResults?:string[],mutateFirstInput?:boolean,pasteMismatch?:boolean,canaryFailure?:boolean,timeoutOverhead?:number,intentDelays?:Record<string,number>}} [settings] */
 function preparation({ slice = 'content-copy', seedResults = ['pass'], mutateFirstInput = false,
   pasteMismatch = false, canaryFailure = false, timeoutOverhead = 0, intentDelays = {} } = {}) {
   const source = readFileSync(new URL('../../.github/workflows/ios-published-candidate.yml', import.meta.url), 'utf8');
@@ -198,13 +206,22 @@ function preparation({ slice = 'content-copy', seedResults = ['pass'], mutateFir
   const afterEnd = source.indexOf('          console.log(UUID);\n', afterStart) + '          console.log(UUID);\n'.length;
   assert.ok(afterStart >= end && afterEnd > afterStart);
   const postSeed = source.slice(afterStart, afterEnd).split('\n').map(line => line.slice(10)).join('\n');
-  const files = new Map(), spawns = [], printed = [];
-  let clock = 0, label, seedCount = 0, moduleCalls = 0, clipboard = Buffer.from('old fixture pasteboard');
+  /** @type {Map<string,string|Buffer>} */
+  const files = new Map();
+  /** @type {{label:string|undefined,command:string[],timeout:number,input:Buffer|undefined}[]} */
+  const spawns = [];
+  /** @type {unknown[]} */
+  const printed = [];
+  /** @type {string|undefined} */
+  let label;
+  let clock = 0, seedCount = 0, moduleCalls = 0, clipboard = Buffer.from('old fixture pasteboard');
   const input = canary();
+  /** @param {string} name @param {unknown} value */
   const put = (name, value) => {
     assert.ok(!files.has(name), 'Attempt receipt overwrite: ' + name);
     files.set(name, Buffer.isBuffer(value) ? Buffer.from(value) : String(value));
   };
+  /** @param {string} name @param {unknown} value */
   const json = (name, value) => {
     put(name, JSON.stringify(value));
     if (name.endsWith('.intent.json')) {
@@ -226,24 +243,24 @@ function preparation({ slice = 'content-copy', seedResults = ['pass'], mutateFir
     device: { deviceTypeIdentifier: 'com.apple.CoreSimulator.SimDeviceType.iPhone-16' },
     event: { repository: { full_name: 'pero3dev/ai-agent-library' } },
     process: { env: { GITHUB_RUN_ID: '9001', GITHUB_RUN_ATTEMPT: '1', GITHUB_SHA: 'c'.repeat(40) } },
-    console: { log: value => printed.push(value) },
-    seedClipboardCanary: (destination, bytes, execute) => {
+    console: { log: /** @param {unknown} value */ value => printed.push(value) },
+    seedClipboardCanary: /** @param {string} destination @param {Buffer} bytes @param {Parameters<typeof seedClipboardCanary>[2]} execute */ (destination, bytes, execute) => {
       moduleCalls += 1; return seedClipboardCanary(destination, bytes, execute, () => clock);
     },
-    spawnSync: (binary, command, options) => {
+    spawnSync: /** @param {string} binary @param {string[]} command @param {{killSignal:string,timeout:number,maxBuffer:number,input?:Buffer}} options */ (binary, command, options) => {
       assert.equal(binary, 'xcrun'); assert.equal(options.killSignal, 'SIGKILL');
       const record = { label, command: [...command], timeout: options.timeout,
-        input: options.input === undefined ? undefined : Buffer.from(options.input) };
+        input: options.input === undefined ? undefined : Buffer.from(requiredFixture(options.input)) };
       spawns.push(record);
       if (command[1] === 'pbcopy') {
-        assert.equal(command[2], UUID); assert.ok(options.input.equals(input));
+        assert.equal(command[2], UUID); assert.ok(requiredFixture(options.input).equals(input));
         assert.equal(options.maxBuffer, 1024 * 1024); assert.ok(options.timeout > 0 && options.timeout <= 30000);
-        clipboard = Buffer.from(options.input); seedCount += 1;
-        if (mutateFirstInput && seedCount === 1) options.input.fill(0);
+        clipboard = Buffer.from(requiredFixture(options.input)); seedCount += 1;
+        if (mutateFirstInput && seedCount === 1) requiredFixture(options.input).fill(0);
         const result = seedResults[seedCount - 1]; assert.ok(result, 'Unexpected third seed');
         if (result === 'timeout') {
           clock += options.timeout + (seedCount === 1 ? timeoutOverhead : 0);
-          const error = new Error('spawnSync xcrun ETIMEDOUT'); error.code = 'ETIMEDOUT';
+          const error = Object.assign(new Error('spawnSync xcrun ETIMEDOUT'), {code:'ETIMEDOUT'});
           return { status: null, signal: 'SIGKILL', error, stdout: Buffer.alloc(0), stderr: Buffer.from('first seed timed out') };
         }
         if (result === 'posix-timeout' || result === 'other60') {
@@ -258,7 +275,7 @@ function preparation({ slice = 'content-copy', seedResults = ['pass'], mutateFir
       assert.deepEqual([...command], ['simctl', 'pbpaste', UUID]);
       clock += 1;
       if (canaryFailure) {
-        const error = new Error('spawnSync xcrun ETIMEDOUT'); error.code = 'ETIMEDOUT';
+        const error = Object.assign(new Error('spawnSync xcrun ETIMEDOUT'), {code:'ETIMEDOUT'});
         return { status: null, signal: 'SIGKILL', error, stdout: Buffer.alloc(0), stderr: Buffer.alloc(0) };
       }
       return { status: 0, signal: null,
@@ -275,11 +292,11 @@ test('actual B seed branch records input identity and still needs the unchanged 
   assert.equal(fixture.moduleCalls(), 1); assert.equal(fixture.spawns.length, 2);
   assert.equal(fixture.spawns[0].label, 'seed'); assert.equal(fixture.spawns[1].label, 'canary');
   assert.equal(fixture.spawns[1].timeout, 90000);
-  const binding = JSON.parse(fixture.files.get('copy-seed-input.json'));
+  const binding = parseReceipt(requiredFixture(fixture.files.get('copy-seed-input.json')));
   assert.equal(binding.input_SHA256, hash(canary())); assert.equal(binding.UUID, UUID);
-  assert.ok(!fixture.files.get('copy-seed-input.json').includes(canaryText.trim()));
-  assert.equal(JSON.parse(fixture.files.get('copy-device.json')).status, 'unique-device-canary-roundtrip-verified');
-  const device = JSON.parse(fixture.files.get('copy-device.json'));
+  assert.ok(!requiredFixture(fixture.files.get('copy-seed-input.json')).includes(canaryText.trim()));
+  assert.equal(parseReceipt(requiredFixture(fixture.files.get('copy-device.json'))).status, 'unique-device-canary-roundtrip-verified');
+  const device = parseReceipt(requiredFixture(fixture.files.get('copy-device.json')));
   assert.equal(device.UUID, fixture.owned.UUID); assert.deepEqual(device.owned_simulator, fixture.owned);
 });
 
@@ -287,14 +304,14 @@ test('actual B timeout recovery retains both receipts and uses identical UUID an
   const fixture = preparation({ seedResults: ['timeout', 'pass'], mutateFirstInput: true, timeoutOverhead: 15000 });
   fixture.seed(); fixture.postSeed();
   const writes = fixture.spawns.filter(call => call.command[1] === 'pbcopy');
-  assert.equal(writes.length, 2); assert.ok(writes.every(call => call.command[2] === UUID && call.input.equals(canary())));
+  assert.equal(writes.length, 2); assert.ok(writes.every(call => call.command[2] === UUID && requiredFixture(call.input).equals(canary())));
   assert.deepEqual(writes.map(call => call.label), ['seed', 'seed-timeout-retry-1']);
   assert.deepEqual(writes.map(call => call.timeout), [30000, 15000]);
-  assert.equal(JSON.parse(fixture.files.get('copy-seed.exit.json')).error_code, 'ETIMEDOUT');
-  assert.equal(JSON.parse(fixture.files.get('copy-seed-timeout-retry-1.exit.json')).exit_code, 0);
-  assert.equal(JSON.parse(fixture.files.get('copy-seed-accepted.json')).accepted_attempt, 'seed-timeout-retry-1');
-  assert.equal(JSON.parse(fixture.files.get('copy-seed.intent.json')).input_SHA256,
-    JSON.parse(fixture.files.get('copy-seed-timeout-retry-1.intent.json')).input_SHA256);
+  assert.equal(parseReceipt(requiredFixture(fixture.files.get('copy-seed.exit.json'))).error_code, 'ETIMEDOUT');
+  assert.equal(parseReceipt(requiredFixture(fixture.files.get('copy-seed-timeout-retry-1.exit.json'))).exit_code, 0);
+  assert.equal(parseReceipt(requiredFixture(fixture.files.get('copy-seed-accepted.json'))).accepted_attempt, 'seed-timeout-retry-1');
+  assert.equal(parseReceipt(requiredFixture(fixture.files.get('copy-seed.intent.json'))).input_SHA256,
+    parseReceipt(requiredFixture(fixture.files.get('copy-seed-timeout-retry-1.intent.json'))).input_SHA256);
 });
 
 test('actual B repeated timeout stops before paste verification and keeps failure receipts', () => {
@@ -334,12 +351,12 @@ test('actual intent storage exhausting the allowance blocks the first or second 
       intentDelays: { [name]: first ? 60000 : 30000 } });
     assert.throws(() => fixture.seed(), /exhausted before spawn/);
     assert.equal(fixture.spawns.length, first ? 0 : 1, name);
-    const planned = JSON.parse(fixture.files.get(`copy-${name}.intent.json`));
+    const planned = parseReceipt(requiredFixture(fixture.files.get(`copy-${name}.intent.json`)));
     assert.equal(planned.planned_timeout_ms, 30000); assert.ok(!Object.hasOwn(planned, 'timeout_ms'));
     assert.equal(planned.timeout_phase, 'planned-before-intent-storage');
     assert.ok(!fixture.files.has(`copy-${name}.exit.json`), 'No process exit is invented for a blocked spawn');
     assert.ok(!fixture.files.has('copy-seed-accepted.json'));
-    if (!first) assert.equal(JSON.parse(fixture.files.get('copy-seed.exit.json')).error_code, 'ETIMEDOUT');
+    if (!first) assert.equal(parseReceipt(requiredFixture(fixture.files.get('copy-seed.exit.json'))).error_code, 'ETIMEDOUT');
   }
 });
 
@@ -349,17 +366,17 @@ test('actual intent storage clamps the first or second spawn and receipts separa
     const fixture = preparation({ seedResults: first ? ['pass'] : ['timeout', 'pass'],
       intentDelays: { [name]: first ? 45000 : 15000 } });
     fixture.seed(); fixture.postSeed();
-    const call = fixture.spawns.find(item => item.label === name);
+    const call = requiredFixture(fixture.spawns.find(item => item.label === name));
     assert.equal(call.timeout, 15000, name);
-    const planned = JSON.parse(fixture.files.get(`copy-${name}.intent.json`));
-    const actual = JSON.parse(fixture.files.get(`copy-${name}.exit.json`));
+    const planned = parseReceipt(requiredFixture(fixture.files.get(`copy-${name}.intent.json`)));
+    const actual = parseReceipt(requiredFixture(fixture.files.get(`copy-${name}.exit.json`)));
     assert.equal(planned.planned_timeout_ms, 30000, name);
     assert.equal(actual.planned_timeout_ms, 30000, name);
     assert.equal(actual.actual_timeout_ms, 15000, name); assert.equal(actual.spawned, true, name);
-    const accepted = JSON.parse(fixture.files.get('copy-seed-accepted.json'));
-    const attempt = accepted.attempts.find(item => item.name === name);
+    const accepted = parseReceipt(requiredFixture(fixture.files.get('copy-seed-accepted.json')));
+    const attempt = requiredFixture(objectArrayFixture(accepted.attempts).find(item => item.name === name));
     assert.equal(attempt.planned_timeout_ms, 30000); assert.equal(attempt.actual_timeout_ms, 15000);
-    assert.equal(JSON.parse(fixture.files.get('copy-device.json')).status, 'unique-device-canary-roundtrip-verified');
+    assert.equal(parseReceipt(requiredFixture(fixture.files.get('copy-device.json'))).status, 'unique-device-canary-roundtrip-verified');
   }
 });
 
@@ -367,7 +384,7 @@ test('the exact observed POSIX timeout permits one seed with identical destinati
   const fixture = scripted([{ receipt: posixTimeout(), elapsed: 10000 }, { receipt: passed() }]);
   const result = seedClipboardCanary(UUID, canary(), fixture.execute, fixture.now);
   assert.equal(fixture.calls.length, 2); assert.equal(result.accepted_attempt, 'seed-timeout-retry-1');
-  assert.ok(fixture.calls.every(call => call.destination === UUID && call.input.equals(canary())));
+  assert.ok(fixture.calls.every(call => call.destination === UUID && requiredFixture(call.input).equals(canary())));
   assert.equal(result.attempts[0].exit_code, 60);
   assert.equal(result.attempts[0].stderr_text, posixTimeoutStderr);
   assert.deepEqual(result.attempts.map(value => value.actual_timeout_ms), [30000, 30000]);
@@ -416,23 +433,23 @@ test('actual B POSIX recovery preserves exact stderr receipts and unchanged past
   const fixture = preparation({ seedResults: ['posix-timeout', 'pass'] });
   fixture.seed(); fixture.postSeed();
   const writes = fixture.spawns.filter(call => call.command[1] === 'pbcopy');
-  assert.equal(writes.length, 2); assert.ok(writes.every(call => call.command[2] === UUID && call.input.equals(canary())));
-  const first = JSON.parse(fixture.files.get('copy-seed.exit.json'));
+  assert.equal(writes.length, 2); assert.ok(writes.every(call => call.command[2] === UUID && requiredFixture(call.input).equals(canary())));
+  const first = parseReceipt(requiredFixture(fixture.files.get('copy-seed.exit.json')));
   assert.equal(first.exit_code, 60); assert.equal(first.signal, null);
   assert.equal(first.error, null); assert.equal(first.error_code, null);
   assert.equal(first.stderr_text, posixTimeoutStderr);
-  assert.equal(fixture.files.get('copy-seed.stderr.log').toString(), posixTimeoutStderr);
-  assert.equal(JSON.parse(fixture.files.get('copy-seed-timeout-retry-1.exit.json')).exit_code, 0);
-  assert.equal(JSON.parse(fixture.files.get('copy-seed-accepted.json')).accepted_attempt, 'seed-timeout-retry-1');
-  assert.equal(JSON.parse(fixture.files.get('copy-device.json')).status, 'unique-device-canary-roundtrip-verified');
-  assert.equal(fixture.spawns.find(call => call.command[1] === 'pbpaste').timeout, 90000);
+  assert.equal(requiredFixture(fixture.files.get('copy-seed.stderr.log')).toString(), posixTimeoutStderr);
+  assert.equal(parseReceipt(requiredFixture(fixture.files.get('copy-seed-timeout-retry-1.exit.json'))).exit_code, 0);
+  assert.equal(parseReceipt(requiredFixture(fixture.files.get('copy-seed-accepted.json'))).accepted_attempt, 'seed-timeout-retry-1');
+  assert.equal(parseReceipt(requiredFixture(fixture.files.get('copy-device.json'))).status, 'unique-device-canary-roundtrip-verified');
+  assert.equal(requiredFixture(fixture.spawns.find(call => call.command[1] === 'pbpaste')).timeout, 90000);
 });
 
 test('actual B unrelated exit60 stays failed with one raw receipt and no paste proof', () => {
   const fixture = preparation({ seedResults: ['other60'] });
   assert.throws(() => fixture.seed()); assert.equal(fixture.spawns.length, 1);
-  assert.equal(JSON.parse(fixture.files.get('copy-seed.exit.json')).exit_code, 60);
-  assert.ok(fixture.files.get('copy-seed.stderr.log').toString().includes('OtherErrorDomain'));
+  assert.equal(parseReceipt(requiredFixture(fixture.files.get('copy-seed.exit.json'))).exit_code, 60);
+  assert.ok(requiredFixture(fixture.files.get('copy-seed.stderr.log')).toString().includes('OtherErrorDomain'));
   assert.ok(!fixture.files.has('copy-seed-timeout-retry-1.intent.json'));
   assert.ok(!fixture.files.has('copy-seed-accepted.json')); assert.ok(!fixture.files.has('copy-device.json'));
 });
@@ -444,3 +461,6 @@ test('actual A POSIX failure remains its original single strict seed', () => {
   assert.ok(!fixture.files.has('copy-seed-input.json'));
   assert.ok(!fixture.files.has('copy-seed-accepted.json')); assert.ok(!fixture.files.has('copy-device.json'));
 });
+
+/** @param {string|Buffer|undefined} value */
+function parseReceipt(value) { return objectFixture(JSON.parse(requiredFixture(value).toString())); }

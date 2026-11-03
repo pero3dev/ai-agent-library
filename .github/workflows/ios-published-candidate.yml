@@ -16,6 +16,7 @@ on:
       - 'scripts/lib/ios-*.mjs'
       - 'scripts/lib/md-utils.mjs'
       - 'tests/unit/ios-*.test.mjs'
+      - 'tests/unit/ios-*.test.mts'
       - 'website/audio/catalog.json'
 
 permissions:

@@ -4,11 +4,12 @@ import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
 import type { Heading } from 'nextra'
 
-interface TocState { headings: Heading[]; activeId: string; ready: boolean }
-interface TocGroup { heading: Heading; children: Heading[] }
+type ArticleHeading = Omit<Heading, 'value'> & { value: ReactNode }
+interface TocState { headings: ArticleHeading[]; activeId: string; ready: boolean }
+interface TocGroup { heading: ArticleHeading; children: ArticleHeading[] }
 const ArticleTocContext = createContext<TocState>({ headings: [], activeId: '', ready: false })
 
-export function ArticleTocProvider({ headings, children }: { headings: Heading[]; children: ReactNode }) {
+export function ArticleTocProvider({ headings, children }: { headings: ArticleHeading[]; children: ReactNode }) {
   const [activeId, setActiveId] = useState(headings[0]?.id || '')
   const [ready, setReady] = useState(false)
 

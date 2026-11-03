@@ -5,7 +5,7 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
 const pages = ['/', '/docs/concepts/tool-use', '/glossary', '/roadmap', '/tags', '/audio',
   '/docs/concepts/agent-loop', '/docs/architecture/workflow-vs-agent']
 
-for (const theme of ['light', 'dark']) {
+for (const theme of ['light', 'dark'] as const) {
   for (const width of [375, 1440]) {
     for (const pathname of pages) {
       test(`named controls and readable text: ${theme} ${width}px ${pathname}`, async ({ page }) => {
@@ -22,8 +22,8 @@ for (const theme of ['light', 'dark']) {
         }, null, 2), contentType: 'application/json' })
         expect(audit.violations.map(({ id, nodes }) => ({ id, targets: nodes.map(node => node.target) }))).toEqual([])
         const colors = await page.locator('.concept-english, .section-count, .doc-meta-updated, .glossary-card-english, .dep-node-count, .dep-panel-hint, .tag-chip-count, .tag-title-count, .btn-primary, .react-flow__attribution a').evaluateAll(elements => {
-          const luminance = color => {
-            const rgb = color.match(/[\d.]+/g).slice(0, 3).map(Number).map(value => {
+          const luminance = (color: string) => {
+            const rgb = (color.match(/[\d.]+/g) || []).slice(0, 3).map(Number).map(value => {
               const channel = value / 255
               return channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4
             })
@@ -31,7 +31,8 @@ for (const theme of ['light', 'dark']) {
           }
           return elements.filter(element => element.getClientRects().length).map(element => {
             const foreground = getComputedStyle(element).color
-            let ancestor = element, background = 'rgb(255, 255, 255)'
+            let ancestor: Element | null = element
+            let background = 'rgb(255, 255, 255)'
             while (ancestor) {
               const candidate = getComputedStyle(ancestor).backgroundColor
               if (/^rgb\(/.test(candidate)) { background = candidate; break }
@@ -84,7 +85,7 @@ test('checklist Space and theme Enter keep keyboard focus and current value', as
 
 test('article copy and named usage menu retain the Markdown and existing destinations', async ({ page }) => {
   await page.addInitScript(() => Object.defineProperty(navigator, 'clipboard', {
-    configurable: true, value: { writeText: async text => { window.copiedArticleMarkdown = text } }
+    configurable: true, value: { writeText: async (text: string) => { window.copiedArticleMarkdown = text } }
   }))
   await page.goto(`${basePath}/docs/concepts/tool-use`)
   await page.getByRole('button', { name: '記事をコピー', exact: true }).click()
@@ -97,7 +98,7 @@ test('article copy and named usage menu retain the Markdown and existing destina
   await menu.selectOption('chatgpt')
   const opened = await page.evaluate(() => window.articleOpenArguments)
   expect(opened[0]).toContain('https://chatgpt.com/?hints=search&prompt=')
-  expect(decodeURIComponent(opened[0])).toContain(`${basePath}/docs/concepts/tool-use`)
+  expect(decodeURIComponent(String(opened[0]))).toContain(`${basePath}/docs/concepts/tool-use`)
   expect(opened.slice(1)).toEqual(['_blank', 'noopener,noreferrer'])
   await menu.selectOption('claude')
   expect((await page.evaluate(() => window.articleOpenArguments))[0]).toContain('https://claude.ai/new?q=')

@@ -2,17 +2,17 @@ import { readdirSync, readFileSync } from 'node:fs'
 import path from 'node:path'
 
 /** スキップリンクがある HTML では移動先が一意に存在することを検証する。 */
-export function skipTargetErrors(html) {
+export function skipTargetErrors(html: string) {
   if (!/<a\b[^>]*\bhref=["']#nextra-skip-nav["']/i.test(html)) return []
   const targets = [...html.matchAll(/<[a-z][^>]*\bid=["']nextra-skip-nav["'][^>]*>/gi)]
   return targets.length === 1 ? [] : [`skip target が ${targets.length} 件です(期待: 1 件)`]
 }
 
 /** Next の HTML 全件(通常ルートと 404 を含む)を検査する。 */
-export function checkExportSkipTargets(outDir) {
-  const errors = []
+export function checkExportSkipTargets(outDir: string) {
+  const errors: string[] = []
   let count = 0
-  const visit = dir => {
+  const visit = (dir: string) => {
     for (const entry of readdirSync(dir, { withFileTypes: true })) {
       const file = path.join(dir, entry.name)
       if (entry.isDirectory()) visit(file)
@@ -29,7 +29,7 @@ export function checkExportSkipTargets(outDir) {
 }
 
 /** /docs の手書き入口にも全セクションへのリンクがあることを照合する。 */
-export function missingSectionLinks(html, sections, basePath = '') {
+export function missingSectionLinks(html: string, sections: ReadonlyArray<{ route: string }>, basePath = '') {
   const hrefs = new Set([...html.matchAll(/<a\b[^>]*\bhref=["']([^"']+)["']/gi)].map(match => match[1].replace(/\/$/, '')))
   return sections.filter(section => !hrefs.has(`${basePath}${section.route}`)).map(section => section.route)
 }

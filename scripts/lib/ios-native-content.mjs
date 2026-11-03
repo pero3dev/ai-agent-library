@@ -3,13 +3,16 @@ import path from 'node:path';
 import MarkdownIt from 'markdown-it';
 import GithubSlugger from 'github-slugger';
 import { load as loadYaml, JSON_SCHEMA } from 'js-yaml';
-import { audioMetadata, installMath, NATIVE_READER_FIXTURE, parseArticle, readSource, rewriteLink, sha256, tokenText, validateOutput } from './ios-content.mjs';
+import { audioMetadata, installMath, NATIVE_READER_FIXTURE, parseArticle, parseIOSSelection, readSource, rewriteLink, sha256, tokenText, validateOutput } from './ios-content.mjs';
 import { createDeclaredAudioResolver, DEFAULT_NATIVE_AUDIO_IDENTITIES } from './ios-audio-identity.mjs';
 import { loadNativeRenderingDependencies } from './ios-native-assets.mjs';
 import { buildNativeLearningIndex, NATIVE_LEARNING_PATH } from './ios-learning-content.mjs';
+import { isRecord, isStringRecord } from './json-guards.mjs';
 
 const assetKey = Symbol('nativeAssetKey');
+/** @param {readonly [string, ...unknown[]]} a @param {readonly [string, ...unknown[]]} b */
 const comparePath = ([a], [b]) => a < b ? -1 : a > b ? 1 : 0;
+/** @param {string} id */
 const fileFor = id => `articles/${id.replaceAll('/', '--')}.json`;
 const maxTextBytes = 1024 * 1024;
 const maxDocumentBytes = 16 * 1024 * 1024;
@@ -17,11 +20,13 @@ const maxPNGBytes = 32 * 1024 * 1024;
 const maxElements = 20000;
 const maxDepth = 32;
 
+/** @param {unknown} value @param {string} label */
 function text(value, label) {
   if (typeof value !== 'string' || Buffer.byteLength(value) > maxTextBytes) throw new Error(`Invalid or oversized ${label}`);
   return value;
 }
 
+/** @param {string} href @param {import('./ios-types.d.mts').IOSArticle} article @param {import('./ios-types.d.mts').IOSSelected} selected @returns {import('./ios-types.d.mts').NativeLink} */
 function nativeLink(href, article, selected) {
   if (href.startsWith('#')) {
     let heading;
@@ -39,28 +44,37 @@ function nativeLink(href, article, selected) {
   return { kind: 'external', url: url.href };
 }
 
-/** Convert Markdown to the native schema, retaining build-time image requests separately. */
+/** Convert Markdown to the native schema, retaining build-time image requests separately.
+ * @param {import('./ios-types.d.mts').IOSArticle} article
+ * @param {{selected?: import('./ios-types.d.mts').IOSSelected}} [options]
+ */
 export function parseNativeArticle(article, { selected = new Map([[article.source_path, article.id]]) } = {}) {
   if (Buffer.byteLength(article.body) > maxDocumentBytes) throw new Error(`Oversized article: ${article.id}`);
   const md = new MarkdownIt({ html: false, linkify: false, typographer: false });
   installMath(md, () => { throw new Error('Native conversion must not render HTML'); });
   const tokens = md.parse(article.body, {});
+  /** @type {import('./ios-types.d.mts').IOSHeading[]} */
   const headings = [];
+  /** @type {Map<string, import('./ios-types.d.mts').NativeImageRequest>} */
   const requests = new Map();
   const slugger = new GithubSlugger();
+  /** @type {Map<string, number>} */
   const duplicates = new Map();
   let headingContext = '';
   let count = 0;
+  /** @param {number} depth */
   const consume = depth => {
     if (depth > maxDepth) throw new Error(`Native document exceeds depth ${maxDepth}`);
     if (++count > maxElements) throw new Error(`Native document exceeds ${maxElements} elements`);
   };
+  /** @param {string} kind @param {unknown} value @param {string} [section] */
   const stableID = (kind, value, section = headingContext) => {
     const digest = sha256(`${article.id}\0${section}\0${kind}\0${JSON.stringify(value)}`).slice(0, 24);
     const occurrence = (duplicates.get(digest) || 0) + 1;
     duplicates.set(digest, occurrence);
     return `${kind}-${digest}${occurrence > 1 ? `-${occurrence}` : ''}`;
   };
+  /** @param {'math' | 'diagram'} kind @param {string} source @param {boolean} display */
   const image = (kind, source, display) => {
     text(source, `${kind} source`);
     const key = sha256(`${kind}\0${display}\0${source.trim()}`).slice(0, 24);
@@ -68,9 +82,12 @@ export function parseNativeArticle(article, { selected = new Map([[article.sourc
     // The placeholder is never written. buildNativeContent requires rendered metadata.
     return { asset: { light: `assets/native/${key}-light.png`, dark: `assets/native/${key}-dark.png`, width: 1, height: 1, scale: 1 }, source, accessibility_text: source, [assetKey]: key };
   };
+  /** @param {import('./ios-types.d.mts').MarkdownToken[]} values @param {number} depth @returns {import('./ios-types.d.mts').NativeInline[]} */
   function inlines(values, depth) {
     let cursor = 0;
+    /** @param {string} [until] @returns {import('./ios-types.d.mts').NativeInline[]} */
     function read(until) {
+      /** @type {import('./ios-types.d.mts').NativeInline[]} */
       const result = [];
       while (cursor < values.length) {
         const token = values[cursor++];
@@ -86,7 +103,7 @@ export function parseNativeArticle(article, { selected = new Map([[article.sourc
           depth++;
           const children = read(token.type.replace('_open', '_close'));
           depth = previousDepth;
-          if (token.type === 'link_open') result.push({ type: 'link', children, target: nativeLink(token.attrGet('href'), article, selected) });
+          if (token.type === 'link_open') result.push({ type: 'link', children, target: nativeLink(token.attrGet('href') ?? '', article, selected) });
           else result.push({ type: token.type === 'strong_open' ? 'strong' : 'emphasis', children });
         } else throw new Error(`Unsupported native inline token ${token.type}: ${article.source_path}`);
       }
@@ -96,12 +113,15 @@ export function parseNativeArticle(article, { selected = new Map([[article.sourc
     return read();
   }
   let cursor = 0;
+  /** @param {string} type */
   const expect = type => {
     const token = tokens[cursor++];
     if (token?.type !== type) throw new Error(`Expected ${type}, found ${token?.type || 'end'}: ${article.source_path}`);
     return token;
   };
+  /** @param {number} depth */
   function inlineBlock(depth) { return inlines(expect('inline').children || [], depth); }
+  /** @param {number} depth */
   function table(depth) {
     expect('thead_open'); expect('tr_open');
     const header = [], alignments = [];
@@ -126,13 +146,16 @@ export function parseNativeArticle(article, { selected = new Map([[article.sourc
     if (!header.length) throw new Error('Native table requires a header');
     return { header, rows, alignments };
   }
+  /** @param {string} [until] @param {number} [depth] @returns {import('./ios-types.d.mts').NativeBlock[]} */
   function blocks(until, depth = 0) {
+    /** @type {import('./ios-types.d.mts').NativeBlock[]} */
     const result = [];
     while (cursor < tokens.length) {
       const token = tokens[cursor++];
       if (token.type === until) return result;
       consume(depth);
       const section = headingContext;
+      /** @type {import('./ios-types.d.mts').NativeBlockValue} */
       let value;
       if (token.type === 'heading_open') {
         const raw = tokens[cursor];
@@ -169,6 +192,7 @@ export function parseNativeArticle(article, { selected = new Map([[article.sourc
     if (until) throw new Error(`Unclosed native block: ${until}`);
     return result;
   }
+  /** @type {import('./ios-types.d.mts').NativeDocument} */
   const document = { schema_version: 1, article_id: article.id, source_sha256: article.source_sha256, blocks: blocks() };
   const search_text = tokenText(tokens).replace(/\s+/g, ' ').trim();
   const purpose = tokens.findIndex((token, index) => token.type === 'heading_open' && tokens[index + 1]?.content === 'この記事の目的');
@@ -177,8 +201,10 @@ export function parseNativeArticle(article, { selected = new Map([[article.sourc
   return { document, headings, summary, search_text, requests };
 }
 
+/** @param {unknown} value @param {(value: Record<PropertyKey, unknown>) => void} visitor */
 function walk(value, visitor) {
-  if (!value || typeof value !== 'object') return;
+  if (Array.isArray(value)) { for (const child of value) walk(child, visitor); return; }
+  if (!isRecord(value)) return;
   visitor(value);
   for (const child of Object.values(value)) {
     if (Array.isArray(child)) for (const item of child) walk(item, visitor);
@@ -186,10 +212,12 @@ function walk(value, visitor) {
   }
 }
 
+/** @param {string} file */
 function safeOutputPath(file) {
   if (!/^(?:assets|articles)\/[a-zA-Z0-9/_.-]+\.(?:json|png|txt)$/.test(file) || file.split('/').includes('..')) throw new Error(`Unsafe native output asset: ${file}`);
 }
 
+/** @param {import('./ios-types.d.mts').NativeAsset} asset @param {Map<string, Buffer>} files */
 function validateAsset(asset, files) {
   const { width, height, scale, baseline } = asset || {};
   if (![width, height, scale].every(value => Number.isFinite(value) && value > 0) || width > 8192 || height > 8192 || scale > 4 || (baseline !== undefined && (!Number.isFinite(baseline) || baseline < 0 || baseline > height))) throw new Error('Invalid native asset dimensions or baseline');
@@ -203,7 +231,9 @@ function validateAsset(asset, files) {
   }
 }
 
-/** Counts include manifest.json, matching ContentValidator's on-device limits. */
+/** Counts include manifest.json, matching ContentValidator's on-device limits.
+ * @param {{fileCount: number, totalBytes: number, manifestBytes: number}} options
+ */
 export function validateNativePackageBounds({ fileCount, totalBytes, manifestBytes }) {
   if (![fileCount, totalBytes, manifestBytes].every(Number.isSafeInteger) || fileCount < 1 || manifestBytes < 1 || totalBytes < manifestBytes) {
     throw new Error('Invalid native package size accounting');
@@ -212,6 +242,7 @@ export function validateNativePackageBounds({ fileCount, totalBytes, manifestByt
   if (fileCount > 4096 || totalBytes > 256 * 1024 * 1024) throw new Error('Native package exceeds file count or byte size limit');
 }
 
+/** @param {string} root */
 async function publishedArticles(root) {
   const articles = [];
   const sections = await readdir(path.join(root, 'docs'), { withFileTypes: true });
@@ -229,7 +260,7 @@ async function publishedArticles(root) {
       const frontMatter = source.replace(/\r\n?/g, '\n').match(/^---\n([\s\S]*?)\n---(?:\n|$)/);
       if (!frontMatter) throw new Error(`Front matter missing: ${sourcePath}`);
       const metadata = loadYaml(frontMatter[1], { schema: JSON_SCHEMA });
-      if (!['draft', 'published'].includes(metadata?.status)) throw new Error(`Invalid article status: ${sourcePath}`);
+      if (!isRecord(metadata) || typeof metadata.status !== 'string' || !['draft', 'published'].includes(metadata.status)) throw new Error(`Invalid article status: ${sourcePath}`);
       if (metadata.status === 'published') articles.push(parseArticle(source, sourcePath));
     }
   }
@@ -237,9 +268,11 @@ async function publishedArticles(root) {
   return articles;
 }
 
+/** @param {string} root @param {string | undefined} output */
 async function allPublishedOutput(root, output) {
   if (typeof output !== 'string' || !output.trim()) throw new Error('allPublished requires an explicit temporary output directory');
   const destination = await validateOutput(root, output);
+  /** @param {string} value */
   const comparable = value => process.platform === 'darwin' || process.platform === 'win32' ? value.toLowerCase() : value;
   const actual = comparable(destination);
   for (const name of ['Content', 'TestContent']) {
@@ -255,8 +288,11 @@ async function allPublishedOutput(root, output) {
   return destination;
 }
 
-/** Build an offline, hashed JSON/PNG-only package. Browser use is injectable for tests. */
+/** Build an offline, hashed JSON/PNG-only package. Browser use is injectable for tests.
+ * @param {import('./ios-types.d.mts').IOSNativeOptions} [options]
+ */
 export async function buildNativeContent({ root, output, fixtures = false, allPublished = false, publishedLibrary = false, dependencies, selection, trustedAudioDeclarations = DEFAULT_NATIVE_AUDIO_IDENTITIES } = {}) {
+  if (!root) throw new Error('Native content build requires root');
   if (typeof fixtures !== 'boolean') throw new Error('fixtures must be a boolean');
   if (typeof allPublished !== 'boolean') throw new Error('allPublished must be a boolean');
   if (typeof publishedLibrary !== 'boolean') throw new Error('publishedLibrary must be a boolean');
@@ -272,30 +308,28 @@ export async function buildNativeContent({ root, output, fixtures = false, allPu
     output ??= path.join(root, fixtures ? 'ios/AILibrary/TestContent' : 'ios/AILibrary/Content');
     output = await validateOutput(root, output, { fixtures });
   }
-  selection ||= JSON.parse(await readSource(root, 'ios/content-selection.json'));
-  if (selection?.schema_version !== 1 || typeof selection.audio_article !== 'string') throw new Error('Invalid native content selection');
-  if (!published && (!Array.isArray(selection.articles) || selection.articles.length !== 3 || new Set(selection.articles).size !== 3 || !selection.articles.includes(selection.audio_article))) throw new Error('Select exactly three distinct articles and audio from one of them');
-  const articles = published ? await publishedArticles(root) : await Promise.all(selection.articles.map(async file => parseArticle((await readSource(root, file)).toString('utf8'), file)));
+  const selectedSources = parseIOSSelection(selection || /** @type {unknown} */ (JSON.parse((await readSource(root, 'ios/content-selection.json')).toString('utf8'))), { published });
+  const articles = published ? await publishedArticles(root) : await Promise.all(selectedSources.articles.map(async file => parseArticle((await readSource(root, file)).toString('utf8'), file)));
   if (fixtures) articles.push(parseArticle((await readSource(root, NATIVE_READER_FIXTURE.source_path)).toString('utf8'), NATIVE_READER_FIXTURE.source_path, { fixture: true }));
-  const catalog = JSON.parse(await readSource(root, 'website/audio/catalog.json'));
-  const audioArticle = articles.find(article => article.source_path === selection.audio_article);
+  const catalog = /** @type {unknown} */ (JSON.parse((await readSource(root, 'website/audio/catalog.json')).toString('utf8')));
+  const audioArticle = articles.find(article => article.source_path === selectedSources.audio_article);
   if (!audioArticle) throw new Error('Selected audio article must be included among published articles');
-  const episode = resolveAudioIdentity({ catalog, article: audioArticle, sourcePath: selection.audio_article,
-    sourceText: (await readSource(root, selection.audio_article)).toString('utf8') });
-  const audio = [audioMetadata({ schema_version: 1, episodes: [episode] }, audioArticle, selection.audio_article)];
+  const episode = resolveAudioIdentity({ catalog, article: audioArticle, sourcePath: selectedSources.audio_article,
+    sourceText: (await readSource(root, selectedSources.audio_article)).toString('utf8') });
+  const audio = [audioMetadata({ schema_version: 1, episodes: [episode] }, audioArticle, selectedSources.audio_article)];
   const selected = new Map(articles.map(article => [article.source_path, article.id]));
   const parsed = articles.map(article => parseNativeArticle(article, { selected }));
   const headings = new Map(articles.map((article, index) => [article.id, new Set(parsed[index].headings.map(heading => heading.id))]));
   for (const { document } of parsed) walk(document, node => {
-    if (node.type !== 'link' || node.target.kind !== 'article') return;
-    const destination = headings.get(node.target.article_id);
-    if (!destination || (node.target.heading_id && !destination.has(node.target.heading_id))) throw new Error(`Unknown native article or heading link: ${JSON.stringify(node.target)}`);
+    if (node.type !== 'link' || !isRecord(node.target) || node.target.kind !== 'article') return;
+    const destination = typeof node.target.article_id === 'string' ? headings.get(node.target.article_id) : undefined;
+    if (!destination || (node.target.heading_id && (typeof node.target.heading_id !== 'string' || !destination.has(node.target.heading_id)))) throw new Error(`Unknown native article or heading link: ${JSON.stringify(node.target)}`);
   });
   const requests = new Map(parsed.flatMap(value => [...value.requests]));
-  let descriptions = selection.diagram_descriptions ?? {};
+  let descriptions = selectedSources.diagram_descriptions ?? {};
   if (published) {
-    const fullDescriptions = JSON.parse(await readSource(root, 'ios/all-published-diagram-descriptions.json'));
-    if (fullDescriptions?.schema_version !== 1 || !fullDescriptions.diagram_descriptions || typeof fullDescriptions.diagram_descriptions !== 'object' || Array.isArray(fullDescriptions.diagram_descriptions)) throw new Error('Invalid all-published diagram description map');
+    const fullDescriptions = /** @type {unknown} */ (JSON.parse((await readSource(root, 'ios/all-published-diagram-descriptions.json')).toString('utf8')));
+    if (!isRecord(fullDescriptions) || fullDescriptions.schema_version !== 1 || !isStringRecord(fullDescriptions.diagram_descriptions)) throw new Error('Invalid all-published diagram description map');
     descriptions = fullDescriptions.diagram_descriptions;
   }
   if (typeof descriptions !== 'object' || Array.isArray(descriptions)) throw new Error('Invalid native diagram descriptions');
@@ -303,7 +337,7 @@ export async function buildNativeContent({ root, output, fixtures = false, allPu
     if (!/^[a-f0-9]{24}$/.test(key) || requests.get(key)?.kind !== 'diagram') throw new Error(`Unknown or stale native diagram description: ${key}`);
     if (!text(description, 'diagram description').trim() || Buffer.byteLength(description) > 16384) throw new Error('Invalid native diagram description');
   }
-  if (published || selection.diagram_descriptions !== undefined) for (const [key, request] of requests) {
+  if (published || selectedSources.diagram_descriptions !== undefined) for (const [key, request] of requests) {
     if (request.kind === 'diagram' && !Object.hasOwn(descriptions, key)) throw new Error(`Missing native diagram description: ${key}`);
   }
   dependencies ||= await loadNativeRenderingDependencies(root);
@@ -314,13 +348,14 @@ export async function buildNativeContent({ root, output, fixtures = false, allPu
   const manifestArticles = articles.map((article, index) => {
     const value = parsed[index];
     walk(value.document, node => {
-      if (!node[assetKey]) return;
-      const metadata = rendered.metadata.get(node[assetKey]);
-      if (!metadata) throw new Error(`Missing native rendered metadata: ${node[assetKey]}`);
+      const key = node[assetKey];
+      if (typeof key !== 'string') return;
+      const metadata = rendered.metadata.get(key);
+      if (!metadata) throw new Error(`Missing native rendered metadata: ${key}`);
       validateAsset(metadata.asset, assets);
       if (!text(metadata.accessibility_text, 'asset accessibility text').trim()) throw new Error('Missing native asset accessibility text');
       node.asset = metadata.asset;
-      const description = descriptions[node[assetKey]];
+      const description = descriptions[key];
       node.accessibility_text = description ? `${description}\n図中のラベル: ${metadata.accessibility_text}` : metadata.accessibility_text;
     });
     const document_path = fileFor(article.id);

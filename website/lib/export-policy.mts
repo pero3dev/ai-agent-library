@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto'
 import { gzipSync } from 'node:zlib'
 
-export function addSecurityMeta(html, { audioFixture = false } = {}) {
+export function addSecurityMeta(html: string, { audioFixture = false } = {}) {
   const hashes = [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)]
     .filter(([, attributes, body]) => !/\bsrc=/.test(attributes) && body.trim())
     .map(([, , body]) => `'sha256-${createHash('sha256').update(body).digest('base64')}'`)
@@ -9,7 +9,7 @@ export function addSecurityMeta(html, { audioFixture = false } = {}) {
   return html.replace(/<head>/i, `<head><meta http-equiv="Content-Security-Policy" content="${csp.replaceAll('"', '&quot;')}"/><meta name="referrer" content="strict-origin-when-cross-origin"/>`)
 }
 
-export function initialScriptBudget(html, readScript, basePath = '') {
+export function initialScriptBudget(html: string, readScript: (source: string) => string | Buffer, basePath = '') {
   const sources = [...new Set([...html.matchAll(/<script[^>]+src="([^"]+)"/g)].map(match => match[1]))]
   let raw = 0, gzip = 0
   for (const source of sources) {

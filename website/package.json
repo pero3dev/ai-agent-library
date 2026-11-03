@@ -7,7 +7,7 @@
     "test": "node --test tests/unit/*.test.mjs",
     "test:browser": "playwright test",
     "test:audio": "playwright test audio",
-    "test:publishing-safety": "playwright test publishing.spec.mjs --grep \"CSP permits|JavaScript is disabled\"",
+    "test:publishing-safety": "playwright test publishing.spec.ts --grep \"CSP permits|JavaScript is disabled\"",
     "sync": "node scripts/sync-content.mjs && node scripts/render-mermaid-assets.mjs",
     "predev": "npm run sync",
     "dev": "next dev",
@@ -17,7 +17,7 @@
     "clean": "node scripts/clean.mjs",
     "build:clean": "npm run clean && npm run build",
     "start": "next start",
-    "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.node.json && tsc -p tsconfig.browser-tests.json"
+    "typecheck": "next typegen && tsc -p tsconfig.json && tsc -p tsconfig.node.json && tsc -p tsconfig.browser-tests.json && tsc -p tsconfig.unit-tests.json && tsc -p tsconfig.contracts.json"
   },
   "dependencies": {
     "@xyflow/react": "^12.11.6",

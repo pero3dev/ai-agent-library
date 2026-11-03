@@ -4,7 +4,9 @@ import { fileURLToPath } from 'node:url';
 import { buildNativeContent } from './lib/ios-native-content.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
+/** @param {string[]} args */
 export function parseNativeBuildOptions(args) {
+  /** @type {Pick<import('./lib/ios-types.d.mts').IOSNativeOptions, 'fixtures' | 'allPublished' | 'publishedLibrary' | 'output'>} */
   const options = { fixtures: false };
   const seen = new Set();
   for (let index = 0; index < args.length; index++) {
@@ -32,7 +34,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     const manifest = await buildNativeContent({ root, ...options });
     console.log(`Native iOS ${options.publishedLibrary ? 'published library ' : options.allPublished ? 'all-published temporary ' : options.fixtures ? 'test ' : ''}content: ${manifest.articles.length} articles, ${manifest.audio.length} audio metadata, ${Object.keys(manifest.files).length} verified files; revision ${manifest.revision}`);
   } catch (error) {
-    console.error(`Native iOS content build failed: ${error.message}`);
+    console.error(`Native iOS content build failed: ${error instanceof Error ? error.message : String(error)}`);
     console.error('Usage: node scripts/build-ios-native-content.mjs [--fixtures] [--output <temporary ailibrary-ios-*/Content directory>] | --all-published --output <temporary ailibrary-ios-*/Content directory> | --published-library');
     process.exitCode = 1;
   }

@@ -6,13 +6,18 @@ import { filesUnder } from './lib/tooling-common.mjs'
 import { parseRegistry, matchesPattern } from './freshness-registry.mjs'
 
 export const jstToday = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date())
+/** @param {string} text @param {{today?: string, file?: string}} [options] */
 export function datedPlans(text, { today = jstToday(), file = '' } = {}) {
-  const rows = []; let fence = false, frontmatter = false, deadlineColumns = [], precedingParagraph = '', tableAddressed = false
+  const rows = []; let fence = false, frontmatter = false, precedingParagraph = '', tableAddressed = false
+  /** @type {number[]} */
+  let deadlineColumns = []
   const now = Date.parse(`${today}T00:00:00Z`)
   const lines = text.split(/\r?\n/)
+  /** @param {string} line */
   const visible = line => line.replace(/(`+)[\s\S]*?\1/g, '').replace(/\]\([^)]*\)/g, ']').replace(/https?:\/\/\S+/g, '').replace(/[*_]/g, '')
   // A status word alone is not evidence of completion: its own assertion may
   // deny it, leave it unconfirmed, or describe a conditional/future action.
+  /** @param {string} context @param {RegExp} pattern */
   const affirmedStatus = (context, pattern) => [...context.matchAll(pattern)].some(match => {
     const assertion = context.slice(match.index).split(/[。|;；]/)[0]
     return !/未確認|未確定|未実施|未完了|不明|確認(?:できません|できない|不能)|な(?:い|かった)|ません|場合|仮定|見込み|予定|可能性|(?:され|させ)(?:る|れば)|したら/.test(assertion)
@@ -49,7 +54,7 @@ export function datedPlans(text, { today = jstToday(), file = '' } = {}) {
       const parsed = Date.parse(`${date}T00:00:00Z`)
       if (!Number.isFinite(parsed) || new Date(parsed).toISOString().slice(0, 10) !== date) continue
       const column = table ? cleaned.slice(0, match.index).split('|').length - 2 : 0
-      const preceding = cleaned.slice(Math.max(0, match.index - 30), match.index).split(/[、。|]/).at(-1)
+      const preceding = cleaned.slice(Math.max(0, match.index - 30), match.index).split(/[、。|]/).at(-1) ?? ''
       const following = cleaned.slice(match.index + match[0].length, matches[ordinal + 1]?.index ?? cleaned.length).split(/[、。|]/)[0].slice(0, 35)
       const tableDeadline = table && deadlineColumns.includes(column) && !/[（(][^）)]*$/.test(preceding)
       if (!tableDeadline && /^\s*(?:の|に)?\s*(?:告知|確認|部分確認|公表|公開|発表|時点)/.test(following)) continue
@@ -95,6 +100,6 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   try {
     const args = process.argv.slice(2); const json = args.includes('--json'); const at = args.indexOf('--today'); const report = deadlineReport(process.cwd(), { today: at < 0 ? jstToday() : args[at + 1] })
     if (json) console.log(JSON.stringify(report, null, 2))
-    else { for (const group of ['expired', 'upcoming']) { console.log(`${group}: ${report[group].length}`); for (const row of report[group]) console.log(`${row.file}:${row.line} ${row.date} ${row.text}`) } console.log(report.watchlist_candidates.join('\n')) }
-  } catch (error) { console.error(error.message); process.exitCode = 1 }
+    else { for (const group of /** @type {const} */ (['expired', 'upcoming'])) { console.log(`${group}: ${report[group].length}`); for (const row of report[group]) console.log(`${row.file}:${row.line} ${row.date} ${row.text}`) } console.log(report.watchlist_candidates.join('\n')) }
+  } catch (error) { console.error(error instanceof Error ? error.message : String(error)); process.exitCode = 1 }
 }

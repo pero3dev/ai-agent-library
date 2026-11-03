@@ -8,6 +8,7 @@ import { fileURLToPath } from 'node:url';
 export const LIMITS = Object.freeze({ metadata: 1048576, stderr: 8192, retained: 2097152,
   manifest: 65536, png: 1048576, hierarchy: 131072, geometry: 8192, context: 2048,
   wholeMs: 75000, perChildMs: 15000, maxCalls: 7, maxNodes: 32768, freeFloor: 67108864 });
+/** @param {import('node:crypto').BinaryLike} bytes */
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 const refPattern = /^0~[A-Za-z0-9_-]{1,150}={0,2}$/;
 const shaPattern = /^[0-9a-f]{40}$/;
@@ -22,17 +23,20 @@ const allowedCases = new Set([
   'ReadingRecoveryUITests/testExportFilePickerCancelKeepsHealthyPositionAndBookmarkAfterRelaunch()',
 ]);
 const recoveryConfirmationCases = new Set([...allowedCases].filter(identifier => identifier.startsWith('ReadingRecoveryUITests/')));
+/** @type {Map<string, import('./native-attachment-types.d.mts').AttachmentRole>} */
 const pngNames = new Map([
   ['Public-UI-target-not-visible', 'public'], ['Reading-restore-picker-not-identified', 'restore'],
   ['Reading-recovery-confirmation-title-not-visible', 'confirmation'],
-  ...[0, 1, 2].map(i => [`Reading-export-cancel-${i}-failed`, 'export']),
+  ...[0, 1, 2].map(i => /** @type {[string, import('./native-attachment-types.d.mts').AttachmentRole]} */ ([`Reading-export-cancel-${i}-failed`, 'export'])),
 ]);
+/** @type {Readonly<Record<import('./native-attachment-types.d.mts').AttachmentRole, readonly import('./native-attachment-types.d.mts').AttachmentName[]>>} */
 const textNames = Object.freeze({ public: [
   ['Public-UI-target-not-visible-geometry', 'geometry.json', LIMITS.geometry],
   ['Public-UI-target-not-visible-hierarchy', 'hierarchy.txt', LIMITS.hierarchy],
 ], restore: [['Reading-restore-picker-context', 'context.txt', LIMITS.context]],
 export: [['Reading-export-cancel-context', 'context.txt', LIMITS.context]],
 confirmation: [['Reading-recovery-confirmation-context', 'context.txt', LIMITS.context]] });
+/** @type {Readonly<Partial<Record<import('./native-attachment-types.d.mts').AttachmentRole, readonly import('./native-attachment-types.d.mts').AttachmentName[]>>>} */
 const optionalTextNames = Object.freeze({ export: [
   ['Reading-export-cancel-hierarchy', 'hierarchy.txt', LIMITS.hierarchy],
 ], confirmation: [
@@ -41,45 +45,60 @@ const optionalTextNames = Object.freeze({ export: [
 const filenames = new Set(['failure.png', 'context.txt', 'geometry.json', 'hierarchy.txt']);
 const fileLimits = Object.freeze({ 'failure.png': LIMITS.png, 'context.txt': LIMITS.context,
   'geometry.json': LIMITS.geometry, 'hierarchy.txt': LIMITS.hierarchy });
-class Incomplete extends Error { constructor(code) { super(code); this.code = code; } }
-const requireThat = (test, code) => { if (!test) throw new Incomplete(code); };
-const scalar = value => value && typeof value === 'object' && !Array.isArray(value) ? value._value : undefined;
-const values = value => value && Array.isArray(value._values) ? value._values : [];
-const reference = value => { const id = scalar(value?.id); requireThat(typeof id === 'string' && refPattern.test(id), 'invalid_reference'); return id; };
+class Incomplete extends Error { constructor(/** @type {string} */ code) { super(code); this.code = code; } }
+/** @param {unknown} test @param {string} code @returns {asserts test} */
+function requireThat(test, code) { if (!test) throw new Incomplete(code); }
+/** @param {unknown} value @returns {value is Record<string, unknown>} */
+const object = value => value !== null && typeof value === 'object' && !Array.isArray(value);
+/** @param {unknown} value @param {string} key @returns {unknown} */
+const field = (value, key) => object(value) ? value[key] : undefined;
+/** @param {unknown} value @returns {unknown} */
+const scalar = value => field(value, '_value');
+/** @param {unknown} value @returns {unknown[]} */
+const values = value => { const items = field(value, '_values'); return Array.isArray(items) ? items : []; };
+/** @param {unknown} value */
+const reference = value => { const id = scalar(field(value, 'id')); requireThat(typeof id === 'string' && refPattern.test(id), 'invalid_reference'); return id; };
 
+/** @param {unknown} bytes @returns {Record<string, unknown>} */
 export function parseMetadata(bytes) {
   requireThat(Buffer.isBuffer(bytes) && bytes.length > 0 && bytes.length <= LIMITS.metadata, 'metadata_size');
+  /** @type {unknown} */
   let value;
   try { value = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(bytes)); }
   catch { throw new Incomplete('invalid_metadata_JSON'); }
-  requireThat(value && typeof value === 'object' && !Array.isArray(value), 'metadata_root');
+  requireThat(object(value), 'metadata_root');
   return value;
 }
 
+/** @param {unknown} value @param {(item: Record<string, unknown>) => void} visit */
 function walk(value, visit) {
   let count = 0;
+  /** @param {unknown} item @param {number} depth */
   function next(item, depth) {
     requireThat(depth <= 64 && ++count <= LIMITS.maxNodes, 'metadata_tree_limit');
     if (!item || typeof item !== 'object') return;
-    visit(item);
+    if (object(item)) visit(item);
     for (const child of Array.isArray(item) ? item : Object.values(item)) next(child, depth + 1);
   }
   next(value, 0);
 }
 
+/** @param {unknown} root */
 export function testsReference(root) {
-  const actions = values(root.actions).filter(action => scalar(action.actionResult?.status) === 'failed');
+  const actions = values(field(root, 'actions')).filter(action => scalar(field(field(action, 'actionResult'), 'status')) === 'failed');
   requireThat(actions.length === 1, 'failed_action_not_unique');
-  return reference(actions[0].actionResult.testsRef);
+  return reference(field(field(actions[0], 'actionResult'), 'testsRef'));
 }
 
+/** @param {unknown} tests */
 export function failedSummary(tests) {
+  /** @type {{identifier: string, id: string}[]} */
   const leaves = [];
   walk(tests, item => {
     if (scalar(item.testStatus) !== 'Failure') return;
-    requireThat(item._type?._name === 'ActionTestMetadata', 'failed_test_schema');
+    requireThat(field(item._type, '_name') === 'ActionTestMetadata', 'failed_test_schema');
     const identifier = scalar(item.identifier);
-    requireThat(allowedCases.has(identifier), 'failed_test_outside_selected_scope');
+    requireThat(typeof identifier === 'string' && allowedCases.has(identifier), 'failed_test_outside_selected_scope');
     leaves.push({ identifier, id: reference(item.summaryRef) });
   });
   requireThat(leaves.length > 0 && leaves.length <= 8, 'failed_case_count');
@@ -89,22 +108,26 @@ export function failedSummary(tests) {
   return { ...leaves[0], omitted_failed_cases: leaves.length - 1 };
 }
 
+/** @param {unknown} summary */
 export function attachmentPlan(summary) {
+  /** @type {unknown[]} */
   const candidates = [];
   walk(summary, item => {
     if (!item.attachments) return;
-    requireThat(Array.isArray(item.attachments._values), 'attachments_schema');
-    for (const attachment of item.attachments._values) candidates.push(attachment);
+    const entries = field(item.attachments, '_values');
+    requireThat(Array.isArray(entries), 'attachments_schema');
+    for (const attachment of entries) candidates.push(attachment);
   });
   requireThat(candidates.length <= 256, 'attachment_count');
+  /** @type {Map<string, import('./native-attachment-types.d.mts').Attachment>} */
   const known = new Map();
   const optionalNames = new Set(Object.values(optionalTextNames).flat().map(x => x[0]));
   const allKnownNames = new Set([...pngNames.keys(), ...Object.values(textNames).flat().map(x => x[0]), ...optionalNames]);
   for (const a of candidates) {
-    const name = scalar(a.name);
-    if (!allKnownNames.has(name)) continue; // Never export an automatic recording or arbitrary attachment.
-    requireThat(a._type?._name === 'ActionTestAttachment', 'attachment_schema');
-    const id = reference(a.payloadRef), sizeText = scalar(a.payloadSize), uti = scalar(a.uniformTypeIdentifier);
+    const name = scalar(field(a, 'name'));
+    if (typeof name !== 'string' || !allKnownNames.has(name)) continue; // Never export an automatic recording or arbitrary attachment.
+    requireThat(field(field(a, '_type'), '_name') === 'ActionTestAttachment', 'attachment_schema');
+    const id = reference(field(a, 'payloadRef')), sizeText = scalar(field(a, 'payloadSize')), uti = scalar(field(a, 'uniformTypeIdentifier'));
     requireThat(typeof sizeText === 'string' && /^(0|[1-9][0-9]{0,7})$/.test(sizeText), 'payload_size_schema');
     const size = Number(sizeText), row = { name, id, size, uti };
     if (known.has(name)) {
@@ -116,9 +139,12 @@ export function attachmentPlan(summary) {
   requireThat(images.length === 1, 'known_failure_image_not_unique');
   const image = images[0];
   requireThat(image.uti === 'public.png' && image.size >= 8 && image.size <= LIMITS.png, 'image_type_or_size');
+  /** @type {import('./native-attachment-types.d.mts').ExportAttachment[]} */
   const result = [{ ...image, filename: 'failure.png', limit: LIMITS.png }];
   const role = pngNames.get(image.name);
-  requireThat(role !== 'confirmation' || recoveryConfirmationCases.has(scalar(summary.identifier)), 'recovery_confirmation_case_mismatch');
+  requireThat(role !== undefined, 'known_failure_image_not_unique');
+  const identifier = scalar(field(summary, 'identifier'));
+  requireThat(role !== 'confirmation' || typeof identifier === 'string' && recoveryConfirmationCases.has(identifier), 'recovery_confirmation_case_mismatch');
   for (const [name, filename, limit] of [...textNames[role], ...(optionalTextNames[role] ?? [])]) {
     const row = known.get(name);
     if (!row) continue;
@@ -130,22 +156,24 @@ export function attachmentPlan(summary) {
   return result;
 }
 
+/** @param {Readonly<Record<string, string | undefined>>} env @param {unknown} event */
 export function validateBinding(env, event) {
   requireThat(env.GITHUB_ACTIONS === 'true' && env.GITHUB_REPOSITORY === 'pero3dev/ai-agent-library'
     && env.AILIBRARY_NATIVE_UI_OUTCOME === 'failure', 'unsupported_CI_context');
-  requireThat(event?.repository?.full_name === env.GITHUB_REPOSITORY && event.repository.private === false, 'repository_not_public');
-  requireThat(['success', 'failure'].includes(env.AILIBRARY_FULL_ARTIFACT_OUTCOME), 'full_artifact_outcome');
-  requireThat(['pull_request', 'push'].includes(env.GITHUB_EVENT_NAME), 'unsupported_event');
-  requireThat(/^[1-9][0-9]{0,19}$/.test(env.GITHUB_RUN_ID ?? '') && /^[1-9][0-9]{0,8}$/.test(env.GITHUB_RUN_ATTEMPT ?? '')
-    && shaPattern.test(env.GITHUB_SHA ?? ''), 'run_identity');
-  const source = env.GITHUB_EVENT_NAME === 'pull_request' ? event.pull_request?.head?.sha : event.after;
-  requireThat(shaPattern.test(source ?? ''), 'source_identity');
+  requireThat(field(field(event, 'repository'), 'full_name') === env.GITHUB_REPOSITORY && field(field(event, 'repository'), 'private') === false, 'repository_not_public');
+  requireThat(typeof env.AILIBRARY_FULL_ARTIFACT_OUTCOME === 'string' && ['success', 'failure'].includes(env.AILIBRARY_FULL_ARTIFACT_OUTCOME), 'full_artifact_outcome');
+  requireThat(typeof env.GITHUB_EVENT_NAME === 'string' && ['pull_request', 'push'].includes(env.GITHUB_EVENT_NAME), 'unsupported_event');
+  requireThat(typeof env.GITHUB_RUN_ID === 'string' && /^[1-9][0-9]{0,19}$/.test(env.GITHUB_RUN_ID) && typeof env.GITHUB_RUN_ATTEMPT === 'string' && /^[1-9][0-9]{0,8}$/.test(env.GITHUB_RUN_ATTEMPT)
+    && typeof env.GITHUB_SHA === 'string' && shaPattern.test(env.GITHUB_SHA), 'run_identity');
+  const source = env.GITHUB_EVENT_NAME === 'pull_request' ? field(field(field(event, 'pull_request'), 'head'), 'sha') : field(event, 'after');
+  requireThat(typeof source === 'string' && shaPattern.test(source), 'source_identity');
   requireThat(env.GITHUB_EVENT_NAME !== 'push' || source === env.GITHUB_SHA, 'push_identity_mismatch');
   return Object.freeze({ repository: env.GITHUB_REPOSITORY, event: env.GITHUB_EVENT_NAME,
     run_id: env.GITHUB_RUN_ID, run_attempt: env.GITHUB_RUN_ATTEMPT, workflow_SHA: env.GITHUB_SHA, source_head: source,
     full_artifact_upload_outcome: env.AILIBRARY_FULL_ARTIFACT_OUTCOME });
 }
 
+/** @param {() => number} now */
 export function deadlineBudget(now) {
   let previous = now(); requireThat(Number.isFinite(previous) && previous >= 0, 'clock_invalid');
   const deadline = previous + LIMITS.wholeMs; requireThat(Number.isFinite(deadline), 'clock_invalid');
@@ -154,16 +182,26 @@ export function deadlineBudget(now) {
     previous = current; return Math.max(0, Math.floor(deadline - current));
   }
   return { plan: () => { const limit = Math.min(LIMITS.perChildMs, remaining()); requireThat(limit > 0, 'deadline_exhausted'); return limit; },
-    permit: plan => { const limit = Math.min(plan, remaining()); requireThat(limit > 0, 'deadline_exhausted_before_spawn'); return limit; },
+    permit: (/** @type {number} */ plan) => { const limit = Math.min(plan, remaining()); requireThat(limit > 0, 'deadline_exhausted_before_spawn'); return limit; },
     checkpoint: () => requireThat(remaining() > 0, 'deadline_exhausted_after_child') };
 }
 
+/** @param {{binding: Readonly<Record<string, unknown>>, io: import('./native-attachment-types.d.mts').NativeAttachmentIO, now?: () => number, budget?: ReturnType<typeof deadlineBudget>}} options */
 export async function collectNativeFailure({ binding, io, now = () => performance.now(), budget = deadlineBudget(now) }) {
-  const calls = [], files = [];
-  let selected = null, status = 'incomplete', code = null;
+  /** @type {import('./native-attachment-types.d.mts').NativeCallReceipt[]} */
+  const calls = [];
+  /** @type {{filename: string, attachment_name: string, payload_ref: string, advertised_bytes: number, bytes: number, SHA256: string}[]} */
+  const files = [];
+  /** @type {import('./native-attachment-types.d.mts').SelectedFailure | null} */
+  let selected = null;
+  let status = 'incomplete';
+  /** @type {string | null} */
+  let code = null;
+  /** @param {string} kind @param {{id: string} | import('./native-attachment-types.d.mts').ExportAttachment | null} payload */
   async function invoke(kind, payload) {
     requireThat(calls.length < LIMITS.maxCalls, 'child_count_limit');
     const planned = budget.plan();
+    /** @type {import('./native-attachment-types.d.mts').NativeCallReceipt} */
     const receipt = { kind, planned_timeout_ms: planned, actual_timeout_ms: null, completed: false, quiescent: false };
     calls.push(receipt); let used = false;
     const acquirePermit = () => { requireThat(!used, 'permit_reused'); used = true; const timeout = budget.permit(planned); receipt.actual_timeout_ms = timeout; return timeout; };
@@ -182,7 +220,7 @@ export async function collectNativeFailure({ binding, io, now = () => performanc
     const tests = parseMetadata(await invoke('object', { id: testsReference(root) }));
     selected = failedSummary(tests);
     const summary = parseMetadata(await invoke('object', { id: selected.id }));
-    requireThat(summary._type?._name === 'ActionTestSummary' && scalar(summary.testStatus) === 'Failure'
+    requireThat(field(summary._type, '_name') === 'ActionTestSummary' && scalar(summary.testStatus) === 'Failure'
       && scalar(summary.identifier) === selected.identifier, 'summary_identity_mismatch');
     const plan = attachmentPlan(summary);
     for (const payload of plan) {
@@ -195,7 +233,9 @@ export async function collectNativeFailure({ binding, io, now = () => performanc
         advertised_bytes: payload.size, bytes: bytes.length, SHA256: hash(bytes) });
     }
     budget.checkpoint();
-    const expectedText = textNames[pngNames.get(plan[0].name)].map(x => x[0]);
+    const role = pngNames.get(plan[0].name);
+    requireThat(role !== undefined, 'known_failure_image_not_unique');
+    const expectedText = textNames[role].map(x => x[0]);
     const missingText = expectedText.filter(name => !plan.some(x => x.name === name)).length;
     status = selected.omitted_failed_cases || missingText ? 'partial' : 'collected';
     if (selected.omitted_failed_cases) code = 'other_failed_cases_omitted';
@@ -213,7 +253,9 @@ export async function collectNativeFailure({ binding, io, now = () => performanc
   return manifest;
 }
 
+/** @param {string} p @param {number} cap */
 function regular(p, cap) { const s = lstatSync(p); requireThat(s.isFile() && !s.isSymbolicLink() && s.size <= cap && realpathSync(p) === p, 'regular_path_required'); return s; }
+/** @param {string} p @param {number} cap */
 export function readBoundedRegularFile(p, cap) {
   const pathBefore = regular(p, cap); const fd = openSync(p, constants.O_RDONLY | constants.O_NOFOLLOW);
   try {
@@ -226,30 +268,47 @@ export function readBoundedRegularFile(p, cap) {
     return buffer.subarray(0, used);
   } finally { closeSync(fd); }
 }
+/** @param {string} p */
 function directory(p) { const s = lstatSync(p); requireThat(s.isDirectory() && !s.isSymbolicLink() && realpathSync(p) === p, 'directory_path_required'); }
+/** @param {string} p */
 function verifyBundle(p) {
   let count = 0;
+  /** @param {string} current */
   const visit = current => { for (const entry of readdirSync(current, { withFileTypes: true })) {
     requireThat(++count <= 10000 && !entry.isSymbolicLink(), 'input_bundle_tree_limit');
     const file = join(current, entry.name); if (entry.isDirectory()) visit(file); else requireThat(entry.isFile(), 'input_bundle_special_file');
   } }; visit(p);
 }
+/** @param {number} milliseconds */
 const pause = milliseconds => new Promise(resolvePause => setTimeout(resolvePause, milliseconds));
-function groupExists(pid) { try { process.kill(-pid, 0); return true; } catch (e) { if (e.code === 'ESRCH') return false; throw e; } }
+/** @param {number} pid */
+function groupExists(pid) { try { process.kill(-pid, 0); return true; } catch (e) { if (e instanceof Error && 'code' in e && e.code === 'ESRCH') return false; throw e; } }
 
 /** Only the detached group created by this invocation may be signalled. */
-export async function executeGuard(argv, acquirePermit, { spawnChild = spawn, kill = (pid, signal) => process.kill(pid, signal), exists = groupExists, sleep = pause } = {}) {
-  const options = { detached: true, stdio: ['ignore', 'pipe', 'pipe'], env: { PATH: '/usr/bin:/bin:/usr/sbin:/sbin', LANG: 'C', LC_ALL: 'C' } };
+/** @param {string[]} argv @param {() => number} acquirePermit @param {import('./native-attachment-types.d.mts').NativeExecuteOptions} [dependencies] */
+export async function executeGuard(argv, acquirePermit, { spawnChild = (binary, args, options) => spawn(binary, args, {...options, stdio: ['ignore', 'pipe', 'pipe']}), kill = (pid, signal) => process.kill(pid, signal), exists = groupExists, sleep = pause } = {}) {
+  const options = { detached: true, stdio: /** @type {const} */ (['ignore', 'pipe', 'pipe']), env: { PATH: '/usr/bin:/bin:/usr/sbin:/sbin', LANG: 'C', LC_ALL: 'C' } };
   const actualTimeout = acquirePermit(); // No filesystem operation between this check and spawn.
-  const child = spawnChild('/usr/bin/python3', argv, options);
-  const stdout = [], stderr = []; let outBytes = 0, errBytes = 0, limitFailure = false, timeoutFailure = false;
-  let exitCode = null, signal = null, childError = false, settled = false, childExited = false;
-  let closeObserved = false, abandonedWithoutClose = false, timer;
+  const child = spawnChild('/usr/bin/python3', argv, {...options, stdio: [...options.stdio]});
+  /** @type {Buffer[]} */
+  const stdout = [];
+  /** @type {Buffer[]} */
+  const stderr = [];
+  let outBytes = 0, errBytes = 0, limitFailure = false, timeoutFailure = false;
+  /** @type {number | null} */
+  let exitCode = null;
+  /** @type {string | null} */
+  let signal = null;
+  let childError = false, settled = false, childExited = false;
+  let closeObserved = false, abandonedWithoutClose = false;
+  /** @type {ReturnType<typeof setTimeout> | undefined} */
+  let timer;
   const ownedPID = child.pid;
-  const hasOwnedPID = Number.isInteger(ownedPID) && ownedPID > 1;
+  const hasOwnedPID = typeof ownedPID === 'number' && Number.isInteger(ownedPID) && ownedPID > 1;
   if (!hasOwnedPID) childError = true;
-  const stop = () => { if (hasOwnedPID && !childExited) { try { kill(-ownedPID, 'SIGKILL'); } catch (e) { if (e.code !== 'ESRCH') childError = true; } } };
-  await new Promise(resolveExit => {
+  const stop = () => { if (hasOwnedPID && !childExited) { try { kill(-ownedPID, 'SIGKILL'); } catch (e) { if (!(e instanceof Error) || !('code' in e) || e.code !== 'ESRCH') childError = true; } } };
+  /** @type {Promise<void>} */
+  const completion = new Promise(resolveExit => {
     const finish = () => { if (!settled) { settled = true; resolveExit(); } };
     const abandon = () => {
       if (settled) return;
@@ -273,6 +332,7 @@ export async function executeGuard(argv, acquirePermit, { spawnChild = spawn, ki
     });
     timer = setTimeout(() => { timeoutFailure = true; abandon(); }, actualTimeout);
   });
+  await completion;
   clearTimeout(timer);
   let quiescent = closeObserved && !abandonedWithoutClose && !hasOwnedPID;
   if (hasOwnedPID && closeObserved && !abandonedWithoutClose) {
@@ -289,6 +349,7 @@ export async function executeGuard(argv, acquirePermit, { spawnChild = spawn, ki
     stdout_bytes: outBytes, stderr_bytes: errBytes, stderr_SHA256: hash(Buffer.concat(stderr)) };
 }
 
+/** @param {string} workspace @param {string | undefined} developerDir @returns {import('./native-attachment-types.d.mts').NativeAttachmentIO} */
 function productionIO(workspace, developerDir) {
   const root = resolve(workspace); directory(root);
   requireThat(root === workspace && ['darwin'].includes(process.platform), 'unsupported_platform_or_root');
@@ -297,7 +358,7 @@ function productionIO(workspace, developerDir) {
   requireThat(fileURLToPath(import.meta.url) === join(root, 'ios/tests/native-failure-attachments.mjs'), 'collector_source_location');
   const parent = join(root, '.local/ios-ci'); directory(parent);
   const bundle = join(parent, 'evidence/ui.xcresult'); let bundleAvailable = false;
-  try { directory(bundle); verifyBundle(bundle); bundleAvailable = true; } catch (error) { if (error.code !== 'ENOENT') throw error; }
+  try { directory(bundle); verifyBundle(bundle); bundleAvailable = true; } catch (error) { if (!(error instanceof Error) || !('code' in error) || error.code !== 'ENOENT') throw error; }
   const free = statfsSync(parent); requireThat(free.bavail * free.bsize >= LIMITS.freeFloor + LIMITS.retained, 'free_space');
   const out = join(parent, 'native-failure-compact'); mkdirSync(out, { mode: 0o700 });
   const exportsRoot = join(out, 'exports'), ready = join(out, 'ready'); mkdirSync(exportsRoot, { mode: 0o700 }); mkdirSync(ready, { mode: 0o700 });
@@ -306,12 +367,13 @@ function productionIO(workspace, developerDir) {
     async invoke(kind, payload, acquirePermit) {
       const argv = ['-I', '-B', helper, '--workspace-root', root, '--developer-dir', developerDir, '--mode', kind];
       if (payload?.id) argv.push('--id', payload.id);
-      if (kind === 'export') argv.push('--output-name', payload.filename, '--limit-bytes', String(Math.max(1, payload.size)));
+      if (kind === 'export') { requireThat(payload && 'filename' in payload, 'invalid_export_payload'); argv.push('--output-name', payload.filename, '--limit-bytes', String(Math.max(1, payload.size))); }
       let result;
       try { result = await executeGuard(argv, acquirePermit); }
       catch (error) { unquiescent = true; throw error; }
       if (!result.quiescent) unquiescent = true;
       if (result.ok && kind === 'export') {
+        requireThat(payload && 'filename' in payload, 'invalid_export_payload');
         const file = join(exportsRoot, payload.filename), before = regular(file, payload.limit);
         const bytes = readBoundedRegularFile(file, payload.limit), after = regular(file, payload.limit);
         requireThat(before.dev === after.dev && before.ino === after.ino && before.size === after.size, 'export_inode_drift');
@@ -330,13 +392,14 @@ function productionIO(workspace, developerDir) {
       requireThat(!unquiescent, 'output_close_quiescence_unverified');
       const all = [...readdirSync(exportsRoot), ...readdirSync(ready)]; requireThat(all.every(x => filenames.has(x)), 'unexpected_output_file');
       let retained = bytes.length;
-      for (const folder of [exportsRoot, ready]) for (const name of readdirSync(folder)) retained += regular(join(folder, name), fileLimits[name]).size;
+      for (const folder of [exportsRoot, ready]) for (const name of readdirSync(folder)) { requireThat(Object.hasOwn(fileLimits, name), 'unexpected_output_file'); retained += regular(join(folder, name), fileLimits[/** @type {keyof typeof fileLimits} */ (name)]).size; }
       requireThat(retained <= LIMITS.retained, 'actual_output_limit');
       writeFileSync(join(ready, 'manifest.json'), bytes, { flag: 'wx', mode: 0o600 });
     },
   };
 }
 
+/** @param {{env?: Readonly<Record<string, string | undefined>>, workspace?: string, readEvent?: (path: string) => Buffer, makeIO?: (workspace: string, developerDir: string | undefined) => import('./native-attachment-types.d.mts').NativeAttachmentIO | Promise<import('./native-attachment-types.d.mts').NativeAttachmentIO>, now?: () => number}} [options] */
 export async function runCLI({ env = process.env, workspace = process.cwd(), readEvent = path => readBoundedRegularFile(path, 262144), makeIO = productionIO, now } = {}) {
   const budget = deadlineBudget(now ?? (() => performance.now()));
   requireThat(typeof env.GITHUB_EVENT_PATH === 'string' && env.GITHUB_EVENT_PATH.length < 4096, 'event_path');

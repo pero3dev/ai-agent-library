@@ -1,4 +1,5 @@
 import test from 'node:test';
+import { requiredFixture } from '../helpers/json-fixtures.mjs';
 import assert from 'node:assert/strict';
 import { compareInstalledInventory } from '../../ios/tests/installed-inventory.mjs';
 
@@ -10,9 +11,12 @@ const observed = [
   'Frameworks/XCUnit.framework/XCUnit', 'Frameworks/libXCTestBundleInject.dylib',
   'Frameworks/libXCTestSwiftSupport.dylib', 'PlugIns/AILibraryTests.xctest/AILibraryTests', '__preview.dylib',
 ];
+/** @param {string} path @param {number} [mode] */
 const row = (path, mode = 0o755) => ({ path, bytes: 42, mode, sha256: 'a'.repeat(64) });
 const baseline = () => [...observed.map(path => row(path)), row('AILibrary'), row('Content/articles/article.json', 0o644), row('Info.plist', 0o644)];
+/** @template T @param {T} value @returns {T} */
 const clone = value => structuredClone(value);
+/** @param {unknown} left @param {unknown} right */
 const compare = (left, right) => compareInstalledInventory(clone(left), clone(right));
 
 test('unchanged source/install inventory matches without normalizing modes', () => {
@@ -28,7 +32,7 @@ test('all twelve observed 0755 to 0644 transitions preserve complete content ide
   for (const delta of result.deltas) { assert.deepEqual(delta.changes, ['mode']); assert.equal(delta.accepted, true); }
 });
 test('an installed subset may retain source 0755 and inventory ordering is immaterial', () => {
-  const source = baseline(), actual = clone(source).reverse(); actual.find(x => x.path === observed[0]).mode = 0o644;
+  const source = baseline(), actual = clone(source).reverse(); requiredFixture(actual.find(x => x.path === observed[0])).mode = 0o644;
   const result = compare(source, actual); assert.equal(result.status, 'matched'); assert.equal(result.mode_deltas.length, 1);
 });
 test('comparison preserves caller arrays, rows and values', () => {
@@ -39,7 +43,7 @@ test('comparison preserves caller arrays, rows and values', () => {
 for (const path of ['AILibrary', 'Content/articles/article.json', 'Info.plist', 'Frameworks/Unknown.framework/Unknown']) {
   test('refuses mode drift outside the exact twelve paths: ' + path, () => {
     const source = baseline(); if (!source.some(x => x.path === path)) source.push(row(path));
-    const actual = clone(source); actual.find(x => x.path === path).mode ^= 0o111;
+    const actual = clone(source); requiredFixture(actual.find(x => x.path === path)).mode ^= 0o111;
     const result = compare(source, actual); assert.equal(result.status, 'mismatch'); assert(result.error_count > 0);
   });
 }
@@ -56,7 +60,7 @@ test('refuses using the exception when source mode is already 0644', () => {
 for (const field of ['bytes', 'sha256']) {
   test('refuses changed content even when its path also has an allowed mode change: ' + field, () => {
     const source = baseline(), actual = clone(source); actual[0].mode = 0o644;
-    actual[0][field] = field === 'bytes' ? 43 : 'b'.repeat(64);
+    Reflect.set(actual[0], field, field === 'bytes' ? 43 : 'b'.repeat(64));
     assert.equal(compare(source, actual).status, 'mismatch');
   });
 }
@@ -76,11 +80,11 @@ for (const path of ['../outside', '/absolute', 'a//b', 'a/./b', 'a/../b', 'a\\b'
     assert.equal(compare([row(path)], [row(path)]).status, 'mismatch');
   });
 }
-for (const mutate of [
+for (const mutate of /** @type {((x:Record<string,unknown>)=>void)[]} */ ([
   x => { x.bytes = -1; }, x => { x.bytes = 1.5; }, x => { x.bytes = Number.MAX_SAFE_INTEGER + 1; },
   x => { x.mode = 0o1755; }, x => { x.mode = '0755'; }, x => { x.sha256 = 'abc'; },
   x => { x.sha256 = 'A'.repeat(64); }, x => { x.extra = true; }, x => { x.path = 2; },
-]) {
+])) {
   test('refuses malformed rows without throwing', () => {
     const value = row('AILibrary'); mutate(value);
     assert.equal(compare([row('AILibrary')], [value]).status, 'mismatch');

@@ -1,6 +1,9 @@
 import Link from 'next/link'
-import report from '../../generated/freshness.json'
+import reportData from '../../generated/freshness.json'
+import type { FreshnessReport } from '../../lib/content-types'
 import { pageMetadata } from '../../lib/page-metadata.mjs'
+
+const report: FreshnessReport = reportData
 
 export const metadata = pageMetadata('/freshness', '記事の確認状況', '系統ごとの一次情報の確認範囲、部分観測日、次回確認期日と証拠を公開します。未確認を明示します。')
 const labels: Record<string, string> = { current: '期日内', overdue: '確認期日を超過', unknown: '宣言範囲の確認記録なし' }

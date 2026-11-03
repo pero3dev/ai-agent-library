@@ -1,4 +1,6 @@
-export function publicUrl(route, env = process.env) {
+import type { Metadata } from 'next'
+
+export function publicUrl(route: string, env: Readonly<Record<string, string | undefined>> = process.env) {
   const configured = env.NEXT_PUBLIC_SITE_URL
   if (env.STATIC_EXPORT === '1' && !configured) throw new Error('静的公開ビルドには NEXT_PUBLIC_SITE_URL が必要です')
   const url = new URL(configured || 'http://localhost:3000')
@@ -11,7 +13,7 @@ export function publicUrl(route, env = process.env) {
   return url.href
 }
 
-export function pageMetadata(route, title, description, modified) {
+export function pageMetadata(route: string, title: string, description: string, modified?: string | null): Metadata {
   const url = publicUrl(route)
   return {
     title, description, alternates: { canonical: url },
@@ -19,14 +21,14 @@ export function pageMetadata(route, title, description, modified) {
   }
 }
 
-export function plainSummary(text, title) {
+export function plainSummary(text: string, title: string) {
   const section = text.match(/^## この記事の目的\s*\n([\s\S]*?)(?=^## |$(?![\s\S]))/m)?.[1]
   const paragraph = (section || text.replace(/^---[\s\S]*?---\s*/, '').replace(/^# .+\n/, '')).trim().split(/\n\s*\n/)[0]
   const plain = paragraph.replace(/\[([^\]]+)\]\([^)]*\)/g, '$1').replace(/[*`>#]/g, '').replace(/\s+/g, ' ').trim()
   return (plain || title).slice(0, 180)
 }
 
-export function publicSectionIndex(text, repoRel, texts, getTitle) {
+export function publicSectionIndex(text: string, repoRel: string, texts: ReadonlyMap<string, string>, getTitle: (text: string) => string | null) {
   const dir = repoRel.slice(0, repoRel.lastIndexOf('/') + 1)
   return text.replace(/## 収録予定ドキュメント/g, '## この章の記事')
     .replace(/^ファイル名がリンクになっているものは執筆済みです[^\n]*\n?/gm, '')

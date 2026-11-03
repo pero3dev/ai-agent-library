@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+/// <reference path="../renderer/reader-types.d.ts" />
+/// <reference path="./reader-check-types.d.ts" />
 // Tests the exported article renderer, not an iOS Simulator or native application.
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
@@ -7,9 +9,11 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
-const require = createRequire(path.join(root, 'ios/tools/package.json'));
-const { chromium } = require('@playwright/test');
+const loadTool = createRequire(path.join(root, 'ios/tools/package.json'));
+/** @type {typeof import('../tools/node_modules/@playwright/test/index.js')} */
+const { chromium } = loadTool('@playwright/test');
 const content = path.join(root, 'ios/AILibrary/Content');
+/** @type {{ revision: string; articles: { id: string; title: string; html_path: string; headings: { id: string; level: number }[] }[] }} */
 const manifest = JSON.parse(await readFile(path.join(content, 'manifest.json'), 'utf8'));
 const evidence = path.join(root, '.local/ios-evidence');
 await mkdir(evidence, { recursive: true });
@@ -22,7 +26,9 @@ try {
     window.webkit = { messageHandlers: { reader: { postMessage: message => window.__readerMessages.push(message) } } };
   });
   const page = await context.newPage();
+  /** @type {string[]} */
   const errors = [];
+  /** @type {string[]} */
   const remoteRequests = [];
   page.on('pageerror', error => errors.push(error.message));
   page.on('request', request => { if (/^https?:/.test(request.url())) remoteRequests.push(request.url()); });
@@ -35,9 +41,9 @@ try {
     const codeBlocks = await page.locator('pre code').count();
     if (!article.id.includes('transformer')) assert.ok(codeBlocks > 0);
     await page.waitForFunction(() => [...document.images].every(image => image.complete && image.naturalWidth > 0));
-    const brokenAnchors = await page.locator('a[href^="#"]').evaluateAll(links => links.map(link => decodeURIComponent(link.hash.slice(1))).filter(id => id && !document.getElementById(id)));
+    const brokenAnchors = await page.locator('a[href^="#"]').evaluateAll(links => links.map(link => decodeURIComponent(link.getAttribute('href')?.slice(1) ?? '')).filter(id => id && !document.getElementById(id)));
     assert.deepEqual(brokenAnchors, [], `${article.id}: broken anchors`);
-    for (const colorScheme of ['light', 'dark']) {
+    for (const colorScheme of /** @type {const} */ (['light', 'dark'])) {
       await page.emulateMedia({ colorScheme });
       await page.waitForFunction(() => [...document.images].every(image => image.complete && image.naturalWidth > 0));
       for (const width of [390, 320]) {
@@ -54,8 +60,9 @@ try {
     await page.evaluate(() => window.reader.restore({ fraction: .53, fontScale: 1 }));
     await page.waitForFunction(() => Math.abs(scrollY / (document.documentElement.scrollHeight - innerHeight) - .53) < .025);
     const heading = article.headings.find(value => value.level === 3) || article.headings[1];
+    assert.ok(heading, `${article.id}: a heading is required for restoration`);
     await page.evaluate(id => window.reader.goToHeading(id), heading.id);
-    await page.waitForFunction(id => Math.abs(document.getElementById(id).getBoundingClientRect().top) < 80, heading.id);
+    await page.waitForFunction(id => { const element = document.getElementById(id); return element && Math.abs(element.getBoundingClientRect().top) < 80; }, heading.id);
     await page.evaluate(() => window.reader.restore({ heading: 'missing-heading', fraction: .31, fontScale: 1 }));
     await page.waitForFunction(() => Math.abs(scrollY / (document.documentElement.scrollHeight - innerHeight) - .31) < .025);
     if (codeBlocks > 0) {

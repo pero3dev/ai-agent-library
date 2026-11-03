@@ -4,6 +4,12 @@ import { execFileSync } from 'node:child_process'
 import { closeSync, constants, existsSync, fstatSync, lstatSync, mkdirSync, mkdtempSync, openSync, readFileSync, readSync, readdirSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
+import { legacyNode, resultDetails, resultObject } from './xcresult-json.mjs'
+/** @typedef {import('./xcresult-types.ts').LegacyNode} LegacyNode */
+/** @typedef {import('./xcresult-types.ts').PerformanceExportOptions} ExportOptions */
+/** @typedef {import('./xcresult-types.ts').CommandReceipt} CommandReceipt */
+/** @typedef {import('./xcresult-types.ts').ExecutionError} ExecutionError */
+/** @typedef {{coefficient: bigint, scale: number}} ExactDecimal */
 
 const launchScenario = 'launch-to-published-readiness'
 const searchScenario = 'search-query-to-visible-witness'
@@ -36,12 +42,18 @@ const scenarioContracts = Object.freeze({
   })
 })
 
+/** @overload @param {'long-article-bounded-scroll'} name @returns {typeof scenarioContracts['long-article-bounded-scroll']} */
+/** @overload @param {'search-query-to-visible-witness'} name @returns {typeof scenarioContracts['search-query-to-visible-witness']} */
+/** @overload @param {unknown} [name] @returns {typeof scenarioContracts[keyof typeof scenarioContracts]} */
+/** @param {unknown} [name] */
 export function performanceScenario(name = launchScenario) {
   if (typeof name !== 'string' || !Object.hasOwn(scenarioContracts, name)) throw new Error('Unknown performance scenario')
-  return scenarioContracts[name]
+  return scenarioContracts[/** @type {keyof typeof scenarioContracts} */ (name)]
 }
 
+/** @param {unknown} context @param {string} [requested] */
 export function verifiedScenarioContext(context, requested = launchScenario) {
+  resultObject(context)
   const selected = performanceScenario(requested)
   // Missing scenario is accepted only for the already-observed legacy launch context.
   if ((context.scenario === undefined ? launchScenario : context.scenario) !== selected.name ||
@@ -49,25 +61,29 @@ export function verifiedScenarioContext(context, requested = launchScenario) {
     throw new Error('Measurement context and explicitly selected scenario/method must agree')
   }
   if (selected.name === searchScenario && (context.scenario !== selected.name || context.test_method !== selected.method ||
-      !context.search_witness || Object.keys(context.search_witness).length !== 3 ||
-      Object.entries(selected.search_witness).some(([key, value]) => context.search_witness[key] !== value))) {
+      !context.search_witness || typeof context.search_witness !== 'object' || Array.isArray(context.search_witness) || Object.keys(context.search_witness).length !== 3 ||
+      Object.entries(selected.search_witness).some(([key, value]) => /** @type {Record<string, unknown>} */ (context.search_witness)[key] !== value))) {
     throw new Error('The explicit search scenario requires its fixed query and article witness context')
   }
   if (selected.name === scrollScenario) {
-    if (!Number.isInteger(context.expected_articles) || context.expected_articles < 4 || context.expected_articles > 2000 ||
+    if (typeof context.expected_articles !== 'number' || !Number.isInteger(context.expected_articles) || context.expected_articles < 4 || context.expected_articles > 2000 ||
         context.configuration !== 'Debug' || context.scenario !== selected.name || context.test_method !== selected.method ||
         !sameFields(context.scroll_witness, selected.scroll_witness)) {
       throw new Error('The explicit scroll scenario requires its exact fixed workload context')
     }
     const input = context.scroll_input_binding
-    if (!input || Object.keys(input).length !== 6 ||
+    const app = context.actual_app_package
+    if (!input || typeof input !== 'object' || Array.isArray(input)) throw new Error('The scroll workload requires an input binding')
+    resultObject(input)
+    if (Object.keys(input).length !== 6 ||
         input.source_sha256 !== selected.scroll_witness.expected_source_sha256 ||
         input.document_source_sha256 !== input.source_sha256 ||
-        !/^[a-f0-9]{64}$/.test(input.document_sha256) ||
+        typeof input.document_sha256 !== 'string' || !/^[a-f0-9]{64}$/.test(input.document_sha256) ||
         input.manifest_document_sha256 !== input.document_sha256 ||
-        !/^[a-f0-9]{64}$/.test(input.manifest_sha256) || input.actual_Debug_package_audit !== 'passed' ||
-        context.actual_app_package?.status !== 'passed' ||
-        context.actual_app_package?.articles !== context.expected_articles) {
+        typeof input.manifest_sha256 !== 'string' || !/^[a-f0-9]{64}$/.test(input.manifest_sha256) || input.actual_Debug_package_audit !== 'passed' ||
+        !app || typeof app !== 'object' || Array.isArray(app) ||
+        /** @type {Record<string, unknown>} */ (app).status !== 'passed' ||
+        /** @type {Record<string, unknown>} */ (app).articles !== context.expected_articles) {
       throw new Error('The scroll workload must bind source, generated actual Debug document, manifest and package audit')
     }
   }
@@ -85,11 +101,14 @@ const verifiedClockContract = Object.freeze({
     CSV_sha256: '154faa23ef6bb36ff08759061026f2b183604ce8f2517eb89af315230ae79374'
   }
 })
+/** @param {import('node:crypto').BinaryLike} bytes */
 const digest = bytes => createHash('sha256').update(bytes).digest('hex')
 
+/** @param {unknown} actual @param {object} expected */
 const sameFields = (actual, expected) => actual && typeof actual === 'object' && !Array.isArray(actual) &&
   Object.keys(actual).length === Object.keys(expected).length &&
-  Object.entries(expected).every(([key, value]) => actual[key] === value)
+  Object.entries(expected).every(([key, value]) => /** @type {Record<string, unknown>} */ (actual)[key] === value)
+/** @param {Uint8Array} bytes */
 const boundedUTF8 = bytes => {
   if (!(bytes instanceof Uint8Array) || !bytes.length || bytes.length > maxJSONBytes) throw new Error('Invalid or oversized scroll evidence')
   return new TextDecoder('utf-8', { fatal: true }).decode(bytes)
@@ -97,35 +116,48 @@ const boundedUTF8 = bytes => {
 
 // Workflow calls this on the already-audited actual Debug app, not on a claimed
 // runtime source hash. The UI protocol carries the expected hash only.
+/** @param {Uint8Array} sourceBytes @param {Uint8Array} manifestBytes @param {Uint8Array} documentBytes @param {unknown} packageAudit
+ * @returns {{source_sha256: string, document_source_sha256: string, document_sha256: string, manifest_document_sha256: string, manifest_sha256: string, actual_Debug_package_audit: string}}
+ */
 export function bindLongScrollInput(sourceBytes, manifestBytes, documentBytes, packageAudit) {
   boundedUTF8(sourceBytes)
-  const manifest = JSON.parse(boundedUTF8(manifestBytes)), document = JSON.parse(boundedUTF8(documentBytes))
-  const expected = performanceScenario(scrollScenario).scroll_witness
-  const matches = manifest.articles?.filter(article => article.id === expected.article_id)
+  /** @type {unknown} */
+  const manifest = JSON.parse(boundedUTF8(manifestBytes))
+  /** @type {unknown} */
+  const document = JSON.parse(boundedUTF8(documentBytes))
+  resultObject(manifest); resultObject(document); resultObject(packageAudit)
+  const expected = scenarioContracts[scrollScenario].scroll_witness
+  const matches = Array.isArray(manifest.articles) ? manifest.articles.filter(article => { resultObject(article); return article.id === expected.article_id }) : []
   const documentSHA = digest(documentBytes), sourceSHA = digest(sourceBytes)
-  if (packageAudit?.status !== 'passed' || !Number.isInteger(packageAudit.articles) ||
+  const manifestFiles = manifest.files; resultObject(manifestFiles)
+  if (packageAudit.status !== 'passed' || typeof packageAudit.articles !== 'number' || !Number.isInteger(packageAudit.articles) ||
       packageAudit.articles < 4 || packageAudit.articles > 2000 || manifest.schema_version !== 2 ||
       !Array.isArray(manifest.articles) || manifest.articles.length !== packageAudit.articles || matches?.length !== 1 ||
       matches[0].title !== expected.article_title || matches[0].source_path !== expected.source_path ||
       matches[0].document_path !== expected.document_path || matches[0].source_sha256 !== sourceSHA ||
-      sourceSHA !== expected.expected_source_sha256 || manifest.files?.[expected.document_path] !== documentSHA ||
+      sourceSHA !== expected.expected_source_sha256 || manifestFiles[expected.document_path] !== documentSHA ||
       document.schema_version !== 1 || document.article_id !== expected.article_id || document.source_sha256 !== sourceSHA ||
       !Array.isArray(document.blocks)) throw new Error('Fixed scroll source/document/manifest bytes disagree')
-  const heading = id => document.blocks.map((block, index) => ({ block, index }))
+  /** @param {string} id */
+  const heading = id => /** @type {unknown[]} */ (document.blocks).map((block, index) => { resultObject(block); return { block, index } })
     .filter(({ block }) => block.type === 'heading' && block.heading_id === id)
   const start = heading(expected.start_heading_id), end = heading(expected.end_heading_id)
-  const label = block => block.inlines?.length === 1 && block.inlines[0].type === 'text' ? block.inlines[0].text : null
+  /** @param {Record<string, unknown>} block */
+  const label = block => { const values = block.inlines; if (!Array.isArray(values) || values.length !== 1) return null; const item = values[0]; resultObject(item); return item.type === 'text' ? item.text : null }
   if (start.length !== 1 || end.length !== 1 || start[0].index >= end[0].index ||
       label(start[0].block) !== expected.start_label || label(end[0].block) !== expected.end_label) {
     throw new Error('The fixed scroll headings must be unique, ordered and label-matched in the actual document')
   }
   return { source_sha256: sourceSHA, document_source_sha256: document.source_sha256,
-    document_sha256: documentSHA, manifest_document_sha256: manifest.files[expected.document_path],
+    document_sha256: documentSHA, manifest_document_sha256: documentSHA,
     manifest_sha256: digest(manifestBytes), actual_Debug_package_audit: 'passed' }
 }
 
+/** @param {Uint8Array} bytes @param {unknown} context */
 export function parseLongScrollProtocol(bytes, context) {
   const selected = verifiedScenarioContext(context, scrollScenario)
+  resultObject(context)
+  if (selected.name !== scrollScenario) throw new Error('Expected fixed scroll scenario')
   const text = boundedUTF8(bytes)
   const lines = text.split(/\r?\n/)
   const records = lines.map((line, index) => ({ line, index })).filter(({ line }) => line.includes(scrollProtocolPrefix))
@@ -133,7 +165,9 @@ export function parseLongScrollProtocol(bytes, context) {
   const line = records[0].line, position = line.indexOf(scrollProtocolPrefix)
   const payload = line.slice(position + scrollProtocolPrefix.length)
   if (Buffer.byteLength(payload) > 8192) throw new Error('Scroll protocol exceeds its8-KiB bound')
+  /** @type {unknown} */
   const record = JSON.parse(payload)
+  resultObject(record)
   const keys = ['schema_version', 'scenario', 'metric', 'expected_articles', 'workload', 'declared_recorded_iterations',
     'block_invocations', 'discarded_warmup_invocations', 'invocations']
   if (!record || typeof record !== 'object' || Array.isArray(record) ||
@@ -146,19 +180,22 @@ export function parseLongScrollProtocol(bytes, context) {
     throw new Error('Scroll protocol workload, counts and selected context must agree exactly')
   }
   for (const [index, item] of record.invocations.entries()) {
+    resultObject(item)
     if (!item || Object.keys(item).length !== 7 || item.index !== index + 1 ||
-        !Number.isInteger(item.swipes) || item.swipes < 1 || item.swipes > selected.scroll_witness.maximum_swipes ||
+        typeof item.swipes !== 'number' || !Number.isInteger(item.swipes) || item.swipes < 1 || item.swipes > selected.scroll_witness.maximum_swipes ||
         item.start_fully_visible !== true || item.end_initially_fully_visible !== false || item.end_fully_visible !== true ||
-        !Number.isFinite(item.start_offset_points) || item.start_offset_points < 0 ||
+        typeof item.start_offset_points !== 'number' || !Number.isFinite(item.start_offset_points) || item.start_offset_points < 0 ||
         item.start_offset_points > selected.scroll_witness.start_offset_max_points ||
-        !Number.isFinite(item.end_offset_points) || item.end_offset_points < 0) {
+        typeof item.end_offset_points !== 'number' || !Number.isFinite(item.end_offset_points) || item.end_offset_points < 0) {
       throw new Error('Four ordered complete bounded-scroll invocations and start/end witnesses are required')
     }
   }
-  return { protocol: record, log_bytes: bytes.length, log_sha256: digest(bytes),
+  // Exact fields, workload identity and all four invocation shapes passed above.
+  return { protocol: /** @type {import('./xcresult-types.ts').ScrollProtocol} */ (/** @type {unknown} */ (record)), log_bytes: bytes.length, log_sha256: digest(bytes),
     scope: 'Runner-declared expected source hash; generated Debug input is bound separately; one warm-up plus three Clock records, not frames/FPS/Release/device/SLO' }
 }
 
+/** @param {string} file @param {unknown} context */
 function readScrollProtocol(file, context) {
   assertNoSymlinkAncestors(file)
   const fd = openSync(file, constants.O_RDONLY | (constants.O_NOFOLLOW ?? 0))
@@ -177,6 +214,7 @@ function readScrollProtocol(file, context) {
   } finally { closeSync(fd) }
 }
 
+/** @param {string} [requested] */
 export function performanceNotMeasured(requested = launchScenario) {
   const selected = performanceScenario(requested)
   const unmeasured = ['first-frame launch', 'disk-cold or first install', 'Release', 'physical device', 'CPU', 'memory', 'per-keystroke response', 'scrolling', 'image decoding', 'product performance budgets']
@@ -185,8 +223,10 @@ export function performanceNotMeasured(requested = launchScenario) {
     : unmeasured
 }
 
+/** @param {string[]} args @returns {ExportOptions} */
 function parseOptions(args) {
   const allowed = new Set(['result', 'output', 'context', 'scenario', 'protocol-log'])
+  /** @type {Record<string, string>} */
   const options = {}
   for (let i = 0; i < args.length; i += 2) {
     const name = args[i]?.replace(/^--/, '')
@@ -196,24 +236,29 @@ function parseOptions(args) {
     options[name] = name === 'scenario' ? performanceScenario(args[i + 1]).name : path.resolve(args[i + 1])
   }
   if (['result', 'output', 'context'].some(key => !Object.hasOwn(options, key))) throw new Error('All result/output/context paths are required')
-  return options
+  return { ...options, result: options.result, output: options.output, context: options.context }
 }
 
+/** @param {string} file @returns {unknown} */
 function readJSON(file) {
   const data = readFileSync(file)
   if (data.length > maxJSONBytes) throw new Error('Oversized JSON evidence')
   return JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(data))
 }
 
+/** @param {unknown} value @param {(node: Record<string, unknown>) => void} visit */
 function walk(value, visit) {
   if (!value || typeof value !== 'object') return
-  visit(value)
+  if (!Array.isArray(value)) visit(/** @type {Record<string, unknown>} */ (value))
   if (Array.isArray(value)) for (const child of value) walk(child, visit)
   else for (const child of Object.values(value)) walk(child, visit)
 }
 
+/** @param {unknown} report @param {string} [requested] */
 export function verifiedCase(report, requested = launchScenario) {
+  resultObject(report)
   const selected = performanceScenario(requested)
+  /** @type {Record<string, unknown>[]} */
   const cases = []
   walk(report.testNodes, node => {
     if (node.nodeType === 'Test Case') cases.push(node)
@@ -223,23 +268,29 @@ export function verifiedCase(report, requested = launchScenario) {
   const id = test.nodeIdentifier
   if (typeof id !== 'string' || id.length > 500 ||
       !id.split('/').includes(className) ||
-      !id.endsWith('/' + selected.method + '()') || !['Passed', 'Failed'].includes(test.result)) {
+      !id.endsWith('/' + selected.method + '()') || (test.result !== 'Passed' && test.result !== 'Failed')) {
     throw new Error('The selected dedicated performance case is missing, skipped or has an unexpected identifier')
   }
   return id
 }
 
-export function verifiedDetails(report, details, id) {
+/** @param {unknown} report @param {unknown} value @param {string} id */
+export function verifiedDetails(report, value, id) {
+  resultObject(report)
+  const details = resultDetails(value)
+  /** @type {Record<string, unknown>[]} */
   const cases = []
   walk(report.testNodes, node => { if (node.nodeType === 'Test Case') cases.push(node) })
   if (cases.length !== 1 || details.testIdentifier !== id ||
-      details.testResult !== cases[0].result || !['Passed', 'Failed'].includes(details.testResult)) {
+      details.testResult !== cases[0].result || (details.testResult !== 'Passed' && details.testResult !== 'Failed')) {
     throw new Error('Test-list and detail identifiers/results must agree for the same executed case')
   }
 }
 
 /// Types/fields are from Xcode's formatDescription --legacy, not guessed from CSV columns.
-export function normalizeMetrics(summary, id, modernResult) {
+/** @param {unknown} value @param {string} id @param {string|undefined} modernResult */
+export function normalizeMetrics(value, id, modernResult) {
+  const summary = legacyNode(value)
   if (summary._type?._name !== 'ActionTestSummary' || summary.identifier?._value !== id) {
     throw new Error('Legacy summary type and identifier must match the verified executed case')
   }
@@ -287,6 +338,7 @@ export function normalizeMetrics(summary, id, modernResult) {
 
 // Xcode 16.4 exported two fully quoted records. Parse quoted fields instead of
 // splitting commas: the iteration array itself contains commas.
+/** @param {string} text @returns {[string[], string[]]} */
 function quotedCSV(text) {
   if (typeof text !== 'string' || !text.length || text.includes('\0')) throw new Error('Invalid CSV text')
   const rows = []
@@ -318,11 +370,12 @@ function quotedCSV(text) {
     if (rows.length > 2) throw new Error('Expected exactly one CSV header and data row')
   }
   if (rows.length !== 2 || rows.some(row => row.length !== 5)) throw new Error('Expected five CSV headers and one data row')
-  return rows
+  return [rows[0], rows[1]]
 }
 
 // Exact decimal arithmetic makes the rounding allowance come solely from the
 // CSV's printed last place. No empirical percentage or timing tolerance is used.
+/** @param {unknown} value */
 function decimal(value) {
   const source = String(value)
   const match = /^(0|[1-9]\d*)(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/.exec(source)
@@ -332,14 +385,19 @@ function decimal(value) {
   const scale = (match[2]?.length ?? 0) - exponent
   return { coefficient: BigInt(match[1] + (match[2] ?? '')), scale, number: Number(source), source }
 }
+/** @param {number} exponent */
 const power10 = exponent => 10n ** BigInt(exponent)
+/** @param {ExactDecimal} value @param {number} scale */
 const decimalUnits = (value, scale) => value.coefficient * power10(scale - value.scale)
+/** @param {ExactDecimal} left @param {ExactDecimal} right */
 function equalDecimal(left, right) {
   const scale = Math.max(0, left.scale, right.scale)
   return decimalUnits(left, scale) === decimalUnits(right, scale)
 }
 
-export function validateClockCSV(text, metric, details) {
+/** @param {string} text @param {ReturnType<typeof normalizeMetrics>[number]} metric @param {unknown} value */
+export function validateClockCSV(text, metric, value) {
+  const details = resultDetails(value)
   if (metric.identifier !== verifiedClockContract.identifier ||
       metric.display_name !== verifiedClockContract.display_name || metric.unit !== verifiedClockContract.unit) {
     throw new Error('Recorded identifier, display name and unit must match the verified clock contract')
@@ -397,19 +455,22 @@ export function validateClockCSV(text, metric, details) {
   }
 }
 
+/** @param {unknown} testPlan @param {string} expectedID */
 export function metricReference(testPlan, expectedID) {
+  /** @type {string[]} */
   const matches = []
   walk(testPlan, node => {
-    const id = node.identifier?._value
-    if (node._type?._name === 'ActionTestMetadata' && typeof id === 'string' &&
+    const legacy = legacyNode(node), id = legacy.identifier?._value
+    if (legacy._type?._name === 'ActionTestMetadata' && typeof id === 'string' &&
         id === expectedID &&
-        typeof node.summaryRef?.id?._value === 'string') matches.push(node.summaryRef.id._value)
+        typeof legacy.summaryRef?.id?._value === 'string') matches.push(legacy.summaryRef.id._value)
   })
   const unique = [...new Set(matches)]
   if (unique.length !== 1) throw new Error('Expected one legacy summary reference for the verified readiness case')
   return unique[0]
 }
 
+/** @param {string[]} args */
 function runXcode(args) {
   return execFileSync('xcrun', ['xcresulttool', ...args], {
     encoding: 'utf8', timeout: 60000, maxBuffer: maxJSONBytes, stdio: ['ignore', 'pipe', 'pipe']
@@ -422,24 +483,29 @@ const evidenceNames = new Set([
   'test-summary.legacy.json', 'long-scroll-protocol.json'
 ])
 
+/** @param {string} file */
 function assertNoSymlinkAncestors(file) {
   for (let current = file; ; current = path.dirname(current)) {
     try {
       if (lstatSync(current).isSymbolicLink()) throw new Error('Evidence/input paths cannot contain symbolic links')
-    } catch (error) { if (error.code !== 'ENOENT') throw error }
+    } catch (error) { if (!(error instanceof Error) || !('code' in error) || error.code !== 'ENOENT') throw error }
     if (path.dirname(current) === current) break
   }
 }
 
+/** @param {string} directory @param {string} file */
 function includesPath(directory, file) {
   const relative = path.relative(directory, file)
   return relative === '' || (!relative.startsWith('..' + path.sep) && relative !== '..' && !path.isAbsolute(relative))
 }
 
+/** @param {{dev: number|bigint, ino: number|bigint}} stat */
 const inodeKey = stat => `${stat.dev}:${stat.ino}`
 
+/** @param {ExportOptions} input */
 function prepareOutput(input) {
-  const options = Object.fromEntries(['result', 'output', 'context'].map(key => [key, path.resolve(input[key])]))
+  /** @type {ExportOptions} */
+  const options = { result: path.resolve(input.result), output: path.resolve(input.output), context: path.resolve(input.context) }
   for (const file of Object.values(options)) assertNoSymlinkAncestors(file)
   options.scenario = performanceScenario(input.scenario).name
   if (Object.hasOwn(input, 'protocol-log')) {
@@ -466,7 +532,7 @@ function prepareOutput(input) {
   const inputInodes = new Set()
   for (const file of protectedInputs) {
     try { inputInodes.add(inodeKey(lstatSync(file, { bigint: true }))) }
-    catch (error) { if (error.code !== 'ENOENT') throw error }
+    catch (error) { if (!(error instanceof Error) || !('code' in error) || error.code !== 'ENOENT') throw error }
   }
   mkdirSync(path.dirname(options.output), { recursive: true })
   assertNoSymlinkAncestors(path.dirname(options.output))
@@ -474,7 +540,7 @@ function prepareOutput(input) {
   // raw evidence or any pre-existing symlink/hardlink leaf from being replaced.
   try { mkdirSync(options.output, { mode: 0o700 }) }
   catch (error) {
-    if (error.code === 'EEXIST') throw new Error('Evidence output must be a fresh directory that does not already exist')
+    if (error instanceof Error && 'code' in error && error.code === 'EEXIST') throw new Error('Evidence output must be a fresh directory that does not already exist')
     throw error
   }
   const rootInode = inodeKey(lstatSync(options.output, { bigint: true }))
@@ -485,6 +551,7 @@ function prepareOutput(input) {
   }
   return {
     options, output: options.output,
+    /** @param {string} name @param {string|Uint8Array} bytes */
     write(name, bytes) {
       if (!evidenceNames.has(name)) throw new Error('Unknown fixed evidence filename')
       assertOwnedRoot()
@@ -507,46 +574,56 @@ function prepareOutput(input) {
   }
 }
 
+/** @param {unknown} error */
 function failureResult(error) {
-  return { schema_version: 1, status: 'failed-or-unavailable', error: String(error.message),
-    measurements: null, command_result: error.execution ?? null, acceptance_status: 'unadopted' }
+  const failure = /** @type {ExecutionError} */ (error instanceof Error ? error : new Error(String(error)))
+  return { schema_version: 1, status: 'failed-or-unavailable', error: failure.message,
+    measurements: null, command_result: failure.execution ?? null, acceptance_status: 'unadopted' }
 }
 
+/** @param {ExportOptions} options @param {ReturnType<typeof prepareOutput>} evidence @param {CommandReceipt[]} commands */
 function collectPerformance(options, evidence, commands) {
   const output = options.output
+  /** @param {string[]} args */
   const run = args => {
     try {
       const raw = runXcode(args)
       commands.push({ arguments: ['xcresulttool', ...args], exit_code: 0 })
       return raw
     } catch (error) {
-      error.execution = { arguments: ['xcresulttool', ...args], exit_code: error.status ?? null }
-      commands.push(error.execution)
-      throw error
+      const failure = /** @type {ExecutionError} */ (error instanceof Error ? error : new Error(String(error)))
+      failure.execution = { arguments: ['xcresulttool', ...args], exit_code: failure.status ?? null }
+      commands.push(failure.execution)
+      throw failure
     }
   }
+  /** @param {string[]} args @param {string} name @returns {unknown} */
   const jsonCommand = (args, name) => {
     const raw = run(args)
     evidence.write(name, raw)
     return JSON.parse(raw)
   }
   const context = readJSON(options.context)
-  if (!Number.isInteger(context.expected_articles) || context.expected_articles < 4 ||
+  resultObject(context)
+  if (typeof context.expected_articles !== 'number' || !Number.isInteger(context.expected_articles) || context.expected_articles < 4 ||
       context.expected_articles > 2000 || context.configuration !== 'Debug') {
     throw new Error('Invalid independent article count or measurement configuration')
   }
   const selected = verifiedScenarioContext(context, options.scenario)
-  const scrollProtocol = selected.name === scrollScenario ? readScrollProtocol(options['protocol-log'], context) : null
+  if (selected.name === scrollScenario && !options['protocol-log']) throw new Error('Scroll protocol log is required')
+  const scrollProtocol = selected.name === scrollScenario && options['protocol-log'] ? readScrollProtocol(options['protocol-log'], context) : null
   if (scrollProtocol) evidence.write('long-scroll-protocol.json', JSON.stringify(scrollProtocol, null, 2) + '\n')
   if (!existsSync(options.result) || !lstatSync(options.result).isDirectory()) throw new Error('Performance xcresult is unavailable')
   const report = jsonCommand(['get', 'test-results', 'tests', '--path', options.result, '--compact'], 'tests.raw.json')
   const id = verifiedCase(report, selected.name)
-  const details = jsonCommand(['get', 'test-results', 'test-details', '--test-id', id, '--path', options.result, '--compact'], 'test-details.raw.json')
+  const details = resultDetails(jsonCommand(['get', 'test-results', 'test-details', '--test-id', id, '--path', options.result, '--compact'], 'test-details.raw.json'))
   verifiedDetails(report, details, id)
   const csvDirectory = evidence.csvDirectory()
   const csvArgs = ['export', 'metrics', '--test-id', id, '--path', options.result, '--output-path', csvDirectory]
   run(csvArgs)
+  /** @type {string[]} */
   const files = []
+  /** @param {string} directory @param {number} [depth] @returns {void} */
   const collectCSV = (directory, depth = 0) => {
     if (depth > 4 || files.length > 16) throw new Error('Unexpected CSV export layout')
     for (const name of readdirSync(directory).sort()) {
@@ -567,13 +644,13 @@ function collectPerformance(options, evidence, commands) {
     return { file: path.relative(output, file), bytes: bytes.length, sha256: digest(bytes) }
   })
   if (details.hasPerformanceMetrics !== true) throw new Error('Recorded performance metrics are required')
-  const invocation = jsonCommand(['get', 'object', '--legacy', '--path', options.result, '--format', 'json'], 'invocation.legacy.json')
+  const invocation = legacyNode(jsonCommand(['get', 'object', '--legacy', '--path', options.result, '--format', 'json'], 'invocation.legacy.json'))
   const refs = [...new Set((invocation.actions?._values ?? [])
     .map(action => action.actionResult?.testsRef?.id?._value).filter(value => typeof value === 'string'))]
   if (refs.length !== 1) throw new Error('Expected one dedicated test action')
   const plans = jsonCommand(['get', 'object', '--legacy', '--path', options.result, '--id', refs[0], '--format', 'json'], 'test-plan.legacy.json')
   const summaryRef = metricReference(plans, id)
-  const summary = jsonCommand(['get', 'object', '--legacy', '--path', options.result, '--id', summaryRef, '--format', 'json'], 'test-summary.legacy.json')
+  const summary = legacyNode(jsonCommand(['get', 'object', '--legacy', '--path', options.result, '--id', summaryRef, '--format', 'json'], 'test-summary.legacy.json'))
   const metrics = normalizeMetrics(summary, id, details.testResult)
   const csvValidation = validateClockCSV(new TextDecoder('utf-8', { fatal: true }).decode(readFileSync(files[0])), metrics[0], details)
   const clockContractConfirmed = true
@@ -595,8 +672,10 @@ function collectPerformance(options, evidence, commands) {
   return result
 }
 
+/** @param {ExportOptions} options */
 export function exportPerformance(options) {
   const evidence = prepareOutput(options)
+  /** @type {CommandReceipt[]} */
   const commands = []
   try {
     const result = collectPerformance(evidence.options, evidence, commands)
@@ -606,9 +685,9 @@ export function exportPerformance(options) {
   } catch (error) {
     // Only the already-created owned session may save a failure. Never prepare
     // the output again or overwrite any leaf if preparation/writing was refused.
-    for (const [name, value] of [
+    for (const [name, value] of /** @type {[string, unknown][]} */ ([
       ['extraction-commands.json', commands], ['performance-summary.json', failureResult(error)]
-    ]) {
+    ])) {
       try { evidence.write(name, JSON.stringify(value, null, 2) + '\n') }
       catch { /* Preserve existing evidence and the original error. */ }
     }

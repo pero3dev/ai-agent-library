@@ -35,6 +35,7 @@ const warnOnly = new Set()
 const checkNames = new Set(['front-matter', 'h2', 'todo', 'filename', 'fence'])
 // collectDocs はリンクを追跡しない。--all でリンク先の記事を黙って除外して
 // 全件成功と表示しないよう、対象探索の前にリンク自体を検出する。
+/** @param {string} dir */
 function assertNoLinkedDocs(dir) {
   if (lstatSync(dir).isSymbolicLink()) throw new Error(`--all の対象に symlink / junction は指定できません: ${toRepoRel(dir)}`)
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
@@ -72,7 +73,7 @@ try {
     if (!/^docs\/.*\.md$/i.test(toRepoRel(realpathSync(target.abs)))) throw new Error(`参照先が docs/ 配下にありません: ${target.repoRel}`)
   }
 } catch (error) {
-  console.error(`引数・対象エラー: ${error.message}`)
+  console.error(`引数・対象エラー: ${error instanceof Error ? error.message : String(error)}`)
   process.exit(1)
 }
 

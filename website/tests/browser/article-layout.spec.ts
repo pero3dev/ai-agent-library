@@ -10,10 +10,10 @@ for (const [route, file] of [
   const headings = [...readFileSync(new URL('../../../docs/' + file, import.meta.url), 'utf8').matchAll(/^## (.+)$/gm)].map(match => match[1].trim())
   test(`former diagram article retains its normal reading layout: ${route}`, async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 })
-    const errors = []
+    const errors: string[] = []
     page.on('pageerror', error => errors.push(error.message))
     const response = await page.goto(base + route)
-    expect(response.status()).toBe(200)
+    expect(response?.status()).toBe(200)
     await expect(page.locator('article h1')).toBeVisible()
     await expect(page.locator('article h2')).toHaveCount(headings.length)
     for (const [index, heading] of headings.entries()) {

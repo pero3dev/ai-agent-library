@@ -1,9 +1,11 @@
 import { test, expect } from '@playwright/test'
+import type { Locator, Page } from '@playwright/test'
+import { requireValue } from './test-values'
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
-const route = value => `${basePath}${value}`
+const route = (value: string) => `${basePath}${value}`
 
-async function expectOpaqueThemeBackground(menu) {
+async function expectOpaqueThemeBackground(menu: Locator) {
   const background = await menu.evaluate(element => ({
     menu: getComputedStyle(element).backgroundColor,
     page: getComputedStyle(document.documentElement).backgroundColor,
@@ -16,10 +18,10 @@ async function expectOpaqueThemeBackground(menu) {
   expect(background.opacity).toBe('1')
 }
 
-async function expectOpenMenu(page, menu) {
+async function expectOpenMenu(page: Page, menu: Locator) {
   await expect(menu).toBeInViewport({ ratio: 0.99 })
-  const viewport = page.viewportSize()
-  const bounds = await menu.boundingBox()
+  const viewport = requireValue(page.viewportSize(), 'mobile viewport')
+  const bounds = requireValue(await menu.boundingBox(), 'open mobile menu box')
   expect(bounds.x).toBeCloseTo(0, 0)
   expect(bounds.y).toBeCloseTo(0, 0)
   expect(bounds.width).toBeCloseTo(viewport.width, 0)
@@ -29,13 +31,13 @@ async function expectOpenMenu(page, menu) {
   await expect(menu.getByRole('combobox')).toBeInViewport()
   const overflow = await page.evaluate(() => ({
     document: document.documentElement.scrollWidth - document.documentElement.clientWidth,
-    menu: document.querySelector('.nextra-mobile-nav').scrollWidth - innerWidth
+    menu: (document.querySelector('.nextra-mobile-nav')?.scrollWidth ?? Infinity) - innerWidth
   }))
   expect(overflow.document).toBeLessThanOrEqual(1)
   expect(overflow.menu).toBeLessThanOrEqual(1)
 }
 
-const mobileCases = [
+const mobileCases: { width: number; height: number; theme: 'light' | 'dark'; pathname: string }[] = [
   { width: 375, height: 812, theme: 'light', pathname: '/' },
   { width: 375, height: 812, theme: 'dark', pathname: '/docs/concepts/tool-use' },
   { width: 390, height: 844, theme: 'light', pathname: '/docs/concepts/tool-use' },
@@ -44,7 +46,7 @@ const mobileCases = [
   { width: 430, height: 932, theme: 'dark', pathname: '/docs/concepts/tool-use' }
 ]
 
-for (const theme of ['light', 'dark']) test(`glossary summaries at the reading-column edges stay inside a narrow screen: ${theme}`, async ({ page }) => {
+for (const theme of ['light', 'dark'] as const) test(`glossary summaries at the reading-column edges stay inside a narrow screen: ${theme}`, async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 1000 })
   await page.addInitScript(value => localStorage.setItem('theme', value), theme)
   await page.goto(route('/docs/architecture/error-handling-and-retries'))
@@ -61,15 +63,16 @@ for (const theme of ['light', 'dark']) test(`glossary summaries at the reading-c
     await expect(tooltip).toBeVisible()
     await expect.poll(async () => {
       const bounds = await tooltip.boundingBox()
-      return bounds.x >= 7 && bounds.x + bounds.width <= 383
+      return Boolean(bounds && bounds.x >= 7 && bounds.x + bounds.width <= 383)
     }).toBe(true)
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390)
     await page.mouse.move(0, 0)
     await expect(tooltip).toBeHidden()
   }
   await page.keyboard.press('Tab')
-  await edgeTerms.at(-1).focus()
-  await expect(edgeTerms.at(-1).getByRole('tooltip')).toBeVisible()
+  const lastTerm = requireValue(edgeTerms.at(-1), 'last glossary edge term')
+  await lastTerm.focus()
+  await expect(lastTerm.getByRole('tooltip')).toBeVisible()
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390)
 })
 

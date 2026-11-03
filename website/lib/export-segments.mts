@@ -1,23 +1,23 @@
 import { lstatSync, readFileSync, readdirSync, realpathSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 
-function assertWithin(root, file) {
+function assertWithin(root: string, file: string) {
   const relative = path.relative(root, file)
   if (relative === '..' || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative)) {
     throw new Error(`static export の範囲外です: ${file}`)
   }
 }
 
-function readRegularFile(file) {
+function readRegularFile(file: string) {
   if (!lstatSync(file).isFile()) throw new Error(`通常ファイルではありません: ${file}`)
   return readFileSync(file)
 }
 
-function existingContents(file) {
+function existingContents(file: string) {
   try {
     return readRegularFile(file)
   } catch (error) {
-    if (error.code === 'ENOENT') return null
+    if (error instanceof Error && 'code' in error && error.code === 'ENOENT') return null
     throw error
   }
 }
@@ -27,13 +27,13 @@ function existingContents(file) {
  * ドット区切り名でも生成する。実セグメント名を使い、URL ルートからは推測しない。
  * 元ファイル・既存の正規出力は変更しない。リンクは辿らず、衝突は書き込み前に検査する。
  */
-export function materializeExportSegments(outDir) {
+export function materializeExportSegments(outDir: string) {
   const root = path.resolve(outDir)
   if (!lstatSync(root).isDirectory()) throw new Error(`通常ディレクトリではありません: ${root}`)
   const realRoot = realpathSync(root)
-  const targets = new Map()
+  const targets = new Map<string, Buffer>()
 
-  const visit = (dir, segment = null) => {
+  const visit = (dir: string, segment: { parent: string; parts: string[] } | null = null) => {
     for (const entry of readdirSync(dir, { withFileTypes: true })) {
       const file = path.join(dir, entry.name)
       assertWithin(root, file)
@@ -56,7 +56,7 @@ export function materializeExportSegments(outDir) {
   visit(root)
 
   // 既存ファイルとの不一致があれば、互換ファイルを一件も追加する前に失敗させる。
-  const pending = []
+  const pending: Array<[string, Buffer]> = []
   for (const [target, contents] of targets) {
     assertWithin(realRoot, realpathSync(path.dirname(target)))
     const existing = existingContents(target)

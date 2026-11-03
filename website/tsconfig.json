@@ -1,10 +1,15 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ES2022"
+    ],
     "allowJs": true,
     "checkJs": false,
     "strict": true,
+    "skipLibCheck": true,
     "noEmit": true,
     "esModuleInterop": true,
     "module": "ESNext",
@@ -14,9 +19,30 @@
     "verbatimModuleSyntax": true,
     "allowImportingTsExtensions": true,
     "jsx": "react-jsx",
-    "plugins": [{ "name": "next" }],
-    "forceConsistentCasingInFileNames": true
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "forceConsistentCasingInFileNames": true,
+    "incremental": true
   },
-  "include": ["next-env.d.ts", ".next/types/**/*.ts", "app/**/*.ts", "app/**/*.tsx", "components/**/*.ts", "components/**/*.tsx", "mdx-components.tsx", "lib/**/*.ts", "lib/**/*.mts"],
-  "exclude": ["node_modules", "content", "out", "vendor"]
+  "include": [
+    "next-env.d.ts",
+    ".next/types/**/*.ts",
+    "app/**/*.ts",
+    "app/**/*.tsx",
+    "components/**/*.ts",
+    "components/**/*.tsx",
+    "mdx-components.tsx",
+    "lib/**/*.ts",
+    "lib/**/*.mts",
+    ".next/dev/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "content",
+    "out",
+    "vendor"
+  ]
 }

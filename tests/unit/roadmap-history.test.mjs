@@ -6,12 +6,14 @@ import test from 'node:test'
 import { readRoadmapSource, roadmapSource, ROADMAP_HISTORY } from '../../scripts/lib/roadmap-source.mjs'
 import { roadmapTasks } from '../../scripts/harness-policy.mjs'
 
+/** @param {string} id @param {string} file */
 const table = (id, file) => `| タスク | 成果物 | ステータス |\n| --- | --- | --- |\n| ${id} | \`${file}\` | 完了 |\n`
 
 test('old layouts and split history resolve the same complete task inventory', () => {
   const old = table('2-1', 'docs/01-concepts/agent-loop.md')
   const files = new Map([['ROADMAP.md', old]])
-  const read = file => { assert.ok(files.has(file)); return files.get(file) }
+  /** @param {string} file */
+  const read = file => { const value = files.get(file); assert.ok(value !== undefined); return value }
   const inventory = ['docs/01-concepts/agent-loop.md']
   const before = roadmapTasks(roadmapSource(read, file => files.has(file)), inventory)
   files.set('ROADMAP.md', '# 作業の入口\n[History](malicious.md)\n')

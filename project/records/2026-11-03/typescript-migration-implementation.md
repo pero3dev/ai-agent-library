@@ -1,6 +1,6 @@
 # TypeScript 段階移行 — 実施記録
 
-開始日: 2026-11-03(JST)。状態: 実装中。
+開始日: 2026-11-03(JST)。本書はP0〜P6の実装・ローカル検証記録。GitHubの実マージ・最終CI・公開結果は対応PRの最終証跡と合わせて照合する。
 
 ## 作業契約
 
@@ -18,4 +18,77 @@
 - Node共通: 文書解析・検証・レポートと共通helper。
 - 主担当: 固定版の適合検証、依存・型設定、Node状態/公開/フック、CIと全体統合、記録、GitHub提出・公開確認。
 
-P0の依存準備を開始。サイト固定依存428 packageの準備成功。TypeScript 6.0.3とNode22系・React19系の型を直接devDependencyへ固定する。必要な全テストを再実行するまで移行完了とは扱わない。
+P0の方式確認を完了し、TypeScript 6.0.3とNode22系・React19系の型を直接devDependencyへ固定した。Node.js 22.22.2を公式checksumで検証して作業領域内に準備し、22.22.2/24.19.0の`.mts`実行・`.mjs`入口・型除去を確認した。システムのNode/PATHは変更していない。
+
+## 最新mainの統合と対象の再確認
+
+計画時のmainから取得済みmainは`eb0c80a22375db454998246ad30c7e0fbc752423`へ進んでいた。所有する途中候補を`182e6b6`へ保存し、mainの更新を保持して`ff72f54`で統合した。計画・旧観測の基準SHAは履歴として維持する。iOSのSwift本体は対象外で、追加されたJSと試験を再棚卸しして型検査の範囲へ加える。
+
+統合後のサイトlockはNext 16.4.3、TypeScript 6.0.3、React型19.3.0である。計画時点のNext 16.3.8との互換性確認を実施したと読み替えない。
+
+## 中間検証と残件
+
+| 対象 | 確認した結果 | 残件 |
+| --- | --- | --- |
+| サイトUI・browser tests | strict型検査成功。app/components/MDX入口とbrowser12specをTS/TSX化 | 全ブラウザー回帰・最終tree確認 |
+| サイトデータ・unit | lib/scriptsのTS実装と互換JS入口、producer/consumerのunknown検証。unit17本もTS化し99/99成功、skip0 | 最終全体checkとCI |
+| 静的ビルド | baseline/candidateともclean build3回が終了0。候補は230/230route、metadata/CSP/Pagefind等の既存検査が成功 | 最終内容での公開確認 |
+| Node主要処理 | scriptsのNode用とDOM評価用configで型検査。state/policy/runはTS実装＋既存mjs入口、hookはJSDocで維持 | 全体回帰・最低版CLI確認 |
+| policy・公開証跡・鮮度 | policy/freshness4群160/160、GitHub証跡60/60、いずれもskip0 | 最終treeで再検証 |
+| 音声 | 型検査の主要診断解消。高負荷時のWindows timeout6件は負荷低下後のhost/concurrency1で全件成功 | 全体回帰、試験コード型付け |
+| 新mainのiOS JS/試験 | rendererと小ツールを型検査。大型診断処理とroot側iOS試験の型付けを継続 | 未完了の型診断・Linux/macOS CI |
+
+ビルド所要時間はbaselineが319.412/433.988/400.565秒、candidateが473.224/388.341/242.056秒。中央値は400.565秒と388.341秒だが、並行した型付け・ビルドによる負荷変動があるため、速度改善の因果や保証には使わない。最終typecheckの費用と公開資産budgetも別途記録する。
+
+サイトだけで`skipLibCheck`を使用する。固定MathJaxのgeneric制約、Nextra/Next配布d.tsの未解決内部参照、MDXの旧JSX namespace等の上流宣言が理由で、自前実装の`strict`/型検査は維持する。`ignoreBuildErrors`は使用しない。ルートのNode検査は宣言検査も有効のままである。
+
+## 不変の互換例外
+
+既存のiOS性能観測はrunnerのバイトSHAとprofileを固定しているため、以下3本は本文を保持し、明示した型宣言を相互運用境界として置く。実装を型検査済みとは数えず、最終のSHA照合と既存試験で保護する。過去のprofileや観測SHAは移行都合で書き換えない。
+
+| ファイル | 保持するSHA-256 |
+| --- | --- |
+| `ios/tests/core-performance-runner.mjs` | `4276643f3c0df1e21d62f020c0ebd5ec32639b536fa6933806e7ad611edcaf5f` |
+| `ios/tests/verify-core-performance.mjs` | `15880ac76ec61af487d888684fa8910a5f74e74a43a717bb839442ce7fa30c51` |
+| `ios/tests/verify-core-performance-notice-20261031.mjs` | `c911db411741ddfa60af310a6d1906f565f3413375a6538655b29053a28d5784` |
+
+## 実装の到達点
+
+最新mainのJS/TSは238ファイルで、過去の証跡6・外部vendor1を除く231ファイルが自前だった。追加・分割を含む現在の348ファイルは、検査する実装257、独立検査する宣言17、固定ASTまたはSHAで保護する互換入口64、凍結実装3、過去証跡6、vendor1に分類した。未分類は0。互換入口と宣言を実装の検査件数へ加算していない。
+
+固定版・分類・ビルドbudget・検証レベルの[集計JSON](typescript-migration-result.json)を併記する。
+
+`harness/typecheck.json`と`check-type-coverage`は実際のstrict programのソース対応、JSのcheckJs、noCheck/strict無効化、抑制コメント、宣言による実装の隠蔽、互換入口の形、例外のSHAを確認する。semantic診断は別の型検査コマンドで行う。設定はルート6・サイト5の計11で、既存のharness/build CIへ接続した。新しい必須check名や権限は追加していない。
+
+UIとNodeの相対importは実在する拡張子へ同期し、Nodeの`.mts`には型除去で実行できる構文だけを使う。既存CLI・test glob・hookの`.mjs`パスを維持し、runtime compiler/loaderは導入していない。改名で切れた2026-09-10監査の4リンクは、本文と当時の行番号を保ち、原監査commitの実在ソースへ固定した。
+
+計画の段階ごとにローカル検証・分担レビューを行い、共有型と入口・検査の依存を一緒に提出するため、最終変更を1つのPRへまとめる。途中候補の保存commitとmain統合commitは前述のとおり保持する。採択時の計画・棚卸しは当時の観測として書き換えない。
+
+## 独立レビューで修正した境界
+
+実装担当を入れ替えて、UI、Node、音声、状態・公開証跡、CIとcoverageをレビューした。宣言済みの型と実際の検証範囲がずれていたJSON境界を修正した。
+
+- 保存世代番号と加算結果をsafe integerで確認し、破損時はjournal作成前に停止する。
+- GitHub API、音声設定・review全coverage要素・cache・認証・ffprobe・公開journal/PR/check・lock・著作者記録を、unknownから使用する構造へ絞る。
+- 過去キューの部分的なjob、未指定chunk長の既定値、旧review、stringの音声ID、公開カタログの任意license metadata、途中journalを保持する。
+- 評価・healthの未検証テレメトリや診断metadataはunknownのまま報告し、数値・文字列などの保証を捏造しない。構造設定も未消費metadataと実際の検査範囲を型で分ける。
+- 既存の課金確認、許可コマンド、所有権、symlink、trusted base、実head/workflow照合と公開条件を保持する。
+
+新規の検査を型定義だけに合わせたモックへ置き換えず、不正応答・legacy正常入力・原stateの非破壊と書込前停止を回帰で確認した。レビュー担当自身が実装した範囲は独立判定へ数えていない。
+
+## 最終検証の証拠と限界
+
+| 対象 | ローカルで確認した結果 |
+| --- | --- |
+| 型検査 | ルート6・サイト5のstrict/noEmit検査で診断0。coverage未分類0、凍結SHA一致 |
+| 共通check | Node24.19で終了0、180.208秒。単体1,536件中1,435成功、101件は理由付きWindows/外部環境skip。後続の境界修正は該当回帰と型検査を再実行し、PR headではCIが全件を取り直す |
+| 負荷時の再現 | 並行browser実行中の初回checkはPowerShellと2秒child期限の2件がtimeout。負荷低下後、同じ契約・直列で2/2成功。期限や不変runner本文を緩和していない |
+| サイトunit | hostで99/99成功、skip0。sandboxのsymlink EPERMとは分けた |
+| サイトbrowser | 公開相当出力で677成功、5skip、失敗0。5件は専用音声fixtureビルドでのみ実施する試験で、通常ビルドの成功へ数えない |
+| 最低Node | 公式checksumで確認した22.22.2で、fresh checkout/npm未導入のCLI/bootstrapとharness全33/33成功、skip0。24.19でも同じnative型除去方式を確認 |
+| 静的ビルド | baseline/candidate各3回終了0、230/230ルート。初期JSは双方12script・raw962,476B/gzip307,969Bで同じ |
+| 依存・workflow | root/website/ios-tools監査はhigh以上0。low/moderateは残存し、破壊的な自動fixは行っていない。固定actionlint 1.7.12でworkflow検査成功 |
+
+ビルド時間は前節の制約を保って解釈する。別途のルート型検査実測は81.333秒だが、並行負荷があり同条件の最新main check基準はないため、全体checkの増加率や速度向上は主張しない。
+
+Windowsで扱えない不変runnerのPOSIX絶対パス、symlink権限、process groupやAppleツールはbaselineでも確認し、対象外を明記した。Linux/macOSの検証はCIの正確なheadと結果を照合する。実Agentでのhook発火、物理iPhone/Safari/AirPods、有料モデル・実音声生成をこの移行の成功と読み替えない。ローカルログ・3回分のビルド出力・baseline checkoutは`.local/typescript-plan/`等の非追跡領域へ保持し、公開する記録は本書と小さな集計JSONに限定する。

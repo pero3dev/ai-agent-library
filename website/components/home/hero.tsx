@@ -1,5 +1,8 @@
 import Link from 'next/link'
-import sections from '../../generated/sections.json'
+import sectionsData from '../../generated/sections.json'
+import type { Section } from '../../lib/content-types'
+
+const sections: Section[] = sectionsData
 
 // 記事総数は sync が生成した sections.json から算出する(手書きの件数を持たない)
 const totalDocs = sections.reduce((sum, s) => sum + s.count, 0)

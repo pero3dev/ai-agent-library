@@ -18,9 +18,85 @@ import { auditNativeLearningContent } from './learning-content-audit.mjs';
 const repositoryRoot = fileURLToPath(new URL('../../', import.meta.url));
 const usage = 'Usage: node ios/tests/native-content-audit.mjs [--fixtures | --published-library | --all-published --content <temporary ailibrary-ios-*/Content>]';
 const profiles = new Set(['representative', 'fixtures', 'published-library', 'all-published']);
+/** @typedef {import('../../scripts/lib/ios-types.d.mts').MarkdownToken} Token */
+/** @typedef {import('../../scripts/lib/ios-types.d.mts').NativeBlock} NativeBlock */
+/** @typedef {import('../../scripts/lib/ios-types.d.mts').NativeInline} NativeInline */
+/** @typedef {import('../../scripts/lib/ios-types.d.mts').NativeDocument} NativeDocument */
+/** @typedef {import('../../scripts/lib/ios-types.d.mts').NativeAsset} NativeAsset */
+/** @typedef {import('../../scripts/lib/ios-types.d.mts').NativeLink} NativeLink */
+/** @typedef {(NativeBlock|NativeInline) & {id?: string}} NativeNode */
+/** @typedef {import('../../scripts/lib/ios-types.d.mts').LearningArticle & {document_path: string, search_text: string, is_test_fixture?: boolean}} ManifestArticle */
+/** @typedef {{schema_version: number, revision: string, articles: ManifestArticle[], audio: unknown[], files: Record<string, string>}} NativeManifest */
+/** @typedef {{profile?: string, content?: string, root?: string}} AuditOptions */
+/** @param {unknown} value @returns {asserts value is Record<string, unknown>} */
+function object(value) { assert.ok(value !== null && typeof value === 'object' && !Array.isArray(value), 'Native audit JSON object'); }
 
+/** @param {unknown} value @returns {asserts value is NativeManifest} */
+function manifestShape(value) {
+  object(value); assert.ok(typeof value.schema_version === 'number' && typeof value.revision === 'string' && Array.isArray(value.articles) && Array.isArray(value.audio));
+  object(value.files); assert.ok(Object.values(value.files).every(hash => typeof hash === 'string'));
+  for (const article of value.articles) {
+    object(article);
+    for (const key of ['id', 'source_path', 'source_sha256', 'document_path', 'search_text']) assert.ok(typeof article[key] === 'string');
+    assert.ok(Array.isArray(article.headings));
+    for (const heading of article.headings) { object(heading); assert.ok(typeof heading.id === 'string' && typeof heading.title === 'string' && typeof heading.level === 'number'); }
+    assert.ok(article.is_test_fixture === undefined || typeof article.is_test_fixture === 'boolean');
+  }
+}
+
+/** @param {unknown} value @returns {asserts value is NativeDocument} */
+function documentShape(value) {
+  /** @param {unknown} item */
+  function image(item) {
+    object(item); object(item.asset);
+    assert.ok(typeof item.source === 'string' && typeof item.accessibility_text === 'string');
+    assert.ok(typeof item.asset.light === 'string' && typeof item.asset.dark === 'string');
+    for (const key of ['width', 'height', 'scale']) assert.ok(typeof item.asset[key] === 'number');
+    assert.ok(item.asset.baseline === undefined || typeof item.asset.baseline === 'number');
+  }
+  /** @param {unknown} values */
+  function inlines(values) {
+    assert.ok(Array.isArray(values));
+    for (const item of values) {
+      object(item);
+      if (item.type === 'text' || item.type === 'code') assert.ok(typeof item.text === 'string');
+      else if (item.type === 'soft_break' || item.type === 'hard_break') continue;
+      else if (item.type === 'math') image(item);
+      else if (item.type === 'strong' || item.type === 'emphasis') inlines(item.children);
+      else if (item.type === 'link') {
+        inlines(item.children); object(item.target);
+        if (item.target.kind === 'article') assert.ok(typeof item.target.article_id === 'string' && (item.target.heading_id === undefined || typeof item.target.heading_id === 'string'));
+        else assert.ok(item.target.kind === 'external' && typeof item.target.url === 'string');
+      } else assert.fail('Unknown native inline kind');
+    }
+  }
+  /** @param {unknown} values */
+  function blocks(values) {
+    assert.ok(Array.isArray(values));
+    for (const item of values) {
+      object(item); assert.ok(typeof item.id === 'string');
+      if (item.type === 'paragraph') inlines(item.inlines);
+      else if (item.type === 'heading') { assert.ok(typeof item.heading_id === 'string' && typeof item.level === 'number'); inlines(item.inlines); }
+      else if (item.type === 'code') assert.ok(typeof item.language === 'string' && typeof item.text === 'string');
+      else if (item.type === 'quote') blocks(item.blocks);
+      else if (item.type === 'list') {
+        assert.ok(typeof item.ordered === 'boolean' && typeof item.start === 'number' && Array.isArray(item.items));
+        for (const entry of item.items) { object(entry); assert.ok(typeof entry.id === 'string'); blocks(entry.blocks); }
+      } else if (item.type === 'math' || item.type === 'diagram') image(item);
+      else if (item.type === 'table') {
+        object(item.table); assert.ok(Array.isArray(item.table.header) && Array.isArray(item.table.rows) && Array.isArray(item.table.alignments) && item.table.alignments.every(value => typeof value === 'string'));
+        for (const cell of item.table.header) inlines(cell);
+        for (const row of item.table.rows) { assert.ok(Array.isArray(row)); for (const cell of row) inlines(cell); }
+      } else assert.equal(item.type, 'thematic_break');
+    }
+  }
+  object(value); assert.ok(value.schema_version === 1 && typeof value.article_id === 'string' && typeof value.source_sha256 === 'string'); blocks(value.blocks);
+}
+
+/** @param {string[]} args @returns {AuditOptions} */
 export function parseNativeAuditOptions(args) {
   assert.ok(Array.isArray(args), usage);
+  /** @type {AuditOptions} */
   const options = { profile: 'representative' };
   const seen = new Set();
   for (let index = 0; index < args.length; index++) {
@@ -40,6 +116,7 @@ export function parseNativeAuditOptions(args) {
   return options;
 }
 
+/** @param {string} root @param {AuditOptions} [options] */
 export async function resolveNativeAuditContent(root, { profile = 'representative', content } = {}) {
   assert.ok(profiles.has(profile), 'Unknown native audit profile');
   root = await realpath(root);
@@ -55,6 +132,7 @@ export async function resolveNativeAuditContent(root, { profile = 'representativ
   if (absolute.startsWith(tempAlias + path.sep)) absolute = path.join(temp, path.relative(tempAlias, absolute));
   const relative = path.relative(temp, absolute);
   assert.ok(!relative.startsWith('..') && !path.isAbsolute(relative) && /^ailibrary-ios-[^/\\]+[/\\].+/.test(relative) && path.basename(absolute) === 'Content', 'Audit content must be a temporary ailibrary-ios-*/Content');
+  /** @param {string} value */
   const comparable = value => process.platform === 'darwin' || process.platform === 'win32' ? value.toLowerCase() : value;
   for (const name of ['Content', 'TestContent']) {
     const canonical = comparable(path.join(root, 'ios/AILibrary', name)), candidate = comparable(absolute);
@@ -64,6 +142,7 @@ export async function resolveNativeAuditContent(root, { profile = 'representativ
   return absolute;
 }
 
+/** @param {string} root */
 export async function publishedAuditSources(root) {
   const sources = [];
   const sections = await readdir(path.join(root, 'docs'), { withFileTypes: true });
@@ -81,7 +160,7 @@ export async function publishedAuditSources(root) {
       const statuses = frontMatter.fields.filter(field => field.key === 'status');
       assert.equal(statuses.length, 1, `Expected exactly one source status: ${sourcePath}`);
       const status = parseScalar(statuses[0].value);
-      assert.ok(['published', 'draft'].includes(status), `Unknown source status: ${sourcePath}`);
+      assert.ok(status === 'published' || status === 'draft', `Unknown source status: ${sourcePath}`);
       if (status === 'published') sources.push(sourcePath);
     }
   }
@@ -89,16 +168,20 @@ export async function publishedAuditSources(root) {
   return sources.sort();
 }
 
+/** @param {Pick<ManifestArticle, 'source_path'|'id'>[]} articles @param {string[]} sourcePaths */
 export function assertNativeAuditArticleSet(articles, sourcePaths) {
   assert.ok(Array.isArray(articles), 'Manifest articles must be an array');
   assert.deepEqual(articles.map(article => article.source_path), sourcePaths, 'Exact ordered source article set');
   assert.deepEqual(articles.map(article => article.id), sourcePaths.map(file => file === 'ios/fixtures/native-reader.md' ? 'test-fixtures/native-reader' : file.replace(/^docs\//, '').replace(/\.md$/, '')), 'Each source keeps its canonical article ID');
 }
 
+/** @param {string|null} href @param {{id: string, source_path: string}} article @param {Map<string, string>} selected @returns {NativeLink} */
 export function expectedNativeAuditLink(href, article, selected) {
   assert.ok(typeof href === 'string', 'Source links must be strings');
+  /** @param {string} value */
   const decode = value => { try { return decodeURIComponent(value); } catch { assert.fail(`Malformed source link: ${href}`); } };
   if (href.startsWith('#')) return { kind: 'article', article_id: article.id, ...(href.length > 1 ? { heading_id: decode(href.slice(1)) } : {}) };
+  /** @param {string} value @returns {NativeLink} */
   const external = value => {
     const url = new URL(value);
     assert.ok(url.protocol === 'https:' && !url.username && !url.password, 'External source links require HTTPS without credentials');
@@ -123,31 +206,42 @@ export function expectedNativeAuditLink(href, article, selected) {
   return external(`https://github.com/pero3dev/ai-agent-library/blob/main/${target.split('/').map(encodeURIComponent).join('/')}${fragment}`);
 }
 
+/** @param {Set<string>} keys @param {unknown} descriptions */
 export function assertNativeAuditDescriptions(keys, descriptions) {
   assert.ok(descriptions && typeof descriptions === 'object' && !Array.isArray(descriptions), 'Invalid diagram description map');
   for (const [key, description] of Object.entries(descriptions)) assert.ok(/^[a-f0-9]{24}$/.test(key) && typeof description === 'string' && description.trim() && Buffer.byteLength(description) <= 16384, 'Invalid source-bound diagram description');
   assert.deepEqual([...keys].sort(), Object.keys(descriptions).sort(), 'No missing, stale or unbound diagram descriptions');
 }
 
+/** @param {AuditOptions} [options] */
 export async function auditNativeContent({ root = repositoryRoot, profile = 'representative', content: requestedContent } = {}) {
   root = await realpath(root);
   const content = await resolveNativeAuditContent(root, { profile, content: requestedContent });
   const fixtures = profile === 'fixtures', published = ['all-published', 'published-library'].includes(profile);
   const toolsRoot = process.env.IOS_TOOLS_DIR ? path.resolve(root, process.env.IOS_TOOLS_DIR) : path.join(root, 'ios/tools');
   const require = createRequire(path.join(toolsRoot, 'package.json'));
+  /** @type {typeof import('katex')} */
   const katex = require('katex');
+  /** @param {import('node:crypto').BinaryLike} data */
   const digest = data => createHash('sha256').update(data).digest('hex');
+  /** @param {string} file @returns {Promise<unknown>} */
   const readJSON = async file => JSON.parse(await readFile(file, 'utf8'));
   const manifestStat = await lstat(path.join(content, 'manifest.json'));
   assert.ok(manifestStat.isFile() && !manifestStat.isSymbolicLink(), 'Manifest must be a regular file');
   assert.ok(manifestStat.size <= 8 * 1024 * 1024, 'Manifest must fit the native byte limit');
   const manifest = await readJSON(path.join(content, 'manifest.json'));
-  const selection = JSON.parse(await readSource(root, 'ios/content-selection.json'));
+  manifestShape(manifest);
+  /** @type {unknown} */
+  const rawSelection = JSON.parse((await readSource(root, 'ios/content-selection.json')).toString('utf8'));
+  object(rawSelection); assert.ok(Array.isArray(rawSelection.articles) && rawSelection.articles.every(value => typeof value === 'string'));
+  const selection = /** @type {{articles: string[], diagram_descriptions?: Record<string, string>}} */ (rawSelection);
   let descriptions = selection.diagram_descriptions || {};
   if (published) {
-    const fullDescriptions = JSON.parse(await readSource(root, 'ios/all-published-diagram-descriptions.json'));
+    /** @type {unknown} */
+    const fullDescriptions = JSON.parse((await readSource(root, 'ios/all-published-diagram-descriptions.json')).toString('utf8')); object(fullDescriptions);
     assert.equal(fullDescriptions.schema_version, 1, 'All-published description map schema');
-    descriptions = fullDescriptions.diagram_descriptions;
+    object(fullDescriptions.diagram_descriptions);
+    descriptions = /** @type {Record<string, string>} */ (fullDescriptions.diagram_descriptions);
   }
   assert.equal(manifest.schema_version, 2, 'This audit requires the JSON/PNG native package');
   assert.equal(manifest.revision, digest(JSON.stringify({ schema_version: 2, articles: manifest.articles, audio: manifest.audio, files: manifest.files })), 'Manifest revision matches its content');
@@ -156,40 +250,52 @@ export async function auditNativeContent({ root = repositoryRoot, profile = 'rep
   const selected = new Map(manifest.articles.map(article => [article.source_path, article.id]));
   for (const article of manifest.articles) assert.equal(article.document_path, `articles/${article.id.replaceAll('/', '--')}.json`, 'Article document path is source-bound');
   const headings = new Map(manifest.articles.map(article => [article.id, new Set(article.headings.map(heading => heading.id))]));
+  /** @param {string} value */
   const normalize = value => value.replace(/\s+/g, ' ').trim();
+  /** @param {Token[]} tokens @returns {string[]} */
   const leaves = tokens => tokens.flatMap(token => token.children ? leaves(token.children) :
     ['text', 'code_inline', 'math_inline', 'math_block', 'fence', 'code_block'].includes(token.type) ? [token.content] :
       ['softbreak', 'hardbreak'].includes(token.type) ? ['\n'] : []);
 
+  /** @param {unknown} value @returns {NativeNode[]} */
   function walk(value) {
     if (Array.isArray(value)) return value.flatMap(walk);
     if (!value || typeof value !== 'object') return [];
-    return [value, ...Object.values(value).flatMap(walk)];
+    const node = /** @type {Record<string, unknown>} */ (value);
+    const types = ['heading', 'paragraph', 'list', 'quote', 'code', 'math', 'diagram', 'table', 'thematic_break', 'text', 'soft_break', 'hard_break', 'link', 'strong', 'emphasis'];
+    // Only schema node kinds enter node consumers; metadata dictionaries are
+    // still traversed. Their leaf values are compared with the source below.
+    return [...(typeof node.type === 'string' && types.includes(node.type) ? [/** @type {NativeNode} */ (node)] : []), ...Object.values(value).flatMap(walk)];
   }
 
+  /** @param {NativeBlock[]} blocks @returns {string[]} */
   function nativeLeaves(blocks) {
+    /** @param {NativeInline[]} values @returns {string[]} */
     const inline = values => values.flatMap(value => {
-      if (['text', 'code'].includes(value.type)) return [value.text];
+      if (value.type === 'text' || value.type === 'code') return [value.text];
       if (value.type === 'math') return [value.source];
       if (['soft_break', 'hard_break'].includes(value.type)) return ['\n'];
-      return inline(value.children || []);
+      return inline('children' in value ? value.children : []);
     });
     return blocks.flatMap(block => {
-      if (block.inlines) return inline(block.inlines);
+      if ('inlines' in block) return inline(block.inlines);
       if (block.type === 'code') return [block.text];
-      if (['math', 'diagram'].includes(block.type)) return [block.source];
+      if (block.type === 'math' || block.type === 'diagram') return [block.source];
       if (block.type === 'table') return [...block.table.header, ...block.table.rows.flat()].flatMap(inline);
       if (block.type === 'list') return block.items.flatMap(item => nativeLeaves(item.blocks));
-      return nativeLeaves(block.blocks || []);
+      return nativeLeaves('blocks' in block ? block.blocks : []);
     });
   }
 
-  const inlineSource = values => values.map(value => ['text', 'code'].includes(value.type) ? value.text :
-    value.type === 'math' ? value.source : ['soft_break', 'hard_break'].includes(value.type) ? '\n' : inlineSource(value.children || [])).join('');
+  /** @param {NativeInline[]} values @returns {string} */
+  const inlineSource = values => values.map(value => value.type === 'text' || value.type === 'code' ? value.text :
+    value.type === 'math' ? value.source : ['soft_break', 'hard_break'].includes(value.type) ? '\n' : inlineSource('children' in value ? value.children : [])).join('');
 
+  /** @param {NativeDocument} document @param {NativeNode[]} all */
   function auditFixture(document, all) {
+    /** @param {NativeBlock[]} blocks @param {number} [current] @returns {number} */
     const depth = (blocks, current = 0) => Math.max(current, ...blocks.map(block => block.type === 'list' ?
-      Math.max(current + 1, ...block.items.map(item => depth(item.blocks, current + 1))) : depth(block.blocks || [], current)));
+      Math.max(current + 1, ...block.items.map(item => depth(item.blocks, current + 1))) : depth('blocks' in block ? block.blocks : [], current)));
     const maximumListDepth = depth(document.blocks);
     assert.ok(maximumListDepth >= 3, 'Fixture includes at least three mixed list levels');
     assert.ok(all.some(node => node.type === 'list' && node.ordered && node.start === 8), 'Fixture tests a non-one ordered list start');
@@ -197,31 +303,35 @@ export async function auditNativeContent({ root = repositoryRoot, profile = 'rep
     for (const type of ['strong', 'emphasis', 'hard_break', 'thematic_break']) assert.ok(all.some(node => node.type === type), `Fixture includes ${type}`);
     assert.ok(all.filter(node => node.type === 'hard_break').length >= 2, 'Fixture preserves consecutive hard line breaks');
     const table = all.find(node => node.type === 'table');
+    assert.ok(table && table.type === 'table', 'Fixture requires table');
     assert.deepEqual(table.table.alignments, ['left', 'center', 'right']);
     for (const type of ['strong', 'emphasis', 'code', 'link', 'math']) assert.ok(walk(table).some(node => node.type === type), `Fixture table includes ${type}`);
     const links = all.filter(node => node.type === 'link');
     const mathOnly = links.filter(link => walk(link.children).some(node => node.type === 'math') &&
-      !walk(link.children).some(node => ['text', 'code'].includes(node.type) && node.text?.trim()));
+      !walk(link.children).some(node => (node.type === 'text' || node.type === 'code') && node.text?.trim()));
     const mixed = links.filter(link => walk(link.children).some(node => node.type === 'math') &&
       walk(link.children).some(node => node.type === 'text' && node.text?.trim()));
     assert.ok(mathOnly.length >= 2 && mixed.length >= 2, 'Fixture tests math-only and mixed-text mathematical links');
-    assert.ok(links.some(node => node.target.article_id === 'test-fixtures/native-reader' && node.target.heading_id === '同じ見出し-1'), 'Fixture links to the second duplicate heading');
-    const duplicateHeadings = all.filter(node => node.type === 'heading' && inlineSource(node.inlines) === '同じ見出し');
+    assert.ok(links.some(node => node.target.kind === 'article' && node.target.article_id === 'test-fixtures/native-reader' && node.target.heading_id === '同じ見出し-1'), 'Fixture links to the second duplicate heading');
+    const duplicateHeadings = all.filter(node => node.type === 'heading').filter(node => inlineSource(node.inlines) === '同じ見出し');
     assert.deepEqual(duplicateHeadings.map(node => node.heading_id), ['同じ見出し', '同じ見出し-1']);
     const code = all.find(node => node.type === 'code' && node.id && node.text.startsWith('BEGIN-COPY-01\n'));
-    assert.ok(code?.text.endsWith('END-COPY-01\n') && code.text.includes('\n\ttab-indented:') && code.text.includes('\n```\n'), 'Fixture code preserves copy boundaries, tabs and nested fence characters');
+    assert.ok(code?.type === 'code' && code.text.endsWith('END-COPY-01\n') && code.text.includes('\n\ttab-indented:') && code.text.includes('\n```\n'), 'Fixture code preserves copy boundaries, tabs and nested fence characters');
     assert.ok(all.some(node => node.type === 'code' && node.id && node.text === ''), 'Fixture tests copying an empty code block');
     const distanceParagraphs = document.blocks.filter(node => node.type === 'paragraph' && /^P\d{2}。/.test(inlineSource(node.inlines))).length;
     assert.ok(distanceParagraphs >= 10, 'Fixture provides deliberate distance between navigation targets');
     return { maximum_list_depth: maximumListDepth, math_only_links: mathOnly.length, mixed_math_links: mixed.length, distance_paragraphs: distanceParagraphs, empty_code_block: true };
   }
 
+  /** @param {Token[]} tokens */
   function sourceTables(tokens) {
     const tables = [];
     for (let index = 0; index < tokens.length; index++) {
       if (tokens[index].type !== 'table_open') continue;
+      /** @type {{header: string[], rows: string[][], alignments: string[]}} */
       const table = { header: [], rows: [], alignments: [] };
-      let row;
+      /** @type {string[]} */
+      let row = [];
       while (tokens[++index].type !== 'table_close') {
         const token = tokens[index];
         if (token.type === 'tr_open') row = [];
@@ -237,28 +347,36 @@ export async function auditNativeContent({ root = repositoryRoot, profile = 'rep
     return tables;
   }
 
+  /** @param {string} value */
   function decodeEntities(value) {
-    return value.replace(/&(#x[\da-f]+|#\d+|amp|lt|gt|quot|apos);/gi, (whole, entity) => {
+    return value.replace(/&(#x[\da-f]+|#\d+|amp|lt|gt|quot|apos);/gi, (/** @type {string} */ whole, /** @type {string} */ entity) => {
       if (entity.startsWith('#x')) return String.fromCodePoint(parseInt(entity.slice(2), 16));
       if (entity.startsWith('#')) return String.fromCodePoint(Number(entity.slice(1)));
-      return { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'" }[entity] || whole;
+      const entities = /** @type {Record<string, string>} */ ({ amp: '&', lt: '<', gt: '>', quot: '"', apos: "'" }); return entities[entity] || whole;
     });
   }
 
+  /** @param {string} source @param {boolean} displayMode */
   function spokenMath(source, displayMode) {
     const html = katex.renderToString(source.trim(), { displayMode, throwOnError: true, strict: 'error', trust: false, output: 'mathml' });
     const xml = html.match(/<math\b[\s\S]*?<\/math>/)?.[0];
     assert.ok(xml, 'KaTeX must produce a MathML representation');
+    /** @typedef {{tag: string, children: (MathNode|string)[]}} MathNode */
+    /** @type {MathNode[]} */
     const stack = [{ tag: 'root', children: [] }];
-    for (const part of xml.match(/<[^>]+>|[^<]+/g)) {
+    for (const part of xml.match(/<[^>]+>|[^<]+/g) ?? []) {
       if (part.startsWith('</')) { stack.pop(); continue; }
       if (part.startsWith('<')) {
-        const node = { tag: part.match(/^<([^\s/>]+)/)[1].toLowerCase(), children: [] };
-        stack.at(-1).children.push(node);
+        const tag = part.match(/^<([^\s/>]+)/); assert.ok(tag);
+        /** @type {MathNode} */
+        const node = { tag: tag[1].toLowerCase(), children: [] };
+        const parent = stack.at(-1); assert.ok(parent); parent.children.push(node);
         if (!part.endsWith('/>')) stack.push(node);
-      } else if (part.trim()) stack.at(-1).children.push(decodeEntities(part));
+      } else if (part.trim()) { const parent = stack.at(-1); assert.ok(parent); parent.children.push(decodeEntities(part)); }
     }
+    /** @type {Record<string, string>} */
     const operators = { '=': ' イコール ', '+': ' プラス ', '−': ' マイナス ', '-': ' マイナス ', '×': ' かける ', '∈': ' 属する ', '≈': ' およそ ', '∞': ' 無限大 ', '∑': ' 総和 ', '→': ' から ', '⊙': ' 要素ごとの積 ' };
+    /** @param {MathNode|string} node @returns {string} */
     const speak = node => {
       if (typeof node === 'string') return node;
       if (['annotation', 'annotation-xml'].includes(node.tag)) return '';
@@ -275,6 +393,7 @@ export async function auditNativeContent({ root = repositoryRoot, profile = 'rep
     return normalize(speak(stack[0]));
   }
 
+  /** @param {Buffer} data */
   function pngPixels(data) {
     assert.ok(data.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10])), 'PNG signature');
     const width = data.readUInt32BE(16), height = data.readUInt32BE(20), bits = data[24], color = data[25];
@@ -293,7 +412,8 @@ export async function auditNativeContent({ root = repositoryRoot, profile = 'rep
     }
     const raw = inflateSync(Buffer.concat(idat), { maxOutputLength: (stride + 1) * height });
     assert.equal(raw.length, (stride + 1) * height, 'Complete PNG scanlines');
-    let previous = Buffer.alloc(stride), painted = 0, border = 0;
+    /** @type {Buffer} */
+    let previous = Buffer.alloc(stride); let painted = 0, border = 0;
     for (let y = 0; y < height; y++) {
       const row = Buffer.from(raw.subarray(y * (stride + 1) + 1, (y + 1) * (stride + 1)));
       const filter = raw[y * (stride + 1)];
@@ -323,6 +443,7 @@ export async function auditNativeContent({ root = repositoryRoot, profile = 'rep
   }
 
   let inventoryEntries = 0;
+  /** @param {string} directory @param {string} [prefix] @param {number} [depth] @returns {Promise<string[]>} */
   const inventory = async (directory, prefix = '', depth = 0) => {
     assert.ok(depth <= 32, 'Native package directory depth limit');
     const result = [];
@@ -354,17 +475,17 @@ export async function auditNativeContent({ root = repositoryRoot, profile = 'rep
   assert.deepEqual(await readFile(path.join(content, 'assets/licenses/NOTICE.txt')), await readSource(root, 'LICENSE'), 'Documentation and code attribution matches the current source');
   // Resolve source licenses from the same operator-selected tooling as the
   // generator. A candidate package and its self-declared hashes are not sources.
-  for (const [file, resolveLicense] of [
+  for (const [file, resolveLicense] of /** @type {[string, () => string][]} */ ([
     ['assets/katex/LICENSE.txt', () => require.resolve('katex/LICENSE')],
     ['assets/licenses/Mermaid-LICENSE.txt', () => path.join(path.dirname(require.resolve('mermaid/dist/mermaid.esm.min.mjs')), '../LICENSE')]
-  ]) {
+  ])) {
     let source;
     try { source = await readFile(resolveLicense()); }
-    catch (error) { throw new Error(`Cannot read installed source license for ${file}: ${error.message}`, { cause: error }); }
+    catch (error) { throw new Error(`Cannot read installed source license for ${file}: ${error instanceof Error ? error.message : String(error)}`, { cause: error }); }
     assert.deepEqual(await readFile(path.join(content, file)), source, `Bundled license matches installed source: ${file}`);
   }
   for (const article of manifest.articles) assert.ok(Object.hasOwn(manifest.files, article.document_path), 'Article document is in the hashed inventory');
-  const documents = new Map(await Promise.all(manifest.articles.map(async article => [article.id, await readJSON(path.join(content, article.document_path))])));
+  const documents = new Map(await Promise.all(manifest.articles.map(async article => /** @type {const} */ ([article.id, await readJSON(path.join(content, article.document_path))]))));
 
   const reports = [], issues = [], referencedPNGs = new Set(), pairs = new Set(), descriptionKeys = new Set();
   const coverage = { same_article_fragment: 0, selected_article_fragment: 0, selected_article: 0, external: 0 };
@@ -375,7 +496,7 @@ export async function auditNativeContent({ root = repositoryRoot, profile = 'rep
     if (isFixture) assert.equal(article.id, 'test-fixtures/native-reader');
     const parsed = parseArticle(source, article.source_path, { fixture: isFixture });
     assert.equal(article.source_sha256, digest(source), `Current source binding: ${article.id}`);
-    const document = documents.get(article.id);
+    const document = documents.get(article.id); documentShape(document);
     assert.equal(document.source_sha256, article.source_sha256);
     assert.equal(document.article_id, article.id);
     assert.equal(document.schema_version, 1);
@@ -388,7 +509,7 @@ export async function auditNativeContent({ root = repositoryRoot, profile = 'rep
     const slugger = new GithubSlugger();
     const expectedHeadings = tokens.flatMap((token, index) => {
       if (token.type !== 'heading_open') return [];
-      const title = tokens[index + 1].children.filter(value => ['text', 'code_inline', 'math_inline'].includes(value.type)).map(value => value.content).join(' ').trim().replace(/\s+/g, ' ');
+      const title = (tokens[index + 1].children ?? []).filter(value => ['text', 'code_inline', 'math_inline'].includes(value.type)).map(value => value.content).join(' ').trim().replace(/\s+/g, ' ');
       return [{ id: slugger.slug(title), title, level: Number(token.tag.slice(1)) }];
     });
     assert.deepEqual(article.headings, expectedHeadings, `Heading destination IDs: ${article.id}`);
@@ -398,22 +519,26 @@ export async function auditNativeContent({ root = repositoryRoot, profile = 'rep
     const tables = all.filter(node => node.type === 'table').map(node => ({ header: node.table.header.map(inlineSource), rows: node.table.rows.map(row => row.map(inlineSource)), alignments: node.table.alignments }));
     assert.deepEqual(tables, expectedTables, `Every table cell/row/column/alignment: ${article.id}`);
     const code = tokens.filter(token => ['fence', 'code_block'].includes(token.type) && token.info.trim() !== 'mermaid').map(token => ({ language: token.info.trim().split(/\s+/)[0] || 'text', text: token.content }));
-    assert.deepEqual(all.filter(node => node.type === 'code' && node.id).map(node => ({ language: node.language, text: node.text })), code, `Exact code contents: ${article.id}`);
+    assert.deepEqual(all.filter(node => node.type === 'code').filter(node => node.id).map(node => ({ language: 'language' in node ? node.language : undefined, text: 'text' in node ? node.text : undefined })), code, `Exact code contents: ${article.id}`);
     const links = all.filter(node => node.type === 'link');
-    const expectedLinks = tokens.flatMap(token => walk(token.children || [])).filter(token => token.type === 'link_open').map(token => expectedNativeAuditLink(token.attrGet('href'), article, selected));
+    /** @param {Token[]} values @returns {Token[]} */
+    const tokenTree = values => values.flatMap(token => [token, ...tokenTree(token.children ?? [])]);
+    const expectedLinks = tokens.flatMap(token => tokenTree(token.children || [])).filter(token => token.type === 'link_open').map(token => expectedNativeAuditLink(token.attrGet('href'), article, selected));
     assert.deepEqual(links.map(node => node.target), expectedLinks, `All source links: ${article.id}`);
     const distribution = { same_article_fragment: 0, selected_article_fragment: 0, selected_article: 0, external: 0 };
     for (const { target } of links) {
+      /** @type {keyof typeof distribution} */
       let kind;
       if (target.kind === 'article') {
         assert.ok(headings.has(target.article_id), 'Selected destination article exists');
-        if (target.heading_id) assert.ok(headings.get(target.article_id).has(target.heading_id), 'Destination fragment exists');
+        if (target.heading_id) assert.ok(headings.get(target.article_id)?.has(target.heading_id), 'Destination fragment exists');
         kind = target.heading_id ? target.article_id === article.id ? 'same_article_fragment' : 'selected_article_fragment' : 'selected_article';
       } else { const url = new URL(target.url); assert.ok(url.protocol === 'https:' && !url.username && !url.password); kind = 'external'; }
       distribution[kind]++; coverage[kind]++;
     }
     let spokenMathCount = 0;
-    for (const node of all.filter(value => value.asset)) {
+    const assets = all.filter(value => 'asset' in value);
+    for (const node of assets) {
       const asset = node.asset;
       assert.ok(node.accessibility_text?.trim(), 'Every figure and formula needs reading text');
       assert.ok(!/\\(?:frac|mathrm|mathbb|mathbf|sqrt)\b/.test(node.accessibility_text), 'TeX annotations must not leak into reading text');
@@ -423,13 +548,14 @@ export async function auditNativeContent({ root = repositoryRoot, profile = 'rep
         const png = pngs.get(file); assert.ok(png, `Referenced PNG exists: ${file}`); referencedPNGs.add(file);
         assert.ok(Math.abs(png.width - asset.width * asset.scale) <= 2 && Math.abs(png.height - asset.height * asset.scale) <= 2, 'PNG metadata matches pixels');
       }
-      assert.deepEqual([pngs.get(asset.light).width, pngs.get(asset.light).height], [pngs.get(asset.dark).width, pngs.get(asset.dark).height], 'Light/dark canvas dimensions match');
+      const light = pngs.get(asset.light), dark = pngs.get(asset.dark); assert.ok(light && dark);
+      assert.deepEqual([light.width, light.height], [dark.width, dark.height], 'Light/dark canvas dimensions match');
       assert.notEqual(manifest.files[asset.light], manifest.files[asset.dark], 'Theme assets use distinct painted colors');
       pairs.add(asset.light);
       if (node.type === 'math') {
         assert.equal(node.accessibility_text, spokenMath(node.source, Boolean(node.id)), `MathML-derived reading text: ${node.source}`);
         spokenMathCount++;
-        if (!node.id) assert.ok(Number.isFinite(asset.baseline) && asset.baseline >= 0 && asset.baseline <= asset.height, 'Inline formula baseline');
+        if (!node.id) assert.ok(typeof asset.baseline === 'number' && Number.isFinite(asset.baseline) && asset.baseline >= 0 && asset.baseline <= asset.height, 'Inline formula baseline');
       }
       if (node.type === 'diagram') {
         const sourceKey = digest(`diagram\0true\0${node.source.trim()}`).slice(0, 24);
@@ -447,12 +573,12 @@ export async function auditNativeContent({ root = repositoryRoot, profile = 'rep
           if (participant) labels.push(participant[2] || participant[1]);
           if (message) labels.push(message[1]);
         }
+        /** @param {string} value */
         const compact = value => value.replace(/\s+/g, '');
         const missing = labels.filter(label => !compact(node.accessibility_text).includes(compact(label)));
         if (missing.length) issues.push({ article: article.id, kind: 'diagram_reading_text_omits_source_labels', asset: asset.light, missing_labels: missing });
       }
     }
-    const assets = all.filter(node => node.asset);
     const fixtureCoverage = isFixture ? auditFixture(document, all) : undefined;
     reports.push({ article: article.id, ...(isFixture ? { is_test_fixture: true, fixture_coverage: fixtureCoverage } : {}), original_leaves: leaves(tokens).length, headings: article.headings.length,
       tables: tables.length, table_cells: tables.reduce((sum, table) => sum + table.header.length + table.rows.flat().length, 0),
@@ -482,7 +608,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     console.log(JSON.stringify(output, null, 2));
     if (output.result === 'failed') process.exitCode = 1;
   } catch (error) {
-    console.log(JSON.stringify({ surface: 'static/content-integrity', native_ui_test: false, voiceover_test: false, result: 'failed', error: error.message }, null, 2));
+    console.log(JSON.stringify({ surface: 'static/content-integrity', native_ui_test: false, voiceover_test: false, result: 'failed', error: error instanceof Error ? error.message : String(error) }, null, 2));
     process.exitCode = 1;
   }
 }

@@ -1,7 +1,9 @@
 import { spawnSync } from 'node:child_process'
 import { realpathSync, statSync } from 'node:fs'
 
-/** Windows の実 8.3 名を取得する読取専用 test helper。パスを shell source に補間しない。 */
+/** Windows の実 8.3 名を取得する読取専用 test helper。パスを shell source に補間しない。
+ * @param {string} directory
+ */
 export function windowsShortPath(directory) {
   if (process.platform !== 'win32') return { path: null, reason: 'Windows 8.3 path test' }
   const physical = realpathSync.native(directory)

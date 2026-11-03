@@ -41,7 +41,7 @@ export function Mermaid({ chart }: { chart: string }) {
         await document.fonts.ready
         const { default: mermaid } = await import('mermaid')
         const result = await renderMermaidChart(mermaid, {
-          id: `mermaid-${id}`, chart, dark, container: containerRef.current, isCurrent
+          id: `mermaid-${id}`, chart, dark, container: containerRef.current || undefined, isCurrent
         })
         if (result !== null && isCurrent()) setSvg(result)
       } catch (error) {

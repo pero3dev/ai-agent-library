@@ -1,4 +1,6 @@
 import test from 'node:test';
+import { requiredFixture, objectFixture, objectArrayFixture, stringFixture } from '../helpers/json-fixtures.mjs';
+import { audioDeclarationFixture, audioEpisodeFixture } from '../helpers/ios-fixtures.mjs';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import http from 'node:http';
@@ -7,15 +9,21 @@ import { createHash } from 'node:crypto';
 import { createDeclaredAudioResolver, DEFAULT_NATIVE_AUDIO_IDENTITIES } from '../../scripts/lib/ios-audio-identity.mjs';
 import { audioMetadata, parseArticle } from '../../scripts/lib/ios-content.mjs';
 
-const fixture = JSON.parse(await readFile(new URL('../fixtures/ios-audio-identities.json', import.meta.url)));
+const raw = objectFixture(JSON.parse(await readFile(new URL('../fixtures/ios-audio-identities.json', import.meta.url), 'utf8')));
+assert.ok(Array.isArray(raw.other_catalog_article_paths));
+const fixture = { mock_only_not_production_adoption: raw.mock_only_not_production_adoption, history_declaration: audioDeclarationFixture(raw.history_declaration), episodes: objectArrayFixture(raw.episodes).map(audioEpisodeFixture), other_catalog_article_paths: raw.other_catalog_article_paths.map(stringFixture) };
+/** @type {import('../../scripts/lib/ios-types.d.mts').IOSAudioCatalog} */
 const catalog = { schema_version: 1, episodes: fixture.episodes };
-const sources = new Map(await Promise.all(fixture.episodes.map(async episode => [episode.article_path,
-  await readFile(new URL('../../' + episode.article_path, import.meta.url), 'utf8')])));
+const sources = new Map(await Promise.all(fixture.episodes.map(async episode => /** @type {[string,string]} */ ([episode.article_path,
+  await readFile(new URL('../../' + episode.article_path, import.meta.url), 'utf8')]))));
+/** @template T @param {T} value @returns {{-readonly [P in keyof T]:T[P]}} */
 const clone = value => structuredClone(value);
+/** @param {import('node:crypto').BinaryLike} value */
 const sha = value => createHash('sha256').update(value).digest('hex');
 const declarations = () => [...DEFAULT_NATIVE_AUDIO_IDENTITIES.map(clone), clone(fixture.history_declaration)];
 const context = (episode = fixture.episodes[0]) => ({ catalog: clone(catalog), sourcePath: episode.article_path,
-  sourceText: sources.get(episode.article_path), article: parseArticle(sources.get(episode.article_path), episode.article_path) });
+  sourceText: requiredFixture(sources.get(episode.article_path)), article: parseArticle(requiredFixture(sources.get(episode.article_path)), episode.article_path) });
+/** @param {ReturnType<typeof createDeclaredAudioResolver>} resolve @param {ReturnType<typeof context>} input */
 const metadata = (resolve, input) => audioMetadata({ schema_version: 1, episodes: [resolve(input)] }, input.article, input.sourcePath);
 
 test('production declaration remains exactly the existing Agent-loop tuple and singleton output bytes', () => {
@@ -51,18 +59,18 @@ test('URL host, release version and complete asset path cannot replace a declare
 
 test('episode ID and audio/source/script SHA are matched against declarations, not self claims', () => {
   for (const key of ['id', 'audio_sha256', 'source_digest', 'script_sha256']) {
-    const input = context(); input.catalog.episodes[0][key] = key === 'id' ? 'self-declared-episode' : 'f'.repeat(64);
+    const input = context(); Reflect.set(input.catalog.episodes[0], key, key === 'id' ? 'self-declared-episode' : 'f'.repeat(64));
     assert.throws(() => createDeclaredAudioResolver()(input), /tuple/);
   }
 });
 
 test('selected article ID/path and actual source bytes must bind to the same identity', () => {
-  for (const mutate of [input => { input.article.id = '01-concepts/other'; },
+  for (const mutate of /** @type {((input:ReturnType<typeof context>)=>void)[]} */ ([input => { input.article.id = '01-concepts/other'; },
     input => { input.article.source_path = 'docs/01-concepts/other.md'; },
     input => { input.sourcePath = fixture.episodes[1].article_path; },
     input => { input.sourceText += '\nchanged\n'; },
     input => { input.article.source_sha256 = 'f'.repeat(64); },
-    input => { input.article.normalized_digest = 'f'.repeat(64); }]) {
+    input => { input.article.normalized_digest = 'f'.repeat(64); }])) {
     const input = context(); mutate(input);
     assert.throws(() => createDeclaredAudioResolver()(input), /article\/source|source SHA|not declared/);
   }
@@ -81,20 +89,20 @@ test('CRLF normalization preserves the declared full Markdown digest without tri
 });
 
 test('credit and terms cannot be dropped or replaced even on the known host', () => {
-  for (const mutate of [e => { e.attribution = ''; }, e => { e.attribution += ' altered'; },
+  for (const mutate of /** @type {((e:import('../../scripts/lib/ios-types.d.mts').IOSAudioEpisode)=>void)[]} */ ([e => { e.attribution = ''; }, e => { e.attribution += ' altered'; },
     e => { e.voices = []; }, e => { e.voices[0].license_url = 'https://example.com/terms'; },
-    e => { e.voices[0].license_url += '?version=other'; }]) {
+    e => { e.voices[0].license_url += '?version=other'; }])) {
     const input = context(); mutate(input.catalog.episodes[0]);
     assert.throws(() => createDeclaredAudioResolver()(input), /tuple\/credit\/terms/);
   }
 });
 
 test('only one complete episode with valid bounded duration and chapters is resolved', () => {
-  for (const mutate of [e => { e.part = 2; }, e => { e.parts = 2; }, e => { e.duration_seconds = Infinity; },
+  for (const mutate of /** @type {((e:import('../../scripts/lib/ios-types.d.mts').IOSAudioEpisode)=>void)[]} */ ([e => { e.part = 2; }, e => { e.parts = 2; }, e => { e.duration_seconds = Infinity; },
     e => { e.duration_seconds = 0; }, e => { e.duration_seconds = 86401; }, e => { e.chapters = []; },
     e => { e.chapters[0].id = e.chapters[1].id; }, e => { e.chapters[1].start_seconds = 0; },
     e => { e.chapters[0].start_seconds = -1; }, e => { e.chapters[0].title = ''; },
-    e => { e.chapters.at(-1).start_seconds = e.duration_seconds; }]) {
+    e => { requiredFixture(e.chapters.at(-1)).start_seconds = e.duration_seconds; }])) {
     const input = context(); mutate(input.catalog.episodes[0]);
     assert.throws(() => createDeclaredAudioResolver()(input), /tuple|metadata|chapter/);
   }
@@ -112,14 +120,14 @@ test('duplicate and ambiguous declarations reject before any catalog access', ()
 });
 
 test('malformed declarations reject before selection, including incomplete tuples and unversioned URLs', () => {
-  for (const mutate of [d => { delete d.script_sha256; }, d => { d.article_id = 'wrong'; },
+  for (const mutate of /** @type {((d:import('../../scripts/lib/ios-types.d.mts').IOSAudioDeclaration)=>void)[]} */ ([d => { Reflect.deleteProperty(d, 'script_sha256'); }, d => { d.article_id = 'wrong'; },
     d => { d.audio_sha256 = 'self-reported'; }, d => { d.credit = ''; },
     d => { d.license_url = 'http://voicevox.hiroshiba.jp/nemo/term/'; },
-    d => { d.audio_url = 'https://github.com/pero3dev/ai-agent-library/releases/download/latest/episode.mp3'; }]) {
+    d => { d.audio_url = 'https://github.com/pero3dev/ai-agent-library/releases/download/latest/episode.mp3'; }])) {
     const declaration = clone(DEFAULT_NATIVE_AUDIO_IDENTITIES[0]); mutate(declaration);
     assert.throws(() => createDeclaredAudioResolver([declaration]), /invalid trusted/);
   }
-  for (const value of [null, [], {}, Array(33).fill(DEFAULT_NATIVE_AUDIO_IDENTITIES[0])]) assert.throws(() => createDeclaredAudioResolver(value), /declarations/);
+  for (const value of [null, [], {}, Array(33).fill(DEFAULT_NATIVE_AUDIO_IDENTITIES[0])]) assert.throws(() => Reflect.apply(createDeclaredAudioResolver, undefined, [value]), /declarations/);
 });
 
 test('duplicate catalog IDs and ambiguous article episodes are rejected', () => {
@@ -131,8 +139,8 @@ test('duplicate catalog IDs and ambiguous article episodes are rejected', () => 
 
 test('catalog or selection-like data cannot provide a trusted policy', () => {
   const input = context(fixture.episodes[1]);
-  input.catalog.trustedAudioDeclarations = declarations(); input.catalog.trustedDeclarations = declarations();
-  input.selection = { trustedAudioDeclarations: declarations() }; input.manifest = { trustedDeclarations: declarations() };
+  Reflect.set(input.catalog, 'trustedAudioDeclarations', declarations()); Reflect.set(input.catalog, 'trustedDeclarations', declarations());
+  Reflect.set(input, 'selection', { trustedAudioDeclarations: declarations() }); Reflect.set(input, 'manifest', { trustedDeclarations: declarations() });
   assert.throws(() => createDeclaredAudioResolver()(input), /not declared/);
   for (const sourcePath of fixture.other_catalog_article_paths) assert.throws(() => createDeclaredAudioResolver()({ sourcePath }), /not declared/);
 });
@@ -149,9 +157,9 @@ test('pure module initialization and identity resolution make no network request
   const fail = () => { calls++; throw Error('network attempted'); };
   const oldFetch = globalThis.fetch; globalThis.fetch = fail; t.after(() => { globalThis.fetch = oldFetch; });
   for (const target of [http, https]) for (const key of ['get', 'request']) {
-    const original = target[key]; target[key] = fail; t.after(() => { target[key] = original; });
+    const original = Reflect.get(target, key); Reflect.set(target, key, fail); t.after(() => { Reflect.set(target, key, original); });
   }
-  const isolated = await import(new URL('../../scripts/lib/ios-audio-identity.mjs?offline-fixture', import.meta.url));
+  const isolated = await import(new URL('../../scripts/lib/ios-audio-identity.mjs?offline-fixture', import.meta.url).href);
   assert.equal(isolated.createDeclaredAudioResolver()(context()).id, fixture.episodes[0].id);
   assert.equal(calls, 0);
 });

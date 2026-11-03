@@ -6,7 +6,9 @@ import test from 'node:test'
 import { checkStructure, loadStructure } from '../../scripts/check-structure.mjs'
 import { inventoryRoots, measureInventory, parseInventoryOptions, structureInventory } from '../../scripts/structure-inventory.mjs'
 import { ROOT } from '../../scripts/lib/tooling-common.mjs'
+import { requiredFixture } from '../helpers/json-fixtures.mjs'
 
+/** @param {import('node:test').TestContext} t */
 function fixture(t) {
   const base = path.resolve(os.tmpdir())
   const root = mkdtempSync(path.join(base, 'ai-agent-library-structure-'))
@@ -15,6 +17,7 @@ function fixture(t) {
     assert.ok(path.basename(root).startsWith('ai-agent-library-structure-'))
     rmSync(root, { recursive: true, force: true })
   })
+  /** @param {string} file @param {string | Buffer} [text] */
   const write = (file, text = '') => { const target = path.join(root, file); mkdirSync(path.dirname(target), { recursive: true }); writeFileSync(target, text) }
   const contract = loadStructure(ROOT)
   const files = [...contract.root_files, ...contract.required_files, 'harness/structure.json']
@@ -22,6 +25,17 @@ function fixture(t) {
   write('harness/structure.json', readFileSync(path.join(ROOT, 'harness/structure.json')))
   return { root, write, files }
 }
+
+test('structure loading leaves unconsumed policy metadata unknown until its consumer checks it', t => {
+  const { root, write, files } = fixture(t)
+  const original = loadStructure(ROOT)
+  const raw = { ...original, public_records: 'invalid policy', retention: { ...original.retention, deletion_requires: [1] } }
+  write('harness/structure.json', JSON.stringify(raw))
+  const loaded = loadStructure(root)
+  assert.deepEqual(loaded.retention.deletion_requires, [1])
+  assert.equal(loaded.public_records, 'invalid policy')
+  assert(checkStructure(root, { trackedFiles: files }).problems.some(message => message.includes('公開記録')))
+})
 
 test('final structure has 16 root files, eight Markdown entries and required checked indexes', t => {
   const { root, files } = fixture(t)
@@ -86,7 +100,7 @@ test('Windows helper is allowed only at the relocated test helper path', t => {
 test('storage categories partition bytes without following links or counting nested roots twice', t => {
   const { root, write } = fixture(t)
   const storage = path.join(root, 'storage')
-  for (const [file, bytes] of [['source.md', 3], ['node_modules/pkg/index.js', 5], ['website/out/index.html', 7], ['.git/objects/object', 11], ['.git/harness-eval/case/log', 13], ['.git/harness-tools/bin/tool', 17], ['local.txt', 19], ['.git/structure-cleanup/evidence.log', 23], ['.git/STRUCTURE_EVIDENCE', 29], ['.git/HEAD', 31]]) write(`storage/${file}`, 'x'.repeat(bytes))
+  for (const [file, bytes] of /** @type {[string, number][]} */ ([['source.md', 3], ['node_modules/pkg/index.js', 5], ['website/out/index.html', 7], ['.git/objects/object', 11], ['.git/harness-eval/case/log', 13], ['.git/harness-tools/bin/tool', 17], ['local.txt', 19], ['.git/structure-cleanup/evidence.log', 23], ['.git/STRUCTURE_EVIDENCE', 29], ['.git/HEAD', 31]])) write(`storage/${file}`, 'x'.repeat(bytes))
   write('outside/secret.txt', 'NOT_READ_OR_COUNTED')
   symlinkSync(path.join(root, 'outside'), path.join(storage, 'linked'), process.platform === 'win32' ? 'junction' : 'dir')
   symlinkSync(path.join(root, 'missing'), path.join(storage, 'dangling'), process.platform === 'win32' ? 'junction' : 'dir')
@@ -118,7 +132,9 @@ test('worktree inventory explicitly excludes unselected and different-common che
   write('current/.git/objects/data', 'git')
   write('owned/doc.md', 'owned')
   write('foreign/.git/data', 'foreign')
+  /** @type {{cwd: string, args: string[]}[]} */
   const calls = []
+  /** @param {string} cwd @param {...string} args */
   const gitReader = (cwd, ...args) => {
     calls.push({ cwd, args })
     if (args[0] === 'worktree') return [current, own, foreign].map(directory => `worktree ${directory}\0HEAD fixture\0\0`).join('')
@@ -131,8 +147,8 @@ test('worktree inventory explicitly excludes unselected and different-common che
   assert.ok(defaultResult.worktrees.every(row => row.status === 'not-requested' && row.storage === 'not-measured'))
   const selected = structureInventory(current, { worktrees: true, gitReader })
   assert.equal(selected.totals.bytes - defaultResult.totals.bytes, 5)
-  assert.equal(selected.worktrees.find(row => row.path === own).status, 'selected')
-  assert.equal(selected.worktrees.find(row => row.path === foreign).status, 'unavailable-or-different-common-git')
+  assert.equal(requiredFixture(selected.worktrees.find(row => row.path === own)).status, 'selected')
+  assert.equal(requiredFixture(selected.worktrees.find(row => row.path === foreign)).status, 'unavailable-or-different-common-git')
   assert.ok(calls.every(call => ['rev-parse', 'ls-files', 'worktree'].includes(call.args[0])))
   assert.equal(selected.automatic_deletion, false)
   assert.equal(selected.retention.completed_evidence_minimum_days, 90)

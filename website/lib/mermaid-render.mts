@@ -1,8 +1,15 @@
 // Mermaid keeps global configuration. Serialize initialize + render together so
 // lazily mounted diagrams and theme changes cannot replace an in-flight config.
-let renderQueue = Promise.resolve()
+import type { Mermaid } from 'mermaid'
+let renderQueue: Promise<unknown> = Promise.resolve()
 
-export function renderMermaidChart(mermaid, { id, chart, dark, container, isCurrent = () => true }) {
+export interface MermaidRenderer<Container = Element> {
+  initialize(config: Parameters<Mermaid['initialize']>[0]): void
+  render(id: string, chart: string, container?: Container): Promise<{ svg: string }>
+}
+export function renderMermaidChart<Container = Element>(mermaid: MermaidRenderer<Container>, { id, chart, dark, container, isCurrent = () => true }: {
+  id: string; chart: string; dark: boolean; container?: Container; isCurrent?: () => boolean
+}) {
   const rendering = renderQueue.then(async () => {
     if (!isCurrent()) return null
     mermaid.initialize({

@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url'
 
 const root = fileURLToPath(new URL('../out/', import.meta.url))
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
-const mime = {
+const mime: Record<string, string> = {
   '.html': 'text/html; charset=utf-8', '.js': 'text/javascript',
   '.css': 'text/css', '.json': 'application/json', '.txt': 'text/plain',
   '.svg': 'image/svg+xml', '.png': 'image/png', '.woff2': 'font/woff2',
@@ -15,7 +15,7 @@ const mime = {
 
 const server = createServer(async (request, response) => {
   try {
-    const pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname)
+    const pathname = decodeURIComponent(new URL(request.url ?? '/', 'http://localhost').pathname)
     if (basePath && pathname !== basePath && !pathname.startsWith(`${basePath}/`)) {
       response.writeHead(404).end()
       return

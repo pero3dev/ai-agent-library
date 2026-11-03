@@ -5,8 +5,11 @@ import { ConceptCards } from '../components/home/concept-cards'
 import { Hero } from '../components/home/hero'
 import { RouteExplorer } from '../components/deferred-pages'
 import { SectionGrid } from '../components/home/section-grid'
-import sections from '../generated/sections.json'
+import sectionsData from '../generated/sections.json'
+import type { Section } from '../lib/content-types'
 import '../components/home/home.css'
+
+const sections: Section[] = sectionsData
 
 export const metadata = pageMetadata("/", "AI Agent Library — 実務の設計判断のための学習ドキュメント", "AI Agent の概念・設計・実装・評価・運用を学ぶ入口。役割別の学習ルートと16章の索引から必要な記事を探せます。")
 

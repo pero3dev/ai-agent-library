@@ -7,6 +7,21 @@ import { syncBuiltinESMExports } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import { createHash } from 'node:crypto'
 import { nativeSimulatorContract as C, prepareNativeSimulator, cleanupNativeSimulator, main, readNativeGitIdentity } from '../../ios/tests/native-simulator-prepare.mjs'
+import { resultObject } from '../../ios/tests/xcresult-json.mjs'
+/** @typedef {import('../helpers/ios-simulator-fixtures.ts').DeviceFixture} DeviceFixture */
+/** @typedef {import('../helpers/ios-simulator-fixtures.ts').FixtureOptions} FixtureOptions */
+/** @typedef {import('../helpers/ios-simulator-fixtures.ts').ReceiptFixture} ReceiptFixture */
+/** @typedef {import('../helpers/ios-simulator-fixtures.ts').RawResponse} RawResponse */
+/** @typedef {ReturnType<typeof fixture>} Harness */
+
+/** A fixture store reads only records produced by the exercised source. */
+/** @extends {Map<string, unknown>} */
+class FixtureFiles extends Map {
+  /** @template {string} Key @param {Key} key @returns {import('../helpers/ios-simulator-fixtures.ts').FixtureEvidence<Key>} */
+  get(key) { const value = super.get(key); assert.ok(this.has(key), 'Missing ' + key); resultObject(value); return /** @type {import('../helpers/ios-simulator-fixtures.ts').FixtureEvidence<Key>} */ (value) }
+}
+/** @template T @param {T|null|undefined} value @returns {T} */
+function required(value) { assert.ok(value !== null && value !== undefined, 'Required fixture value'); return value }
 
 const NEW = 'AAAAAAAA-AAAA-4AAA-8AAA-AAAAAAAAAAAA'
 const OLD = 'BBBBBBBB-BBBB-4BBB-8BBB-BBBBBBBBBBBB'
@@ -14,15 +29,32 @@ const OTHER = 'CCCCCCCC-CCCC-4CCC-8CCC-CCCCCCCCCCCC'
 const TOKEN = 'dddddddd-dddd-4ddd-8ddd-dddddddddddd'
 const ctx = { repository: C.repository, job: 'ios-native', run_id: '12345', run_attempt: '2',
   source_head: 'a'.repeat(40), checkout_sha: 'b'.repeat(40), source_tree: 'c'.repeat(40), developer_dir: C.developer }
+/** @template T @param {T} x @returns {T} */
 const clone = x => JSON.parse(JSON.stringify(x))
+/** @param {FixtureOptions} [options] */
 function fixture(options = {}) {
-  const files = new Map(), calls = [], outputs = {}, existing = clone(options.existing ?? [])
-  let made = null, listCount = 0, clock = 0
-  const store = { has: k => files.has(k), read: k => { assert.ok(files.has(k), 'Missing ' + k); return clone(files.get(k)) },
-    write: (k, v) => { assert.ok(!files.has(k), 'Duplicate ' + k); options.storeHook?.(k, clone(v), files); files.set(k, clone(v)) } }
+  const files = new FixtureFiles()
+  /** @type {import('../helpers/ios-simulator-fixtures.ts').CommandFixture[]} */
+  const calls = []
+  /** @type {{token?: string, UUID?: string, destination?: string}} */
+  const outputs = {}
+  const existing = clone(options.existing ?? [])
+  /** @type {DeviceFixture|null} */
+  let made = null
+  let listCount = 0, clock = 0
+  const store = {
+    /** @param {string} k */
+    has: k => files.has(k),
+    /** @template {string} Key @param {Key} k @returns {import('../helpers/ios-simulator-fixtures.ts').FixtureEvidence<Key>} */
+    read: k => { assert.ok(files.has(k), 'Missing ' + k); return clone(files.get(k)) },
+    /** @param {string} k @param {unknown} v */
+    write: (k, v) => { assert.ok(!files.has(k), 'Duplicate ' + k); resultObject(v); options.storeHook?.(k, clone(v), files); files.set(k, clone(v)) } }
+  /** @param {unknown} [value] @param {number} [status] @returns {RawResponse} */
   const response = (value = '', status = 0) => ({ status, signal: null, error: null,
     stdout: Buffer.from(typeof value === 'string' ? value : JSON.stringify(value)), stderr: Buffer.alloc(0) })
+  /** @param {string} udid @param {string} [name] @param {string} [state] @returns {DeviceFixture} */
   const device = (udid, name = 'iPhone 16', state = 'Shutdown') => ({ udid, name, state, isAvailable: true, deviceTypeIdentifier: C.type })
+  /** @type {import('../../ios/tests/native-simulator-types.ts').SimulatorExecute} */
   const execute = (binary, args, settings) => {
     calls.push({ binary, args: [...args], settings })
     if (options.intercept) {
@@ -47,12 +79,12 @@ function fixture(options = {}) {
     }
     if (args[1] === 'boot') {
       if (options.bootFailure) return response('boot failed', 23)
-      made.state = 'Booted'; return response()
+      assert.ok(made); made.state = 'Booted'; return response()
     }
     if (args[1] === 'bootstatus') return response('', options.bootstatusFailure ? 24 : 0)
     if (args[1] === 'shutdown') {
       if (options.shutdownFailure) return response('shutdown failed', 25)
-      made.state = 'Shutdown'; return response()
+      assert.ok(made); made.state = 'Shutdown'; return response()
     }
     if (args[1] === 'delete') {
       if (options.deleteFailure) return response('delete failed', 26)
@@ -62,9 +94,10 @@ function fixture(options = {}) {
   }
   const common = { context: ctx, store, execute, now: () => (clock += options.clockIncrement ?? 1),
     env: { HOME: '/fixture-home', GITHUB_TOKEN: 'must-not-pass', ACTIONS_ID_TOKEN_REQUEST_TOKEN: 'must-not-pass' } }
-  return { files, calls, outputs, store, device, advance: ms => { clock += ms }, get made() { return made }, set made(x) { made = x },
+  return { files, calls, outputs, store, device, advance: (/** @type {number} */ ms) => { clock += ms }, get made() { return made }, set made(x) { made = x },
     prepare: () => prepareNativeSimulator({ ...common, makeToken: () => TOKEN,
       onToken: x => { outputs.token = x }, onCreated: x => { outputs.UUID = x }, onReady: x => { outputs.destination = x } }),
+    /** @param {import('../helpers/ios-simulator-fixtures.ts').CleanupOverrides} [extra] */
     cleanup: extra => cleanupNativeSimulator({ ...common, token: outputs.token || '', createdUUID: outputs.UUID || '', ...extra }),
     destructive: () => calls.filter(x => ['shutdown', 'delete'].includes(x.args[1])) }
 }
@@ -213,7 +246,7 @@ test('successful create without external step UUID cannot authorize cleanup', ()
   assert.throws(() => h.cleanup({ createdUUID: '' })); assert.equal(h.destructive().length, 0)
 })
 test('different device type on the same UUID refuses cleanup before shutdown', () => {
-  const h = fixture(); h.prepare(); h.made.deviceTypeIdentifier = 'com.apple.CoreSimulator.SimDeviceType.iPhone-15'
+  const h = fixture(); h.prepare(); required(h.made).deviceTypeIdentifier = 'com.apple.CoreSimulator.SimDeviceType.iPhone-15'
   assert.throws(h.cleanup, /device type/); assert.equal(h.destructive().length, 0)
 })
 
@@ -224,10 +257,13 @@ test('omitted optional device-type field uses exact inventory/create proof while
 })
 
 // New controls use only the injected Native executor, in-memory store and clock.
+/** @param {Partial<RawResponse>} [extra] @returns {RawResponse} */
 const nativeTimeout = (extra = {}) => ({ status: null, signal: 'SIGKILL',
   error: Object.assign(new Error('spawnSync /usr/bin/xcrun ETIMEDOUT'), { code: 'ETIMEDOUT' }),
   stdout: Buffer.alloc(0), stderr: Buffer.alloc(0), ...extra })
+/** @param {unknown} value */
 const receiptSHA = value => createHash('sha256').update(JSON.stringify(value, null, 2) + '\n').digest('hex')
+/** @param {string} role @param {Harness} h @param {string[]} args */
 function isInventoryRole(role, h, args) {
   if (args[0] !== 'simctl' || args[1] !== 'list') return false
   if (role === 'runtimes') return args[2] === 'runtimes'
@@ -238,7 +274,7 @@ function isInventoryRole(role, h, args) {
 }
 for (const role of ['runtimes', 'device-types', 'devices-before-create', 'devices-after-create', 'devices-after-boot']) {
   test(role + ': one exact Native timeout gets one distinct successful read under the same deadline', () => {
-    let h, attempts = 0
+    /** @type {Harness} */ let h; let attempts = 0
     h = fixture({ intercept: (binary, args, settings) => {
       if (isInventoryRole(role, h, args) && ++attempts === 1) { h.advance(settings.timeout); return nativeTimeout() }
       return null
@@ -259,7 +295,7 @@ for (const role of ['runtimes', 'device-types', 'devices-before-create', 'device
     assert.ok(h.destructive().every(x => x.args[2] === NEW))
   })
   test(role + ': a second timeout stops without a third prepare attempt or ready handoff', () => {
-    let h, attempts = 0
+    /** @type {Harness} */ let h; let attempts = 0
     h = fixture({ intercept: (binary, args, settings) => {
       if (isInventoryRole(role, h, args)) { attempts++; h.advance(settings.timeout); return nativeTimeout() }
       return null
@@ -272,7 +308,7 @@ for (const role of ['runtimes', 'device-types', 'devices-before-create', 'device
     }
   })
 }
-for (const [name, replacement] of [
+for (const [name, replacement] of /** @type {[string, unknown][]} */ ([
   ['nonzero', { status: 23, signal: null, error: null, stdout: Buffer.alloc(0), stderr: Buffer.alloc(0) }],
   ['wrong-signal', nativeTimeout({ signal: 'SIGTERM' })],
   ['no-signal', nativeTimeout({ signal: null })],
@@ -280,8 +316,7 @@ for (const [name, replacement] of [
   ['ENOENT', nativeTimeout({ error: Object.assign(new Error('missing'), { code: 'ENOENT' }) })],
   ['ENOBUFS', nativeTimeout({ error: Object.assign(new Error('output cap'), { code: 'ENOBUFS' }) })],
   ['missing-code', nativeTimeout({ error: new Error('ETIMEDOUT text alone is not authority') })]
-]) {
-  test('unknown Native receipt family never retries: ' + name, () => {
+])) {  test('unknown Native receipt family never retries: ' + name, () => {
     const h = fixture({ intercept: (binary, args) => args[2] === 'runtimes' ? replacement : null })
     assert.throws(h.prepare); assert.equal(h.calls.filter(x => x.args[2] === 'runtimes').length, 1)
     assert.equal(h.files.has('runtimes-timeout-retry-1'), false)
@@ -295,7 +330,7 @@ test('malformed successful inventory JSON is not a timeout retry', () => {
   assert.equal(h.files.has('runtimes-timeout-retry-1'), false)
 })
 test('retry read timeout is clipped to the shared480s remainder without resetting the clock', () => {
-  let h, attempts = 0
+  /** @type {Harness} */ let h; let attempts = 0
   h = fixture({ storeHook: label => { if (label === 'sdk') h.advance(C.prepareMs - 90000) },
     intercept: (binary, args, settings) => {
       if (args[2] === 'runtimes' && ++attempts === 1) { h.advance(settings.timeout); return nativeTimeout() }
@@ -308,6 +343,7 @@ test('retry read timeout is clipped to the shared480s remainder without resettin
   assert.equal(attempts, 2)
 })
 test('first read clips below60s; exhaustion after timeout prevents even a retry spawn', () => {
+  /** @type {Harness} */
   let h
   h = fixture({ storeHook: label => { if (label === 'sdk') h.advance(C.prepareMs - 30000) },
     intercept: (binary, args, settings) => {
@@ -320,6 +356,7 @@ test('first read clips below60s; exhaustion after timeout prevents even a retry 
   assert.equal(h.files.has('runtimes-timeout-retry-1'), false)
 })
 test('successful inventory returned after the shared deadline is rejected, not retried', () => {
+  /** @type {Harness} */
   let h
   h = fixture({ intercept: (binary, args) => { if (args[2] === 'runtimes') h.advance(C.prepareMs); return null } })
   assert.throws(h.prepare, /deadline/)
@@ -329,6 +366,7 @@ test('successful inventory returned after the shared deadline is rejected, not r
 })
 for (const label of ['devices-after-boot', 'ready']) {
   test('deadline consumed by ' + label + ' persistence cannot hand off a ready destination', () => {
+    /** @type {Harness} */
     let h
     h = fixture({ storeHook: key => { if (key === label) h.advance(C.prepareMs) } })
     assert.throws(h.prepare, /deadline/); assert.equal(h.outputs.destination, undefined)
@@ -336,11 +374,11 @@ for (const label of ['devices-after-boot', 'ready']) {
     assert.equal(h.cleanup().ok, true); assert.ok(h.destructive().every(x => x.args[2] === NEW))
   })
 }
-for (const [name, tamper] of [
-  ['missing-label', h => { delete h.files.get('intent').before_devices_attempt_label }],
+for (const [name, tamper] of /** @type {[string, (h: Harness) => void][]} */ ([
+  ['missing-label', h => { Reflect.deleteProperty(h.files.get('intent'), 'before_devices_attempt_label') }],
   ['unknown-label', h => { h.files.get('intent').before_devices_attempt_label = 'devices-before-create-timeout-retry-2' }],
   ['wrong-role', h => { h.files.get('intent').before_devices_attempt_label = 'runtimes' }],
-  ['nonstring-label', h => { h.files.get('intent').before_devices_attempt_label = ['devices-before-create'] }],
+  ['nonstring-label', h => { Reflect.set(h.files.get('intent'), 'before_devices_attempt_label', ['devices-before-create']) }],
   ['wrong-canonical-receipt-SHA', h => { h.files.get('intent').before_devices_receipt_SHA256 = '0'.repeat(64) }],
   ['wrong-stdout-SHA', h => { h.files.get('intent').before_devices_stdout_SHA256 = '0'.repeat(64) }],
   ['missing-accepted-receipt', h => { h.files.delete('devices-before-create') }],
@@ -350,14 +388,13 @@ for (const [name, tamper] of [
   ['late-receipt', h => { h.files.get('devices-before-create').returned_within_deadline = false }],
   ['unknown-timeout-cap', h => { h.files.get('devices-before-create').timeout_ms = 60001 }],
   ['duplicate-attempt', h => { h.files.set('devices-before-create-timeout-retry-1', h.store.read('devices-before-create')) }]
-]) {
-  test('cleanup refuses changed pre-create accepted proof before any simctl command: ' + name, () => {
+])) {  test('cleanup refuses changed pre-create accepted proof before any simctl command: ' + name, () => {
     const h = fixture(); h.prepare(); const count = h.calls.length; tamper(h)
     assert.throws(h.cleanup); assert.equal(h.calls.length, count); assert.equal(h.destructive().length, 0)
   })
 }
 test('accepted retry requires its original timeout proof and matching accepted raw stdout', () => {
-  let h, count = 0
+  /** @type {Harness} */ let h; let count = 0
   h = fixture({ intercept: (binary, args) => {
     if (args[2] === 'devices' && h.made === null && ++count === 1) return nativeTimeout()
     return null
@@ -367,7 +404,7 @@ test('accepted retry requires its original timeout proof and matching accepted r
   const prior = h.calls.length; assert.throws(h.cleanup); assert.equal(h.calls.length, prior)
 })
 test('late post-create inventory cannot hand off ready, but successful creation remains cleanable', () => {
-  let h, late = false
+  /** @type {Harness} */ let h; let late = false
   h = fixture({ intercept: (binary, args) => {
     if (!late && args[2] === 'devices' && h.made?.state === 'Shutdown') { late = true; h.advance(C.prepareMs) }
     return null
@@ -379,7 +416,7 @@ test('late post-create inventory cannot hand off ready, but successful creation 
 test('boot timeout is unrepeatable and cleanup acts only on the proved fresh UUID', () => {
   const h = fixture({ intercept: (binary, args) => args[1] === 'boot' ? nativeTimeout() : null })
   assert.throws(h.prepare, /command failed: boot/); assert.equal(h.calls.filter(x => x.args[1] === 'boot').length, 1)
-  assert.equal(h.calls.find(x => x.args[1] === 'boot').settings.timeout, 30000)
+  assert.equal(required(h.calls.find(x => x.args[1] === 'boot')).settings.timeout, 30000)
   assert.equal(h.cleanup().ok, true); assert.ok(h.destructive().every(x => x.args[2] === NEW))
 })
 test('cleanup read retains15s and retry0 even for the exact Native timeout family', () => {
@@ -387,12 +424,12 @@ test('cleanup read retains15s and retry0 even for the exact Native timeout famil
   const h = fixture({ intercept: (binary, args) => cleaning && args[1] === 'list' ? nativeTimeout() : null })
   h.prepare(); cleaning = true; const prior = h.calls.length
   assert.throws(h.cleanup, /command failed: cleanup-before/)
-  assert.equal(h.calls.length - prior, 1); assert.equal(h.calls.at(-1).settings.timeout, 15000)
+  assert.equal(h.calls.length - prior, 1); assert.equal(required(h.calls.at(-1)).settings.timeout, 15000)
   assert.equal(h.files.has('cleanup-before-timeout-retry-1'), false); assert.equal(h.destructive().length, 0)
 })
 test('unchanged command caps apply to all mutations, toolchain checks and cleanup inventories', () => {
   const h = fixture(); h.prepare(); h.cleanup()
-  const cap = label => h.store.read(label).timeout_ms
+  const cap = (/** @type {string} */ label) => h.store.read(label).timeout_ms
   for (const label of ['xcode', 'sdk', 'cleanup-before', 'cleanup-before-delete', 'cleanup-after', 'cleanup-shutdown']) assert.equal(cap(label), 15000)
   assert.equal(cap('create'), 30000); assert.equal(cap('boot'), 30000); assert.equal(cap('bootstatus'), 300000); assert.equal(cap('cleanup-delete'), 30000)
   const w = fs.readFileSync(fileURLToPath(new URL('../../.github/workflows/ios-native.yml', import.meta.url)), 'utf8')
@@ -411,9 +448,9 @@ test('exact512KiB inventory output is accepted; one byte above cannot authorize 
   assert.equal(over.files.has('runtimes-timeout-retry-1'), false)
 })
 test('injected evidence-store16MiB boundary refusal stops before any Simulator command', () => {
-  const bytes = x => Buffer.byteLength(JSON.stringify(x, null, 2) + '\n')
+  const bytes = (/** @type {unknown} */ x) => Buffer.byteLength(JSON.stringify(x, null, 2) + '\n')
   const h = fixture({ storeHook: (label, value, files) => {
-    const total = [...files.values()].reduce((sum, item) => sum + bytes(item), 0)
+    const total = [...files.values()].reduce(/** @param {number} sum */ (sum, item) => sum + bytes(item), 0)
     assert.ok(total + bytes(value) <= C.evidenceBytes, 'injected evidence cap')
   } })
   const contextBytes = bytes(ctx), padding = { value: '' }
@@ -450,15 +487,19 @@ test('forged accepted retry pointer and matching hash cannot substitute a succes
 
 // Synthetic valid JSON at the observed byte count; the failed real ENOBUFS
 // receipt remains incomplete and is never recast as a successful command.
+/** @param {unknown} value @param {number} bytes */
 function paddedJSON(value, bytes) {
   const prefix = JSON.stringify(value)
   assert.ok(Buffer.byteLength(prefix) <= bytes)
   return Buffer.from(prefix + ' '.repeat(bytes - Buffer.byteLength(prefix)))
 }
+/** @param {Buffer} stdout @param {Buffer} [stderr] @returns {RawResponse} */
 const completeOutput = (stdout, stderr = Buffer.alloc(0)) => ({
   status: 0, signal: null, error: null, stdout, stderr
 })
+/** @param {number} [bytes] */
 function largeInventoryFixture(bytes = 133117) {
+  /** @type {Harness} */
   let h
   h = fixture({ intercept: (binary, args) => {
     if (binary !== '/usr/bin/xcrun' || args[0] !== 'simctl' || args[1] !== 'list') return null
@@ -519,7 +560,7 @@ for (const command of ['create', 'boot', 'bootstatus']) {
       completeOutput(Buffer.alloc(C.outputBytes + 1)) : null })
     assert.throws(h.prepare, new RegExp('command failed: ' + command))
     assert.equal(h.calls.filter(x => x.args[1] === command).length, 1)
-    assert.equal(h.calls.find(x => x.args[1] === command).settings.maxBuffer, 131072)
+    assert.equal(required(h.calls.find(x => x.args[1] === command)).settings.maxBuffer, 131072)
     assert.equal(h.store.read(command).output_complete, false); assert.equal(h.outputs.destination, undefined)
   })
 }
@@ -530,20 +571,19 @@ for (const command of ['shutdown', 'delete']) {
     h.prepare(); const report = h.cleanup()
     assert.equal(report.ok, false)
     assert.equal(h.calls.filter(x => x.args[1] === command).length, 1)
-    assert.equal(h.calls.find(x => x.args[1] === command).settings.maxBuffer, 131072)
+    assert.equal(required(h.calls.find(x => x.args[1] === command)).settings.maxBuffer, 131072)
     assert.equal(h.store.read('cleanup-' + command).output_complete, false)
     assert.ok(h.destructive().every(x => x.args[2] === NEW))
   })
 }
-for (const [name, tamper] of [
+for (const [name, tamper] of /** @type {[string, (r: ReceiptFixture) => void][]} */ ([
   ['different-binary', r => { r.binary = '/usr/local/bin/xcrun' }],
   ['different-role', r => { r.arguments[2] = 'runtimes' }],
   ['extra-argument', r => { r.arguments.push('--other') }],
   ['noncanonical-base64', r => { r.stdout_base64 += '!' }],
   ['wrong-length', r => { r.stdout_bytes-- }],
   ['wrong-raw-SHA', r => { r.stdout_SHA256 = '0'.repeat(64) }]
-]) {
-  test('large accepted pre-create receipt cannot bypass exact identity/integrity: ' + name, () => {
+])) {  test('large accepted pre-create receipt cannot bypass exact identity/integrity: ' + name, () => {
     const h = largeInventoryFixture(); h.prepare()
     tamper(h.files.get('devices-before-create'))
     // Even recomputing this unkeyed hash does not replace command/stream checks.
@@ -555,10 +595,14 @@ for (const [name, tamper] of [
 
 // Exercise main -> real diskStore using only a stubbed builtin executor. This
 // invokes no Git, SDK, Simulator or child process; each filesystem is ours.
+/** @param {() => RawResponse} runtimeOutput @param {(value: {root: string, env: NodeJS.ProcessEnv, calls: import('../helpers/ios-simulator-fixtures.ts').GitCommandFixture[], receipts: string}) => void} body */
 function withDiskFixture(runtimeOutput, body) {
   const base = fileURLToPath(new URL('../../', import.meta.url))
   const root = fs.realpathSync(fs.mkdtempSync(path.join(base, '.native-disk-fixture-')))
-  const original = childProcess.spawnSync, log = console.log, calls = []
+  const original = childProcess.spawnSync, log = console.log
+  /** @type {import('../helpers/ios-simulator-fixtures.ts').GitCommandFixture[]} */
+  const calls = []
+  /** @type {DeviceFixture|null} */
   let made = null
   const event = path.join(root, 'event.json'), output = path.join(root, 'output.txt')
   fs.writeFileSync(event, JSON.stringify({ repository: { full_name: C.repository }, pull_request: {
@@ -568,7 +612,10 @@ function withDiskFixture(runtimeOutput, body) {
     GITHUB_EVENT_PATH: event, GITHUB_SHA: ctx.checkout_sha, AILIBRARY_NATIVE_SOURCE_HEAD: ctx.source_head,
     GITHUB_JOB: 'ios-native', GITHUB_RUN_ID: ctx.run_id, GITHUB_RUN_ATTEMPT: ctx.run_attempt,
     DEVELOPER_DIR: C.developer, GITHUB_WORKSPACE: root, GITHUB_OUTPUT: output }
-  childProcess.spawnSync = (binary, args, options) => {
+  /** The exercised CLI uses only this three-argument buffer-returning spawn boundary.
+   * @param {string} binary @param {string[]} args @param {import('../../ios/tests/native-simulator-types.ts').SimulatorExecuteOptions} options
+   */
+  const executeFixture = (binary, args, options) => {
     calls.push({ binary, args: [...args], options })
     if (binary === '/usr/bin/git') {
       assert.deepEqual(args, ['rev-parse', 'HEAD', 'HEAD^{tree}'])
@@ -587,12 +634,13 @@ function withDiskFixture(runtimeOutput, body) {
       made = { udid: NEW, name: args[2], state: 'Shutdown', isAvailable: true, deviceTypeIdentifier: C.type }
       return completeOutput(Buffer.from(NEW + '\n'))
     }
-    if (args[1] === 'boot') { made.state = 'Booted'; return completeOutput(Buffer.alloc(0)) }
+    if (args[1] === 'boot') { assert.ok(made); made.state = 'Booted'; return completeOutput(Buffer.alloc(0)) }
     if (args[1] === 'bootstatus') return completeOutput(Buffer.alloc(0))
-    if (args[1] === 'shutdown') { made.state = 'Shutdown'; return completeOutput(Buffer.alloc(0)) }
+    if (args[1] === 'shutdown') { assert.ok(made); made.state = 'Shutdown'; return completeOutput(Buffer.alloc(0)) }
     if (args[1] === 'delete') { made = null; return completeOutput(Buffer.alloc(0)) }
     throw new Error('Unexpected stub command')
   }
+  Object.defineProperty(childProcess, 'spawnSync', {configurable: true, writable: true, value: executeFixture})
   syncBuiltinESMExports(); console.log = () => {}
   try { body({ root, env, calls, receipts: path.join(root, '.local/ios-ci/evidence/native-simulator') }) }
   finally {
@@ -604,15 +652,16 @@ test('real diskStore persists and rereads512KiB inventory as a bounded Base64 re
   withDiskFixture(() => completeOutput(paddedJSON({ runtimes: [
     { identifier: C.runtime, version: C.version, name: 'iOS 18.5', isAvailable: true }] }, C.inventoryOutputBytes)), h => {
     assert.equal(main(['prepare'], h.env).UUID, NEW)
-    const raw = fs.readFileSync(path.join(h.receipts, 'runtimes.json')), r = JSON.parse(raw)
+    const raw = fs.readFileSync(path.join(h.receipts, 'runtimes.json')), r = JSON.parse(raw.toString('utf8'))
     assert.ok(raw.length > 512 * 1024 && raw.length < C.receiptBytes)
     assert.equal(r.stdout_bytes, C.inventoryOutputBytes); assert.equal(r.output_complete, true)
-    const command = h.calls.find(x => x.args[2] === 'runtimes')
+    const command = required(h.calls.find(x => x.args[2] === 'runtimes'))
     assert.equal(command.options.maxBuffer, 524288); assert.equal(command.options.timeout, 60000)
     assert.equal(C.receiptBytes, 1048576); assert.equal(C.evidenceBytes, 16777216)
     const outputs = Object.fromEntries(fs.readFileSync(path.join(h.root, 'output.txt'), 'utf8').trim().split('\n').map(row => row.split('=')))
-    assert.equal(main(['cleanup'], { ...h.env, AILIBRARY_NATIVE_OWNER_TOKEN: outputs.owner_token,
-      AILIBRARY_NATIVE_CREATED_UUID: outputs.created_uuid }).ok, true)
+    const cleaned = main(['cleanup'], { ...h.env, AILIBRARY_NATIVE_OWNER_TOKEN: outputs.owner_token,
+      AILIBRARY_NATIVE_CREATED_UUID: outputs.created_uuid })
+    assert.ok('ok' in cleaned); assert.equal(cleaned.ok, true)
   })
 })
 test('real diskStore still refuses an executor receipt above1MiB before any create', { skip: process.platform !== 'darwin' }, () => {
@@ -626,7 +675,7 @@ test('real diskStore still refuses an executor receipt above1MiB before any crea
 })
 
 test('a60s inventory timeout and122s prefix leave the full300s bootstatus budget under shared480s', () => {
-  let h, runtimeAttempts = 0, prefixMilliseconds = 62000
+  /** @type {Harness} */ let h; let runtimeAttempts = 0, prefixMilliseconds = 62000
   h = fixture({ storeHook: label => { if (label === 'sdk') h.advance(62000) },
     intercept: (binary, args, settings) => {
       if (args[2] === 'runtimes' && ++runtimeAttempts === 1) {
@@ -656,7 +705,7 @@ test('a60s inventory timeout and122s prefix leave the full300s bootstatus budget
   assert.equal(h.cleanup().ok, true); assert.ok(h.destructive().every(x => x.args[2] === NEW))
 })
 test('bootstatus still clips to the shared remainder and refuses readiness when that remainder expires', () => {
-  let h, assignedTimeout = 0
+  /** @type {Harness} */ let h; let assignedTimeout = 0
   h = fixture({ storeHook: label => { if (label === 'sdk') h.advance(C.prepareMs - 60000) },
     intercept: (binary, args, settings) => {
       if (args[1] !== 'bootstatus') return null
@@ -675,6 +724,7 @@ test('bootstatus still clips to the shared remainder and refuses readiness when 
   assert.equal(h.cleanup().ok, true); assert.ok(h.destructive().every(x => x.args[2] === NEW))
 })
 test('a full300s bootstatus timeout still fails once even with ample shared preparation time', () => {
+  /** @type {Harness} */
   let h
   h = fixture({ intercept: (binary, args, settings) => {
     if (args[1] !== 'bootstatus') return null
@@ -693,8 +743,12 @@ test('a full300s bootstatus timeout still fails once even with ample shared prep
 })
 
 // The CLI Git prelude uses only this injected read-only executor on every platform.
+/** @param {unknown} [response] */
 function gitIdentityFixture(response = completeOutput(Buffer.from(ctx.checkout_sha + '\n' + ctx.source_tree + '\n'))) {
-  const calls = [], diagnostics = []
+  /** @type {import('../helpers/ios-simulator-fixtures.ts').GitCommandFixture[]} */
+  const calls = []
+  /** @type {string[]} */
+  const diagnostics = []
   return { calls, diagnostics, read: () => readNativeGitIdentity({ expectedCheckout: ctx.checkout_sha,
     env: { HOME: '/fixture-home', GITHUB_TOKEN: 'private-env-token', ACTIONS_ID_TOKEN_REQUEST_TOKEN: 'private-env-token' },
     execute: (binary, args, options) => { calls.push({ binary, args, options }); return typeof response === 'function' ? response() : response },
@@ -717,7 +771,7 @@ test('Git identity accepts exactly4096 combined bytes without logging stderr con
   const h = gitIdentityFixture(r); assert.equal(h.read().source_tree, ctx.source_tree)
   assert.equal(h.calls.length, 1); assert.equal(h.diagnostics.length, 0)
 })
-for (const [name, changes] of [
+for (const [name, changes] of /** @type {[string, {status?: unknown, signal?: unknown, error?: {code?: string}}][]} */ ([
   ['nonzero', { status: 19 }], ['null-status', { status: null }],
   ['boolean-status', { status: false }], ['string-status', { status: '0' }],
   ['signal', { signal: 'SIGTERM' }], ['undefined-signal', { signal: undefined }],
@@ -725,8 +779,7 @@ for (const [name, changes] of [
   ['unknown-code', { error: Object.assign(new Error('private-error-message'), { code: 'private-code-token' }) }],
   ['typed-timeout', { status: null, signal: 'SIGKILL', error: Object.assign(new Error('private-error-message'), { code: 'ETIMEDOUT' }) }],
   ['output-error', { error: Object.assign(new Error('private-error-message'), { code: 'ENOBUFS' }) }]
-]) {
-  test('Git identity fails closed once with bounded typed diagnostics: ' + name, () => {
+])) {  test('Git identity fails closed once with bounded typed diagnostics: ' + name, () => {
     const h = gitIdentityFixture({ ...completeOutput(Buffer.from(ctx.checkout_sha + '\n' + ctx.source_tree + '\n')), ...changes })
     assert.throws(h.read, /^Error: Native Git identity proof failed$/); assert.equal(h.calls.length, 1)
     assert.equal(h.diagnostics.length, 1)
@@ -778,10 +831,10 @@ test('Git identity binds the returned checkout to the expected environment SHA',
   assert.throws(h.read, /Native Git identity proof failed/); assert.equal(h.calls.length, 1)
   assert.equal(JSON.parse(h.diagnostics[0].slice('AILibraryNativeGitIdentity '.length)).reason, 'checkout-mismatch')
 })
-for (const [name, stdout, stderr] of [
+for (const [name, stdout, stderr] of /** @type {[string, Buffer, Buffer][]} */ ([
   ['combined-one-over', Buffer.from(ctx.checkout_sha + '\n' + ctx.source_tree + '\n'), Buffer.alloc(4015)],
   ['stdout-one-over', Buffer.alloc(4097), Buffer.alloc(0)], ['both-at4096', Buffer.alloc(4096), Buffer.alloc(4096)]
-]) {
+])) {
   test('Git identity enforces the combined4096B cap without retry: ' + name, () => {
     const h = gitIdentityFixture({ ...completeOutput(stdout), stderr })
     assert.throws(h.read, /Native Git identity proof failed/); assert.equal(h.calls.length, 1)
@@ -789,11 +842,10 @@ for (const [name, stdout, stderr] of [
     assert.equal(d.reason, 'output-cap'); assert.equal(d.stdout_bytes + d.stderr_bytes, stdout.length + stderr.length)
   })
 }
-for (const [name, response] of [
+for (const [name, response] of /** @type {[string, unknown][]} */ ([
   ['null-result', null], ['array-result', []], ['string-stdout', { ...completeOutput(Buffer.alloc(0)), stdout: 'private-stdout-body' }],
   ['null-stderr', { ...completeOutput(Buffer.alloc(0)), stderr: null }]
-]) {
-  test('Git identity rejects invalid executor/stream types: ' + name, () => {
+])) {  test('Git identity rejects invalid executor/stream types: ' + name, () => {
     const h = gitIdentityFixture(response)
     assert.throws(h.read, /Native Git identity proof failed/); assert.equal(h.calls.length, 1)
     const d = JSON.parse(h.diagnostics[0].slice('AILibraryNativeGitIdentity '.length))

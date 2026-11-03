@@ -16,16 +16,20 @@ export const GENERATED_DIRS = [
 ]
 export const GENERATED_FILES = ['website/next-env.d.ts', 'website/dev-server.log']
 
+/** @param {unknown} value @returns {value is Record<string, unknown>} */
 const object = value => value !== null && typeof value === 'object' && !Array.isArray(value)
+/** @param {unknown} value @returns {value is string} */
 const validPath = value => typeof value === 'string' && value.trim().length > 0 && !/[\x00-\x1f]/.test(value)
 
 /** Windows と POSIX のパス境界を分離して試験できる純粋関数。 */
+/** @param {string} root @param {string} file @param {typeof path} [pathApi] */
 export function relativeInside(root, file, pathApi = path) {
   const relative = pathApi.relative(root, file)
   if (relative === '..' || relative.startsWith(`..${pathApi.sep}`) || pathApi.isAbsolute(relative)) return null
   return relative.split(pathApi.sep).join('/')
 }
 
+/** @param {string | null} relative */
 export function generatedPath(relative) {
   if (relative === null) return false
   const normalized = relative.toLowerCase()
@@ -33,6 +37,7 @@ export function generatedPath(relative) {
 }
 
 /** 未作成ファイルでも既存の親を解決する。存在する symlink の取り違えを防ぐ。 */
+/** @param {string} file */
 export function physicalPath(file) {
   const suffix = []
   let parent = path.resolve(file)
@@ -42,7 +47,7 @@ export function physicalPath(file) {
       // native 版で長名へ揃え、adapter root / event cwd の実体を同じ表記で比較する。
       return path.resolve(realpathSync.native(parent), ...suffix)
     } catch (error) {
-      if (error.code !== 'ENOENT') throw error
+      if (!(error instanceof Error) || !('code' in error) || error.code !== 'ENOENT') throw error
       const next = path.dirname(parent)
       if (next === parent) throw error
       suffix.unshift(path.basename(parent))
@@ -52,6 +57,7 @@ export function physicalPath(file) {
 }
 
 /** 8.3 名を長名へ揃えるが、編集対象の lexical boundary は symlink を越えて広げない。 */
+/** @param {string} file */
 export function lexicalPath(file) {
   const absolute = path.resolve(file)
   if (process.platform !== 'win32') return absolute
@@ -66,7 +72,7 @@ export function lexicalPath(file) {
       if (lstatSync(current).isSymbolicLink()) return path.join(current, ...parts.slice(index + 1))
       resolved = realpathSync.native(current)
     } catch (error) {
-      if (error.code !== 'ENOENT') throw error
+      if (!(error instanceof Error) || !('code' in error) || error.code !== 'ENOENT') throw error
       // 新規ファイルは既存親の長名だけを使い、未作成の末尾を保つ。
       return path.join(current, ...parts.slice(index + 1))
     }
@@ -75,10 +81,12 @@ export function lexicalPath(file) {
 }
 
 /** adapter の配置が root の正本。process.cwd や別リポジトリから推測しない。 */
+/** @param {string | URL} adapterUrl */
 export function rootFromAdapter(adapterUrl) {
   return realpathSync.native(path.resolve(path.dirname(fileURLToPath(adapterUrl)), '..', '..'))
 }
 
+/** @param {unknown} command */
 function patchPaths(command) {
   if (typeof command !== 'string') throw new Error('apply_patch の tool_input.command がありません')
   const lines = command.replace(/\r\n/g, '\n').split('\n')
@@ -110,6 +118,7 @@ function patchPaths(command) {
 }
 
 /** 現行 command 形式と従来の file_path / MultiEdit 形式を共通形へ変換する。 */
+/** @param {unknown} event @returns {{cwd: string | undefined, paths: string[]}} */
 export function normalizeEditEvent(event) {
   if (!object(event) || !object(event.tool_input)) throw new Error('編集イベントの tool_input が不正です')
   const input = event.tool_input
@@ -117,7 +126,7 @@ export function normalizeEditEvent(event) {
   if (event.tool_name === 'apply_patch') {
     paths.push(...patchPaths(input.command))
   } else {
-    if (event.tool_name !== undefined && !['Edit', 'Write', 'MultiEdit'].includes(event.tool_name)) throw new Error('対応していない編集ツールです')
+    if (event.tool_name !== undefined && (typeof event.tool_name !== 'string' || !['Edit', 'Write', 'MultiEdit'].includes(event.tool_name))) throw new Error('対応していない編集ツールです')
     if (input.file_path !== undefined) {
       if (!validPath(input.file_path)) throw new Error('file_path が不正です')
       paths.push(input.file_path)
@@ -138,16 +147,19 @@ export function normalizeEditEvent(event) {
   return { cwd: event.cwd, paths: [...new Set(paths)] }
 }
 
+/** @param {{cwd?: string, paths: string[]}} edit @param {string} repoRoot */
 export function resolveEditedPaths(edit, repoRoot) {
   const root = realpathSync.native(repoRoot)
   const cwd = physicalPath(edit.cwd ?? root)
   return [...new Set(edit.paths.map(file => lexicalPath(path.resolve(cwd, file))))]
 }
 
+/** @param {unknown} event @param {string} repoRoot */
 export function editedPaths(event, repoRoot) {
   return resolveEditedPaths(normalizeEditEvent(event), repoRoot)
 }
 
+/** @param {string} mode @param {{cwd?: string, paths: string[]}} edit @param {string} repoRoot */
 export function inspectEdits(mode, edit, repoRoot) {
   if (!['guard', 'validate'].includes(mode)) throw new Error('不明なフック種別です')
   const root = realpathSync.native(repoRoot)
@@ -168,8 +180,8 @@ export function inspectEdits(mode, edit, repoRoot) {
     try {
       text = readFileSync(physical, 'utf8')
     } catch (error) {
-      if (error.code === 'ENOENT') continue // 削除・移動元は検証対象なし
-      messages.push(`${relative}: 読込失敗 (${error.message})`)
+      if (error instanceof Error && 'code' in error && error.code === 'ENOENT') continue // 削除・移動元は検証対象なし
+      messages.push(`${relative}: 読込失敗 (${error instanceof Error ? error.message : String(error)})`)
       continue
     }
     for (const issue of validateDoc(relative, text)) messages.push(`${relative}:${issue.line}: [${issue.check}] ${issue.message}`)
@@ -179,6 +191,7 @@ export function inspectEdits(mode, edit, repoRoot) {
 }
 
 /** 両クライアントで解析不能は exit 2。生のイベントや会話は保存しない。 */
+/** @param {string} mode @param {string | URL} adapterUrl @param {(event: unknown) => {cwd?: string, paths: string[]}} [normalize] */
 export async function runEditHook(mode, adapterUrl, normalize = normalizeEditEvent) {
   try {
     let input = ''
@@ -187,7 +200,7 @@ export async function runEditHook(mode, adapterUrl, normalize = normalizeEditEve
     for (const message of result.messages) console.error(message)
     process.exitCode = result.exitCode
   } catch (error) {
-    console.error(`編集対象を検査できません: ${error.message}`)
+    console.error(`編集対象を検査できません: ${error instanceof Error ? error.message : String(error)}`)
     process.exitCode = 2
   }
 }

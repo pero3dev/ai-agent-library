@@ -21,11 +21,11 @@ const Wrapper = getMDXComponents().wrapper
 
 export default async function Page(props: ArticlePageProps) {
   const params = await props.params
-  const { default: MDXContent, toc, metadata } = await importPage(params.mdxPath)
+  const { default: MDXContent, toc, metadata, sourceCode } = await importPage(params.mdxPath)
   const route = `/docs/${(params.mdxPath || []).join('/')}`.replace(/\/$/, '')
   const copyMarkdown = await readArticleMarkdown(route)
   return (
-    <Wrapper toc={toc} metadata={{ ...metadata, ...pages[route] }} copyMarkdown={copyMarkdown}>
+    <Wrapper toc={toc} metadata={{ ...metadata, ...pages[route] }} copyMarkdown={copyMarkdown} sourceCode={sourceCode}>
       <MDXContent {...props} params={params} />
     </Wrapper>
   )

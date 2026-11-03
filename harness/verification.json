@@ -2,6 +2,33 @@
   "schema_version": 1,
   "checks": [
     {
+      "id": "types",
+      "job": "harness",
+      "command": "npm run typecheck",
+      "cwd": ".",
+      "os": ["linux", "win32"],
+      "evidence": "static",
+      "prerequisites": ["root npm ci", "npm ci --prefix ios/tools --ignore-scripts"]
+    },
+    {
+      "id": "type-coverage",
+      "job": "harness",
+      "command": "npm run typecheck:coverage",
+      "cwd": ".",
+      "os": ["linux", "win32"],
+      "evidence": "static",
+      "prerequisites": ["root npm ci", "Git checkout"]
+    },
+    {
+      "id": "website-types",
+      "job": "build",
+      "command": "npm run typecheck",
+      "cwd": "website",
+      "os": ["linux", "win32"],
+      "evidence": "static",
+      "prerequisites": ["website npm ci", "website sync and static build"]
+    },
+    {
       "id": "unit",
       "job": "docs",
       "command": "node --test --test-concurrency=4 tests/unit/*.test.mjs",

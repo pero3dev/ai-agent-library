@@ -1,4 +1,6 @@
 import { test, expect } from '@playwright/test'
+import type { Locator } from '@playwright/test'
+import { requireValue } from './test-values'
 
 const base = process.env.NEXT_PUBLIC_BASE_PATH || ''
 const pageTypes = ['/', '/docs', '/docs/concepts', '/docs/concepts/agent-loop', '/glossary', '/tags', '/roadmap', '/audio', '/about', '/freshness', '/appearance-missing-page']
@@ -7,20 +9,21 @@ const palettes = {
   light: { todo: '#fffbeb', todoBorder: '#fcd34d', todoLeft: '#fcd34d', label: '#92400e', antipattern: '#fef7f7', antipatternBorder: '#fecaca', cross: '#dc2626', checklist: '#f6fef9', checklistBorder: '#bbf7d0', check: '#16a34a' },
   dark: { todo: '#121211', todoBorder: '#403b33', todoLeft: '#6c582a', label: '#eed58b', antipattern: '#121111', antipatternBorder: '#402e30', cross: '#f09896', checklist: '#111111', checklistBorder: '#2c3632', check: '#70b67f' }
 }
-const rgb = hex => `rgb(${[1, 3, 5].map(offset => parseInt(hex.slice(offset, offset + 2), 16)).join(', ')})`
+const rgb = (hex: string) => `rgb(${[1, 3, 5].map(offset => parseInt(hex.slice(offset, offset + 2), 16)).join(', ')})`
 // Nextra inherits lab()/oklch() text in some engines. Convert rendered colors
 // to sRGB before applying the WCAG luminance formula.
-const renderedTextColor = locator => locator.evaluate(element => {
+const renderedTextColor = (locator: Locator) => locator.evaluate(element => {
   const canvas = document.createElement('canvas')
   canvas.width = canvas.height = 1
   const context = canvas.getContext('2d')
+  if (!context) throw new Error('A 2D canvas is required to measure rendered colors')
   context.fillStyle = getComputedStyle(element).color
   context.fillRect(0, 0, 1, 1)
   return `rgb(${[...context.getImageData(0, 0, 1, 1).data].slice(0, 3).join(', ')})`
 })
-const contrast = (foreground, background) => {
-  const luminance = color => {
-    const channels = color.match(/[\d.]+/g).slice(0, 3).map(Number).map(value => {
+const contrast = (foreground: string, background: string) => {
+  const luminance = (color: string) => {
+    const channels = (color.match(/[\d.]+/g) || []).slice(0, 3).map(Number).map(value => {
       const channel = value / 255
       return channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4
     })
@@ -30,7 +33,7 @@ const contrast = (foreground, background) => {
   return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05)
 }
 
-for (const theme of ['light', 'dark']) {
+for (const theme of ['light', 'dark'] as const) {
   for (const width of [390, 1440]) {
     test(`edge fog stays behind every page type without widening the page: ${theme} ${width}px`, async ({ page, browserName }) => {
       test.setTimeout(90_000)
@@ -38,12 +41,13 @@ for (const theme of ['light', 'dark']) {
       await page.addInitScript(value => localStorage.setItem('theme', value), theme)
       for (const pathname of pageTypes) {
         const response = await page.goto(`${base}${pathname}`)
-        expect(response.status()).toBe(pathname === '/appearance-missing-page' ? 404 : 200)
+        expect(response?.status()).toBe(pathname === '/appearance-missing-page' ? 404 : 200)
         await expect(page.locator('html')).toHaveClass(new RegExp(`\\b${theme}\\b`))
         const fog = await page.evaluate(() => {
           const body = getComputedStyle(document.body)
           const pseudo = getComputedStyle(document.body, '::before')
           const html = getComputedStyle(document.documentElement)
+          const home = document.querySelector('.home')
           return {
             isolation: body.isolation, position: pseudo.position, inset: pseudo.inset,
             zIndex: pseudo.zIndex, pointerEvents: pseudo.pointerEvents, background: pseudo.backgroundImage,
@@ -51,7 +55,7 @@ for (const theme of ['light', 'dark']) {
             violetAmount: html.getPropertyValue('--site-fog-violet-amount').trim(),
             pageBackground: html.backgroundColor,
             overflow: document.documentElement.scrollWidth - innerWidth,
-            homeAccent: document.querySelector('.home') ? getComputedStyle(document.querySelector('.home')).getPropertyValue('--home-accent').trim() : null,
+            homeAccent: home ? getComputedStyle(home).getPropertyValue('--home-accent').trim() : null,
             siteAccent: html.getPropertyValue('--site-accent').trim()
           }
         })
@@ -109,7 +113,7 @@ for (const theme of ['light', 'dark']) {
         const background = await box.evaluate(element => getComputedStyle(element).backgroundColor)
         expect(contrast(bodyColor, background)).toBeGreaterThanOrEqual(4.5)
         await expect(box).toHaveCSS('border-radius', '12.8px')
-        const bounds = await box.boundingBox()
+        const bounds = requireValue(await box.boundingBox(), 'visible practice box')
         expect(bounds.x).toBeGreaterThanOrEqual(0)
         expect(bounds.x + bounds.width).toBeLessThanOrEqual(width + 1)
       }
@@ -137,13 +141,15 @@ for (const theme of ['light', 'dark']) {
     const scroll = sidebar.locator(':scope > .nextra-scrollbar')
     const footer = sidebar.locator(':scope > .nextra-sidebar-footer')
     const toggle = footer.locator('button[aria-expanded]')
-    const initialWidth = (await sidebar.boundingBox()).width
+    const initialWidth = requireValue(await sidebar.boundingBox(), 'expanded sidebar').width
     const expectTranslucentFooter = async () => {
       const colors = await footer.evaluate(element => {
         const canvas = document.createElement('canvas')
         canvas.width = canvas.height = 1
         const context = canvas.getContext('2d')
-        const rgba = target => {
+        if (!context) throw new Error('A 2D canvas is required to measure background colors')
+        const rgba = (target: Element | null) => {
+          if (!target) throw new Error('The measured background element must exist')
           context.clearRect(0, 0, 1, 1)
           context.fillStyle = getComputedStyle(target).backgroundColor
           context.fillRect(0, 0, 1, 1)
@@ -180,12 +186,12 @@ for (const theme of ['light', 'dark']) {
     await toggle.focus()
     await page.keyboard.press('Enter')
     await expect(toggle).toHaveAttribute('aria-expanded', 'false')
-    await expect.poll(async () => (await sidebar.boundingBox()).width).toBe(80)
+    await expect.poll(async () => (await sidebar.boundingBox())?.width).toBe(80)
     await expectTranslucentFooter()
     await toggle.focus()
     await page.keyboard.press('Enter')
     await expect(toggle).toHaveAttribute('aria-expanded', 'true')
-    await expect.poll(async () => (await sidebar.boundingBox()).width).toBe(initialWidth)
+    await expect.poll(async () => (await sidebar.boundingBox())?.width).toBe(initialWidth)
     await expectTranslucentFooter()
     await destination.click()
     await expect(page).toHaveURL(/\/docs\/concepts\/tool-use(?:\.html)?\/?$/)

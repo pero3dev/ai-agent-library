@@ -1,8 +1,10 @@
 import { test, expect } from '@playwright/test'
+import type { Page } from '@playwright/test'
+import { requireValue } from './test-values'
 
 const base = process.env.NEXT_PUBLIC_BASE_PATH || ''
 const article = `${base}/docs/architecture/workflow-vs-agent`
-const toc = page => page.locator('.article-section-toc')
+const toc = (page: Page) => page.locator('.article-section-toc')
 
 test('current-section TOC keeps every H2 and changes only its H3 children', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
@@ -37,14 +39,15 @@ test('direct heading links and client navigation update the current section', as
   await expect(toc(page).getByRole('link', { name: 'チェックリスト', exact: true })).toHaveCount(0)
 })
 
-for (const theme of ['light', 'dark']) test(`delayed diagram keeps direct heading position and current section: ${theme}`, async ({ page }) => {
+for (const theme of ['light', 'dark'] as const) test(`delayed diagram keeps direct heading position and current section: ${theme}`, async ({ page }) => {
   const diagram = 'aeadd4058b26a4e88295f971'
   const pattern = `**/_mermaid/${diagram}-*.svg`
-  let releaseDiagram, reportRequest
-  const gate = new Promise(resolve => { releaseDiagram = resolve })
-  const requested = new Promise(resolve => { reportRequest = resolve })
+  let releaseDiagram: (() => void) | undefined
+  let reportRequest: (() => void) | undefined
+  const gate = new Promise<void>(resolve => { releaseDiagram = resolve })
+  const requested = new Promise<void>(resolve => { reportRequest = resolve })
   await page.route(pattern, async route => {
-    reportRequest()
+    requireValue(reportRequest, 'diagram request observer')()
     await gate
     await route.continue()
   })
@@ -58,15 +61,15 @@ for (const theme of ['light', 'dark']) test(`delayed diagram keeps direct headin
     const heading = page.locator('article [id="チェックリスト"]')
     const top = () => heading.evaluate(element => element.getBoundingClientRect().top + window.scrollY)
     const before = await top()
-    releaseDiagram()
+    requireValue(releaseDiagram, 'diagram response gate')()
     const image = page.locator(`.static-mermaid > img.mermaid-${theme}[src$="/${diagram}-${theme}.svg"]`)
-    await expect.poll(() => image.evaluate(element => element.complete && element.naturalWidth > 0)).toBe(true)
+    await expect.poll(() => image.evaluate((element: HTMLImageElement) => element.complete && element.naturalWidth > 0)).toBe(true)
     // Compare document coordinates as well as the visible active section. Browser
     // scroll anchoring can compensate a layout shift without making it harmless.
     await expect.poll(top).toBeCloseTo(before, 0)
     await expect(toc(page).locator('[aria-current="location"]')).toHaveText('チェックリスト')
   } finally {
-    releaseDiagram()
+    requireValue(releaseDiagram, 'diagram response gate')()
     await page.unroute(pattern)
   }
 })

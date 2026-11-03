@@ -16,5 +16,5 @@ export function generatedContentLoaderSource() {
   const end = source.indexOf('\nconst GIT_ROOT =', start)
   if (start < 0 || end < 0 || !source.slice(start, end).endsWith('})();')) throw new Error('Nextra loader changed; generated-content adapter requires review')
   return (source.slice(0, start) + 'const repository = undefined;' + source.slice(end))
-    .replace(/from "(\.\.?\/[^\"]+)"/g, (_match, specifier) => `from "${new URL(specifier, pathToFileURL(filename)).href}"`)
+    .replace(/from "(\.\.?\/[^\"]+)"/g, (_match: string, specifier: string) => `from "${new URL(specifier, pathToFileURL(filename)).href}"`)
 }

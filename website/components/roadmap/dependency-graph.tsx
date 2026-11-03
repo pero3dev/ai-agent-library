@@ -7,7 +7,10 @@ import Link from 'next/link'
 import '@xyflow/react/dist/style.css'
 import { useRouter } from 'next/navigation'
 import { useEffect, useMemo, useState } from 'react'
-import sections from '../../generated/sections.json'
+import sectionsData from '../../generated/sections.json'
+import type { Section } from '../../lib/content-types'
+
+const sections: Section[] = sectionsData
 
 /**
  * セクション間依存のインタラクティブ図。

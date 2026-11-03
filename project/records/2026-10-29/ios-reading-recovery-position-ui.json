@@ -1,0 +1,169 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-29",
+  "state": "boundactualmaincc2/commonpassed/final5reviewandexactHostednewcasepending",
+  "objective": "Exercise current noninitial reading position and bookmark across explicit partial recovery, process termination and immediate resume",
+  "authority": "Direct human ongoing autonomous iOS TODO implementation and ordinary protected integration; device acceptance may remain unfinished. Parent delegated private five-file preparation only.",
+  "owned_paths": [
+    "ios/AILibraryUITests/ReadingRecoveryUITests.swift",
+    "project/records/2026-10-29/ios-reading-recovery-position-ui.md",
+    "project/records/2026-10-29/ios-reading-recovery-position-ui.json",
+    "project/README.md",
+    "project/plans/engineering/ios-app-completion.md"
+  ],
+  "bases": {
+    "original_Source_author_main": "cc2f0aec9e6d741a431dd1fc02250439b8dd0c27",
+    "publication_author_head": "11ea9663147600824c5d286eb685fe0b2f1e6181",
+    "publication_author_tree": "9e76cb7ac08b36002808f0f56e6e2dff8a73c495",
+    "publication_author_paths": 2810,
+    "publication_author_head_is_merged_main": false,
+    "future_integration_base": "cc2f0aec9e6d741a431dd1fc02250439b8dd0c27",
+    "future_Root_binding_required": false,
+    "old_target_tuple_equal_maincc2": true,
+    "old_target_blob": "1ad3f6cc7852caa404caaabd9c8f4a9acb056cd3"
+  },
+  "change": {
+    "path": "ios/AILibraryUITests/ReadingRecoveryUITests.swift",
+    "new_case": "testConfirmedRecoveryPreservesCurrentPositionAndBookmarkAfterRelaunch",
+    "old_cases": 3,
+    "candidate_cases": 4,
+    "new_case_bytes": 2171,
+    "inverse_removal_holds_old3_all_helpers": true,
+    "before_bytes": 11830,
+    "before_SHA256": "beb38c6b849b2f292281079230a5c3c62948df9e603f1f2a2160e274b4369624",
+    "after_bytes": 14001,
+    "after_SHA256": "ec385c153155ede6c3f193722498942aefebfadaf76daa11a29df9d0b9a008c6",
+    "App": "0.2.23(25) unchanged",
+    "no_App_fixture_Store_schema_provider_hook_wait_selector_workflow_change": true
+  },
+  "sequence": [
+    "existing partial-v1 isolated suite; Transformer via public search; add current bookmark",
+    "one TOC jump to noninitial self-attention heading; back; clear public filters",
+    "pre-recovery live resume without second TOC; require visible heading/body/bookmark; back",
+    "exact scoped recovery sheet and confirm; sheet gone and recovery notice absent",
+    "no intervening reader/search/TOC after confirmation; terminate and notRunning; relaunch same suite",
+    "immediate nil-heading/nil-search library-resume; native body, fully-visible noninitial heading and bookmark"
+  ],
+  "proof_limits": {
+    "pre_recovery_resume": "public UI arrangement/observation only; not cache-independent writer acknowledgment or raw-defaults persistence proof",
+    "identity": "readerID identity changes inner NativeReader only; outer ArticleReaderView requestedHeading not explicitly reset nil; real SwiftUI pop lifecycle unobserved",
+    "partial_store": "normal defaults saves intentionally blocked during partial recovery",
+    "strong_final_boundary": "process termination/relaunch eliminates outer and inner transient state; no post-recovery reader or TOC repairs the position before final assertion",
+    "not_full_intraparagraph_position_or_all_recovery_coverage": true
+  },
+  "verified": {
+    "original_candidate_manifest_SHA256": "9c95d23198ba2abad784843590c044dd78804ce582565e7c171a6062cacdb21d",
+    "Source1_review_manifest_SHA256": "a7da0702f0f9821623f8a840280a6ee4f72c47c27027de2e4d8c22487dde49c6",
+    "Source1_review_P1": 0,
+    "Source1_review_P2": 0,
+    "route_review_manifest_SHA256": "5af572e64cbb5fb4ddd9b140c3d0c9c0886770d159051ea1ccdd9ab94d8404e8",
+    "SDK_typecheck": {
+      "SDK": "existing iPhoneSimulator18.2",
+      "target": "arm64-apple-ios17.0-simulator",
+      "swift": "5",
+      "files": "existing base NativeReader helper plus candidate; no App compile/link/build",
+      "recipe_SHA256": "38f8167c80816f2bdcf2b126f87dce277acc0d9ee4d826c6da9565268c96fea0",
+      "exit_code": 0,
+      "seconds": 13.599697,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "temporary_owned_module_cache_bytes": 69297514,
+      "temporary_owned_module_cache_removed": true,
+      "reexecuted_for_publication_preparation": false
+    }
+  },
+  "declared_counts_not_execution": {
+    "NativeReader": 2,
+    "ReadingRecovery_before": 3,
+    "ReadingRecovery_candidate": 4,
+    "NativeUI_before": 5,
+    "NativeUI_candidate": 6,
+    "Full": 23,
+    "Pilot": 47,
+    "Full_Pilot_selectors_held": true,
+    "new_case_actual_starts": null,
+    "new_case_actual_passes": null,
+    "Native6_actual_result": null
+  },
+  "TODO": {
+    "rows": 32,
+    "completed": 13,
+    "all_rows_byte_held": true,
+    "IOS22_IOS25": "remain unfinished"
+  },
+  "current_external_context_attributed_to_Root": {
+    "checkpoint_UTC": "2026-10-29T11:17:26Z",
+    "human_email_verification_reported": true,
+    "PR299_metadata_update_and_Draft_reopen_succeeded": true,
+    "PR299_new_CI_or_main_acceptance_for_this_candidate": false,
+    "no_new_API_operation_by_preparer": true
+  },
+  "pending": [
+    "Root binding to actual accepted main with target/context byte comparison",
+    "Root common check and final five-file independent review",
+    "exact newhead Hosted single new-case start/pass and Native6 raw-result independent audit",
+    "required CI and Ready-after-source acceptance then fresh11 and ordinary main integration",
+    "physical VoiceOver overwrite and all recovery/intrablock-position acceptance"
+  ],
+  "operations": {
+    "shared_Source_edits": 0,
+    "Git_or_API_mutations": 0,
+    "new_SDK_UI_Simulator_network_auth_runtime_operations": 0,
+    "private_candidate_only": true
+  },
+  "Root_author_base_common": {
+    "tests": 1174,
+    "pass": 1159,
+    "fail": 0,
+    "skipped": 15,
+    "exit_code": 0,
+    "seconds": 40.145,
+    "manifest_SHA256": "1546d1ce38ab62320c78398cc450cbfc556a2e145c0d3b59c0cf663cc05a5a77",
+    "author_head": "11ea9663147600824c5d286eb685fe0b2f1e6181",
+    "all2810_parent_blobs_verified": true,
+    "same_lock_prepared_npm_ci_reused": true,
+    "Source1_held_after_common": true,
+    "externalIP_denied_localhost_allowed": true,
+    "records2_only_after_common": true,
+    "actual_UI": false,
+    "latest_main_binding": "pending; only ifalltuples matchauthorbaseor revalidatechangedinputs"
+  },
+  "Root_current_main_binding": {
+    "main": "cc2f0aec9e6d741a431dd1fc02250439b8dd0c27",
+    "tree": "e1647536dbf7e040e2f3b36cd4f7b0647e86272a",
+    "parent_paths": 2805,
+    "expected_candidate_paths": 2807,
+    "author_differences7": [
+      ".github/workflows/ios17-functional-pilot.yml",
+      "ios/tests/ios17-functional-pilot.mjs",
+      "project/README.md",
+      "project/plans/engineering/ios-app-completion.md",
+      "project/records/2026-10-29/ios17-functional-ci-pilot.json",
+      "project/records/2026-10-29/ios17-functional-ci-pilot.md",
+      "tests/unit/ios17-functional-pilot.test.mjs"
+    ],
+    "all_App_UI_tests_articles_and_scripts_tuples_equal": true,
+    "Source1_ec385_held": true,
+    "index": "onlyownednewparagraphreappliedtoactualmain; restbyteheld",
+    "author_base_common1174_is_historical": true,
+    "actualmain_common_must_reexecute": false,
+    "no_PR299_runtime_pilot_Source_or_acceptance_carried": true
+  },
+  "Root_actual_main_common": {
+    "tests": 1157,
+    "pass": 1142,
+    "fail": 0,
+    "skipped": 15,
+    "exit_code": 0,
+    "seconds": 39.028,
+    "manifest_SHA256": "fa55b012ac060ac565ebab59c9a519968888a904453701c3a3fb773a67465c85",
+    "base": "cc2f0aec9e6d741a431dd1fc02250439b8dd0c27",
+    "all2805_parent_blobs_verified": true,
+    "Source1_ec385_held": true,
+    "same_lock_prepared_npm_ci_reused": true,
+    "externalIP_denied_localhost_allowed": true,
+    "onlyverified5Rootprivatepilotfilesremovedfromvalidationnotshared": true,
+    "actual_UI_Hosted": false,
+    "after_common": "recordandindexonlynarrowchecks"
+  }
+}

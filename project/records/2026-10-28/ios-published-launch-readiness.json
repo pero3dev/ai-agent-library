@@ -1,0 +1,251 @@
+{
+  "schema_version": 1,
+  "recorded_date_JST": "2026-10-28",
+  "status": "fixed-main49-Debug-launch-readiness-observation",
+  "purpose": "Record actual App launch-to-count-and-guide Clock3 samples separately from historic Core CLI and product acceptance.",
+  "source_snapshot": {
+    "commit": "49c2780943ddef0d2e5769d7b620b72fd8a043ab",
+    "tree": "8cfcea67aa39785900d4893137bb559a61efe5a9",
+    "branch": "main",
+    "App_version": "0.2.20",
+    "App_build": "22",
+    "future_main_or_head_equivalence_claim": false
+  },
+  "run": {
+    "id": 40577263200,
+    "job": 122446924405,
+    "attempt": 1,
+    "event": "workflow_dispatch",
+    "workflow_path": ".github/workflows/ios-performance.yml",
+    "conclusion": "success",
+    "completed_at_UTC": "2026-10-27T20:39:58Z",
+    "URL": "https://github.com/pero3dev/ai-agent-library/actions/runs/40577263200",
+    "test_id": "PublishedPerformanceUITests/testLaunchToPublishedReadiness()",
+    "raw_test_started": 1,
+    "raw_test_passed": 1,
+    "raw_test_failed": 0
+  },
+  "measurement": {
+    "metric_identifier": "com.apple.dt.XCTMetric_Clock.time.monotonic",
+    "display": "Clock Monotonic Time",
+    "unit": "s",
+    "configuration": "Debug",
+    "begin": "startMeasuring immediately before app.launch()",
+    "end": "stopMeasuring after exact count label and learning-guide existence assertions",
+    "expected_count_label": "全199記事",
+    "guide_contract": "library-learning-guide Button exists; not independent pixel/frame/hittability acceptance",
+    "termination_in_measured_interval": false,
+    "recorded_samples": 3,
+    "raw_decimal_tokens": [
+      "7.020270305",
+      "6.532122296000001",
+      "9.211471599000001"
+    ],
+    "binary64_samples_seconds": [
+      7.020270305,
+      6.532122296000001,
+      9.211471599000001
+    ],
+    "minimum_seconds": 6.532122296000001,
+    "median_seconds": 7.020270305,
+    "maximum_seconds": 9.211471599000001,
+    "mean_seconds_JS_binary64_order": 7.5879547333333335,
+    "decimal_mean_fraction": {
+      "numerator": "3793977366666667",
+      "denominator": "500000000000000"
+    },
+    "warmup": {
+      "declared_discarded_invocations": 1,
+      "Source_asserted_total_invocations": 4,
+      "basis": "Source configuration and assertions of Passed case; protocol attachment payload not read",
+      "protocol_attachment_name": "Published-readiness-measurement-protocol",
+      "protocol_attachment_payload_read": false
+    },
+    "UIautomation_AXpolling_included": true,
+    "file_cache_warmed_by_prior_audits": true,
+    "JS_mean_evaluation_order": "0 + sample[0]/3 + sample[1]/3 + sample[2]/3"
+  },
+  "CSV_comparison": {
+    "member": "export/metrics-csv-co7PU2/CC478E52-D6CA-4283-933C-0912C5B2AF68.csv",
+    "average_seconds_printed_decimal": "7.587954733",
+    "typed_decimal_mean_minus_CSV_exact": {
+      "numerator": "1000002",
+      "denominator": "3000000000000000"
+    },
+    "approx_difference_seconds": 3.33334e-10,
+    "half_last_printed_decimal_step_seconds": "0.0000000005",
+    "within_half_last_printed_decimal_step": true,
+    "same_precision_or_byte_equality_claim": false,
+    "note": "JS binary64 mean and exact decimal-token rational mean are kept distinct; CSV is rounded."
+  },
+  "environment": {
+    "Xcode": "16.4",
+    "Xcode_build": "16F6",
+    "device": {
+      "name": "iPhone 16",
+      "platform": "iOS Simulator",
+      "OS": "18.5",
+      "raw_UUID": "F0E646EF-4792-4F36-B48B-EC89B3A6B73B",
+      "details_UUID": "F0E646EF-4792-4F36-B48B-EC89B3A6B73B",
+      "UUID_independently_correlated": true
+    },
+    "host_architecture": "arm64",
+    "host_model": "VirtualMac2,1",
+    "host_hw_memsize_bytes": "7516192768",
+    "host_hw_memsize_is_App_RSS": false
+  },
+  "artifact": {
+    "id": 12768059508,
+    "name": "ios-published-readiness-evidence-40577263200",
+    "URL": "https://github.com/pero3dev/ai-agent-library/actions/runs/40577263200/artifacts/12768059508",
+    "compressed_bytes": 233139,
+    "whole_compressed_SHA256": "a8943948c5e1860aafb8688e8a206851341331dca222d7da569f693c5a1f4ef5",
+    "whole_compressed_digest_verified": true,
+    "index_entries": 63,
+    "central_bytes": 8118,
+    "selected_expanded_bytes": 123317,
+    "selected9_CRC_SHA": [
+      {
+        "name": "context.json",
+        "bytes": 1356,
+        "SHA256": "70e7a802c96be176a9d00bc54219ea70dc348f22868f3b36291eae9a1076e0f5",
+        "CRC32": "d6536e84",
+        "CRC_verified": true
+      },
+      {
+        "name": "export/performance-summary.json",
+        "bytes": 7464,
+        "SHA256": "73e9191e23d4582a9e60803eec9416e481768eef25edf14ef4986ea1c9e64490",
+        "CRC32": "cc09230d",
+        "CRC_verified": true
+      },
+      {
+        "name": "export/extraction-commands.json",
+        "bytes": 2203,
+        "SHA256": "d537282961c5c8730b55c10428c1d07b08fda10e94779fc0a25012556ed7c361",
+        "CRC32": "2d96d558",
+        "CRC_verified": true
+      },
+      {
+        "name": "export/tests.raw.json",
+        "bytes": 1093,
+        "SHA256": "39445447df6b4e97d804e3137978c9ba758bf8d76bce0d04c6aab92bb9397b61",
+        "CRC32": "d4cc9e1e",
+        "CRC_verified": true
+      },
+      {
+        "name": "export/test-details.raw.json",
+        "bytes": 1162,
+        "SHA256": "dfdba3fba4876c001a43824ed21de8aa6e916429a88e8ac2fa9fa6c748cf03c4",
+        "CRC32": "458993f2",
+        "CRC_verified": true
+      },
+      {
+        "name": "export/invocation.legacy.json",
+        "bytes": 12371,
+        "SHA256": "53cdbfa6988055f525ec4ef6fa2bd33b833e727b2f61049c335b89d3f9a768bb",
+        "CRC32": "c284f646",
+        "CRC_verified": true
+      },
+      {
+        "name": "export/test-plan.legacy.json",
+        "bytes": 12832,
+        "SHA256": "a727fc6700685296ff2d6e6340d4a9440d5732f159294265a0cce4bb4c824364",
+        "CRC32": "ce9595e5",
+        "CRC_verified": true
+      },
+      {
+        "name": "export/test-summary.legacy.json",
+        "bytes": 84578,
+        "SHA256": "1c4c181c7f241ae13c3b40ab5adcd6e1dccc50b27dfa48ec6dc014372d534e4f",
+        "CRC32": "52043e78",
+        "CRC_verified": true
+      },
+      {
+        "name": "export/metrics-csv-co7PU2/CC478E52-D6CA-4283-933C-0912C5B2AF68.csv",
+        "bytes": 258,
+        "SHA256": "de27dc8621be743c437ef225cc74a721146f13cea3ee11f712cc0e496d07ff75",
+        "CRC32": "299ac235",
+        "CRC_verified": true
+      }
+    ],
+    "unselected_payloads_read": false,
+    "unselected_CRC_verified": false,
+    "raw_ZIP_xcresult_or_images_saved_by_observer": false,
+    "reported_paths_opened_or_args_executed": false,
+    "precise_body_GET_timestamp_UTC": null,
+    "timestamp_note": "Acquisition timestamp is absent from frozen selected-read; not inferred from run or artifact timestamps."
+  },
+  "source_and_reader_proof": {
+    "Source3": [
+      {
+        "path": ".github/workflows/ios-performance.yml",
+        "bytes": 10927,
+        "SHA256": "ade26f375b74d0bd6fef52d45ec1d1c71fcbfd46ce6b54b932451068cf933627",
+        "tuple": [
+          "100644",
+          "blob",
+          "005d1aa549d43eb58554f55def121577a4b8a204"
+        ]
+      },
+      {
+        "path": "ios/tests/export-performance.mjs",
+        "bytes": 23585,
+        "SHA256": "bb0b3b61ed7944fe20828ac4198cd4d0b1e9c5c882896de824437323aa71f512",
+        "tuple": [
+          "100644",
+          "blob",
+          "ad397de11afccf9785ae1f9a9ace7f9529f03adb"
+        ]
+      },
+      {
+        "path": "ios/AILibraryUITests/PublishedPerformanceUITests.swift",
+        "bytes": 3606,
+        "SHA256": "ca4a6a8675aeaa62cb3f5fb0f1c6057b00cfdcfc09f3f103dcec8383e4aaf5e5",
+        "tuple": [
+          "100644",
+          "blob",
+          "0c97b85fb0e2553cab4145e5e7ce1a9f99acfa37"
+        ]
+      }
+    ],
+    "Source3_and_actual_checkout_proof_SHA256": "1fd0e4fd0c33bdc96b746f8d70a039387d982cd9ad3d46bedf0831d5f3139b81",
+    "actual_checkout_sha": "49c2780943ddef0d2e5769d7b620b72fd8a043ab",
+    "source_scripts_executed_by_source_verifier": 0,
+    "terminal_metadata_SHA256": "e17e2986c7b0f808fc066d7a1c42205b128898fb9b9936f9dd642cc6d018737d",
+    "binding7pins_and_inverse_proof_SHA256": "75aedbb955a47b6887732dd1b23af86b8a456c20b46a175881ce59bbd3563790",
+    "unbound_v2_adapter_SHA256": "ecbebb67c441606e41a8b09f4f4cea73e2bbc8a5fcc1908f8276d792931bfa85",
+    "bound_adapter_SHA256": "5a84da8f529531fecac26e7aa840bd8a3e1828ab9aa2d1ffc8ab200861e25a7f",
+    "v2_independent_review_SHA256": "fd36eac7bbf60dc768a5e0a3737c6c53b0cc3af7326ca3ea05a3edc8dfab0215",
+    "selected_read_SHA256": "51e25ab2ec360edea7723f7cda45e930e912ea4db60565378aeecf0b97173a8e",
+    "accepted_nested_observation_status": "one-Passed-Clock-three-typed-samples-and-CSV-correlated",
+    "outer_read_complete_alone_is_acceptance": false,
+    "documentation_step_retrieved_artifact_again": false
+  },
+  "limits": [
+    "Debug Simulator launch through AX count/guide existence only; not cold disk/first install/Release/physical launch latency.",
+    "Three samples from one fixed run; no p95, stable distribution or adopted product performance budget.",
+    "No App CPU/RSS, search, scrolling or full device/VoiceOver acceptance. hw.memsize is host capacity.",
+    "Warmup4-invocation protocol rests on Source and Passed assertion; protocol attachment payload remains unread.",
+    "Historic Core19 processes/15 samples are a different scenario and not replaced, remeasured or compared as a regression here.",
+    "No future main or Copy/Audio head result is inferred from main49."
+  ],
+  "TODO": {
+    "rows": 32,
+    "complete": 12,
+    "checkbox_changes": 0,
+    "existing_IOS15_status_unchanged": true,
+    "IOS18_23_25_overall_adopted_by_this_record": false
+  },
+  "documentation_operations": {
+    "new_Node_tests_SDK_browser_network_API_Gitmutation_shared_edits": 0,
+    "raw_trace_ZIP_images_copied": 0,
+    "records_created": 2,
+    "independent_final_payload_review": "pending"
+  },
+  "publication": {
+    "candidate_only": true,
+    "branch_PR_main_reflected": false,
+    "product_acceptance": false
+  }
+}

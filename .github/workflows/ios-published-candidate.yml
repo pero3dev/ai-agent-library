@@ -1,0 +1,715 @@
+name: iOS published app candidate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    paths:
+      - '.github/workflows/ios-published-candidate.yml'
+      - '.github/workflows/ios-native.yml'
+      - 'ios/**'
+      - 'docs/**'
+      - 'LICENSE'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'scripts/build-ios-native-content.mjs'
+      - 'scripts/lib/ios-*.mjs'
+      - 'scripts/lib/md-utils.mjs'
+      - 'tests/unit/ios-*.test.mjs'
+      - 'website/audio/catalog.json'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-published-candidate-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  ios-published-candidate:
+    name: iOS published app candidate (${{ matrix.slice }})
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        slice: [reading-state, content-copy]
+    runs-on: macos-15
+    timeout-minutes: ${{ matrix.slice == 'reading-state' && 95 || 70 }}
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
+      UI_SLICE: ${{ matrix.slice }}
+      EXPECTED_SOURCE_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            ios/tools/package-lock.json
+      - name: Audit content tooling before installation
+        run: npm audit --package-lock-only --audit-level=high
+      - name: Install content tooling without lifecycle scripts
+        run: npm ci --ignore-scripts
+      - name: Audit native asset tooling before installation
+        run: npm audit --package-lock-only --audit-level=high
+        working-directory: ios/tools
+      - name: Install native asset tooling without lifecycle scripts
+        run: npm ci --ignore-scripts
+        working-directory: ios/tools
+      - name: Install the lockfile-matched Chromium
+        run: ./node_modules/.bin/playwright install chromium
+        working-directory: ios/tools
+      - name: Record toolchain and candidate scope
+        run: |
+          set -euo pipefail
+          mkdir -p .local/ios-published-candidate/evidence
+          {
+            xcodebuild -version
+            node --version
+            npm --version
+            echo 'Simulator: iPhone 16 / iOS 18.5'
+            echo "Slice: $UI_SLICE"
+            echo 'Scope: the fixed disjoint full26 functional UI partition; units only reading-state, independent copy and Release integrity only content-copy.' 
+            echo 'This job verifies the default published development bundle; physical-device, VoiceOver and performance acceptance remain separate.'
+          } | tee .local/ios-published-candidate/evidence/environment.log
+      - name: Run the full common checks on the reading-state slice
+        if: ${{ matrix.slice == 'reading-state' }}
+        timeout-minutes: 6
+        run: |
+          set -euo pipefail
+          full_common_tmp_parent="$(cd "${RUNNER_TEMP:?RUNNER_TEMP is required}" && pwd -P)"
+          full_common_tmp="$(mktemp -d "$full_common_tmp_parent/ailibrary-full-common.XXXXXX")"
+          trap 'if [[ -n "${full_common_tmp:-}" && "$full_common_tmp" == "$full_common_tmp_parent"/ailibrary-full-common.* ]]; then rm -rf -- "$full_common_tmp"; fi' EXIT
+          full_common_tmp_real="$(cd "$full_common_tmp" && pwd -P)"
+          [[ "$full_common_tmp_real" == "$full_common_tmp" ]]
+          export TMPDIR="$full_common_tmp_real/"
+          npm run check \
+            2>&1 | tee .local/ios-published-candidate/evidence/full-common-check.log
+      - name: Check the frozen AppIcon source assets
+        run: |
+          set -euo pipefail
+          node ios/tools/app-icon.mjs --check \
+            2>&1 | tee .local/ios-published-candidate/evidence/app-icon-source.json
+      - name: Count tracked published source articles independently
+        run: |
+          set -euo pipefail
+          expected_articles="$(node --input-type=module <<'NODE'
+          import { execFileSync } from 'node:child_process';
+          import { readFileSync, writeFileSync } from 'node:fs';
+          import { parseFrontMatter, parseScalar, toLines } from './scripts/lib/md-utils.mjs';
+          const files = execFileSync('git', ['ls-files', '-z', 'docs'], { encoding: 'utf8' })
+            .split('\0').filter(file => /^docs\/\d{2}-[a-z0-9-]+\/[a-z0-9-]+\.md$/.test(file));
+          const articles = files.filter(file => {
+            const fields = parseFrontMatter(toLines(readFileSync(file, 'utf8')))?.fields ?? [];
+            const statuses = fields.filter(field => field.key === 'status');
+            if (statuses.length !== 1) throw new Error(`Expected one source status: ${file}`);
+            return parseScalar(statuses[0].value) === 'published';
+          }).sort();
+          if (!articles.length || articles.length > 2000) throw new Error('Invalid tracked published article count');
+          writeFileSync('.local/ios-published-candidate/evidence/published-sources.json',
+            JSON.stringify({ articles: articles.length, source_paths: articles }, null, 2) + '\n');
+          console.log(articles.length);
+          NODE
+          )"
+          [[ "$expected_articles" =~ ^[1-9][0-9]*$ ]]
+          printf 'PUBLISHED_ARTICLE_COUNT=%s\n' "$expected_articles" >> "$GITHUB_ENV"
+      # Render the full corpus once into the standard app resource directory.
+      # Exercise the normal development entrypoint; the other job explicitly keeps the representative profile.
+      - name: Generate and audit the published app and fixture packages
+        run: |
+          set -euo pipefail
+          npm run ios:prepare \
+            2>&1 | tee .local/ios-published-candidate/evidence/published-generation.log
+          node scripts/build-ios-native-content.mjs --fixtures \
+            2>&1 | tee .local/ios-published-candidate/evidence/fixture-generation.log
+          npm run --silent ios:test:content \
+            2>&1 | tee .local/ios-published-candidate/evidence/published-source-audit.json
+          node ios/tests/native-content-audit.mjs --fixtures \
+            2>&1 | tee .local/ios-published-candidate/evidence/fixture-source-audit.json
+          npm run --silent ios:test:package -- "$PUBLISHED_ARTICLE_COUNT" \
+            2>&1 | tee .local/ios-published-candidate/evidence/published-package.json
+          bash ios/tests/check-package.sh ios/AILibrary/TestContent 4 \
+            2>&1 | tee .local/ios-published-candidate/evidence/fixture-package.json
+      - name: Prepare one fresh owned published Simulator
+        id: published_simulator
+        timeout-minutes: 9
+        run: node ios/tests/native-simulator-prepare.mjs prepare
+      - name: Prepare the fixed disjoint full UI slice
+        env:
+          AILIBRARY_PUBLISHED_OWNER_TOKEN: ${{ steps.published_simulator.outputs.owner_token }}
+          AILIBRARY_PUBLISHED_CREATED_UUID: ${{ steps.published_simulator.outputs.created_uuid }}
+          AILIBRARY_PUBLISHED_DESTINATION: ${{ steps.published_simulator.outputs.destination }}
+        run: |
+          set -euo pipefail
+          cat > .local/ios-published-candidate/evidence/ui-slice-contract.mjs <<'NODE'
+          import assert from 'node:assert/strict';
+
+          // Fixed original26 functional cases. Data never comes from a result or caller.
+          export const ORIGINAL_CASE_IDS = Object.freeze([
+            "NativeReaderUITests/testContentsBookmarkAndResumeAfterRelaunch()",
+            "NativeReaderUITests/testHealthyLegacyHeadingPositionAndBookmarkPersistAfterNativeResumeAndRelaunch()",
+            "NativeReaderUITests/testThreeArticlesHaveNativeBodyText()",
+            "PublishedReaderUITests/testBodySearchArrivesAtNestedParagraphContainingAllTermsWithoutReaderGestures()",
+            "PublishedReaderUITests/testBundledContentSelectionCancelConfirmAndRestartKeepReadingAndGuide()",
+            "PublishedReaderUITests/testCancelContentFolderPickerPreservesFiltersAndReadingAndAllowsMoreActions()",
+            "PublishedReaderUITests/testChapter03LargeDiagramCanExpandAndShowSource()",
+            "PublishedReaderUITests/testChapter03LongArticleContentsBookmarkAndResume()",
+            "PublishedReaderUITests/testChapter08LargestTableReachesFinalRowAndColumn()",
+            "PublishedReaderUITests/testFilteredFixtureActionsAndReadingChangesRemainIsolatedFromNormalLibrary()",
+            "PublishedReaderUITests/testFilteredMoreActionsAboutRoundTripPreservesQueryAndLearningTag()",
+            "PublishedReaderUITests/testFixtureBodyLinksShowFragmentFilenameFarAndDuplicateWitnesses()",
+            "PublishedReaderUITests/testFixtureCrossArticleBodyLinkReturnsToMeasuredSourcePositionAndBookmark()",
+            "PublishedReaderUITests/testFixtureFirstCodeCopyUsesThePublicButton()",
+            "PublishedReaderUITests/testFixtureTallSingleBlockResumesNearItsMeasuredInternalRowAfterRelaunch()",
+            "PublishedReaderUITests/testGlossarySearchRelatedArticleAndReturnPreserveReaderState()",
+            "PublishedReaderUITests/testLearningRouteShowsItsInstructionChapterOrderAndArticle()",
+            "PublishedReaderUITests/testLearningTagSearchCombinesWithArticleSearchAndClearsZeroResults()",
+            "PublishedReaderUITests/testRelatedChapterLinkClosesInPlaceAndOpensAnArticleWithoutLosingTheReader()",
+            "PublishedReaderUITests/testResumeUsesLaterReadingPositionInsteadOfReplayingThePreviousBodyQuery()",
+            "ReaderViewportGeometryTests/testCopiedFramesSelectLowestFullyVisibleParagraph()",
+            "ReaderViewportGeometryTests/testEqualTopFramesPreserveCollectionOrder()",
+            "ReaderViewportGeometryTests/testForegroundOcclusionAndPartialFrameRemainExcluded()",
+            "ReaderViewportGeometryTests/testInvalidViewportAndEmptyCollectionFailClosed()",
+            "ReaderViewportGeometryTests/testNonfiniteEmptyAndOccludedFramesCannotWin()",
+            "ReaderViewportGeometryTests/testUnknownOrAmbiguousForegroundDoesNotBecomeVisible()"
+          ]);
+          export const SLICE_CASE_IDS = Object.freeze({
+            'reading-state': Object.freeze([
+            "NativeReaderUITests/testContentsBookmarkAndResumeAfterRelaunch()",
+            "NativeReaderUITests/testHealthyLegacyHeadingPositionAndBookmarkPersistAfterNativeResumeAndRelaunch()",
+            "NativeReaderUITests/testThreeArticlesHaveNativeBodyText()",
+            "PublishedReaderUITests/testBodySearchArrivesAtNestedParagraphContainingAllTermsWithoutReaderGestures()",
+            "PublishedReaderUITests/testBundledContentSelectionCancelConfirmAndRestartKeepReadingAndGuide()",
+            "PublishedReaderUITests/testCancelContentFolderPickerPreservesFiltersAndReadingAndAllowsMoreActions()",
+            "PublishedReaderUITests/testChapter03LongArticleContentsBookmarkAndResume()",
+            "PublishedReaderUITests/testFilteredFixtureActionsAndReadingChangesRemainIsolatedFromNormalLibrary()",
+            "PublishedReaderUITests/testFilteredMoreActionsAboutRoundTripPreservesQueryAndLearningTag()",
+            "PublishedReaderUITests/testFixtureCrossArticleBodyLinkReturnsToMeasuredSourcePositionAndBookmark()",
+            "PublishedReaderUITests/testFixtureTallSingleBlockResumesNearItsMeasuredInternalRowAfterRelaunch()",
+            "PublishedReaderUITests/testResumeUsesLaterReadingPositionInsteadOfReplayingThePreviousBodyQuery()",
+            "ReaderViewportGeometryTests/testCopiedFramesSelectLowestFullyVisibleParagraph()",
+            "ReaderViewportGeometryTests/testEqualTopFramesPreserveCollectionOrder()",
+            "ReaderViewportGeometryTests/testForegroundOcclusionAndPartialFrameRemainExcluded()",
+            "ReaderViewportGeometryTests/testInvalidViewportAndEmptyCollectionFailClosed()",
+            "ReaderViewportGeometryTests/testNonfiniteEmptyAndOccludedFramesCannotWin()",
+            "ReaderViewportGeometryTests/testUnknownOrAmbiguousForegroundDoesNotBecomeVisible()"
+          ]),
+            'content-copy': Object.freeze([
+            "PublishedReaderUITests/testChapter03LargeDiagramCanExpandAndShowSource()",
+            "PublishedReaderUITests/testChapter08LargestTableReachesFinalRowAndColumn()",
+            "PublishedReaderUITests/testFixtureBodyLinksShowFragmentFilenameFarAndDuplicateWitnesses()",
+            "PublishedReaderUITests/testFixtureFirstCodeCopyUsesThePublicButton()",
+            "PublishedReaderUITests/testGlossarySearchRelatedArticleAndReturnPreserveReaderState()",
+            "PublishedReaderUITests/testLearningRouteShowsItsInstructionChapterOrderAndArticle()",
+            "PublishedReaderUITests/testLearningTagSearchCombinesWithArticleSearchAndClearsZeroResults()",
+            "PublishedReaderUITests/testRelatedChapterLinkClosesInPlaceAndOpensAnArticleWithoutLosingTheReader()"
+          ])
+          });
+
+          // Deliberately narrow source grammar: unfamiliar/ambiguous declarations fail.
+          // This preserves class-selector detection of future methods before filtering.
+          export function flatUISourceNames(entries) {
+            assert.ok(Array.isArray(entries));
+            assert.ok(entries.every(entry => typeof entry.name === 'string' && entry.isFile() && !entry.isSymbolicLink()),
+              'UI source layout must contain regular files only; directories, links and special entries are rejected');
+            return entries.map(entry => entry.name).filter(name => name.endsWith('.swift')).sort();
+          }
+
+          export function validateSwiftCaseSources(sources, otherSources = {}) {
+            const specs = [
+              ['ios/AILibraryUITests/NativeReaderUITests.swift', [
+                ['NativeReaderUITests', 'NativeReaderUITestCase'], ['ReaderViewportGeometryTests', 'XCTestCase']]],
+              ['ios/AILibraryUITests/PublishedReaderUITests.swift', [['PublishedReaderUITests', 'NativeReaderUITestCase']]]
+            ];
+            assert.ok(sources && typeof sources === 'object' && !Array.isArray(sources));
+            assert.deepEqual(Object.keys(sources).sort(), specs.map(([file]) => file).sort());
+            assert.ok(otherSources && typeof otherSources === 'object' && !Array.isArray(otherSources));
+            assert.ok(Object.keys(otherSources).length <= 32);
+            for (const [file, text] of Object.entries(otherSources)) {
+              assert.ok(/^ios\/AILibraryUITests\/[A-Za-z0-9_-]+\.swift$/.test(file) && !Object.hasOwn(sources, file));
+              assert.equal(typeof text, 'string'); assert.ok(text.length <= 1024 * 1024);
+              assert.ok(!/\b(?:class|extension)\s+(?:NativeReaderUITests|PublishedReaderUITests|ReaderViewportGeometryTests|NativeReaderUITestCase)\b/.test(text),
+                'Selected test or inherited base declarations outside the fixed source files are ambiguous');
+            }
+            const ids = [], classes = [];
+            for (const [file, targets] of specs) {
+              const text = sources[file];
+              assert.equal(typeof text, 'string'); assert.ok(text.length > 0 && text.length <= 1024 * 1024 && !text.includes('\r'));
+              const allFunctions = [...text.matchAll(/\bfunc\s+([^\s(]+)\s*\(/g)];
+              assert.equal(allFunctions.length, [...text.matchAll(/\bfunc\b/g)].length, 'Ambiguous function declaration');
+              assert.ok(allFunctions.every(match => /^[A-Za-z_][A-Za-z0-9_]*(?:<[A-Za-z_][A-Za-z0-9_]*(?:,[A-Za-z_][A-Za-z0-9_]*)*>)?$/.test(match[1])), 'Unsupported function name');
+              const globalTests = allFunctions.filter(match => match[1].startsWith('test')).map(match => [match.index, match[1]]);
+              const classified = [];
+              for (const [name, parent] of targets) {
+                assert.equal([...text.matchAll(new RegExp(`\\b(?:class|extension)\\s+${name}\\b`, 'g'))].length, 1,
+                  'Target class missing, duplicated or extended');
+                const headers = [...text.matchAll(new RegExp(`^final class ${name}: ${parent} \\{$`, 'gm'))];
+                assert.equal(headers.length, 1, 'Noncanonical target class declaration');
+                const start = headers[0].index + headers[0][0].length;
+                const end = text.indexOf('\n}\n', start); assert.ok(end > start, 'Canonical class closing boundary missing');
+                const body = text.slice(start, end);
+                const methods = [...body.matchAll(/^    func (test[A-Za-z0-9_]+)\(\)(?: throws)? \{$/gm)];
+                assert.ok(methods.length > 0, 'No canonical test methods in target class');
+                for (const method of methods) {
+                  classified.push([start + method.index + 4, method[1]]);
+                  ids.push(`${name}/${method[1]}()`);
+                }
+                classes.push({ source: file, class: name, methods: methods.map(method => method[1]) });
+              }
+              assert.deepEqual(classified.sort((a,b) => a[0]-b[0]), globalTests,
+                'Every test declaration must belong to one canonical target class; ambiguous syntax is rejected');
+            }
+            assert.equal(new Set(ids).size, ids.length, 'Duplicate source test method');
+            assert.deepEqual(ids.sort(), [...ORIGINAL_CASE_IDS], 'Update the fixed full UI roster and slices for every source test change');
+            return { status: 'exact-source26-method-roster-verified', case_IDs: ids, classes };
+          }
+
+
+          export function validatePartitions(partitions = SLICE_CASE_IDS) {
+            assert.ok(partitions && typeof partitions === 'object' && !Array.isArray(partitions));
+            assert.deepEqual(Object.keys(partitions).sort(), ['content-copy', 'reading-state']);
+            assert.equal(ORIGINAL_CASE_IDS.length, 26); assert.equal(new Set(ORIGINAL_CASE_IDS).size, 26);
+            const flattened = [];
+            for (const slice of ['reading-state', 'content-copy']) {
+              const cases = partitions[slice];
+              assert.ok(Array.isArray(cases));
+              assert.equal(cases.length, slice === 'reading-state' ? 18 : 8);
+              assert.equal(new Set(cases).size, cases.length);
+              assert.ok(cases.every(id => typeof id === 'string' && ORIGINAL_CASE_IDS.includes(id)));
+              flattened.push(...cases);
+            }
+            assert.equal(flattened.length, 26); assert.equal(new Set(flattened).size, 26, 'Slices must be disjoint');
+            assert.deepEqual(flattened.sort(), [...ORIGINAL_CASE_IDS], 'Both fixed slices must exactly cover the original26');
+            return true;
+          }
+
+          export function caseIDsForSlice(slice) {
+            validatePartitions();
+            assert.ok(Object.hasOwn(SLICE_CASE_IDS, slice), 'Unknown finite UI slice');
+            return [...SLICE_CASE_IDS[slice]];
+          }
+
+          export function validateUITestTree(tree, binding, slice) {
+            const expectedCaseIDs = caseIDsForSlice(slice);
+            const expectedSuites = [...new Set(expectedCaseIDs.map(id => id.split('/')[0]))].sort();
+            assert.equal(binding.slice, slice);
+            assert.deepEqual(binding.expected_case_IDs, expectedCaseIDs);
+            assert.ok(Array.isArray(tree.devices)); assert.equal(tree.devices.length, 1);
+            const device = tree.devices[0];
+            assert.equal(device.deviceId.toUpperCase(), binding.UUID); assert.equal(device.osVersion, '18.5');
+            assert.equal(device.platform, 'iOS Simulator');
+            if (device.modelName !== undefined) assert.equal(device.modelName, 'iPhone 16');
+            const container = (node, type, name) => {
+              assert.ok(node && typeof node === 'object' && !Array.isArray(node));
+              assert.equal(node.nodeType, type, 'Only the observed Xcode16.4 node hierarchy is supported');
+              assert.equal(node.name, name); assert.equal(node.result, 'Passed');
+              assert.ok(Array.isArray(node.children)); assert.ok(node.children.length > 0);
+              return node.children;
+            };
+            assert.ok(Array.isArray(tree.testNodes)); assert.equal(tree.testNodes.length, 1);
+            const bundles = container(tree.testNodes[0], 'Test Plan', 'AILibrary'); assert.equal(bundles.length, 1);
+            const suites = container(bundles[0], 'UI test bundle', 'AILibraryUITests');
+            const bundleURL = 'test://com.apple.xcode/AILibrary/AILibraryUITests';
+            assert.equal(bundles[0].nodeIdentifierURL, bundleURL);
+            assert.equal(suites.length, expectedSuites.length);
+            assert.deepEqual(suites.map(suite => suite.name).sort(), expectedSuites);
+            const cases = [];
+            for (const suite of suites) {
+              const children = container(suite, 'Test Suite', suite.name);
+              assert.equal(suite.nodeIdentifierURL, `${bundleURL}/${suite.name}`);
+              for (const node of children) {
+                assert.ok(node && typeof node === 'object' && !Array.isArray(node));
+                assert.equal(node.nodeType, 'Test Case'); assert.equal(node.result, 'Passed');
+                assert.equal(node.children, undefined, 'A Test Case must be a leaf in the observed schema');
+                assert.equal(typeof node.name, 'string'); assert.match(node.name, /^test\w+\(\)$/);
+                assert.equal(node.nodeIdentifier, `${suite.name}/${node.name}`);
+                assert.equal(node.nodeIdentifierURL, `${bundleURL}/${suite.name}/${node.name.slice(0, -2)}`);
+                cases.push(node);
+              }
+            }
+            assert.equal(cases.length, expectedCaseIDs.length, 'All selected native UI cases must run without skips or repeats');
+            const actualCaseIDs = cases.map(node => node.nodeIdentifier);
+            assert.equal(new Set(actualCaseIDs).size, actualCaseIDs.length, 'No selected case may repeat');
+            assert.deepEqual(actualCaseIDs.sort(), expectedCaseIDs, 'The complete source-derived selected case set must pass');
+            return { cases, device, expectedCaseIDs };
+          }
+          NODE
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
+          import { createHash } from 'node:crypto';
+          import { readPublishedSimulatorReady } from './ios/tests/native-simulator-prepare.mjs';
+          const owned = readPublishedSimulatorReady();
+          import { ORIGINAL_CASE_IDS, caseIDsForSlice, validatePartitions, validateSwiftCaseSources, flatUISourceNames } from './.local/ios-published-candidate/evidence/ui-slice-contract.mjs';
+          assert.equal(process.env.GITHUB_ACTIONS, 'true');
+          const event = JSON.parse(readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8'));
+          assert.equal(event.repository.full_name, 'pero3dev/ai-agent-library'); assert.equal(event.repository.private, false);
+          const sourceHead = event.pull_request?.head.sha ?? process.env.GITHUB_SHA;
+          assert.equal(sourceHead, process.env.EXPECTED_SOURCE_HEAD); assert.match(sourceHead, /^[a-f0-9]{40}$/);
+          assert.match(process.env.GITHUB_SHA, /^[a-f0-9]{40}$/);
+          const sourceNames = flatUISourceNames(readdirSync('ios/AILibraryUITests', { withFileTypes: true }));
+          const sourceBuffers = Object.fromEntries(['ios/AILibraryUITests/NativeReaderUITests.swift',
+            'ios/AILibraryUITests/PublishedReaderUITests.swift'].map(file => [file, readFileSync(file)]));
+          const otherSourceFiles = sourceNames
+            .map(file => `ios/AILibraryUITests/${file}`).filter(file => !Object.hasOwn(sourceBuffers, file));
+          const otherSources = Object.fromEntries(otherSourceFiles.map(file => [file, readFileSync(file, 'utf8')]));
+          const sourceCaseInventory = validateSwiftCaseSources(Object.fromEntries(
+            Object.entries(sourceBuffers).map(([file, bytes]) => [file, bytes.toString('utf8')])), otherSources);
+          const sourceCaseFiles = Object.entries(sourceBuffers).map(([file, bytes]) => ({
+            path: file, bytes: bytes.length, SHA256: createHash('sha256').update(bytes).digest('hex') }));
+          validatePartitions();
+          const slice = process.env.UI_SLICE, ids = caseIDsForSlice(slice);
+          const contract = readFileSync('.local/ios-published-candidate/evidence/ui-slice-contract.mjs');
+          const selection = { schema_version: 1, status: 'fixed-disjoint-full-UI-slice', slice,
+            repository: event.repository.full_name, run_id: process.env.GITHUB_RUN_ID, run_attempt: process.env.GITHUB_RUN_ATTEMPT,
+            source_head: sourceHead, event_commit: process.env.GITHUB_SHA, pull_request_head: event.pull_request?.head.sha ?? null,
+            source_case_inventory: sourceCaseInventory, source_case_files: sourceCaseFiles,
+            expected_case_IDs: ids, expected_count: ids.length, original_full_case_IDs: ORIGINAL_CASE_IDS,
+            contract_SHA256: createHash('sha256').update(contract).digest('hex'),
+            owned_simulator: { context: owned.context, token: owned.token, UUID: owned.UUID },
+            destination: { platform: 'iOS Simulator', id: owned.UUID, name: owned.name, osVersion: '18.5' },
+            native_units_required: slice === 'reading-state', code_copy_and_Release_required: slice === 'content-copy' };
+          writeFileSync('.local/ios-published-candidate/evidence/ui-selection.json', JSON.stringify(selection, null, 2) + '\n', { flag: 'wx', mode: 0o600 });
+          writeFileSync('.local/ios-published-candidate/evidence/ui-selectors.txt',
+            ids.map(id => `-only-testing:AILibraryUITests/${id.slice(0, -2)}`).join('\n') + '\n', { flag: 'wx', mode: 0o600 });
+          NODE
+      # Synthetic unit fixtures remain independent of the real bundled article count.
+      # CoreSmoke's no-flag profile is fixed to three articles and is not used here.
+      - name: Run all native XCTest units on the iPhone Simulator
+        if: ${{ matrix.slice == 'reading-state' }}
+        id: native_units
+        env:
+          AILIBRARY_PUBLISHED_OWNER_TOKEN: ${{ steps.published_simulator.outputs.owner_token }}
+          AILIBRARY_PUBLISHED_CREATED_UUID: ${{ steps.published_simulator.outputs.created_uuid }}
+          AILIBRARY_PUBLISHED_DESTINATION: ${{ steps.published_simulator.outputs.destination }}
+        run: |
+          set -euo pipefail
+          node ios/tests/native-simulator-prepare.mjs ready
+          xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary \
+            -configuration Debug \
+            -destination "$AILIBRARY_PUBLISHED_DESTINATION" \
+            -destination-timeout 120 \
+            -derivedDataPath .local/ios-published-candidate/DebugDerivedData \
+            -resultBundlePath .local/ios-published-candidate/evidence/unit.xcresult \
+            -parallel-testing-enabled NO -jobs 2 \
+            -only-testing:AILibraryTests CODE_SIGNING_ALLOWED=NO test \
+            2>&1 | tee .local/ios-published-candidate/evidence/xctest.log
+      - name: Capture Simulator inventory after unit failure
+        if: ${{ failure() && !cancelled() && steps.native_units.outcome == 'failure' }}
+        continue-on-error: true
+        timeout-minutes: 2
+        env:
+          UNIT_STEP_OUTCOME: ${{ steps.native_units.outcome }}
+          DIAGNOSTIC_JOB_STATUS: ${{ job.status }}
+          EXPECTED_SOURCE_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: node ios/tests/capture-simulator-unit-failure.mjs
+      - name: Build the selected UI targets before the content-copy Debug audit
+        if: ${{ matrix.slice == 'content-copy' }}
+        env:
+          AILIBRARY_PUBLISHED_OWNER_TOKEN: ${{ steps.published_simulator.outputs.owner_token }}
+          AILIBRARY_PUBLISHED_CREATED_UUID: ${{ steps.published_simulator.outputs.created_uuid }}
+          AILIBRARY_PUBLISHED_DESTINATION: ${{ steps.published_simulator.outputs.destination }}
+        run: |
+          set -euo pipefail
+          node ios/tests/native-simulator-prepare.mjs ready
+          UI_SELECTORS=()
+          while IFS= read -r selector; do
+            [[ "$selector" =~ ^-only-testing:AILibraryUITests/[A-Za-z0-9_]+/test[A-Za-z0-9_]+$ ]]
+            UI_SELECTORS+=("$selector")
+          done < .local/ios-published-candidate/evidence/ui-selectors.txt
+          case "$UI_SLICE" in
+            reading-state) [[ "${#UI_SELECTORS[@]}" -eq 18 ]] ;;
+            content-copy) [[ "${#UI_SELECTORS[@]}" -eq 8 ]] ;;
+            *) exit 1 ;;
+          esac
+          # Same AILibrary scheme and UI dependency; filtering does not assert Core compile omission.
+          xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary \
+            -configuration Debug \
+            -destination "$AILIBRARY_PUBLISHED_DESTINATION" \
+            -destination-timeout 120 \
+            -derivedDataPath .local/ios-published-candidate/DebugDerivedData \
+            -parallel-testing-enabled NO -jobs 2 \
+            "${UI_SELECTORS[@]}" CODE_SIGNING_ALLOWED=NO build-for-testing \
+            2>&1 | tee .local/ios-published-candidate/evidence/ui-build.log
+      - name: Audit the actual Debug app resources
+        run: |
+          set -euo pipefail
+          debug_app='.local/ios-published-candidate/DebugDerivedData/Build/Products/Debug-iphonesimulator/AILibrary.app'
+          if ! node ios/tests/capture-built-app-icon.mjs "$debug_app" \
+            --output .local/ios-published-candidate/evidence/published-debug-icon-inputs; then
+            printf '%s\n' 'AppIcon diagnostic capture failed; continuing required icon audit.' >&2
+          fi
+          node ios/tests/check-built-app-icon.mjs "$debug_app" --required-scales 3 \
+            2>&1 | tee .local/ios-published-candidate/evidence/debug-app-icon.json
+          cmp ios/AILibrary/Content/manifest.json "$debug_app/Content/manifest.json"
+          bash ios/tests/check-package.sh "$debug_app/Content" "$PUBLISHED_ARTICLE_COUNT" \
+            2>&1 | tee .local/ios-published-candidate/evidence/debug-app-package.json
+          cmp ios/AILibrary/TestContent/manifest.json "$debug_app/TestContent/manifest.json"
+          bash ios/tests/check-package.sh "$debug_app/TestContent" 4 \
+            2>&1 | tee .local/ios-published-candidate/evidence/debug-fixture-package.json
+      # Keep functional UI acceptance separate from the dedicated performance suite.
+      - name: Run functional native UI tests against the published app
+        env:
+          AILIBRARY_PUBLISHED_OWNER_TOKEN: ${{ steps.published_simulator.outputs.owner_token }}
+          AILIBRARY_PUBLISHED_CREATED_UUID: ${{ steps.published_simulator.outputs.created_uuid }}
+          AILIBRARY_PUBLISHED_DESTINATION: ${{ steps.published_simulator.outputs.destination }}
+          TEST_RUNNER_AILIBRARY_EXPECTED_PUBLISHED_COUNT: ${{ env.PUBLISHED_ARTICLE_COUNT }}
+        run: |
+          set -euo pipefail
+          COPY_SIMULATOR_ID="$(node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import { spawnSync } from 'node:child_process';
+          import { readFileSync, writeFileSync } from 'node:fs';
+          import { createHash, randomUUID } from 'node:crypto';
+          import { caseIDsForSlice } from './.local/ios-published-candidate/evidence/ui-slice-contract.mjs';
+          import { seedClipboardCanary } from './ios/tests/clipboard-canary-seed.mjs';
+          import { readPublishedSimulatorReady } from './ios/tests/native-simulator-prepare.mjs';
+          const owned = readPublishedSimulatorReady();
+          assert.equal(process.env.AILIBRARY_PUBLISHED_DESTINATION, owned.destination);
+          const evidence = '.local/ios-published-candidate/evidence';
+          const selection = JSON.parse(readFileSync(`${evidence}/ui-selection.json`, 'utf8'));
+          assert.equal(selection.status, 'fixed-disjoint-full-UI-slice');
+          assert.equal(selection.slice, process.env.UI_SLICE);
+          assert.equal(selection.source_head, process.env.EXPECTED_SOURCE_HEAD);
+          assert.equal(selection.event_commit, process.env.GITHUB_SHA);
+          assert.deepEqual(selection.expected_case_IDs, caseIDsForSlice(process.env.UI_SLICE));
+          assert.deepEqual(selection.owned_simulator, { context: owned.context, token: owned.token, UUID: owned.UUID });
+          assert.equal(selection.destination.id, owned.UUID);
+          assert.equal(selection.contract_SHA256, createHash('sha256').update(readFileSync(`${evidence}/ui-slice-contract.mjs`)).digest('hex'));
+          const put = (name, value) => writeFileSync(`${evidence}/${name}`, value, { flag: 'wx', mode: 0o600 });
+          const json = (name, value) => put(name, JSON.stringify(value, null, 2) + '\n');
+          assert.equal(process.env.GITHUB_ACTIONS, 'true');
+          const event = JSON.parse(readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8'));
+          assert.equal(event.repository.full_name, 'pero3dev/ai-agent-library');
+          assert.equal(event.repository.private, false);
+          const run = (name, args, input, limit = 1024 * 1024, timeout = 30000) => {
+            json(`copy-${name}.intent.json`, { binary: 'xcrun', arguments: args, timeout_ms: timeout, max_buffer_bytes: limit });
+            const result = spawnSync('xcrun', args, { input, timeout, killSignal: 'SIGKILL', maxBuffer: limit });
+            put(`copy-${name}.stdout.bin`, result.stdout ?? Buffer.alloc(0));
+            put(`copy-${name}.stderr.log`, result.stderr ?? Buffer.alloc(0));
+            json(`copy-${name}.exit.json`, { exit_code: result.status, signal: result.signal, error: result.error?.message ?? null });
+            assert.equal(result.error, undefined); assert.equal(result.status, 0);
+            return result.stdout;
+          };
+          const raw = run('devices', ['simctl', 'list', 'devices', 'available', '--json'], undefined, 16 * 1024 * 1024);
+          const inventory = JSON.parse(raw.toString('utf8'));
+          const runtimeID = 'com.apple.CoreSimulator.SimRuntime.iOS-18-5';
+          assert.ok(Array.isArray(inventory.devices?.[runtimeID]));
+          const UUID = owned.UUID;
+          const matches = inventory.devices[runtimeID].filter(device => device.udid.toUpperCase() === UUID);
+          assert.equal(matches.length, 1, 'Exactly the proven owned UUID must own the clipboard test');
+          const device = matches[0];
+          assert.equal(device.name, owned.name); assert.equal(device.isAvailable, true);
+          assert.equal(device.deviceTypeIdentifier, owned.device_type_identifier);
+          assert.equal(device.state, 'Booted', 'The prepared owned UUID must remain Booted; no named-device fallback');
+          const canary = Buffer.from(`AILibrary-code-copy-canary:${process.env.GITHUB_RUN_ID}:${process.env.GITHUB_RUN_ATTEMPT}:${randomUUID()}\n`, 'utf8');
+          // BEGIN CONTENT-COPY CANARY SEED RECOVERY
+          if (selection.slice === 'content-copy') {
+            const seed = (name, destination, input, plannedTimeout, acquirePermit) => {
+              assert.ok(['seed', 'seed-timeout-retry-1'].includes(name));
+              assert.equal(destination, UUID);
+              assert.ok(Buffer.isBuffer(input) && input.equals(canary));
+              assert.ok(Number.isInteger(plannedTimeout) && plannedTimeout > 0 && plannedTimeout <= 30000);
+              assert.equal(typeof acquirePermit, 'function');
+              const args = ['simctl', 'pbcopy', destination], limit = 1024 * 1024;
+              json(`copy-${name}.intent.json`, { binary: 'xcrun', arguments: args,
+                planned_timeout_ms: plannedTimeout, timeout_phase: 'planned-before-intent-storage',
+                max_buffer_bytes: limit, input_bytes: input.length,
+                input_SHA256: createHash('sha256').update(input).digest('hex') });
+              const actualTimeout = acquirePermit().timeout_ms;
+              const result = spawnSync('xcrun', args, { input, timeout: actualTimeout, killSignal: 'SIGKILL', maxBuffer: limit });
+              put(`copy-${name}.stdout.bin`, result.stdout ?? Buffer.alloc(0));
+              put(`copy-${name}.stderr.log`, result.stderr ?? Buffer.alloc(0));
+              const receipt = { spawned: true, planned_timeout_ms: plannedTimeout, actual_timeout_ms: actualTimeout,
+                exit_code: result.status, signal: result.signal,
+                error_code: result.error?.code ?? null, error: result.error?.message ?? null,
+                stderr_text: Buffer.isBuffer(result.stderr) && result.stderr.length <= 512 ? result.stderr.toString('utf8') : null };
+              json(`copy-${name}.exit.json`, receipt); return receipt;
+            };
+            json('copy-seed-input.json', { schema_version: 1, source_head: selection.source_head,
+              run_id: process.env.GITHUB_RUN_ID, run_attempt: process.env.GITHUB_RUN_ATTEMPT, UUID,
+              input_bytes: canary.length, input_SHA256: createHash('sha256').update(canary).digest('hex') });
+            const seeded = seedClipboardCanary(UUID, canary, seed);
+            json('copy-seed-accepted.json', { schema_version: 1, source_head: selection.source_head,
+              run_id: process.env.GITHUB_RUN_ID, run_attempt: process.env.GITHUB_RUN_ATTEMPT, ...seeded });
+          } else {
+            run('seed', ['simctl', 'pbcopy', UUID], canary);
+          }
+          // END CONTENT-COPY CANARY SEED RECOVERY
+          const observed = run('canary', ['simctl', 'pbpaste', UUID], undefined, 1024 * 1024, 90000);
+          assert.ok(observed.equals(canary), 'Device pasteboard must first return the exact unique canary bytes');
+          json('copy-device.json', { schema_version: 1, status: 'unique-device-canary-roundtrip-verified',
+            repository: event.repository.full_name, run_id: process.env.GITHUB_RUN_ID, run_attempt: process.env.GITHUB_RUN_ATTEMPT,
+            event_commit: process.env.GITHUB_SHA, pull_request_head: event.pull_request?.head.sha ?? null,
+            slice: selection.slice, expected_case_IDs: selection.expected_case_IDs, source_head: selection.source_head,
+            source_case_files: selection.source_case_files,
+            contract_SHA256: selection.contract_SHA256, runtime_identifier: runtimeID, device_type_identifier: device.deviceTypeIdentifier, UUID,
+            owned_simulator: { context: owned.context, token: owned.token, UUID: owned.UUID },
+            canary_bytes: canary.length, canary_SHA256: createHash('sha256').update(canary).digest('hex') });
+          console.log(UUID);
+          NODE
+          )"
+          export COPY_SIMULATOR_ID
+          [[ "$AILIBRARY_PUBLISHED_DESTINATION" == "platform=iOS Simulator,id=$COPY_SIMULATOR_ID" ]]
+          UI_SELECTORS=()
+          while IFS= read -r selector; do
+            [[ "$selector" =~ ^-only-testing:AILibraryUITests/[A-Za-z0-9_]+/test[A-Za-z0-9_]+$ ]]
+            UI_SELECTORS+=("$selector")
+          done < .local/ios-published-candidate/evidence/ui-selectors.txt
+          case "$UI_SLICE" in
+            reading-state) [[ "${#UI_SELECTORS[@]}" -eq 18 ]] ;;
+            content-copy) [[ "${#UI_SELECTORS[@]}" -eq 8 ]] ;;
+            *) exit 1 ;;
+          esac
+          xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary \
+            -configuration Debug \
+            -destination "$AILIBRARY_PUBLISHED_DESTINATION" \
+            -destination-timeout 120 \
+            -derivedDataPath .local/ios-published-candidate/DebugDerivedData \
+            -resultBundlePath .local/ios-published-candidate/evidence/ui.xcresult \
+            -parallel-testing-enabled NO -jobs 2 \
+            "${UI_SELECTORS[@]}" CODE_SIGNING_ALLOWED=NO test \
+            2>&1 | tee .local/ios-published-candidate/evidence/xctest-ui.log
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import { spawnSync } from 'node:child_process';
+          import { readFileSync, writeFileSync } from 'node:fs';
+          import { createHash } from 'node:crypto';
+          import { caseIDsForSlice, validateUITestTree } from './.local/ios-published-candidate/evidence/ui-slice-contract.mjs';
+          import { readPublishedSimulatorReady } from './ios/tests/native-simulator-prepare.mjs';
+          const owned = readPublishedSimulatorReady();
+          assert.equal(process.env.AILIBRARY_PUBLISHED_DESTINATION, owned.destination);
+          const evidence = '.local/ios-published-candidate/evidence';
+          const put = (name, value) => writeFileSync(`${evidence}/${name}`, value, { flag: 'wx', mode: 0o600 });
+          const json = (name, value) => put(name, JSON.stringify(value, null, 2) + '\n');
+          const binding = JSON.parse(readFileSync(`${evidence}/copy-device.json`, 'utf8'));
+          assert.equal(process.env.GITHUB_ACTIONS, 'true');
+          assert.equal(binding.status, 'unique-device-canary-roundtrip-verified');
+          assert.equal(binding.repository, process.env.GITHUB_REPOSITORY);
+          assert.equal(binding.run_id, process.env.GITHUB_RUN_ID); assert.equal(binding.run_attempt, process.env.GITHUB_RUN_ATTEMPT);
+          assert.equal(binding.event_commit, process.env.GITHUB_SHA);
+          assert.equal(binding.UUID, process.env.COPY_SIMULATOR_ID);
+          assert.equal(binding.UUID, owned.UUID);
+          assert.deepEqual(binding.owned_simulator, { context: owned.context, token: owned.token, UUID: owned.UUID });
+          assert.equal(binding.slice, process.env.UI_SLICE);
+          assert.equal(binding.source_head, process.env.EXPECTED_SOURCE_HEAD);
+          assert.deepEqual(binding.expected_case_IDs, caseIDsForSlice(binding.slice));
+          assert.equal(binding.contract_SHA256, createHash('sha256').update(readFileSync(`${evidence}/ui-slice-contract.mjs`)).digest('hex'));
+          assert.match(binding.UUID, /^[A-F0-9]{8}(?:-[A-F0-9]{4}){3}-[A-F0-9]{12}$/);
+          const run = (name, args, timeout, limit) => {
+            json(`copy-${name}.intent.json`, { binary: 'xcrun', arguments: args, timeout_ms: timeout, max_buffer_bytes: limit });
+            const result = spawnSync('xcrun', args, { timeout, killSignal: 'SIGKILL', maxBuffer: limit });
+            put(`copy-${name}.stdout.bin`, result.stdout ?? Buffer.alloc(0));
+            put(`copy-${name}.stderr.log`, result.stderr ?? Buffer.alloc(0));
+            json(`copy-${name}.exit.json`, { exit_code: result.status, signal: result.signal, error: result.error?.message ?? null });
+            assert.equal(result.error, undefined); assert.equal(result.status, 0);
+            return result.stdout;
+          };
+          const raw = run('results', ['xcresulttool', 'get', 'test-results', 'tests', '--path', `${evidence}/ui.xcresult`], 60000, 16 * 1024 * 1024);
+          const tree = JSON.parse(raw.toString('utf8'));
+          const { cases, device, expectedCaseIDs } = validateUITestTree(tree, binding, process.env.UI_SLICE);
+          json('ui-slice-summary.json', { schema_version: 1, status: 'exact-selected-UI-slice-passed',
+            slice: binding.slice, selected_UI_passed: cases.length, selected_case_IDs: expectedCaseIDs,
+            repository: binding.repository, run_id: binding.run_id, run_attempt: binding.run_attempt,
+            event_commit: binding.event_commit, source_head: binding.source_head, pull_request_head: binding.pull_request_head,
+            source_case_files: binding.source_case_files,
+            UUID: binding.UUID, osVersion: device.osVersion, contract_SHA256: binding.contract_SHA256 });
+          if (binding.slice === 'content-copy') {
+          const caseID = 'PublishedReaderUITests/testFixtureFirstCodeCopyUsesThePublicButton()';
+          assert.equal(cases.filter(test => test.nodeIdentifier === caseID).length, 1);
+          const expected = readFileSync('ios/fixtures/first-code-copy-expected.txt');
+          assert.equal(expected.length, 374);
+          assert.equal(createHash('sha256').update(expected).digest('hex'), 'e29cb525957fb4bd72350927aa1cf47659da4aef9964ecbf0d43edb4dfe2cee8');
+          const actual = run('actual', ['simctl', 'pbpaste', binding.UUID], 30000, 1024 * 1024);
+          json('code-copy-summary.json', { schema_version: 1, status: actual.equals(expected) ? 'exact-first-code-copy-passed' : 'copy-mismatch',
+            run_id: binding.run_id, run_attempt: binding.run_attempt, event_commit: binding.event_commit,
+            pull_request_head: binding.pull_request_head, UUID: binding.UUID, osVersion: device.osVersion, copy_case: caseID,
+            slice: binding.slice, source_head: binding.source_head, selected_case_IDs: expectedCaseIDs,
+            selected_UI_passed: cases.length, expected_bytes: expected.length, actual_bytes: actual.length,
+            expected_SHA256: createHash('sha256').update(expected).digest('hex'), actual_SHA256: createHash('sha256').update(actual).digest('hex'),
+            coverage: 'First nonempty fixture code only; exact UTF8 including indentation, tab, emoji, long line and final newline',
+            remaining: 'Empty/second/inline-math copies, physical pasteboard, first offline launch and legacy UI migration are unverified' });
+          assert.ok(actual.equals(expected), 'Device pasteboard must exactly match the independent first-code bytes');
+          console.log('Verified exact 374-byte first code copy on the actual UI destination.');
+          }
+          NODE
+      - name: Build and verify the published Release package
+        if: ${{ matrix.slice == 'content-copy' }}
+        run: |
+          set -euo pipefail
+          xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary \
+            -configuration Release -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath .local/ios-published-candidate/ReleaseDerivedData -jobs 2 \
+            CODE_SIGNING_ALLOWED=NO build \
+            2>&1 | tee .local/ios-published-candidate/evidence/release-build.log
+          node ios/tests/check-release-package.mjs \
+            .local/ios-published-candidate/ReleaseDerivedData/Build/Products/Release-iphonesimulator/AILibrary.app \
+            2>&1 | tee .local/ios-published-candidate/evidence/release-package.json
+          if ! node ios/tests/capture-built-app-icon.mjs .local/ios-published-candidate/ReleaseDerivedData/Build/Products/Release-iphonesimulator/AILibrary.app \
+            --output .local/ios-published-candidate/evidence/published-release-icon-inputs; then
+            printf '%s\n' 'AppIcon diagnostic capture failed; continuing required icon audit.' >&2
+          fi
+          node ios/tests/check-built-app-icon.mjs \
+            .local/ios-published-candidate/ReleaseDerivedData/Build/Products/Release-iphonesimulator/AILibrary.app \
+            --required-scales 2,3 \
+            2>&1 | tee .local/ios-published-candidate/evidence/release-app-icon.json
+      - name: Retain compact device code-copy evidence
+        if: ${{ always() && matrix.slice == 'content-copy' }}
+        timeout-minutes: 2
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ios-published-code-copy-evidence-${{ matrix.slice }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            .local/ios-published-candidate/evidence/code-copy-summary.json
+            .local/ios-published-candidate/evidence/copy-device.json
+            .local/ios-published-candidate/evidence/copy-seed-input.json
+            .local/ios-published-candidate/evidence/copy-seed-accepted.json
+            .local/ios-published-candidate/evidence/copy-seed.intent.json
+            .local/ios-published-candidate/evidence/copy-seed.exit.json
+            .local/ios-published-candidate/evidence/copy-seed-timeout-retry-1.intent.json
+            .local/ios-published-candidate/evidence/copy-seed-timeout-retry-1.exit.json
+            .local/ios-published-candidate/evidence/copy-results.intent.json
+            .local/ios-published-candidate/evidence/copy-results.exit.json
+            .local/ios-published-candidate/evidence/copy-results.stdout.bin
+            .local/ios-published-candidate/evidence/copy-results.stderr.log
+            .local/ios-published-candidate/evidence/copy-actual.intent.json
+            .local/ios-published-candidate/evidence/copy-actual.exit.json
+            .local/ios-published-candidate/evidence/copy-actual.stdout.bin
+            .local/ios-published-candidate/evidence/copy-actual.stderr.log
+            .local/ios-published-candidate/evidence/xctest-ui.log
+          include-hidden-files: true
+          if-no-files-found: ignore
+          retention-days: 90
+      - name: Retain test results and compact candidate evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ios-published-candidate-evidence-${{ matrix.slice }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/ios-published-candidate/evidence
+          include-hidden-files: true
+          if-no-files-found: ignore
+          retention-days: 90
+      - name: Clean up only the proven owned published Simulator
+        if: always()
+        timeout-minutes: 3
+        env:
+          AILIBRARY_PUBLISHED_OWNER_TOKEN: ${{ steps.published_simulator.outputs.owner_token }}
+          AILIBRARY_PUBLISHED_CREATED_UUID: ${{ steps.published_simulator.outputs.created_uuid }}
+        run: node ios/tests/native-simulator-prepare.mjs cleanup
+      - name: Retain bounded published Simulator ownership receipts
+        if: always()
+        timeout-minutes: 2
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ios-published-simulator-${{ matrix.slice }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/ios-published-candidate/evidence/owned-simulator/${{ matrix.slice }}
+          include-hidden-files: true
+          if-no-files-found: ignore
+          retention-days: 90

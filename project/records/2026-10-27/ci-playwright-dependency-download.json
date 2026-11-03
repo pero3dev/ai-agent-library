@@ -1,0 +1,150 @@
+{
+  "schema_version": 1,
+  "task": "ci-playwright-dependency-download",
+  "date": "2026-10-27",
+  "status": "private-v2-candidate-pure-tests-passed-awaiting-final-combined-review-and-hosted-validation",
+  "base_head": "20f2024a107e75c0c4775e58a1223ad1c3950c05",
+  "goal": "通常CIのAPT取得遅延へ対処する私有候補を準備し、観測・純試験・実CIを分ける",
+  "authorization": "ユーザーのiOS自律実装・通常commit/main merge依頼。親がGit/API/PR/CIを担当し、workerは私有候補と純試験に限定",
+  "owned_paths": [
+    ".github/workflows/ci.yml (build only)",
+    ".github/scripts/prepare-playwright-linux-deps.mjs",
+    "tests/unit/ci-playwright-linux-deps.test.mjs",
+    "project/records/2026-10-27/ci-playwright-dependency-download.md",
+    "project/records/2026-10-27/ci-playwright-dependency-download.json",
+    "project/README.md (one new paragraph)"
+  ],
+  "completion_scope": "private technical candidate plus records; publication and actual CI adoption remain pending",
+  "evidence": {
+    "observed_head": "f28c22e0e89c6e4d4cf76e295cd030d2535e454c",
+    "run_id": 40340824254,
+    "job_id": 121634732747,
+    "job_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40340824254/job/121634732747",
+    "conclusion": "cancelled",
+    "elapsed_to_browser_interruption_seconds": 1815,
+    "cancellation_cause": "unknown; timing fits 30-minute deadline but manual/concurrency cancellation not excluded",
+    "apt_transfer_seconds": 1319,
+    "browser_zip_seconds": "under 9",
+    "browser_cases_started": 682,
+    "observed_pass_lines": 331,
+    "observed_failure_lines": 0,
+    "complete_browser_suite": false
+  },
+  "policy": {
+    "job_timeout_minutes": 30,
+    "workers": 2,
+    "test_timeout_seconds": 45,
+    "test_retries": 0,
+    "required_check_names_changed": false,
+    "other_jobs_changed": false,
+    "app_version_changed": false,
+    "TODO_changed": false,
+    "ios_source_changed": false
+  },
+  "implementation": {
+    "runner": "ubuntu-24.04",
+    "platform": "Linux x64 GitHub-hosted public repository only",
+    "playwright_version": "1.63.0",
+    "dependency_groups": [
+      "tools",
+      "chromium",
+      "firefox"
+    ],
+    "dependency_union_count": 43,
+    "bundle_evaluated": false,
+    "metadata_timeout_seconds": 60,
+    "download_timeout_seconds": 180,
+    "root_timeout_kill_after_seconds": 5,
+    "fallback_attempts": 1,
+    "fallback": "remove only exact existing Azure priority:1 line; keep archive priority:2 and security priority:3 bytes",
+    "signature_checks_weakened": false,
+    "config_restored_before_install": true,
+    "install_no_download": true,
+    "install_custom_timeout": false,
+    "install_custom_abort_kill": false,
+    "install_retries": 0,
+    "actual_runner_mirror_source_bytes": "not-read; unknown format rejects before sudo and is not success"
+  },
+  "official_mirror_source": {
+    "commit": "c74a28e5f8943ae6a39cac7c3701dd6bd0a2ea51",
+    "blob": "b3f5b2b180df8eb39fcbba034f616e03a69e775c",
+    "url": "https://github.com/actions/runner-images/blob/c74a28e5f8943ae6a39cac7c3701dd6bd0a2ea51/images/ubuntu/scripts/build/configure-apt-sources.sh",
+    "read_by": "root"
+  },
+  "validation": {
+    "pure_cases": 78,
+    "runtime_results": [
+      {
+        "node": "v24.19.0",
+        "passed": 78,
+        "failed": 0,
+        "repo_engine_accepted": true
+      }
+    ],
+    "node22_local": "not-run",
+    "base_f28_ci_same_bytes": true,
+    "build_job_only_diff": true,
+    "independent_review": {
+      "decision": "pending-root-final-combined-review",
+      "technical_hashes_verified": false
+    },
+    "root_writer_validation": "static assertions and read-only review; not executed",
+    "actual_apt": "not-run",
+    "actual_sudo_signal_relay": "not-run",
+    "hosted_ci": "not-run",
+    "complete_browser_assertions": "not-run",
+    "transport_improvement": "not-measured",
+    "npm_ci_check": "not-run",
+    "SDK_simulator": "not-run",
+    "prior_v1_runtime_results": [
+      {
+        "node": "v24.19.0",
+        "passed": 78,
+        "failed": 0,
+        "repo_engine_accepted": true
+      },
+      {
+        "node": "v18.13.0",
+        "passed": 78,
+        "failed": 0,
+        "repo_engine_accepted": false
+      }
+    ],
+    "prior_v1_independent_review": {
+      "agent": "apt_guard_review",
+      "mode": "read-only",
+      "decision": "approved",
+      "blocking_findings": 0,
+      "technical_hashes_verified": true,
+      "actual_apt_tested": false,
+      "manifest_sha256": "26232b9c06bf51ed5ece979992ab76ce2e41de04cf2210d43ae9c04c702426c5"
+    }
+  },
+  "technical_sha256": {
+    ".github/workflows/ci.yml": "c8917c99189bb25b459edbfd799d50fd4b6d4693212a12b0ff0820483a88a881",
+    ".github/scripts/prepare-playwright-linux-deps.mjs": "b58f6ce6ae28190b487146b7b7bbc1a7e14b974f966090d728b9b3c27fbdab4d",
+    "tests/unit/ci-playwright-linux-deps.test.mjs": "33d06da00ab18fac8ce94b6f3aa13dea7c150c89cc4ec9f0df19f58ef0ad43d5"
+  },
+  "technical_manifest_sha256": "ce37f5b9abd6a861c34776e7eab343d1e07f404c402704437848c4519422388f",
+  "private_evidence": [
+    "<private>/ci-f28-cancellation-audit-20261027.md",
+    "<private>/ios-ci-apt-download-guard-candidate-v2-20261027/proof.json",
+    "<private>/ios-ci-apt-download-guard-candidate-v2-20261027/manifest.json",
+    "<private>/ios-ci-apt-download-guard-candidate-v2-20261027/workflow.diff"
+  ],
+  "future_head": null,
+  "future_run": null,
+  "PR": null,
+  "merge_sha": null,
+  "main_integrated": false,
+  "mutations": {
+    "shared_source": false,
+    "git": false,
+    "API": false,
+    "system_apt": false
+  },
+  "next_operation": "root reviews combined six-path payload, creates separate ordinary PR, validates exact head/run including all browser assertions before adoption",
+  "candidate_revision": 2,
+  "change_from_v1": "only synthetic test ROOT literal; implementation/workflow identical",
+  "prior_v1_technical_manifest_sha256": "26232b9c06bf51ed5ece979992ab76ce2e41de04cf2210d43ae9c04c702426c5"
+}

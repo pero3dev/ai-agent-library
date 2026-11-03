@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "task": "ios-app-completion-todo",
+  "date": "2026-10-24",
+  "timezone": "Asia/Tokyo",
+  "status": "todo-proposal-completed",
+  "input_head": "405e29273a7a3257adeb370c6ac3196d35693d4d",
+  "plan": "project/plans/engineering/ios-app-completion.md",
+  "authorization": "User requested a TODO plan; local records and public primary-source reading only.",
+  "existing_changes_preserved": true,
+  "baseline_proposal": "full-SwiftUI-native-reader-runtime-without-WKWebView-full-catalog-and-App-Store-release-planning",
+  "product_goal_choice": "user-explicitly-requested-SwiftUI-migration-including-article-body",
+  "observed_catalog": {
+    "published_articles": 199,
+    "chapters": 16,
+    "unique_mermaid": 74,
+    "article_markdown_bytes": 2663623,
+    "audio_episodes": 9,
+    "audio_source_digest_mismatches": 6,
+    "full_generated_package_bytes": null
+  },
+  "planned_tasks": 32,
+  "external_mutations_performed": [],
+  "implementation_performed": false,
+  "read_only_workstreams": [
+    "full-content-expansion",
+    "native-quality-and-operations",
+    "Apple-distribution-requirements"
+  ],
+  "validation": {
+    "dependency_install": "passed-after-offline-cache-miss",
+    "root_check": "passed",
+    "tests": 542,
+    "passed": 527,
+    "skipped": 15,
+    "failed": 0,
+    "markdown": "passed",
+    "links": "passed",
+    "link_files": 476,
+    "link_count": 6179,
+    "json": "passed",
+    "structure_with_untracked_files": "passed",
+    "diff_whitespace": "passed",
+    "todo_ids": "32-unique-contiguous",
+    "independent_content_review": "no-findings",
+    "independent_Apple_requirements_review": "no-findings-after-macos-and-DSA-clarification"
+  }
+}

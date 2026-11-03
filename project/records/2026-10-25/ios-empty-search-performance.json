@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "task": "ios-empty-search-performance",
+  "date": "2026-10-25",
+  "status": "independently-reviewed-awaiting-PR",
+  "base_PR": 251,
+  "source_change_lines": 1,
+  "baseline_Models_sha256": "6ccd354d64c81fabef4e12d90de7e0f2fb5101a872a08b42b92d39b2fee8d1c5",
+  "candidate_Models_sha256": "d686beb4aa3e466740973644a7196a1253c373e61a344f92113339680d3a0de2",
+  "comparison": {"articles": 199, "queries": 15, "ordered_IDs_equal": true, "normalization_alias_pairs": 4},
+  "core_smoke": {"status": "passed", "articles": 3, "audio": 1, "verified_files": 140},
+  "independent_review": "approved-source-and-raw-results",
+  "environment": {"macOS": "14.6.1", "architecture": "arm64", "Swift": "5.8.1", "flags": ["-O", "-whole-module-optimization"], "run_order": ["baseline", "candidate"]},
+  "measurement_scope": "Mac Foundation CLI filter/map only; decode, validation, loading and UI excluded",
+  "warmup_iterations_per_query": 1,
+  "measured_iterations_per_query": 3,
+  "timing_median_ms": [
+    {"query_kind": "empty", "baseline": 128.469875, "candidate": 0.15525},
+    {"query_kind": "whitespace", "baseline": 128.3575, "candidate": 0.296959},
+    {"query_kind": "fullwidth-whitespace", "baseline": 128.31125, "candidate": 0.272458}
+  ],
+  "static_inventory": {
+    "articles": 199,
+    "PNG_files": 422,
+    "search_text_UTF8_bytes": 2359639,
+    "largest_document_bytes": 129569,
+    "largest_table_cells": 135,
+    "largest_code_lines": 31,
+    "largest_single_PNG_RGBA32_estimate_bytes": 45461376,
+    "NSCache_advisory_cost_limit_bytes": 67108864,
+    "NSCache_count_limit": 96,
+    "RGBA32_values_are_process_memory_measurements": false
+  },
+  "schema_UI_storage_changes": false,
+  "new_performance_threshold": false,
+  "new_physical_acceptance": "not-run-user-allows-skip",
+  "IOS-15": "incomplete"
+}

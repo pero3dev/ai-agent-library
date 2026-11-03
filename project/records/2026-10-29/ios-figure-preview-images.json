@@ -1,0 +1,347 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-29",
+  "state": "final8 candidate checkpoint before publication review and Hosted execution",
+  "objective": "Use display-sized previews for figure bodies while retaining original zoom and math paths",
+  "owner": "root, Source3/PBX frozen copies; finalrecords4 only",
+  "owned_paths": [
+    "ios/AILibrary/Sources/NativeInlineText.swift",
+    "ios/AILibrary/Sources/NativeReaderView.swift",
+    "ios/AILibraryTests/NativeInlineTests.swift",
+    "ios/AILibrary.xcodeproj/project.pbxproj",
+    "project/records/2026-10-29/ios-figure-preview-images.md",
+    "project/records/2026-10-29/ios-figure-preview-images.json",
+    "project/README.md",
+    "project/plans/engineering/ios-app-completion.md"
+  ],
+  "authority": "Human ongoing autonomous normalcommit/PR/protectedmerge; routinephysical/VO incomplete allowed; no paid/newcontracts/distribution",
+  "actual_parent": {
+    "base": "9a2d7cc6bc9c57bc4ac160efb83428e0e1f84c5e",
+    "base_tree": "f8036600d6d3442398cd6c168583e0c2602bf85d",
+    "author_base": "e0c3031f3d62adab017c72949ffa3376e77b18bf",
+    "all2803_equal_approved_PR297": true,
+    "Source4_before_guards_match_actualmain": {
+      "ios/AILibrary/Sources/NativeInlineText.swift": "783793744d3fea1d6f6eec90d6d0814e30cc4c8eb4019e3fb8abe7f8113cb810",
+      "ios/AILibrary/Sources/NativeReaderView.swift": "5e9f5c76684a925254ed091ad1da7c9c73338adf5a81251a0f82fe2d483a8858",
+      "ios/AILibraryTests/NativeInlineTests.swift": "4f26ec1bb3aad8285fc65ccdc0eca3da816c217e18c2908283ab25936f933907",
+      "ios/AILibrary.xcodeproj/project.pbxproj": "974541d5bdec4583bc47db5a1c6711db8da59b69a5b7c3036928a30da890f4ce"
+    },
+    "indices_before_byte_exact_actualmain": true,
+    "two_new_records_absent": true,
+    "Source4_copies_held": true,
+    "no_shared_ref_index_worktree_mutation": true
+  },
+  "feature_sources": {
+    "ios/AILibrary/Sources/NativeInlineText.swift": {
+      "before": "783793744d3fea1d6f6eec90d6d0814e30cc4c8eb4019e3fb8abe7f8113cb810",
+      "after": "107b4b738d550f1cd5c53f75e9ffd4abfb61a84f93e45fb311e61cf618a287ca",
+      "bytes": 32427
+    },
+    "ios/AILibrary/Sources/NativeReaderView.swift": {
+      "before": "5e9f5c76684a925254ed091ad1da7c9c73338adf5a81251a0f82fe2d483a8858",
+      "after": "656b628822a6ddabb215ed1c3237b6a63811401c08215273069898a9a7266f23",
+      "bytes": 63085
+    }
+  },
+  "feature_scope": {
+    "body_figures_only": true,
+    "request": "displaywidth/height times SwiftUIdisplayScale",
+    "request_bucket_pixels": 64,
+    "cache_key_fields_include": [
+      "purpose",
+      "root",
+      "digest",
+      "path",
+      "dimensions",
+      "request"
+    ],
+    "input_source_axis_max": 8192,
+    "input_source_pixel_max": 32000000,
+    "input_encoded_byte_max": 33554432,
+    "returned_preview_pixel_max": 8000000,
+    "returned_preview_rowbytes_times_height_max": 67108864,
+    "retained": [
+      "originalimage zoompath",
+      "math andinlineimage paths"
+    ],
+    "unsafe_full_original_fallback": false,
+    "RSS_or_transient_hard_limit": false,
+    "NSCache_cost_hard_limit": false,
+    "new_user_setting_or_flow": false
+  },
+  "retained_source_validation": {
+    "Source2_manifest_SHA256": "e70a091f10e0758b8f2c13f3d7b929cfe7cdfb1dfb235cbf3fe7e21b7b6c8e14",
+    "Source2_static_review_manifest_SHA256": "1f427dbf73f488aba0cb2c576224564db0d523b68efcddd11fbd6316ae9f856d",
+    "Source2_static_review_P1": 0,
+    "Source2_static_review_P2": 0,
+    "wholeApp16SourcesSDK_typecheck": "DEBUG/Release iOS18.2Simulator min17 exit0",
+    "Mac_ImageIO": "6realPNG/18variants/3636assertions andorientation synthetic, notUIKitruntime"
+  },
+  "retained_regression_test_preparation": {
+    "manifest_SHA256": "748a51e19d1162f3ee08a98eb16af3dcc667065369c33182a4056cdf57f8ad40",
+    "path": "ios/AILibraryTests/NativeInlineTests.swift",
+    "before_SHA256": "4f26ec1bb3aad8285fc65ccdc0eca3da816c217e18c2908283ab25936f933907",
+    "candidate_SHA256": "d104ab4bb46927f60f0d6ac5f1e4a32cdc4b117d3ba142845f9dc0c141be2b6a",
+    "old_methods": 37,
+    "added_methods": 9,
+    "total_methods": 46,
+    "old37_inverse_byteheld": true,
+    "SDK_compile_only": true,
+    "SDK_typecheck_exit": 0,
+    "actual_execution": false,
+    "initial_typecheck_missing_XCTest_overlay_path_retained": true,
+    "no_new_test_registration_or_PBX_target_change_needed": true,
+    "groups": [
+      "request finite geometry, scale limits, bounded 64px buckets and overflow",
+      "source dimension/pixel caps, bounded maximum dimension and no upscale",
+      "real PNG decoder at display scales 1 through 4, returned pixel/row-byte bounds",
+      "metadata tolerance and >2px mismatch; nonfinite metadata/scales, malformed/nonPNG/missing/directory rejection",
+      "original versus preview cache purpose separation in both call orders",
+      "request size, display scale and dark asset separation",
+      "same-revision root separation and real digest replacement",
+      "metadata and asset scale separation; invalid display request rejection after warm cache",
+      "unlisted/unsafe paths and escaping symlink rejection"
+    ]
+  },
+  "PBX_version": {
+    "source": "ios/AILibrary.xcodeproj/project.pbxproj",
+    "before_bytes": 21212,
+    "before_SHA256": "974541d5bdec4583bc47db5a1c6711db8da59b69a5b7c3036928a30da890f4ce",
+    "candidate_bytes": 21212,
+    "candidate_SHA256": "440dbeeb69e23ea2589ffd4b35f7b1fe2fc604733eade3f1a1f8e009d7eb055a",
+    "App_configs": [
+      {
+        "configuration": "Debug",
+        "object": "20E6C50054BB2DC08A114B85",
+        "MARKETING_VERSION": [
+          "0.2.22",
+          "0.2.23"
+        ],
+        "CURRENT_PROJECT_VERSION": [
+          "24",
+          "25"
+        ]
+      },
+      {
+        "configuration": "Release",
+        "object": "11237771934941B0D50175EC",
+        "MARKETING_VERSION": [
+          "0.2.22",
+          "0.2.23"
+        ],
+        "CURRENT_PROJECT_VERSION": [
+          "24",
+          "25"
+        ]
+      }
+    ],
+    "changed_assignments": 4,
+    "text_inverse_byte_exact": true,
+    "parsed_OpenStep_inverse_exact": true,
+    "all_PBX_objects_and_other_settings_held": true,
+    "Team_minOS17_SDK_sandboxYES_targets_held": true,
+    "stable_PBX_unmodified": true,
+    "new_build_or_signing": "actual new unsigned25 build accepted; signing notperformed"
+  },
+  "retained_version24_build": {
+    "manifest_SHA256": "eca38f77199c7bab603b80d04480cacca0c4caad4be63b7b49850dd12f3cf72d",
+    "actual_build": {
+      "returncode": 0,
+      "elapsed_seconds": 39.44,
+      "log_bytes": 111,
+      "log_SHA256": "1abfb29972f52ea582aa0e10bd8800eea7f9734b2283e0bcc7dd2e8ec456b759",
+      "resource_stop_reason": null
+    },
+    "version": "0.2.22",
+    "build": "24",
+    "toolchain": "Xcode16.2/iphoneos18.2/generic arm64/min17",
+    "content": {
+      "articles": 199,
+      "PNGs": 422,
+      "audio": 1,
+      "files": 626,
+      "revision": "5be64a00f783a1df3a2159dcb64b84551e36853c7fe7d0b0d300c80ccd7fd852",
+      "reused_not_regenerated_or_currentMarkdowncompared": true
+    },
+    "initial_attempt": {
+      "exit": 70,
+      "elapsed": 9.074,
+      "stage": "generic destination binding beforecompile",
+      "message": "iOS18.2 not installed despiteSDKpresent",
+      "extra_isolated_Cocoa_home": true,
+      "corrected_environment": "CFFIXED_USER_HOME omitted, originalHOME unchanged, explicitownedresultbundle",
+      "causality": "notcontrolled; environmentcause notproven"
+    },
+    "CLI_script_sandbox_NO_only": true,
+    "PBX_sandbox_YES_held": true,
+    "build_and_audit_IP_networking": "denied byouter sandbox",
+    "unsigned_no_profile_or_CodeSignature": true,
+    "fixture_absent_Release": true,
+    "fullApp_or_caches_retained": false,
+    "existing_handoff_or_newRC": false,
+    "not_new_version25_build": true
+  },
+  "Source3_review": {
+    "verdict": "accepted-private-regression-Source1-plus-correlated-existing-unsigned-build-proof",
+    "P1": 0,
+    "P2": 0,
+    "manifest_SHA256": "8928e790338290d4001d21a44ef6c92a0c16d63c442d9835b3c3dbfd0b5dbb58",
+    "review_SHA256": "873abf22556321934654f68e8714c3046fa60ea3d02b3f3dc8637f7651d86dda",
+    "scope": "Source3 static/testsemantics + correlated version24 unsignedbuildproof only, no runtime acceptance"
+  },
+  "PR297_adoption": {
+    "PR": 297,
+    "source": "80cc2774e74d32384d275edc6f4694567b24d00e",
+    "main": "9a2d7cc6bc9c57bc4ac160efb83428e0e1f84c5e",
+    "merge_UTC": "2026-10-28T22:01:01Z",
+    "normal_no_admin": true,
+    "source_CI3_attempt1": "all APIsuccess",
+    "Ready11": "latestall success,2policy started afterReady21:57:59Z",
+    "Memory_audit_manifest": "bb2bbff352b72e357e371bbb00459843e97fe964e93d31c81d4dcc34cc011791",
+    "Memory_case_seconds": 122.15809988975525,
+    "content_stage_seconds": 214.887,
+    "content_below_old230": true,
+    "postboot_ONE_read_recovery_exercised": true,
+    "old4a6_AX_cause": "unknown, notfixedclaim",
+    "main9a2_newpush": {
+      "state": "Memory firstAPI success; Full initialdestinationfailure/ONE retry, NativeCommon pending",
+      "actual_workflows": {
+        "Memory": 40776631129,
+        "Full": 40776631173,
+        "Native": 40776631076,
+        "Common": 40776631095
+      },
+      "notfired": [
+        "Clock",
+        "SDK26",
+        "Runtime26",
+        "Dedicated"
+      ],
+      "Full_first_job": 123127507661,
+      "Full_raw_bytes": 298462,
+      "Full_raw_SHA256": "40204129c1805e8a74ff49b920dc857552ee7532c3cae8e6b340cfc91c019ff0",
+      "Full_failure": "destination iPhone16 OS18.5 unavailable after120s; xcodebuild70 beforecaseexecution",
+      "underlying_host_or_CoreSimulator_cause": "unknown",
+      "same_conditions_job_retry_count": 1,
+      "maximum_retries": 1,
+      "retry_API": "success, resultpending",
+      "third_attempt": "do notissue",
+      "newnumeric_metric": "notobserved",
+      "Memory_first_API": "success attempt1, run40776631129 job123127507090, updated22:13:20Z; no newraw/compact/numericmetric",
+      "Full_second_job": 123132239864
+    }
+  },
+  "version": "0.2.23(25)",
+  "new_RC25_build": {
+    "manifest_SHA256": "db89c5444497b8023ece3e527b9cdca0a4c9606cdad872e56fcfb7e4924e0d4a",
+    "result_SHA256": "c3ea4e2ffd7969080a050ef8236b13510f4b4ec5609a97a928ab2c1b089f8890",
+    "build": {
+      "returncode": 0,
+      "elapsed_seconds": 39.404,
+      "resource_stop_reason": null,
+      "log_bytes": 112,
+      "log_SHA256": "f2a638616bc96e1e3f5a374b41f8f88287262a28f29f5c14e16f8c883ca9ad48"
+    },
+    "App": {
+      "status": "private actual unsigned Release build and package audits passed",
+      "version": "0.2.23",
+      "build": "25",
+      "bundleID": "dev.pero3.aiagentlibrary.prototype",
+      "minimumOS": "17.0",
+      "SDK": "iphoneos18.2",
+      "platforms": [
+        "iPhoneOS"
+      ],
+      "arm64": true,
+      "unsigned_readonlycheck": true,
+      "profile_or_CodeSignature_present": false,
+      "fixture_absent_Release": true,
+      "articles": 199,
+      "audio": 1,
+      "PNGs": 422,
+      "Content_files": 626,
+      "Content_revision": "5be64a00f783a1df3a2159dcb64b84551e36853c7fe7d0b0d300c80ccd7fd852",
+      "top_level_blocks": 8389,
+      "app_files": 632,
+      "app_bytes": 41474970,
+      "app_tree_proof_SHA256": "bc296e299eeb12f597efd51c6f62823434eb65c8f4d644f25aba1b9aed736b17",
+      "privacy_source_equal": true,
+      "all_audit_process_IP_networking": "denied",
+      "no_newtests_UI_device_Simulator_signing_profile_or_RSS": true
+    },
+    "input_guards": {
+      "baseline704_checked": 704,
+      "private_nonfeature_inputs_held": 700,
+      "feature4_exact": {
+        "ios/AILibrary.xcodeproj/project.pbxproj": "440dbeeb69e23ea2589ffd4b35f7b1fe2fc604733eade3f1a1f8e009d7eb055a",
+        "ios/AILibrary/Sources/NativeInlineText.swift": "107b4b738d550f1cd5c53f75e9ffd4abfb61a84f93e45fb311e61cf618a287ca",
+        "ios/AILibrary/Sources/NativeReaderView.swift": "656b628822a6ddabb215ed1c3237b6a63811401c08215273069898a9a7266f23",
+        "ios/AILibraryTests/NativeInlineTests.swift": "d104ab4bb46927f60f0d6ac5f1e4a32cdc4b117d3ba142845f9dc0c141be2b6a"
+      },
+      "frozen8_exact": true,
+      "App16_exact_and_actual_filelist_includes_all16": true,
+      "actual_SwiftFileList_entries": 17,
+      "actual_SwiftFileList_SHA256": "9a9f44935a5e541018ccc3f4d55d095495a1937241081c88ca299584e3fa3806",
+      "only_generated_source_extra": {
+        "name": "GeneratedAssetSymbols.swift",
+        "bytes": 575,
+        "SHA256": "c3d8b6adb619f947dec2de308862af23882af003a02f6802c0a210c159f2ad7b"
+      },
+      "stable_old704_before_after_exact": true,
+      "original_shared_workingtree_or_Git_mutations": false,
+      "method": "only original Git read-only cat-file/ls-tree/rev-parse, all build inputs copied regularfiles into owner; no originalshared or stable writes",
+      "existing_base_migration_difference": "only PublishedPerformanceUITests f6b3(oldE0) to92a(80cc), not featureSourcechange"
+    },
+    "content_note": "old626snapshot5be64 reused, not regenerated or currentMarkdowncompared",
+    "unsigned_not_device_ready": true,
+    "IP_networking": "all build and audit process IP networking denied by sandbox-exec",
+    "environment": "fresh HOME/PATH/LANG/LC_ALL/DEVELOPER_DIR/TMPDIR allowlist; HOME preserved, no inheritedconnector/auth orCFFIXED_USER_HOME",
+    "CLI_script_sandbox_NO_PBX_YES": true,
+    "full_App_or_compiler_caches_retained": false,
+    "initial_postguard_harness_failure": "filelist count16 assumption corrected to16Sourceplus1generated; Source/build/tests unchanged"
+  },
+  "common_check": {
+    "manifest_SHA256": "ef23893f3fcd2e5684644e181445d5ea1bfd7d3b9db6e932010f6469813c10aa",
+    "exit_code": 0,
+    "tests": 1157,
+    "pass": 1142,
+    "fail": 0,
+    "skipped": 15,
+    "seconds": 40.213,
+    "Source4_frozen": true,
+    "parent2803_verified": true,
+    "preparation_records4_only_laterupdated_Root_narrow_validation_required": true,
+    "initial_sandbox_profile_failure_retained_notproductfix": true,
+    "summary_reader": "spec Unicodeinfo lines, no testsrerun",
+    "fullcheck_log_SHA256": "ee3b6f3e0bf2121555dfc8a6ed6cf8a8ffdd57cdb5031421a90705666caada66",
+    "same_lock_previous_npm_ci_reused": true,
+    "external_IP_denied_localhost_fixture_allowed": true,
+    "final_records4_narrow_checks": "performed separately for final8 beforepublication"
+  },
+  "final_review": "pending independently outside this checkpoint; no selfacceptance",
+  "expected_not_executed_counts": {
+    "new_methods": 9,
+    "NativeInlineTests": 46,
+    "Native_unit": 245
+  },
+  "Hosted_actual_head": "not yet published",
+  "physical_VO": "incomplete, skipauthorized",
+  "TODO": {
+    "rows": 32,
+    "complete": 13,
+    "IOS-15": "incomplete",
+    "checkbox_states": "held"
+  },
+  "limitations": [
+    "No actual9newXCTest execution yet",
+    "No UIKitvisual/cacheidentity/zoomtiming/VO/savedstate acceptance",
+    "No RSS/transientmemory/performancecomparison orimprovementclaim",
+    "No newprofile/signing/install/distribution"
+  ],
+  "commit_plan": {
+    "type_scope": "feat(repo)",
+    "actual_commit": null,
+    "actual_PR": null,
+    "actual_main": null
+  }
+}

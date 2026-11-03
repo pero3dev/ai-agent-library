@@ -1,0 +1,358 @@
+{
+  "schema_version": 1,
+  "created_UTC": "2026-10-29T23:35:19.449086+00:00",
+  "date_JST": "2026-10-30",
+  "status": "Root limited IOS05 method decision completed; final submission candidate applies only IOS05 to14/32 after normal CI and protected integration; shared32/13 remains until adoption",
+  "purpose": "IOS-05 personal initial update-method and trust-boundary decision only",
+  "ownership": [
+    "project/README.md",
+    "project/plans/engineering/ios-app-completion.md",
+    "project/records/2026-10-30/ios-personal-bundled-update-policy.md",
+    "project/records/2026-10-30/ios-personal-bundled-update-policy.json"
+  ],
+  "authority": {
+    "human_direct": "Finish personal use first",
+    "human_prior_request": "Autonomous priority TODO work and ordinary commit/PR/main integration",
+    "Root_instruction": "Prepare bounded explicit adoption of existing personal bundled-update baseline after Reader diagnostics",
+    "not_human_individual_IOS05_choice": true,
+    "current_child_scope": "Private document preparation only; no external operation"
+  },
+  "author": {
+    "candidate_head": "ed1e157547b15bf6c2e8d96483031fe330abdf8c",
+    "candidate_tree": "06874ee00052e630b380e42f63bfa790eaa4781b",
+    "candidate_tracked": 2817,
+    "candidate_PR": 306,
+    "PR_status": "PR306 merged through ordinary protected squash; Root receipt bound",
+    "candidate_is_main": true,
+    "candidate_parent": "77083715ed7786a34f2947572c10b45e0a557079",
+    "actualmainparent": "ed1e157547b15bf6c2e8d96483031fe330abdf8c",
+    "final_parent": "ed1e157547b15bf6c2e8d96483031fe330abdf8c",
+    "final_tree": null,
+    "future_actualmain_rebinding_required": false,
+    "publication_precondition": "Root bounded IOS05 decision completed; final Source4 review/common, ordinary CI and protected integration still required before applying only IOS05 to14/32"
+  },
+  "decision_proposal": {
+    "primary": "Rebuild on Mac with published articles bundled in the app",
+    "saved_version": "Healthy saved package preferred; bundled version selected only after explicit version/count confirmation",
+    "auxiliary": "Trusted existing generated manual import",
+    "independent_network_update": "Deferred from personal initial scope",
+    "package_contract": {
+      "manifest": 2,
+      "document": 1,
+      "renderer": "v1"
+    },
+    "hash_boundary": "SHA integrity does not prove publisher authenticity or benign content"
+  },
+  "TODO": {
+    "shared_before": {
+      "rows": 32,
+      "completed": 13,
+      "IOS05": "unchecked"
+    },
+    "proposed_after": {
+      "rows": 32,
+      "completed": 14,
+      "only_changed_ID": "IOS-05",
+      "completion_scope": "Update-method and trust-boundary decision only",
+      "other31_rows_and_completion_conditions_held": true
+    },
+    "shared_changed": false,
+    "old12_and13_history_held": true
+  },
+  "remain_uncompleted": {
+    "IOS20": "Independent distribution/authenticity/size/cancel/retry/compatibility and last healthy version acceptance",
+    "IOS21": "Automatic cleanup unimplemented; imports may accumulate old versions; bounded cleanup and low-storage/interruption acceptance pending",
+    "IOS22": "All rename/delete/schema migration and reading recovery acceptance pending",
+    "physical": [
+      "overwrite retention",
+      "real file providers",
+      "VoiceOver",
+      "signature expiry renewal"
+    ],
+    "not_implicitly_completed": [
+      "IOS-11",
+      "IOS-15",
+      "IOS-18",
+      "IOS-20",
+      "IOS-21",
+      "IOS-22",
+      "IOS-23",
+      "IOS-25"
+    ]
+  },
+  "triage": {
+    "path": "/private/tmp/ios-personal-update-policy-readonly-triage-20261030",
+    "hashes": {
+      "triage.md": "c6a72b6aca92b61c606505062e041335119ab57ecba15e0748bba023e3aa2fe8",
+      "triage.json": "b7dbf0c3361329bf55b6faf2aedb7641ab238e032578b8ed434003ece3234d41"
+    },
+    "note": "Earlier readonly triage; current author plan hash differs after long-Clock insertion; relevant baseline and task conditions reread at fixed main"
+  },
+  "sources": [
+    {
+      "path": "project/README.md",
+      "bytes": 49646,
+      "SHA256": "11b8ba6202bb6ce57331f044d1073aaec9ecbd1b9c9a3e34e0fd7f3da060513d",
+      "blob": "10c7de228a2d0320f93f8b8bca2af6461d7ff375"
+    },
+    {
+      "path": "project/plans/engineering/ios-app-completion.md",
+      "bytes": 76588,
+      "SHA256": "50fa65101ce983ee0fa0429fd439b2b08c9aa69a2bc09f1b44f6935a78f1e051",
+      "blob": "fd304afd9cd3f3932b7a2aab9b817e41b2c3107b"
+    },
+    {
+      "path": "ios/README.md",
+      "bytes": 60658,
+      "SHA256": "98d51306f73fd43cae3d89cdc598ac3bda9280e9ccf774124a85b22ddab8517d",
+      "blob": "42c033c3516112edfe1a258b75b700158e2cc813"
+    },
+    {
+      "path": "project/records/2026-10-28/ios-personal-use-scope.md",
+      "bytes": 12417,
+      "SHA256": "8e381c9a06eab0de7498128dfe9759718e62d5663b4978308e93ed51acad4fe7",
+      "blob": "09a76aaeb70f543169fb647abf97c6ca8e0384c8"
+    }
+  ],
+  "validation": {
+    "JSON": "parsed",
+    "scope": "Final record2 current-status synchronization after explicit Root IOS05 limited decision; index2 exact Source67/f31",
+    "virtual_TODO": "32rows/14completed; onlyIOS05 checkbox; other31 rows and completionconditions exact",
+    "inverse": "Both f31 index insertions invert exactly to adopted actual main; all2817 author tuples equal d77",
+    "Reader_leading_paragraphs": "current d77 paragraphs held byte-for-byte",
+    "old_history": "all author index bytes held except own policy insertions and IOS05 checkbox; prior policy provenance kept by immutable digest/old scope",
+    "local_links": {
+      "passed": 5,
+      "external_links_added": 0
+    },
+    "formal_checks": "Fresh narrow receipts are separate; final independent review and Root common remain pending",
+    "Root_common": {
+      "status": "saved pre-receipt private4 success; not reexecuted on receipt-followup or main",
+      "input_manifest": "e7e892eaacbe7a89998d458e27a7fa72a5410a1a8d5a4189bef95bd7c24fe536",
+      "author": "c6c793f4821c5532c400d9cb8fb7b72ee466cd3b",
+      "author_is_main": false,
+      "tested_tree": "bceeb0c35af584d99edc9c01bde0c4dc5ca627f2",
+      "tracked": 2819,
+      "receipt_manifest": "efd44d45f19d318560c0226f52cabd4d11181af2695ade65d46a4f6536f9c67a",
+      "exit_code": 0,
+      "seconds": 44.523,
+      "counts": {
+        "tests": 1186,
+        "pass": 1171,
+        "fail": 0,
+        "skipped": 15,
+        "cancelled": 0
+      },
+      "working2819_held_after": true,
+      "index2819_held_after": true,
+      "current_followup_or_actualmain_rerun": false
+    },
+    "SDK_UI_device_CI": false,
+    "independent_review": false,
+    "current_main_integration": false,
+    "shared_edits": 0,
+    "external_GET": 0,
+    "Git_mutations": 0,
+    "pre_receipt_private_IR": {
+      "manifest": "d4c0a78e697661b7963a19df77fc83411f974f88666b20c0a9d33d6eb43ba41d",
+      "input_manifest": "e7e892eaacbe7a89998d458e27a7fa72a5410a1a8d5a4189bef95bd7c24fe536",
+      "P1": 0,
+      "P2": 0,
+      "scope": "old pre-receipt private4 only; not this followup final IR"
+    },
+    "receipt_followup_scope": "Root judgment status and saved Source67 common receipt only; this final tree has no common/IR success claimed",
+    "Root_reported_context": {
+      "PR306": "Draft head c6c; not adopted main",
+      "candidate_Source6_API": {
+        "success": [
+          "SDK26",
+          "Runtime26",
+          "Dedicated"
+        ],
+        "pending": [
+          "Common",
+          "Native",
+          "Full"
+        ]
+      },
+      "candidate_Native6_Full23_actual_trace": "unaccepted",
+      "actualmain9146_CI": "all3 API success, kept separate; not transferred to c6c",
+      "source": "Root task report; no new API acquisition by this producer"
+    },
+    "Root_reported_context_scope": "Historical early64def context only; retained exact, not current d77 CI acceptance",
+    "current_d77_context": {
+      "author": "d77d5dfa247d3329b94d73ebdad885163cd28aaa",
+      "author_is_main": false,
+      "actualmain": "77083715ed7786a34f2947572c10b45e0a557079",
+      "PR306": "Draft, new CI started per Root report; no result adopted here",
+      "future_actualmainparent": null,
+      "new_base_common_SDK_UI_device_CI": false
+    },
+    "current_actualmain_context": {
+      "head": "ed1e157547b15bf6c2e8d96483031fe330abdf8c",
+      "tree": "06874ee00052e630b380e42f63bfa790eaa4781b",
+      "parent": "77083715ed7786a34f2947572c10b45e0a557079",
+      "approved_head": "d77d5dfa247d3329b94d73ebdad885163cd28aaa",
+      "whole2817_mode_blob_equal_d77": true,
+      "new_common_SDK_UI_device_CI": false,
+      "final_IR_common_publication": "pending; old efd and any separately saved abb result retain their original exact scope"
+    },
+    "saved_Source67_common": {
+      "receipt_manifest_SHA256": "602a8be88a749a6d338ba296e360d43c2b665bc26b0d98e829ba1f278d520261",
+      "input_manifest_SHA256": "67e2ce439728206c7451901e3ca87600a85c6d3377a9e63cc6cacae8e20398fa",
+      "author_actualmain": "ed1e157547b15bf6c2e8d96483031fe330abdf8c",
+      "tested_tree": "2d734867f33b9a16c22fe49a9c3d1aaefd8cb3a0",
+      "tracked": 2819,
+      "tests": 1186,
+      "pass": 1171,
+      "skip": 15,
+      "fail": 0,
+      "cancel": 0,
+      "npm_exit": 0,
+      "seconds": 40.521,
+      "all2819_working_index_held": true,
+      "this_final_tree_tested": false,
+      "scope": "Root actual result on Source67 before Root-judgment/receipt current-status delta only; not new final-tree common or IR success"
+    }
+  },
+  "next": [
+    "Final actual-main-bound policy4 independent review and new Root common/required normal checks",
+    "Normal small commit/PR/CI/Ready/protected integration applies only IOS05 to14/32",
+    "Postpush verification; no admin exception and no other TODO acceptance"
+  ],
+  "record_md": {
+    "bytes": 9386,
+    "SHA256": "c1bd37b6945be55a7b6fd7cc6ec7509ae54278cbab10a227759383931df05aa5"
+  },
+  "updated_UTC": "2026-10-30T05:53:27.438685+00:00",
+  "prior_private_reference": {
+    "proposal_manifest": "8bb7c01c03f634bd8328837dba35711d846150b0800f51bfc781ac0e035a8a1c",
+    "proposal_author": "759e5adb6068a143657bb5d7c14f4b9efd87dcd5",
+    "independent_review_manifest": "aab5cf7a2b94611f315d5838813ea503abd4ed78edda8f06d4695ee2f11a4e09",
+    "review_scope": "old private proposal only; no current IR/common/main acceptance inferred"
+  },
+  "actual_main_at_preparation": {
+    "head": "ed1e157547b15bf6c2e8d96483031fe330abdf8c",
+    "tree": "06874ee00052e630b380e42f63bfa790eaa4781b",
+    "tracked": 2817,
+    "PR307_adopted": true,
+    "PR306_adopted": true,
+    "source": "Root exact adoption receipt plus local whole2817 mode/blob and parent verification"
+  },
+  "reprojection_history": [
+    {
+      "prior_packet_manifest": "64def7b381f90d548e68a8dccd7632f0c98bee85f979a02539d0df5e78d91290",
+      "prior_author": "c6c793f4821c5532c400d9cb8fb7b72ee466cd3b",
+      "prior_author_tree": "2f52c1e3315d8ecc4b9ecb3a2e2352b90d73ee84",
+      "prior_MD_SHA256": "2dd78243b2e8936c606f45b6a3e7b146fff8a04cafc6c89e45f129e1f2d95005",
+      "prior_JSON_SHA256": "8ac18ed995dfad91872523a2119ca193fa84515f7318d79402429a8dc026e56b",
+      "prior_author_object_SHA256": "c6fa250683acba17a4d19e03f754dfb88fbd2001f733394723194d42597e37b7",
+      "prior_validation_object_SHA256": "e928c1a51510e1235fec37cb2c44197c6f63dce5edca41d9bc5b18aa53c5ec4b",
+      "prior_sources_object_SHA256": "126270ab4909c69e12b41309bc91cd5e1ec43e9d4e6a87c70eced503b14716d3",
+      "scope": "Whole prior private proposal remains immutable in its original packet; no recursive snapshot copy or prior success transfer"
+    },
+    {
+      "event": "actual_main_binding_after_PR306_ordinary_adoption",
+      "snapshot": {
+        "status": "private policy4 reprojected on PR306 Draft d77; d77 is not actual main; future actualmain binding/final IR/Root common/publication pending",
+        "author": {
+          "candidate_head": "d77d5dfa247d3329b94d73ebdad885163cd28aaa",
+          "candidate_tree": "06874ee00052e630b380e42f63bfa790eaa4781b",
+          "candidate_tracked": 2817,
+          "candidate_PR": 306,
+          "PR_status": "Draft d77; Root reports new CI started, results not acquired or accepted here",
+          "candidate_is_main": false,
+          "candidate_parent": "fb6fa0e22f54fe2526b006cb670dff970ab269a1",
+          "actualmainparent": null,
+          "final_parent": null,
+          "final_tree": null,
+          "future_actualmain_rebinding_required": true,
+          "publication_precondition": "PR306 ordinary protected adoption, then rebind policy4 to actual adopted main and final review/common/normal gates"
+        },
+        "actual_main_at_preparation": {
+          "head": "77083715ed7786a34f2947572c10b45e0a557079",
+          "tree": "e641f47f842b8f5565b9c7bfda9b2980789fe4f8",
+          "tracked": 2815,
+          "PR307_adopted": true,
+          "PR306_adopted": false,
+          "source": "Root task report plus read-only local tree binding; no external API"
+        },
+        "next": [
+          "Wait for PR306 ordinary adoption, rebind policy4 to actual adopted main and preserve current Reader/index/history bytes",
+          "Root bounded IOS05 completion decision",
+          "Final independent review, Root common and required normal checks on final actual-main-bound contents",
+          "Normal small commit/PR/protected main integration; no admin exception"
+        ],
+        "record_md": {
+          "bytes": 7414,
+          "SHA256": "da06e67d311c1b5fa915832a4053bc5dcaa688f32763e787b5358965c5547c03"
+        },
+        "updated_UTC": "2026-10-30T02:01:41.817796+00:00",
+        "validation_current": {
+          "scope": "private4 reprojected on Draft d77 only; two new policy records, two policy insertions, IOS05 checkbox; no Source change",
+          "inverse": "Both indices invert exactly to author d77, not adopted main",
+          "receipt_followup_scope": "Current d77 reprojection only; previous64def receipt-only/index-e7 scope remains in original digest-bound packet"
+        },
+        "source_manifest_SHA256": "f31df1d92c8f9cb95ce0335550fb385c4cca876d0da3f437e0de8bb95cf12ea9",
+        "record_MD_SHA256": "da06e67d311c1b5fa915832a4053bc5dcaa688f32763e787b5358965c5547c03",
+        "record_JSON_SHA256": "d019b3462a90b26a7eb92e02ae33520fd46c90e88ebc91f9e98125bf483e8aa8",
+        "scope": "Small pre-binding current-field snapshot only; full immutable f31 history stays in its original packet, not copied recursively"
+      }
+    },
+    {
+      "event": "Root_limited_IOS05_adoption_current_status_sync",
+      "snapshot": {
+        "status": "private policy4 bound to Root-verified PR306 adopted actual main; index2 exact f31; final policy decision/review/common/normal publication still pending",
+        "publication_precondition": "Root bounded IOS05 completion decision, final bound-policy Source4 independent review/common and normal required publication gates",
+        "next": [
+          "Root bounded IOS05 completion decision",
+          "Final actual-main-bound policy4 independent review and Root common/required normal checks",
+          "Normal small commit/PR/Ready/protected main integration/postpush; no new admin exception"
+        ],
+        "validation_current": {
+          "scope": "private policy4 actual-main binding only; record2 current fields and Docstatus updated, index2 exact f31",
+          "receipt_followup_scope": "actual-main record2 binding only, no policy/index/checkbox semantic changes"
+        },
+        "record_md": {
+          "bytes": 7910,
+          "SHA256": "b6fff64585ae18fc46b4aa62f3022d8ab9fe1f0d1ee4473cbaa8391cdb4647a1"
+        },
+        "updated_UTC": "2026-10-30T02:53:35.348255+00:00",
+        "source_manifest_SHA256": "67e2ce439728206c7451901e3ca87600a85c6d3377a9e63cc6cacae8e20398fa",
+        "record_MD_SHA256": "b6fff64585ae18fc46b4aa62f3022d8ab9fe1f0d1ee4473cbaa8391cdb4647a1",
+        "record_JSON_SHA256": "a9773887a6bc88e46e8a7faad2d3be73d3b6462a051be14184ee8dcb2db3b437",
+        "scope": "Source67 preparation snapshot: Root limited judgment was still pending in these fields; not current status"
+      }
+    }
+  ],
+  "actualmain_binding": {
+    "head": "ed1e157547b15bf6c2e8d96483031fe330abdf8c",
+    "tree": "06874ee00052e630b380e42f63bfa790eaa4781b",
+    "parent": "77083715ed7786a34f2947572c10b45e0a557079",
+    "approved_head": "d77d5dfa247d3329b94d73ebdad885163cd28aaa",
+    "merged_at_UTC": "2026-10-30T02:50:59Z",
+    "ordinary_protected_squash": true,
+    "whole2817_mode_blob_equal_d77": true,
+    "Root_proof_SHA256": "d0538d56d5e23dd263a7f768ade2d482dd4b46ee3e6cea356c659d8efc16a313",
+    "Sourcef31_manifest_SHA256": "f31df1d92c8f9cb95ce0335550fb385c4cca876d0da3f437e0de8bb95cf12ea9",
+    "indices2_exact_f31": true,
+    "old_common_or_IR_reexecuted": false,
+    "scope": "Actual object binding only, not final policy IR/common/CI or IOS05 shared completion acceptance"
+  },
+  "Root_limited_adoption": {
+    "decision_complete": true,
+    "recorded_UTC": "2026-10-30T05:53:27.438357+00:00",
+    "authority_basis": [
+      "User first finish personal use",
+      "User autonomous priority TODO work and normal staged commit/PR/main continuation",
+      "Root explicit limited adoption in this unit"
+    ],
+    "not_human_individual_IOS05_choice": true,
+    "adopted_existing_baseline": "Existing decision_proposal object, unchanged; no new design",
+    "decision_proposal_SHA256": "27a62183409ca3b0090bab4227a7e32a2cb766e22f77d9b340a63305f52f188a",
+    "scope": "IOS05 update-method and trust-boundary decision only",
+    "application": "Only IOS05 becomes14/32 after ordinary CI/protected integration; shared32/13 remains at record creation",
+    "other31_rows_or_code_changes": false,
+    "remaining_acceptance": "All remain_uncompleted objects remain exact; no Source/App/Content/Store/CI changes"
+  }
+}

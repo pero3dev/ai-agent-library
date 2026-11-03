@@ -1,0 +1,294 @@
+{
+  "schema_version": 1,
+  "date_JST": "2026-10-28",
+  "status": "Bound to actually adopted restore main; separate diagnostic publication and new trace validation not performed",
+  "base": {
+    "Source_authored_against_head": "f6561b17e0a6b7b50435e7c26878e2eccadb626f",
+    "restore_PR": 294,
+    "approved_restore_head": "a8b882c8bcd7ea6182ded4d4e2f3ebb639216160",
+    "restore_adopted_main": "d74c68179aa2053a457b964f4cf756d0a9bf77b1",
+    "restore_adopted_tree": "fc7a9f10041461efd9de728fec2985724fd02207",
+    "future_diagnostic_base": "d74c68179aa2053a457b964f4cf756d0a9bf77b1",
+    "new_PR": null,
+    "merge_SHA": null
+  },
+  "Source1": {
+    "path": "ios/AILibraryUITests/NativeReaderUITests.swift",
+    "bytes": 34957,
+    "SHA256": "d72a9bfdf13a2be51d926bc704d283e5a0c142e075889149cab29db9880680ad",
+    "manifest_SHA256": "970988491170eac1130b5f87d62540df99c85dea1b2cf5ed7abfcb51f21488b1",
+    "before_SHA256": "972b01afb3ba0af26bc0981ce9282036f5d0147294a97e96d01cb89bcd4bc881",
+    "whole_file_inverse_exact": true,
+    "unchanged_existing_test_methods": 8,
+    "existing_visibility_invocations_per_predicate": 1,
+    "new_AX_reads": 0,
+    "default_timeout_seconds_unchanged": 15,
+    "fullyVisible_foreground_unique_hittable_selector_scroll_retry_assertion_unchanged": true,
+    "existing_failure_geometry_screenshot_hierarchy_unchanged": true,
+    "scope": "normal2 NativeReaderUITests only and iOS26+",
+    "App_PBX_workflow_ClockSource4_changes": 0,
+    "version_bump": false
+  },
+  "trace": {
+    "NSLock_all_mutable_state": true,
+    "retained_last_poll_starts": 8,
+    "inflight": "scalar totals include completions evicted from retained8",
+    "wait_return": "first post-wait locked snapshot, not atomic with internal waiter return",
+    "callback_between_return_and_lock_possible": true,
+    "additional_acceptance_condition": false,
+    "console_during_poll": 0,
+    "max_JSON_body_bytes_per_line": 8192,
+    "prefix_newline_included_in_limit": false,
+    "success_lines_per_wait": 1,
+    "failure_lines_per_wait": 3,
+    "geometry_interval": "includes boundary JSON serialization/output plus existing capture/output; not pure AX RPC time",
+    "late_completion_after_last_output_may_be_unreported": true,
+    "blocked_process_exit_can_lose_trace": true,
+    "root_cause_fixed_claim": false
+  },
+  "historical_Runtime26": {
+    "not_new_trace_runs": true,
+    "PR292": {
+      "head": "358988e5876e4c8641b41286cccfd4ac4f7ffdeb",
+      "run_id": 40626005893,
+      "first_job": 122610956382,
+      "first_started_passed_failed": [
+        2,
+        1,
+        1
+      ],
+      "first_summary_SHA256": "28b68fbf864a392ba8c55074fa22b955a2d2c271e71edda9ec809aa0394b4fe5",
+      "retry_job": 122622010166,
+      "retry_attempt": 2,
+      "retry_count": 1,
+      "retry_2cases_passed": true,
+      "source_selector_timeout_unchanged": true,
+      "retry_summary_SHA256": "cc06cd2b528cccbf5769f1da89c78ab3a8a2387be96b2df6f0de3249a7ebfd11"
+    },
+    "PR293": {
+      "head": "f6561b17e0a6b7b50435e7c26878e2eccadb626f",
+      "run_id": 40633561964,
+      "first_job": 122635269922,
+      "first_started_passed_failed": [
+        2,
+        1,
+        1
+      ],
+      "first_summary_SHA256": "0ad2fe9c5ea77bb38952e658ee60e15bde4524c918c7449ec50b9b59044a0557",
+      "retry_job": 122645120730,
+      "retry_attempt": 2,
+      "retry_count": 1,
+      "retry_2cases_passed": true,
+      "source_selector_timeout_unchanged": true,
+      "retry_summary_SHA256": "496cca170537e72879f4e8956d7836a2bcce182e5b80f543863bb43a71cbb676",
+      "summary_hashes_not_raw_UTF8_hashes": true
+    },
+    "same_initial_signature": "Contents case TOC heading visibility requireHittable timeout; initial failures retained",
+    "after_timeout_geometry_not_wait_predicate_evidence": true,
+    "cause": "unresolved"
+  },
+  "validation_inherited_not_repeated": {
+    "Swift_grammar_exit": 0,
+    "grammar_not_import_or_iOS_typecheck": true,
+    "synthetic_helper": {
+      "cases": 5,
+      "passed": 5,
+      "runtime_invocations": 1,
+      "result_SHA256": "079fa2a936776896a5aef1b59e079d2b9dcf82d74f44b49f8430d44230ed748b",
+      "exact_helper_SHA256": "d62fe40b4e0bcfb136112b8f1965ce8efcf1e36570c20f4158d30eb86dad2bb4",
+      "not_App_or_UI": true
+    },
+    "independent_review": {
+      "manifest_SHA256": "489fd2e5f5e602e982b2ef20afdac677da5cf7a7edafb68966fb5408f739efec",
+      "P1": 0,
+      "P2": 0,
+      "scope": "exact diagnostic Source1 and evidence",
+      "runtime_repeats": 0
+    },
+    "Clock_static_call_path": {
+      "source": "Root explorer restore_privacy_contract read-only message",
+      "path": "ios/AILibraryUITests/PublishedPerformanceUITests.swift",
+      "immutable_head": "f6561b17e0a6b7b50435e7c26878e2eccadb626f",
+      "bytes": 9816,
+      "SHA256": "f6b3e31de39a9aca24994f543b0ee1a6ba353780b6f9ce3fe1fba1c1c6470175",
+      "direct_superclass": "XCTestCase",
+      "NativeReaderUITestCase_inheritance": false,
+      "requireHittable_calls": 0,
+      "Clock_ranges_reported": [
+        "37-48 launch",
+        "93-106 search"
+      ],
+      "new_performance_run": false,
+      "measurement_invariance_proven": false
+    },
+    "compile_attempt_history": "direct toolchain stdlib load and probe private-constant errors preserved; final source unchanged; not App SDK failures"
+  },
+  "unperformed": [
+    "new-head XCTest/iOS SDK typecheck",
+    "new iOS26 normal2 UI run",
+    "actual new trace stdout",
+    "Hosted adoption/CI",
+    "physical device",
+    "VoiceOver",
+    "new performance observations",
+    "root cause resolution"
+  ],
+  "delivery": {
+    "separate_after_restore_adoption": true,
+    "commits": 2,
+    "Source_paths": 1,
+    "record_index_paths": 7,
+    "unique_paths": 8,
+    "parent1": "d74c68179aa2053a457b964f4cf756d0a9bf77b1",
+    "parent2": null,
+    "created_commits": [],
+    "new_PR": null,
+    "App_PBX_WF_Clock4_mutations": 0
+  },
+  "TODO": {
+    "rows": 32,
+    "completed": 13,
+    "all_rows_unchanged": true,
+    "IOS23_complete": false,
+    "IOS25_complete": false,
+    "physical_acceptance_may_be_skipped_per_user": true
+  },
+  "this_preparation": {
+    "Source_edits": 0,
+    "API_calls": 0,
+    "Git_commands": 0,
+    "SDK_calls": 0,
+    "new_tests": 0,
+    "new_raw_or_artifact_GET": 0,
+    "only_checks": "record/metadata static and fragment lint"
+  },
+  "historical_preparation_base": {
+    "Source_authored_against_head": "f6561b17e0a6b7b50435e7c26878e2eccadb626f",
+    "Source_reference_tree": "4f69f5687bdeab03657863a6da3a48d6344bdbd0",
+    "reported_current_actualmain": "a18a47c2911a51c47b714a589a4067d970602279",
+    "current_export_app": "0.2.21(23)",
+    "restore_Source8_status": "bound to actual export main, final artifact review in progress",
+    "restore_PR": null,
+    "restore_adopted_main": null,
+    "future_diagnostic_base": null,
+    "new_PR": null,
+    "merge_SHA": null,
+    "index_anchor": "private restore Source8 publication preview snapshot only, not current adopted main"
+  },
+  "restore_adoption_observations": {
+    "restore": {
+      "PR": 294,
+      "head": "a8b882c8bcd7ea6182ded4d4e2f3ebb639216160",
+      "main": "d74c68179aa2053a457b964f4cf756d0a9bf77b1",
+      "tree": "fc7a9f10041461efd9de728fec2985724fd02207",
+      "base_main": "a18a47c2911a51c47b714a589a4067d970602279",
+      "version": "0.2.22(24)",
+      "initial_failure_retained": true,
+      "prior_heads_with_initial_Native_failure": [
+        "5d37bb3f297123e25fcda699e7031fdb3f459499",
+        "cc98855b9c01e0c966ba33e297c10a7e822a75ba"
+      ],
+      "unchanged_retry_count": 1,
+      "corrected_UI5_passed": true,
+      "required11_and_optional5_API_success": true,
+      "unit_observed": {
+        "total": 236,
+        "skipped": 2,
+        "failures": 0
+      },
+      "related71_each_started1_passed1": true,
+      "native_run": 40652127346,
+      "native_job": 122694426850,
+      "raw_GETs_newhead": 1,
+      "native_summary_SHA256": "85d21d062387ff4a2aee285089d651af908a3dcc7e27908fd456ca1f9b927bac",
+      "actual_native_checkout": {
+        "kind": "pull_request synthetic merge",
+        "sha": "12c56c78610ca97284307328e52c155bbd17ea42",
+        "parents": [
+          "a18a47c2911a51c47b714a589a4067d970602279",
+          "a8b882c8bcd7ea6182ded4d4e2f3ebb639216160"
+        ],
+        "tree_equal_approved_head": true
+      },
+      "Native_Release_scope": "representative3; full199 bytes not inferred from this job",
+      "unchanged_retries_by_workflow": {
+        "Native": 0,
+        "Dedicated": 1
+      },
+      "Dedicated": {
+        "run": 40652127402,
+        "first_job": 122694427248,
+        "first_attempt": "180s timeout/SIGKILL; case-start not observed; reader64 cascade; App assertion/infra cause not established",
+        "first_summary_SHA256": "4f33dd074b9af3ca1af6f820238d6d29dd1d21cb561d3a4a81a604dd4e181c05",
+        "retry_job": 122702399743,
+        "retry_attempt": 2,
+        "retry_F_started_passed": [
+          1,
+          1
+        ],
+        "retry_R_started_passed": [
+          1,
+          1
+        ],
+        "source_selector_180s_timeout_unchanged": true,
+        "retry_proof_SHA256": "d1b85529f1d2a59b7b67cd6784ec5444dda2c9258019fa9546b21ebb463c2e60",
+        "initial_failure_retained": true,
+        "cause_fixed_claim": false
+      },
+      "postmerge_push": {
+        "main": "d74c68179aa2053a457b964f4cf756d0a9bf77b1",
+        "Common_API": "all10jobs success",
+        "Native_API": "success; new raw counts not retrieved",
+        "Full_first": {
+          "run": 40659076562,
+          "job": 122717254911,
+          "attempt": 1,
+          "unit": {
+            "total": 236,
+            "skipped": 2,
+            "failures": 0
+          },
+          "UITestTarget": {
+            "total": 23,
+            "passed": 22,
+            "failed": 1,
+            "groups": "Native2+Published15+pureGeometry6"
+          },
+          "case": "PublishedReaderUITests/testBodySearchArrivesAtNestedParagraphContainingAllTermsWithoutReaderGestures",
+          "aftertimeout_sampling": "sequential; not original wait state",
+          "observed_top_outward_difference_points": 0.0701754385982,
+          "source_placement_offset_tolerance_points": 0.5,
+          "production_aligned_completed_on_this_attempt": "not established",
+          "cause": "production marker alignment vs strict AX frame measurement under investigation",
+          "summary_SHA256": "d008ad62fa9eb2fafc3f54020e512d5806697ef0157abb7563027053182d95e9"
+        },
+        "Full_retry_request_count": 1,
+        "Full_retry_result": "pending; no source, selector, timeout or fullyVisible change",
+        "first_failure_retained": true,
+        "cause_fixed_claim": false,
+        "new_Runtime26_trace_scope": "normal2 iOS26+ only; does not observe this iOS18.5 Published search case"
+      },
+      "performance": "not fired; not performed"
+    },
+    "local": {
+      "source_head": "5d37bb3f297123e25fcda699e7031fdb3f459499",
+      "version": "0.2.22(24)",
+      "toolchain": "Xcode16.2(16C5032a)/iOS18.2SDK",
+      "unsigned_generic_iOS_Release": "passed",
+      "existing_profile_offline_signed_Release": "passed",
+      "codesign_deep_strict": "passed",
+      "articles": 199,
+      "audio": 1,
+      "actual_Swift_package_consumer": "passed",
+      "Privacy_source_equal": true,
+      "TestContent_present": false,
+      "learning_index_Mac_host_actual_Source5_consumer": "passed once; not iOS App/UI",
+      "profile_expiration_JST": "2026-10-31T14:32:21+09:00",
+      "new_profile_cert_key_registration_or_authentication": false,
+      "CLI_qualification": "outer IP denial maintained; inner script sandbox disabled only by temporary signed-build CLI; source/PBX unchanged",
+      "device_install_launch_overwrite": "not performed",
+      "real_provider_and_current_VoiceOver": "not performed",
+      "App_inputs_equality_to_adopted_main": "Verified all2796 tracked tuples against local-build source5d37; only UI test and records2 differ, all2793 others including App/PBX/articles/resources/deps unchanged; not a newmain build"
+    }
+  }
+}

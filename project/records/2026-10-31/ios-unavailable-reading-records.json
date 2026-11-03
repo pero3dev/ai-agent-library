@@ -1,0 +1,831 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-31",
+  "title": "現在の記事版にない読書記録の件数と保管案内",
+  "state": "Source12 scoped canonical TMPDIR prepared; actual newhead fullcheck/iOS/main pending",
+  "scope": "IOS22 read-only unavailable-article record count and retention/export-location guidance only; no automatic cross-ID rename/delete/migration",
+  "publication_parent": "568dd2948a58c174cef739a667c3f9bd19ea8fa3",
+  "publication_parent_tree": "761637b27ed9a51234990e5cf24501212098079b",
+  "publication_parent_PBX_sha256": "5fb9e8948673accfc180003260fd3b134767750edad3d86c20b6b240610d359f",
+  "proposed_PBX_sha256": "1d516b4aeb1869644a87496befa50fe33da86482da07ee639bc4424392801b42",
+  "proposed_app_version": "0.2.27",
+  "proposed_build": "29",
+  "version_applied": true,
+  "adoption_dependency": "Operator separately verified preceding About normal-main adoption; local helper checks detached HEAD/clean/before bytes only, not remote main evidence.",
+  "owned_paths_planned": [
+    "ios/AILibrary/Sources/ReadingStore.swift",
+    "ios/AILibrary/Sources/LibraryStore.swift",
+    "ios/AILibrary/Sources/LibraryView.swift",
+    "ios/AILibraryTests/LibraryCoreTests.swift",
+    "ios/AILibrary.xcodeproj/project.pbxproj",
+    "project/records/2026-10-31/ios-unavailable-reading-records.md",
+    "project/records/2026-10-31/ios-unavailable-reading-records.json",
+    "project/README.md",
+    "project/plans/engineering/ios-app-completion.md",
+    ".github/workflows/ios-published-candidate.yml",
+    "ios/AILibraryUITests/NativeReaderUITests.swift",
+    ".github/workflows/ios-runtime26-smoke.yml"
+  ],
+  "planned_tracked_count": {
+    "before": 2835,
+    "after": 2837,
+    "new_paths": 2,
+    "actual_observed": false,
+    "initial_source9_actual": 2837
+  },
+  "Source4": {
+    "manifest_sha256": "a802f7de915d6d895ed0b4ae77ae81e1ac324a1d97ef92715a5c94d84b075947",
+    "files": [
+      {
+        "path": "ios/AILibrary/Sources/ReadingStore.swift",
+        "bytes": 57568,
+        "sha256": "da88bdb3ef99a93ddb842f53e7e92bdba2dfc4e95bff0f78f9d467387e9acfe7"
+      },
+      {
+        "path": "ios/AILibrary/Sources/LibraryStore.swift",
+        "bytes": 18351,
+        "sha256": "3f04caf670cd08995300235601398b1def0a5c9038f15628d52fae77f70840cd"
+      },
+      {
+        "path": "ios/AILibrary/Sources/LibraryView.swift",
+        "bytes": 50443,
+        "sha256": "f99845e7c1ea7a14ac54f256edfc7ca5c358bc11ccdc6c7355da6b62418af155"
+      },
+      {
+        "path": "ios/AILibraryTests/LibraryCoreTests.swift",
+        "bytes": 294311,
+        "sha256": "3a755a63d39afec3dee8979fd56e5d56dadf629a3f145d2033eaa2eed4506340"
+      }
+    ],
+    "View_before_sha256": "a8ae8dc75696b855f510947c65260887708f2a212d7373e2e252ef26e8b48e2e",
+    "View_before_scope": "Final preceding About wording a8ae; exact complete Source4 before bytes matched the supplied actual parent",
+    "Source3_inverse_byte_exact": true,
+    "old_CoreTests_prefix_bytes": 280415,
+    "appended_test_extension_bytes": 13896,
+    "new_App_source_files": 0,
+    "PBX_version_or_dependency_change_in_private_Source4": false,
+    "new_test_methods": [
+      "testUnavailableReadingCountUnionsArticleIDsWithoutWritingRawOrBackups",
+      "testUnavailableReadingCountSuppressesDamagedAndSuspendedStateWithoutMutation",
+      "testUnavailableReadingStoreUsesWholeSnapshotRatherThanVisibleFilters",
+      "testUnavailableReadingCountFollowsPackageIDsAndReturnsWithoutRenamingRecords",
+      "testUnavailableReadingStoreSuppressesLoadingFixtureAndRestorePresentation",
+      "testUnavailableReadingRestorePreviewCancelAndConfirmedCommitKeepTheirOwnState"
+    ]
+  },
+  "semantics": {
+    "recorded_IDs": "union(bookmarks, positions.keys, optional lastArticleID)",
+    "unavailable_IDs": "recorded IDs minus all current complete snapshot article IDs",
+    "count_unit": "unique articles, not record-field count",
+    "visible_filter_influence": false,
+    "no_title_or_path_matching": true,
+    "normal_state_only": true,
+    "suppress": [
+      "no snapshot",
+      "loading",
+      "test-library mode",
+      "snapshot containing test fixtures",
+      "corrupt or partial recovery",
+      "reading recovery issue",
+      "save suspension",
+      "restore transaction",
+      "entire restore presentation including preview/cancel"
+    ],
+    "zero_count_hidden": true,
+    "public_notice": "count and retention guidance plus existing reading-export menu location; no opaque IDs or implementation details",
+    "no_automatic_actions": [
+      "rename",
+      "delete",
+      "migration",
+      "raw or backup write",
+      "pointer write",
+      "export",
+      "garbage collection"
+    ],
+    "preserved": [
+      "reading raw bytes",
+      "reading backups",
+      "selected content pointer",
+      "existing recovery priority",
+      "restore preview/cancel ownership"
+    ],
+    "confirmed_restore": "existing explicit confirmation may replace state; notice follows its result, no automatic replacement",
+    "known_ID_returns": "package switch to a snapshot containing the same ID removes that ID from the unavailable count",
+    "cross_ID_rename": "old ID stays retained and unavailable; no automatic map"
+  },
+  "review": {
+    "Source4_independent_static": {
+      "P1": 0,
+      "P2": 0,
+      "report_sha256": "85a947eaf3ac198c77aff794e751fb6d0031a5ae2d8f19ae4992e76a7097520e"
+    },
+    "final9_independent": null,
+    "SDK_saved_evidence_independent": {
+      "P1": 0,
+      "P2": 0,
+      "report_sha256": "fbbc40c01f755f9a15fcc1a51128e01a973e5608a2c3796135e79deb2cafa3d1"
+    }
+  },
+  "verification": {
+    "initial_Host_attempt": {
+      "state": "capacity precondition refused before version/compiler/tests",
+      "observed_free_bytes": 270897152,
+      "steps": [],
+      "result_sha256": "e64808037fb05df8a20d21875c70bc6e10f48154c94d83b40960e867930c83b0",
+      "preserved": true
+    },
+    "separate_Host_attempt": {
+      "manifest_sha256": "ffc92dbde25764754fdc4a7374d8b292b01b8265489ad887168e276a9cb91e47",
+      "summary_sha256": "7087cc33eaae6f9f46ebf2d0f105d41ea5b46b10264535aa5e58d9e67b4122ff",
+      "newly_authorized_once_after_capacity_change": true,
+      "actual_unique_tests": 6,
+      "executed": 6,
+      "skip": 0,
+      "fail": 0,
+      "Core7_module_seconds": 12.960651,
+      "new_test_build_seconds": 5.620821,
+      "runtime_seconds": 1.823643,
+      "phase_seconds": 26.834988,
+      "all_four_commands_exit": 0,
+      "eleven_frozen_inputs_same_as_initial": true,
+      "Source4_and_original_refusal_preserved": true,
+      "guard_sha256": "fe9eff622182ba2faafd761eb2990b558e5d20574e2b5d2da4dda8950052090a",
+      "extraction_proof_sha256": "f0cef25bcd0ea8377d684fcfc09a907a4cd94bc0d980a5e14705089c9754f9ec",
+      "bounds": {
+        "seconds": 120,
+        "combined_log_bytes": 2097152,
+        "owned_bytes": 536870912,
+        "free_floor_bytes": 734003200,
+        "sampling_seconds": 0.25
+      },
+      "minimum_observed_free_bytes": 4000542720,
+      "peak_observed_owned_bytes": 116388681,
+      "combined_child_output_bytes": 2999,
+      "known_owned_group_cleanup_requested": true,
+      "private_environment": "Swift/compiler/XCTest explicit private HOME/CFFIXED_USER_HOME/TMPDIR; outer launcher temp-dir warning recorded separately",
+      "not_proof": [
+        "filesystem access isolation",
+        "hardpeak resource limit",
+        "App17 or iPhone runtime",
+        "source or package authenticity",
+        "product performance budget"
+      ]
+    },
+    "current_App_module": {
+      "App_sources": 17,
+      "saved_module_exit": 0,
+      "seconds": 13.244021,
+      "current_source19_exactly_matches_saved_composition": true,
+      "new_SDK_run": false
+    },
+    "iPhone_SDK": {
+      "reuse": "Existing future-composition SDK run; current actual-parent-bound Source17 and two complete test sources match every typed input SHA. No new SDK run.",
+      "manifest_sha256": "7585117f1b8cd5e8502fcf52a810d69da80a54280e686938f1f76348c0e23a3c",
+      "summary_sha256": "4684d6ba20f283c89cc5a145a0ad94c8608747b84078d4ee283d7d6121ffe934",
+      "result_sha256": "90eaa884fb8a22d8795b62ac7c706ba05e07edf9d1d7f92af8a42891dcf99b0c",
+      "independent_review_sha256": "fbbc40c01f755f9a15fcc1a51128e01a973e5608a2c3796135e79deb2cafa3d1",
+      "source_proof_sha256": "51160079d798bb5fafb089c8c07b4e3ee12fa29d492f11eea19856d4d0a7aa10",
+      "spec_sha256": "85dffbb3ccf11238cf878c38a37421e866a08cbe8087723542c2a276071f4f39",
+      "guard_sha256": "241be74fa11a54fb2f79019d3427b569e844abb389972483b525758e9c4d25b3",
+      "current_bound_sources": [
+        {
+          "path": "ios/AILibrary/Sources/AILibraryApp.swift",
+          "bytes": 2264,
+          "sha256": "ec9fb110ae186ada5ca5e56424024c917ea22d9af8081176e4cd18eb7cfdabb8"
+        },
+        {
+          "path": "ios/AILibrary/Sources/ArticleReaderView.swift",
+          "bytes": 9954,
+          "sha256": "71dfc03a02c57d84fa60f70e812fa23f90e3154578f63519bdd52c17255222ad"
+        },
+        {
+          "path": "ios/AILibrary/Sources/AudioPlayer.swift",
+          "bytes": 20787,
+          "sha256": "87e0539b12d8fc334360e015859c52472f5b21ba1ede21cd6aff1415d6a8ff9a"
+        },
+        {
+          "path": "ios/AILibrary/Sources/AudioPlayerView.swift",
+          "bytes": 7938,
+          "sha256": "5916861fddf2d5b1718c63ee416a63824b4c046fcbb9936e9a3276a2f7dcc23b"
+        },
+        {
+          "path": "ios/AILibrary/Sources/ContentRepository.swift",
+          "bytes": 5442,
+          "sha256": "64e9955ad6207ba0dc3026f63c015e79e5f911b2c5eb4c3efef1ba26fbaaf0cd"
+        },
+        {
+          "path": "ios/AILibrary/Sources/ContentValidator.swift",
+          "bytes": 13784,
+          "sha256": "ffcdab90f0a8f39fc8b7cfceea0ba48aac7f18df1c033b237d2da311562e385a"
+        },
+        {
+          "path": "ios/AILibrary/Sources/LearningIndex.swift",
+          "bytes": 19607,
+          "sha256": "aec0cb3e4ce0e1d0c68ba9eb258747c36f7427d93ffa169b79c44c23dd51b41d"
+        },
+        {
+          "path": "ios/AILibrary/Sources/LibraryStore.swift",
+          "bytes": 18351,
+          "sha256": "3f04caf670cd08995300235601398b1def0a5c9038f15628d52fae77f70840cd"
+        },
+        {
+          "path": "ios/AILibrary/Sources/LibraryView.swift",
+          "bytes": 50443,
+          "sha256": "f99845e7c1ea7a14ac54f256edfc7ca5c358bc11ccdc6c7355da6b62418af155"
+        },
+        {
+          "path": "ios/AILibrary/Sources/Models.swift",
+          "bytes": 12035,
+          "sha256": "459423194145e677834d35b57201ae60f0c9e9b5ab449a620cb519f5a070292c"
+        },
+        {
+          "path": "ios/AILibrary/Sources/NativeDocument.swift",
+          "bytes": 27503,
+          "sha256": "ce96e4960eef766e325b1b4b7d3701d4a7d5b5c3b1e69ae9599fd0f2622af2ab"
+        },
+        {
+          "path": "ios/AILibrary/Sources/NativeInlineText.swift",
+          "bytes": 32427,
+          "sha256": "107b4b738d550f1cd5c53f75e9ffd4abfb61a84f93e45fb311e61cf618a287ca"
+        },
+        {
+          "path": "ios/AILibrary/Sources/NativeLearningViews.swift",
+          "bytes": 15378,
+          "sha256": "7895724d576ac36a6ccfeeb239d8e3077e8d4202b6bcc3c7f88641625d7cf655"
+        },
+        {
+          "path": "ios/AILibrary/Sources/NativeReaderPlacementPolicy.swift",
+          "bytes": 4797,
+          "sha256": "8b48241f125f2f8eec5ab248583bf56b35a0709b877b374f6968b417f98d847e"
+        },
+        {
+          "path": "ios/AILibrary/Sources/NativeReaderView.swift",
+          "bytes": 63730,
+          "sha256": "1d417e8508d5a8b5e242915533605ee1e33736c5df996cf082c9127e88e38b24"
+        },
+        {
+          "path": "ios/AILibrary/Sources/ReadingStore.swift",
+          "bytes": 57568,
+          "sha256": "da88bdb3ef99a93ddb842f53e7e92bdba2dfc4e95bff0f78f9d467387e9acfe7"
+        },
+        {
+          "path": "ios/AILibrary/Sources/LibraryDiagnostics.swift",
+          "bytes": 7696,
+          "sha256": "8d8f1ee4bac7dca073da493eec4180094865dd784accffb91708542198f9a998"
+        },
+        {
+          "path": "ios/AILibraryTests/LibraryCoreTests.swift",
+          "bytes": 294311,
+          "sha256": "3a755a63d39afec3dee8979fd56e5d56dadf629a3f145d2033eaa2eed4506340"
+        },
+        {
+          "path": "ios/AILibraryTests/LibraryDiagnosticsTests.swift",
+          "bytes": 8057,
+          "sha256": "17e9730aadee308c53b874f8dc1e882a2b35047bf554eb1acc436b85e1f67f9c"
+        }
+      ],
+      "SDK": "iPhoneOS18.2",
+      "target": "arm64-apple-ios17.0",
+      "Swift_language_mode": "5",
+      "DEBUG": true,
+      "App17_module_seconds": 13.244021,
+      "complete_CoreTests_typecheck_seconds": 3.834591,
+      "current_DiagnosticsTests_typecheck_seconds": 0.47417,
+      "phase_seconds": 18.660774,
+      "commands_exit0": 3,
+      "frozen_inputs": {
+        "spec": 68,
+        "additional_guard_and_spec": 2,
+        "fixed_unique": 70,
+        "generated_module_additional": 4
+      },
+      "inputs_held_at_original_run": true,
+      "known_own_groups_reaped": 3,
+      "compiler_raw_streams": 6,
+      "compiler_raw_output_bytes": 0,
+      "bounds": {
+        "phase_seconds": 90,
+        "combined_log_bytes": 1048576,
+        "owned_bytes": 314572800,
+        "free_floor_bytes": 734003200,
+        "sampling_seconds": 0.05
+      },
+      "minimum_sampled_free": 3772260352,
+      "maximum_sampled_owned": 92865407,
+      "launcher_warning_scope": "Separately labeled transcription of fs-event/cache-dir warnings, not compiler diagnostics or separately captured launcher raw stream",
+      "limits": [
+        "Sampled resources are not hardpeak or filesystem access isolation proofs",
+        "Installed SDK/tool closure is not a complete SDK integrity audit",
+        "Exception cleanup was statically reviewed, not fault-injection tested",
+        "PBX29 binding is not an observed Bundle/version/signature",
+        "No XCTest/UI/iOSruntime/VoiceOver/device/current-main acceptance"
+      ],
+      "separate_Host6_not_rerun": true
+    },
+    "planned_Hosted_only": {
+      "unit_tests": 270,
+      "unit_count_basis": "preceding About planned264 plus new6; actual current-head result not yet observed",
+      "Native_UI": 7,
+      "Full_UI": 26
+    },
+    "common": null,
+    "normal_main_adoption": null,
+    "actual_notice_UI": null,
+    "VoiceOver": null,
+    "physical_device": null,
+    "new_signing_and_Bundle": null,
+    "provider_logs_or_policies": null
+  },
+  "delivery_plan": [
+    "Actual supplied About parent and Source4 before bytes matched; remote adoption remains external operator precondition",
+    "Version-only PBX29 and Source4/record2/index2 bound as exact9 working source candidate; tracked2837 remains a target, no current commit/main claim",
+    "Run appropriate exact-tree checks and independent final9 review, retaining all failures",
+    "Small normal commit/PR, fresh required CI, protected ordinary main merge",
+    "Record physical/manual/signing results separately; user permits manual skips as incomplete"
+  ],
+  "remaining": {
+    "IOS22": [
+      "cross-ID rename map",
+      "full article/schema/old-HTML migration acceptance"
+    ],
+    "other_incomplete": [
+      "IOS11 revised-content position precision",
+      "IOS18 failure recovery",
+      "IOS23 performance acceptance",
+      "IOS25 UI regression acceptance",
+      "IOS27 Store/privacy/policy acceptance",
+      "IOS28 real self-use operations"
+    ],
+    "TODO_rows": 32,
+    "TODO_complete": 14,
+    "checkbox_changes": false
+  },
+  "authority": "Existing user autonomous TODO and ordinary commit/PR/main authorization. Physical/manual checks may be skipped as incomplete. No new paid/public distribution/network-service/GC policy.",
+  "binding": {
+    "actual_parent_source4_before_matched": true,
+    "before_blobs": [
+      {
+        "path": "ios/AILibrary/Sources/ReadingStore.swift",
+        "before_bytes": 57005,
+        "before_sha256": "d3dcbb95874b8f377d0f4a528425e75adca525f6329869a06d2e1eb895ed118f",
+        "before_blob": "0795e67c1fd8c63e76419aafe3cb23ed875e9c1d",
+        "before_mode": "100644"
+      },
+      {
+        "path": "ios/AILibrary/Sources/LibraryStore.swift",
+        "before_bytes": 17759,
+        "before_sha256": "77198b8e2d35891473cb8dfbf07e9e78f4075e8cf4017f2daeccf7a881eea0ff",
+        "before_blob": "df5f8c418f96a00b8a776c7e062ef14fec173c88",
+        "before_mode": "100644"
+      },
+      {
+        "path": "ios/AILibrary/Sources/LibraryView.swift",
+        "before_bytes": 49498,
+        "before_sha256": "a8ae8dc75696b855f510947c65260887708f2a212d7373e2e252ef26e8b48e2e",
+        "before_blob": "f2f76fb0ac09b95cd46deeed93a4cec9f3e0ed95",
+        "before_mode": "100644"
+      },
+      {
+        "path": "ios/AILibraryTests/LibraryCoreTests.swift",
+        "before_bytes": 280415,
+        "before_sha256": "280f4c58ac4a9ef6910618766c90eeec799a9e3e57b5392ba0e9b3befb9ae01f",
+        "before_blob": "e48dfb8b0f2d04b39a0027f2a4fed6051f27868c",
+        "before_mode": "100644"
+      },
+      {
+        "path": "ios/AILibrary.xcodeproj/project.pbxproj",
+        "before_bytes": 21807,
+        "before_sha256": "5fb9e8948673accfc180003260fd3b134767750edad3d86c20b6b240610d359f",
+        "before_blob": "a06e9bf3a900873ff6f7a991046277b368fffcc8",
+        "before_mode": "100644"
+      },
+      {
+        "path": "project/records/2026-10-31/ios-unavailable-reading-records.md",
+        "before_bytes": null,
+        "before_sha256": null,
+        "before_blob": null,
+        "before_mode": null
+      },
+      {
+        "path": "project/records/2026-10-31/ios-unavailable-reading-records.json",
+        "before_bytes": null,
+        "before_sha256": null,
+        "before_blob": null,
+        "before_mode": null
+      },
+      {
+        "path": "project/README.md",
+        "before_bytes": 53904,
+        "before_sha256": "d5a6fb7da45e28c70c7c5566b40f215643151b49fc048f6951f4ee2fa6c5b705",
+        "before_blob": "76a1a384b0b3b897b6d4b1e5d4e304320f2052d1",
+        "before_mode": "100644"
+      },
+      {
+        "path": "project/plans/engineering/ios-app-completion.md",
+        "before_bytes": 81172,
+        "before_sha256": "89e850cc1ef9fe6b03e5141da31d2a6289acac17bb35f1bbf4cc15ee1fa42ced",
+        "before_blob": "844651886b9f717b75a9efbbb4501e5996552184",
+        "before_mode": "100644"
+      }
+    ],
+    "version_only_PBX28to29": true,
+    "PBX_other_bytes_and_signing_memberships_held": true,
+    "inherited_App_source_count": 17,
+    "Privacy_bytes": 1035,
+    "Privacy_sha256": "29da7723de101f74115e6b6af6ad3a7afecbaaf6cc101c86ad0a50edae587f5e",
+    "Content_and_old_user_worktree_operations": 0,
+    "Host6_scope": "exact saved Core7 plus selected6; no new execution or App17/SDK/UI inference",
+    "SDK_evidence_sync": "Existing saved SDK composition reused by exact current Source17 plus2 complete test input hashes; no new SDK/runtime/main observation",
+    "refreshed_reader_sha256": "9da819da5065e03ad82167d28c2721c03789b67c37de622f5b21f1202565226d",
+    "source_only_git_operations": true
+  },
+  "initial_source9_owned_paths": [
+    "ios/AILibrary/Sources/ReadingStore.swift",
+    "ios/AILibrary/Sources/LibraryStore.swift",
+    "ios/AILibrary/Sources/LibraryView.swift",
+    "ios/AILibraryTests/LibraryCoreTests.swift",
+    "ios/AILibrary.xcodeproj/project.pbxproj",
+    "project/records/2026-10-31/ios-unavailable-reading-records.md",
+    "project/records/2026-10-31/ios-unavailable-reading-records.json",
+    "project/README.md",
+    "project/plans/engineering/ios-app-completion.md"
+  ],
+  "initial_source9_CI": {
+    "PR": 315,
+    "head": "324ed14e26bbe4a6a567ab06bae86c2657433b37",
+    "tree": "1d2d39674e945a4e8e9fb658d7c51d3739ed9bc1",
+    "tracked": 2837,
+    "common": {
+      "total": 1206,
+      "pass": 1191,
+      "skip": 15,
+      "fail": 0
+    },
+    "final9_IR_sha256": "eb901d2cc2da4a4311c32399e5ff2fd42c23abf79b750011abc5c7f02235f9bb",
+    "required11": "success after Ready",
+    "Native": {
+      "unit_total": 270,
+      "unit_pass": 268,
+      "unit_skip": 2,
+      "unit_fail": 0,
+      "Diagnostics": 6,
+      "UI_pass": 7
+    },
+    "Dedicated_SDK26Archive": "initial metadata success",
+    "Runtime26": {
+      "run": 41127983832,
+      "job": 124311320090,
+      "pass": 2,
+      "fail": 1,
+      "failed_stage": "healthy legacy initial library-resume requireHittable before tap",
+      "predicate_seconds": 15,
+      "poll_duration_seconds": 14.382557791,
+      "cause": "unconfirmed; later geometry/screenshots are different instants",
+      "retry": false
+    },
+    "Full": {
+      "job": 124311320138,
+      "conclusion": "cancelled",
+      "seconds": 3081,
+      "unit_total": 270,
+      "unit_pass": 268,
+      "unit_skip": 2,
+      "unit_fail": 0,
+      "UI_completed_unique_pass": 19,
+      "UI_Native": 3,
+      "UI_Published": 16,
+      "UI_geometry": 0,
+      "copy_independent_stdout_bytes": 0,
+      "Release": "skipped",
+      "accepted": false
+    },
+    "saved_result_sha256": "95c890f41f07ea67049a7a01abf8deb2100522e267652396c95c8c833d00a236",
+    "final9_scope": "Initial Source9 bytes only; current expanded Source12 independent review remains pending."
+  },
+  "planned_CI_repair": {
+    "owned_additional_paths": [
+      ".github/workflows/ios-published-candidate.yml",
+      "ios/AILibraryUITests/NativeReaderUITests.swift",
+      ".github/workflows/ios-runtime26-smoke.yml"
+    ],
+    "Full": {
+      "fixed_slices": {
+        "reading-state": {
+          "Native": 3,
+          "Published": 9,
+          "geometry": 6,
+          "units": true
+        },
+        "content-copy": {
+          "Native": 0,
+          "Published": 8,
+          "geometry": 0,
+          "units": false,
+          "build_for_testing_before_Debug_audit": true,
+          "copy374_and_Release199": true
+        }
+      },
+      "all_case_union": 26,
+      "disjoint": true,
+      "each_job_minutes": 50,
+      "both_strict_set_UI_and_Debug_audits": true,
+      "artifact_names_unique": true,
+      "actual_new_head_Hosted": null,
+      "private_synthetic_check": {
+        "Node": "24.19.0",
+        "unique_pass": 44,
+        "fail": 0,
+        "skip": 0,
+        "phase_seconds": 4.492581292,
+        "source_workflow_sha256": "e4fb4ce5923ba99ebe1ac06ce57c04daedb2f0fa76b7076e626d0e7f492c9344",
+        "current_and_trace_Source26_match": true,
+        "future_method_mismatch_or_ambiguous_or_nonflat_input": "reject",
+        "new_SDK_UI_CI": false
+      }
+    },
+    "Native_trace": {
+      "source_sha256": "bc9c8268ab4bfb82a936f69be94d86667f23fb9ef669389d9e62ac159cb299f6",
+      "additional_AX_reads": 0,
+      "predicate_and_timeout_unchanged": true,
+      "separate_diagnostic_head": "63f7a82674e39d4343df08aec042b9fd54df4f74",
+      "separate_run": 41134722071,
+      "manual_dispatch_once": true,
+      "result": {
+        "actual_unique_UI": 3,
+        "pass": 3,
+        "fail": 0,
+        "all_waits_one_poll_visible_hittable_true": 22,
+        "TEST_SUCCEEDED": "2026-10-30T22:14:29.214Z",
+        "step_timeout": "2026-10-30T22:14:31.564Z",
+        "UI_step_and_job": "failure; not accepted success",
+        "command_exit_code_file": "not observed in raw stdout",
+        "initial_resume_wait_seconds": 3.407,
+        "first_failure_reproduced": false,
+        "saved_observation_result_sha256": "0da8cbccb0a1ea53b1b1adc4c9fd4c8024ee84c3612486b1eadb85fe1b6303de"
+      },
+      "rootcause_fixed": false
+    },
+    "new_common": null,
+    "new_head_CI": null,
+    "normal_main": null,
+    "App17_PBX_and_feature_units_held": true,
+    "Runtime26_step_allocation": {
+      "Root_decision": "Measured TEST SUCCEEDED followed by existing12min timeout; allocate15min UI step while keeping40min job and all other caps",
+      "old_UI_minutes": 12,
+      "new_UI_minutes": 15,
+      "job_minutes": 40,
+      "cleanup_minutes": 4,
+      "upload_minutes": 2,
+      "sum_step_caps_old": 48,
+      "sum_step_caps_new": 51,
+      "sum_caps_not_completion_guarantee": true,
+      "functional_predicates": {
+        "wait_seconds": 15,
+        "strict_cases": 3,
+        "fullyVisible_and_hittable": "unchanged"
+      },
+      "new_source_Hosted": null,
+      "ordinary_admin_override": false,
+      "source_independent_review": {
+        "P1": 0,
+        "P2": 0,
+        "report_sha256": "9e855ee806764791dfe592b254b4ec3ced7ad4002e77bd65bd85ef3ff4f42676"
+      }
+    },
+    "final12_review": null
+  },
+  "Source12_initial_CI": {
+    "head": "7860f53f136c7cf9b0cd7fc3a784a5e88005e7ed",
+    "tree": "31e9c535990104ad63dcb8471e2a8a0dc59821be",
+    "required11_postbody_policy2": "success",
+    "Native": {
+      "unit_total": 270,
+      "pass": 268,
+      "skip": 2,
+      "fail": 0,
+      "UI7": "pass"
+    },
+    "Runtime26": {
+      "UI_unique": 3,
+      "pass": 3,
+      "job": "success",
+      "old_first_wait_cause_fixed": false
+    },
+    "Full": {
+      "reading_state": {
+        "pass": 17,
+        "fail": 1,
+        "stage": "returnToLibrary !reader.exists10s after TOC/capture; no relaunch/resume"
+      },
+      "content_copy": {
+        "pass": 7,
+        "fail": 1,
+        "stage": "third CASE-LINK-01 preparation require15 before far link tap"
+      },
+      "copy374_probe": "not executed",
+      "Release": "not executed",
+      "accepted": false
+    },
+    "report_SHA256": "fc6ea70628bbb8c4aceb3862b154fbc0e2f0dc2875c4e24fe545a5665fdf7016",
+    "source_changed_retry": false
+  },
+  "Native_readiness_followup": {
+    "Source_SHA256": "00e75a518b7af8a69679adb9771c2e6d584c466c91e39c7e68b2ea75956c707c",
+    "bytes": 50205,
+    "static_Source_IR": "a61b73bceda34d87503e8c980d32c50ab81643e6ec6fcfb1dbfe515f25e8959e",
+    "P1": 0,
+    "P2": 0,
+    "positive_readiness": "local false, set only by same existing predicate true, reused once before same target tap",
+    "false18_fallback_require_seconds": 15,
+    "gesture_cap": 18,
+    "second_observation_opportunity_removed": true,
+    "temporal_semantics_unchanged": false,
+    "cause_fixed": false,
+    "precheck_trace": "one bounded1024B includingprefix using existingvalues and2clock reads; heading96Bprefix; noAX",
+    "return_failure_only": "same globalback/negativeexists10/search10/reveal8; screenshot and hierarchy only after waitfailure, original assert retained",
+    "all_case_names_and_arrival_asserts_held": true,
+    "source_roster": "26unique(3+17+6), other3files checked",
+    "SDK": {
+      "SDK": "iPhoneSimulator18.2",
+      "target": "arm64iOS17 simulator Swift5DEBUG",
+      "source_files": 2,
+      "exit": 0,
+      "compiler_seconds": 9.514538,
+      "phase_seconds": 10.31649,
+      "fixed_inputs": 10,
+      "raw_empty_streams": 2,
+      "all_inputs_held": true,
+      "known_group_reaped_remaining_false": 1,
+      "actual_Runtime_or_App_or_main": false,
+      "saved_execution_IR": "65db5581b2cb1ed48156365c5fd04f8717e05681985a45d4289f42b89ac39566",
+      "summary_SHA256": "2b630414af3288d6d0393f533702835fe23a41675f68fd8e247f4aa40840995b"
+    },
+    "new_common": null,
+    "final12_IR": null,
+    "new_head_CI": null,
+    "main": null
+  },
+  "postboot_readiness_followup": {
+    "state": "Source12 two pre-UI read caps plus explicit full common CI step prepared; actual newhead common/iOS/main pending",
+    "publication_parent": "7f5ac62bb55866af4b81801ea3889ce0f6326904",
+    "base": "568dd2948a58c174cef739a667c3f9bd19ea8fa3",
+    "prior_top_state": "Source12 first Full A/B failures retained; Native-only readiness reuse and return failure diagnostics submitted-candidate preparation; new common/final12/CI/main pending",
+    "held_configuration": "0.2.27(29), allSwift/PBX and Content held from7f",
+    "prior7f_acceptance": "Native270=268pass2skip/UI7, Runtime26UI3, FullA270/UI18 passed; not newhead acceptance",
+    "B_initial": {
+      "job": 124374334659,
+      "stage": "postboot devices-ready inventory",
+      "error": "ETIMEDOUT30s",
+      "UI": 0,
+      "raw_bytes": 836503,
+      "raw_SHA256": "46544bd0ef104518d2fbd346ec9e8cf4846a7e235039696e169a537314fb22a4"
+    },
+    "B_single_retry": {
+      "job": 124386024750,
+      "attempt": 2,
+      "stage": "pre-UI canary pbpaste, after successful ready inventory and seed",
+      "error": "ETIMEDOUT30s",
+      "UI": 0,
+      "copy374": "not executed",
+      "Release": "not executed",
+      "raw_bytes": 834747,
+      "raw_SHA256": "b1aac99633ac3ca153fed578049818c43ef842d26a54aabff4e0e672fd11ff42"
+    },
+    "retry_accounting": "Initial403 runalreadyrunning created0; completed-run request accepted1; further sameheadretry0",
+    "new_Source1": {
+      "SHA256": "75dedc6b50dd655e6d29fbe8b46f210e03716fcd645685008d3a0e4a65d04a2e",
+      "bytes": 43870,
+      "change": "only devices-ready and pre-UI canary read explicit90000; all other30/240/device/selector/check/copy/Release contracts held",
+      "maximum_extra_individual_caps_seconds_per_slice": 120,
+      "not_a_shared_wall_or_product_budget": true,
+      "retry_added": false,
+      "causefix_or_Hosted_success": false,
+      "old_single_inventory_call_candidate": "not adopted; distinct second failed stage preserved",
+      "full_common_step": {
+        "slice": "reading-state only",
+        "position": "after existing root/native locked installs, Chromium install and evidence directory/environment record; before source icon/content preparation",
+        "command": "set -euo pipefail; npm run check 2>&1 | tee evidence/full-common-check.log",
+        "step_timeout_minutes": 3,
+        "whole_job_minutes": 50,
+        "existing_installs": "npm ci --ignore-scripts in root and ios/tools, unchanged",
+        "failure": "nonzero/timeout fails slice and prevents normal merge; no continue-on-error/retry",
+        "actual_execution": "not yet performed at newhead"
+      }
+    },
+    "pure": "Primary Node24.19.0 one new run23unique23pass0fail0skip/0.231646s, fake FS/spawn only; oldNode18 result not reused",
+    "local_common": {
+      "state": "not admitted, not started",
+      "free_B": 1197744128,
+      "reason": "below unchanged2GiB suite fixture preconditions before isolated fullsource copy; no floor/test changes"
+    },
+    "remote_common_and_iOS": "Full npm run check now has a concrete reading-state-only workflow step after existing npm ci --ignore-scripts installs. Existing distributed ci.yml checks are not called a full invocation. Newhead actual fullcommon exit0 and affected iOS checks are required before main; not yet executed.",
+    "final12_review": "initial review found missing concrete fullCommon route (P2), preserved; revision2 workflow step and record correction pending newreview",
+    "manual_and_TODO": "physical/VO/provider/overwrite/minimumOS/knownSDK27failure/signing/distribution incomplete;32rows14complete held",
+    "two_read_inline_IR": {
+      "P1": 0,
+      "P2": 0,
+      "SHA256": "618a7fdf4dac4376b22a8252ea0064e157f300c959a123db54481719bba20b8d",
+      "scope": "exact two-read inline only; extra full-common step awaits final12 independent review"
+    }
+  },
+  "postboot_readiness_before_full_common_step": {
+    "state": "private Source12 pre-UI two-read timeout candidate, not applied; exact newhead common/iOS/main pending",
+    "publication_parent": "7f5ac62bb55866af4b81801ea3889ce0f6326904",
+    "base": "568dd2948a58c174cef739a667c3f9bd19ea8fa3",
+    "prior_top_state": "Source12 first Full A/B failures retained; Native-only readiness reuse and return failure diagnostics submitted-candidate preparation; new common/final12/CI/main pending",
+    "held_configuration": "0.2.27(29), allSwift/PBX and Content held from7f",
+    "prior7f_acceptance": "Native270=268pass2skip/UI7, Runtime26UI3, FullA270/UI18 passed; not newhead acceptance",
+    "B_initial": {
+      "job": 124374334659,
+      "stage": "postboot devices-ready inventory",
+      "error": "ETIMEDOUT30s",
+      "UI": 0,
+      "raw_bytes": 836503,
+      "raw_SHA256": "46544bd0ef104518d2fbd346ec9e8cf4846a7e235039696e169a537314fb22a4"
+    },
+    "B_single_retry": {
+      "job": 124386024750,
+      "attempt": 2,
+      "stage": "pre-UI canary pbpaste, after successful ready inventory and seed",
+      "error": "ETIMEDOUT30s",
+      "UI": 0,
+      "copy374": "not executed",
+      "Release": "not executed",
+      "raw_bytes": 834747,
+      "raw_SHA256": "b1aac99633ac3ca153fed578049818c43ef842d26a54aabff4e0e672fd11ff42"
+    },
+    "retry_accounting": "Initial403 runalreadyrunning created0; completed-run request accepted1; further sameheadretry0",
+    "new_Source1": {
+      "SHA256": "c35351a0d2c18726b6a6de6e5f8da3f482a5d00a34584de34a867f69d761f76e",
+      "bytes": 43570,
+      "change": "only devices-ready and pre-UI canary read explicit90000; all other30/240/device/selector/check/copy/Release contracts held",
+      "maximum_extra_individual_caps_seconds_per_slice": 120,
+      "not_a_shared_wall_or_product_budget": true,
+      "retry_added": false,
+      "causefix_or_Hosted_success": false,
+      "old_single_inventory_call_candidate": "not adopted; distinct second failed stage preserved"
+    },
+    "pure": "Primary Node24.19.0 one new run23unique23pass0fail0skip/0.231646s, fake FS/spawn only; oldNode18 result not reused",
+    "Source1_IR": {
+      "P1": 0,
+      "P2": 0,
+      "SHA256": "618a7fdf4dac4376b22a8252ea0064e157f300c959a123db54481719bba20b8d"
+    },
+    "local_common": {
+      "state": "not admitted, not started",
+      "free_B": 1203572736,
+      "reason": "below unchanged2GiB suite fixture preconditions before isolated fullsource copy; no floor/test changes"
+    },
+    "remote_common_and_iOS": "full unchanged npm ci/npm run check and affected exactnewhead iOS required before normal main; not yet executed",
+    "final12_review": "pending",
+    "manual_and_TODO": "physical/VO/provider/overwrite/minimumOS/knownSDK27failure/signing/distribution incomplete;32rows14complete held"
+  },
+  "canonical_temp_followup": {
+    "state": "Source12 scoped canonical TMPDIR prepared; actual newhead fullcheck/iOS/main pending",
+    "publication_parent": "756e5c65232380217daf0ab08b22f134b426404f",
+    "prior_top_state": "Source12 two pre-UI read caps plus explicit full common CI step prepared; actual newhead common/iOS/main pending",
+    "held_app_configuration": "0.2.27(29), all Swift/PBX and626Content held",
+    "observed756_A": {
+      "job": 124396396074,
+      "run": 41153914228,
+      "full_npm_check": "started, npmtest exit1; downstream common/Swift/UI not reached",
+      "tests": 1206,
+      "pass": 1132,
+      "fail": 59,
+      "skip": 15,
+      "seconds": 56.986363,
+      "raw_bytes": 623252,
+      "raw_SHA256": "59cc19b7d8618c0056a7b7addfe941ef7612971871e556243cbb0ed355b643f3",
+      "families": "58 in7path/containment families;1 equality-only no innererror; not all59causeproven"
+    },
+    "Runtime26_756": "actual3uniqueUIpass, raw520459/062de696e9744ad026f25d4dffd37835bf623c3dbcba1c19561068dc03919277; not substitute for fullCommon",
+    "candidate": {
+      "workflow_SHA256": "21902b42ed8eed1253fe109f7f944c1666cbd1e4f7f53c69b6ddb95d2450fb67",
+      "bytes": 44409,
+      "change": "only6lines scoped canonical temp in common shell, no shared/job/GITHUB_ENV change",
+      "guard_test_caps": "unchanged, fullCommon3min/job50 and allotherworkflow bytes held",
+      "cleanup": "newnonempty mktemp path, knowncanonicalparent/prefix only; EXIT not guaranteed onSIGKILL/runnerloss",
+      "causefix_Hosted_success": false
+    },
+    "selected_existing6": {
+      "state": "not started, Node0",
+      "resource_refusal_free_B": 656728064,
+      "unchanged_floor_B": 734003200,
+      "fixed_inputs": 34,
+      "all_held": true,
+      "seconds": 0.004614,
+      "new_empty_fixture_dir_removed_by_identity_checked_rmdir": true,
+      "additional_attempts": 0
+    },
+    "Source1_IR": {
+      "P1": 0,
+      "P2": 0,
+      "SHA256": "04a8ee8d07ee24948058ce8f56944cf77003545843bbe43130957c44c94e3d19",
+      "scope": "static source and Bash syntax only, not live temp/cleanup or6results"
+    },
+    "newhead_gate": "actual fullCommon including all1206 and affected iOS/latest11/postbodypolicy success before normalmain; not yet run",
+    "local_fullcommon": "not admitted below existing2GiB condition, no fake pass",
+    "final12_review": "pending",
+    "manual_TODO": "physical/VO/provider/minimumOS/knownSDK27quality/performance/signing/distribution incomplete,32rows14complete held"
+  }
+}

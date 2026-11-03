@@ -12,6 +12,7 @@ import { validateDoc } from './validate-core.mjs'
 export const GENERATED_DIRS = [
   'website/content', 'website/generated', 'website/out', 'website/.next',
   'website/public/_pagefind', 'website/public/_mermaid', 'website/test-results', 'website/playwright-report',
+  'ios/AILibrary/Content', 'ios/AILibrary/TestContent', 'ios/DerivedData', 'ios/build',
 ]
 export const GENERATED_FILES = ['website/next-env.d.ts', 'website/dev-server.log']
 
@@ -28,7 +29,7 @@ export function relativeInside(root, file, pathApi = path) {
 export function generatedPath(relative) {
   if (relative === null) return false
   const normalized = relative.toLowerCase()
-  return GENERATED_DIRS.some(dir => normalized === dir || normalized.startsWith(`${dir}/`)) || GENERATED_FILES.includes(normalized)
+  return GENERATED_DIRS.some(dir => normalized === dir.toLowerCase() || normalized.startsWith(`${dir.toLowerCase()}/`)) || GENERATED_FILES.some(file => file.toLowerCase() === normalized)
 }
 
 /** 未作成ファイルでも既存の親を解決する。存在する symlink の取り違えを防ぐ。 */

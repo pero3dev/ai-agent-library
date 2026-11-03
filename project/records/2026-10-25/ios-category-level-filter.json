@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "task": "ios-category-level-filter",
+  "date": "2026-10-25",
+  "status": "independently-reviewed-awaiting-PR-and-hosted-XCTest",
+  "independent_review": "approved; three source hashes match compile evidence",
+  "base_PR": 249,
+  "source_version": "0.2.6",
+  "build": 8,
+  "default_articles": 3,
+  "fixture_articles": 4,
+  "manifest_schema_changed": false,
+  "saved_filter_state": false,
+  "filter_fields": ["query", "category", "level", "bookmarksOnly"],
+  "combination": "AND",
+  "unknown_level_values": "preserved",
+  "selection_scope": "listedArticles",
+  "new_XCTest_cases": 3,
+  "validation": {
+    "SDK_build_for_testing": "passed-Xcode16.2-iPhoneSimulator18.2",
+    "Simulator_started": false,
+    "core_smoke": {"status": "passed", "articles": 3, "audio": 1, "files": 140},
+    "extracted_Foundation_cases": {"status": "passed", "cases": 3},
+    "iOS_XCTest_runtime": "not-run",
+    "physical_UI_DynamicType_VoiceOver": "not-run-user-allows-skip"
+  },
+  "private_harness_preparation": "Standalone XCTest module/Swift overlay unavailable; extracted Foundation assertions used and distinguished from iOS target execution",
+  "IOS-14": "incomplete",
+  "remaining": ["tags", "chapter-README-order", "learning-routes", "glossary", "all-article-default-catalog", "hosted-XCTest", "physical-acceptance"]
+}

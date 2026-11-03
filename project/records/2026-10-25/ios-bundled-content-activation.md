@@ -1,0 +1,48 @@
+# 同梱コンテンツの明示的な選択
+
+## 作業契約
+
+- 目的: [IOS-22](../../plans/engineering/ios-app-completion.md)の準備として、正常な保存版を自動で置き換えず、このアプリの同梱版へ明示的に切り替える。
+- 許可根拠: ユーザーの自律実装・commit・PR・main統合の依頼。新たな実機確認は未完了として進める。
+- 基準: PR #257の0.2.9（11）。今回は0.2.10（12）で、既定3記事と通常import優先を維持する。
+- 所有: Core担当はContentRepository・LibraryStore・LibraryCoreTests、UI担当はLibraryView・PublishedReaderUITests・Xcodeの版番号。親が文書・独立レビュー・検証・Git統合を担当する。他者の変更を戻さない。
+- 終了条件: previewの無変更、明示切替、失敗・取消時の正常版保持、保存記録と索引の整合を検証し、SDK compileとHosted・実機の実行面を区別してPRへ保存する。
+- 適用: [共通契約](../../../AGENTS.md)、[Git規約](../../../harness/git-rules.md)、[iOS手順](../../../ios/README.md)。
+
+## 選択と保持
+
+通常一覧の「その他の操作」から同梱版を確認し、現在と同梱版の記事数・版を見て切り替える。確認は全検証だけを行い、取消では保存先を変えない。成功した場合にだけ一時的な検索・章・タグ等の条件を解除する。専用テスト画面では利用できない。
+
+切替には既存のstaging検証と原子的なpointer更新を使う。保存済み版が正常ならアプリ更新後もその版を優先し、利用者の操作まで同梱版へ移らない。revisionだけで同一と判断せず、全検証後のmanifest全体が等価なら不要なコピーを省く。しおり・読書位置・最後の記事を書き換えず、以前のパッケージも保持する。
+
+全記事では約38MBのコピーが追加され得る。旧版の削除、容量上限、記事IDの改名対応、独立したネットワーク更新は別の工程であり、今回の切替では導入しない。
+
+## 検証と残件
+
+macOS上で実Coreの単体51件が成功した。実データの3記事→学習索引付き199記事→再起動→旧3記事の8段階を実StoreとRepositoryで検証し、しおり・最後の記事・読書位置の保存bytes不変を確認した。共通3記事すべてで本文JSONのdigestが変わる入力を使い、意味内容のfingerprintによる復帰が成功した。既存の見出し・割合・旧記録の回帰も成功した。
+
+独立レビューで、本文未読込時の同梱preview失敗も「現在のコンテンツを利用できます」と案内するP2を修正した。本文の有無で案内を分け、新規nil-previewと既存の正常版あり失敗の関連2件が最終ソースで成功した。修正前51件の結果と修正後2件は別に記録し、同一ソースで全52件を再実行したとは扱わない。
+
+追加のCoreSmokeコンパイルはMacの容量不足で失敗した。完了済み試験の再生成可能なコンパイラーcacheだけを整理し、ソース・記事・証跡・実行ファイルを保持した。これは新コードの試験失敗とは分けて記録する。
+
+Core3・UI3とP2修正の独立レビューを通過し、修正前head004cb0a6のXcode16.2・Simulator SDK18.2で単体109件・UI9件を含むbuild-for-testingが成功した。これはcompileであり全件実行ではない。外側sandboxでXcodeのsandbox-execが拒否された初回ログを保持し、Xcodeのsandbox設定を変えず同じコマンドを昇格再実行して成功した。このSDK取得時点ではHosted結果は未取得だった。後続の初回全記事UI結果と修正後の未完了検査は次節に示す。実機・VoiceOver・最大文字・実際の端末低容量、全記事の既定採用とIOS-22全体は未完了のまま残す。[JSON](ios-bundled-content-activation.json)に実行面と凍結SHAを記録する。
+
+## 全記事UIで見つかった検索中の操作入口
+
+head004cb0a6のHosted run40180468739では単体109件中107成功・2private入力skip・失敗0、UIは既存8件成功・新規1件失敗だった。検索とタグを保持したAXにtoolbarの「その他の操作」がなく、確認画面へ進めなかった。Releaseは未実施である。
+
+共通の操作内容を絞り込みSectionへ表示し、同時のtoolbar表示を避ける。0件表示もList内へ移し、overlayで操作入口を覆わない構造へ直した。検索を消して試験を通す変更やassertion緩和は行わず、既存9件を最終headで再実行する。上記SDKはこの画面修正前の結果であり、修正後の正確なheadのSDK/Hosted/Releaseと空queryのまま検索中の状態・実機/VoiceOverは未確認として残す。
+
+## 検索中の操作行のタップ範囲
+
+修正前head50a93331の全記事run40182710048は単体109件中107成功・2private入力skip、UI8成功・新規1件失敗でRelease未実施だった。操作行は表示されtapも送られたが、画像ではmenuが開かなかった。AXの外行は{20,354,353,44}、内側Menuは{40,363,139.7,26}で、記録されたtouch down/upの{196.5,376}は外行内・内側範囲外だった。内部routingの原因断定はせず、この不一致を狭い修正の根拠にする。
+
+filtered Menuのラベルを全幅にし、Rectangleのhit領域を指定した。操作内容・guard・既存9件と章候補の追加1件のselector/assertionは変えない。累積app-only SDK buildは成功したが、各正確なbranch headのUI/Release成功を示さない。専用ローカルSimulatorによる診断は初期化中の容量不足でテスト前に中止し、作業で作った端末だけ停止・削除して不在を検証した。実機・既存Simulator・通常記録は操作せず、Hostedで再実行する。
+
+## 検索中の操作選択をシートへ移行
+
+全幅化したhead a03901c0でも全記事run40186338703は単体109件中107成功・2private入力skip、UI8成功・1失敗でReleaseへ進まなかった。filtered Menuを押した後の既存識別子library-bundled-contentが表示されなかった。実touchは(55.3,358.4)、15.65秒後の内側Menu boundsは{40,363,313,26}であり、瞬間boundsやUIKitの機構までは断定しない。
+
+filtered入口を通常Buttonにし、明示的な閉じる付きのSwiftUI操作一覧sheetへ移した。既存の4操作はラベル・識別子・guardを共用し、選択を保留してsheetのonDismiss後にだけ元の操作を実行する。toolbar Menuは直接実行を保つ。検索・タグ等を維持し、固定delay・yieldや既存テストのselector/assertion削減は入れない。
+
+累積0.2.14のapp-only SDK compileは成功したが、各正確なbranch headの動作成功ではない。新sheetのHosted、import/about/専用記事、0件・最大文字・VoiceOver・実機は未確認として保持する。過去の全幅化とSDKの記録は当時の段階であり、本修正の成功証拠へ読み替えない。

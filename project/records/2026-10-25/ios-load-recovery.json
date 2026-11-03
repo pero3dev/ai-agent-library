@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "task": "ios-load-recovery",
+  "date": "2026-10-25",
+  "status": "independently-reviewed-awaiting-PR-and-hosted-XCTest",
+  "base_PR": 250,
+  "base_head": "bd88e549931fe7dee47a503b743615d81d3c7ad7",
+  "source_version": "0.2.7",
+  "build": 9,
+  "schema_changed": false,
+  "catalog_changed": false,
+  "new_XCTest_cases": 2,
+  "independent_review": "approved-after-import-error-message-correction",
+  "source_sha256": {
+    "LibraryStore.swift": "68a96e2d121b64f2b92ea0e7d5586343b46ab43674d1dc44f6fae18d033938e4",
+    "LibraryView.swift": "4e053aa7f95820b40f6207f6ff37870dd02f4cb7a858c3ba1fd007bb980cd2d4",
+    "LibraryCoreTests.swift": "62ef11e9da0fcb2f438ec1240ab9012378b3dbf5816fc22c3bd6cbd1dea6d711"
+  },
+  "validation": {
+    "SDK_build_for_testing": "passed-Xcode16.2-iPhoneSimulator18.2",
+    "new_Simulator_started": false,
+    "core_smoke": {"status": "passed", "articles": 3, "audio": 1, "files": 140},
+    "actual_store_repository_non_UI_cases": {"status": "passed", "cases": 2},
+    "iOS_XCTest_runtime": "not-run",
+    "retry_and_missing_route_UI": "not-run",
+    "physical_DynamicType_VoiceOver": "not-run-user-allows-skip"
+  },
+  "IOS-18": "incomplete"
+}

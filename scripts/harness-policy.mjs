@@ -14,7 +14,7 @@ import { validateResultShape } from './freshness-policy.mjs'
 import { validateDoc } from './lib/validate-core.mjs'
 import { parseMarkdownLinks } from './lib/markdown-links.mjs'
 import { parseFrontMatter, parseScalar, splitLocalDestination, toLines } from './lib/md-utils.mjs'
-import { GENERATED_DIRS, GENERATED_FILES } from './lib/hook-core.mjs'
+import { generatedPath } from './lib/hook-core.mjs'
 import { requiredChecks } from './lib/github-policy.mjs'
 import { referenceComparable } from './lib/reference-comparison.mjs'
 import { roadmapSource } from './lib/roadmap-source.mjs'
@@ -52,8 +52,7 @@ export function classifyPath(file) {
 }
 
 export function isGenerated(file) {
-  const lower = file.toLowerCase()
-  return GENERATED_FILES.includes(lower) || GENERATED_DIRS.some(dir => lower === dir || lower.startsWith(`${dir}/`))
+  return generatedPath(file)
 }
 
 export function readChanges({ cwd, base, head }) {

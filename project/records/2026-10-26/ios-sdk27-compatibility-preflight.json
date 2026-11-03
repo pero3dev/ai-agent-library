@@ -1,0 +1,846 @@
+{
+  "schema_version": 1,
+  "p1_merge_lineage": {
+    "original_pr_head": "8622ac8eb3c6e11219f6f3bcca04bc36b27f2e63",
+    "original_pr_head_role": "historical PR275 head and dry reference; never the required main ancestor",
+    "reviewed_squash_commit": "30a8a1db8d6c30eeb2c6e682f92ba94126cc5e35",
+    "reviewed_squash_tree": "7e4a5fcd93b00caf67ea171c426d735555b507c7",
+    "reviewed_squash_parent": "ecf41376f302feeb49eb968364b4a9372a6a4fd4",
+    "squash_object_identity_verified": true,
+    "reviewed_squash_is_input_ancestor": true,
+    "remote_main_freshness_and_Icon_merge_verified": false
+  },
+  "p1_history": {
+    "original_pr_head": "8622ac8eb3c6e11219f6f3bcca04bc36b27f2e63",
+    "actual_main_squash_commit": "30a8a1db8d6c30eeb2c6e682f92ba94126cc5e35",
+    "actual_main_squash_tree": "7e4a5fcd93b00caf67ea171c426d735555b507c7",
+    "actual_main_squash_parent": "ecf41376f302feeb49eb968364b4a9372a6a4fd4",
+    "original_pr_head_ancestry_required": false
+  },
+  "helper_source_sha256": "9d178dc004247d68cc4f6fe166903dd7ce9ce326059f3b7c8b7ad5dc48ca2721",
+  "prior_failed_drytext": {
+    "reference_commit": "8622ac8eb3c6e11219f6f3bcca04bc36b27f2e63",
+    "accepted": false,
+    "manifest_sha256": "4e657a3808d88ad2976717c33ca86b9e0b83d05dca0a87893ffd7c0ef7f2f7f0",
+    "issue": "Quoted status values were incorrectly counted as zero; actual reference has 199 published articles.",
+    "old_count": 0,
+    "corrected_reference_count": 199
+  },
+  "independent_namespace_review_sha256": "cb72f27265a43041033d8f68507a9f301dfcee25299712d7bb4feb074ba5320f",
+  "date": "2026-10-26",
+  "status": "private_preparation_not_adopted",
+  "input_kind": "caller_supplied_actual_main",
+  "actual_main_parent": "20f2024a107e75c0c4775e58a1223ad1c3950c05",
+  "reference_commit": "20f2024a107e75c0c4775e58a1223ad1c3950c05",
+  "reference_tree": "f4cd209febdd058ad44a184c5f4ba7fc189b35b1",
+  "remote_freshness_verified": false,
+  "adopted": false,
+  "source_metadata": {
+    "application_target": "F75109BEB4DD8800DA6B45F8",
+    "version": "0.2.17",
+    "build": "19",
+    "source_declared_unit_methods": 153,
+    "unit_sources": [
+      {
+        "path": "ios/AILibraryTests/LearningIndexTests.swift",
+        "declared_test_methods": 23
+      },
+      {
+        "path": "ios/AILibraryTests/LearningNavigationTests.swift",
+        "declared_test_methods": 6
+      },
+      {
+        "path": "ios/AILibraryTests/LibraryCoreTests.swift",
+        "declared_test_methods": 71
+      },
+      {
+        "path": "ios/AILibraryTests/NativeInlineTests.swift",
+        "declared_test_methods": 37
+      },
+      {
+        "path": "ios/AILibraryTests/NativeReaderPlacementPolicyTests.swift",
+        "declared_test_methods": 8
+      },
+      {
+        "path": "ios/AILibraryTests/SearchIndexTests.swift",
+        "declared_test_methods": 8
+      }
+    ],
+    "ui_classes": [
+      {
+        "path": "ios/AILibraryUITests/NativeReaderUITests.swift",
+        "class": "NativeReaderUITestCase",
+        "declared_test_methods": 0
+      },
+      {
+        "path": "ios/AILibraryUITests/NativeReaderUITests.swift",
+        "class": "NativeReaderUITests",
+        "declared_test_methods": 2
+      },
+      {
+        "path": "ios/AILibraryUITests/NativeReaderUITests.swift",
+        "class": "ReaderViewportGeometryTests",
+        "declared_test_methods": 6
+      },
+      {
+        "path": "ios/AILibraryUITests/PublishedPerformanceUITests.swift",
+        "class": "PublishedPerformanceUITests",
+        "declared_test_methods": 1
+      },
+      {
+        "path": "ios/AILibraryUITests/PublishedReaderUITests.swift",
+        "class": "PublishedReaderUITests",
+        "declared_test_methods": 14
+      }
+    ],
+    "native_selector": "AILibraryUITests/NativeReaderUITests",
+    "native_source_declared_methods": 2,
+    "published_markdown_count": 199,
+    "source_inventory_sha256": "33d9269bdf088647a0d72b84c3d5ecf58649d5d950e582d2d1d31c8636aa00cd",
+    "sdk_registered_counts": null,
+    "count_caveat": "Source declarations and PBX membership only; not compiler/XCTest registration or execution. Performance/UI geometry classes are reported separately."
+  },
+  "source_pins": {
+    ".github/workflows/ios-sdk27-compatibility.yml": "90c3cd0ce7fcfd399b7b823c84e605d50e14026ac7d06e7b3985f34293dee14f",
+    ".github/actionlint.yaml": "eeef7b5e3a3d60c503be99edce7d0cc3eaf840c1e2b82800009f7ce6560f91ca"
+  },
+  "preparation_validation": {
+    "namespace_v4_source_only": true,
+    "observed_shape_reference": "Xcode16.4 historical raw schema; actual SDK27 shape unknown",
+    "full_unit_run": false
+  },
+  "execution": {
+    "historical_sdk27_runs_as_of_candidate_freeze": 0,
+    "new_sdk27_execution": "pending",
+    "new_run_ids": [],
+    "sdk27_build": null,
+    "sdk27_runtime": null,
+    "archive_result": null,
+    "native2_result": null,
+    "full_unit_result": null,
+    "full_ui_result": null,
+    "device_qa": "skipped_incomplete"
+  },
+  "scope": {
+    "unsigned_archive": true,
+    "native2_only": true,
+    "full_unit_or_ui_acceptance": false,
+    "runner": "public standard GitHub-hosted xcode-27 only",
+    "paid_or_self_hosted_fallback": false,
+    "secrets": false,
+    "signing": false,
+    "store_submission": false
+  },
+  "budgets": {
+    "archive_job_minutes": 40,
+    "runtime_job_minutes": 40,
+    "create_step_minutes": 6,
+    "native_step_minutes": 12,
+    "cleanup_step_minutes": 4,
+    "bootstatus_seconds": 240,
+    "staged_artifact_payload_bytes": 16777216
+  },
+  "preservation": {
+    "todo_total": 32,
+    "todo_done": 12,
+    "checkboxes": {
+      "IOS-01": false,
+      "IOS-02": true,
+      "IOS-03": false,
+      "IOS-04": false,
+      "IOS-05": false,
+      "IOS-06": true,
+      "IOS-07": true,
+      "IOS-08": true,
+      "IOS-09": true,
+      "IOS-10": true,
+      "IOS-11": false,
+      "IOS-12": true,
+      "IOS-13": true,
+      "IOS-14": true,
+      "IOS-15": false,
+      "IOS-16": false,
+      "IOS-17": false,
+      "IOS-18": false,
+      "IOS-19": true,
+      "IOS-20": false,
+      "IOS-21": false,
+      "IOS-22": false,
+      "IOS-23": false,
+      "IOS-24": true,
+      "IOS-25": false,
+      "IOS-26": true,
+      "IOS-27": false,
+      "IOS-28": false,
+      "IOS-29": false,
+      "IOS-30": false,
+      "IOS-31": false,
+      "IOS-32": false
+    },
+    "ios02": "completed_on_existing_sdk26_basis",
+    "ios11": "incomplete",
+    "ios23": "incomplete",
+    "normal_source_and_existing_ci": "unchanged"
+  },
+  "limitations": [
+    "Source declarations are not actual SDK test registration.",
+    "No SDK27 workflow/build/Simulator/API execution in this preparation.",
+    "Historical zero SDK27 runs applies only as of pinned candidate freeze; later runs are pending, not asserted zero.",
+    "Caller must bind after actual P1 and Icon merges, obtain independent review, and run exact-head CI.",
+    "Result hierarchy fails closed on unknown SDK27 shape."
+  ],
+  "record_interpretation": {
+    "historical": "Existing top-level preparation fields describe the original6path preparation onmain20f, beforePR279 firstCI. Pending/zero fields in that snapshot are preserved as history.",
+    "latest": "f28_Hosted_observation and layout_marker_failure_capture_preparation; earlier preparation snapshots remain historical"
+  },
+  "initial_Hosted_observation": {
+    "head": "62f284238064802b98e1abb6b92f0ecdba612d32",
+    "PR": 279,
+    "workflow_run": 40322325881,
+    "Archive": {
+      "job": 121570098187,
+      "status": "success",
+      "artifact": 12650520802,
+      "ZIP_bytes": 115346,
+      "ZIP_SHA256": "251dee4cd58d10e78b93d9b4dc185a76169f30ea96809c1a5d479f47c9b8561f",
+      "CRC_entries": 66,
+      "expanded_bytes": 591711,
+      "memory_only": true,
+      "toolchain": {
+        "macOS": "27.0.1",
+        "architecture": "arm64",
+        "Xcode": "27.0",
+        "Xcode_build": "27A266a",
+        "SDK": "27.0",
+        "SDK_build": "24A430"
+      },
+      "App": {
+        "version": "0.2.17",
+        "build": "19",
+        "minimum_OS": "17.0",
+        "architecture": "arm64",
+        "signature": "unsigned",
+        "provisioning_profile_present": false
+      },
+      "content": {
+        "articles": 199,
+        "files_including_manifest": 626,
+        "verified_excluding_manifest": 625,
+        "PNGs": 422,
+        "bytes_including_manifest": 40099389,
+        "Release_TestContent_absent": true
+      },
+      "privacy_source_semantics_equal": true,
+      "dSYM_present": true,
+      "distribution_acceptance": false
+    },
+    "Native": {
+      "job": 121570097981,
+      "status": "failure",
+      "actual_profile": "iOS27.0/iPhone17 ownedSimulator",
+      "registered_cases": 2,
+      "passed": 1,
+      "failed": 1,
+      "failed_case": "NativeReaderUITests/testContentsBookmarkAndResumeAfterRelaunch",
+      "passed_case": "NativeReaderUITests/testThreeArticlesHaveNativeBodyText",
+      "failed_source": "ios/AILibraryUITests/NativeReaderUITests.swift",
+      "failed_line": 238,
+      "phase": "InitialTOC goToContents self-attention heading; reboot/resume not reached",
+      "target": "native-heading-自己注意の数式",
+      "condition": "fullyVisible and hittable within public reader viewport",
+      "position_numbers": "not captured in old evidence; product-placement versus test-viewport unresolved",
+      "strict_result_audit": "correctly rejected failed parent; not a false schema failure",
+      "owned_cleanup": "success",
+      "representative3_fixture4_bundle_audit": "success",
+      "artifact": 12650631211,
+      "ZIP_bytes": 73246,
+      "ZIP_SHA256": "ce910c5aeeb8a8868d5551418a0fbc20b58111c52570e229cdfdef5f059747f1",
+      "CRC_entries": 101,
+      "expanded_bytes": 493083,
+      "memory_only": true,
+      "old_failure_AX_and_screenshot_attachments": "created inside xcresult but omitted by artifact policy; not recoverable from old small artifact"
+    },
+    "common_required11": "success at originalhead",
+    "existing_SDK16_4_Native": "success at originalhead",
+    "unchanged_head_rerun": 0
+  },
+  "geometry_diagnostic_preparation": {
+    "status": "private preparation pending independentfinalreview and newheadCI",
+    "source_parent": "62f284238064802b98e1abb6b92f0ecdba612d32",
+    "product_reader_offset_or_layout_change": false,
+    "UI_timeouts_and_assertions": "unchanged",
+    "selectors_cases_budgets": "unchanged",
+    "scope": "Failure-only bounded public geometry JSON stdout and attachment; no article text/full AX dump",
+    "new_actual_head": null,
+    "new_run": null,
+    "acceptance": false,
+    "physical": "incomplete skipped authorized",
+    "IOS23_complete": false
+  },
+  "f28_Hosted_observation": {
+    "head": "f28c22e0e89c6e4d4cf76e295cd030d2535e454c",
+    "tree": "ea093a3cbafe7a24ab420705047306442c2fac1c",
+    "PR": 279,
+    "source": "Root verified Hosted logs and bounded public geometry diagnostics",
+    "SDK27": {
+      "workflow_run": 40340824321,
+      "Archive": {
+        "status": "success",
+        "job": null
+      },
+      "Native": {
+        "job": 121634730941,
+        "status": "failure",
+        "registered_cases": 2,
+        "passed": 1,
+        "failed": 1,
+        "phase": "InitialTOC self-attention heading; reboot/resume not reached",
+        "failed_case": "NativeReaderUITests/testContentsBookmarkAndResumeAfterRelaunch",
+        "passed_case": "NativeReaderUITests/testThreeArticlesHaveNativeBodyText",
+        "geometry": {
+          "measurement": "sequential failure snapshots; not simultaneous last-poll or glyph bounds",
+          "app_frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "reader_container_frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "active_navigation_bar_count": 1,
+          "active_navigation_bar_frame": [
+            0,
+            62,
+            402,
+            54
+          ],
+          "public_viewport": [
+            0,
+            116,
+            402,
+            758
+          ],
+          "target_AX_frame": [
+            2,
+            106,
+            163,
+            56
+          ],
+          "fullyVisible_parameter": true,
+          "geometry_classification": "hidden",
+          "target_isHittable": null,
+          "hittable_null_reason": "not evaluated after geometry guard"
+        },
+        "selection_AX_frame_expansion_hypothesis": {
+          "status": "unconfirmed",
+          "points_per_edge": 16,
+          "actual_marker_glyph_failure_image_comparison": "not available"
+        },
+        "product_or_assertion_fix": false
+      }
+    },
+    "Full": {
+      "workflow_run": 40340824315,
+      "job": 121634731197,
+      "status": "success",
+      "completed_time_UTC": "15:19",
+      "XCTest": {
+        "total": 153,
+        "passed": 151,
+        "private_skipped": 2,
+        "failed": 0
+      },
+      "UI": {
+        "total": 22,
+        "passed": 22,
+        "Native": 2,
+        "Published": 14,
+        "Geometry": 6
+      },
+      "Release": "success",
+      "optional_icon_collector": {
+        "Debug": {
+          "status": "partial",
+          "errors": 1
+        },
+        "Release": {
+          "status": "captured",
+          "errors": 0
+        },
+        "role": "diagnostic only; separate from primary Release and SDK27 Archive"
+      }
+    },
+    "existing_regressions": {
+      "Native": "success",
+      "runtime26": "success",
+      "SDK26": "success"
+    },
+    "ordinary_CI": {
+      "workflow_run": 40340824254,
+      "build_job": 121634732747,
+      "build_status": "cancelled",
+      "approximate_minutes": 30,
+      "observed_delay": "slow APT package transfers",
+      "cancellation_cause": "status alone does not prove server-side cause"
+    },
+    "latest_check_names": {
+      "total": 18,
+      "success": 15,
+      "cancelled": {
+        "build": 1
+      },
+      "failure": {
+        "SDK27_Native": 1
+      },
+      "skipped": {
+        "deploy": 1
+      },
+      "common_required11": {
+        "total": 11,
+        "success": 10,
+        "build_cancelled": 1,
+        "all_success": false
+      }
+    },
+    "root_cause": "unconfirmed; product placement versus accessibility selection frame remains unresolved",
+    "physical_QA": "skipped_incomplete"
+  },
+  "layout_marker_failure_capture_preparation": {
+    "status": "private_candidate_pending_root_final_eight_payload_review_and_new_head_CI",
+    "date": "2026-10-27",
+    "source_parent": "f28c22e0e89c6e4d4cf76e295cd030d2535e454c",
+    "source_tree": "ea093a3cbafe7a24ab420705047306442c2fac1c",
+    "technical_manifest_SHA256": "bf9199a3d0545e6cfdd586e724a644c721d1c31e563cf5b1ed5eede71912fa48",
+    "technical": [
+      {
+        "path": "ios/AILibrary/Sources/NativeReaderView.swift",
+        "bytes": 61568,
+        "sha256": "8439fd1bd361cd93cf6bdb7fdda619171b331b6309b14057729e6cd0341a2c10",
+        "git_blob": "7eaacf7a9d0473bb4f918a639550752e845e57d6",
+        "before_blob": "909fee8334bc2d0977c65af0483e5f664029bae1",
+        "before_sha256": "9c8ea7195e32ebd0a51be04e6200942f09fd439696b88d07e4c239e512a4dc87"
+      },
+      {
+        "path": "ios/tests/capture-reader-failure-diagnostics.mjs",
+        "bytes": 23640,
+        "sha256": "b154111211c1e4c68c4ee4e861167660eb1ebac8339461331b9457a4bea0fc2f",
+        "git_blob": "5d7acad568cf1daf1943bb3446f766fabae9774f",
+        "before_blob": null,
+        "before_sha256": null
+      },
+      {
+        "path": "tests/unit/ios-reader-failure-diagnostics.test.mjs",
+        "bytes": 27304,
+        "sha256": "5c7bc654662ba49ef46bf057886e061cedf5f3bb5d4cc1aa0abf83e7ae08c0be",
+        "git_blob": "2b815ea55e1e5aedf264d5b224e07730247425a7",
+        "before_blob": null,
+        "before_sha256": null
+      },
+      {
+        "path": ".github/workflows/ios-sdk27-compatibility.yml",
+        "bytes": 72420,
+        "sha256": "466582da8dc2850e4a028a37e0fa6fd64226b7c4ff58a240638cffb40d4e5051",
+        "git_blob": "9b35b81cc7789a949d3d362ee2a8bea44a06b1ea",
+        "before_blob": "7eb72015faa8f451fea760dd6afcccd694e6e7eb",
+        "before_sha256": "90c3cd0ce7fcfd399b7b823c84e605d50e14026ac7d06e7b3985f34293dee14f"
+      }
+    ],
+    "scope": "Existing DEBUG numeric geometry JSON also reaches NSLog; bounded owned Simulator log plus failure-only attachments after Hosted CLI help check",
+    "product_reader_offset_or_layout_change": false,
+    "visibility_assertion_or_timeout_relaxation": false,
+    "new_actual_head": null,
+    "new_run": null,
+    "new_run_ids": [],
+    "acceptance": false,
+    "pure_tests": {
+      "cases": 59,
+      "passed": 59,
+      "real_child_or_Apple_CLI": false
+    },
+    "runtime_validation": "Hosted CLI help/export, failure image and actual SDK/Simulator not run for this candidate",
+    "diagnostic_step_minutes": 2,
+    "diagnostic_internal_deadline_ms": 105000,
+    "log_timeout_ms": 45000,
+    "log_combined_stdout_stderr_cap_bytes": 524288,
+    "help_timeout_ms": 5000,
+    "help_combined_output_cap_bytes": 65536,
+    "export_timeout_ms": 45000,
+    "export_monitor_interval_ms": 50,
+    "export_file_cap": 64,
+    "export_monitored_bytes_cap": 8388608,
+    "diagnostic_payload_cap_bytes": 4194304,
+    "diagnostic_manifest_cap_bytes": 131072,
+    "PNG_cap_bytes": 1048576,
+    "JSON_TXT_cap_bytes": 131072,
+    "failure_mode": "partial; never rewrites primary UI acceptance; missing owner starts no command; unconfirmed close prevents later commands and temp deletion",
+    "existing_job_UI_create_boot_cleanup_selector_audits_summary_and_artifact16MiB": "preserved",
+    "physical": "incomplete skipped authorized",
+    "IOS11_complete": false,
+    "IOS23_complete": false,
+    "todo_total": 32,
+    "todo_done": 12
+  },
+  "diagnostic_38fd_Hosted_observation": {
+    "head": "38fd23e0e5c148ffdbbcc8317a736bef1e65413f",
+    "run": 40352623060,
+    "Archive": {
+      "job": 121676477836,
+      "status": "success",
+      "artifact": 12663932723,
+      "ZIP_bytes": 113497,
+      "SHA256": "624eec311da2b5dba40eab555936f2099784e8fabfaae055f685ea18de49aa3f",
+      "CRC_files": 66,
+      "memory_only": true,
+      "source_package_including_manifest": {
+        "files": 626,
+        "bytes": 40099390,
+        "PNGs": 422
+      },
+      "actual_archive_hash_verified_excluding_manifest": {
+        "files": 625,
+        "bytes": 36979217
+      },
+      "old_62f_same_scope_bytes": 40099389,
+      "same_scope_delta_bytes": 1,
+      "reproducibility": "unconfirmed; no identical-byte claim"
+    },
+    "Native": {
+      "job": 121676477524,
+      "cases": 2,
+      "passed": 1,
+      "failed": 1,
+      "failed_stage": "first TOC self-attention heading visibility",
+      "resume_reached": false,
+      "AX_frame": [
+        2,
+        106,
+        163,
+        56
+      ],
+      "viewport": [
+        0,
+        116,
+        402,
+        758
+      ],
+      "hittable": null,
+      "diagnostic_status": "partial",
+      "commands": 4,
+      "command_exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "termination_confirmed": true,
+      "geometry_stdout": "[]",
+      "geometry_samples": 0,
+      "geometry_stderr": "getpwuid_r did not find a match for uid 501",
+      "failure_export_files": 1,
+      "failure_export_manifest": "[]",
+      "PNG_files": 0,
+      "export_omissions": 0,
+      "temporary_export_removed": true,
+      "owned_Simulator_deleted": true,
+      "primary_exit": 65,
+      "strict_audit": "failed parent correctly rejected",
+      "summary": "not-completed",
+      "artifact": 12665487980,
+      "ZIP_bytes": 81195,
+      "SHA256": "f39aa09079aa8241a11d4e554b6747c4ccfa09842611eecfd5c24955a04390cd",
+      "CRC_files": 115,
+      "memory_only": true
+    },
+    "cause": "unconfirmed; AX16pt selection expansion remains a hypothesis"
+  },
+  "png_capture_preparation": {
+    "status": "technical2 frozen independently reviewed; final6 binding and actual newhead pending",
+    "source_head": "38fd23e0e5c148ffdbbcc8317a736bef1e65413f",
+    "technical_manifest_SHA256": "a701c7fb08a2122313176177f0c9258e3bdc3f817a095f63abb321e2e34572b7",
+    "exact_failed_test_confirmation": "required; unknown schema must remain partial",
+    "scope": "actual failed known representative testcase and PNG filename filter; no all-case/all-format fallback",
+    "budgets_unchanged": true,
+    "product_placement_AX_shape_primary_conditions_unchanged": true,
+    "actual_new_head": null,
+    "actual_new_run": null,
+    "actual_PNG": null,
+    "physical_QA": "incomplete skipped authorized",
+    "technical_independent_review_SHA256": "b5d33f8027d2d67a5b361378093cc8b6a74570d264c048e0ad03e985b7c7a04c",
+    "pure_cases": 86,
+    "independent_extra_cases": 6,
+    "execution_scope": "Node24 memory FS and fake child only",
+    "first_actual_failed_case_only": true,
+    "second_failed_case": "explicit omission; not all captured",
+    "new_raw_results_artifact": false,
+    "workflow_changes": false
+  },
+  "record_interpretation_38fd": {
+    "previous_latest": "record_interpretation.latest remains prior-candidate freeze guidance",
+    "latest_actual_observation": "diagnostic_38fd_Hosted_observation",
+    "next_candidate": "png_capture_preparation",
+    "old_evidence_rebound_to_future_head": false
+  },
+  "ninef_Hosted_observation": {
+    "head": "9fbd53b0066110b8a402844df892cb623ebcc306",
+    "run": 40363195065,
+    "attempt1": {
+      "Native_job": 121713810238,
+      "phase": "devices-after-boot inventory120s timeout after create/boot/bootstatus0",
+      "UI_and_collector": "skipped",
+      "cleanup": "owned deleted, shutdown/delete/afterlist0",
+      "artifact": 12670595632,
+      "SHA256": "089413507f3290d775f4d08683c3666841b790785a74b86cd37464255ca82101",
+      "summary_SHA256": "ae4e23abd0a3c984a97288f4d89f82bf63d8223e863a6cac02238f1f85ee4cd6"
+    },
+    "bounded_infrastructure_retry": {
+      "count": 1,
+      "max": 1,
+      "source_and_budgets_changed": false,
+      "old_artifacts_retained": true,
+      "not_a_functional_retry": true
+    },
+    "attempt2": {
+      "Native_job": 121724088229,
+      "UI_cases": 2,
+      "failed": 2,
+      "passed": 0,
+      "contents_seconds": 91.4529,
+      "contents_failure": "first TOC visibility, resume not reached",
+      "threearticles_seconds": 296.9685,
+      "threearticles_failure": "failed to tap Button; timed out evaluating UI query",
+      "outer_step_timeout": "not claimed; normal TEST FAILED/exit65 observed",
+      "collector": "get test-results tests5s timeout, PNG export not reached",
+      "PNG_files": 0,
+      "primary_query_exit": 0,
+      "primary_audit": "Failed parent correctly rejected",
+      "cleanup": "owned deleted",
+      "artifact": 12671572293,
+      "ZIP_bytes": 77804,
+      "SHA256": "c7772f85929225920e8597f7cfbc457935614fa5a7da2f2d30b19033a501f60d",
+      "CRC_files": 108,
+      "summary_SHA256": "0f45e244f5efb2a21007d6e98e4259fd2ce420f60303ccb5fbc914b96b227809",
+      "raw_disk": false
+    },
+    "Archive": "attempt1 successful, attempt2 API entry only carried old success forward; not rerun"
+  },
+  "cached_png_preparation": {
+    "source_head": "9fbd53b0066110b8a402844df892cb623ebcc306",
+    "status": "technical3 frozen independently reviewed; final7 and actualnewhead pending",
+    "technical_manifest_SHA256": "30b530d3634d0af118a8b800f2ff6f87533ca523c2b99c0af0c8a222741c994b",
+    "query": "reuse bounded primary raw result and exit; no duplicate get-tests or live Simulator query",
+    "placement": "after existing results, before completion; primary failure preserved",
+    "scope": "owned deleted UUID/source/run/attempt matched; first actual failed known Native2 case PNG only",
+    "geometry": "not collected; unmeasured",
+    "product_shape_primary_conditions_and_budgets_unchanged": true,
+    "actual_newhead": null,
+    "actual_new_run": null,
+    "actual_PNG": null,
+    "physical_QA": "incomplete skipped authorized",
+    "technical_independent_review_SHA256": "80d91a819482fca055a3c9c55c67f00f475f485c305d8b5ca2d126dd9219f554",
+    "pure_cases": 119,
+    "independent_extra_cases": 7,
+    "execution_scope": "Node24 fakeFS/fakechildren only"
+  },
+  "record_interpretation_cachedPNG": {
+    "older_latest_fields": "historical preparation snapshots kept",
+    "latest_actual_observation": "ninef_Hosted_observation",
+    "next_preparation": "cached_png_preparation",
+    "old_evidence_rebound": false
+  },
+  "fifteencc_actual": {
+    "head": "15cc83cd108fd0100aac1b49f51774498b54ad4d",
+    "tree": "2f271827790caee5851b32ff52a38466be1b3d26",
+    "run": 40375834821,
+    "attempt": 1,
+    "Archive": "success",
+    "UI": {
+      "cases": 2,
+      "pass": 0,
+      "fail": 2,
+      "first": "Contents glyph complete but AX overshoots",
+      "second": "tool-use row wait304 beforetap; post-timeout snapshot satisfied true, cause unknown"
+    },
+    "collector": {
+      "fresh_query_count": 0,
+      "cached_raw_SHA256": "f49dd1084b8cf3831b29b0c6e7ee0c84ad72d9a0fa92fae24b36b0e2220928c3",
+      "help_exit": 0,
+      "export_exit": 0,
+      "cleanup": "owned deleted/absent",
+      "primary_Failed_rejection_preserved": true,
+      "status": "partial; geometry unmeasured, second omitted"
+    },
+    "artifact": {
+      "id": 12678535318,
+      "ZIPbytes": 649186,
+      "ZIPsha256": "91dfbe1059d35460a1c1da03897f36d415c509c521fb655b8144b975fd94741e",
+      "CRCentries": 110,
+      "expanded_bytes": 1107644,
+      "PNGbytes": 603065,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "PNGsha256": "98b3b819c060e40b5e15e109836ae217ede1bade454f4031045f7b06484d2fb2",
+      "scope": "first actual Failed Contents only; manifest matched",
+      "isAssociatedWithFailure": false,
+      "Root_viewed_actualpixels": true,
+      "raw_disk_bytes": 0
+    },
+    "visual_scope": "manual original-image observation, not glyph/layout API measurement; 16pt mechanism unproven",
+    "other_matrix": "commonCI/SDK26/runtime26/Native success; Native PRmerge checkout same tree; Full failure recorded separately",
+    "samehead_retry": 0,
+    "Full": {
+      "run": 40375834854,
+      "job": 121758528985,
+      "status": "failure",
+      "unit": {
+        "total": 153,
+        "pass": 151,
+        "skip": 2
+      },
+      "UI": {
+        "total": 22,
+        "pass": 21,
+        "fail": 1,
+        "functional_pass": 15,
+        "functional_total": 16,
+        "pure_geometry_pass": 6
+      },
+      "failed_case": "PublishedReaderUITests.testBundledContentSelectionCancelConfirmAndRestartKeepReadingAndGuide",
+      "failure": "first Transformer open214/native-reader existence wait310; TOC/bookmark/bundled dialog/cancel/confirm/restart unreached",
+      "cause": "unconfirmed",
+      "Release": "skipped",
+      "samehead_retry": 0
+    }
+  },
+  "heading_AX_shape_preparation": {
+    "source_head": "15cc83cd108fd0100aac1b49f51774498b54ad4d",
+    "status": "technical2 frozen statically independently reviewed; final6/newhead pending",
+    "version": "0.2.18",
+    "build": "20",
+    "scope": "all heading contents accessibility Rectangle before padding; traits/IDs/levels/selection retained",
+    "hit_testing_scroll_primary_guards_selectors_timeouts_changed": false,
+    "AX_frame_path_focus_sorting": "intentionally changed to heading layout; new SDK/UI and VoiceOver unverified",
+    "technical_manifest_SHA256": "3597f4cbd29405353ac6ab6bca24012744156a54b26cca08430024d1b05c0317",
+    "independent_review_SHA256": "6cdf494c08cac2268c842171f72a0ac7a22837e84784a9e802ab2f8b42685b7c",
+    "actual_newhead": null,
+    "actual_newrun": null,
+    "VoiceOver": "not run",
+    "second_cause": "unknown; tests unchanged"
+  },
+  "record_interpretation_heading_shape": {
+    "old_fields": "historical snapshots retained",
+    "latest_actual": "fifteencc_actual",
+    "next": "heading_AX_shape_preparation",
+    "old_evidence_rebound": false,
+    "TODO": "32rows12done; IOS11and23 incomplete"
+  },
+  "actual_367_buildscope_checkpoint": {
+    "head": "36786c6ac42f06a2c7bd3644e7196a7f8791cbf1",
+    "tree": "3fc2aa19174008d24eee5d943560b33ada75b08e",
+    "version": "0.2.18(20)",
+    "run": 40383509716,
+    "attempt": 1,
+    "Archive": "199 articles unsigned arm64 dSYM audits passed",
+    "UI": "exact2 and parents Passed; strict primary; TOC bookmark relaunch resume and3articles passed",
+    "Contents_seconds": 186.529,
+    "Three_seconds": 83.307,
+    "owned_cleanup": "deleted and verifiedabsent",
+    "newAXframe": "unmeasured; failureprobe0; no PNGexport needed",
+    "receipt_SHA256": "5c1159bfa40388a1894bdd9e7a326e44143c079d0a250e5319dcdadaf7947e47",
+    "raw_disk_bytes": 0,
+    "Full": {
+      "run": 40383510495,
+      "job": 121785664658,
+      "status": "success",
+      "unit": {
+        "pass": 151,
+        "skip": 2,
+        "total": 153
+      },
+      "UI": {
+        "functional": 16,
+        "pure_geometry": 6,
+        "passed": 22,
+        "failed": 0
+      },
+      "Release": {
+        "articles": 199,
+        "hash_files": 625,
+        "audit": "passed"
+      },
+      "old_failed_case_seconds": 93.307,
+      "old_failure_cause": "unconfirmed; newpass not a causalfixclaim",
+      "actual_checkout": "b252df9a7aac215d164a97f6987043b1b3ec9f11",
+      "checkout_tree": "same as367 tree3fc verifiedAPI",
+      "receipt_SHA256": "86dd00b008dc650bd3da27a5a27e4354e4e375365ca6e0406fe8a690475f826b"
+    },
+    "runtime26": "partial timeout; see ios-runtime26-smoke record",
+    "physical_VoiceOver_performance": "incomplete"
+  },
+  "record_interpretation_buildscope": {
+    "old_fields": "historical snapshots preserved",
+    "latest_actual": "actual_367_buildscope_checkpoint",
+    "next": "UI_build_scope_preparation in runtime26 record",
+    "TODO": "32rows12done, IOS11/23 incomplete",
+    "old_results_rebound": false
+  },
+  "actual_CDC_OSscope_checkpoint": {
+    "head": "cdc081e3d0b5c86762254bd53f338e0fa8e2c07f",
+    "tree": "4bedb2a5323542bd61df2031eaa25ae6fbc358b6",
+    "version": "0.2.18(20)",
+    "commonCI": "9 jobs passed; root968pass16skip; Web97/677pass5skip/FF14; audio8/WebKit8+2+14",
+    "SDK26": "Archive passed199",
+    "SDK27": "Archive and strictUI2/parents/cleanup passed, no newAXnumbers, receipt1bde30f5d100e2a79d564333b8756479df0f78604d35f57f9b570bc03debc222",
+    "Native": "151pass2skip/UI2/Release passed",
+    "Full": "functional16+pure6 all22 andRelease199/625 passed",
+    "runtime26": {
+      "run": 40392047011,
+      "job": 121815237836,
+      "accepted": false,
+      "graph": "2targets App/UI, unitbuild0",
+      "architectures": "ONLY_ACTIVE_ARCHYES; arm64 App/UI",
+      "UIstep_seconds": 539,
+      "pre_suite_seconds": 304.569,
+      "Contents": "Failed72.979s at firstTOCwait326; relaunch/resume unreached",
+      "Three": "Passed110.350s",
+      "posttimeout_snapshot": "18,122,131,24/viewporttop116/fullvisible+hittable+satisfied true; sequential only doesnot negate timeout",
+      "cause": "unconfirmed",
+      "cleanup_DebugAudit": "passed",
+      "artifact": {
+        "id": 12685878667,
+        "bytes": 89464816,
+        "downloaded": false,
+        "reason": "over local16MiB cap"
+      },
+      "samehead_retry": 0,
+      "receipt_SHA256": "17d5a5afa6f684b07d66ea7f2cb2c2fed37d08b669968a77498cd32be5cc8505"
+    }
+  },
+  "heading_OSscope_preparation": {
+    "source_head": "cdc081e3d0b5c86762254bd53f338e0fa8e2c07f",
+    "version": "0.2.19",
+    "build": "21",
+    "status": "technical2 frozen independently statically reviewed; final8/newhead pending",
+    "technical_manifest_SHA256": "591cd906f2f72d23b26811c4ff03493e8c07192e4c1a2091cf17535b9b573234",
+    "behavior": "heading-only explicitshape on iOS27andlater; defaultcontent on17to26; notAPIavailability requirement",
+    "unchanged": "traits/level/focus/id/padding once outsidehelper; AnyView/layout/selection/hit-testing/positions/tests/CI budgets",
+    "conditional_identity": "new static-per-process branch still needs realAX/SDK/selection/actions verification",
+    "runtime26_cause_fix": "unproven; notclaimed",
+    "actualnewhead": null,
+    "actualnewrun": null,
+    "actualVoiceOver": "not run skippedincomplete authorized",
+    "technical_review_SHA256": "5925504e3a1bc9f97b34f367b60f48deef50a4bc86f2b18b6e8720202dd9b0f8"
+  },
+  "record_interpretation_OSscope": {
+    "old_fields": "historical snapshots preserved",
+    "latestactual": "actual_CDC_OSscope_checkpoint",
+    "next": "heading_OSscope_preparation",
+    "old_evidence_rebound": false,
+    "TODO": "32rows12done; IOS11/23 incomplete"
+  }
+}

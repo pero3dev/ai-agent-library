@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "task": "ios-app-feasibility",
+  "date": "2026-10-21",
+  "timezone": "Asia/Tokyo",
+  "status": "research-complete",
+  "input_head": "405e29273a7a3257adeb370c6ac3196d35693d4d",
+  "report": "research/ios-app-feasibility-2026-10-21.md",
+  "owned_paths": [
+    "research/ios-app-feasibility-2026-10-21.md",
+    "research/README.md",
+    "project/README.md",
+    "project/records/2026-10-21/ios-app-feasibility.md",
+    "project/records/2026-10-21/ios-app-feasibility.json"
+  ],
+  "authorization": "User requested feasibility and concerns research; local records and public primary-source reading only.",
+  "observed_assets": {
+    "articles_excluding_indexes": 199,
+    "article_markdown_bytes": 2663623,
+    "mermaid_blocks": 74,
+    "audio_episodes": 9,
+    "audio_duration_seconds": 12080,
+    "actual_audio_bytes": null
+  },
+  "validation": {
+    "node_version": "24.19.0",
+    "dependency_install": "passed-after-network-retry",
+    "initial_check": "failed-macos-temp-path-symlink",
+    "canonical_temp_check": {
+      "command": "TMPDIR=/private/tmp npm run check",
+      "result": "passed",
+      "tests": 532,
+      "passed": 518,
+      "skipped": 14,
+      "failed": 0
+    },
+    "report_links": "passed-after-anchor-fix",
+    "final_document_checks": {
+      "markdown_lint": "passed",
+      "links_including_report": "passed",
+      "link_files": 472,
+      "links": 6143,
+      "structure_including_owned_untracked_files": "passed",
+      "json_syntax": "passed",
+      "diff_whitespace": "passed"
+    }
+  },
+  "independent_read_only_review": {
+    "repository_accuracy": "passed-with-anchor-fix",
+    "apple_requirements": "passed-with-privacy-link-location-clarification"
+  },
+  "not_performed": [
+    "ios-implementation",
+    "xcode-build",
+    "simulator-test",
+    "iphone-device-test",
+    "app-store-submission",
+    "external-publication"
+  ]
+}

@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-25",
+  "task": "ios-toc-placement-recovery",
+  "base_main": "66e4c05634f04b1d69934a15ee4676fc0aa05903",
+  "version": "unchanged-0.2.12(14)",
+  "status": "content-review-SDK-Mac-policy-common-passed-Hosted-pending",
+  "ownership": [
+    "ios/AILibrary/Sources/NativeReaderView.swift",
+    "ios/AILibrary/Sources/NativeReaderPlacementPolicy.swift",
+    "ios/AILibraryTests/NativeReaderPlacementPolicyTests.swift",
+    "ios/AILibrary.xcodeproj/project.pbxproj",
+    "project/records/2026-10-25/ios-toc-placement-recovery.md",
+    "project/records/2026-10-25/ios-toc-placement-recovery.json",
+    "project/README.md"
+  ],
+  "source_sha256": {
+    "ios/AILibrary/Sources/NativeReaderView.swift": "88b7d09e6433577c0ce5c90213d2732f6c06a440501f019d7310538d16883896",
+    "ios/AILibrary/Sources/NativeReaderPlacementPolicy.swift": "5792368605c7563c5feaa421ab2915cded6c38ac476518a98136210fa6309411",
+    "ios/AILibraryTests/NativeReaderPlacementPolicyTests.swift": "86dd5bb8f71e3833630e13289fc38d2d72b0b067e4030e463ec3dee1b4e5d051",
+    "ios/AILibrary.xcodeproj/project.pbxproj": "34fa484fde06a050530b29eda505951a547089b98940c2a19746617e5a20c1b1"
+  },
+  "policy": {
+    "maximum_seconds": 1,
+    "layout_passes": 60,
+    "materializations": 6,
+    "corrections": 6,
+    "alignment_tolerance_points": 0.5,
+    "interpretation": "prototype bounded recovery and geometry tolerance; no product performance budget",
+    "materializations_scope": "maximum additional materializations after the initial proxy scroll"
+  },
+  "validation": {
+    "Mac_policy_XCTest": {
+      "cases": 7,
+      "passed": 7,
+      "failed": 0
+    },
+    "SDK": "local Xcode16.2/Simulator18.2 typecheck only; App dependencies plus reader/policy, unchanged NativeInline24 and new7",
+    "unit_count_if_registered_on_main260": 126,
+    "iOS_registration_and_runtime": "not-run",
+    "full_project_build": "not-run",
+    "new_UI": "not-run",
+    "common_check": {
+      "tests": 765,
+      "passed": 750,
+      "skipped": 15,
+      "failed": 0,
+      "log": "/private/tmp/ios-toc-placement-common-check-20261025.log",
+      "sha256": "2f97dd9cbe172be5e3239f97d7045560e8c520c34aab2843c9a4f3495a3e1e07",
+      "scope": "shared-workspace-superset-including-later-candidates; not exact PR tree",
+      "later_candidates_not_in_this_tree": {
+        "Clock_CSV": 36,
+        "SDK_signing": 7
+      },
+      "exact_tree_common": "pending-Hosted"
+    },
+    "independent_review": "approved-reader-policy-tests-and-main260-PBX",
+    "first_monitor_attempt": "stat race in transient .pcm.lock; compiler exit not captured; not success",
+    "final_monitor_attempt": "repaired monitor; official SDK pass and Mac7 pass"
+  },
+  "evidence": {
+    "/private/tmp/ios-toc-placement-candidate-20261025/validation.json": {
+      "sha256": "e0a6aa2a8e74818b9f8b00a1a17633f6ed2c5ed4429a6e96c37d9a23937fa16f",
+      "bytes": 10415
+    },
+    "/private/tmp/ios-toc-placement-candidate-20261025/source-candidate.patch": {
+      "sha256": "456e2a4915c6ca62eb04164f07384e6e129029b74171771a822fcfd3d9da44fb",
+      "bytes": 31737
+    },
+    "/private/tmp/ios-toc-placement-candidate-20261025/project-registration.patch": {
+      "sha256": "fd6797f6ed9540073a14928e31952cee451d2d229aafa2fe5d60c9e00eb11314",
+      "bytes": 6867
+    },
+    "/private/tmp/ios-toc-code-gap-20261025/review.json": {
+      "sha256": "04be382da9af48239d02920119647ede2cec5b6b57c301e7d88f00638db01d50",
+      "bytes": 11756
+    },
+    "/private/tmp/ios-pr265-toc-failure-20261025/diagnosis.json": {
+      "sha256": "dbe14efc229fe3cda15b79113a7eb1e2b8a7129caf006eea0f37db6539dfbf89",
+      "bytes": 6136
+    },
+    "/private/tmp/ios-main260-toc-failure-20261025/diagnosis.json": {
+      "sha256": "122934bfa32ee0b3707537cf58037c247f5d5c12e9abfbe616a7c883f277a00d",
+      "bytes": 5646
+    }
+  },
+  "remaining": [
+    "exact-head ordinary/native/full/Release",
+    "actual UIKit placement/display link/pan",
+    "foreground viewport helper is separate",
+    "VoiceOver/maximum text/device",
+    "IOS10/23/25 overall"
+  ],
+  "baseline_main_CI": {
+    "head": "66e4c05634f04b1d69934a15ee4676fc0aa05903",
+    "full_run": 40201701432,
+    "job": 121194053922,
+    "registered_unit": 119,
+    "unit_pass": 117,
+    "unit_private_skip": 2,
+    "functional_UI": {
+      "total": 10,
+      "passed": 9,
+      "failed": 1,
+      "case": "testRelatedChapterLinkClosesInPlaceAndOpensAnArticleWithoutLosingTheReader"
+    },
+    "Release": "skipped",
+    "ordinary_run": 40201701335,
+    "ordinary_and_Pages": "success",
+    "native_run": 40201701334,
+    "native": "success",
+    "interpretation": "New exact-head repair CI must resolve this observed baseline failure; no admin exception"
+  }
+}

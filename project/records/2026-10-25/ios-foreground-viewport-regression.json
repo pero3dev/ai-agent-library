@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-25",
+  "task": "ios-foreground-viewport-regression",
+  "base_PR": 266,
+  "base_head": "9c7415576bab478e93e6151cc1bac2385d041c6a",
+  "version": "unchanged-0.2.12(14)",
+  "status": "source-reviewed-SDK-and-geometry-passed-Hosted-pending",
+  "source_sha256": {
+    "ios/AILibraryUITests/NativeReaderUITests.swift": "1296e450ac8575244527cd58bcc8b21f4819956a7dada225f5522e954c6b46d8"
+  },
+  "future_probe": {
+    "source_SHA256": "8aaa2e613add1ba82a2c9cf98b74f4d217f5fc68259d69256dd75639256553f3",
+    "not_in_this_PR": true,
+    "only_change_to_approved_search_candidate": "one positive predicate uses the nonasserting poll helper"
+  },
+  "functional_counts": {
+    "main260": 10,
+    "remote265": 12,
+    "private_probe": 14,
+    "this_PR": 10,
+    "performance": "separate"
+  },
+  "validation": {
+    "pure_Swift_geometry_cases": 20,
+    "pure_Swift_geometry_passed": 20,
+    "SDK": "Xcode16.2/SDK18.2 standalone Native+future-probe typecheck passed; not a full project build",
+    "independent_review": "approved source and one future callsite; UI13 metadata corrected to14",
+    "existing_cases_selectors_assertions_waits_gestures": "preserved",
+    "actual_foreground_witness_and_UI": "not-run",
+    "common_check": {
+      "scope": "shared-workspace-superset-including-later-candidates; not exact PR tree",
+      "tests": 765,
+      "passed": 750,
+      "skipped": 15,
+      "failed": 0,
+      "later_candidates_not_in_this_tree": {
+        "Clock_CSV": 36,
+        "SDK_signing": 7
+      },
+      "exact_tree": "pending-Hosted",
+      "log": "/private/tmp/ios-foreground-viewport-common-check-20261025.log",
+      "sha256": "e0e3892981bb36ed9cbce30fb93960ae1cc70e7e37a11a34337ef711019a1004"
+    }
+  },
+  "evidence": {
+    "/private/tmp/ios-foreground-viewport-candidate-20261025/validation.json": {
+      "sha256": "96e1bc9742db30da8f04fa6dab84720792a1baf80f1bcaf00601a8ca5b1f4d59",
+      "bytes": 9800
+    },
+    "/private/tmp/ios-foreground-viewport-candidate-20261025/proof.json": {
+      "sha256": "81886d37860a66cdbdc7ee0e8ea33a0f587b13e76f11b14c4e918231e0775d91",
+      "bytes": 6403
+    },
+    "/private/tmp/ios-foreground-viewport-candidate-20261025/sha256-manifest.json": {
+      "sha256": "e32430976d31ce3ce47d2c70b2bc4ee024c6c328b5a2e0f646bc1165290cae97",
+      "bytes": 3410
+    },
+    "/private/tmp/ios-foreground-viewport-candidate-20261025/metadata-correction.diff": {
+      "sha256": "e8c45fe2f0e50e0953bc76ad3fdd116fccaf9922cfffa2319ef0ee99fd468a93",
+      "bytes": 3580
+    },
+    "/private/tmp/ios-foreground-viewport-candidate-20261025/review.json": {
+      "sha256": "a49729c9a8dc92d26e9564ac39bbd3033631d2e55ec660ebea56f3e7d470e1f9",
+      "bytes": 5132
+    },
+    "/private/tmp/ios-foreground-viewport-candidate-20261025/native-reader-geometry.patch": {
+      "sha256": "7e56461c3da672327b3bf9e59e41f52f0c0cbd068394fbbe9c3b6b98dbc7a2d2",
+      "bytes": 7824
+    },
+    "/private/tmp/ios-foreground-viewport-candidate-20261025/published-predicate-callsite.patch": {
+      "sha256": "96710b6db5aa1b3576cfc84439e7b022fd7d0993e4b313dc7ecd3de1235a6a04",
+      "bytes": 832
+    }
+  },
+  "remaining": [
+    "exact-head ordinary/native/full/Release",
+    "actual foreground witness in fixture modal",
+    "positive and negative geometry in UI",
+    "VoiceOver/maximum text/device",
+    "IOS25 overall"
+  ]
+}

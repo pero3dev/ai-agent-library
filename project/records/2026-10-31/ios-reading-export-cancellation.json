@@ -1,0 +1,1371 @@
+{
+  "accepted_e5_and_maincc_adoption_20261101": {
+    "state": "SOURCE_E5_ACCEPTED_ORDINARY_MAIN_CC_ADOPTED",
+    "date_JST": "2026-11-01",
+    "source_head": "e5a952136ae8e8f7caf726f4242733eb4266181e",
+    "source_tree": "91b1b70a56ddbd518178f1d300ec1df20777647a",
+    "actual_parent": "cc268c4a76f09434f27bbc841e3b9ca776ea566e",
+    "actual_parent_tree": "91b1b70a56ddbd518178f1d300ec1df20777647a",
+    "main_adoption": {
+      "actual_main_SHA": "cc268c4a76f09434f27bbc841e3b9ca776ea566e",
+      "actual_parent": "88c9ac391459ead50cf5e28b25918f97ac9332cf",
+      "approved_source_head": "e5a952136ae8e8f7caf726f4242733eb4266181e",
+      "tree": "91b1b70a56ddbd518178f1d300ec1df20777647a",
+      "tracked": 2857,
+      "normal_squash": "ACTUAL ordinary protected squash, no admin/force/bypass",
+      "merged_at": "2026-11-01T14:25:11Z",
+      "fresh2857_same_tree_rebind": true,
+      "raw_squash_body_and_single_parent_checked": true,
+      "merge_proof_manifest_SHA256": "36e6bbd0101700583461039988877611c0a9525e931a400cd730e81c58dd1c2a",
+      "mainpush_at_freeze": "Known mainpush FullB UI-step failure; raw/cause pending; acceptance false; source-e5 not substituted"
+    },
+    "Native": {
+      "run_id": 41312606874,
+      "job_id": 124865953016,
+      "attempt": 1,
+      "unit": {
+        "total": 278,
+        "passed": 276,
+        "skipped": 2,
+        "failed": 0
+      },
+      "UI": {
+        "total": 8,
+        "unique": 8,
+        "passed": 8,
+        "failed": 0,
+        "seconds": 806.017,
+        "actual_cases": [
+          {
+            "class": "NativeReaderUITests",
+            "method": "testContentsBookmarkAndResumeAfterRelaunch",
+            "seconds": 52.675
+          },
+          {
+            "class": "NativeReaderUITests",
+            "method": "testHealthyLegacyHeadingPositionAndBookmarkPersistAfterNativeResumeAndRelaunch",
+            "seconds": 55.16
+          },
+          {
+            "class": "NativeReaderUITests",
+            "method": "testThreeArticlesHaveNativeBodyText",
+            "seconds": 72.465
+          },
+          {
+            "class": "ReadingRecoveryUITests",
+            "method": "testCancelKeepsRecoveryNoticeAfterRelaunch",
+            "seconds": 101.21
+          },
+          {
+            "class": "ReadingRecoveryUITests",
+            "method": "testConfirmedRecoveryPreservesCurrentPositionAndBookmarkAfterRelaunch",
+            "seconds": 109.69
+          },
+          {
+            "class": "ReadingRecoveryUITests",
+            "method": "testConfirmedRecoveryPreservesReadableAndCurrentBookmarksAfterRelaunch",
+            "seconds": 139.916
+          },
+          {
+            "class": "ReadingRecoveryUITests",
+            "method": "testExportFilePickerCancelKeepsHealthyPositionAndBookmarkAfterRelaunch",
+            "seconds": 180.538
+          },
+          {
+            "class": "ReadingRecoveryUITests",
+            "method": "testRestoreFilePickerCancelKeepsHealthyBookmarksAfterRelaunch",
+            "seconds": 94.364
+          }
+        ]
+      },
+      "export_leaf": {
+        "method": "testExportFilePickerCancelKeepsHealthyPositionAndBookmarkAfterRelaunch",
+        "seconds": 180.538,
+        "start_UTC": "2026-11-01T14:04:16.4044140Z",
+        "passed_UTC": "2026-11-01T14:07:16.9429680Z",
+        "export_taps": [
+          "2026-11-01T14:06:02.1076950Z     t =   105.70s Tap \"library-export-reading\" Button",
+          "2026-11-01T14:06:35.3119510Z     t =   138.90s Tap \"library-export-reading\" Button"
+        ],
+        "Browse_back_taps": [
+          "2026-11-01T14:06:16.1010440Z     t =   119.66s Tap \"ブラウズ\" Button",
+          "2026-11-01T14:06:44.5800500Z     t =   148.17s Tap \"ブラウズ\" Button"
+        ],
+        "actual_export_Cancel_taps": [
+          "2026-11-01T14:06:23.5373380Z     t =   127.13s Tap \"キャンセル\" Button",
+          "2026-11-01T14:06:53.4232010Z     t =   157.01s Tap \"キャンセル\" Button"
+        ],
+        "after_two_cancels": {
+          "terminate_UTC": "2026-11-01T14:06:58.4824720Z",
+          "launch_UTC": "2026-11-01T14:06:59.5255250Z",
+          "public_Resume_tap_UTC": "2026-11-01T14:07:10.0650980Z",
+          "bookmark_remove_and_noninitial_math_heading_frame_assertions": "passed as part of leaf"
+        },
+        "accepted_scope": "Two actual Move1 destination -> one Browse-back -> Move0 root Cancel cycles, filtered return, same-suite relaunch and public Resume",
+        "not_exercised_or_not_dumped": [
+          "attempt2 initial root-direct shape",
+          "independent full AX value dump",
+          "real provider write or final backup bytes"
+        ]
+      },
+      "Release": "success; actual representative3 JSON, fixture absent"
+    },
+    "FullA": {
+      "run_id": 41312606885,
+      "job_id": 124865953257,
+      "attempt": 1,
+      "unit": {
+        "total": 278,
+        "passed": 276,
+        "skipped": 2,
+        "failed": 0
+      },
+      "UI": {
+        "total": 18,
+        "unique": 18,
+        "passed": 18,
+        "failed": 0,
+        "seconds": 1068.665
+      },
+      "literal_common": {
+        "total": 1257,
+        "passed": 1242,
+        "skipped": 15,
+        "failed": 0
+      }
+    },
+    "FullB": {
+      "run_id": 41312606885,
+      "job_id": 124865953091,
+      "UI": {
+        "total": 8,
+        "unique": 8,
+        "passed": 8,
+        "failed": 0
+      },
+      "copy": {
+        "expected_bytes": 374,
+        "one_content_equality_guard_succeeded": true,
+        "success_marker_count": 1,
+        "expected_SHA256": "e29cb525957fb4bd72350927aa1cf47659da4aef9964ecbf0d43edb4dfe2cee8",
+        "actual_SHA256_artifact_receipt_directly_read": false,
+        "scope": "374 bytes, not374 cases; one marker, distinct from copy leaf pass"
+      },
+      "Release": {
+        "schema_version": 1,
+        "status": "passed",
+        "native_schema_version": 2,
+        "revision": "4b4511e679e7010d0461d6ba07b50917852609db8055b7c66c050a4748edba5a",
+        "articles": 199,
+        "audio": 1,
+        "verified_files": 625,
+        "verified_bytes": 36958875,
+        "test_content_absent": true
+      }
+    },
+    "strict26": {
+      "actual_A18_B8_unique_disjoint_count": 26,
+      "Root_observer_final_seal": "2e7b1d4a41060364f6432c0005bb12544c905204e85f852567ee3e4584aada6f",
+      "result_SHA256": "946e371d27fac8038b7bb22418eef3cd5770d215b1b7256eeae2374a4ebddaed",
+      "status": "ACCEPTED exact source e5, fixed original26 console set and strict steps"
+    },
+    "Runtime26": {
+      "actual_unique_passed_UI": 3,
+      "scope": "12 actual stage outcomes success; generated acceptance/cleanup JSON not downloaded; exact cleanup branch not echoed"
+    },
+    "Recovery": {
+      "actual_success_gates": 13,
+      "console_leaf_rows": 0,
+      "scope": "ControlledF/R explicit phase install, sentinel/upgrade preservation, strict-one-leaf audit andcleanup gates succeeded; individualcaptured leaf files notdownloaded/counted. Separate restoredinstall, notsameprocessrepairedretry orreadingmigration."
+    },
+    "required11_and_fresh_policy2": {
+      "required11_source_success_count": 11,
+      "Ready_final_epoch": "2026-11-01T14:21:09Z",
+      "fresh_post_Ready_policy_runs": [
+        {
+          "id": 41315770376,
+          "name": "Harness policy PR #321",
+          "head_sha": "e5a952136ae8e8f7caf726f4242733eb4266181e",
+          "created_at": "2026-11-01T14:21:12Z",
+          "run_started_at": "2026-11-01T14:21:12Z",
+          "conclusion": "success"
+        },
+        {
+          "id": 41315770457,
+          "name": "Freshness policy PR #321",
+          "head_sha": "e5a952136ae8e8f7caf726f4242733eb4266181e",
+          "created_at": "2026-11-01T14:21:12Z",
+          "run_started_at": "2026-11-01T14:21:12Z",
+          "conclusion": "success"
+        }
+      ],
+      "before_normal_merge": true
+    },
+    "diagnostic": {
+      "e5_failure_collector_step": "skipped because original UI passed, reported by Root",
+      "new_Hosted_collection_count": 0,
+      "past_actual_Hosted_collections_677_and_a6": 2,
+      "third_collection_claim": false,
+      "code_workflow4_files_changed": false
+    },
+    "source_raw_pins": {
+      "Native": {
+        "file": "job-124865953016.log",
+        "bytes": 1453280,
+        "SHA256": "dabad11a34133df03186b6e2e7bdc3db2a62c6f73245c30e822aee0c3df441f4"
+      },
+      "FullA": {
+        "file": "job-124865953257.log",
+        "bytes": 2202477,
+        "SHA256": "566b3c5cd7501de56b33a471b5ea9b700c691f10fcf967b65c9aa9a5e1886c84"
+      }
+    },
+    "classification_data_pins_unsealed_observer_when_read": {
+      "FullB-attempt1-classification.json": {
+        "bytes": 5693,
+        "SHA256": "880411a69203593faf52072d33a58d2ebb827ddfdb3a2d29fafd46ffb2c6a083"
+      },
+      "Runtime26-attempt1-classification.json": {
+        "bytes": 4577,
+        "SHA256": "32b556070cb913713465ce48ccc5e393ef3cb72cb3bacac65458a85446e5023a"
+      },
+      "Recovery-attempt1-classification.json": {
+        "bytes": 1942,
+        "SHA256": "209e3a8b84b287d5becb84145eb4de912f57145543d9488fd25985a1d46eefb3"
+      }
+    },
+    "history": "All old JSON values and Markdown prefixes retained, including both prior actual Hosted failure collections and all earlier failure stages",
+    "uncompleted": [
+      "physical iPhone",
+      "provider persistence and backup raw bytes",
+      "VoiceOver",
+      "IOS22 overall",
+      "IOS25 overall"
+    ],
+    "App": "0.2.28(30) unchanged",
+    "TODO": {
+      "total": 32,
+      "complete": 14,
+      "IOS22_complete": false,
+      "IOS25_complete": false
+    },
+    "document_author": {
+      "new_Git_API_Node_SDK_download_tests": false,
+      "scope": "Readonly Git fresh full-map/squash/source binding plus Python inverse/protection only; no new runtime or external actions"
+    },
+    "main_proof_data_pins": {
+      "official_after_merge": {
+        "file": "browse-root-after-merge-official.json",
+        "bytes": 24852,
+        "SHA256": "b08e4c398717aba2efff4c9fcd4655568b121fdb646c545463f90941ad2624f8"
+      },
+      "final_merge_lease": {
+        "file": "browse-root-final-merge-lease.json",
+        "bytes": 24314,
+        "SHA256": "d040fe0767642aa8bb158668a3945738376faffa433f11d2f153851e5653d062"
+      },
+      "policy_runs": {
+        "browse-root-ready-policy-0-run-response.json": {
+          "bytes": 30838,
+          "SHA256": "3fca39c11a6691ed1699740ab5089dfb6c743ad9027b6c2d1a607a7eae7ded18"
+        },
+        "browse-root-ready-policy-1-run-response.json": {
+          "bytes": 30850,
+          "SHA256": "8a8291e959f52a99782c0b20c871a0477f41094961a7df113454df1d1e1138b2"
+        }
+      },
+      "managed_adopt_result_SHA256": "6c8c02dba48200f1ee7d05add33cc710742d21976f1fc9fe6142a6acd6c29574"
+    }
+  },
+  "followup_a6_observed_browse_root": {
+    "state": "PRIVATE_BROWSE_ROOT_WITH_TEST_LOCAL_PROVENANCE_UNEXECUTED",
+    "date_JST": "2026-11-01",
+    "actual_parent_reported_by_Root": "a6faa9370d2d8b00433b7413b8b155c9828f9005",
+    "parent_tree": "b577279d01a40457ff63c7cee1461d1e9c332ba5",
+    "actual_main_reported_by_Root": "88c9ac391459ead50cf5e28b25918f97ac9332cf",
+    "code": {
+      "path": "ios/AILibraryUITests/ReadingRecoveryUITests.swift",
+      "before_SHA256": "a76b33d81054cf7c88caa4a9a04b33d980b43f200a334890e851a1dbca12b905",
+      "SHA256": "2fef3eb0fa3bad70544f266094cef1a56ca42fa36df5b75770a54562e4c97d82",
+      "bytes": 41291,
+      "blob_oid": "e0c10a1d4d981db2170da568128bab4cc3d0d1fc"
+    },
+    "actual_a6_scope": {
+      "run_id": 41308748054,
+      "first_actual_Browse_back_reported_by_Root": 1,
+      "initial_Move1_fixedID_window_filename_and_pre_tap_checks": "passed sufficiently to execute first verified back",
+      "failed_phase": "destination-action-count",
+      "directBarCount": 1,
+      "moveCount": 0,
+      "cancelCount": 1,
+      "browseBackCount": 0,
+      "actual_export_Cancel": 0,
+      "post_two_cancel_relaunch": "not reached",
+      "new_candidate_success": false
+    },
+    "observed_root": {
+      "H_read_and_PNG_viewed_by_author": true,
+      "navigation_identifier": "FullDocumentManagerViewControllerNavigationBar",
+      "window": [
+        0,
+        0,
+        393,
+        852
+      ],
+      "bar": [
+        0,
+        69,
+        393,
+        108
+      ],
+      "Cancel": [
+        8,
+        75,
+        90.7,
+        44
+      ],
+      "filename_TextField": [
+        65,
+        764,
+        312,
+        42
+      ],
+      "debug_value": "AI-Agent-Library-R...",
+      "PNG_title": "ブラウズ",
+      "PNG_filename": "AI-Agent-Library-Reading-Backup",
+      "not_claimed": [
+        "full AX value on root",
+        "root Cancel enabled/hittable and all witnesses accepted",
+        "first actual Cancel or full two-cancel sequence",
+        "new source acceptance"
+      ]
+    },
+    "diagnostic": {
+      "actual_Hosted_status": "collected",
+      "files": 3,
+      "ZIP_bytes": 150245,
+      "ZIP_SHA256": "f6d7ce5b2c55d515b5a725d3230d8486534d68bd1b0dc7746bf2c5e74aa65831",
+      "binding": {
+        "repository": "pero3dev/ai-agent-library",
+        "event": "pull_request",
+        "run_id": "41308748054",
+        "run_attempt": "1",
+        "workflow_SHA": "469cc2f16708c99bfe4a00403a994790c9034fe2",
+        "source_head": "a6faa9370d2d8b00433b7413b8b155c9828f9005",
+        "full_artifact_upload_outcome": "success"
+      },
+      "pins": {
+        "receipt.json": {
+          "bytes": 1333,
+          "SHA256": "ab7958e8c9ac0338391c9dac1a2cab71c439b94818af02dd1ffd3f50153ff966"
+        },
+        "manifest.json": {
+          "bytes": 3514,
+          "SHA256": "308ee36cb226958622251239a0f9ea122c2436468bbdcbb7e8822624b31adcff"
+        },
+        "context.txt": {
+          "bytes": 224,
+          "SHA256": "5a80736a2ae4fc6ba1e102a0d8af8c9865f5828d4375202e84a2da450b4b31b6"
+        },
+        "hierarchy.txt": {
+          "bytes": 32793,
+          "SHA256": "51be5b634a9a71133af97d17be652b70086413785b9ebe49f9e02577d92d38e8"
+        },
+        "failure.png": {
+          "bytes": 176061,
+          "SHA256": "a9797ec37fe5789b5ec3efd753d058afbafe151670b0714faab79abf553b17c4"
+        }
+      }
+    },
+    "candidate": {
+      "first": "Move1 prior shape only; no initial Move0 fallback",
+      "after_actual_verified_back": "Direct fixed ID, Move0/Cancel1/Back0, same one window, exact finite visible filename and usable Cancel",
+      "Move1_Cancel_shape": "Prior strict shape retained; Move remains read-only",
+      "second_root_proof": "test-local Bool returned only after first Move1+all filename/window witnesses, actual Browseback, strict root, actual Cancel and complete filtered-list return; supplied only to attempt2",
+      "state_lifetime": "No property/persistence or carry across relaunch, reset or another test",
+      "budget": "Single monotonic30 starts before pre-export checks; no added wait",
+      "held": [
+        "More15/export10/close15",
+        "two export cancellations",
+        "same-suite terminate/relaunch",
+        "public Resume/bookmark/fully-visible noninitial heading",
+        "all old Recovery cases and unrelated helpers",
+        "new export test except local Bool and call lines",
+        "once failure hierarchy/131072/1KiB context"
+      ],
+      "diagnostic_phase": "destination versus browse-root; counts retain root permission"
+    },
+    "validation": {
+      "author": "Python static/data inverse and byte holding only",
+      "new_Node_SDK_Git_reader_API_UI_Simulator_export_tests": false,
+      "fresh_puretree_protected_API": "Root final combination only; sealed Source11 reference is not fresh proof",
+      "new_independent_review": "pending",
+      "new_Hosted_UI_acceptance": false,
+      "ordinary_main": "pending"
+    },
+    "App": "0.2.28(30) unchanged",
+    "TODO": {
+      "total": 32,
+      "complete": 14,
+      "IOS22_complete": false,
+      "IOS25_complete": false
+    }
+  },
+  "followup_677_observed_direct_picker": {
+    "state": "PRIVATE_DIRECT_FIXED_PICKER_ID_UNEXECUTED",
+    "date_JST": "2026-11-01",
+    "actual_parent_reported_by_Root": "6777328b5e50e6eb198efec6a05109d4cfa2bee8",
+    "parent_tree": "b031bafebbf0f0d3397f98f1f580a68d112d8905",
+    "actual_main_reported_by_Root": "88c9ac391459ead50cf5e28b25918f97ac9332cf",
+    "historical_values": "All prior JSON values and Markdown prefix held exactly; new source not accepted",
+    "code": {
+      "path": "ios/AILibraryUITests/ReadingRecoveryUITests.swift",
+      "before_SHA256": "4f9664ee416bdb8954e1d36c1119d7ad069d6faf51ff74ba7b8bfcccdee0fa39",
+      "SHA256": "a76b33d81054cf7c88caa4a9a04b33d980b43f200a334890e851a1dbca12b905",
+      "bytes": 39478,
+      "blob_oid": "562383d1835f70d2744a5e91f77dd0fb7346772d"
+    },
+    "head677_Native": {
+      "run_id": 41240271170,
+      "unit": {
+        "total": 278,
+        "passed": 276,
+        "skipped": 2,
+        "failed": 0
+      },
+      "UI": {
+        "total": 8,
+        "old_passed": 7,
+        "new_failed": 1
+      },
+      "new_case": {
+        "attempt": 1,
+        "stage": "first picker identification after export",
+        "actual_cancels": 0,
+        "postcancel_relaunch": "not reached"
+      },
+      "saved_context": "phase=filtered-library; searchCount=1; libraryCount=1",
+      "generic_index1_exists_repetition": "Root read log540-690: after export, library bar index0 then index1 exists repeated; next destination guard context not reached. Query-stall cause remains hypothesis, not product/OS cause."
+    },
+    "head677_compact": {
+      "actual_Hosted": true,
+      "status": "collected",
+      "incomplete_reason": null,
+      "files": 3,
+      "attachments": [
+        "failure.png",
+        "context.txt",
+        "hierarchy.txt"
+      ],
+      "ZIP": {
+        "bytes": 87188,
+        "SHA256": "165805dae5db614cdd0fce8e5ff989fe846f5427a7976befe1f6e2e4f6f105a9",
+        "verified_by_Root": true
+      },
+      "binding": {
+        "repository": "pero3dev/ai-agent-library",
+        "event": "pull_request",
+        "run_id": "41240271170",
+        "run_attempt": "1",
+        "workflow_SHA": "9062a1b510bc877049ef9e95d7bd9a4cc78974e3",
+        "source_head": "6777328b5e50e6eb198efec6a05109d4cfa2bee8",
+        "full_artifact_upload_outcome": "success"
+      },
+      "pins": {
+        "receipt.json": {
+          "bytes": 1332,
+          "SHA256": "ff0278bc41105cb0ee2dca449ae590266b50b889d3e217e1da4006383a807380"
+        },
+        "manifest.json": {
+          "bytes": 3514,
+          "SHA256": "8affddd1ab600b1cbd13b4101afaab75586be22b4fe7ba02bc731fd6403faa3c"
+        },
+        "context.txt": {
+          "bytes": 182,
+          "SHA256": "08aeb55523b53acc3bf1c434244034b46f8023540f29526a4fb8e336b164a2dc"
+        },
+        "hierarchy.txt": {
+          "bytes": 16510,
+          "SHA256": "1651141f9ca4e34c98a9cc728bb8911fa155f8ff4daaa10900390fb7194d9a58"
+        },
+        "failure.png": {
+          "bytes": 122951,
+          "SHA256": "79a76bed7e45bf4b39a2d1a75674461382a925bc88b4ce55f8a513ba22b7e254"
+        }
+      },
+      "scope": "One failed case and known attachments only; no successful export-cancel UI inference"
+    },
+    "observed": {
+      "PNG_viewed_by_author": true,
+      "hierarchy_read_by_author": true,
+      "navigation_identifier": "FullDocumentManagerViewControllerNavigationBar",
+      "navigation_frame": [
+        0,
+        69,
+        393,
+        108
+      ],
+      "Browse_frame": [
+        0,
+        75,
+        94,
+        44
+      ],
+      "Move_frame": [
+        345,
+        75,
+        40,
+        44
+      ],
+      "scope": "One observed Main window containing bar; background library search Cancel is separate",
+      "filename_TextField_frame": [
+        65,
+        764,
+        312,
+        42
+      ],
+      "filename_debug_value": "AI-Agent-Library-R...",
+      "PNG_filename": "AI-Agent-Library-Reading-Backup",
+      "not_observed": [
+        "full AX filename value",
+        "Cancel after single Browse-back",
+        "new source runtime success",
+        "product or OS cause"
+      ]
+    },
+    "new_contract": {
+      "preexport": "Exact fixed identifier count0, exact filename count0; empty previous eligible key set is justified only by strict direct absence",
+      "direct_identity": "Direct fixed identifier query count1/exists; identifier+label is a read-only contextKey only, not a selector; no unrelated bar index enumeration",
+      "scope": "Exactly one finite visible window containing fixed identifier; same identifier count1 inside window, no empty-label predicate requirement",
+      "preserved": [
+        "Move and filename read-only",
+        "exact filename limits16 and distinct finite bounds8",
+        "Cancel XOR Browse",
+        "at most one Browse-back",
+        "full context rechecked before each tap",
+        "single monotonic30s deadline",
+        "More15/export10/close15",
+        "two cancels",
+        "same filtered query/list after each cancel",
+        "same-suite relaunch and public Resume/bookmark/fully-visible noninitial heading",
+        "old5 case bodies and unrelated helpers"
+      ],
+      "diagnostic_only": "Short phase/count guard markers in existing1KiB context; failure hierarchy exact name/full max131072 and distinct omission unchanged"
+    },
+    "validation": {
+      "author": "Python data/static inverse and byte holding only",
+      "new_Node_SDK_Git_API_UI_Simulator_export_tests": false,
+      "new_independent_review": "pending",
+      "new_actual_parent_binding": "pending",
+      "new_Hosted_acceptance": false,
+      "head677_Full_A_B": "terminal observation in progress by Root; no new-source success substitution",
+      "ordinary_main": "pending; actual main remains88"
+    },
+    "App": "0.2.28(30) unchanged",
+    "TODO": {
+      "total": 32,
+      "complete": 14,
+      "IOS22_complete": false,
+      "IOS25_complete": false
+    }
+  },
+  "followup_9310_observed_destination_picker": {
+    "state": "PRIVATE_OBSERVED_DESTINATION_PICKER_UNEXECUTED",
+    "date_JST": "2026-11-01",
+    "parent_head": "9310d3f2f07b22785248000eda810157afa002d6",
+    "history": "All prior JSON values and Markdown prefix remain intact historical records.",
+    "code": {
+      "path": "ios/AILibraryUITests/ReadingRecoveryUITests.swift",
+      "before_SHA256": "8fbd801bf11c63145b0d6ce4f7ae35d787bdcd8ed577be6387d03796eef33aae",
+      "before_bytes": 30454,
+      "SHA256": "4f9664ee416bdb8954e1d36c1119d7ad069d6faf51ff74ba7b8bfcccdee0fa39",
+      "bytes": 37195,
+      "blob_oid": "f8b5d367c9fa7ddea38adabf5a99f38c2e2a98fc"
+    },
+    "head9310_Native": {
+      "run_id": 41229913980,
+      "unit": {
+        "total": 278,
+        "passed": 276,
+        "skipped": 2,
+        "failed": 0
+      },
+      "UI": {
+        "total": 8,
+        "passed": 7,
+        "failed": 1
+      },
+      "new_case_stage": "More and export passed; first destination picker shown; no cancellation yet",
+      "context_attempt": 1,
+      "old_usableFilenameCount": 0,
+      "actual_cancels": 0,
+      "postcancel_relaunch": "not reached"
+    },
+    "observed_PNG": {
+      "SHA256": "36a535344e08fe58a9bc993652185b6d171abc6d4f56a236714ad9830719ec4d",
+      "title": "このiPhone内",
+      "left_back": "ブラウズ",
+      "right_action": "移動",
+      "bottom_filename": "AI-Agent-Library-Reading-Backup",
+      "Cancel_visible_in_image": false,
+      "not_established": [
+        "filename AX type/editability/hittability",
+        "Cancel after Browse-back",
+        "product or OS cause"
+      ]
+    },
+    "saved_context": {
+      "bytes": 134,
+      "SHA256": "4b264b397def8ff610fa3363d166d9bcc49f3cc44092a69b7271dcce64486111"
+    },
+    "saved_summary": {
+      "bytes": 904083,
+      "SHA256": "ae1fbacaf3f1abb3b2023fd82c5f33a9cf3f2ff318acd6b0569980d8a36c09de",
+      "nodes_reported_by_Root": 21269,
+      "depth_reported_by_Root": 16,
+      "old_maxNodes": 20000,
+      "old_collector_result": "metadata_tree_limit, not collection success"
+    },
+    "artifact_verification_reported_by_Root": {
+      "whole_ZIP_SHA256": "a2dba23da18ef8d5e683b673495f3d2409ac9540a8d5e67c3682b775d3cf6f24",
+      "selected_member_CRC_and_SHA_verified": true,
+      "whole_large_ZIP_not_stored": true
+    },
+    "new_context_contract": {
+      "identity": "One exact new navigation identifier+label absent before export",
+      "scope": "Exactly one window containing the exact new bar and exactly one matching bar in that window",
+      "move": "One exact Move/移動 button, finite in-bar witness only; never executed or required enabled/hittable",
+      "filename": "Exact base name or .json label/value in TextField/TextView/StaticText/Other; read-only, no edit/enable/hit/tap requirement",
+      "filename_limits": {
+        "exact_matches": 16,
+        "distinct_visible_below_bar_bounds": 8,
+        "dedup": "exact physical frame; all qualifying elements retained, none selected for execution"
+      },
+      "action_XOR": "One usable in-bar Cancel without Browse-back, or one usable in-bar Browse-back without Cancel",
+      "Browse": "At most one back action; no provider/folder/file selection; next Cancel must actually be verified",
+      "readiness": "One systemUptime deadline30 before export; initial/back/final readiness and full pre-tap rechecks share remaining time",
+      "existing_caps": {
+        "More_seconds": 15,
+        "sheet_export_seconds": 10,
+        "post_cancel_seconds": 15
+      },
+      "functional": "Two cancels and same-suite relaunch; public Resume/bookmark/fullyVisible noninitial heading unchanged"
+    },
+    "failure_hierarchy": {
+      "normal_or_predicate_capture": false,
+      "once_only": true,
+      "UTF8_bytes_max": 131072,
+      "full_attachment_name": "Reading-export-cancel-hierarchy",
+      "oversize_or_empty_name": "Reading-export-cancel-hierarchy-omitted",
+      "omission": "Short explicit OMITTED marker; no silently truncated full attachment"
+    },
+    "head9310_other_results_reported_by_Root": {
+      "FullB": {
+        "UI": 8,
+        "copy374": "actual exact match",
+        "Release": {
+          "articles": 199,
+          "audio": 1,
+          "verified_files": 625,
+          "test_content_absent": true
+        }
+      },
+      "FullA": {
+        "stage": "pretest",
+        "exit_code": 70,
+        "UI_executed": 0,
+        "full_common_total": 1251,
+        "full_common": "completed successfully"
+      },
+      "Runtime26_actual_UI": 3,
+      "Recovery_CI": "passed",
+      "SDK_Archive": "passed",
+      "accepted_external_reruns": 0,
+      "A_retry": "not run because new source is required"
+    },
+    "validation": {
+      "author": "Python full inverse and exact held methods/input hashes only",
+      "Node_SDK_UI_Simulator_export_Git_API": "NOT_RUN_BY_AUTHOR",
+      "independent_review": "pending",
+      "Root_combination": "UI1 plus independently owned diagnostic Code2 and Docs6; actual-parent binding pending",
+      "fresh_exact_head_CI_and_main": "pending; Native8/Full26/fullcommon/copy/Release and requiredCI remain gates"
+    },
+    "App": "0.2.28(30) unchanged",
+    "TODO": {
+      "total": 32,
+      "complete": 14,
+      "IOS22_complete": false,
+      "IOS25_complete": false
+    }
+  },
+  "followup_6d_filtered_public_route": {
+    "state": "PRIVATE_FILTERED_PUBLIC_ROUTE_UNEXECUTED",
+    "date_JST": "2026-11-01",
+    "parent_head": "6d32f7c8277b1c260273de3ce8e76d8429b9e485",
+    "parent_tree": "20981948d36f113fd41086f3495901d31d644f81",
+    "historical_fields": "All prior top-level JSON values and Markdown prefix are preserved; they describe earlier candidates and runs.",
+    "code": {
+      "path": "ios/AILibraryUITests/ReadingRecoveryUITests.swift",
+      "before_SHA256": "e33d1f148be88d9172b26e3c7b00183db434f19b3601efd51393ba778bbdbbca",
+      "before_bytes": 25407,
+      "SHA256": "8fbd801bf11c63145b0d6ce4f7ae35d787bdcd8ed577be6387d03796eef33aae",
+      "bytes": 30454,
+      "blob_oid": "8abe5e672b9df29b134c433dce6b83ae03d6534d"
+    },
+    "head6d_Native": {
+      "run_id": 41225191142,
+      "job_id": 124607760211,
+      "attempt": 1,
+      "raw_log_SHA256": "4b904403705f9cc14487afa9c4a7619849de0e6a9a564570f3acb0a7f31e9197",
+      "unit": {
+        "total": 278,
+        "passed": 276,
+        "skipped": 2,
+        "failed": 0
+      },
+      "UI": {
+        "total": 8,
+        "passed": 7,
+        "failed": 1
+      },
+      "new_case_failure": {
+        "source": "ios/AILibraryUITests/ReadingRecoveryUITests.swift:307",
+        "seconds": 92.529,
+        "message": "The requested public UI element must be visible and usable",
+        "stage": "Actual export helper More requireHittable after successful search ending/liveResume/recovery",
+        "Save_context": "not reached",
+        "cancel1": "not reached",
+        "cancel2": "not reached",
+        "postcancel_relaunch": "not reached"
+      },
+      "geometry_after_timeout": {
+        "sampling": "after-timeout-sequential",
+        "exists": true,
+        "frame": {
+          "x": 343,
+          "y": 58.66666666666666,
+          "width": 34,
+          "height": 34.000000000000014
+        },
+        "geometry_state": "visible",
+        "targetIsHittable": false,
+        "fullyVisible_option": false,
+        "not_all_poll_or_enabled_or_unique_count_evidence": true
+      },
+      "existing_restore_case": {
+        "outcome": "passed",
+        "More_body_Button_tap_UTC": "2026-10-31T17:57:23Z",
+        "scope": "Filtered-list plain Button route after retaining the public query"
+      },
+      "artifact_downloaded_for_this_followup": false
+    },
+    "head6d_other_CI": {
+      "FullA": "in progress at author record; no unsealed result adopted",
+      "FullB": {
+        "job_id": 124607761176,
+        "UI_executed": 0,
+        "stage": "preUI simctl pbcopy seed",
+        "exit_code": 60,
+        "error": null,
+        "signal": null,
+        "stderr": "NSPOSIXErrorDomain code60 Operation timed out",
+        "copy374_or_Release": "not reached",
+        "external_rerun_requests": 1,
+        "request_outcome": "GitHub403 containing workflow run already running",
+        "accepted_reruns": 0
+      },
+      "required11_and_postbody_policy2": "success on6d only",
+      "SDK26_Archive": "success on6d only",
+      "Runtime26_actual_UI3": "success on6d only",
+      "Recovery_CI": "success on6d only"
+    },
+    "route": {
+      "preparation": "Once after recovery, type only Transformer into the unique usable public article search; no article or TOC navigation",
+      "witness": "Exact query plus exact label 検索: Transformer inside exactly one collectionViews.containing library-filter-summary",
+      "More": "Exactly one enabled hittable on-screen body Button inside that collection; one tap per opening",
+      "sheet": "Exactly one navigation bar with exact identifier or label その他の操作, and exactly one enabled hittable library-export-reading action",
+      "post_cancel": "Original Save context/Cancel/filename absent, More sheet absent, article count hittable, same exact query/filter summary in one library",
+      "not_a_fallback_or_product_fix": true,
+      "toolbar_path_status": "Unresolved particular CI path; product/OS cause not established"
+    },
+    "held": [
+      "existing4 tests and all existing helpers except the export-only opener/return predicate",
+      "pre-recovery public liveResume/body/bookmark/fullyVisible heading",
+      "new Save context identity and exact editable filename; Save/Cancel witnesses; original frame guards",
+      "two cancellations and same isolated-suite relaunch",
+      "final public Resume/bookmark/fullyVisible heading",
+      "all numeric wait limits, bounded8 reveal swipes, no coordinate or selector fallback",
+      "Save/provider/fileURL never used",
+      "failure context limit1024",
+      "App/PBX/production/content unchanged by this candidate"
+    ],
+    "validation": {
+      "author": "Python full inverse and function/strict-picker byte identity only",
+      "new_Node_SDK_UI": "not run",
+      "independent_review": "pending",
+      "Root_combination": "Separate reviewed compact-diagnostic Code4 andDoc2 commit planned in the samePR; final combined11 binding/review not yet done",
+      "new_exact_head_CI": "Hosted compile/full common/Native8/Full26/copy374/Release and requiredCI required before normal main",
+      "physical_provider_final_bytes": "unfinished; skipped/manual acceptance separate"
+    },
+    "App": "0.2.28(30) unchanged",
+    "TODO": {
+      "total": 32,
+      "complete": 14,
+      "IOS22_complete": false,
+      "IOS25_complete": false
+    }
+  },
+  "followup_884_search_end_only": {
+    "state": "PRIVATE_SEARCH_END_ONLY_UNEXECUTED",
+    "date_JST": "2026-11-01",
+    "parent_head": "884fb38e32eff5a8999bf9cbf7bac527abb9b0b1",
+    "parent_tree": "2e9745650eeaa1631e7fbc76d625e3890faaff57",
+    "historical_scope": "Every pre-existing top-level field below is held verbatim as historical Source5/search-exit/menu-ready evidence; this object describes the current candidate.",
+    "code": {
+      "path": "ios/AILibraryUITests/ReadingRecoveryUITests.swift",
+      "before_SHA256": "2d1b057e4a5ba02ad8360e81d98e985623fb3225dffdac15001243488b06890b",
+      "before_bytes": 26086,
+      "SHA256": "e33d1f148be88d9172b26e3c7b00183db434f19b3601efd51393ba778bbdbbca",
+      "bytes": 25407
+    },
+    "head884_Native": {
+      "classification_SHA256": "7ef96ce64fcbfaea142d5e4be7261c6d7eca0be7907cd5a757cb154df962e713",
+      "raw_log_SHA256": "1e0a6e7808e780391246b6a20567b7b3fe28dcd39ec3e42a275240639ad1a2b2",
+      "run_id": 41221360266,
+      "job_id": 124596411947,
+      "attempt": 1,
+      "conclusion": "failure",
+      "unit": {
+        "total": 278,
+        "passed": 276,
+        "skipped": 2,
+        "failed": 0,
+        "notice6_actual_pass": 6,
+        "Diagnostics6_actual_pass": 6
+      },
+      "UI": {
+        "total": 8,
+        "unique": 8,
+        "passed": 7,
+        "failed": 1
+      },
+      "failure": {
+        "leaf": "ReadingRecoveryUITests/testExportFilePickerCancelKeepsHealthyPositionAndBookmarkAfterRelaunch",
+        "reported_source": "ios/AILibraryUITests/ReadingRecoveryUITests.swift:360",
+        "message": "The public search did not close to one usable unfiltered More control",
+        "seconds": 63.479,
+        "UTC": "2026-10-31T17:07:01.7189120Z",
+        "scope": "Custom readiness refusal at context/attempt0; no timeout/infra classification",
+        "last_public_tap": "2026-10-31T17:06:44.9909740Z Tap キャンセル",
+        "preceding_clear_filters_tap": "2026-10-31T17:06:42.5100960Z",
+        "last_queries": "Cancel/More match counts and More/Button geometry lookup untilt62.34; actual values not echoed",
+        "attachments": [
+          "Added attachment named 'Reading-export-cancel-0-failed'",
+          "Added attachment named 'Reading-export-cancel-context'"
+        ]
+      },
+      "new_export_acceptance": {
+        "case": false,
+        "menu_tap": "not observed",
+        "SaveDialog": "not observed",
+        "cancel1": "not reached",
+        "cancel2": "not reached",
+        "postcancel_relaunch": "not reached",
+        "provider_write_or_final_backup_bytes_or_physical": false
+      },
+      "artifact_downloaded_for_this_followup": false,
+      "external_retry": 0,
+      "scope": "Only the saved Native classification and exact raw log are included here; no unsealed Full result is adopted."
+    },
+    "LibraryView_static_rules": {
+      "isBusy": "store.isLoading || bundledPreviewing || bundledActivating",
+      "toolbar_More": "Present when !isFiltering; disabled(isBusy). Recovery notice is not a Menu condition.",
+      "export_action": "Present when allowsReadingBackup; disabled(readingSaveSuspended). The test invokes it after explicit recovery.",
+      "inference_limit": "Source conditions do not establish the exact 884 false component or AX state."
+    },
+    "change": {
+      "scope": "Remove only the early More query/count/readiness prerequisite after the single public search-Cancel tap.",
+      "finished_predicate": "Read scoped cancels.count once per poll; record that already-read count; complete only at zero within the same15s cap.",
+      "retained": "Unique visible scoped search-Cancel, finite contained frames, single tap, immediate liveResume.requireHittable and body/bookmark/fullyVisible heading witnesses; after recovery the original actual More requireHittable/default, export action, strict save picker, two cancels, same-suite relaunch and final witnesses are byte-held.",
+      "no_extra_AX_or_late_hierarchy": true,
+      "existing_context_cap_bytes": 1024,
+      "no_alternate_selector_coordinates_retry_or_App_change": true,
+      "cause_status": "Test-design prerequisite removed; exact 884 false component/AX coordinates and product cause remain unproven."
+    },
+    "public_sequence": [
+      "Establish healthy Transformer bookmark and non-initial heading in the isolated partial-reading suite; clear public filters.",
+      "Confirm one foreground scoped visible public search Cancel, tap once, then wait only for its count to become zero.",
+      "Immediately require and tap public Continue; verify native body, bookmark and fullyVisible saved heading; return to library.",
+      "Confirm explicit reading recovery; require recovery notice gone.",
+      "Twice require and tap the original public More, choose export, identify the strict new filename/Save/Cancel context, cancel only and verify usable library.",
+      "Relaunch the same isolated suite; directly use public Continue and verify bookmark and fullyVisible saved heading."
+    ],
+    "validation": {
+      "author_static": "one exact replacement and full inverse; all outside code bytes, old record prefix/tail, index inverses, nonowned2847 and TODO32raw14 held",
+      "independent_Code1_Docs4_review": "pending at author seal",
+      "new_local_SDK_full_common": "not run; low capacity, no floor exception",
+      "new_exact_head_CI": "fresh Hosted compile/Native8/Full26/copy/Release and required full common CI before main",
+      "physical_provider_final_bytes": "unfinished; not part of this cancellation-only followup"
+    },
+    "App": "0.2.28(30) unchanged",
+    "TODO": {
+      "total": 32,
+      "complete": 14,
+      "IOS22_complete": false,
+      "IOS25_complete": false
+    }
+  },
+  "followup_546_more_ready": {
+    "state": "PRIVATE_MENU_READY_STANDARD_ALIGNMENT_UNEXECUTED",
+    "date_JST": "2026-11-01",
+    "parent_head": "546dd69bd919d9ef0254016d38dc63377e671ac2",
+    "parent_tree": "cd19808bcfb70e36115c6bb6ca68ce6549f0d145",
+    "old_root_fields_scope": "The original root fields below remain verbatim historical Source5/search-exit records; this object is the current followup.",
+    "code": {
+      "path": "ios/AILibraryUITests/ReadingRecoveryUITests.swift",
+      "before_SHA256": "5bb2f873ab8f584ee11a44c6946543e29098e4ac1bf018ce0811b35a624d06ee",
+      "before_bytes": 25461,
+      "SHA256": "2d1b057e4a5ba02ad8360e81d98e985623fb3225dffdac15001243488b06890b",
+      "bytes": 26086
+    },
+    "head546_CI": {
+      "sealed_result_SHA256": "432712cec26ca4fcd5fe8761bfd48fe5a64a47a9122bf810593b151435318a6e",
+      "Native": {
+        "run_id": 41215473763,
+        "job_id": 124578968955,
+        "attempt": 1,
+        "conclusion": "failure",
+        "units": {
+          "total": 278,
+          "passed": 276,
+          "skipped": 2,
+          "failed": 0,
+          "notice6_actual_pass": 6,
+          "Diagnostics6_actual_pass": 6
+        },
+        "UI": {
+          "total": 8,
+          "unique": 8,
+          "passed": 7,
+          "failed": 1
+        },
+        "new_case_failure": {
+          "leaf": "ReadingRecoveryUITests/testExportFilePickerCancelKeepsHealthyPositionAndBookmarkAfterRelaunch",
+          "reported_source": "ios/AILibraryUITests/ReadingRecoveryUITests.swift:349",
+          "message": "The public search did not close to one usable unfiltered More control",
+          "seconds": 72.44,
+          "UTC": "2026-10-31T16:06:08.7870230Z",
+          "scope": "Custom search-exit preparation refusal, context/attempt0; exact false predicate component not available in console",
+          "last_public_tap": "2026-10-31T16:05:50.8603020Z Tap キャンセル",
+          "preceding_clear_filters_tap": "2026-10-31T16:05:47.7008080Z",
+          "last_queries": "Cancel and More counts; More Button/element frame lookup untilt70.28; no numeric predicate results in raw",
+          "attachments": [
+            "Added attachment named 'Reading-export-cancel-0-failed'",
+            "Added attachment named 'Reading-export-cancel-context'"
+          ]
+        },
+        "new_export_acceptance": {
+          "case": false,
+          "SaveDialog": "not observed",
+          "cancel1": "not observed",
+          "cancel2": "not observed",
+          "postcancel_relaunch": "not reached",
+          "provider_write_or_final_backup_bytes_or_physical": false
+        },
+        "Release": "skipped",
+        "evidence": {
+          "SHA256": "66815bf28efb78d931df453d054581e6a7401b4344111a270586444a2922fbba"
+        }
+      },
+      "FullA": {
+        "run_id": 41215473873,
+        "job_id": 124578969459,
+        "attempt": 1,
+        "conclusion": "success",
+        "units": {
+          "total": 278,
+          "passed": 276,
+          "skipped": 2,
+          "failed": 0
+        },
+        "UI": {
+          "total": 18,
+          "unique": 18,
+          "passed": 18,
+          "classes": {
+            "NativeReaderUITests": 3,
+            "PublishedReaderUITests": 9,
+            "ReaderViewportGeometryTests": 6
+          }
+        },
+        "literal_full_common": {
+          "literal": "npm run check",
+          "total": 1214,
+          "passed": 1199,
+          "failed": 0,
+          "skipped": 15,
+          "test_duration_ms": 49011.88125,
+          "pipeline_commands": [
+            "npm test",
+            "npm run ios:test:icon",
+            "npm run lint:md",
+            "npm run validate",
+            "npm run links",
+            "npm run check:levels",
+            "npm run todos",
+            "npm run check:harness"
+          ],
+          "all_eight_pipeline_commands_completed": true,
+          "scope": "Actual current-head macOS full pipeline; historical1214 projection was not used as result"
+        },
+        "evidence": {
+          "SHA256": "c487c5579e358b842c97c5131bf4d459abdaa0244091d7247c946cf4713d86f9"
+        }
+      },
+      "FullB": {
+        "run_id": 41215473873,
+        "job_id": 124578969565,
+        "attempt": 1,
+        "conclusion": "success",
+        "UI": {
+          "total": 8,
+          "unique": 8,
+          "passed": 8
+        },
+        "copy": {
+          "source_expected_bytes": 374,
+          "actual_exact_equality_guard_passed": true,
+          "actual_guard_success_once": {
+            "line": 12366,
+            "text": "2026-10-31T15:58:17.7164190Z Verified exact 374-byte first code copy on the actual UI destination."
+          },
+          "expected_SHA256": "e29cb525957fb4bd72350927aa1cf47659da4aef9964ecbf0d43edb4dfe2cee8",
+          "hash_scope": "actual.equals(expected) established by terminal successful control flow and once-only real marker; actualSHA JSON written by workflow but not echoed or downloaded",
+          "actual_SHA256_JSON_directly_observed": false,
+          "actual_pbpaste_exit_success": true,
+          "SourceUIleaf_and_independent_probe_distinguished": true
+        },
+        "Release": {
+          "status": "passed actual console JSON",
+          "articles": 199,
+          "audio": 1,
+          "verified_files": 625,
+          "verified_bytes": 36958866,
+          "test_content_absent": true,
+          "lines": [
+            13918,
+            13928
+          ]
+        },
+        "icon": {
+          "status": "passed",
+          "scope": "built-AppIcon-file-and-CAR-metadata-only",
+          "line": 13932,
+          "not_visual_or_physical_acceptance": true
+        },
+        "evidence": {
+          "SHA256": "dcb673b6df6349033273e84f57251201b48462076ee971b42f6ad1541b60991c"
+        }
+      },
+      "external_reruns_reported": 0
+    },
+    "failure_evidence": {
+      "raw_log_SHA256": "4e581f12ad0e0f60c2f967fb6e5e6f6c0c157b4d4add36a6bdaf2809536a58c1",
+      "saved_screenshot_SHA256": "44cfddd5d2540526c6e3da5e2fdf29b57ca10034cc14c1934849c11be1d77c33",
+      "screenshot_bytes": 309634,
+      "observed": "Search Cancel is gone, normal large-title library and top-right ellipsis are visible; recovery notice and Resume remain.",
+      "context_limit": "Only114-byte phase context was captured; no numeric AX frame or false predicate component was saved.",
+      "cause_status": "Exact clipping, overlap, geometry or isHittable cause unproven; no fileExporter/provider/record-loss cause inferred."
+    },
+    "change": {
+      "scope": "Only the added More-ready predicate uses isHittableOnScreen defaultfalse, the existing public-control tap standard.",
+      "retained": "Search Cancel gone and unique More count; search-Cancel preparation and every functional/strict Savepicker condition unchanged.",
+      "sampled_context": "Read Cancel count once; only ifzero read More count once; only ifone read ready once. Store already-read values, with not-read for shortcircuited getters.",
+      "no_extra_AX_or_late_hierarchy": true,
+      "existing_context_cap_bytes": 1024,
+      "new_UI8_acceptance": "pending"
+    },
+    "validation": {
+      "author_static": "one predicate change and full inverse/old4cases/helpers identity only",
+      "independent_Code1_Docs4_review": "pending at author seal",
+      "new_local_SDK_full_common": "not run; no capacity-floor exception",
+      "new_exact_head_CI": "fresh Hosted compile/Native8/Full26/copy/Release and required full common CI before main",
+      "physical_provider_final_bytes": "unfinished; not part of this private followup"
+    },
+    "App": "0.2.28(30) unchanged",
+    "TODO": {
+      "total": 32,
+      "complete": 14,
+      "IOS22_complete": false,
+      "IOS25_complete": false
+    }
+  },
+  "schema_version": 1,
+  "state": "PRIVATE_PR321_SEARCH_EXIT_FOLLOWUP_UNEXECUTED",
+  "date": "2026-10-31",
+  "purpose": "One public reading-backup exporter cancellation regression preserving healthy bookmark and reading position",
+  "authority": "User requested autonomous TODO work and allowed physical checks to remain incomplete; Root delegated private candidate only.",
+  "base_main_reported_by_Root": "88c9ac391459ead50cf5e28b25918f97ac9332cf",
+  "code": {
+    "path": "ios/AILibraryUITests/ReadingRecoveryUITests.swift",
+    "mode": "100644",
+    "before_bytes": 22750,
+    "before_SHA256": "80f8223b021d43eaf23914cf8e0cad6a40f832167dbdff99ef4bf99b2eddf25a",
+    "before_blob_oid": "2d5e201ad54b256ccaa1d538b83e1155dc084c1a",
+    "bytes": 25461,
+    "SHA256": "5bb2f873ab8f584ee11a44c6946543e29098e4ac1bf018ce0811b35a624d06ee",
+    "blob_oid": "90b3cf2774653803c6e881c1916ecc3c7360f96a"
+  },
+  "production_changes": false,
+  "new_case": "testExportFilePickerCancelKeepsHealthyPositionAndBookmarkAfterRelaunch",
+  "existing_recovery_cases": [
+    "testCancelKeepsRecoveryNoticeAfterRelaunch",
+    "testConfirmedRecoveryPreservesReadableAndCurrentBookmarksAfterRelaunch",
+    "testRestoreFilePickerCancelKeepsHealthyBookmarksAfterRelaunch",
+    "testConfirmedRecoveryPreservesCurrentPositionAndBookmarkAfterRelaunch"
+  ],
+  "preserved": "Removing the one insertion recovers exact before bytes; all old cases/helpers unchanged. App, PBX, workflows, base Native helper and content unchanged.",
+  "public_sequence": [
+    "isolated partial-recovery suite",
+    "Transformer bookmark and noninitial heading",
+    "Finish the known active public search via its scoped unique Cancel once; wait usable unfiltered More before liveResume",
+    "public Continue verifies live position before explicit recovery",
+    "explicit recovery confirmation and healthy public state",
+    "More then library-export-reading",
+    "new exact navigation context + one matching editable filename + Save/Cancel pair",
+    "Cancel and usable library; repeat once",
+    "same-suite relaunch then public Continue verifies bookmark and fully visible noninitial heading"
+  ],
+  "system_picker_contract": {
+    "status": "Unobserved candidate; fail closed until exact-head hosted evidence",
+    "context": "Identifier+label pair not present before export; exactly one matching navigation bar, one cancellable button and one Save-labelled button inside it",
+    "filename_values": [
+      "AI-Agent-Library-Reading-Backup",
+      "AI-Agent-Library-Reading-Backup.json"
+    ],
+    "cancel_labels": [
+      "キャンセル",
+      "Cancel"
+    ],
+    "save_context_labels": [
+      "保存",
+      "Save"
+    ],
+    "save_is_never_executed": true,
+    "provider_chosen_or_file_written": false,
+    "geometry": "Finite nonempty app/bar/button/filename frames; bar/buttons contained; filename on app; Cancel enabled and hittable",
+    "rebind": "Exact identifier+label query, not an index that can retarget a background bar",
+    "diagnostic": "One failure-only screenshot and at-most-1024-byte fixed reason/iteration/already-sampled filename/save/cancel counts; no added hierarchy or debugDescription query",
+    "initial_b4d_runtime_evidence": "not entered; Save/Cancel/provider layout remains unaccepted"
+  },
+  "static_selection": {
+    "NativeReaderUITests": 3,
+    "ReadingRecoveryUITests_before": 4,
+    "ReadingRecoveryUITests_after": 5,
+    "expected_native_total": 8,
+    "native_selector": "Existing whole-class selection; workflow unchanged",
+    "Full26": "Fixed selectors unaffected; ReadingRecoveryUITests absent from Full selector workflow source"
+  },
+  "validation": {
+    "source_inverse_fullbyte": "Removing updated insertion recovers exact original4cases/helpers5f; Root code proof confirms two insertions only from80f",
+    "SDK_typecheck": "new code5bb not run locally; exact-head hosted compile required",
+    "npm_run_check": "not run for followup; initial b4d macOS1214=1199pass15skip0fail is history only",
+    "independent_review": "Root code proof saved; final Code1/Docs4 independent review pending at author seal",
+    "exact_head_CI": "new head Native8, fixed Full26, copy/Release and required full common/CI pending",
+    "actual_new_case": "not run for new code; first b4d was7pass1fail before More",
+    "Git_branch_PR_main": "no action by this private author"
+  },
+  "unfinished": [
+    "actual save-dialog identification and cancellation",
+    "actual Native8 and required exact-head CI",
+    "real provider export and external file contents",
+    "raw persistence byte identity via UI",
+    "actual iOS17 and iOS26 for this case",
+    "VoiceOver",
+    "physical device and signing/profile renewal",
+    "Current main88 exact SDK/hosted compile and full common, focused graph/docs review, Native8 and required CI"
+  ],
+  "TODO": {
+    "total": 32,
+    "complete": 14,
+    "IOS22_complete": false,
+    "IOS25_complete": false
+  },
+  "actual_base_main_reported_by_Root": "88c9ac391459ead50cf5e28b25918f97ac9332cf",
+  "base_tree": "42a595f687677ceda2203873f01a0864b06f43f6",
+  "base_tracked": 2850,
+  "dependency_choice": {
+    "ReadingRecovery_before_SHA256": "5f039b1873fc4a7f5396e9f4545502d4b4f86ce39a18e58786e672563cd5360b",
+    "Native_base_SHA256": "00e75a518b7af8a69679adb9771c2e6d584c466c91e39c7e68b2ea75956c707c",
+    "new_UI_code_SHA256": "80f8223b021d43eaf23914cf8e0cad6a40f832167dbdff99ef4bf99b2eddf25a",
+    "existing_Native_API_names_present": [
+      "open",
+      "goToContents",
+      "element",
+      "requireNativeBody",
+      "requireHittable",
+      "isHittableOnScreen",
+      "capture"
+    ],
+    "all_ReadingRecovery_old_methods_helpers_fullbyte_held": true,
+    "source_product_dependency_on_PR320": false,
+    "unpublished_PR320_App_ReaderReflow_workflow_helper_unit_records_included": false,
+    "decision": "Root verified APIs already present in adopted main88 and resumed independent IOS22/25 work while PR320 stays unfinished."
+  },
+  "source3_static_review": {
+    "SHA256": "59c400834316855f67a01d4a5198e01501375f5eb6e78388a2652e3e6ba6db22",
+    "P1_count": 0,
+    "P2_count": 0,
+    "scope": "unchanged code80f only; current main88 binding/docs addendum pending"
+  },
+  "historical_only": {
+    "prior_Source5_base": "9eca95f3fe571291999803424e724bd733583db2",
+    "prior_Source5_packet_manifest_SHA256": "7b183862736a581fe1f4850e791099b3cbd27c8757a25705b376c5312f92a81c",
+    "prior_Source5_review_SHA256": "e806df75b7773a92eb4326be7f32295e53c36c03b8ec98b1a532c71fe3a1e102",
+    "prior_9eca_UI6_SDK_result_SHA256": "44e0a557a8dd709375957faf2dfe200f0030f772f542a8b046361e1386d3085a",
+    "limits": "Former 9eca graph review and SDK0 are history, not current-main88 graph or SDK acceptance. Original packets remain immutable."
+  },
+  "publication_state": "Private two-commit followup proposal on public b4d; ordinary FF/update and required new-head CI owned by Root; no main adoption claimed",
+  "followup_date_JST": "2026-11-01",
+  "parent_PR321_head": "b4d5f04901984399333aeae9b21263b2c2020ed0",
+  "parent_tree": "5b8db0d8bdac21e223c82455c4360f915651b711",
+  "initial_source5_history": {
+    "state": "PRIVATE_SOURCE5_ACTUAL_MAIN88_INDEPENDENT_UNIT",
+    "code": {
+      "path": "ios/AILibraryUITests/ReadingRecoveryUITests.swift",
+      "mode": "100644",
+      "before_bytes": 14070,
+      "before_SHA256": "5f039b1873fc4a7f5396e9f4545502d4b4f86ce39a18e58786e672563cd5360b",
+      "before_blob_oid": "d1f5e0f24c1ba57c3324647f2a0e5e31e7fff79c",
+      "bytes": 22750,
+      "SHA256": "80f8223b021d43eaf23914cf8e0cad6a40f832167dbdff99ef4bf99b2eddf25a",
+      "blob_oid": "2d5e201ad54b256ccaa1d538b83e1155dc084c1a"
+    },
+    "validation": {
+      "source_inverse_fullbyte": "passed pure-data check",
+      "existing_cases_helpers": "held byte-for-byte",
+      "SDK_typecheck": "Current exact main88 UI5+code80f preflight SKIPPED_LOW_CAPACITY; compiler not started, unverified. Older 9eca UI6 exit0 is historical only.",
+      "npm_run_check": "Not run for this actual-main88 Source5. Capacity floor or exact-head hosted full common required; no current result is claimed.",
+      "independent_review": "Source3 code review P1/P2zero carried for unchanged code; current graph/docs addendum after current checks pending",
+      "exact_head_CI": "Not run; actual-head hosted compile/Native8/full common and required CI must pass before ordinary main",
+      "actual_new_case": "not performed",
+      "Git_branch_PR_main": "not performed",
+      "new_failure_diagnostic": "No debugDescription in insertion; existing helpers unchanged"
+    },
+    "local_SDK_preflight": {
+      "state": "SKIPPED_LOW_CAPACITY",
+      "reported_by": "Root",
+      "compiler_started": false,
+      "input_copy_started": false,
+      "receipt_status": "durable Root skip receipt read",
+      "required_free_bytes": 734003200,
+      "later_measured_free_bytes": 552894464,
+      "later_measurement_UTC": "2026-10-31T14:05",
+      "exact_guard_instant_free_value": "not recorded",
+      "interpretation": "Preflight stopped before compiler/input copy. No source/typecheck failure or current-main success is claimed.",
+      "receipt_SHA256": "d3158258f3191c8189d01e58edd79d41acc7fd232b95c9f0cd6e12df1e05d553"
+    }
+  },
+  "initial_b4d_CI": {
+    "sealed_result_SHA256": "3b3b1a4bc0bf6e123ac47d60487809e2dec26513fdee9697dc3a3f6f003f7083",
+    "Native": {
+      "run": 41210390667,
+      "job": 124563982370,
+      "attempt": 1,
+      "job_conclusion": "failure",
+      "units": {
+        "total": 278,
+        "passed": 276,
+        "skipped": 2,
+        "failed": 0,
+        "notice6_actual_pass": 6,
+        "Diagnostics6_actual_pass": 6
+      },
+      "UI": {
+        "total": 8,
+        "passed": 7,
+        "failed": 1
+      },
+      "new_case": "failed before first More tap; SaveDialog/cancel/relaunch not reached",
+      "Release": "skipped"
+    },
+    "macOS_full_common": {
+      "literal": "npm run check",
+      "total": 1214,
+      "passed": 1199,
+      "skipped": 15,
+      "failed": 0,
+      "test_duration_ms": 43904.561083,
+      "all_eight_commands_completed": true,
+      "metadata_step_conclusion": "success",
+      "pipeline_commands": [
+        "npm test",
+        "npm run ios:test:icon",
+        "npm run lint:md",
+        "npm run validate",
+        "npm run links",
+        "npm run check:levels",
+        "npm run todos",
+        "npm run check:harness"
+      ],
+      "scope": "Actual exact-head macOS CI; local14skip and unmergedPR3201238 not substituted"
+    },
+    "FullA": {
+      "run": 41210390660,
+      "job": 124563982502,
+      "attempt": 1,
+      "job_conclusion": "success",
+      "units": {
+        "total": 278,
+        "passed": 276,
+        "skipped": 2,
+        "failed": 0,
+        "summary_lines": [
+          15330,
+          15332
+        ]
+      },
+      "UI": {
+        "total": 18,
+        "unique": 18,
+        "passed": 18,
+        "classes": {
+          "NativeReaderUITests": 3,
+          "PublishedReaderUITests": 9,
+          "ReaderViewportGeometryTests": 6
+        }
+      }
+    },
+    "FullB": {
+      "run": 41210390660,
+      "job": 124563982260,
+      "attempt": 1,
+      "job_conclusion": "failure",
+      "stage": "pre-UI canary seed xcrun simctl pbcopy timeout30000ms",
+      "UI_actual": 0,
+      "copy374": "not reached",
+      "Release199_audio1_625_fixtureAbsent": "not reached"
+    },
+    "new_case_acceptance": "not accepted; failed before first More tap and fileExporter entry"
+  },
+  "failure_diagnosis": {
+    "diagnosis_SHA256": "3203a82657297f129c321c42550cd136622d138993a683af383a682a9ac3321f",
+    "hierarchy_SHA256": "969bbf708a3ee8376b68365e146b411e15e21cf09a325cea1c7072316ab47e70",
+    "screenshot_SHA256": "a613729bf16d55acbe777c09913182d63dfc0d88a5511cfccce716d5b414c079",
+    "observed": "Foreground AI Agent Library navigation bar has the empty search field and public Cancel; no More exists. Clearing filter query left the search session active.",
+    "not_proven": [
+      "fileExporter or Cancel defect",
+      "bookmark or reading-state loss",
+      "new case end-to-end success"
+    ]
+  },
+  "search_preparation_fix": {
+    "placement": "After the existing new-case clearFilters tap, before liveResume",
+    "operation": "Exactly one tap of unique fully visible Japanese Cancel scoped to the observed library navigation bar/search field",
+    "conditions": "One library bar, one observed search field and Cancel; finite nonempty contained frames; then Cancel absent and exactly one fully visible usable existing More control",
+    "no_alternate_More_selector": true,
+    "no_export_retry_or_extra_provider_action": true,
+    "Root_code_proof_SHA256": "d2d26c1337369f19a9e2b9fbed6d83500189ab899896d94c0b8cf75ef6f28748",
+    "actual_new_head_UI": "pending"
+  }
+}

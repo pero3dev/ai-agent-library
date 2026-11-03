@@ -1,0 +1,391 @@
+{
+  "schema_version": 1,
+  "task": "ios-bundled-content-activation",
+  "date": "2026-10-25",
+  "status": "filtered-action-sheet-fixed-awaiting-exact-head-retest",
+  "authorization": "Autonomous iOS implementation with staged commit PR main; physical checks may be recorded incomplete",
+  "parent_PR": 257,
+  "parent_head": "39349db4043beadaf09c94ffef43155d01acdd11",
+  "version": "0.2.10(12)",
+  "source_sha256": {
+    "ios/AILibrary/Sources/ContentRepository.swift": "af4ed5924eb4c36311fa501d7adaa1208afe086499ede1e063b1526ff5d712df",
+    "ios/AILibrary/Sources/LibraryStore.swift": "b5622cc8118ab5d58deb3d7d1c4aba9d2172d8d64ea0bc5451181ae4967c61fa",
+    "ios/AILibraryTests/LibraryCoreTests.swift": "4e4c862a9bffabd1d81000ee11c2f8eb52b4fc3718cd7f087110d203402090c5",
+    "ios/AILibrary/Sources/LibraryView.swift": "7deebd2694ff881597616f1f3aea7c558be539f8bad348828f308860f628f0f8",
+    "ios/AILibraryUITests/PublishedReaderUITests.swift": "07014b28e7d848ffda4e34b9453b04a6d8f1a62b3122ddb14a733caf037c945d",
+    "ios/AILibrary.xcodeproj/project.pbxproj": "b2eb93b1bbaccdaca458f1b9f2a355452f503a1923c3678cca1b979a77e9b5fa"
+  },
+  "Core_validation": {
+    "Mac_direct_XCTest": {
+      "status": "passed",
+      "executed": 51,
+      "failed": 0,
+      "skipped": 0,
+      "new_methods": 7,
+      "prior_methods": 44,
+      "surface": "Actual first LibraryCoreTests class extracted unchanged from tracked file, macOS XCTest direct suite; no audio class or app-hosted unit/UI execution",
+      "log": "/private/tmp/ios-bundled-core-validation/xctest-all.log",
+      "source_scope": "Before the P2 preview-message correction; final code reran only the two relevant preview failures."
+    },
+    "real_migration": {
+      "bookmarks_positions_last_article_bytes_unchanged": true,
+      "common_article_resolutions": [
+        {
+          "article": "01-concepts/agent-loop",
+          "document_digest_changed": true,
+          "semantic_fingerprint_restored": true
+        },
+        {
+          "article": "01-concepts/tool-use",
+          "document_digest_changed": true,
+          "semantic_fingerprint_restored": true
+        },
+        {
+          "article": "11-llm-internals/transformer-architecture",
+          "document_digest_changed": true,
+          "semantic_fingerprint_restored": true
+        }
+      ],
+      "production_storage_touched": false,
+      "source_all_files_hash_validated": true,
+      "source_manifests_unchanged": true,
+      "stages": [
+        "import3",
+        "new-bundle-does-not-auto-override",
+        "read-only-preview",
+        "explicit3-to199",
+        "reopen199",
+        "equivalent-no-copy",
+        "old-binary-keeps199",
+        "explicit199-to3"
+      ],
+      "status": "passed",
+      "surface": "actual LibraryStore and ContentRepository macOS non-UI execution",
+      "source_scope": "Before the P2 preview-message correction; activation behavior is unchanged by the final message-only fix."
+    },
+    "targeted_concurrency_source_compile": "passed-with-existing-and-added-non-Sendable-capture-warnings-under-CLT5.8.1; final iOS SDK compile owned by UI worker",
+    "test_compile_warnings": "Five heterogeneous collection inference warnings from pre-existing learningPackage fixture payload",
+    "diff_check": "passed",
+    "initial_test_compile_attempts": "Failed first for missing XCTest framework and then Swift overlay search path; corrected official Xcode framework/usr-lib search paths and successful suite execution; failed attempts did not change source",
+    "additional_CoreSmoke": {
+      "status": "incomplete-environment",
+      "normal_compile": "LLVM No space left on device",
+      "fixture_compile": "not-started-after-normal-failure",
+      "log": "/private/tmp/ios-bundled-core-validation/core-smoke-normal.log",
+      "self_generated_cache_removed_MiB_approx": 201,
+      "note": "Mac direct51 and real3-to199 migration completed successfully before disk exhaustion. Only this task-owned reproducible module-cache was removed; source/log/compiled binaries retained."
+    }
+  },
+  "API": {
+    "preview": "LibraryStore.previewBundledContent() async -> BundledContentPreview?; fully validate in background without writes or published bundle change; normal mode only",
+    "activation": "LibraryStore.activateBundledContent() async -> Bool; true means accepted (changed or already equivalent), false means rejected/failed; serialized with load/import; post-commit cancellation still publishes matching bundle",
+    "equivalence": "Compare JSONEncoder sorted-key encodings of two fully validated ContentManifest values including all metadata, article/audio order and every asset digest. Do not compare only opaque revision. Formatting differences do not cause duplicate copies.",
+    "storage": "Reuse install staging/validation/atomic current.json pointer; retain prior UUID versions and all reading bytes. Ordinary load still prefers valid imported content."
+  },
+  "regressions": [
+    "read-only preview and ordinary import priority",
+    "same opaque revision but different body digests still activates bundled version",
+    "manifest formatting only is equivalent and does not create new UUID copy",
+    "fresh already-bundled selection does not write pointer",
+    "future manifest/document, fixture normal-mode, hash mismatch and atomic pointer-write failure preserve active pointer and old package",
+    "Store changes snapshot/index together and keeps missing article bookmarks/lastArticle/position bytes; reopens and returns to older bundle",
+    "Store failure preserves accepted index/body and records",
+    "cancelled entry and fixture mode perform no activation writes",
+    "cancellation after selection begins still publishes committed repository snapshot/index",
+    "all previous heading/fingerprint/fraction/legacy-record Core regressions pass"
+  ],
+  "UI_validation": {
+    "purpose": "Explicit bundled-content selection confirmation at the normal library root, with UI reset only after success and cancellation without activation.",
+    "parent": "PR257 head39349db4043beadaf09c94ffef43155d01acdd11",
+    "ownerFiles": [
+      "ios/AILibrary/Sources/LibraryView.swift",
+      "ios/AILibraryUITests/PublishedReaderUITests.swift",
+      "ios/AILibrary.xcodeproj/project.pbxproj"
+    ],
+    "authorization": "Parent assignment under user autonomous iOS implementation authorization; Git mutations, shared package generation, external changes, Simulator and device operations prohibited.",
+    "baselineSHA256": {
+      "ios/AILibrary/Sources/LibraryView.swift": "a548c93d764ab63b384f8d3f355b818c3a240075f4b7fd9d562e6333b31a35db",
+      "ios/AILibraryUITests/PublishedReaderUITests.swift": "013e5ef5e163d1dade25e26e7feacdd5dde2ceeccbe080cc2c58eb5b5957a448",
+      "ios/AILibrary.xcodeproj/project.pbxproj": "5b3e3ffbca78c9f1e9470b6be1198e41d232a0dc4df996bd43b6c63de6a53f2a"
+    },
+    "coreOwner": "/root/bundled_content_activation_core",
+    "requiredValidation": [
+      "Owned diff review, existing UI methods unchanged",
+      "Core refreeze before final SDK all-target compile",
+      "Parent independent review and Hosted UI execution"
+    ],
+    "completionCondition": "Report sourceSHA, implementation, compile scope and unfinished runtime acceptance, then freeze.",
+    "selfReview": {
+      "existingUI": "Exact entire existing Published class prefix and methods retained; one private helper plus one method appended. NativeReaderUITests not edited.",
+      "project": "Exact baseline project preserved apart from two Debug/Release marketing/build version pairs.",
+      "data": "Current and bundled counts/revisions come only from validated Store preview; no fixed full-catalog count in UI.",
+      "boundary": "Normal root only; menu disabled without active content or while busy; fixture Store capability also guards activation.",
+      "presentation": "Nonmutating preview before presenting confirmation. Confirm schedules activation via onDismiss; Store alerts publish after the sheet closes. Cancel never schedules activation.",
+      "successOnlyReset": "Only activateBundledContent true resets path and every transient list filter plus pending learning destination. Failure preserves them and uses the existing alert.",
+      "testScope": "Full candidate starts with an equivalent bundle: confirms cancellation/no-op selection/restart/guide/reading. Actual3-to199 migration and pointer atomicity remain Core regressions, not a claimed UI scenario."
+    },
+    "sourceSHA256": {
+      "ios/AILibrary/Sources/LibraryView.swift": "1677c38b25b43f9d82044eaec6dc8d7934ce7a7b6ce4e4ca7d689abeb5b648c1",
+      "ios/AILibraryUITests/PublishedReaderUITests.swift": "07014b28e7d848ffda4e34b9453b04a6d8f1a62b3122ddb14a733caf037c945d",
+      "ios/AILibrary.xcodeproj/project.pbxproj": "b2eb93b1bbaccdaca458f1b9f2a355452f503a1923c3678cca1b979a77e9b5fa"
+    },
+    "coreSHA256": {
+      "ios/AILibrary/Sources/ContentRepository.swift": "af4ed5924eb4c36311fa501d7adaa1208afe086499ede1e063b1526ff5d712df",
+      "ios/AILibrary/Sources/LibraryStore.swift": "b1fa08a24f8576d64ac4412eb237fcb919828b4bb83641298e72d34a0c4947e7",
+      "ios/AILibraryTests/LibraryCoreTests.swift": "2517c2e3eb4418c93ec2eaf146eefbf688be49356ef22c37e86c3db88cb08626",
+      "ios/AILibrary/Sources/Models.swift": "7e0b70ab76d34d95aac1cd7b17a088c39fbdc500482bcbee1e466938fb24b57f"
+    },
+    "status": "UI three files frozen and current SDK compilation successful; subsequent Core review fix/recompile and UI independent review/Hosted runtime acceptance pending parent",
+    "SDK": {
+      "result": "TEST BUILD SUCCEEDED",
+      "log": "/private/tmp/ios-bundled-content-ui-sdk-build-2026-10-25.log",
+      "logSHA256": "0e60b4fc917608102453386932d34178d8ed449942545910cdfa78f06800de5c",
+      "configuration": "Xcode16.2, Debug, generic/platform=iOS Simulator, SDK18.2, CODE_SIGNING_ALLOWED=NO, existing .local/ios-baseline-sdk, jobs2",
+      "scope": "App, all registered unit target and UI target. Compilation only. No Simulator/physical-device/test runtime.",
+      "ModelsAtCompile": "7e0b70ab76d34d95aac1cd7b17a088c39fbdc500482bcbee1e466938fb24b57f",
+      "coordination": "Search worker parked its independent Models change and kept PR257 baseline through SDK completion; notified root and worker immediately after completion. Subsequent search work is outside this build."
+    },
+    "version": {
+      "marketing": "0.2.10",
+      "build": "12"
+    },
+    "UI": {
+      "existingMethodsUnchanged": 8,
+      "newMethods": 1,
+      "totalPrepared": 9,
+      "executedByThisTask": 0,
+      "newCase": "Cancel retains query+tag; confirm requires success notice and clears transient filters; dynamic full count and guide survive restart; saved bookmark and Transformer heading resume remain readable. Same-package selection only; actual3-to199 is Core-covered separately."
+    },
+    "sharedPackages": {
+      "Content": {
+        "count": 3,
+        "revision": "c10353c16891efda1997cd17a698220c09d9af37092fe3a2e7691fd05999b6f4",
+        "manifestSHA256": "6acf9de646962279de13ae090fa975e177600b0c11db3bdcebe145e5e31e6c92",
+        "modifiedByThisTask": false
+      },
+      "TestContent": {
+        "count": 4,
+        "revision": "15df0e08aa2597ea012970f812a4eb7fe242ff626d4e6d0f17b62888b258e60a",
+        "manifestSHA256": "686c98ec742983cb5fa07c7561bf609691f072bf2781b53d37572a830426a517",
+        "modifiedByThisTask": false
+      }
+    },
+    "validation": {
+      "projectPlistLint": "passed",
+      "existingPublishedPrefixExactMatch": "passed",
+      "projectVersionOnlyChange": "passed",
+      "realTransformerTagReference": "passed",
+      "ownedDiffWhitespaceCheck": "passed",
+      "commonRepositoryChecks": "parent-owned",
+      "newHostedUI": "not run",
+      "physicalDevice": "not run",
+      "VoiceOver": "not run",
+      "ReleaseCompileAndAudit": "not run by this task",
+      "externalTraffic": "none",
+      "gitMutations": "none",
+      "generation": "none"
+    },
+    "environment": {
+      "architecture": "arm64",
+      "macOS": "14.6.1",
+      "capacityNote": "SDK start waited while root reclaimed completed task module caches after a Core standalone compiler ENOSPC. Sources and evidence retained. Baseline SDK DerivedData preserved."
+    },
+    "subsequentReview": "After this successful SDK compile, parent reported a Core preview-failure wording P2. Core owner will correct it and parent will obtain another exact-source SDK compile. UI three files remain frozen and unchanged."
+  },
+  "independent_review": "approved-Core3-and-UI3",
+  "Hosted": "retest-pending-final-head",
+  "Release": "pending-final-head",
+  "default_catalog_change": false,
+  "not_completed": [
+    "new-physical-VoiceOver-max-text-low-storage-device-acceptance",
+    "default199-adoption",
+    "network-update-authenticity",
+    "old-package-capacity-cleanup",
+    "article-ID-rename-migration",
+    "IOS22-overall-acceptance"
+  ],
+  "Core_review": "approved-after-preview-nil-P2-fix",
+  "UI_review": "approved-three-paths",
+  "Core_review_fix": {
+    "finding": "P2: no loaded snapshot but failed bundled preview falsely claimed existing body could continue",
+    "change": "Use the same snapshot-nil recovery text branch as installContent; preserve initial loadError and no-storage-write behavior",
+    "owned_files": [
+      "ios/AILibrary/Sources/LibraryStore.swift",
+      "ios/AILibraryTests/LibraryCoreTests.swift"
+    ],
+    "validation": {
+      "status": "passed",
+      "surface": "macOS direct XCTest, actual new nil-preview method and existing loaded-snapshot preview failure method",
+      "executed": 2,
+      "failed": 0,
+      "skipped": 0,
+      "private_Models_source": "PR257 39349db4043beadaf09c94ffef43155d01acdd11 Models.swift",
+      "private_Models_sha256": "7e0b70ab76d34d95aac1cd7b17a088c39fbdc500482bcbee1e466938fb24b57f",
+      "search_worker_candidate_excluded": true,
+      "all_first_class_methods_now_registered": 52,
+      "full51_rerun_after_fix": false,
+      "source_compile": "actual seven production source module compiled successfully on CLT Swift5.8.1; prior non-Sendable capture warnings retained",
+      "SDK_recompile": "root scheduled separately"
+    },
+    "evidence": {
+      "LibraryCoreTests.swift": "8316b498a4d095bce701413dc5caa20216f67c949375c203f07400203947faf5",
+      "source-compile.log": "79fb1516388f9cabebb390c050a18e3238d1fd5f545c2d74242a9c6aba235bce",
+      "test-compile.log": "4a261563687e6ceb137ddcf12a76f0fc37f4936e949509543ba2887a6129736d",
+      "xctest.log": "53ea9d9d65eebb702325826f986c1142e8501033b05194bd06533da99063ef2a"
+    },
+    "self_owned_module_cache_removed_bytes": 209952160
+  },
+  "UI_validation_scope": "Initial UI-owner evidence before CoreP2; final SDK below supersedes its pending recompile statement.",
+  "pre_more_actions_fix_source_sha256": {
+    "ios/AILibrary/Sources/ContentRepository.swift": "af4ed5924eb4c36311fa501d7adaa1208afe086499ede1e063b1526ff5d712df",
+    "ios/AILibrary/Sources/LibraryStore.swift": "b5622cc8118ab5d58deb3d7d1c4aba9d2172d8d64ea0bc5451181ae4967c61fa",
+    "ios/AILibraryTests/LibraryCoreTests.swift": "4e4c862a9bffabd1d81000ee11c2f8eb52b4fc3718cd7f087110d203402090c5",
+    "ios/AILibrary/Sources/LibraryView.swift": "1677c38b25b43f9d82044eaec6dc8d7934ce7a7b6ce4e4ca7d689abeb5b648c1",
+    "ios/AILibraryUITests/PublishedReaderUITests.swift": "07014b28e7d848ffda4e34b9453b04a6d8f1a62b3122ddb14a733caf037c945d",
+    "ios/AILibrary.xcodeproj/project.pbxproj": "b2eb93b1bbaccdaca458f1b9f2a355452f503a1923c3678cca1b979a77e9b5fa"
+  },
+  "hosted_first_attempt": {
+    "source_head": "004cb0a6dc1d061d97ca8e2122f0f583f8f69940",
+    "run": 40180468739,
+    "job": 121130246078,
+    "unit": {
+      "registered": 109,
+      "passed": 107,
+      "skipped": 2,
+      "failed": 0
+    },
+    "UI": {
+      "total": 9,
+      "passed": 8,
+      "failed": 1
+    },
+    "Release": "not-run-after-UI-failure",
+    "finding": "More toolbar absent in active nonempty search; query and tag retained in failure AX",
+    "fix": "Shared More actions in filtering section; toolbar More only when not filtering; inline zero-results section avoids overlay covering actions",
+    "assertions_weakened": false,
+    "runtime_after_fix": "pending-final-head",
+    "empty_query_search_active": "not-verified"
+  },
+  "pre_more_actions_fix_SDK": {
+    "result": "TEST BUILD SUCCEEDED",
+    "log": "/private/tmp/ios-bundled-activation-final-sdk-retry-2026-10-25.log",
+    "logSHA256": "9a2628cc1fdbfbb28019b6c4b6cc643a79759be0a8a77229c1defe1eb1b6fffb",
+    "configuration": "Xcode16.2 / SimulatorSDK18.2 / generic Simulator / Debug / CODE_SIGNING_ALLOWED=NO / jobs2 / existing baselineSDK",
+    "registered_unit_methods_compiled": 109,
+    "registered_UI_methods_compiled": 9,
+    "unit_runtime_executed_by_this_build": false,
+    "UI_runtime_executed_by_this_build": false,
+    "Models_source_at_compile": "7e0b70ab76d34d95aac1cd7b17a088c39fbdc500482bcbee1e466938fb24b57f",
+    "next_search_index_excluded": true,
+    "initial_outer_sandbox_failure": "sandbox-exec sandbox_apply Operation not permitted; log retained; exact command rerun with escalation; Xcode sandbox setting unchanged"
+  },
+  "SDK_after_more_actions_fix": "not-run-exact-head; cumulative chapter SDK is separate",
+  "pre_more_row_hit_fix_source_sha256": {
+    "ios/AILibrary/Sources/ContentRepository.swift": "af4ed5924eb4c36311fa501d7adaa1208afe086499ede1e063b1526ff5d712df",
+    "ios/AILibrary/Sources/LibraryStore.swift": "b5622cc8118ab5d58deb3d7d1c4aba9d2172d8d64ea0bc5451181ae4967c61fa",
+    "ios/AILibraryTests/LibraryCoreTests.swift": "4e4c862a9bffabd1d81000ee11c2f8eb52b4fc3718cd7f087110d203402090c5",
+    "ios/AILibrary/Sources/LibraryView.swift": "5736316e64bcb910991d3c54aff3535f99a40d725d82291dea0f1124ed9ebac5",
+    "ios/AILibraryUITests/PublishedReaderUITests.swift": "07014b28e7d848ffda4e34b9453b04a6d8f1a62b3122ddb14a733caf037c945d",
+    "ios/AILibrary.xcodeproj/project.pbxproj": "b2eb93b1bbaccdaca458f1b9f2a355452f503a1923c3678cca1b979a77e9b5fa"
+  },
+  "inherited_more_row_hit_fix": {
+    "head": "50a93331275577d0198bbfa47e2c84be8f8fddeb",
+    "run": 40182710048,
+    "job": 121136955387,
+    "unit": {
+      "registered": 109,
+      "passed": 107,
+      "skipped": 2,
+      "failed": 0
+    },
+    "UI": {
+      "total": 9,
+      "passed": 8,
+      "failed": 1
+    },
+    "Release": "not-run-after-UI-failure",
+    "observed": "Menu row exists and receives tap but popup absent; next menu item does not exist",
+    "outer_row": [
+      20,
+      354,
+      353,
+      44
+    ],
+    "inner_menu_button": [
+      40,
+      363,
+      139.7,
+      26
+    ],
+    "actual_touch_down_and_up": [
+      196.5,
+      376
+    ],
+    "inference": "Tap falls inside visual row but outside inner Menu; exact UIKit routing unproven",
+    "fix": "Make filtered Menu Label full-width with Rectangle contentShape only",
+    "UI_assertions_changed": false,
+    "app_only_cumulative_SDK": "passed; exact canonical branch tests pending",
+    "local_probe": "Dedicated Simulator boot aborted during initial migration ENOSPC before test; owned device removed and absence verified; no app runtime result"
+  },
+  "SDK_after_more_row_hit_fix": "app-only cumulative build passed; exact-head SDK/Hosted pending",
+  "pre_filtered_action_sheet_fix_source_sha256": {
+    "ios/AILibrary/Sources/ContentRepository.swift": "af4ed5924eb4c36311fa501d7adaa1208afe086499ede1e063b1526ff5d712df",
+    "ios/AILibrary/Sources/LibraryStore.swift": "b5622cc8118ab5d58deb3d7d1c4aba9d2172d8d64ea0bc5451181ae4967c61fa",
+    "ios/AILibraryTests/LibraryCoreTests.swift": "4e4c862a9bffabd1d81000ee11c2f8eb52b4fc3718cd7f087110d203402090c5",
+    "ios/AILibrary/Sources/LibraryView.swift": "ab4902dac3a73d2997dccbfd24063f93fb62a6698f3009ead98fc2bea3002b45",
+    "ios/AILibraryUITests/PublishedReaderUITests.swift": "07014b28e7d848ffda4e34b9453b04a6d8f1a62b3122ddb14a733caf037c945d",
+    "ios/AILibrary.xcodeproj/project.pbxproj": "b2eb93b1bbaccdaca458f1b9f2a355452f503a1923c3678cca1b979a77e9b5fa"
+  },
+  "inherited_filtered_action_sheet_fix": {
+    "head": "a03901c0f5fbf3d28ba2d91456747bcf0cb852cb",
+    "run": 40186338703,
+    "job": 121147813799,
+    "unit": {
+      "registered": 109,
+      "passed": 107,
+      "skipped": 2,
+      "failed": 0
+    },
+    "UI": {
+      "total": 9,
+      "passed": 8,
+      "failed": 1
+    },
+    "Release": "not-run-after-UI-failure",
+    "observed": "More Menu still absent after full-width label; next item missing at existing line204",
+    "outer_row": [
+      20,
+      354,
+      353,
+      44
+    ],
+    "later_inner_menu_bounds": [
+      40,
+      363,
+      313,
+      26
+    ],
+    "actual_touch": [
+      55.300000526,
+      358.400000066
+    ],
+    "bounds_observation_delay_seconds": 15.65,
+    "inference": "Actual event is above later inner bounds; instantaneous bounds and UIKit cause not proved",
+    "fix": "Filtered ordinary Button opens SwiftUI action sheet; shared commands queue selection then dispatch only from sheet onDismiss; toolbar remains direct Menu",
+    "UI_assertions_changed": false,
+    "version_changed": false,
+    "app_only_cumulative_SDK": "passed Xcode16.2/SDK18.2/version0.2.14(16); not exact earlier branch runtime",
+    "artifact": {
+      "id": 12597565276,
+      "bytes": 145208313,
+      "sha256": "6611a91f8bc1c13217644fe2deeb21fd892e0570571f839a1a9cdcff3ccf3c56"
+    },
+    "unverified": [
+      "new sheet Hosted menu/bundled acceptance",
+      "sheet import/about/fixture paths",
+      "zero result and maximum text/VoiceOver",
+      "physical device"
+    ]
+  },
+  "SDK_after_filtered_action_sheet_fix": "app-only cumulative build passed; exact-head SDK/Hosted pending"
+}

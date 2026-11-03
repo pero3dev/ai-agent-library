@@ -1,0 +1,209 @@
+{
+  "schema_version": 1,
+  "state": "source8-candidate-frozen-before-append-commit-or-new-head-CI",
+  "candidate_freeze_UTC": "2026-11-01T20:45:57.487944+00:00",
+  "base": {
+    "public_PR": 320,
+    "expected_head": "d0d0d89e54b0b968a67df3e53d9a17f91aff1dd0",
+    "tree": "e985fcc6ff67e2b67faae0e5740063aa5e54accf",
+    "tracked": 2870,
+    "actual_main_at_preparation": "da82094a11494c1e42d297bf862c8aa616af752b",
+    "base_is_main": false
+  },
+  "purpose": "Separate font input, root-to-sheet environment propagation and table wrapping with bounded diagnostic observations; keep original strict acceptance conditions.",
+  "owned_paths": [
+    "ios/AILibrary/Sources/AILibraryApp.swift",
+    "ios/AILibrary/Sources/LibraryView.swift",
+    "ios/AILibrary/Sources/NativeReaderView.swift",
+    "ios/AILibraryUITests/ReaderReflowUITests.swift",
+    "project/records/2026-11-02/ios-dynamic-type-environment-probe.md",
+    "project/records/2026-11-02/ios-dynamic-type-environment-probe.json",
+    "project/README.md",
+    "project/plans/engineering/ios-app-completion.md"
+  ],
+  "authorization": "User requested autonomous priority TODO work with scoped commits and ordinary PR/main integration; physical checks may remain incomplete and skipped. This preparation itself performs no external mutation.",
+  "original_d0d_observation": {
+    "initial_workflows": {
+      "total": 8,
+      "passed": 4,
+      "failed": 4
+    },
+    "Full_fixed26": {
+      "passed": 25,
+      "failed": 1
+    },
+    "Dedicated_Dynamic": {
+      "run": 41342224652,
+      "attempt": 1,
+      "actual_cases": 1,
+      "failed": 1,
+      "case_seconds": 197.6,
+      "first_failure": "ReaderReflowUITests.swift:347",
+      "current_stride": 132.33333333333303,
+      "saved_stride": 132.33333333333303,
+      "required_greater_than": 165.4166666666663,
+      "growth_factor": 1.25,
+      "outer_720_timeout": false,
+      "default_return_reached": false,
+      "strict1_passed": false,
+      "first_stage_A5_restore_and_witness_before_stride_assert": "passed"
+    },
+    "Root_Rotation": {
+      "initial": {
+        "UI_cases": 0,
+        "stage": "before UI",
+        "error": "ETIMEDOUT"
+      },
+      "unchanged_retry_attempt2": {
+        "UI_cases": 0,
+        "stage": "before UI",
+        "error": "ETIMEDOUT"
+      },
+      "accepted_as_rotation_pass": false
+    },
+    "definite_code_defect_or_cause_identified": false,
+    "history_source": "Root received actual d0d run summary and saved source-analysis result; original Source/Root failures remain unchanged.",
+    "full_artifact": {
+      "id": 13098207999,
+      "bytes": 132164652,
+      "SHA256": "36bff1af1cce0b56506abe05ac18fd329ac6930d8583d190726c0b1a7be26914",
+      "official_digest_equal": true,
+      "copied_or_downloaded_by_this_preparation": false
+    }
+  },
+  "diagnostic_contract": {
+    "requires_all": [
+      "DEBUG",
+      "canonical ailibrary-uitest-UUID isolated suite",
+      "valid default or accessibility5 font request",
+      "AILIBRARY_UI_TEST_DYNAMIC_TYPE_PROBE=1"
+    ],
+    "stages": [
+      "root",
+      "fixture with sheetActual",
+      "reader bodySize and fontScale",
+      "table actual size, body metric, received fontScale, two widths and blockID"
+    ],
+    "frames": [
+      "R24 column1",
+      "R24 column2",
+      "R25 column1",
+      "R25 column2"
+    ],
+    "carrier_bytes_max": 512,
+    "console_JSON_bytes_max": 4096,
+    "additional_scalar_or_frame_AX_getters_per_phase_max": 16,
+    "reached_phase_console_records": 1,
+    "sampling": "Sequential across library readiness and reader witness; not atomic or deadline/glyph proof.",
+    "new_displayed_controls_or_images_or_snapshots_or_waits_or_gestures": 0,
+    "invalid_or_incomplete_or_boolean_numeric_carriers": "unavailable, never observed",
+    "known_request_actual_mismatch": "retained as observed; runnerRequest and targetBlockID recorded separately",
+    "present_strict1_audits_probe_JSON": false,
+    "actual_stdout_acceptance": "Root must read the actual reached-phase records separately; carrier absence is not diagnostic success."
+  },
+  "preserved": {
+    "original_assert_lines": 53,
+    "test_methods": 2,
+    "waits_and_actions_and_relaunches": "exact",
+    "growth_greater_than": 1.25,
+    "default_return_accuracy_points": 1,
+    "offset_visible_bookmark_conditions": true,
+    "postContinue_corrective_gestures": 0,
+    "workflow_change": false,
+    "Dynamic_UI_seconds": 720,
+    "strict_sole_pass_gate": 1,
+    "App": "0.2.28(30)",
+    "PBX_changed": false,
+    "persistence_format_changed": false,
+    "TODO_total": 32,
+    "TODO_complete": 14,
+    "IOS11_complete": false,
+    "IOS25_complete": false,
+    "DEBUG_false_projection": {
+      "raw_App_Library_Reader_equal": [
+        false,
+        true,
+        true
+      ],
+      "outer_whitespace_normalized_all_equal": true,
+      "App_difference": "trailing blank line at appended DEBUG boundary only",
+      "runtime_or_binary_noninterference_proof": false
+    }
+  },
+  "validation": {
+    "Code4_r3_SourceMF": "d4a18167c2168a7dbf0f8fa7b7f45e97c44130de8771146f99dc072aa39d4944",
+    "r2_original_P2_review": {
+      "P2": 1,
+      "review_SHA256": "8e796b094a771d9a3b9f6db5d31256247ca9d94a03e5e6111e629810305f90c3",
+      "manifest_SHA256": "71bcb517798a2ee90ea6f6cb9329b191092c3c049c451edeb29a7aed6a7b7618",
+      "retained_unchanged": true
+    },
+    "r3_independent_review": {
+      "P1": 0,
+      "P2": 0,
+      "review_SHA256": "a5624330d054cebcd4af7e639c47018ba438b8fbf77eb38ab4a18a404f28c95b",
+      "manifest_SHA256": "bf5eee6c5baba0da1b80aa0a38df544e769ade5ffe4846908a6328a99c92f211"
+    },
+    "Root_actual_macOS": {
+      "Swift": "6.0.3",
+      "SDK": "MacOSX15.2",
+      "explicit_build_target": "arm64-apple-macosx14.0",
+      "exact_Foundation_CoreFoundation_enum_compile_exit": 0,
+      "runtime_controls": {
+        "total": 89,
+        "expected_valid": 19,
+        "expected_invalid": 70,
+        "mismatches": 0
+      },
+      "Source4_frontend_syntax_exit": 0,
+      "result_SHA256": "07d275c5998254c5779c5b9f505671ba4e5ea1cf4766d1365ce9f3dd4893e310",
+      "not_iOS_SDK_or_XCTest_or_UI_acceptance": true
+    },
+    "Source8_private_data_binding": "All Code4 after bytes exact r3; d0d before tuples; full mode/blob projection and forward/inverse patches. Not a compile or CI run."
+  },
+  "limits": [
+    "Normal Debug has no new diagnostic value override without the complete opt-in gate. DEBUG=false source projections for App3 equal before after normalizing outer whitespace; App raw projection has a trailing blank line at the appended DEBUG boundary. These are source checks, not complete runtime or binary noninterference proof.",
+    "Environment/value plumbing and added sequential AX reads can affect accessibility exposure and timing. Getter/output bounds do not bound AX latency or intermediate allocation.",
+    "Actual A11y carrier exposure, normal Debug geometry/copy behavior and new phase observations are unaccepted.",
+    "No font propagation, glyph scaling, unchanged-stride root-cause repair or restore acceptance follows from typed metadata or macOS schema controls.",
+    "Earlier Source/Root failure histories and candidate-freeze statements remain historical; no failed check is rewritten as passed."
+  ],
+  "publication_plan": {
+    "commit_boundary": "Code4 plus this record2 and prefix-only indices2 as one ordinary append commit on PR320",
+    "new_parent_count": 1,
+    "expected_parent": "d0d0d89e54b0b968a67df3e53d9a17f91aff1dd0",
+    "force": false,
+    "expected_D0D_fast_forward_only": true,
+    "remain_Draft": true,
+    "new_commit": null,
+    "new_head": null,
+    "new_head_initial_CI": null,
+    "Source8_independent_review_and_formats": null,
+    "main": "After all final-source required and task-specific CI, final Ready fresh policies and ordinary protected merge; actual main push validated separately.",
+    "rebind": "If actual main or public PR head changes, stop stale publication and freshly bind full tuples/indices and review affected content.",
+    "separate_PR325_Source7": "Not mixed into this Source8."
+  },
+  "pending": [
+    "Source8 independent review and format checks",
+    "actual append commit and new PR320 head first CI",
+    "iOS SDK/App and UI target verification",
+    "actual reached-phase stdout records and unchanged strict Dynamic/Rotation acceptance",
+    "all required current-head CI and final Ready policy",
+    "ordinary main merge and separate main push verification",
+    "normal Debug geometry/copy and actual accessibility exposure",
+    "physical device, system font settings, live font changes and VoiceOver",
+    "unchanged-stride root cause, IOS-11/25 and other incomplete TODO items"
+  ],
+  "physical_checks": "incomplete-skipped-per-user",
+  "operations_in_this_preparation": {
+    "API": 0,
+    "Git_writes": 0,
+    "Node": 0,
+    "Swift": 0,
+    "SDK": 0,
+    "tests": 0,
+    "Simulator_or_device": 0,
+    "downloads": 0,
+    "tracked_writes": 0
+  }
+}

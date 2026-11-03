@@ -1,0 +1,164 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-29",
+  "state": "private reviewed Source3 plus publication7 preparation; common/final main binding/final7 review/new-head Hosted/ordinary integration pending",
+  "objective": "Preserve post-failed-unit Simulator inventory from the same VM while retaining original unit failure",
+  "authority": "Human ongoing autonomous ordinary iOS CI work, with physical checks allowed incomplete; this worker prepares private candidates only. No new contract/payment/distribution/local OS installation.",
+  "owned_paths": [
+    ".github/workflows/ios-published-candidate.yml",
+    "ios/tests/capture-simulator-unit-failure.mjs",
+    "tests/unit/ios-simulator-unit-failure.test.mjs",
+    "project/records/2026-10-29/ios-full-core-failure-inventory.md",
+    "project/records/2026-10-29/ios-full-core-failure-inventory.json",
+    "project/README.md",
+    "project/plans/engineering/ios-app-completion.md"
+  ],
+  "author_base": {
+    "head": "da46832f6b289536fc67e76ba0511bce07bd0e41",
+    "tree": "fa448a166306fef9f6ab26953bb080a36806b236",
+    "tracked_files": 2807,
+    "Source3_prospective_tree": "693163f43742c04354ff476ebf0e72c0c06abe38",
+    "Source3_prospective_files": 2809,
+    "new_public_records": 2,
+    "final_fresh_adopted_main_binding": "Root later; author tree is not a future adoption claim",
+    "App": "0.2.23 (25)"
+  },
+  "problem": {
+    "historical": "Full unit exit70 can stop before the later UI inventory; earlier VM state and root cause not captured",
+    "current_healthy_Full_is_not_declared_defective": true,
+    "cause_not_proved": true
+  },
+  "workflow": {
+    "native_unit_ID_added": "native_units",
+    "guard": "failure() && !cancelled() && steps.native_units.outcome == failure",
+    "diagnostic_only_continue_on_error": true,
+    "diagnostic_outer_timeout_minutes": 2,
+    "original_unit_failure_preserved": true,
+    "success_skipped_cancelled_helper_no_files_or_probes": true,
+    "inverse_removes_only_ID_and_diagnostic_step": true,
+    "original_workflow_bytes": 25561,
+    "held": [
+      "unit pipefail and tee",
+      "unit xcodebuild argv",
+      "iPhone16 / iOS18.5",
+      "destination timeout120s",
+      "AILibraryTests selection",
+      "job50min",
+      "UI/Release/cleanup",
+      "existing always-upload/90days"
+    ]
+  },
+  "collector": {
+    "read_only_commands": [
+      "xcrun simctl list runtimes --json",
+      "xcrun simctl list devices --json"
+    ],
+    "per_command_ms": 30000,
+    "per_command_combined_raw_stop_threshold_bytes": 1048576,
+    "per_command_retained_arena_bytes": 1048576,
+    "shared_ms": 75000,
+    "outer_step_minutes": 2,
+    "probe_order": [
+      "runtimes",
+      "all devices"
+    ],
+    "next_probe": "only with remaining budget and not cancelled; first failure alone does not force a new command",
+    "path": "fixed fresh unit-failure-inventory below existing evidence; canonical parent identity/O_EXCL/O_NOFOLLOW/no existing outputs or aliases",
+    "raw": "retain unknown/binary/invalidUTF8/unterminated stdout and stderr within budget; observed/retained SHA and byte counts, uncaptured amount distinct",
+    "receipt": "exit/signal/spawn error/cap/timeout scope/cancel/intent/tail and JSON status distinct",
+    "JSON": "strict UTF8 stdout plus runtimes-array/devices-object top-level shape; not full row schema",
+    "captured": "both read exits0 with expected stdout top-level shape; not earlier state/cause/App acceptance or toolchain reference repair",
+    "toolchain": "existing environment.log bounded64KiB read hash or explicit error; no new version or all-env command",
+    "kill": "only own detached child process group; limited child environment excludes credentials",
+    "mutating_CLI_or_test_retry": false,
+    "hard_wallclock_or_receipt_guarantee": false,
+    "raw_total_per_invocation_max_retained_bytes": 2097152,
+    "retention_days": 90
+  },
+  "Source3": {
+    "manifest_SHA256": "691937f9481d75be0f17443f39ef61caf3551c2d010fbe53d681bf29260a0cfc",
+    "files": [
+      {
+        "path": ".github/workflows/ios-published-candidate.yml",
+        "new": false,
+        "before_bytes": 25561,
+        "before_SHA256": "e7c8713374cfcb849a236042aa00d5e4dfa0766412e0653cb60106e5c6c17112",
+        "bytes": 26072,
+        "SHA256": "b8fcc53406634203185eb2ede2c20ffd0f0e55287c530ae98e08106147ee3577"
+      },
+      {
+        "path": "ios/tests/capture-simulator-unit-failure.mjs",
+        "new": true,
+        "before_bytes": 0,
+        "before_SHA256": null,
+        "bytes": 13650,
+        "SHA256": "e7db3225c6a945adfeb0caa15f71d00f3a303bd60b06cf4deecc239d5354af25"
+      },
+      {
+        "path": "tests/unit/ios-simulator-unit-failure.test.mjs",
+        "new": true,
+        "before_bytes": 0,
+        "before_SHA256": null,
+        "bytes": 14678,
+        "SHA256": "df497b41a0ff4afe4fb145cd648d8272af2129e19c808c5e889c9a706e003443"
+      }
+    ],
+    "copy_in_this_preparation": "unchanged bytes"
+  },
+  "validation": {
+    "producer_Node_fixture": {
+      "tests": 15,
+      "pass": 15,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "exit_code": 0,
+      "reported_duration_ms": 1149.011041,
+      "actual_simctl_xcode_SDK_network": false
+    },
+    "syntax_exit_codes": [
+      0,
+      0
+    ],
+    "focused_YAML_and_byte_inverse_exit0": true,
+    "actionlint1_7_12_exit0": true,
+    "shellcheck_pyflakes": "disabled; not verified",
+    "independent_Source3_review": {
+      "manifest_SHA256": "4241f14c29d305587221dbb548c0fe8259094b3530b7b349c6abc7098db1a355",
+      "P1": 0,
+      "P2": 0,
+      "rerun_Node_SDK_network": false
+    },
+    "this_publication_reran_Node_or_SDK": false,
+    "helper_history": "Initial spec reporter assumed TAP; already-completed explicitTAP rerun1 retained. YAML module/namespace helpers later corrected without Source or further passed Node/syntax rerun.",
+    "common_final7_review_newhead_Hosted": "Root later; not counted as this preparation success"
+  },
+  "not_accepted": [
+    "actual Hosted failure-path capture",
+    "natural unit failure diagnostic usefulness",
+    "old destination exit70 cause",
+    "failure-preceding VM state",
+    "full runtime/device row schema",
+    "toolchain reference error resolution by inventory success",
+    "hard wallclock or receipt guarantee under event-loop/FS/OS failure",
+    "new-head normal CI or main integration",
+    "iOS17 acquisition/storage guard or ReaderWait changes",
+    "physical/VoiceOver/minimumOS/performance/IOS-15 whole"
+  ],
+  "integration_plan": [
+    "freeze Source3 and publication7",
+    "bind latest adopted main and full tree, run common, independent final7 review",
+    "one reviewable unit commit and Draft PR",
+    "new exact-head normal CI, retain skipped failure-path status",
+    "Ready fresh required checks then normal protected main merge",
+    "post-merge CI separately verify"
+  ],
+  "TODO": {
+    "rows": 32,
+    "completed": 13,
+    "all_row_bytes_held": true,
+    "IOS15_whole_complete": false
+  },
+  "Source17_carried": false,
+  "actual_simctl_SDK_network_Git_or_GitHub_operation": false
+}

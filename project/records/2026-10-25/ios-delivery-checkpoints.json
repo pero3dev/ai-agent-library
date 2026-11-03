@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "task": "ios-delivery-checkpoint-planning",
+  "date": "2026-10-25",
+  "timezone": "Asia/Tokyo",
+  "status": "completed-plan-update",
+  "scope": "Update the existing iOS TODO with commit, PR and main merge boundaries; planning only.",
+  "baseline_branch": "main",
+  "baseline_HEAD": "405e29273a7a3257adeb370c6ac3196d35693d4d",
+  "existing_changes_preserved": true,
+  "independent_input": "Initial accepted baseline should be one cohesive PR with intent-based commits; later functionality should use separate reviewable PRs.",
+  "planned_checkpoint_ids": [
+    "M0",
+    "M1",
+    "M2",
+    "M3",
+    "M4",
+    "M5",
+    "M6",
+    "M7",
+    "M8",
+    "M9"
+  ],
+  "validation": {
+    "npm_run_check": {
+      "result": "passed",
+      "tests": 559,
+      "passed": 544,
+      "skipped": 15,
+      "failed": 0,
+      "markdown_files": 484,
+      "links": 6263
+    },
+    "candidate_structure": {
+      "result": "passed",
+      "files": 2616
+    },
+    "example_message_format": {
+      "result": "passed",
+      "count": 5
+    },
+    "branch_and_HEAD_unchanged": true,
+    "final_documentation": {
+      "markdown": "passed",
+      "docs_and_links": "passed",
+      "files": 484,
+      "links": 6263
+    },
+    "git_diff_check": "passed",
+    "index_unchanged": true
+  },
+  "not_performed": [
+    "branch-creation",
+    "stage",
+    "commit",
+    "push",
+    "pull-request-creation",
+    "merge",
+    "tag",
+    "distribution",
+    "SDK-or-device-retest"
+  ],
+  "plan": {
+    "checkpoint_count": 10,
+    "initial_baseline_PRs": 1,
+    "initial_intent_commits": "4-5, combine dependent changes if needed",
+    "later_PRs": "One reviewable feature/fix with tests and documentation; chapter acceptance separately.",
+    "merge": "PR-based squash after independent review and required CI, then merge SHA/main CI and relevant deployment confirmation.",
+    "branch_prefix": "codex/",
+    "new_ios_scope_added": false
+  },
+  "independent_review": {
+    "result": "passed",
+    "TODO_coverage": "IOS-01 through IOS-32",
+    "dependency_cycles": false,
+    "authorization_confusion": false,
+    "clarification_applied": "independent content review before merge"
+  },
+  "local_evidence_directory": ".local/ios-delivery-plan-evidence/"
+}

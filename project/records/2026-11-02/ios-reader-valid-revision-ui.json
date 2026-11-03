@@ -1,0 +1,524 @@
+{
+  "Code6_r2_history": {
+    "IR_packetMF": "38a00ad5516ca3913659d24cd690fd063e7d34def0d5f3f7ac10a4cbab2aecc3",
+    "IR_result_SHA256": "965aeda8b67aeb9a1e31c9e1846de13249eda1991faa0a9192735d2481608e15",
+    "P1": 0,
+    "P2": 0,
+    "SourceMF": "d180a75142aa9eef60945f88f927a8314d81757dd36ca3c2b59c4a9492d23ab2",
+    "delta": "new dedicated workflow create/owned two namespace literals only; strict builder unchanged",
+    "fresh_Source10_review_not_substituted": true,
+    "packetMF": "e720643f104742f787b8b77659b85e0f12e4088030c87670476c0135398c7483",
+    "r1_P2": "namespace mismatch, original r1 retained"
+  },
+  "Code6_r3": {
+    "IR_packetMF": "5f9fd208d2a97ae16dd5e5f4858caf31d743f247943c0bf7378fcb0bf8785012",
+    "IR_result_SHA256": "0f30e41e6e577b6b0d920c90a7e4d08863a0b235e5e73fef75285916a41faa55",
+    "P1": 0,
+    "P2": 0,
+    "Revision_budget": {
+      "UI_ms": 600000,
+      "UI_step": 11,
+      "job": 54,
+      "steps": 17,
+      "sum": 53
+    },
+    "Root_syntax_result_SHA256": "3c9789a1d84d90dee5cdefd783591ece8e30dcf4f6d20d54aba557bb07e03853",
+    "SourceMF": "f7fbd17f8e85e0345202c57696a10988d4e2e55237dc54a72e28e78199acab8a",
+    "builder_unit8_Reader_r2_exactcarry": true,
+    "packetMF": "45891021829bba04fd827b23e9020494a7e292231726efc334c4c9a5320c548d",
+    "scope": "r3 delta/syntax/arithmetic over provisional Code3, not actualmain binding/new Node8/Host/SDK/activation/UI"
+  },
+  "PR326_2bc_root_more_readiness_followup": {
+    "actual_leaf": {
+      "count": 1,
+      "failed": 1,
+      "passed": 0,
+      "seconds": 67.198
+    },
+    "actual_main_separate": "057fc40049fa40b0f09e45e0d7673ac18111e635",
+    "attempt": 1,
+    "failure": {
+      "AX": "hitpoint{-1,-1}/kAXErrorCannotComplete",
+      "action": "global app.buttons[その他の操作].tap",
+      "source_line": 579,
+      "time_error": 63.79,
+      "time_start": 59.74,
+      "underlying_AX_cause": "unproven; no claim of readiness defect as exclusive cause"
+    },
+    "fix": "Same root public Menu tap, now scoped to AI Agent Library navigation bar; reuse unchanged singleForegroundControl15s visible/hittable uniqueness and assert currently enabled",
+    "frozen_other_work": "Code4/Min17 and all old packets untouched",
+    "new_UI_or_CI_success": false,
+    "next": "Root finalIR/forms/syntax/fresh2bc branch gate and append commit; no force/head rewrite",
+    "not_reached": [
+      "public B activation",
+      "B first Resume",
+      "B landscape/portrait witnesses",
+      "B relaunch/bookmark persistence",
+      "post-UI repository file gate",
+      "strict1 success"
+    ],
+    "observation_scope": "Live A geometry only; not persisted A position/bookmark or relaunch acknowledgement",
+    "only_observed_revision_phase": {
+      "blockID": "revision-anchor-A",
+      "fraction": 0.11718749999999964,
+      "height": 298.66666666666674,
+      "offset": -34.9999999999999,
+      "phase": "A-before-save",
+      "schema": 1,
+      "width": 357
+    },
+    "other2bc_CI": "still Root observation; no new API/result substitution",
+    "prior_return": "public back/readerClosed/search/count existing assertions passed; these do not prove the root More target readiness",
+    "public_dismiss_source_review": "Unfiltered More is Menu, not actions sheet; confirm clears bundledPresented, onDismiss dispatch activates and publishes message, alert close clears message; no missing additional public dismiss found",
+    "public_parent": "2bc4480d83d75e92cf001f6276fbe81086f18646",
+    "receipts": {
+      "compact": {
+        "Root_read_receipt_SHA256": "c4013ac67f78ec6c2f2729a5cad2ff4058a1842df49f8d06fe819e21299062e2",
+        "Root_read_receipt_path": "/private/tmp/ios-pr326-2bc-small-artifact-reader-output-20261102/55620d15-59ea-4f65-b608-fe81db499802/helper-result.json",
+        "artifact_id": 13113389537,
+        "bytes": 39178,
+        "missing_required": [
+          "revision-file-gate.json",
+          "acceptance.json"
+        ],
+        "runtime_acceptance": false,
+        "whole_ZIP_SHA256": "81205e9f5dbbf7b66131841542aa2453b1f08d35843d6d4d045db3fcfd366e30",
+        "whole_ZIP_path": "/private/tmp/ios-pr326-2bc-small-artifact-reader-output-20261102/55620d15-59ea-4f65-b608-fe81db499802/full.zip"
+      },
+      "witness": {
+        "Root_read_receipt_SHA256": "7c54cc2b93288a842ae2d8f1856b90251cafa7606362364ebba9f72b923bbb03",
+        "Root_read_receipt_path": "/private/tmp/ios-pr326-2bc-small-artifact-reader-output-20261102/226ee5b6-ecb7-461a-944c-45efc2629560/helper-result.json",
+        "artifact_id": 13113870831,
+        "bytes": 4722,
+        "missing_required": [],
+        "runtime_acceptance": false,
+        "whole_ZIP_SHA256": "97955b0bb6cb5d23335b554ac95649f9a2b8fb7c344d22ac38ca5778d1be92f5",
+        "whole_ZIP_path": "/private/tmp/ios-pr326-2bc-small-artifact-reader-output-20261102/226ee5b6-ecb7-461a-944c-45efc2629560/full.zip"
+      }
+    },
+    "run": 41380657989,
+    "scope_preserved": "Old2cases53assert/phase15getter/shared helper/new5phase witness/all old assertions/tolerances/later actions/600s/labelguard/builder/unit/old2WF/products unchanged",
+    "seed_status": "stored-A-seeded",
+    "stdout_SHA256": "43d65aded1e98483569aab24cdabf1d19a31555a2b5569c9fd8758f172aafe1a"
+  },
+  "PR326_374_filtered_more_setup_followup": {
+    "actual_leaf": {
+      "count": 1,
+      "failed": 1,
+      "passed": 0,
+      "seconds": 55.789
+    },
+    "actual_main_separate": "057fc40049fa40b0f09e45e0d7673ac18111e635",
+    "attempt": 1,
+    "failure": {
+      "action": "scoped root navigation-bar More via unchanged singleForegroundControl15s",
+      "result": "no uniquely foreground/hittable target within existing15s; B switch not reached",
+      "source_line": 87,
+      "underlying_AX_cause": "unresolved; not a product fix or normal toolbar Menu coverage acceptance"
+    },
+    "fresh_remote_and_publication_gate": "Root finalIR/forms/syntax/fresh374 required; ordinary append commit only",
+    "frozen_packets": "All prior packets/Code4/Min17 immutable",
+    "guard_equivalence": "Normal Menu, filtered List Button and actions List share isBusy; bundled snapshot/path/preview guards unchanged. Search only binds filter.query, not ReadingStore. Queued More dispatches after actions-sheet onDismiss. Successful activation clears filters/path.",
+    "new_UI_CI_accepted": false,
+    "normal_toolbar_Menu_AX_TODO": "Unresolved: initial global hitpoint/kAXErrorCannotComplete and scoped root usable0 remain. Filtered setup is not its repair or coverage acceptance.",
+    "not_reached": [
+      "B public activation",
+      "B first Resume",
+      "B landscape/portrait",
+      "B relaunch/bookmark persistence",
+      "postUI repository file gate",
+      "strict1 success"
+    ],
+    "observation_scope": "Live A paragraph only; not disk-saved A position/bookmark/relaunch acceptance",
+    "only_observed_revision_phase": {
+      "blockID": "revision-anchor-A",
+      "fraction": 0.1272321428571425,
+      "height": 298.66666666666674,
+      "offset": -37.9999999999999,
+      "phase": "A-before-save",
+      "schema": 1,
+      "width": 357
+    },
+    "post_activation_gate": "Positive15s expectation for root title, no filter summary, no actions/bundled nav; existing normal Resume must be uniquely foreground before first publictap. No placeholder-empty assumption.",
+    "preserved": "Old2cases53assert/phase15getter/all old helpers, firstResume and entire later fivephase geometry/assertions/tolerances/bookmark/relaunch, workflow/builder/unit/old2WF/products/Full26 unchanged",
+    "prohibited_changes_absent": [
+      "different article selection",
+      "ReadingStore direct write",
+      "post-firstResume query/TOC/swipe/position correction",
+      "coordinate More tap",
+      "fixed sleep",
+      "increased existing timeout or tolerance",
+      "product/guard change"
+    ],
+    "public_parent": "374e5635803239495a61f50e62e0e807859327cd",
+    "receipts": {
+      "compact": {
+        "Root_read_receipt_SHA256": "be80e9a8ed3744933ed0411db97b6390de11073702701f984587008ab348504b",
+        "Root_read_receipt_path": "/private/tmp/ios-pr326-374-small-artifact-reader-output-20261102/696a0150-6f84-4330-bf53-688d7e02230b/helper-result.json",
+        "artifact_id": 13115850369,
+        "bytes": 39110,
+        "missing_required": [
+          "revision-file-gate.json",
+          "acceptance.json"
+        ],
+        "runtime_acceptance": false,
+        "whole_ZIP_SHA256": "8f3bb1eec94b1c810a59cdfcb324683235b6eb6247196234eeb7b61fe75c7f9d",
+        "whole_ZIP_path": "/private/tmp/ios-pr326-374-small-artifact-reader-output-20261102/696a0150-6f84-4330-bf53-688d7e02230b/full.zip"
+      },
+      "witness": {
+        "Root_read_receipt_SHA256": "9a0fd9b4cea32bc9cf7a52e6a3cb08d5b50854ddfa0f7854f93a900aa3645c8e",
+        "Root_read_receipt_path": "/private/tmp/ios-pr326-374-small-artifact-reader-output-20261102/93b63551-bd2a-4722-adca-8363c25cb0f9/helper-result.json",
+        "artifact_id": 13114799609,
+        "bytes": 4680,
+        "missing_required": [],
+        "runtime_acceptance": false,
+        "whole_ZIP_SHA256": "2220ee51d55663a05cc9e1f64e5b1a76d6f296c868ad7b892ec279582a0aa28f",
+        "whole_ZIP_path": "/private/tmp/ios-pr326-374-small-artifact-reader-output-20261102/93b63551-bd2a-4722-adca-8363c25cb0f9/full.zip"
+      }
+    },
+    "run": 41385760628,
+    "seed_status": "stored-A-seeded",
+    "setup_change": "Existing public title query identifies exact query/summary inside one filtered collection; same-list More uses existing15s singleForegroundControl, enabled assertion and inside-library requireHittable, public More Actions sheet then same bundled action",
+    "stdout_SHA256": "e303c1e0a2525764909ad6c7d83594940d122f0d3e012c4158bf14f4290dc116"
+  },
+  "PR326_b8d_container_relocation_followup": {
+    "Root_exact_b8d_binding": {
+      "SHA256": "7876a92690a780e13405d1424b25f5382180396453768da39e6d68dbb1fddcbd",
+      "all2885_equal_head": true,
+      "fullmap": "projected_Source5_filtered_more",
+      "path": "/private/tmp/ios-reader-valid-revision-ui-publication-20261102/append-b8d-VM-and-Draft4-proof.json",
+      "tracked": 2885,
+      "tree": "612893c2c5c680227d1c5f9625930c72f7d558d9"
+    },
+    "Root_observation": {
+      "SHA256": "38e7a5609c3f06a2525a0a8f74f10f3c12a06893f2412e42455249e38ffdffcb",
+      "manifest_SHA256": "fe5d8f3208bc5c7b9f33193afba0831d227573ba510279cd8721a638eb8f459f",
+      "manifest_path": "/private/tmp/ios-pr326-b8d-Revision-data-review-20261102/manifest.json",
+      "path": "/private/tmp/ios-pr326-b8d-Revision-data-review-20261102/result.json",
+      "scope": "Root rehashed both whole ZIPs and selected CRC/SHA; this Source7 does not perform a network read"
+    },
+    "actual_UI": {
+      "bookmark_and_position_assertions": "original executed UI case passed; source unchanged",
+      "exit_code": 0,
+      "fail": 0,
+      "leaf_count": 1,
+      "pass": 1,
+      "phases": [
+        {
+          "blockID": "revision-anchor-A",
+          "fraction": 0.1272321428571425,
+          "height": 298.66666666666674,
+          "offset": -37.9999999999999,
+          "phase": "A-before-save",
+          "schema": 1,
+          "width": 357
+        },
+        {
+          "blockID": "revision-anchor-B",
+          "fraction": 0.1272321428571438,
+          "height": 298.6666666666664,
+          "offset": -38.00000000000024,
+          "phase": "B-first-resume",
+          "schema": 1,
+          "width": 357
+        },
+        {
+          "blockID": "revision-anchor-B",
+          "fraction": 0.1269841269841275,
+          "height": 147,
+          "offset": -18.666666666666742,
+          "phase": "B-live-landscape",
+          "schema": 1,
+          "width": 698
+        },
+        {
+          "blockID": "revision-anchor-B",
+          "fraction": 0.1272321428571438,
+          "height": 298.6666666666664,
+          "offset": -38.00000000000024,
+          "phase": "B-live-portrait",
+          "schema": 1,
+          "width": 357
+        },
+        {
+          "blockID": "revision-anchor-B",
+          "fraction": 0.1272321428571438,
+          "height": 298.6666666666664,
+          "offset": -38.00000000000024,
+          "phase": "B-after-relaunch",
+          "schema": 1,
+          "width": 357
+        }
+      ],
+      "seconds": 87.796
+    },
+    "actual_main_separate": "057fc40049fa40b0f09e45e0d7673ac18111e635",
+    "adoption_ready": false,
+    "attempt": 1,
+    "fix": "Reacquire current canonical app/data roots for the same owned simulator and bundle. Validate original seed identity and root relationships, same generation A and every A byte/inventory, selected exact B and immutable fixtures. Separate only observation-root metadata from package identity.",
+    "fresh_remote_binding": "ROOT_REQUIRED; saved b8d fullmap already independently confirmed by Root",
+    "job": 125100975587,
+    "limits": [
+      "Apple update guidance does not prove the cause of this Simulator path change.",
+      "Hash equality proves package content and lineage within this controlled run, not inode continuity or an OS migration cause.",
+      "Original UI assertions, 5 phases, first Resume and prohibition on subsequent position correction remain byte-exact; no runtime copy/reseed is added.",
+      "Normal unfiltered toolbar Menu AX remains unresolved; filtered public setup does not repair or accept that surface.",
+      "New Source7 CI/strict1/file gate/necessary CI/protected main and separate mainpush remain unaccepted; physical device/live OS font/VoiceOver and full corpus remain incomplete."
+    ],
+    "new_UI_CI_accepted": false,
+    "new_head": null,
+    "ownership": "Immutable repository/source/UUID/bundle/run/attempt/token/name/preexisting UUIDs match seed and after context exactly; seed JSON SHA is retained across UI and final audit; post Info.plist bundle ID is checked.",
+    "post_UI": {
+      "B_selected_A_retained_file_gate_executed": false,
+      "cause_of_container_relocation": "not proven",
+      "current_container_UUID": "6C9B8C8F-3031-4A6C-9B09-420A17D331CF",
+      "old_container_UUID": "FC38E71D-2255-4B6B-A037-1576520EE9A9",
+      "reason": "absolute data container equality; same owned simulator UUID, different container UUID",
+      "status": "failed_before_file_gate",
+      "strict1_executed": false,
+      "workflow_accepted": false
+    },
+    "primary_sources": [
+      "https://developer.apple.com/library/archive/technotes/tn2285/_index.html",
+      "https://developer.apple.com/videos/play/wwdc2019/418/"
+    ],
+    "private_controls": {
+      "failed": 0,
+      "initial_failure": "13/14 passed. New negative test used ambiguous assert.throws message overload; only move its label to third argument. Initial output retained, production audit unchanged.",
+      "node": "24.22.1",
+      "old_eight_test_purposes_byte_prefix_held": true,
+      "passed": 14,
+      "result_SHA256": "88c75035025b2889b01a2d9b3cff77a5f7327ae53278029705278e13f38f084a",
+      "result_path": "/private/tmp/ios-reader-revision-container-relocation-source7-preparation-20261102/local-controls-r2.json",
+      "skipped": 0,
+      "tests": 14
+    },
+    "public_parent": "b8d192c56a8d47d0c3b764f5ee8855f038d6ddaf",
+    "public_parent_tree": "612893c2c5c680227d1c5f9625930c72f7d558d9",
+    "raw_failure": {
+      "SHA256": "56a54f7ae2352250fc2dd5e053c9cc997d8a7dd653f25dbd73310db138f50e78",
+      "bytes": 83177,
+      "path": "/private/tmp/ios-reader-valid-revision-PR326-b8d-initial-ci-observation-20261102/job-125100975587.log"
+    },
+    "receipt": "Old/current data, storage and A roots plus path_changed; initial A pointer SHA and current pointer SHA; complete A/B audits retained.",
+    "run": 41390618667,
+    "scope": "Controlled1article,0audio,0PNG; not full199, physical or normal Menu AX acceptance",
+    "static_syntax": {
+      "YAML": "PyYAML-safe-load-passed",
+      "builder": "passed Node24 --check",
+      "unit": "passed Node24 --check",
+      "workflow_driver": {
+        "command": [
+          "<user-home>/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+          "--check",
+          "/private/tmp/ios-reader-revision-container-relocation-source7-preparation-20261102/inline-driver-final-syntax-only.mjs"
+        ],
+        "exit": 0,
+        "seconds": 0.052565916000000046,
+        "stderr_SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "timeout": false
+      }
+    },
+    "whole_workflow_runtime_acceptance": false
+  },
+  "PR326_initial_revision_filename_guard_followup": {
+    "actual_main_separate": "057fc40049fa40b0f09e45e0d7673ac18111e635",
+    "all_controlled_filename_names_static_guard_pass": true,
+    "attempt": 1,
+    "cause": "put lowercase filename guard rejects install-bundled-B.intent.json before its write/spawn; deterministic harness failure, not UI assertion or app rendering/storage evidence",
+    "classification_SHA256": "724af44dfdf6998b5c0cec5ad230f7778537aee37546cfaca8c1a5ef64db39ed",
+    "fix": "Three command labels lowercase only: install-bundled-b/seed-stored-a/after-stored-b; existing filename guard, caps/deadlines/ownership/strict1/Reader/assertions/tolerances unchanged",
+    "fresh_remote_and_append_commit_gate": "Root required; no branch/ref/main adoption here",
+    "job": 125056293720,
+    "new_head_UI_or_CI_accepted": false,
+    "not_reached": [
+      "B install intent/spawn",
+      "stored A seed",
+      "UI case execution (0)",
+      "strict1",
+      "paragraph/first Resume/rotation/relaunch acceptance"
+    ],
+    "other_Recovery_finally_timeout": "separate incomplete UI case; not used as this cause",
+    "public_parent": "efb29df6c7a81e30de29d804aff48340b234dd03",
+    "raw_SHA256": "281698cc3722d0b2e4f994dabbdd70b40beb64e5dabf7c0efb855b943fd035c8",
+    "retention": "Initial failure and any oldhead successful stages remain history even if new append head cancels old runs; not newhead CI acceptance",
+    "run": 41376013178,
+    "successful_stages": [
+      "inventory",
+      "tools",
+      "content: A+B actual consumer",
+      "simulator",
+      "build: bundled B app and test bundle",
+      "owned cleanup",
+      "storage/compact/full retention"
+    ]
+  },
+  "Root_actual_parent_admission": {
+    "Root_actualmerge_proof_SHA256": "f9f7bf5f8430c508cbc9ef68f0a34e258615d0b1af1eec648621fc5d5eabeb3e",
+    "Root_attestation_not_transport_authentication": true,
+    "Root_contract_SHA256": "5c1b438e0f348e6c8b982bd318d867b6463c93aa3143d7990dd956d01cee9aca",
+    "actual_base": "0a479ceefd70ce8275a1e3c40c80a72157453060",
+    "actual_main": "057fc40049fa40b0f09e45e0d7673ac18111e635",
+    "approved_head": "b8c67d492364232ea2d276b2ca3f31ab6579dfd7",
+    "merged_PR_SHA256": "e1e3290ffd04a7578c1d16926cbefa66cfc47207ea3791a7e9f60ed8b4375eea",
+    "official_ref_SHA256": "ff130019b89100354dd8603abce3dfaaba66405e96bb8e3aff30bdb07d9206d5",
+    "proof_manifest_SHA256": "651986ab393c64b42ffb257e7797b12c79d5c7f477e48dca53f63b9526d4a722"
+  },
+  "actual_commit": null,
+  "actual_parent": {
+    "Root_provided_oid_local_main_binding": "not a new GitHub freshness claim",
+    "sha": "057fc40049fa40b0f09e45e0d7673ac18111e635",
+    "tracked": 2880,
+    "tree": "6d1d79bb47e1850ddb73ca7d8d215157d89c6a0e"
+  },
+  "adoption_ready": false,
+  "composition": {
+    "Code": 6,
+    "index_prefix_appends": 2,
+    "new_records": 2
+  },
+  "latest_workflows_budget_preserved": {
+    "Dynamic": {
+      "UI_ms": 720000,
+      "UI_step": 13,
+      "inventory_ms": 180000,
+      "inventory_step": 4,
+      "job": 52,
+      "owner_upper_ms": 60000,
+      "read_ms": 60000,
+      "simulator_ms": 300000,
+      "simulator_step": 6,
+      "sum": 51
+    },
+    "Rotation": {
+      "UI_ms": 600000,
+      "UI_step": 12,
+      "inventory_ms": 180000,
+      "inventory_step": 4,
+      "job": 51,
+      "owner_upper_ms": 60000,
+      "read_ms": 60000,
+      "simulator_ms": 300000,
+      "simulator_step": 6,
+      "sum": 50
+    },
+    "both_exact_inventory_one_name_only": true,
+    "observed_actual_main_budgets": {
+      ".github/workflows/ios-reader-dynamic-type.yml": {
+        "UI_spawn_ms": 720000,
+        "UI_stage_ms": 720000,
+        "UI_step_minutes": 13,
+        "job_minutes": 52,
+        "total_step_minutes": 51
+      },
+      ".github/workflows/ios-reader-reflow.yml": {
+        "UI_spawn_ms": 600000,
+        "UI_stage_ms": 600000,
+        "UI_step_minutes": 12,
+        "job_minutes": 51,
+        "total_step_minutes": 50
+      }
+    }
+  },
+  "new_head": null,
+  "new_main": null,
+  "old_CI_results_separated": {
+    "new_b8_CI": "unaccepted at template preparation, not new Code6 or Source10 success",
+    "old_Dynamic_initial_and_retry2": "30s x2 preUI failure/UI0, retained",
+    "old_R26_or_other_rotation_witness": "old source/case scope only, not unique-paragraph revision evidence"
+  },
+  "owned": 10,
+  "pending": [
+    "fresh Source10 independent review",
+    "new iOS SDK/all UItests compile",
+    "actual activation/first Resume/paragraph rotation/relaunch exact1 UI",
+    "new head necessary CI",
+    "normal protected main merge and separate mainpush proof",
+    "physical iPhone/live OS font/VoiceOver and broader corpus acceptance"
+  ],
+  "preserved": {
+    "App": "0.2.28(30)",
+    "Content626": true,
+    "Dynamic720_strict1_Full26": true,
+    "Original110": true,
+    "PBX": true,
+    "TODO_complete": 14,
+    "TODO_rows": 32,
+    "all_nonowned_mode_blob_tuples": true,
+    "old_assertions": 53,
+    "old_cases": 2,
+    "old_indices_whole_bytes_and_all_failure_records": true,
+    "old_probe_getters": 15
+  },
+  "saved_Root_controls": {
+    "Node8": {
+      "inputs_unchanged": true,
+      "node": "24.22.1",
+      "passed": 8,
+      "result_SHA256": "adb8bff94bb7f0e5c6a550819bd4220fb62ed97bb04cdff3eab3d5decad0ca45",
+      "seconds": 0.42175966699999995,
+      "tests": 8
+    },
+    "execution_independent_review": {
+      "P1": 0,
+      "P2": 0,
+      "packetMF": "24ce3cb2e4c18c1746784e28c2c8a4ab45f5279ab7a900bf1455bee5028c4ec3",
+      "result_SHA256": "33935e16d78e7eac1d985ae2bf61adaf9d75e927b73528e841caafd9ed27c21e",
+      "scope": "Node8/syntax4/actualmain0a47 Host5 blob equality and actual macOS-host A/B consumer; initial failure separate; no iOS SDK/UI/activation acceptance"
+    },
+    "host_consumer_r2": {
+      "A": {
+        "PNG": 0,
+        "articles": 1,
+        "audio": 0,
+        "blocks": 17,
+        "files": 3
+      },
+      "B": {
+        "PNG": 0,
+        "articles": 1,
+        "audio": 0,
+        "blocks": 21,
+        "files": 3
+      },
+      "OUT": "separate sibling",
+      "commands": 4,
+      "compile_settings_added": [
+        "-swift-version 5",
+        "-sdk MacOSX15.2.sdk",
+        "-target arm64-apple-macosx14.0"
+      ],
+      "consumer": "actual macOS-host ContentValidator and snapshot.document(for:)",
+      "inputs_unchanged": true,
+      "not_iOS_SDK_activation_viewport_or_UI": true,
+      "pass": true,
+      "product_source_changes": 0,
+      "result_SHA256": "ae6a05952a027722471263f70e05c642f76f76b5fa2e3734d86938344a5582c0",
+      "seconds": 9.61852975
+    },
+    "host_initial_failure": {
+      "compile_exit": 1,
+      "reason": "SDK unspecified; standard library not found",
+      "result_SHA256": "1ee6ad8745676984cbb2aeafe15e08ddc206b624197b7076de8ac5950a50fb77",
+      "retained": true
+    },
+    "syntax4": {
+      "passed": 4,
+      "result_SHA256": "79d38f5634756d8ad651c7d7c9ab6b1b449c00839897e6bd8c4744eac9673995",
+      "scope": "legacy r2 syntax4; only exact-carried builder/unit/Reader retained; current r3 workflows have separately saved syntax3, not new runtime success"
+    }
+  },
+  "schema_version": 1,
+  "scope": "One real valid normal A→B package transition, unique paragraph first Resume, bookmark, live paragraph wrapping/position, B relaunch; not normal199/audio1 or Full26 acceptance",
+  "state": "private-fresh-actualmain-Source10-before-final-review-newCI-or-adoption",
+  "template_preparation_snapshot": {
+    "CI8": "observing/unaccepted at template preparation; not Code6 UI or future Source10 CI",
+    "PR320_public_head": "b8c67d492364232ea2d276b2ca3f31ab6579dfd7",
+    "PR320_single_parent": "5826e13b19ae1f71b6d6a67f282245e3d37bd5a2",
+    "actual_main": "0a479ceefd70ce8275a1e3c40c80a72157453060",
+    "actual_merge_proof": "Root supplies later; no adapter invocation now",
+    "tracked": 2880,
+    "tree": "6d1d79bb47e1850ddb73ca7d8d215157d89c6a0e"
+  }
+}

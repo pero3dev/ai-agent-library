@@ -1,0 +1,2046 @@
+{
+  "schema_version": 1,
+  "recorded_date": "2026-10-27",
+  "status": "actual-Hosted-Core-observation-audited; public-adoption-prepared",
+  "scope": {
+    "purpose": "Record the current production Source4 and fixed Core8 host observation separately from iOS app acceptance",
+    "authority": "User-authorized autonomous iOS TODO implementation, ordinary CI/PR/main delivery; no Store/contracts/paid/protection exceptions",
+    "owned_records": [
+      "project/records/2026-10-27/ios-core-hosted-observation.md",
+      "project/records/2026-10-27/ios-core-hosted-observation.json"
+    ]
+  },
+  "identities": {
+    "CodeSourceSHA": "b39eeff4647336124a39e218205cd8dd85fc1819",
+    "CodeSourceTree": "58674564c75d8a6fb932f67f28aaabd04faf8ef6",
+    "CodeSource_parents": [
+      "577bae889c3ec157330f78fa7e46dff87c8bdc61",
+      "08bdb36fd1d8bc83b6fa6bbf4a96e5acbeefb8b7"
+    ],
+    "WorkflowSHA": "9b07fb8898236518d44047e2300cbd5aeef105d2",
+    "WorkflowTree": "584a403f8d0d71d957e546f4f20a514376aece95",
+    "Workflow_parent": "34196601a88bc864fed6caac05a88d0119e68a05",
+    "workflow_path": ".github/workflows/ios-performance.yml",
+    "temporary_never_merge_branch": "codex/ios-core-current-cli-pilot",
+    "source_PR": 273,
+    "source_PR_url": "https://github.com/pero3dev/ai-agent-library/pull/273",
+    "CodeSource_distinct_from_Workflow": true,
+    "actual_main_merge_SHA": null
+  },
+  "actual_run": {
+    "id": 40435420627,
+    "job_id": 121962814903,
+    "url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40435420627",
+    "event": "workflow_dispatch",
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "success",
+    "repository": "pero3dev/ai-agent-library",
+    "repository_private": false,
+    "runner": "standard macos-15 Hosted runner",
+    "started_at_UTC": "2026-10-27T01:55:38Z",
+    "API_updated_at_UTC": "2026-10-27T01:59:50Z",
+    "actual_dispatches": 1,
+    "Core_measurement_retries": 0
+  },
+  "host": {
+    "macOS": "15.7.9",
+    "architecture": "arm64",
+    "Xcode": "16.4",
+    "Xcode_build": "16F6",
+    "SDK": "15.5",
+    "Node": "v24.20.0"
+  },
+  "compile_profile": {
+    "Swift": "Apple Swift6.1.2 (swiftlang-6.1.2.1.2 clang-1700.0.13.5)",
+    "target": "arm64-apple-macosx14.0",
+    "swift_language_mode": "5",
+    "optimization": [
+      "-O",
+      "-whole-module-optimization"
+    ],
+    "Core_compile_count": 1,
+    "separate_host_consumer_audit_compile": "One preparation compile, outside the one Core compile interval",
+    "compiler_version_probe": "Separate from Core compile"
+  },
+  "corpus": {
+    "manifest_sha256": "0d64b53ad215fa45c8c282dc7a473a7825a9e6b71b6dad805652724b22a7079b",
+    "corpus_sha256": "a920754bb25e4cffbb16a595e879152758217648ee8e303b90b402ca9a44d417",
+    "corpus_revision": "fcdc7b13e2bc40bfcadf09467e419c96c46640ed4e5aadc41b9bbdefdff5a801",
+    "articles": 199,
+    "listed_sha_files": 625,
+    "files_including_manifest": 626,
+    "bytes_including_manifest": 40079084,
+    "png_files": 422
+  },
+  "audits": {
+    "source": {
+      "result": "passed",
+      "profile": "published-library",
+      "revision": "fcdc7b13e2bc40bfcadf09467e419c96c46640ed4e5aadc41b9bbdefdff5a801",
+      "articles": 199,
+      "checked_files": 625
+    },
+    "consumer": {
+      "articles": 199,
+      "audio": 1,
+      "bytes_including_manifest": 40079084,
+      "files_including_manifest": 626,
+      "PNG_files": 422,
+      "revision": "fcdc7b13e2bc40bfcadf09467e419c96c46640ed4e5aadc41b9bbdefdff5a801",
+      "schema_version": 1,
+      "status": "passed",
+      "top_level_blocks": 8389,
+      "validator": "app-ContentValidator",
+      "verified_files_excluding_manifest": 625
+    },
+    "source_and_corpus_pre_post_seals": "passed",
+    "immutable_inputs": "Fixed Core8, current production Source4 and literal generator/audit relative-import closure9 match prior independent b39 object review",
+    "LibraryCoreTests_in_production_source4": false,
+    "Content_bytes_separately_redownloaded_by_reviewer": false
+  },
+  "protocol": {
+    "fresh_benchmark_processes": 19,
+    "unique_benchmark_PIDs": 19,
+    "correctness_oracle_processes": 1,
+    "discarded_warmups": 3,
+    "recorded_processes": 15,
+    "phases": 3,
+    "recorded_samples_per_phase": 5,
+    "query_batch_count": 16,
+    "correctness": "ordered-indexed-equals-production-uncached",
+    "oracle_check": "Per-query result counts and ordered ID digests match across16queries",
+    "entry": "Validated alias/shell-equivalent direct Node; npm wrapper unexecuted",
+    "cache_condition": "Corpus inventory/hash checks warm file cache; no cold-disk or first-launch claim"
+  },
+  "statistics": [
+    {
+      "scenario": "published-core.validation.v1",
+      "recorded_samples": 5,
+      "statistics": {
+        "wall_seconds": {
+          "median": 1.2787795,
+          "minimum": 1.17755825,
+          "maximum": 1.59518,
+          "range": 0.4176217500000001
+        },
+        "process_peak_resident_bytes": {
+          "median": 76103680,
+          "minimum": 75825152,
+          "maximum": 76333056,
+          "range": 507904
+        }
+      },
+      "raw_wall_seconds": [
+        1.59518,
+        1.2787795,
+        1.17755825,
+        1.282764708,
+        1.259398834
+      ],
+      "raw_process_peak_resident_bytes": [
+        76120064,
+        75956224,
+        76333056,
+        75825152,
+        76103680
+      ]
+    },
+    {
+      "scenario": "published-core.index-construction.v1",
+      "recorded_samples": 5,
+      "statistics": {
+        "wall_seconds": {
+          "median": 0.193492792,
+          "minimum": 0.162874167,
+          "maximum": 0.207374292,
+          "range": 0.044500125
+        },
+        "process_peak_resident_bytes": {
+          "median": 19398656,
+          "minimum": 19120128,
+          "maximum": 19415040,
+          "range": 294912
+        }
+      },
+      "raw_wall_seconds": [
+        0.193492792,
+        0.162874167,
+        0.198085917,
+        0.207374292,
+        0.167701833
+      ],
+      "raw_process_peak_resident_bytes": [
+        19415040,
+        19120128,
+        19415040,
+        19398656,
+        19365888
+      ]
+    },
+    {
+      "scenario": "published-core.indexed-filter.v1",
+      "recorded_samples": 5,
+      "statistics": {
+        "wall_seconds": {
+          "median": 0.403305625,
+          "minimum": 0.344635,
+          "maximum": 0.437675541,
+          "range": 0.09304054099999998
+        },
+        "process_peak_resident_bytes": {
+          "median": 19464192,
+          "minimum": 19136512,
+          "maximum": 19529728,
+          "range": 393216
+        }
+      },
+      "raw_wall_seconds": [
+        0.437675541,
+        0.381836875,
+        0.420392667,
+        0.403305625,
+        0.344635
+      ],
+      "raw_process_peak_resident_bytes": [
+        19464192,
+        19529728,
+        19136512,
+        19185664,
+        19496960
+      ]
+    }
+  ],
+  "measurement_semantics": {
+    "wall_seconds": "Per-Core-scenario work; indexed-filter is a16query batch, not per-query UI input latency",
+    "process_peak_resident_bytes": "Darwin getrusage(RUSAGE_SELF).ru_maxrss bytes; whole fresh-process high-water including setup and post-timing digests",
+    "summary": "Five-sample median/minimum/maximum/range independently recomputed; no p95/SLO/budget adoption"
+  },
+  "guard": {
+    "limits": {
+      "start_free_bytes": 3800000000,
+      "floor_free_bytes": 3200000000,
+      "private_cache_and_output_bytes": 268435456,
+      "whole_guard_seconds": 180,
+      "owned_process_tree_RSS_bytes": 1610612736,
+      "artifact_bytes": 8388608
+    },
+    "observed": {
+      "seconds": 44.298,
+      "start_free_bytes": 44231319552,
+      "minimum_observed_free_bytes": 44231208960,
+      "peak_private_allocated_bytes": 35344384,
+      "peak_private_logical_bytes": 33444637,
+      "peak_owned_tree_sum_RSS_bytes": 527155200,
+      "resource_sampling_interval_seconds": 0.1,
+      "final_free_bytes": 44303503360
+    },
+    "child_environment_observations": 22,
+    "private_context_mode": "0700",
+    "owner_marker_mode": "0600",
+    "observed_context_owner_PID_equals_direct_Node_PID": true,
+    "controlled_child_environment": [
+      "PATH",
+      "TMPDIR"
+    ],
+    "resource_abort": null,
+    "cleanup": {
+      "22_child_environment_observations": true,
+      "owner_pid_equals_wrapper": true,
+      "all_known_groups_absent": true,
+      "controlled_context_absent": true,
+      "lock_released": true,
+      "private_cache_and_tmp_removed": true,
+      "owned_executable_removed": true
+    },
+    "interpretation": "Private cache/output and owned-treeRSS sampled every0.1s, not instantaneous maxima; selfRSS has a different scope; preparation Content/node_modules excluded from private output/cache256MiB cap"
+  },
+  "artifact": {
+    "id": 12703637286,
+    "name": "NEVER-MERGE-core-current-cli-40435420627-1",
+    "url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40435420627/artifacts/12703637286",
+    "zip_bytes": 96944,
+    "zip_sha256": "19af73c49852e5c99656eabdf58195ddd4e30f427d6677cc715939c1c0999861",
+    "entries": 55,
+    "expanded_bytes": 428712,
+    "stage_limit_bytes": 8388608,
+    "stage_complete": true,
+    "download_audit_limits": {
+      "ZIP_bytes": 16777216,
+      "expanded_bytes": 20971520,
+      "entries": 512
+    },
+    "checked": [
+      "exact run/head/attempt and artifact identity before download",
+      "ZIP SHA256/size",
+      "safe names/types/CRC/member sizes",
+      "stage inventory/completeness",
+      "input/source/host/corpus/query identities and pre/post seals",
+      "19raw records and five-sample statistics",
+      "resource/ownership/cleanup receipts"
+    ],
+    "no_local_raw_files": [
+      "ZIP",
+      "raw logs",
+      "Content",
+      "cache",
+      "executable",
+      "DerivedData"
+    ],
+    "retention_days": 30,
+    "expires_at_UTC": "2026-11-26T01:59:42Z",
+    "long_term_availability": "Unverified after artifact expiry; only this public summary and bounded metadata are retained",
+    "reacquisition": {
+      "purpose": "Publication provenance read of the same retained artifact",
+      "run_id": 40435420627,
+      "artifact_id": 12703637286,
+      "retrieval_started_at_UTC": "2026-10-27T02:42:58.866095Z",
+      "retrieved_at_UTC": "2026-10-27T02:42:59.010609Z",
+      "verification_completed_at_UTC": "2026-10-27T02:42:59.013396Z",
+      "time_semantics": "Client UTC captured at this reacquisition. retrieved_at_UTC is completion of the RAM byte read; it is not an API created_at/updated_at and does not reconstruct the original acquisition time.",
+      "API_artifact_created_at_UTC": "2026-10-27T01:59:44Z",
+      "API_artifact_updated_at_UTC": "2026-10-27T01:59:44Z",
+      "API_artifact_expires_at_UTC": "2026-11-26T01:59:42Z",
+      "original_acquisition_time_reconstructed": false,
+      "same_ZIP": {
+        "bytes": 96944,
+        "SHA256": "19af73c49852e5c99656eabdf58195ddd4e30f427d6677cc715939c1c0999861",
+        "entries": 55,
+        "regular_files": 55,
+        "expanded_bytes": 428712,
+        "CRC_verified_entries": 55
+      },
+      "primary_receipt_SHA256": "8102a5694f26f4ec97580af3efe2e1f7bb4dc54d7f4ae855439b2ebdbf6db4a4",
+      "verification_scope": {
+        "ZIP_identity_path_CRC_sizes_entry_SHA256": true,
+        "new_measurement": false,
+        "new_SDK_or_CLI_runs": 0,
+        "new_CI_runs": 0,
+        "dispatches": 0,
+        "statistical_recomputation": false,
+        "Core8_or_closure_reaudit": false,
+        "local_raw_files_written": 0
+      },
+      "prior_result_and_source_provenance": "Retained unchanged from v1 and its independent result/source reviews; this reacquisition is not a new correctness/statistics/Core8 audit"
+    },
+    "restoration": {
+      "artifact_run_page": "https://github.com/pero3dev/ai-agent-library/actions/runs/40435420627",
+      "artifact_UI_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40435420627/artifacts/12703637286",
+      "artifact_API_url": "https://api.github.com/repos/pero3dev/ai-agent-library/actions/artifacts/12703637286",
+      "archive_API_url": "https://api.github.com/repos/pero3dev/ai-agent-library/actions/artifacts/12703637286/zip",
+      "before_expiry_methods": [
+        "GitHub artifact UI",
+        "connected GitHub tool",
+        "authenticated GitHub API"
+      ],
+      "expected_ZIP_bytes": 96944,
+      "expected_ZIP_SHA256": "19af73c49852e5c99656eabdf58195ddd4e30f427d6677cc715939c1c0999861",
+      "expected_regular_files": 55,
+      "expected_expanded_bytes": 428712,
+      "exact_relative_JSON_paths": [
+        "run-config.json",
+        "dispatch-context.json",
+        "input-manifest.json",
+        "results/identity.json",
+        "results/summary.json",
+        "results/02-validation-recorded-1.json",
+        "host-capture.json",
+        "guard-proof.json",
+        "after-freeze.json",
+        "artifact-inventory.json"
+      ],
+      "entry_hash_inventory": [
+        {
+          "path": "after-freeze.json",
+          "kind": "regular",
+          "bytes": 259,
+          "compressed_bytes": 187,
+          "CRC32": "2d70b924",
+          "SHA256": "5a79502c0e3c73fe268264ff16117f8cb9f7091478b8d4696a81c63ee65cbcc6"
+        },
+        {
+          "path": "consumer-audit.json",
+          "kind": "regular",
+          "bytes": 443,
+          "compressed_bytes": 261,
+          "CRC32": "59093079",
+          "SHA256": "6e527dcf1df364e5044e2a0126e8b6bbed90d99ec41390ccc95a4585e32a22df"
+        },
+        {
+          "path": "corpus-after.json",
+          "kind": "regular",
+          "bytes": 409,
+          "compressed_bytes": 248,
+          "CRC32": "9d015df4",
+          "SHA256": "c1a0adc4ca7ab28b9add205ad1e1d93ec8ee182b9c829b51c53416a1a3505fba"
+        },
+        {
+          "path": "artifact-inventory.json",
+          "kind": "regular",
+          "bytes": 8757,
+          "compressed_bytes": 2276,
+          "CRC32": "0f678e8a",
+          "SHA256": "737fb94441006ec6327e18c20e3bff96ae02a89478448c0624ccb23bc1251991"
+        },
+        {
+          "path": "corpus-before.json",
+          "kind": "regular",
+          "bytes": 409,
+          "compressed_bytes": 248,
+          "CRC32": "9d015df4",
+          "SHA256": "c1a0adc4ca7ab28b9add205ad1e1d93ec8ee182b9c829b51c53416a1a3505fba"
+        },
+        {
+          "path": "dispatch-context.json",
+          "kind": "regular",
+          "bytes": 754,
+          "compressed_bytes": 467,
+          "CRC32": "bd8fbb68",
+          "SHA256": "7fbf6147a46caa3874217599924e0d8aeaf7775cce5ca32eb4eddb418b86e2c1"
+        },
+        {
+          "path": "guard-proof.json",
+          "kind": "regular",
+          "bytes": 68168,
+          "compressed_bytes": 7937,
+          "CRC32": "e8883b07",
+          "SHA256": "98c2362dc61fc67464c5d8127d847451ba9cc468157ae35c6308cc6258387351"
+        },
+        {
+          "path": "host-capture.json",
+          "kind": "regular",
+          "bytes": 404,
+          "compressed_bytes": 262,
+          "CRC32": "fb5b8889",
+          "SHA256": "4ced9b62f0d84e16b026d08e745f0513ef7b1d89924bb5ec226f6065a05d9674"
+        },
+        {
+          "path": "input-manifest.json",
+          "kind": "regular",
+          "bytes": 105730,
+          "compressed_bytes": 36101,
+          "CRC32": "83b01c76",
+          "SHA256": "aa3b820679abdb06c93898c8b111058b2b195810947a10f1a189fd726821e00a"
+        },
+        {
+          "path": "published-generation.log",
+          "kind": "regular",
+          "bytes": 244,
+          "compressed_bytes": 182,
+          "CRC32": "c70b7d5c",
+          "SHA256": "12f74f1881e62f6e922133815d2306768eb15565f1f6ee3a2899c74274963d07"
+        },
+        {
+          "path": "results/00-correctness-correctness-0.json",
+          "kind": "regular",
+          "bytes": 2737,
+          "compressed_bytes": 892,
+          "CRC32": "b075e1f7",
+          "SHA256": "38bbf75d382ee69de774bc9f074188a38163160fd678bf156fa279692a884b0a"
+        },
+        {
+          "path": "results/00-correctness-correctness-0.stderr.txt",
+          "kind": "regular",
+          "bytes": 0,
+          "compressed_bytes": 2,
+          "CRC32": "00000000",
+          "SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "results/01-validation-discarded-warmup-0.json",
+          "kind": "regular",
+          "bytes": 753,
+          "compressed_bytes": 483,
+          "CRC32": "efacd879",
+          "SHA256": "9c481f0f15581703d56336161f48fea014ddfc3bc961120a15bf6f8624aef3a8"
+        },
+        {
+          "path": "results/01-validation-discarded-warmup-0.stderr.txt",
+          "kind": "regular",
+          "bytes": 0,
+          "compressed_bytes": 2,
+          "CRC32": "00000000",
+          "SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "results/02-validation-recorded-1.json",
+          "kind": "regular",
+          "bytes": 749,
+          "compressed_bytes": 481,
+          "CRC32": "e4b4a66b",
+          "SHA256": "092ddef0f9e03058d8bb775266125713050b134ba10eeafd097f578e8fbb9627"
+        },
+        {
+          "path": "results/02-validation-recorded-1.stderr.txt",
+          "kind": "regular",
+          "bytes": 0,
+          "compressed_bytes": 2,
+          "CRC32": "00000000",
+          "SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "results/03-validation-recorded-2.json",
+          "kind": "regular",
+          "bytes": 751,
+          "compressed_bytes": 483,
+          "CRC32": "33b55263",
+          "SHA256": "1b0343805eea9db2623e7ef991aeea1ec1039f902100f4c8bce17c854bf528d3"
+        },
+        {
+          "path": "results/03-validation-recorded-2.stderr.txt",
+          "kind": "regular",
+          "bytes": 0,
+          "compressed_bytes": 2,
+          "CRC32": "00000000",
+          "SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "results/04-validation-recorded-3.json",
+          "kind": "regular",
+          "bytes": 760,
+          "compressed_bytes": 482,
+          "CRC32": "8851ba3d",
+          "SHA256": "26081b5ea42644e3ed6bb14a25e31d808a2ac52fe46bc5ff018ac9517d708f59"
+        },
+        {
+          "path": "results/04-validation-recorded-3.stderr.txt",
+          "kind": "regular",
+          "bytes": 0,
+          "compressed_bytes": 2,
+          "CRC32": "00000000",
+          "SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "results/05-validation-recorded-4.json",
+          "kind": "regular",
+          "bytes": 753,
+          "compressed_bytes": 483,
+          "CRC32": "5d4c89bb",
+          "SHA256": "f79afde8ffc38cadb02fa57c583e6eedcd2965f0ea86724d807382f3ebf24e11"
+        },
+        {
+          "path": "results/05-validation-recorded-4.stderr.txt",
+          "kind": "regular",
+          "bytes": 0,
+          "compressed_bytes": 2,
+          "CRC32": "00000000",
+          "SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "results/06-validation-recorded-5.json",
+          "kind": "regular",
+          "bytes": 754,
+          "compressed_bytes": 484,
+          "CRC32": "1b6f2218",
+          "SHA256": "3eec2b4c29638b93106dc388686ec6b467fe3d2d3ca2673f21d38da568987684"
+        },
+        {
+          "path": "results/06-validation-recorded-5.stderr.txt",
+          "kind": "regular",
+          "bytes": 0,
+          "compressed_bytes": 2,
+          "CRC32": "00000000",
+          "SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "results/07-index-construction-discarded-warmup-0.json",
+          "kind": "regular",
+          "bytes": 2770,
+          "compressed_bytes": 922,
+          "CRC32": "78719389",
+          "SHA256": "d05dc264cf8fab6eef6b971be248e6629840b990547f17f3fa61810c75f15666"
+        },
+        {
+          "path": "results/07-index-construction-discarded-warmup-0.stderr.txt",
+          "kind": "regular",
+          "bytes": 0,
+          "compressed_bytes": 2,
+          "CRC32": "00000000",
+          "SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "results/08-index-construction-recorded-1.json",
+          "kind": "regular",
+          "bytes": 2770,
+          "compressed_bytes": 922,
+          "CRC32": "fb6522e5",
+          "SHA256": "079b85223c6dc54ec8d642f270964a311ef387529adf949b16bc8e20d2f1b9f2"
+        },
+        {
+          "path": "results/08-index-construction-recorded-1.stderr.txt",
+          "kind": "regular",
+          "bytes": 0,
+          "compressed_bytes": 2,
+          "CRC32": "00000000",
+          "SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "results/09-index-construction-recorded-2.json",
+          "kind": "regular",
+          "bytes": 2778,
+          "compressed_bytes": 924,
+          "CRC32": "b257b5ee",
+          "SHA256": "8fb0fc54740073d757a0477e1472656483597a5be677717712065dd3ebfff249"
+        },
+        {
+          "path": "results/09-index-construction-recorded-2.stderr.txt",
+          "kind": "regular",
+          "bytes": 0,
+          "compressed_bytes": 2,
+          "CRC32": "00000000",
+          "SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "results/10-index-construction-recorded-3.json",
+          "kind": "regular",
+          "bytes": 2770,
+          "compressed_bytes": 921,
+          "CRC32": "2caf4263",
+          "SHA256": "80430a8ebefa62faa61d7135c129529f4a7366a33e16a4eaec3b23eef85a7ef7"
+        },
+        {
+          "path": "results/10-index-construction-recorded-3.stderr.txt",
+          "kind": "regular",
+          "bytes": 0,
+          "compressed_bytes": 2,
+          "CRC32": "00000000",
+          "SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "results/11-index-construction-recorded-4.json",
+          "kind": "regular",
+          "bytes": 2778,
+          "compressed_bytes": 924,
+          "CRC32": "8d0f22f7",
+          "SHA256": "a9b74ceee41b0067f04e22dc8842984e7da4b91dfa172ac9b5616efedd854b5d"
+        },
+        {
+          "path": "results/11-index-construction-recorded-4.stderr.txt",
+          "kind": "regular",
+          "bytes": 0,
+          "compressed_bytes": 2,
+          "CRC32": "00000000",
+          "SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "results/12-index-construction-recorded-5.json",
+          "kind": "regular",
+          "bytes": 2778,
+          "compressed_bytes": 926,
+          "CRC32": "1fd7ee08",
+          "SHA256": "ce8cdaa01cfef1e2c4e5e74bd041a04d4a85937ce0a4c254e4900236bbcec521"
+        },
+        {
+          "path": "results/12-index-construction-recorded-5.stderr.txt",
+          "kind": "regular",
+          "bytes": 0,
+          "compressed_bytes": 2,
+          "CRC32": "00000000",
+          "SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "results/13-indexed-filter-discarded-warmup-0.json",
+          "kind": "regular",
+          "bytes": 2774,
+          "compressed_bytes": 924,
+          "CRC32": "e0b8a3a5",
+          "SHA256": "be9db26a78cfd616306863eca137a680c229b0e86c0a14d679a5ab6340af9a48"
+        },
+        {
+          "path": "results/13-indexed-filter-discarded-warmup-0.stderr.txt",
+          "kind": "regular",
+          "bytes": 0,
+          "compressed_bytes": 2,
+          "CRC32": "00000000",
+          "SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "results/14-indexed-filter-recorded-1.json",
+          "kind": "regular",
+          "bytes": 2766,
+          "compressed_bytes": 917,
+          "CRC32": "78142d7d",
+          "SHA256": "3017534f3ae5a7f0e85c78090e7beab8d7a5c7323efb60987c3e9d36533add0f"
+        },
+        {
+          "path": "results/14-indexed-filter-recorded-1.stderr.txt",
+          "kind": "regular",
+          "bytes": 0,
+          "compressed_bytes": 2,
+          "CRC32": "00000000",
+          "SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "results/15-indexed-filter-recorded-2.json",
+          "kind": "regular",
+          "bytes": 2774,
+          "compressed_bytes": 923,
+          "CRC32": "a55b869e",
+          "SHA256": "ef9c8c9504e4b84d2082657c0fc1c142e797d485a7bff7cc519d9b0a6fd44d35"
+        },
+        {
+          "path": "results/15-indexed-filter-recorded-2.stderr.txt",
+          "kind": "regular",
+          "bytes": 0,
+          "compressed_bytes": 2,
+          "CRC32": "00000000",
+          "SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "results/16-indexed-filter-recorded-3.json",
+          "kind": "regular",
+          "bytes": 2766,
+          "compressed_bytes": 918,
+          "CRC32": "04c4073e",
+          "SHA256": "5df7aa8d16ca7083718ecda990d564b9d209dc803521edd5426784501ccb3c4f"
+        },
+        {
+          "path": "results/16-indexed-filter-recorded-3.stderr.txt",
+          "kind": "regular",
+          "bytes": 0,
+          "compressed_bytes": 2,
+          "CRC32": "00000000",
+          "SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "results/17-indexed-filter-recorded-4.json",
+          "kind": "regular",
+          "bytes": 2766,
+          "compressed_bytes": 919,
+          "CRC32": "920e8392",
+          "SHA256": "22b58e4111697a97231e17908386535c91e638f4ec158d323e5ac1794ca44e43"
+        },
+        {
+          "path": "results/17-indexed-filter-recorded-4.stderr.txt",
+          "kind": "regular",
+          "bytes": 0,
+          "compressed_bytes": 2,
+          "CRC32": "00000000",
+          "SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "results/18-indexed-filter-recorded-5.stderr.txt",
+          "kind": "regular",
+          "bytes": 0,
+          "compressed_bytes": 2,
+          "CRC32": "00000000",
+          "SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "results/18-indexed-filter-recorded-5.json",
+          "kind": "regular",
+          "bytes": 2774,
+          "compressed_bytes": 921,
+          "CRC32": "b9f5bb9a",
+          "SHA256": "0c097aea14a04f332a80ef4c6e376ffe9efaa83b1858266844dd6277315123c3"
+        },
+        {
+          "path": "results/compiler.stderr.txt",
+          "kind": "regular",
+          "bytes": 0,
+          "compressed_bytes": 2,
+          "CRC32": "00000000",
+          "SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "results/identity.json",
+          "kind": "regular",
+          "bytes": 6034,
+          "compressed_bytes": 2230,
+          "CRC32": "5241e2a8",
+          "SHA256": "b9b4179dd328b2469aedfc67a1aa1ff0bbd00efb31b316563c6085d3828070ef"
+        },
+        {
+          "path": "results/summary.json",
+          "kind": "regular",
+          "bytes": 71619,
+          "compressed_bytes": 3899,
+          "CRC32": "d3abc9d4",
+          "SHA256": "ff4c3e35898517a4f52f04511e4d3fd317a0efbb0d4ae31bad208931a1ea0f4b"
+        },
+        {
+          "path": "run-config.json",
+          "kind": "regular",
+          "bytes": 535,
+          "compressed_bytes": 309,
+          "CRC32": "24253add",
+          "SHA256": "2bcb5d499481582ab93a9cbe5aff91cd0d0db64f4636a59493ef1f947d3f4b50"
+        },
+        {
+          "path": "source-audit.json",
+          "kind": "regular",
+          "bytes": 124337,
+          "compressed_bytes": 18186,
+          "CRC32": "b028b191",
+          "SHA256": "0c7a56708a302355d9b74a1655f93b88a992b53474f8ab2fb67f3a4433b68406"
+        },
+        {
+          "path": "wrapper.stderr.txt",
+          "kind": "regular",
+          "bytes": 0,
+          "compressed_bytes": 2,
+          "CRC32": "00000000",
+          "SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "wrapper.stdout.txt",
+          "kind": "regular",
+          "bytes": 89,
+          "compressed_bytes": 84,
+          "CRC32": "b05663aa",
+          "SHA256": "dcaff1a1e359c623bc694da7958c55960005d5b315304bd0135d25a11f6c5af0"
+        }
+      ],
+      "procedure_public_safe": [
+        "保存期限前に公開runページのartifact名/IDを照合し、GitHub artifact UI・接続済みGitHub tool・認証済みGitHub APIのいずれかで同じartifactを取得する。認証情報や一時署名付きURLは記録しない。",
+        "ZIPのSHA-256が19af73c49852e5c99656eabdf58195ddd4e30f427d6677cc715939c1c0999861、96944 bytesであることを確認する。展開せずRAMで55 entries/428712 bytes、全CRC、相対path、特殊file/symlink/重複の不在と各entryのSHA-256をこのinventoryに照合する。",
+        "ZIP内のrun-config.json、dispatch-context.json、input-manifest.json、results/identity.json、results/summary.json、results/02-validation-recorded-1.json、host-capture.json、guard-proof.json、after-freeze.json、artifact-inventory.jsonなどの相対pathを直接読んで必要なJSONを復元する。",
+        "Actions artifactが期限切れまたは削除済みで、別途保管した原本がなければraw evidenceは復元できない。要約やSHAだけからrawを再構成することはできない。benchmarkの再実行は別の観測であり、このartifactの復元ではない。"
+      ],
+      "after_expiry_without_separate_original_raw": "Raw evidence cannot be recovered; the tracked summary and hashes cannot reconstruct the original raw bytes",
+      "new_benchmark_run": "A separate observation, not restoration of this artifact",
+      "credential_or_temporary_signed_URL_retained": false
+    }
+  },
+  "evidence_hashes": {
+    "input_manifest_sha256": "aa3b820679abdb06c93898c8b111058b2b195810947a10f1a189fd726821e00a",
+    "identity_sha256": "b9b4179dd328b2469aedfc67a1aa1ff0bbd00efb31b316563c6085d3828070ef",
+    "summary_sha256": "ff4c3e35898517a4f52f04511e4d3fd317a0efbb0d4ae31bad208931a1ea0f4b",
+    "guard_proof_sha256": "98c2362dc61fc67464c5d8127d847451ba9cc468157ae35c6308cc6258387351",
+    "after_freeze_sha256": "5a79502c0e3c73fe268264ff16117f8cb9f7091478b8d4696a81c63ee65cbcc6",
+    "executable_sha256": "627e34ba7962d560fc764280c827866e686f6ed764425f1310121fd2e481c795",
+    "independent_raw_audit_receipt_sha256": "4cbaf1f30f71781e50ffa034c1c5d5d052a41fd25b73c35b78602534f504064b",
+    "metrics_summary_sha256": "343fd414b403e779ff2d1467661504bf3a410c976298eef505a0989dfd055dd2"
+  },
+  "source_inputs": {
+    "production_source4": [
+      {
+        "path": "ios/AILibrary/Sources/Models.swift",
+        "bytes": 8614,
+        "sha256": "f355ff9ae41e39d3c78224c097afc7e6d64ce59ac91740ee57868c56068534af"
+      },
+      {
+        "path": "ios/AILibrary/Sources/NativeDocument.swift",
+        "bytes": 27503,
+        "sha256": "ce96e4960eef766e325b1b4b7d3701d4a7d5b5c3b1e69ae9599fd0f2622af2ab"
+      },
+      {
+        "path": "ios/AILibrary/Sources/ContentValidator.swift",
+        "bytes": 7794,
+        "sha256": "25a045747ed287c914423c4156dae60fb7130449d0b1a5680d8a9ec1b8f7d062"
+      },
+      {
+        "path": "ios/AILibrary/Sources/ReadingStore.swift",
+        "bytes": 13235,
+        "sha256": "89eb397a25391fca4ece786438bc2b3dac2eda0933006f587769ab5b0551c5c9"
+      }
+    ],
+    "fixed_Core8": [
+      {
+        "path": "ios/tests/PublishedCoreBenchmark.swift",
+        "bytes": 9435,
+        "sha256": "92d8005e1d0fe98008e6deeff54773ee0866e0fb75c4b9dc80ce5507a03d71aa"
+      },
+      {
+        "path": "ios/tests/check-core-performance.sh",
+        "bytes": 230,
+        "sha256": "087a4e4e16e0f8489dfb10144fe994e901ee2ef6865070d20ebabccbd55948b1"
+      },
+      {
+        "path": "ios/tests/core-performance-queries.json",
+        "bytes": 291,
+        "sha256": "39995c2b75ba04eec4e1dc610b35c28b1b0f386cc5b250eaeab5211d13cfa31b"
+      },
+      {
+        "path": "ios/tests/core-performance-runner.mjs",
+        "bytes": 31917,
+        "sha256": "4276643f3c0df1e21d62f020c0ebd5ec32639b536fa6933806e7ad611edcaf5f"
+      },
+      {
+        "path": "ios/tests/core-performance.md",
+        "bytes": 9739,
+        "sha256": "45555f7c16f5c73de8450fc04eecd5b01df27d3bfdecad04fca97cab24d08a99"
+      },
+      {
+        "path": "tests/unit/ios-core-performance-private-temp.test.mjs",
+        "bytes": 10065,
+        "sha256": "33c78c458021598c9cff28f51cba436706cab43660b4e32603ff953c64b3d62d"
+      },
+      {
+        "path": "tests/unit/ios-core-performance-runner.test.mjs",
+        "bytes": 14298,
+        "sha256": "b8174be5e05eb3b619512f3a913225d0bb07385a39fef32481ba95c4ade7c2f0"
+      },
+      {
+        "path": "tests/unit/ios-core-performance-toolchain.test.mjs",
+        "bytes": 9144,
+        "sha256": "381ad369b5ee5c7de27066bff0ec0294068559956a19295ad51cc5d9edf5b190"
+      }
+    ],
+    "relative_import_closure9": [
+      {
+        "path": "scripts/build-ios-native-content.mjs",
+        "bytes": 2449,
+        "sha256": "7fa3886b92dd35e3fb99bb081a977bc2cb48f22dbc4b5221d31e6881c41c21bb"
+      },
+      {
+        "path": "ios/tests/native-content-audit.mjs",
+        "bytes": 34305,
+        "sha256": "b2d0292afb7e039ebf1e52f3092a2e2b0180a26aa4dea40959ab4855781ac7cc"
+      },
+      {
+        "path": "scripts/lib/ios-native-content.mjs",
+        "bytes": 23048,
+        "sha256": "3c3e215547a064f6bffbd4dcf2fc06a87069728d1d0d6f6476be403d46cb62fb"
+      },
+      {
+        "path": "ios/tests/learning-content-audit.mjs",
+        "bytes": 28931,
+        "sha256": "694d731d904388fe3f63533436d52459ac1e4683bf034c6173ef8d9bcfe9aa5e"
+      },
+      {
+        "path": "scripts/lib/ios-content.mjs",
+        "bytes": 24607,
+        "sha256": "feec439c5ed774d654d61b138ff3f4c48a36ae301fd66d3273d0dd0152aab3da"
+      },
+      {
+        "path": "scripts/lib/ios-learning-content.mjs",
+        "bytes": 14733,
+        "sha256": "0ad9f979390234fd10f27e16cde8db64622314bfb587f7375ae38a0f27097e16"
+      },
+      {
+        "path": "scripts/lib/ios-native-assets.mjs",
+        "bytes": 15025,
+        "sha256": "859ec36a3f8e12cc8e0a5bdc5507767ee5bae7538be452274bdd32103cccc087"
+      },
+      {
+        "path": "scripts/lib/markdown-links.mjs",
+        "bytes": 3124,
+        "sha256": "63afcaf35091b446d5df62d4c3abcde61085996c3a310c509020af119440a5aa"
+      },
+      {
+        "path": "scripts/lib/md-utils.mjs",
+        "bytes": 8548,
+        "sha256": "f0fc23bafbf623c5afcaac9c734abcf6b5bbab94ae649f27582b79af8d6c9f52"
+      }
+    ]
+  },
+  "raw_record_metadata": [
+    {
+      "pid": 9720,
+      "mode": "correctness",
+      "kind": "correctness",
+      "ordinal": 0,
+      "raw_file": "00-correctness-correctness-0.json",
+      "sha256": "38bbf75d382ee69de774bc9f074188a38163160fd678bf156fa279692a884b0a"
+    },
+    {
+      "pid": 9776,
+      "mode": "published-core.validation.v1",
+      "kind": "discarded-warmup",
+      "ordinal": 0,
+      "raw_file": "01-validation-discarded-warmup-0.json",
+      "sha256": "9c481f0f15581703d56336161f48fea014ddfc3bc961120a15bf6f8624aef3a8"
+    },
+    {
+      "pid": 9787,
+      "mode": "published-core.validation.v1",
+      "kind": "recorded",
+      "ordinal": 1,
+      "raw_file": "02-validation-recorded-1.json",
+      "sha256": "092ddef0f9e03058d8bb775266125713050b134ba10eeafd097f578e8fbb9627"
+    },
+    {
+      "pid": 9804,
+      "mode": "published-core.validation.v1",
+      "kind": "recorded",
+      "ordinal": 2,
+      "raw_file": "03-validation-recorded-2.json",
+      "sha256": "1b0343805eea9db2623e7ef991aeea1ec1039f902100f4c8bce17c854bf528d3"
+    },
+    {
+      "pid": 9816,
+      "mode": "published-core.validation.v1",
+      "kind": "recorded",
+      "ordinal": 3,
+      "raw_file": "04-validation-recorded-3.json",
+      "sha256": "26081b5ea42644e3ed6bb14a25e31d808a2ac52fe46bc5ff018ac9517d708f59"
+    },
+    {
+      "pid": 9930,
+      "mode": "published-core.validation.v1",
+      "kind": "recorded",
+      "ordinal": 4,
+      "raw_file": "05-validation-recorded-4.json",
+      "sha256": "f79afde8ffc38cadb02fa57c583e6eedcd2965f0ea86724d807382f3ebf24e11"
+    },
+    {
+      "pid": 10028,
+      "mode": "published-core.validation.v1",
+      "kind": "recorded",
+      "ordinal": 5,
+      "raw_file": "06-validation-recorded-5.json",
+      "sha256": "3eec2b4c29638b93106dc388686ec6b467fe3d2d3ca2673f21d38da568987684"
+    },
+    {
+      "pid": 10041,
+      "mode": "published-core.index-construction.v1",
+      "kind": "discarded-warmup",
+      "ordinal": 0,
+      "raw_file": "07-index-construction-discarded-warmup-0.json",
+      "sha256": "d05dc264cf8fab6eef6b971be248e6629840b990547f17f3fa61810c75f15666"
+    },
+    {
+      "pid": 10047,
+      "mode": "published-core.index-construction.v1",
+      "kind": "recorded",
+      "ordinal": 1,
+      "raw_file": "08-index-construction-recorded-1.json",
+      "sha256": "079b85223c6dc54ec8d642f270964a311ef387529adf949b16bc8e20d2f1b9f2"
+    },
+    {
+      "pid": 10057,
+      "mode": "published-core.index-construction.v1",
+      "kind": "recorded",
+      "ordinal": 2,
+      "raw_file": "09-index-construction-recorded-2.json",
+      "sha256": "8fb0fc54740073d757a0477e1472656483597a5be677717712065dd3ebfff249"
+    },
+    {
+      "pid": 10065,
+      "mode": "published-core.index-construction.v1",
+      "kind": "recorded",
+      "ordinal": 3,
+      "raw_file": "10-index-construction-recorded-3.json",
+      "sha256": "80430a8ebefa62faa61d7135c129529f4a7366a33e16a4eaec3b23eef85a7ef7"
+    },
+    {
+      "pid": 10079,
+      "mode": "published-core.index-construction.v1",
+      "kind": "recorded",
+      "ordinal": 4,
+      "raw_file": "11-index-construction-recorded-4.json",
+      "sha256": "a9b74ceee41b0067f04e22dc8842984e7da4b91dfa172ac9b5616efedd854b5d"
+    },
+    {
+      "pid": 10087,
+      "mode": "published-core.index-construction.v1",
+      "kind": "recorded",
+      "ordinal": 5,
+      "raw_file": "12-index-construction-recorded-5.json",
+      "sha256": "ce8cdaa01cfef1e2c4e5e74bd041a04d4a85937ce0a4c254e4900236bbcec521"
+    },
+    {
+      "pid": 10099,
+      "mode": "published-core.indexed-filter.v1",
+      "kind": "discarded-warmup",
+      "ordinal": 0,
+      "raw_file": "13-indexed-filter-discarded-warmup-0.json",
+      "sha256": "be9db26a78cfd616306863eca137a680c229b0e86c0a14d679a5ab6340af9a48"
+    },
+    {
+      "pid": 10108,
+      "mode": "published-core.indexed-filter.v1",
+      "kind": "recorded",
+      "ordinal": 1,
+      "raw_file": "14-indexed-filter-recorded-1.json",
+      "sha256": "3017534f3ae5a7f0e85c78090e7beab8d7a5c7323efb60987c3e9d36533add0f"
+    },
+    {
+      "pid": 10180,
+      "mode": "published-core.indexed-filter.v1",
+      "kind": "recorded",
+      "ordinal": 2,
+      "raw_file": "15-indexed-filter-recorded-2.json",
+      "sha256": "ef9c8c9504e4b84d2082657c0fc1c142e797d485a7bff7cc519d9b0a6fd44d35"
+    },
+    {
+      "pid": 10313,
+      "mode": "published-core.indexed-filter.v1",
+      "kind": "recorded",
+      "ordinal": 3,
+      "raw_file": "16-indexed-filter-recorded-3.json",
+      "sha256": "5df7aa8d16ca7083718ecda990d564b9d209dc803521edd5426784501ccb3c4f"
+    },
+    {
+      "pid": 10323,
+      "mode": "published-core.indexed-filter.v1",
+      "kind": "recorded",
+      "ordinal": 4,
+      "raw_file": "17-indexed-filter-recorded-4.json",
+      "sha256": "22b58e4111697a97231e17908386535c91e638f4ec158d323e5ac1794ca44e43"
+    },
+    {
+      "pid": 10330,
+      "mode": "published-core.indexed-filter.v1",
+      "kind": "recorded",
+      "ordinal": 5,
+      "raw_file": "18-indexed-filter-recorded-5.json",
+      "sha256": "0c097aea14a04f332a80ef4c6e376ffe9efaa83b1858266844dd6277315123c3"
+    }
+  ],
+  "setup_validation_failure": {
+    "head": "34196601a88bc864fed6caac05a88d0119e68a05",
+    "tree": "343794ad17cb9afbe1076e4cf3b884790df56074",
+    "run": 40434339855,
+    "url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40434339855",
+    "event": "push",
+    "jobs": 0,
+    "dispatches": 0,
+    "Core_CLI_runs": 0,
+    "error": "GitHub definition validation rejected runner.temp at job.env",
+    "correction_head": "9b07fb8898236518d44047e2300cbd5aeef105d2",
+    "correction": "Normal append commit removes job.env artifact path and uses the same path at Stage step.env and Upload step.with; other2759leaves/source/guard3 preserved",
+    "primary_context_reference": "https://docs.github.com/en/actions/reference/workflows-and-actions/contexts#context-availability",
+    "first_actual_dispatch": 40435420627
+  },
+  "separate_iOS_Full_snapshot": {
+    "PR": 273,
+    "PR_state_at_snapshot": "Draft/unmerged at measured SourceSHA b39; later fixes not accepted here",
+    "API_head": "b39eeff4647336124a39e218205cd8dd85fc1819",
+    "actual_checkout": "c3ec8039ab07c21e2eedc86ee231a00e64452531",
+    "actual_checkout_tree": "58674564c75d8a6fb932f67f28aaabd04faf8ef6",
+    "run": 40433197643,
+    "job": 121955591491,
+    "url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40433197643/job/121955591491",
+    "conclusion": "failure",
+    "unit_tests": {
+      "executed": 153,
+      "passed": 151,
+      "skipped": 2,
+      "failed": 0
+    },
+    "UI": {
+      "executed": 22,
+      "passed": 21,
+      "failed": 1,
+      "skipped": 0,
+      "all_cases_completed": true,
+      "functional_app_cases": {
+        "executed": 16,
+        "passed": 15,
+        "failed": 1
+      },
+      "pure_geometry_cases": {
+        "executed": 6,
+        "passed": 6,
+        "failed": 0
+      }
+    },
+    "only_failed_case": {
+      "identifier": "PublishedReaderUITests/testCancelContentFolderPickerPreservesFiltersAndReadingAndAllowsMoreActions()",
+      "seconds": 97.456,
+      "stage": "After initialTOC/bookmark/baseline relaunch/filterquery/MoreActions/import; before cancel during folder-picker identity/geometry polling",
+      "source_statement": "let frame = bar.frame, appFrame = app.frame",
+      "source_line_at_b39": 633,
+      "predicate_seconds": 15,
+      "error_kind": "XCTest remote AX snapshot resolution: Interrupted by waiter",
+      "which_getter_failed": "unknown",
+      "not_reached": [
+        "picker cancel tap",
+        "post-cancel assertions",
+        "subsequent About",
+        "later second relaunch"
+      ],
+      "cause": "App/infra/flake unconfirmed"
+    },
+    "Debug_published_package": {
+      "status": "passed",
+      "validator": "app-ContentValidator",
+      "articles": 199,
+      "files_including_manifest": 626,
+      "verified_files_excluding_manifest": 625,
+      "bytes_including_manifest": 40079066,
+      "revision": "d3148b66b8c05e5f1e3e4c563e08af958e67de47c83011cb96d0597bb5eb195c",
+      "PNG_files": 422
+    },
+    "Debug_corpus_same_as_Core_artifact": false,
+    "Release": {
+      "step_conclusion": "skipped",
+      "package_audit_performed": false,
+      "Release_optional_icon_capture": "not-run",
+      "Release_primary_icon": "not-run",
+      "old_or_other_workflow_Release_result_substituted": false
+    },
+    "large_artifact_downloaded": false,
+    "Root_summary_sha256": "5bad4cf1581bdf4a67bae13990dc709330c30cb15d029af24efdb7c96f3dd80f",
+    "acceptance": "Core host success does not fill failed Full UI, skipped Full Release, or physical acceptance",
+    "actual_checkout_parents": [
+      "08bdb36fd1d8bc83b6fa6bbf4a96e5acbeefb8b7",
+      "b39eeff4647336124a39e218205cd8dd85fc1819"
+    ]
+  },
+  "historical_reference": {
+    "label": "b79 local observation",
+    "profile": {
+      "Xcode": "16.2",
+      "macOS_SDK": "15.2",
+      "execution": "local"
+    },
+    "relative_record": "../2026-10-26/ios-published-core-benchmark.md",
+    "immutable_url": "https://github.com/pero3dev/ai-agent-library/blob/b39eeff4647336124a39e218205cd8dd85fc1819/project/records/2026-10-26/ios-published-core-benchmark.md",
+    "comparison": "Historical separate profile; no comparison, difference or budget derived"
+  },
+  "adoption": {
+    "stage": "private-draft-prepared-before-Root-main-binding",
+    "final_record_independent_review": null,
+    "Root_exact_payload_binding": null,
+    "common_checks": null,
+    "main_merge_SHA": null,
+    "main_CI": null,
+    "project_index_or_TODO_updated": false
+  },
+  "unaccepted": [
+    "actual iOSApp/Simulator UI performance",
+    "physical-device/VoiceOver/minimumiOS17 acceptance",
+    "p95/SLO/performance budget",
+    "historical cross-profile comparison",
+    "Store/signing/distribution/contracts/paid/protection exceptions"
+  ],
+  "current_adoption_checkpoint": {
+    "recorded_date": "2026-10-27",
+    "stage": "Core-code-main-merged; separate-result-document-adoption-prepared",
+    "historical_draft_fields_preserved": true,
+    "code_main": {
+      "PR": 273,
+      "sha": "f5e6221b7dd01132ff76d36e993b13047b15e24c",
+      "tree": "fb717f389c8a94a27c942d59673fb9d762bfd683",
+      "parent": "08bdb36fd1d8bc83b6fa6bbf4a96e5acbeefb8b7",
+      "method": "normal-protected-squash",
+      "final_PR_head": "5d6507b8748e6bb35afce29df5984f71e4e320e8",
+      "final_PR_tree": "fb717f389c8a94a27c942d59673fb9d762bfd683",
+      "raw_message_bytes": 4866,
+      "raw_message_sha256": "61e1368f9f2741bd0ca0e4862a15bbf8e0cdfe1cf118f897b88c74ce21749073",
+      "message_matches_requested_title_and_canonical_body_without_terminal_LF": true,
+      "admin_force_protection_changes": false
+    },
+    "immutable_source_comparison": {
+      "refs": [
+        "b39eeff4647336124a39e218205cd8dd85fc1819",
+        "5d6507b8748e6bb35afce29df5984f71e4e320e8",
+        "f5e6221b7dd01132ff76d36e993b13047b15e24c"
+      ],
+      "production_source4_count": 4,
+      "fixed_Core8_count": 8,
+      "all_bytes_equal": true,
+      "measurement_relabelled_to_final_head_or_main": false,
+      "new_Core_measurement": false
+    },
+    "final_PR_Full": {
+      "run": 40438767229,
+      "event": "pull_request",
+      "attempt": 1,
+      "source_head": "5d6507b8748e6bb35afce29df5984f71e4e320e8",
+      "actual_merge_checkout": "2d3a03544916e791d866a4f3070d9244f5a29e9d",
+      "tree": "fb717f389c8a94a27c942d59673fb9d762bfd683",
+      "unit_passed": 151,
+      "unit_skipped": 2,
+      "selected_cases_passed": 22,
+      "functional_cases_passed": 16,
+      "pure_geometry_cases_passed": 6,
+      "Release_articles": 199,
+      "Release_hashes": 625,
+      "Release_fixture_absent": true,
+      "b39_failure_preserved": true,
+      "AX_cause_or_speed_claim": false,
+      "observer_manifest_sha256": "f154b53826009e2e0061e7cf24c9fc0f9906f6b813de0391dba2b15a22fcca47"
+    },
+    "code_main_push_CI": {
+      "head": "f5e6221b7dd01132ff76d36e993b13047b15e24c",
+      "tree": "fb717f389c8a94a27c942d59673fb9d762bfd683",
+      "event": "push",
+      "attempt": 1,
+      "status": "three-new-main-push-runs-completed-success",
+      "success_claimed": true,
+      "runs": [
+        {
+          "name": "CI",
+          "id": 40443841890,
+          "status": "completed",
+          "conclusion": "success",
+          "successful_jobs": 10,
+          "skipped_jobs": 0,
+          "deploy_success": true,
+          "public_site_content_independently_opened": false,
+          "counts": [
+            {
+              "name": "Root Node in docs",
+              "job_id": 121990260950,
+              "tests": 1010,
+              "pass": 994,
+              "skip": 16,
+              "fail": 0,
+              "cancelled": 0
+            },
+            {
+              "name": "Windows harness",
+              "job_id": 121990260949,
+              "tests": 259,
+              "pass": 258,
+              "skip": 1,
+              "fail": 0,
+              "cancelled": 0
+            },
+            {
+              "name": "Python examples",
+              "job_id": 121990261185,
+              "tests": 17,
+              "pass": 17,
+              "result": "OK",
+              "duration_seconds": 1.724
+            },
+            {
+              "name": "Website Node unit",
+              "job_id": 121990261082,
+              "tests": 97,
+              "pass": 97,
+              "skip": 0,
+              "fail": 0
+            },
+            {
+              "name": "Chromium browser regression",
+              "job_id": 121990261082,
+              "tests": 682,
+              "pass": 677,
+              "skip": 5,
+              "fail": 0,
+              "duration": "17.0m"
+            },
+            {
+              "name": "Firefox appearance",
+              "job_id": 121990261082,
+              "tests": 14,
+              "pass": 14,
+              "duration": "38.3s"
+            },
+            {
+              "name": "Chromium isolated audio",
+              "job_id": 121990261153,
+              "tests": 8,
+              "pass": 8,
+              "duration": "11.2s"
+            },
+            {
+              "name": "WebKit isolated audio",
+              "job_id": 121990261100,
+              "tests": 8,
+              "pass": 8,
+              "duration": "26.9s"
+            },
+            {
+              "name": "WebKit CSP and JavaScript-disabled diagrams",
+              "job_id": 121990261100,
+              "tests": 2,
+              "pass": 2,
+              "duration": "10.9s"
+            },
+            {
+              "name": "WebKit appearance",
+              "job_id": 121990261100,
+              "tests": 14,
+              "pass": 14,
+              "duration": "45.8s"
+            }
+          ],
+          "receipt_sha256": "f9430342d9887afb5e3066506aa0302f76e2dfd04c6b602a5f902876c42583fe"
+        },
+        {
+          "name": "iOS native regression",
+          "id": 40443841894,
+          "status": "completed",
+          "conclusion": "success",
+          "actual_checkout": "f5e6221b7dd01132ff76d36e993b13047b15e24c",
+          "unit_passed": 151,
+          "unit_skipped": 2,
+          "UI_passed": 2,
+          "Release": {
+            "articles": 3,
+            "hashes": 140,
+            "bytes": 2577102,
+            "fixture_absent": true
+          },
+          "Debug_optional_icon_capture": {
+            "status": "partial",
+            "errors": 1,
+            "product_acceptance": false,
+            "detailed_receipt_downloaded": false,
+            "cause": "unconfirmed"
+          },
+          "Debug_required_primary_icon_audit": "passed",
+          "Release_optional_icon_capture": {
+            "status": "captured",
+            "errors": 0,
+            "product_acceptance": false
+          },
+          "Release_required_primary_icon_audit": "passed",
+          "receipt_sha256": "68b67bc6f2698dfed97b06481e22fdccca9f6af8c5a34d832a70229a1b818e6d"
+        },
+        {
+          "name": "iOS published app candidate",
+          "id": 40443841889,
+          "status": "completed",
+          "conclusion": "success",
+          "actual_checkout": "f5e6221b7dd01132ff76d36e993b13047b15e24c",
+          "unit_passed": 151,
+          "unit_skipped": 2,
+          "selected_passed": 22,
+          "functional_passed": 16,
+          "pure_geometry_passed": 6,
+          "Release": {
+            "articles": 199,
+            "hashes": 625,
+            "bytes": 36958898,
+            "fixture_absent": true,
+            "revision": "601306cf5a0ac5c89e9ef039c9ad4f998853ec938f1b2d4c6d06840c18b118ca"
+          },
+          "Debug_optional_icon_capture": {
+            "status": "captured",
+            "errors": 0,
+            "product_acceptance": false
+          },
+          "Debug_required_primary_icon_audit": "passed",
+          "Release_optional_icon_capture": {
+            "status": "captured",
+            "errors": 0,
+            "product_acceptance": false
+          },
+          "Release_required_primary_icon_audit": "passed",
+          "receipt_sha256": "78cb6e334e0d946888239145d46fbe556a4d8d35958171711349623698740c32"
+        }
+      ],
+      "prior_PR_success_not_transferred": true,
+      "optional_matrix": {
+        "SDK26_Archive": {
+          "new_main_run": null,
+          "push_trigger": false,
+          "historical_PR_source": "5d6507b8748e6bb35afce29df5984f71e4e320e8",
+          "historical_PR_run": 40438767276
+        },
+        "iOS26_5_UI": {
+          "new_main_run": null,
+          "push_trigger": false,
+          "historical_PR_source": "5d6507b8748e6bb35afce29df5984f71e4e320e8",
+          "historical_PR_run": 40438767254
+        },
+        "trigger_snapshot_sha256": "67542a6e68e4443d5d67d620f334e52f1027b11f17d658a40840fb9b146cae6e"
+      },
+      "limits": [
+        "Core measurement remains CodeSource b39 / Workflow9b; no new Core run or metric relabelling",
+        "Native optional Debug capture partial/errors1 remains unaccepted diagnostic evidence; required metadata audit passed",
+        "Primary audit is built AppIcon/CAR metadata only; no independent pixel/Home/Store acceptance",
+        "No AX cause/speed improvement claim; no physical/VoiceOver/minimumiOS17/p95/performance-budget acceptance",
+        "Separate result-document PR/payload/CI/main integration remains pending"
+      ]
+    },
+    "v2_record_content_review": {
+      "scope": "prior-retrieval-restoration-P2 delta; excludes this adoption delta",
+      "decision": "scoped-content-approved; prior-retrieval-restoration-P2-closed",
+      "receipt_sha256": "18cb128193d83e99e1853fb18576ed5441785ab4512c0a6fbdcf13171c1f54a3"
+    },
+    "document_adoption": {
+      "owned_paths": [
+        "project/records/2026-10-27/ios-core-hosted-observation.md",
+        "project/records/2026-10-27/ios-core-hosted-observation.json",
+        "project/README.md",
+        "ios/README.md",
+        "project/plans/engineering/ios-app-completion.md"
+      ],
+      "stage": "private-five-file-candidate",
+      "delta_independent_review": null,
+      "Root_exact_payload_binding": null,
+      "common_checks": null,
+      "document_PR": null,
+      "document_main_merge_SHA": null,
+      "document_main_CI": null
+    },
+    "TODO": {
+      "total_rows": 32,
+      "checked_rows": 12,
+      "all_rows_preserved": true,
+      "IOS-15_complete": false,
+      "partial_progress": "199-article Core validation/index construction/16-query batch; one Hosted profile",
+      "remaining": [
+        "app initial-launch/input/long-scroll/image-decode performance",
+        "minimumiOS17/physical-device/VoiceOver acceptance",
+        "p95/performance budget",
+        "signing/Store/distribution/contracts"
+      ]
+    }
+  },
+  "historical_snapshot_context": {
+    "stage": "historical-context-preparation-only-not-new-measurement-or-source-adoption",
+    "prepared_at_utc": "2026-10-27T09:12:01.544849+00:00",
+    "intro_note_applied": true,
+    "current_scope": "The old current/main wording identifies the frozen b39/9b observation and historical code-main f5e adoption, not live latest-source performance.",
+    "historical_measurement": {
+      "CodeSourceSHA": "b39eeff4647336124a39e218205cd8dd85fc1819",
+      "WorkflowSHA": "9b07fb8898236518d44047e2300cbd5aeef105d2",
+      "run_id": 40435420627,
+      "observations": 1,
+      "processes": 19,
+      "recorded_samples": 15,
+      "code_main_checkpoint": "f5e6221b7dd01132ff76d36e993b13047b15e24c",
+      "measurement_reexecuted": false,
+      "all_prior_JSON_values_preserved": true
+    },
+    "reported_main_and_drafts_at_preparation": {
+      "actual_main_reported_by_Root": "f5e6221b7dd01132ff76d36e993b13047b15e24c",
+      "actual_main_fresh_API_checked_here": false,
+      "PR281": {
+        "number": 281,
+        "status_reported_by_Root": "Draft",
+        "head": "b6bba8bc708b03da5534ed2583225229f2dd7218",
+        "tree": "779480ca0111484af87dbc4dabcf7009854216af"
+      },
+      "Reading_PR282": {
+        "number": 282,
+        "status_reported_by_Root": "Draft",
+        "head": "91b1ed803c20410919e15d562abae9fa2b189ec5",
+        "tree": "12498ede4d2b9092e95216f28f8de0529603d247",
+        "PBX_marketing_version": "0.2.20",
+        "PBX_build": "22",
+        "adopted_main": false
+      }
+    },
+    "readonly_source_comparison": {
+      "before_ref": "f5e6221b7dd01132ff76d36e993b13047b15e24c",
+      "after_ref": "91b1ed803c20410919e15d562abae9fa2b189ec5",
+      "production_source4_identical_at_reading_draft": false,
+      "production_source4_changed_paths": [
+        "ios/AILibrary/Sources/ReadingStore.swift"
+      ],
+      "other_production_sources_identical": 3,
+      "fixed_Core8_identical": true,
+      "mode_type_equal_all12": true,
+      "files": {
+        "production_source4": [
+          {
+            "path": "ios/AILibrary/Sources/Models.swift",
+            "f5": {
+              "bytes": 8614,
+              "sha256": "f355ff9ae41e39d3c78224c097afc7e6d64ce59ac91740ee57868c56068534af",
+              "entry": [
+                "100644",
+                "blob",
+                "ba081adb0114b0e2e1d4d338b96d92c81905290c"
+              ]
+            },
+            "reading_draft": {
+              "bytes": 8614,
+              "sha256": "f355ff9ae41e39d3c78224c097afc7e6d64ce59ac91740ee57868c56068534af",
+              "entry": [
+                "100644",
+                "blob",
+                "ba081adb0114b0e2e1d4d338b96d92c81905290c"
+              ]
+            },
+            "bytes_equal": true,
+            "mode_type_equal": true
+          },
+          {
+            "path": "ios/AILibrary/Sources/NativeDocument.swift",
+            "f5": {
+              "bytes": 27503,
+              "sha256": "ce96e4960eef766e325b1b4b7d3701d4a7d5b5c3b1e69ae9599fd0f2622af2ab",
+              "entry": [
+                "100644",
+                "blob",
+                "473c39948ab24238f209ebfd6650d7f22bae484d"
+              ]
+            },
+            "reading_draft": {
+              "bytes": 27503,
+              "sha256": "ce96e4960eef766e325b1b4b7d3701d4a7d5b5c3b1e69ae9599fd0f2622af2ab",
+              "entry": [
+                "100644",
+                "blob",
+                "473c39948ab24238f209ebfd6650d7f22bae484d"
+              ]
+            },
+            "bytes_equal": true,
+            "mode_type_equal": true
+          },
+          {
+            "path": "ios/AILibrary/Sources/ContentValidator.swift",
+            "f5": {
+              "bytes": 7794,
+              "sha256": "25a045747ed287c914423c4156dae60fb7130449d0b1a5680d8a9ec1b8f7d062",
+              "entry": [
+                "100644",
+                "blob",
+                "e394eacaece42a844062179c0c0168cc69e911e8"
+              ]
+            },
+            "reading_draft": {
+              "bytes": 7794,
+              "sha256": "25a045747ed287c914423c4156dae60fb7130449d0b1a5680d8a9ec1b8f7d062",
+              "entry": [
+                "100644",
+                "blob",
+                "e394eacaece42a844062179c0c0168cc69e911e8"
+              ]
+            },
+            "bytes_equal": true,
+            "mode_type_equal": true
+          },
+          {
+            "path": "ios/AILibrary/Sources/ReadingStore.swift",
+            "f5": {
+              "bytes": 13235,
+              "sha256": "89eb397a25391fca4ece786438bc2b3dac2eda0933006f587769ab5b0551c5c9",
+              "entry": [
+                "100644",
+                "blob",
+                "6c23674e07a6a467f56cbba6634a5f0a50e91031"
+              ]
+            },
+            "reading_draft": {
+              "bytes": 19641,
+              "sha256": "8874792f1fc346b8c2bf465301780f1cc01a55d808a6ef0ce7fa8d9344aaf1f7",
+              "entry": [
+                "100644",
+                "blob",
+                "3e052fa93627338e4676c8469fdc498c29cab582"
+              ]
+            },
+            "bytes_equal": false,
+            "mode_type_equal": true
+          }
+        ],
+        "fixed_Core8": [
+          {
+            "path": "ios/tests/PublishedCoreBenchmark.swift",
+            "f5": {
+              "bytes": 9435,
+              "sha256": "92d8005e1d0fe98008e6deeff54773ee0866e0fb75c4b9dc80ce5507a03d71aa",
+              "entry": [
+                "100644",
+                "blob",
+                "131046711676b6aee240ab550e65b539cc6808aa"
+              ]
+            },
+            "reading_draft": {
+              "bytes": 9435,
+              "sha256": "92d8005e1d0fe98008e6deeff54773ee0866e0fb75c4b9dc80ce5507a03d71aa",
+              "entry": [
+                "100644",
+                "blob",
+                "131046711676b6aee240ab550e65b539cc6808aa"
+              ]
+            },
+            "bytes_equal": true,
+            "mode_type_equal": true
+          },
+          {
+            "path": "ios/tests/check-core-performance.sh",
+            "f5": {
+              "bytes": 230,
+              "sha256": "087a4e4e16e0f8489dfb10144fe994e901ee2ef6865070d20ebabccbd55948b1",
+              "entry": [
+                "100755",
+                "blob",
+                "3b89eaca635182e1dfdc31aa72dd8385cf9e51fa"
+              ]
+            },
+            "reading_draft": {
+              "bytes": 230,
+              "sha256": "087a4e4e16e0f8489dfb10144fe994e901ee2ef6865070d20ebabccbd55948b1",
+              "entry": [
+                "100755",
+                "blob",
+                "3b89eaca635182e1dfdc31aa72dd8385cf9e51fa"
+              ]
+            },
+            "bytes_equal": true,
+            "mode_type_equal": true
+          },
+          {
+            "path": "ios/tests/core-performance-queries.json",
+            "f5": {
+              "bytes": 291,
+              "sha256": "39995c2b75ba04eec4e1dc610b35c28b1b0f386cc5b250eaeab5211d13cfa31b",
+              "entry": [
+                "100644",
+                "blob",
+                "1b25d8815b89f73f70e993f6a7a5afd451e8c4d7"
+              ]
+            },
+            "reading_draft": {
+              "bytes": 291,
+              "sha256": "39995c2b75ba04eec4e1dc610b35c28b1b0f386cc5b250eaeab5211d13cfa31b",
+              "entry": [
+                "100644",
+                "blob",
+                "1b25d8815b89f73f70e993f6a7a5afd451e8c4d7"
+              ]
+            },
+            "bytes_equal": true,
+            "mode_type_equal": true
+          },
+          {
+            "path": "ios/tests/core-performance-runner.mjs",
+            "f5": {
+              "bytes": 31917,
+              "sha256": "4276643f3c0df1e21d62f020c0ebd5ec32639b536fa6933806e7ad611edcaf5f",
+              "entry": [
+                "100644",
+                "blob",
+                "0c87f95e266f1b531f6f1110c1841ce5030a40db"
+              ]
+            },
+            "reading_draft": {
+              "bytes": 31917,
+              "sha256": "4276643f3c0df1e21d62f020c0ebd5ec32639b536fa6933806e7ad611edcaf5f",
+              "entry": [
+                "100644",
+                "blob",
+                "0c87f95e266f1b531f6f1110c1841ce5030a40db"
+              ]
+            },
+            "bytes_equal": true,
+            "mode_type_equal": true
+          },
+          {
+            "path": "ios/tests/core-performance.md",
+            "f5": {
+              "bytes": 9739,
+              "sha256": "45555f7c16f5c73de8450fc04eecd5b01df27d3bfdecad04fca97cab24d08a99",
+              "entry": [
+                "100644",
+                "blob",
+                "3d8f3a9007ff3aa454c648553ffb312fc37ac901"
+              ]
+            },
+            "reading_draft": {
+              "bytes": 9739,
+              "sha256": "45555f7c16f5c73de8450fc04eecd5b01df27d3bfdecad04fca97cab24d08a99",
+              "entry": [
+                "100644",
+                "blob",
+                "3d8f3a9007ff3aa454c648553ffb312fc37ac901"
+              ]
+            },
+            "bytes_equal": true,
+            "mode_type_equal": true
+          },
+          {
+            "path": "tests/unit/ios-core-performance-private-temp.test.mjs",
+            "f5": {
+              "bytes": 10065,
+              "sha256": "33c78c458021598c9cff28f51cba436706cab43660b4e32603ff953c64b3d62d",
+              "entry": [
+                "100644",
+                "blob",
+                "25dc24c1889f49adb862d277fb427f47c54cafb1"
+              ]
+            },
+            "reading_draft": {
+              "bytes": 10065,
+              "sha256": "33c78c458021598c9cff28f51cba436706cab43660b4e32603ff953c64b3d62d",
+              "entry": [
+                "100644",
+                "blob",
+                "25dc24c1889f49adb862d277fb427f47c54cafb1"
+              ]
+            },
+            "bytes_equal": true,
+            "mode_type_equal": true
+          },
+          {
+            "path": "tests/unit/ios-core-performance-runner.test.mjs",
+            "f5": {
+              "bytes": 14298,
+              "sha256": "b8174be5e05eb3b619512f3a913225d0bb07385a39fef32481ba95c4ade7c2f0",
+              "entry": [
+                "100644",
+                "blob",
+                "6f6db170623c1b9eb368e7c1aae37e5ed0bb083f"
+              ]
+            },
+            "reading_draft": {
+              "bytes": 14298,
+              "sha256": "b8174be5e05eb3b619512f3a913225d0bb07385a39fef32481ba95c4ade7c2f0",
+              "entry": [
+                "100644",
+                "blob",
+                "6f6db170623c1b9eb368e7c1aae37e5ed0bb083f"
+              ]
+            },
+            "bytes_equal": true,
+            "mode_type_equal": true
+          },
+          {
+            "path": "tests/unit/ios-core-performance-toolchain.test.mjs",
+            "f5": {
+              "bytes": 9144,
+              "sha256": "381ad369b5ee5c7de27066bff0ec0294068559956a19295ad51cc5d9edf5b190",
+              "entry": [
+                "100644",
+                "blob",
+                "b02c031fe722d407288ca62b2afaf44b1e44c388"
+              ]
+            },
+            "reading_draft": {
+              "bytes": 9144,
+              "sha256": "381ad369b5ee5c7de27066bff0ec0294068559956a19295ad51cc5d9edf5b190",
+              "entry": [
+                "100644",
+                "blob",
+                "b02c031fe722d407288ca62b2afaf44b1e44c388"
+              ]
+            },
+            "bytes_equal": true,
+            "mode_type_equal": true
+          }
+        ]
+      }
+    },
+    "old_conditional_payload": {
+      "expected_base_tree": "6a21a27d531525cf7d6310b07f4207ed155e5aeb",
+      "payload_SHA256": "72ecbb17cf34e0c183be6f04d3ba49d313b5b3738d15a4a56db753f0b6797b17",
+      "status": "Historical private preparation; not an adoption payload for later differing main trees or this revised context",
+      "must_reject_other_main_tree_or_owned_nonowned_drift": true,
+      "fresh_actual_main_binding_required": true
+    },
+    "performance_scope": "Old19-process results remain valid historical observations; unchanged Core8 does not make changed Source4 a measured0.2.20(22) input. No new performance result is adopted.",
+    "future_actualmain": null,
+    "newperformance": null
+  },
+  "diagnostic_5eb_context": {
+    "stage": "private-5eb-context-only-awaiting-independent-review-not-publication",
+    "context_head": "5eb7914dfe90fabbc543d96e45f77f805babb1cf",
+    "context_tree": "729691189a8dfc4c7929f1af90c54a56d7f50248",
+    "historical_source_checkpoint": "f5e6221b7dd01132ff76d36e993b13047b15e24c",
+    "readonly_source4_comparison": [
+      {
+        "path": "ios/AILibrary/Sources/Models.swift",
+        "historical_f5": {
+          "bytes": 8614,
+          "sha256": "f355ff9ae41e39d3c78224c097afc7e6d64ce59ac91740ee57868c56068534af",
+          "mode": "100644",
+          "type": "blob",
+          "blob": "ba081adb0114b0e2e1d4d338b96d92c81905290c"
+        },
+        "diagnostic_5eb": {
+          "bytes": 8614,
+          "sha256": "f355ff9ae41e39d3c78224c097afc7e6d64ce59ac91740ee57868c56068534af",
+          "mode": "100644",
+          "type": "blob",
+          "blob": "ba081adb0114b0e2e1d4d338b96d92c81905290c"
+        },
+        "bytes_equal": true,
+        "mode_type_equal": true
+      },
+      {
+        "path": "ios/AILibrary/Sources/NativeDocument.swift",
+        "historical_f5": {
+          "bytes": 27503,
+          "sha256": "ce96e4960eef766e325b1b4b7d3701d4a7d5b5c3b1e69ae9599fd0f2622af2ab",
+          "mode": "100644",
+          "type": "blob",
+          "blob": "473c39948ab24238f209ebfd6650d7f22bae484d"
+        },
+        "diagnostic_5eb": {
+          "bytes": 27503,
+          "sha256": "ce96e4960eef766e325b1b4b7d3701d4a7d5b5c3b1e69ae9599fd0f2622af2ab",
+          "mode": "100644",
+          "type": "blob",
+          "blob": "473c39948ab24238f209ebfd6650d7f22bae484d"
+        },
+        "bytes_equal": true,
+        "mode_type_equal": true
+      },
+      {
+        "path": "ios/AILibrary/Sources/ContentValidator.swift",
+        "historical_f5": {
+          "bytes": 7794,
+          "sha256": "25a045747ed287c914423c4156dae60fb7130449d0b1a5680d8a9ec1b8f7d062",
+          "mode": "100644",
+          "type": "blob",
+          "blob": "e394eacaece42a844062179c0c0168cc69e911e8"
+        },
+        "diagnostic_5eb": {
+          "bytes": 13784,
+          "sha256": "ffcdab90f0a8f39fc8b7cfceea0ba48aac7f18df1c033b237d2da311562e385a",
+          "mode": "100644",
+          "type": "blob",
+          "blob": "4d51f568e1d53ffc2d4a08f94c4d0fd2c7ac79b7"
+        },
+        "bytes_equal": false,
+        "mode_type_equal": true
+      },
+      {
+        "path": "ios/AILibrary/Sources/ReadingStore.swift",
+        "historical_f5": {
+          "bytes": 13235,
+          "sha256": "89eb397a25391fca4ece786438bc2b3dac2eda0933006f587769ab5b0551c5c9",
+          "mode": "100644",
+          "type": "blob",
+          "blob": "6c23674e07a6a467f56cbba6634a5f0a50e91031"
+        },
+        "diagnostic_5eb": {
+          "bytes": 19641,
+          "sha256": "8874792f1fc346b8c2bf465301780f1cc01a55d808a6ef0ce7fa8d9344aaf1f7",
+          "mode": "100644",
+          "type": "blob",
+          "blob": "3e052fa93627338e4676c8469fdc498c29cab582"
+        },
+        "bytes_equal": false,
+        "mode_type_equal": true
+      }
+    ],
+    "production_source4_identical": false,
+    "historical_19_process_15_recorded_samples_reexecuted": false,
+    "all_existing_JSON_values_preserved": true,
+    "changed_source4_or_measurement_adopted": false,
+    "actualmain_binding": null,
+    "newperformance": null,
+    "index_scope": "Only the historical Core guidance addition on immutable5eb; all outside bytes including Reading/Feature retained. Whole files are not publication payloads. Fresh actualmain splice must preserve concurrently prepared Reading and other foreign text.",
+    "publication": false,
+    "independent_review": "pending",
+    "unaccepted": [
+      "IOS-15 overall",
+      "new Source4 adoption",
+      "new measurement adoption",
+      "initial app launch",
+      "input latency",
+      "long scroll",
+      "image decode",
+      "minimum iOS17",
+      "physical device",
+      "VoiceOver",
+      "p95",
+      "performance budget"
+    ],
+    "new_operations": {
+      "benchmark": 0,
+      "test": 0,
+      "SDK": 0,
+      "API": 0,
+      "helper": 0,
+      "shared_write": 0,
+      "Git_mutation": 0
+    }
+  },
+  "main76_postmerge_ci_checkpoint_20261027": {
+    "schema_version": 1,
+    "recorded_date": "2026-10-27",
+    "scope": "Fixed implementation main76 newpush CI facts; this document payload is not yet bound or published.",
+    "implementation_main": {
+      "sha": "76d57595b52eb54b92ac188e3cdcd330c18aa116",
+      "tree": "740bbbfa73f1b850f7864c961ba78ab3ecb476d5",
+      "parent": "7784228eb167e5909909437ff9d8a779ceb7fa68"
+    },
+    "historical_fields": "All pre-existing fields including pending/null/current wording remain historical preparation snapshots.",
+    "new_main_push": {
+      "Common": {
+        "run": 40505124647,
+        "event": "push",
+        "attempt": 1,
+        "conclusion": "success",
+        "job_counts": {
+          "success": 10,
+          "skipped": 0,
+          "failure": 0
+        },
+        "deploy_success": true,
+        "independent_public_screen_acceptance": false,
+        "actual_checkout": "76d57595b52eb54b92ac188e3cdcd330c18aa116"
+      },
+      "Native": {
+        "run": 40505124651,
+        "event": "push",
+        "attempt": 1,
+        "conclusion": "success",
+        "unit": {
+          "executed": 165,
+          "skipped": 2,
+          "failures": 0,
+          "seconds": 25.028
+        },
+        "new12_each_started_once_passed_once_failed0": true,
+        "ordinary_UI": {
+          "executed": 2,
+          "failures": 0,
+          "seconds": 126.591
+        },
+        "actual_checkout": "76d57595b52eb54b92ac188e3cdcd330c18aa116",
+        "Release_numeric_counts": null,
+        "SDK_profile": null
+      },
+      "Full": {
+        "run": 40505124612,
+        "event": "push",
+        "attempt": 1,
+        "conclusion": "success",
+        "unit": {
+          "suite": "AILibraryTests.xctest",
+          "suite_result": "passed",
+          "tests": 165,
+          "skipped": 2,
+          "failures": 0,
+          "unexpected": 0,
+          "seconds": 21.277,
+          "line_index": 7219,
+          "line": "2026-10-27T12:46:14.4589110Z \t Executed 165 tests, with 2 tests skipped and 0 failures (0 unexpected) in 21.277 (25.179) seconds"
+        },
+        "UI": {
+          "tests": 22,
+          "failures": 0,
+          "seconds": 1247.392,
+          "distinct_raw_case_IDs": 22,
+          "passed_cases": 22,
+          "picker_case_seconds": 146.419,
+          "picker_case_result": "passed"
+        },
+        "picker_prefix_count": 0,
+        "new_JSON_runtime_collection": null,
+        "Release_consumer": {
+          "schema_version": 1,
+          "status": "passed",
+          "native_schema_version": 2,
+          "revision": "11ba5a273030495cec8e95a6aa64964441c9b06a1fe9853165e7de98616e4e78",
+          "articles": 199,
+          "audio": 1,
+          "verified_files": 625,
+          "verified_bytes": 36958905,
+          "test_content_absent": true
+        },
+        "primary_icon_audit": "passed",
+        "icon_visual_acceptance": false,
+        "actual_checkout": null,
+        "SDK_profile": null
+      }
+    },
+    "receipt_SHA256": {
+      "Common": "40cb790c8874cf24b77192139da667dd5340795222fa7e94eacd89fa802014b0",
+      "Native": "68108dcb6db08bf010deb64af886f7a979b30e0688e287792674b870f0cafa2c",
+      "Common_Native_observation": "6a8d4b0781a1540db78cc4b74f23a0ee4c428e00e2cf75d3bb57100fd5634f0d",
+      "Full": "e2f9ab82cb1fbbf1e2fa8745690d9c87e5100bda74a42985a41a4c19c919183a",
+      "Full_observation": "43f8f6a13144c9f762435ecf4c23468f4a1d0138fe91bfc05e705d63ec0483b6"
+    },
+    "separate_scopes": {
+      "new_standalone_SDK26_Runtime26_Dedicated_push": false,
+      "prior_PR_results_assigned_as_new_main_run": false,
+      "Core19process15samples_reassigned_to_current_App": false,
+      "new_performance": null,
+      "XCTest_seconds_are_App_latency_or_p95": false,
+      "private_PR283_Recovery2_acceptance": false
+    },
+    "document_adoption": {
+      "future_actualmain_binding": null,
+      "publication": null,
+      "publishable": false,
+      "Root_independent_review_required": true
+    },
+    "not_accepted_here": [
+      "Current App performance, minimumiOS17, p95 or budget",
+      "Physical device, VoiceOver, actual recovery UI, power-loss durability",
+      "Actual bookmark/reading position survival across upgrade from the sentinel receipt",
+      "New private PR283 or Copy candidates",
+      "Store/signing/distribution or independent public screen acceptance"
+    ],
+    "stream": "Core",
+    "Core_historical_scope": "19process/15samples/statistics remain frozen b39/Workflow9b, no current App performance adoption."
+  }
+}

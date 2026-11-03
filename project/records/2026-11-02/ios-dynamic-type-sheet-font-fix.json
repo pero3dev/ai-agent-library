@@ -1,0 +1,189 @@
+{
+  "Code3_independent_review": {
+    "P1": 0,
+    "P2": 0,
+    "SourceMF": "494ca1996abcb4f199288509a525872b51778dd6e17aaa75a1b1757e20b9aeea",
+    "manifest_SHA256": "99789fcbb59d4c753ddd352fc4aba3437eee7ee9e38a8f58ce0add8aa4f69ded",
+    "new_UI_accepted": false
+  },
+  "PR": 320,
+  "actual_commit": null,
+  "actual_main_at_preparation": {
+    "not_fresh_GitHub_ref_claim": true,
+    "sha": "0a479ceefd70ce8275a1e3c40c80a72157453060",
+    "tracked": 2865,
+    "tree": "5fd781176666c1920b71ce3e5212303ff9b9001e"
+  },
+  "adoption_ready": false,
+  "design": {
+    "carrier_bytes": 512,
+    "console_JSON_bytes": 4096,
+    "explicit_getter_max_per_phase": 15,
+    "fixture_probe": "pass already uniquely foreground-resolved and label-asserted count to callback; read its value once; original identifiers unchanged",
+    "font": "reuse unchanged canonical isolated DEBUG suite/request parser; make function module-visible; apply valid request explicitly at existing ReaderTestLibrarySheet presentation boundary; nil retains original sheet initializer",
+    "not_IPC_or_latency_guarantee": true,
+    "previous_upper_bound_held": 16
+  },
+  "first_parent": {
+    "sha": "bc25d2e72e7fb7cf52a186f13abefec52c47a7a8",
+    "tracked": 2874,
+    "tree": "e4f16467d1bdfcb6f104a010641b937127233e50"
+  },
+  "freeze_UTC": "2026-11-01T22:29:15Z",
+  "held_Code3": {
+    "SourceMF": "494ca1996abcb4f199288509a525872b51778dd6e17aaa75a1b1757e20b9aeea",
+    "files": [
+      {
+        "SHA256": "be893e70ccd4973781a81e994e0ee99643842357fa792cb5b817661901758d1f",
+        "blob_oid": "55b2906cac2463c371f68fa5fda3dc11c571b0aa",
+        "path": "ios/AILibrary/Sources/AILibraryApp.swift"
+      },
+      {
+        "SHA256": "33c1e7275ed05813f179de8d7baa39545d31f3ead84c56146336fa10d4bb5ac8",
+        "blob_oid": "d5c3f478f81f4a36e23fd2ede3f97584c64fff21",
+        "path": "ios/AILibrary/Sources/LibraryView.swift"
+      },
+      {
+        "SHA256": "b3bfd95f33b14ec59baecbf9842fe42bc45e7394104c42147505f24e0b2ccb92",
+        "blob_oid": "015f184cee433acf6667c02feef7894fe953baf7",
+        "path": "ios/AILibraryUITests/ReaderReflowUITests.swift"
+      }
+    ],
+    "new_changes": 0,
+    "packetMF": "20fb8c9bb9a35f880847c6a825f22edf00772f95fe77cefe391a62e80208d708"
+  },
+  "independent_analysis": {
+    "Explorer_manifest_SHA256": "a8398bafc8beadb1114478b11a4dc89a16c507e053af57db23ce16836adf2e7f",
+    "scope": "read-only source plus prior runtime diagnostic; no natural OS defect or general sheet-inheritance rule established"
+  },
+  "new_head": null,
+  "new_main_after_merge": null,
+  "not_included": [
+    "Native owned Simulator Source7",
+    "Storage operation gate Source6",
+    "new runtime or SDK settings",
+    "new physical/device/signing actions"
+  ],
+  "pending": [
+    "Source7 final independent review and formal/common checks",
+    "actual appended object and fresh official head/main guards",
+    "new-source SDK/XCTest/Hosted root+fixture(sheetActual)+reader+table observations",
+    "original A5 stride/default-return/strict1/bookmark/offset conditions",
+    "normal Debug geometry/copy and Release runtime verification",
+    "ordinary protected PR/main merge with final fresh policies and separate mainpush validation",
+    "physical/VoiceOver/provider and broad TODO acceptance"
+  ],
+  "preserved": {
+    "App": "0.2.28(30)",
+    "PBX_Core_Conf_Tag_Seed_and_all_frozen_Dynamic_Budget_Probe_history": "full tuples and bytes retained",
+    "Release_false_projection_App_and_Library": "byte exact static only",
+    "TODO_complete": 14,
+    "TODO_rows": 32,
+    "UI_seconds": 720,
+    "assert_calls": 53,
+    "assert_text_order_and_actions_selectors_timeouts": "exact Code3 static/IR checks",
+    "bookmark_offset_and_no_corrective_gesture": true,
+    "cases": 2,
+    "growth_strictly_above": 1.25,
+    "normal_Debug_nil_request": "original initializer source retained; runtime/viewgraph equivalence unaccepted",
+    "schema_producer_NativeReaderView": "exact",
+    "standard_return_tolerance_points": 1,
+    "strict_cases": 1
+  },
+  "saved_Code3_syntax": {
+    "DEBUG": true,
+    "Root_result_SHA256": "8bf73a81d7c6eabae60fdd6d2735bdd77ecd009cd85bfc39c1236d2df2194989",
+    "author_rerun": false,
+    "exit_code": 0,
+    "input_fingerprints_unchanged": true,
+    "inputs": 3,
+    "scope": "Swift frontend parse only; not App SDK typecheck, XCTest or UI",
+    "seconds": 6.807179417
+  },
+  "saved_bc25_failure": {
+    "UI720_timeout_hit": false,
+    "actual_case_seconds": 213.016,
+    "attempt": 1,
+    "default_return": "unreached",
+    "exit_code": 65,
+    "fixture_sheet_actual": "unobserved; both global carrier queries had matches2/not-unique",
+    "job_id": 124988200376,
+    "not_reclassified_as_success": true,
+    "phases": [
+      {
+        "fixture": {
+          "matches": 2,
+          "status": "not-unique"
+        },
+        "offset": 34.08333333333303,
+        "phase": "default-before-departure",
+        "reader": {
+          "actual": "large",
+          "bodySize": 17,
+          "fontScale": 1
+        },
+        "root": "large",
+        "rowHeight": 66.83333587646484,
+        "runnerRequest": "default",
+        "stride": 132.33333333333303,
+        "table": {
+          "actual": "large",
+          "bodySize": 17,
+          "fontScale": 1,
+          "widths": [
+            126,
+            252
+          ]
+        }
+      },
+      {
+        "fixture": {
+          "matches": 2,
+          "status": "not-unique"
+        },
+        "offset": 34.08333333333303,
+        "phase": "accessibility5-after-relaunch",
+        "reader": {
+          "actual": "large",
+          "bodySize": 17,
+          "fontScale": 1
+        },
+        "root": "accessibility5",
+        "rowHeight": 66.83333587646484,
+        "runnerRequest": "accessibility5",
+        "stride": 132.33333333333303,
+        "table": {
+          "actual": "large",
+          "bodySize": 17,
+          "fontScale": 1,
+          "widths": [
+            126,
+            252
+          ]
+        }
+      }
+    ],
+    "primary": "stride132.33333333333303 not greater than165.4166666666663",
+    "primary_source_line": 467,
+    "probe_phase_count": 2,
+    "run_id": 41353390704,
+    "strict1_audit": "unreached"
+  },
+  "schema_version": 1,
+  "scoped_artifact_read": {
+    "Root_diagnostic_SHA256": "8a0606a2ccfaea69382e9fa40ee8f6932f78c91418a8205edb686f8e67b2d1dc",
+    "artifact_id": 13102428934,
+    "binding": "Root tool/TLS official ID/head/tree plus fixed selected entry CRC/byte SHA and matching source-head/tree/execution",
+    "expired_prior_URL_failures": "Retained separately: initial Range BadZipFile/fullGET403 with zero selected data and reaped helper; fresh reference immediate range read succeeded; no primary UI rerun",
+    "official_archive_bytes": 135775400,
+    "official_whole_ZIP_SHA256": "06bfa5d3813c2c4e4de143b494cff4d09dd848f4ae1766186aa5f9f8186df496",
+    "own_direct_child_reaped": true,
+    "range_bytes": 246952,
+    "range_requests": 4,
+    "read_seconds": 0.541650209,
+    "selected_entries": 8,
+    "stdout_SHA256": "ebc550ab5a2d2d28db8785d06cc758ef481107d0110bf32e0af802b9eb547b4a",
+    "whole_ZIP_SHA256_verified": false
+  },
+  "state": "private_Source7_before_newsource_CI_or_adoption"
+}

@@ -1,0 +1,12 @@
+{
+  "name": "ai-agent-library-ios-tools",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Build-time rendering only; no JavaScript dependencies shipped as native app code",
+  "engines": { "node": "^22.22.2 || ^24.15.0 || >=26.0.0" },
+  "dependencies": {
+    "@playwright/test": "1.63.0",
+    "katex": "0.16.47",
+    "mermaid": "11.16.1"
+  }
+}

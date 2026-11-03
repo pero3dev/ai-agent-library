@@ -1,0 +1,5 @@
+# xcode-27 is a GitHub-hosted preview label missing from actionlint 1.7.12.
+# This parser extension does not select or configure a self-hosted runner.
+self-hosted-runner:
+  labels:
+    - xcode-27

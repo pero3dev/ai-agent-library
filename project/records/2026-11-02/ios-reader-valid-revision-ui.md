@@ -1,0 +1,65 @@
+# 有効な本文改訂と段落回転の専用回帰
+
+2026-11-02の小作業単位である。Rootが公式ref・merged PR320・actualmerge proof/manifestとSHAを提供した後のclean detached実main `057fc40049fa40b0f09e45e0d7673ac18111e635`（tree `6d1d79bb47e1850ddb73ca7d8d215157d89c6a0e`、2880件）へ、Code6・新記録2・索引2のSource10だけを私有再結合した時点の記録である。実コミット・公開PR・新CI・main反映はこの記録では未完了であり、作成後の実結果は別追記で扱う。
+
+代表記事の既存確認に加え、実native JSONとmanifest.filesのSHAが変わる有効なA→Bを対象にする。共通articleIDでunique本文段落を保持し、前方4段落・heading・target blockIDを変える。fresh隔離suiteでrepository Aを実読込し、本文中途としおりを公開操作で保存する。同梱Bへ公開画面から切り替え、補正gestureなしの初回「続きを読む」でBの段落・近い位置・しおりを確認し、live縦横でparagraph実幅・高さ・位置、その後のB再起動復帰を要求する専用1caseを追加した。duplicate/fallbackのCore行列や通常199記事・音声1・Full26全体の確認をこの1記事/audio0/PNG0のcontrolled scenarioへ置き換えない。
+
+私有Code6 r1の独立IRはP1=0/P2=1で、専用workflow create/ownedの旧reader-reflow名とbuilderの厳密reader-revision要求の不一致を検出した。r1を保持し、r2で新workflowの2literalだけをreader-revisionへ統一した。builderを両名前許容に緩めず、他5候補をbyte保持した。旧2負例は不一致、新create/owned/builderの3source templateは一致する。r2差分IRはP1/P2=0だった。これは私有Code6のレビューであり、fresh Source10の最終レビューと新CIの代わりにはならない。
+
+RootのNode24.22.1による8 controlsは8/8、約0.422秒、入力不変だった。workflow YAML3と各inline DRIVER、builder、unitのNode構文、Swift frontend DEBUG parseの4検査も成功した。これは構文と制御試験であり、iOS SDK typecheck・UItests全compile・Simulatorの成功を意味しない。
+
+Rootのhost consumer初回はSDK未指定でstandard libraryを見つけられずcompile exit1だった。旧failureとログを保持し、OUTを別siblingへ変更し、compileに`-swift-version 5`・`-sdk MacOSX15.2.sdk`・`-target arm64-apple-macosx14.0`の3設定を加えた別r2実行が成功した。製品/source変更はない。実macOS-host ContentValidatorとsnapshot.document(for:)でA/Bが各1記事・audio0・PNG0・3files、17/21blocksとして受理され、4commands約9.619秒、入力不変を記録した。これはmacOS-host consumer受理だけであり、iOS SDK・実activation・読書位置保存・viewport・回転・UIを受理したものではない。Rootはhost入力5ファイルの実main0a47 Git blob一致も照合し、実行証跡の独立IRはP1/P2=0（result SHA `33935e16d78e7eac1d985ae2bf61adaf9d75e927b73528e841caafd9ed27c21e`）だった。fresh Source10の新CI・UI実証へは代入しない。
+
+旧Code6 r2 SourceMFは`d180a75142aa9eef60945f88f927a8314d81757dd36ca3c2b59c4a9492d23ab2`、packetMFは`e720643f104742f787b8b77659b85e0f12e4088030c87670476c0135398c7483`。r2 IR result SHAは`965aeda8b67aeb9a1e31c9e1846de13249eda1991faa0a9192735d2481608e15`。Node8・syntax4・host初回failure/r2 successのSHAとscopeは同名JSONに固定する。大きなbinary・trace・cacheはtrackedへ入れない。
+
+今回の再結合では、actual mainの全2880 mode/type/blobが承認済みb8（tree `6d1d79bb47e1850ddb73ca7d8d215157d89c6a0e`）と一致すること、実Git commitOID・tree・Root承認base0a47を唯一の親とすることを照合する。旧0a47・未merge head b8・仮想VM e686をactual mainへ代入しない。Rootのfresh公式ref `refs/heads/main` とmerged PR320 RESTを実OIDへ結合し、proof manifestの全member・SHAを照合する。local origin/mainの一致やsymbolic mainを要求せず、ユーザーmain/origin refを動かさない。
+
+既存workflow2の双方へ新methodのexact inventory1hunkだけを追加し、r3 afterの逆復元でactualmainの他全byteを回復する。read/owner60秒・inventory180秒/step4・simulator300秒/step6、Rotation sum50/job51/UI600秒/step12・Dynamic sum51/job52/UI720秒/step13を保持する。新Revision workflowは17steps/sum53/job54/UI600秒/step11、builder・unit8・Readerはr2 exactcarryである。旧索引全文・全失敗記録・PBX/App0.2.28(30)・TODO32/14・全非所有tuple・Original110・Content626を保持し、新Source10は2880から5newを加えた2885件、10paths（既存5/new5）として実mapから計算する。
+
+Code6 r3 SourceMFは`f7fbd17f8e85e0345202c57696a10988d4e2e55237dc54a72e28e78199acab8a`、packetMFは`45891021829bba04fd827b23e9020494a7e292231726efc334c4c9a5320c548d`。r3差分IRはP1/P2=0、Rootは3workflowのYAML/inlineNodeと17/15step算術、r2 exactcarryを確認した。新Node8・host・SDK・activation・viewport・UI成功へ転用しない。保存Host5のsourceはactual mainの5Git blobへ再照合するが、macOS-host受理を再実行したとは扱わない。
+
+このSource10を1コミット・通常PRの小単位として提出し、fresh Source10独立レビュー・共通/必要検査・iOS SDK compile・新専用exact1と既存回転/Dynamic等の必要CI、実objectと公式head/main照合を経て通常保護でmainへ統合する。mainpushは別確認である。実機・live OS font・VoiceOverや他記事/runtime等は未完了として残し、ユーザーの方針に従い実機待ちで停止しない。IOS-11全体の完了やTODO完了数は変更しない。
+
+準備時点のPR320新public headはb8（単一親5826、2880件）で、8CIは観測中・未受入だった。旧R26等の既存回転witnessは旧source/case内に留め、Dynamic初回afterbootとretry2runtimesの30秒×2/UI0失敗も保持する。新b8のCI、Code6のunique paragraph UI、さらにSource10新CIは別結果である。actualmain未提示の準備段階ではadapter invocation・Source10封印は0であり、Root後送のproofで実親を結合した後にも新Source10最終レビューと新CI/UIが必要である。
+
+## PR326初回の証跡ファイル名と追補候補
+
+[PR326初回の専用改訂run](https://github.com/pero3dev/ai-agent-library/actions/runs/41376013178)はpublic head efb29df（main057とは別）を実checkoutした。inventory・tools・A/B生成と実consumer監査・専用Simulator・B app/test bundle buildは成功したが、seed工程のrunがinstall-bundled-B.intent.jsonを保存しようとして既存の小文字限定guardに拒否された。intent保存前で当該install spawnは0、A seed・UI実行・strict1と読書位置/段落回転/再起動の受入には未到達だった。所有cleanupとstorage/compact/full保持の成功をUI成功へ数えない。
+
+最小追補は新workflow内のinstall-bundled-B・seed-stored-A・after-stored-Bという3つのcommand labelだけを小文字へ統一する。guardは広げず、run/json/put/output/listInventoryから生成される全固定名・既知の組立名とinventoryの1回retry派生を同じguardへ静的照合し、旧3負例も残す。builder/unit/Reader、旧2case/53assert/各phase15getter、原assert/tolerances/期限、strict1、Full26、所有cleanupと出力容量は変更しない。
+
+旧記録全文・JSONの全既存key/value・旧索引全文は回復可能なまま保持する。今回の初回failureと成功stageは履歴で、新head追加で旧runがcancelされても新headのSDK/UI/CIへ代用しない。別Recoveryのfinally timeout/UI未確認、Nativeのrestore AXとCode4未来テンプレートも別未解決/未結合として保つ。新headのseed/実UI/geometry/strict1・必要CIと通常main/mainpushは未受入である。Rootがfresh publicparent/branchを確認して同一PRへ追加commitを行い、forceや公開headの書換えは行わない。
+
+## PR326 2bcのroot More対象の待ち直し
+
+[2bcの専用改訂run](https://github.com/pero3dev/ai-agent-library/actions/runs/41380657989)はseedを通過し、実UI1件が67.198秒で失敗した。確認できた改訂witnessはA-before-saveの1値だけで、offset約-35、width357、height約298.667、fraction0.1171875だった。これはlive A段落の観測で、A位置のdisk保存・しおりの再起動保持・B切替の受入ではない。既存のpublic back・readerClosed/search/count確認後、579行のglobal「その他の操作」tapが59.74～63.79秒にhitpoint{-1,-1}/kAXErrorCannotCompleteで停止した。B切替・first Resume・回転・再起動とpost-UI file gate/strict1成功は未到達である。
+
+最小追補は新caseのこのraw tapだけを、実rootタイトルAI Agent Libraryのnavigation bar内のMoreへscopeし、既存15秒singleForegroundControlで現在一意の可視/hittable対象を待ち、enabledを明示assertして同じpublic tapを行う変更である。AXの根本原因を断定せず、固定sleep・座標tap・任意scroll・期限増・guard緩和・復帰後の補正を加えない。共通generic helper、旧2case/53assert/各phase15getter、新5phase witnessと全既存許容差・後続操作、UI600秒、命名修正済workflow/builder/unit/既存2workflowと製品は保持する。
+
+App sourceでは通常rootのMoreはMenuで、bundled選択を直接previewへ渡す。confirmでbundled sheetを閉じ、onDismissからactivationし、その後のalert「閉じる」でmessageを消す。追加のactions/bundled dismissが欠ける決定的な不整合は見つからず、後続操作も変更しない。これは静的な遷移確認で、未到達B/初回Resume成功を主張しない。
+
+根拠はRootが取得したwitness ZIP4722B SHA97955b0bb6cb5d23335b554ac95649f9a2b8fb7c344d22ac38ca5778d1be92f5とcompact ZIP39178B SHA81205e9f5dbbf7b66131841542aa2453b1f08d35843d6d4d045db3fcfd366e30で、全ZIP SHAと選択entryのCRC/SHAを再照合した。小read receiptのpath/SHAは同名JSONに固定する。新head UI/CI・他の2bc CI、別Recovery/restore AXの受入へ拡張しない。旧記録と全JSON既存key/index全文・全旧packet/Code4/Min17を保持し、Rootの独立IR・形式/構文・fresh publicparent確認後に同一PRへ追加commitする。
+
+## PR326 374のfiltered List公開経路によるセットアップ追補
+
+[374の専用改訂run](https://github.com/pero3dev/ai-agent-library/actions/runs/41385760628)はseedを通過したが、実UI1件が55.789秒で失敗した。A-before-save一値だけを観測し、offset約-38、width357、height約298.667、fraction約0.1272321だった。既存15秒helperでもroot navigation bar内Moreに一意可視/hittableな対象が得られず、B切替・first Resume・回転・再起動とpost-UI file gate/strict1は未到達である。live A観測をA位置のdisk保存やしおり再起動保持の成功へ広げない。通常toolbar MenuのAX問題は未解決のTODOとして残し、この追補をその修復やcoverage受入とは扱わない。
+
+Root採択の次セットアップは、既存の公開検索手順で同じ記事タイトル「保存位置の改訂回帰」を検索し、検索値と完全一致するsummary「検索: 保存位置の改訂回帰」を持つ一意collectionを確認する。そのcollection内のMoreだけを既存15秒singleForegroundControlで待ち、enabled assertとcollection内の可視/hittable確認後にpublic tapし、「その他の操作」sheetのnavigation barを確認する。その後は従来と同じlibrary-bundled-content・confirm・成功alertの「閉じる」を実行する。別記事を選択せず、検索前の一覧表示に必要な既存上限内scroll以外の任意scroll、座標tap、固定sleep、既存期限増・guard迂回・ReadingStore直接変更は加えない。
+
+App sourceでは通常Menu・filtered List Button・actions Listが同じisBusyを使い、同梱切替のsnapshot/path/preview guardも同じである。検索はfilter.queryだけへ結合され、保存済み読書位置を変更しない。filtered Moreはactions sheetを開き、選択をqueueしてonDismiss後に同じpreviewを呼び、成功activationはpathを空にしてclearFiltersする。B切替後はfilter summary不在と通常root title、actions/bundled画面の不在を15秒のpositive expectationで確認し、従来の一意可視normal Resumeへ進む。検索欄valueが空またはplaceholderであるという仮定は使わない。最初のResume tap以後の全byte、5phaseの幾何・位置・しおり・再起動assertと許容差、旧2case/53assert/phase15getterと全旧helper、workflow/builder/unit/既存2workflow/Full26・製品・TODO32行14完了は維持する。
+
+根拠はRoot取得のwitness ZIP4680B SHA2220ee51d55663a05cc9e1f64e5b1a76d6f296c868ad7b892ec279582a0aa28fとcompact ZIP39110B SHA8f3bb1eec94b1c810a59cdfcb324683235b6eb6247196234eeb7b61fe75c7f9dで、全ZIP SHAと選択entry CRC/SHAを再照合した。小read receiptのpath/SHAは同名JSONに固定する。旧記録全文/JSON全key・byte/index全文、初回失敗票と全旧packet/Code4/Min17を保持する。publicparent374とmanaged main057は別であり、新UI/CI・通常Menu AX修復・別Recovery/restore AXの成功は未受入である。RootのfinalIR・構文/形式・fresh374 gate後に同一PRへ通常追加commitする。
+
+## PR326 b8dのcontainer再取得後の同一内容監査
+
+[b8dの専用改訂run](https://github.com/pero3dev/ai-agent-library/actions/runs/41390618667)は、変更していない専用UIの実1件が87.796秒で成功し、A-before-save・B-first-resume・B-live-landscape・B-live-portrait・B-after-relaunchの全5phaseを観測した。child exit0・signal/errorなしで、公開切替、初回Resume、段落の幅と折返し、しおりと再起動の既存assertが通った。対象はcontrolled 1記事・audio0・PNG0であり、通常199記事・音声1や実機の受入へ広げない。
+
+その後、同じ所有Simulator UUID269D01B3内でget_app_container dataが返したcontainer UUIDがFC38E71Dから6C9B8C8Fへ変わり、絶対パスの等値assertで停止した。post-UIのB選択・A保持ファイルゲートは未実行、strict1も未実行、workflow全体は失敗・未受入のままである。UI1件の成功を後続ゲート成功へ読み替えず、container変更の原因を再インストールやOS移動と断定しない。Rootが両whole ZIPと選択entryのCRC/SHA、全5phaseを照合した小報告・raw失敗票とSHAを同名JSONへ固定する。
+
+Source7候補は、同じ所有UUID・bundleIDで現在のapp/data位置を再取得し、canonicalな通常directoryと正確な直属構造、post Info.plistのbundleIDを検証する。seedとafterのrepository/source/UUID/bundle/run/attempt/token/name/preexisting UUIDsをexact照合し、UI前後と最終auditでseed JSONのSHAを保つ。seedの旧data→storage→同じA generationの内部関係と最初のpointer SHAを検証してから、現在root配下の同じA generationを監査する。A監査結果はrootだけを分離し、それ以外の全metadata・全3fileのbyte/inventory/hashをseedとdeepEqualする。正確なcurrent pointerによる新世代B選択、全B内容、外部fixture A/B不変を保ち、旧/現在rootと変更有無を小receiptへ記録する。実行経路へcopy/reseedや読書位置補正は追加しない。
+
+[Apple TN2285](https://developer.apple.com/library/archive/technotes/tn2285/_index.html)の更新時containerパス変更と相対パスの説明、および[WWDC19 Session418](https://developer.apple.com/videos/play/wwdc2019/418/)のget_app_containerによる実位置確認を設計根拠とする。ただし、このCIでの変更原因やinode連続性を証明するものではない。パッケージの全内容とランダムA世代の継続を、同じ所有実行の範囲で検証する。
+
+私有Node24.22.1 controlsは既存8目的の全文prefixを保った14件で、同root・実fs.rename後の成功、owner各field、旧root/receipt/pointer SHA、canonical/直属/別device/別bundle/symlink/空置換、A欠落・A各file/B改変の拒否を確認した。初回13成功/1失敗は、新負例のassert.throwsでlabelを第2引数に渡したため実error messageと曖昧になった試験記述の失敗であり、labelを第3引数へ移して14成功/0失敗/0skipになった。初回ログも保持し、audit条件は変更しない。builder/unit/inline driverのNode構文も成功した。これはローカル境界試験と構文だけで、新SDK・Simulator・新CIの成功ではない。
+
+Source7はpublic b8d/tree612893/2885へ既存7パスだけを通常追加する私有候補で、ReaderReflowはb8dとbyte同一、製品/Core/App/PBX/他workflow・既存期限・全assert/許容差・Full26を保つ。Rootが確認済みb8d全mapと私有投影を照合し、fresh remoteと公開操作はRootの別gateとする。旧MD全文、JSON全既存key/value、索引全文と失敗履歴を保持する。通常toolbar Menu AXは引き続き未解決TODOで、このfiltered経路の成功を修復やcoverage受入とは扱わない。新Source7の独立レビュー・必要CI・postfilegate/strict1・通常main/mainpush、実機/live OS font/VoiceOverと他記事/runtimeは未完了、App0.2.28（30）・TODO32行14完了を維持する。

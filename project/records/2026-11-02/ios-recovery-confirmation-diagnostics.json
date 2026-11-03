@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "state": "candidate-frozen-before-source7-publication",
+  "record_created_UTC": "2026-11-01T20:10:43.975716+00:00",
+  "base_sha": "da82094a11494c1e42d297bf862c8aa616af752b",
+  "purpose": "Recovery confirmation title failure-only evidence without changing the UI condition",
+  "authorization": "User requested autonomous priority TODO implementation with scoped commits and ordinary PR/main merges; physical checks may remain incomplete. No admin, force, device, signing, payment, Store or extra deletion action.",
+  "owned_code": [
+    {
+      "path": "ios/AILibraryUITests/ReadingRecoveryUITests.swift",
+      "SHA256": "b0d284bed16a0df1c0c80a59d5cf0cecfbf9a07d4ec153b3cd651fc75f5321b7"
+    },
+    {
+      "path": "ios/tests/native-failure-attachments.mjs",
+      "SHA256": "f1b57fa3fb35f346b4e68298139ac6592fd8d9e6736db4fc1bbe4c8381511ba1"
+    },
+    {
+      "path": "tests/unit/ios-native-failure-attachments.test.mjs",
+      "SHA256": "b4fa120ebd88bb1325cf54234836a6b765f0b004a647587dd9a3d57d55f767da"
+    }
+  ],
+  "original_main_failure": {
+    "run_id": 41339326495,
+    "attempt1": {
+      "job_id": 124945779620,
+      "exit": 70,
+      "XCTest_executed": 0,
+      "cause_scope": "destination unresolved, root cause unknown"
+    },
+    "attempt2": {
+      "job_id": 124949447870,
+      "units": {
+        "executed": 278,
+        "passed": 276,
+        "skipped": 2,
+        "failed": 0
+      },
+      "UI": {
+        "executed": 8,
+        "passed": 7,
+        "failed": 1
+      },
+      "failed_case": "ReadingRecoveryUITests/testRestoreFilePickerCancelKeepsHealthyBookmarksAfterRelaunch()",
+      "first_failure": "ReadingRecoveryUITests.swift:657, confirmation title not observed within5s before restore picker",
+      "Release": "skipped",
+      "raw_SHA256": "aea9b21b959739b9099e681f53016a1cbfb5b9ae9dc8bc7e6849bc2d2a39b775",
+      "manifest_SHA256": "31ae2e6df9191c3d87a6dac1d878b81561a61db6c9152498a6fcf5a6ec114027"
+    },
+    "main_acceptance": false,
+    "more_same_head_retries": 0
+  },
+  "supplemental_original_artifact": {
+    "artifact_id": 13098135977,
+    "bytes": 129404126,
+    "SHA256": "36ac254df7184e60d2442f2828c2bb70872ba38020323b44ba68ea208445b27d",
+    "official_digest_equal": true,
+    "selected_UI_bundle_bytes": 129137418,
+    "selected_case_known_PNG_count": 0,
+    "automatic_attachments": "App UI hierarchy, title-query descriptions, screen recording",
+    "snapshot_scope": "After5s wait; App Main Window hierarchy and visible recovery button remain, no Sheet/title in that later hierarchy. Not callback or deadline-state proof."
+  },
+  "preserved": {
+    "title_wait_seconds": 5,
+    "tap": 1,
+    "original_UI_condition_and_all_asserts": true,
+    "native_UI_cases": 8,
+    "success_extra_AX": 0,
+    "collector_limits_and_original_full_upload": true,
+    "App": "0.2.28(30)",
+    "TODO_rows": 32,
+    "TODO_complete": 14,
+    "PBX_and_persistence_format_unchanged": true
+  },
+  "failure_only_observation": {
+    "once_per_test": true,
+    "screenshot": 1,
+    "AX_scalars": 6,
+    "app_state_reads": 1,
+    "hierarchy_snapshots": 1,
+    "context_bytes_max": 2048,
+    "hierarchy_bytes_max": 131072,
+    "full_or_omitted": true,
+    "sampling": "sequential after timeout, not atomic; output bounds are not AX/time/allocation bounds"
+  },
+  "local_validation": {
+    "Node24": {
+      "tests": 51,
+      "passed": 51,
+      "failed": 0,
+      "skipped": 0,
+      "old_tests": 43,
+      "added_tests": 8
+    },
+    "JS_syntax": 2,
+    "Swift_frontend_parse": 1,
+    "result_SHA256": "14a6bf6b117ee016417971fd12d10f063a3984caa0a1b1ba44fd0e2bcf56e85b",
+    "scope": "Controlled collector metadata/process doubles and owned temp-file fixtures; not actual macOS xcresult or new UI failure capture"
+  },
+  "code3_independent_review": {
+    "P1": 0,
+    "P2": 0,
+    "manifest_SHA256": "92779f93b8801640ae07acf8ed0a2c532324d3cba382e5517eba448be3cb9ee9"
+  },
+  "pending": [
+    "Source7 doc/binding review and formats",
+    "exact final-source Hosted XCTest/UI/necessary CI",
+    "final Ready fresh policies and ordinary merge",
+    "actual main push validation",
+    "actual new failure-only branch capture",
+    "root cause and physical/provider/VoiceOver acceptance"
+  ],
+  "publication": "No main merge until this candidate has all required and task-specific CI plus fresh final policies. Old failed main checks remain failed; a new validated ordinary diagnostic/fix PR is the recovery path, not an admin/protection bypass. PR320 remains Draft and must rebind to any later actual main.",
+  "actual_PR": null,
+  "actual_main_after_merge": null
+}

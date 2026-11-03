@@ -28,6 +28,7 @@
     "docs",
     "examples",
     "harness",
+    "ios",
     "project",
     "research",
     "scripts",
@@ -40,7 +41,8 @@
     "research/README.md"
   ],
   "markdown_coverage_roots": [
-    "project"
+    "project",
+    "ios"
   ],
   "retired_paths": [
     ".codex/hooks/edited-paths.mjs",

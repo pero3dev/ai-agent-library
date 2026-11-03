@@ -1,0 +1,217 @@
+name: iOS native regression
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-native-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  ios-native:
+    name: iOS native regression
+    runs-on: macos-15
+    timeout-minutes: 60
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
+      AILIBRARY_NATIVE_SOURCE_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            ios/tools/package-lock.json
+      - name: Audit content tooling before installation
+        run: npm audit --package-lock-only --audit-level=high
+      - name: Install content tooling without lifecycle scripts
+        run: npm ci --ignore-scripts
+      - name: Audit native asset tooling before installation
+        run: npm audit --package-lock-only --audit-level=high
+        working-directory: ios/tools
+      - name: Install native asset tooling without lifecycle scripts
+        run: npm ci --ignore-scripts
+        working-directory: ios/tools
+      - name: Install the lockfile-matched Chromium
+        run: ./node_modules/.bin/playwright install chromium
+        working-directory: ios/tools
+      - name: Record toolchain and test scope
+        run: |
+          set -euo pipefail
+          mkdir -p .local/ios-ci/evidence
+          {
+            xcodebuild -version
+            node --version
+            npm --version
+            echo 'Simulator target: fresh owned iPhone 16 / iOS 18.5; preparation records actual inventory.'
+            echo 'Scope: all AILibraryTests and existing native UI smoke tests; physical-device acceptance is not executed.'
+          } | tee .local/ios-ci/evidence/environment.log
+      - name: Prepare one fresh owned Native Simulator
+        id: native_simulator
+        timeout-minutes: 9
+        run: node ios/tests/native-simulator-prepare.mjs prepare
+      - name: Check the frozen AppIcon source assets
+        run: |
+          set -euo pipefail
+          node ios/tools/app-icon.mjs --check \
+            2>&1 | tee .local/ios-ci/evidence/app-icon-source.json
+      - name: Generate and audit representative and fixture packages
+        run: |
+          set -euo pipefail
+          {
+            npm run ios:prepare:representative
+            npm run ios:prepare:fixtures
+            npm run ios:test:content:representative
+            npm run ios:test:fixtures
+            npm run ios:test:core:representative
+            bash ios/tests/check-core.sh --fixtures
+          } 2>&1 | tee .local/ios-ci/evidence/content-and-core.log
+      - name: Generate and validate every published article in an isolated package
+        env:
+          TMPDIR: /private/tmp
+        run: |
+          set -euo pipefail
+          full_package_root="$(mktemp -d /private/tmp/ailibrary-ios-all-published.XXXXXX)"
+          trap 'rm -rf "$full_package_root"' EXIT
+          node scripts/build-ios-native-content.mjs --all-published --output "$full_package_root/Content" \
+            2>&1 | tee .local/ios-ci/evidence/all-published-generation.log
+          expected_articles="$(node --input-type=module <<'NODE'
+          import { execFileSync } from 'node:child_process';
+          import { readFileSync } from 'node:fs';
+          import { parseFrontMatter, parseScalar, toLines } from './scripts/lib/md-utils.mjs';
+          const files = execFileSync('git', ['ls-files', '-z', 'docs'], {encoding:'utf8'})
+            .split('\0').filter(file => file.endsWith('.md') && !file.endsWith('/README.md'));
+          const count = files.filter(file => parseFrontMatter(toLines(readFileSync(file, 'utf8')))?.fields
+            .some(field => field.key === 'status' && parseScalar(field.value) === 'published')).length;
+          if (!count) throw new Error('No tracked published articles');
+          console.log(count);
+          NODE
+          )"
+          bash ios/tests/check-package.sh "$full_package_root/Content" "$expected_articles" \
+            | tee .local/ios-ci/evidence/all-published-package.json
+      # This runs the XCTest unit target, including UIKit/math and audio regression.
+      - name: Run native XCTest on the iPhone Simulator
+        env:
+          AILIBRARY_NATIVE_DESTINATION: ${{ steps.native_simulator.outputs.destination }}
+        run: |
+          set -euo pipefail
+          test -n "$AILIBRARY_NATIVE_DESTINATION"
+          xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary \
+            -configuration Debug \
+            -destination "$AILIBRARY_NATIVE_DESTINATION" \
+            -destination-timeout 120 \
+            -derivedDataPath .local/ios-ci/DebugDerivedData \
+            -resultBundlePath .local/ios-ci/evidence/unit.xcresult \
+            -parallel-testing-enabled NO -jobs 2 \
+            -only-testing:AILibraryTests CODE_SIGNING_ALLOWED=NO test \
+            2>&1 | tee .local/ios-ci/evidence/xctest.log
+      - name: Audit AppIcon metadata in the actual Debug app
+        run: |
+          set -euo pipefail
+          if ! node ios/tests/capture-built-app-icon.mjs .local/ios-ci/DebugDerivedData/Build/Products/Debug-iphonesimulator/AILibrary.app \
+            --output .local/ios-ci/evidence/native-debug-icon-inputs; then
+            printf '%s\n' 'AppIcon diagnostic capture failed; continuing required icon audit.' >&2
+          fi
+          node ios/tests/check-built-app-icon.mjs \
+            .local/ios-ci/DebugDerivedData/Build/Products/Debug-iphonesimulator/AILibrary.app \
+            --required-scales 3 \
+            2>&1 | tee .local/ios-ci/evidence/debug-app-icon.json
+      # The existing two UI tests cover nonempty bodies, TOC, bookmarks and relaunch.
+      # Offline launch, copying, internal links and legacy migration need more UI tests.
+      # Recovery tests cover cancel/confirm, isolated relaunch and restore-picker cancellation.
+      - name: Run native UI smoke tests on the iPhone Simulator
+        id: native_ui
+        env:
+          AILIBRARY_NATIVE_DESTINATION: ${{ steps.native_simulator.outputs.destination }}
+        run: |
+          set -euo pipefail
+          test -n "$AILIBRARY_NATIVE_DESTINATION"
+          xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary \
+            -configuration Debug \
+            -destination "$AILIBRARY_NATIVE_DESTINATION" \
+            -destination-timeout 120 \
+            -derivedDataPath .local/ios-ci/DebugDerivedData \
+            -resultBundlePath .local/ios-ci/evidence/ui.xcresult \
+            -parallel-testing-enabled NO -jobs 2 \
+            -only-testing:AILibraryUITests/NativeReaderUITests \
+            -only-testing:AILibraryUITests/ReadingRecoveryUITests CODE_SIGNING_ALLOWED=NO test \
+            2>&1 | tee .local/ios-ci/evidence/xctest-ui.log
+      - name: Build and verify the Release package
+        run: |
+          set -euo pipefail
+          xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary \
+            -configuration Release -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath .local/ios-ci/ReleaseDerivedData -jobs 2 \
+            CODE_SIGNING_ALLOWED=NO build \
+            2>&1 | tee .local/ios-ci/evidence/release-build.log
+          node ios/tests/check-release-package.mjs \
+            .local/ios-ci/ReleaseDerivedData/Build/Products/Release-iphonesimulator/AILibrary.app \
+            | tee .local/ios-ci/evidence/release-package.json
+          if ! node ios/tests/capture-built-app-icon.mjs .local/ios-ci/ReleaseDerivedData/Build/Products/Release-iphonesimulator/AILibrary.app \
+            --output .local/ios-ci/evidence/native-release-icon-inputs; then
+            printf '%s\n' 'AppIcon diagnostic capture failed; continuing required icon audit.' >&2
+          fi
+          node ios/tests/check-built-app-icon.mjs \
+            .local/ios-ci/ReleaseDerivedData/Build/Products/Release-iphonesimulator/AILibrary.app \
+            --required-scales 2,3 \
+            2>&1 | tee .local/ios-ci/evidence/release-app-icon.json
+      - name: Retain test results and compact build evidence
+        id: native_full_evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ios-native-evidence-${{ github.run_id }}
+          path: .local/ios-ci/evidence
+          include-hidden-files: true
+          if-no-files-found: ignore
+          retention-days: 90
+      # Optional post-failure diagnostics follow the original full upload.
+      - name: Collect selected Native failure attachments within a small budget
+        id: native_failure_compact
+        if: always() && !cancelled() && steps.native_ui.outcome == 'failure'
+        continue-on-error: true
+        timeout-minutes: 2
+        env:
+          AILIBRARY_NATIVE_UI_OUTCOME: ${{ steps.native_ui.outcome }}
+          AILIBRARY_FULL_ARTIFACT_OUTCOME: ${{ steps.native_full_evidence.outcome }}
+        run: |
+          set -euo pipefail
+          node ios/tests/native-failure-attachments.mjs
+          printf '%s\n' 'closed=true' >> "$GITHUB_OUTPUT"
+      - name: Retain optional selected Native failure attachments
+        if: always() && !cancelled() && steps.native_ui.outcome == 'failure' && steps.native_failure_compact.outputs.closed == 'true'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ios-native-failure-compact-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/ios-ci/native-failure-compact/ready
+          include-hidden-files: true
+          if-no-files-found: ignore
+          retention-days: 90
+      - name: Clean up only the proven owned Native Simulator
+        if: always()
+        timeout-minutes: 3
+        env:
+          AILIBRARY_NATIVE_OWNER_TOKEN: ${{ steps.native_simulator.outputs.owner_token }}
+          AILIBRARY_NATIVE_CREATED_UUID: ${{ steps.native_simulator.outputs.created_uuid }}
+        run: node ios/tests/native-simulator-prepare.mjs cleanup
+      - name: Retain bounded Native Simulator ownership receipts
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ios-native-simulator-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/ios-ci/evidence/native-simulator
+          include-hidden-files: true
+          if-no-files-found: ignore
+          retention-days: 90

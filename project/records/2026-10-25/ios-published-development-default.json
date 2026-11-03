@@ -1,0 +1,403 @@
+{
+  "schema_version": 1,
+  "task": "ios-published-development-default",
+  "date": "2026-10-25",
+  "status": "filtered-action-sheet-fixed-awaiting-exact-head-retest",
+  "authorization": "Autonomous iOS development; reversible development profile entrypoints only",
+  "parent_PR": 260,
+  "parent_head": "5174cf511933c3c2cd551a7c926a02764135e21b",
+  "version": "0.2.13(15)",
+  "source_sha256": {
+    "package.json": "9c7f0b886c67f489a3cd788c9270875267f70b6dd4103c2e25cd2429f88fd4a0",
+    ".github/workflows/ios-native.yml": "3a03ad0aa7c4276962b97e93c8128b265c05b9c1bc9a506d64075b1a07b9c480",
+    ".github/workflows/ios-published-candidate.yml": "7e0fef8e779966084b151b820c28b906c5af9767e312667ca0623e939f679b74",
+    "ios/AILibrary.xcodeproj/project.pbxproj": "19052c81b05e60c5026b8763da25282afb758396a4807cdd3c992b2e19957010"
+  },
+  "entrypoints": {
+    "ios:prepare": "node scripts/build-ios-native-content.mjs --published-library",
+    "ios:prepare:representative": "node scripts/build-ios-native-content.mjs",
+    "ios:prepare:fixtures": "node scripts/build-ios-native-content.mjs --fixtures",
+    "ios:test:reader": "bash ios/tests/test-native-reader.sh",
+    "ios:test:core": "bash ios/tests/check-core.sh",
+    "ios:test:core:representative": "bash ios/tests/check-core.sh",
+    "ios:test:package": "bash ios/tests/check-package.sh ios/AILibrary/Content",
+    "ios:test:content": "node ios/tests/native-content-audit.mjs --published-library",
+    "ios:test:content:representative": "node ios/tests/native-content-audit.mjs",
+    "ios:test:fixtures": "node ios/tests/native-content-audit.mjs --fixtures"
+  },
+  "validation": {
+    "common_check": {
+      "status": "passed",
+      "tests": 722,
+      "pass": 707,
+      "skip": 15,
+      "fail": 0,
+      "log": "/private/tmp/ios-published-development-common-check-2026-10-25.log"
+    },
+    "CI_inventory": {
+      "status": "inventory-only-success",
+      "checks": 18,
+      "executed_checks": 0,
+      "file": "/private/tmp/ios-published-development-check-ci-2026-10-25.json"
+    },
+    "workflow_syntax": {
+      "yaml_files": 2,
+      "bash_steps": 23,
+      "result": "passed",
+      "proof": "/private/tmp/ios-published-development-workflow-bash.json",
+      "initial_inspection_attempt": "js-yaml default ESM export unavailable; changed inspection import to named load, no workflow change"
+    },
+    "actionlint": {
+      "status": "passed",
+      "version": "1.7.12\ninstalled by downloading from release page\nbuilt with go1.26.1 compiler for darwin/arm64",
+      "binary": "/private/tmp/ailibrary-actionlint-1.7.12/actionlint",
+      "binary_sha256": "8db11704dc296f096216db4db65d86cd7f0ebfdf4c38453a1da276b137b88388",
+      "provenance": "Root fetched official1.7.12 darwin_arm64 distribution and verified published archive SHA256; reused installed binary without fetching. Root whole-workflow success log: /private/tmp/ios-published-default-actionlint-20261025.log",
+      "scope": "Owned two workflows independently rechecked after root success",
+      "log": "/private/tmp/ios-published-development-actionlint-2026-10-25.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "existing_source_audits": {
+      "representative": {
+        "result": "passed",
+        "profile": "representative",
+        "articles": 3,
+        "checked_files": 140,
+        "checked_pngs": 134,
+        "revision": "c10353c16891efda1997cd17a698220c09d9af37092fe3a2e7691fd05999b6f4",
+        "raw_sha256": "933f4916180f5f34a278a137d012ec9700d11762c81f09634c7970b58ca0ced3",
+        "file": "/private/tmp/ios-published-development-representative-audit-2026-10-25.json"
+      },
+      "fixture": {
+        "result": "passed",
+        "profile": "fixtures",
+        "articles": 4,
+        "checked_files": 151,
+        "checked_pngs": 144,
+        "revision": "15df0e08aa2597ea012970f812a4eb7fe242ff626d4e6d0f17b62888b258e60a",
+        "raw_sha256": "169e6434b165aaef3207930accc84c1fac5142ff8457b379a3f1305dec5d52b1",
+        "file": "/private/tmp/ios-published-development-fixture-audit-2026-10-25.json"
+      },
+      "full": {
+        "result": "passed",
+        "profile": "published-library",
+        "articles": 199,
+        "checked_files": 625,
+        "checked_pngs": 422,
+        "revision": "f4d732eae502a7de352b13925e688e09ee2ffdce05e0b82a3281d24d509e8c03",
+        "raw_sha256": "7b6a453a9ae6715fd17e17c65a736523266fa230e112aae22cce16d498431717",
+        "file": "/private/tmp/ios-published-development-full-audit-2026-10-25.json"
+      }
+    },
+    "representative_CoreSmoke": {
+      "status": "passed",
+      "articles": 3,
+      "audio": 1,
+      "verified_files": 140,
+      "command": "DEVELOPER_DIR=/Library/Developer/CommandLineTools npm run --silent ios:test:core:representative",
+      "log": "/private/tmp/ios-published-development-core-representative-2026-10-25.log"
+    },
+    "package_alias_representative": {
+      "articles": 3,
+      "audio": 1,
+      "bytes_including_manifest": 2523652,
+      "files_including_manifest": 141,
+      "PNG_files": 134,
+      "revision": "c10353c16891efda1997cd17a698220c09d9af37092fe3a2e7691fd05999b6f4",
+      "schema_version": 1,
+      "status": "passed",
+      "top_level_blocks": 159,
+      "validation_and_document_load_seconds": 0.18397796154022217,
+      "validator": "app-ContentValidator",
+      "verified_files_excluding_manifest": 140
+    },
+    "package_alias_full_private_copy": {
+      "root": "/private/tmp/ailibrary-ios-development-entrypoint-f98l0vlh",
+      "manifest_sha256": "e1792ac1a7854d53fe6078d0365d06135791f15ab530b9621e5e2f62b3ef7577",
+      "files_copied_from_existing_validated_candidate": true,
+      "generation": false,
+      "npm_entrypoint": "ios:test:package -- 199",
+      "result": {
+        "articles": 199,
+        "audio": 1,
+        "bytes_including_manifest": 37744906,
+        "files_including_manifest": 626,
+        "PNG_files": 422,
+        "revision": "f4d732eae502a7de352b13925e688e09ee2ffdce05e0b82a3281d24d509e8c03",
+        "schema_version": 1,
+        "status": "passed",
+        "top_level_blocks": 8389,
+        "validation_and_document_load_seconds": 2.3357189893722534,
+        "validator": "app-ContentValidator",
+        "verified_files_excluding_manifest": 625
+      },
+      "cleanup": "Task-owned copied package and source workspace removed after successful entrypoint validation; original candidate retained"
+    },
+    "real_standard_npm_pipeline": {
+      "status": "passed-real-standard-npm-generation-source-audit-and-Swift-package-audit",
+      "result_file": "/private/tmp/ios-published-standard-npm-result-2026-10-25.json",
+      "result_SHA256": "09a0ead6d9a0c860a1eb7cf9f0b4284d6a14bc9822c6bc778d0b94b64fb0134a",
+      "private_root": "/private/tmp/ailibrary-ios-standard-npm-1ktsrcdj",
+      "articles": 199,
+      "files_including_manifest": 626,
+      "PNG": 422,
+      "bytes_including_manifest": 37744971,
+      "revision": "555aef0f0acbfc5388ea8f925ef73905bdef39de2e7275768058be8d3bb86deb",
+      "sidecar_SHA256": "24861281764e612142fc4155ece78eec7a1ad317ca6f33a16c435abaa98d9151",
+      "shared_manifests_unchanged": true,
+      "existing_f4d_candidate_unchanged": true,
+      "source_files_frozen": true
+    }
+  },
+  "actual_npm_pipeline": {
+    "schema_version": 1,
+    "date": "2026-10-25",
+    "status": "passed-real-standard-npm-generation-source-audit-and-Swift-package-audit",
+    "private_root": "/private/tmp/ailibrary-ios-standard-npm-1ktsrcdj",
+    "actual_commands": [
+      "npm run ios:prepare",
+      "npm run --silent ios:test:content",
+      "npm run --silent ios:test:package -- <independent count199>"
+    ],
+    "expected_count": 199,
+    "count_method": "Independent fs inventory and js-yaml JSON_SCHEMA front matter, no producer/md-utils import",
+    "production_code": "Unmodified copied CLI, producer, renderer, source auditor and Swift validator; no injection or source/output-path safety relaxation. Existing module dependency directories reused.",
+    "package": {
+      "articles": 199,
+      "audio": 1,
+      "bytes_including_manifest": 37744971,
+      "files_including_manifest": 626,
+      "PNG_files": 422,
+      "revision": "555aef0f0acbfc5388ea8f925ef73905bdef39de2e7275768058be8d3bb86deb",
+      "schema_version": 1,
+      "status": "passed",
+      "top_level_blocks": 8389,
+      "validation_and_document_load_seconds": 2.2850379943847656,
+      "validator": "app-ContentValidator",
+      "verified_files_excluding_manifest": 625
+    },
+    "all_manifest_file_SHA_independently_rechecked": 625,
+    "source_article_SHA_and_exact_set_matches_independent_inventory": true,
+    "sidecar": {
+      "surface": "static/learning-source-integrity",
+      "result": "passed",
+      "revision": "555aef0f0acbfc5388ea8f925ef73905bdef39de2e7275768058be8d3bb86deb",
+      "path": "assets/learning/index.json",
+      "index_sha256": "24861281764e612142fc4155ece78eec7a1ad317ca6f33a16c435abaa98d9151",
+      "index_bytes": 197051,
+      "articles": 199,
+      "chapters": 16,
+      "routes": 8,
+      "glossary_terms": 164,
+      "glossary_terms_with_multiple_links": 5,
+      "source_files": 216,
+      "issues": [],
+      "native_ui_test": false,
+      "voiceover_test": false,
+      "unique_tags": 260,
+      "route_steps": 37
+    },
+    "audio": {
+      "episodes": 1,
+      "article_id": "01-concepts/agent-loop",
+      "id": "01-concepts--agent-loop-3c6f324e5d0d-7ab8a0e6323a-47803c3cb76f-p01",
+      "metadata_SHA256": "47803c3cb76f5e737a3d2f11a8878886590d4159363f52c453bd44396214942e",
+      "credit": "VOICEVOX Nemo（女声1・男声1）",
+      "license_url": "https://voicevox.hiroshiba.jp/nemo/term/",
+      "source_is_current": true,
+      "catalog_fields_match": true,
+      "MP3_download_or_playback": false,
+      "verified_catalog_mapping": {
+        "url": "audio_url",
+        "sha256": "audio_sha256",
+        "credit": "attribution",
+        "license_url": "one shared voices[].license_url",
+        "direct_fields": [
+          "id",
+          "title",
+          "duration_seconds",
+          "source_digest"
+        ],
+        "chapters": "all id/title/start_seconds in order"
+      }
+    },
+    "credits": {
+      "assets/licenses/NOTICE.txt": {
+        "sha256": "b153cb5539cdb8adad27eabb24e45ca19abe8737a461577eab50f3a177722956",
+        "exact_original_bytes": true
+      },
+      "assets/katex/LICENSE.txt": {
+        "sha256": "766ccc1f306c885aa45542a9846bbd0a505b27a0374f146778171c2254ce18e3",
+        "exact_original_bytes": true
+      },
+      "assets/licenses/Mermaid-LICENSE.txt": {
+        "sha256": "ec9fb67dcb25eccc416ed56e1aab819222c805a2a4bfe4cb19e7556bf2ffde80",
+        "exact_original_bytes": true
+      }
+    },
+    "manifest_only_JSON_PNG_TXT": true,
+    "shared_after": {
+      "ios/AILibrary/Content/manifest.json": {
+        "sha256": "6acf9de646962279de13ae090fa975e177600b0c11db3bdcebe145e5e31e6c92",
+        "articles": 3,
+        "revision": "c10353c16891efda1997cd17a698220c09d9af37092fe3a2e7691fd05999b6f4",
+        "all_listed_SHA_verified_after": 140
+      },
+      "ios/AILibrary/TestContent/manifest.json": {
+        "sha256": "686c98ec742983cb5fa07c7561bf609691f072bf2781b53d37572a830426a517",
+        "articles": 4,
+        "revision": "15df0e08aa2597ea012970f812a4eb7fe242ff626d4e6d0f17b62888b258e60a",
+        "all_listed_SHA_verified_after": 151
+      }
+    },
+    "existing_f4d_candidate": {
+      "manifest_SHA_unchanged": true,
+      "all_listed_files_SHA_still_valid": 625,
+      "new_generation_encoded_SHA_differences": 23,
+      "all_differences_PNG_only": true,
+      "document_and_learning_index_SHA_unchanged": true,
+      "limitation": "Fresh raster output is valid, not claimed bit reproducible; no decoded-pixel comparison in this run."
+    },
+    "source_three_freeze_unchanged": true,
+    "copied_inputs_unchanged": 246,
+    "dependencies_new_installation": false,
+    "initial_pipeline_failures": [],
+    "environment": "Node24, existing Chrome155.0.8059.85 via Playwright channel chrome; existing locked tool dependencies; CLT Swift consumer only; localhost renderer run with necessary sandbox escalation; no Simulator or iPhone",
+    "not_performed": [
+      "iOS SDK build",
+      "XCTest/UI execution",
+      "Simulator or device operations",
+      "new dependency/software installation",
+      "Git mutation",
+      "Apple/paid/Store/publication or audio-rights adoption"
+    ],
+    "proofs": {
+      "/private/tmp/ios-published-standard-npm-generation-2026-10-25.log": {
+        "sha256": "3fb55e99565c134a44d1d7defd3088f7b91ae028b7feb286b2d78b2d64ec0647",
+        "bytes": 244
+      },
+      "/private/tmp/ios-published-standard-npm-source-audit-2026-10-25.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "/private/tmp/ios-published-standard-npm-source-audit-2026-10-25.json": {
+        "sha256": "467d73a82202cc50b52df1b52084d4c249c2c8a70926521f96b57bd036cd903d",
+        "bytes": 124337
+      },
+      "/private/tmp/ios-published-standard-npm-package-audit-2026-10-25.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "/private/tmp/ios-published-standard-npm-package-audit-2026-10-25.json": {
+        "sha256": "21a8c19c2f634b92384d229e47fe69fedebdfb8e68d8a0ddea0d25bdd8ac06e0",
+        "bytes": 443
+      },
+      "/private/tmp/ios-published-standard-npm-provenance-2026-10-25.json": {
+        "sha256": "fbda2f9f10242d5a0ce0f79788ab0b1c4a3457575e339478941b8dcfb66dcc88",
+        "bytes": 35272
+      }
+    }
+  },
+  "shared_packages_before": {
+    "Content": {
+      "manifest_sha256": "6acf9de646962279de13ae090fa975e177600b0c11db3bdcebe145e5e31e6c92",
+      "articles": 3,
+      "revision": "c10353c16891efda1997cd17a698220c09d9af37092fe3a2e7691fd05999b6f4"
+    },
+    "TestContent": {
+      "manifest_sha256": "686c98ec742983cb5fa07c7561bf609691f072bf2781b53d37572a830426a517",
+      "articles": 4,
+      "revision": "15df0e08aa2597ea012970f812a4eb7fe242ff626d4e6d0f17b62888b258e60a"
+    }
+  },
+  "shared_packages_after": {
+    "Content": {
+      "manifest_sha256": "6acf9de646962279de13ae090fa975e177600b0c11db3bdcebe145e5e31e6c92",
+      "articles": 3,
+      "revision": "c10353c16891efda1997cd17a698220c09d9af37092fe3a2e7691fd05999b6f4"
+    },
+    "TestContent": {
+      "manifest_sha256": "686c98ec742983cb5fa07c7561bf609691f072bf2781b53d37572a830426a517",
+      "articles": 4,
+      "revision": "15df0e08aa2597ea012970f812a4eb7fe242ff626d4e6d0f17b62888b258e60a"
+    }
+  },
+  "dependency_lock_change": false,
+  "CLI_no_flag_representative_compatibility": true,
+  "fixture_profile": 4,
+  "bundled_activation": "Valid imported content remains preferred; explicit action selects new bundle; reading records and old versions kept",
+  "public_distribution_adoption": false,
+  "new_audio_rights_adoption": false,
+  "new_network_update_adoption": false,
+  "physical_operations": false,
+  "project_change": "Only marketing/build version",
+  "Hosted": "retest-pending-final-head",
+  "Release": "pending-final-head",
+  "not_completed": [
+    "full-visual-VoiceOver-device-maxtext-acceptance",
+    "performance-and-capacity-goals",
+    "paid-Apple-Store-publication-decisions",
+    "IOS13-and14-overall-acceptance"
+  ],
+  "independent_source_review": "approved-four-source-files",
+  "worker_history_note": "Initial pre-render limitations are not inherited; actual fresh standard npm pipeline succeeded and is stored separately.",
+  "pre_filtered_action_sheet_fix_source_sha256": {
+    "package.json": "9c7f0b886c67f489a3cd788c9270875267f70b6dd4103c2e25cd2429f88fd4a0",
+    ".github/workflows/ios-native.yml": "3a03ad0aa7c4276962b97e93c8128b265c05b9c1bc9a506d64075b1a07b9c480",
+    ".github/workflows/ios-published-candidate.yml": "7e0fef8e779966084b151b820c28b906c5af9767e312667ca0623e939f679b74",
+    "ios/AILibrary.xcodeproj/project.pbxproj": "19052c81b05e60c5026b8763da25282afb758396a4807cdd3c992b2e19957010"
+  },
+  "inherited_filtered_action_sheet_fix": {
+    "head": "a03901c0f5fbf3d28ba2d91456747bcf0cb852cb",
+    "run": 40186338703,
+    "job": 121147813799,
+    "unit": {
+      "registered": 109,
+      "passed": 107,
+      "skipped": 2,
+      "failed": 0
+    },
+    "UI": {
+      "total": 9,
+      "passed": 8,
+      "failed": 1
+    },
+    "Release": "not-run-after-UI-failure",
+    "observed": "More Menu still absent after full-width label; next item missing at existing line204",
+    "outer_row": [
+      20,
+      354,
+      353,
+      44
+    ],
+    "later_inner_menu_bounds": [
+      40,
+      363,
+      313,
+      26
+    ],
+    "actual_touch": [
+      55.300000526,
+      358.400000066
+    ],
+    "bounds_observation_delay_seconds": 15.65,
+    "inference": "Actual event is above later inner bounds; instantaneous bounds and UIKit cause not proved",
+    "fix": "Filtered ordinary Button opens SwiftUI action sheet; shared commands queue selection then dispatch only from sheet onDismiss; toolbar remains direct Menu",
+    "UI_assertions_changed": false,
+    "version_changed": false,
+    "app_only_cumulative_SDK": "passed Xcode16.2/SDK18.2/version0.2.14(16); not exact earlier branch runtime",
+    "artifact": {
+      "id": 12597565276,
+      "bytes": 145208313,
+      "sha256": "6611a91f8bc1c13217644fe2deeb21fd892e0570571f839a1a9cdcff3ccf3c56"
+    },
+    "unverified": [
+      "new sheet Hosted menu/bundled acceptance",
+      "sheet import/about/fixture paths",
+      "zero result and maximum text/VoiceOver",
+      "physical device"
+    ]
+  },
+  "pre_filtered_action_sheet_fix_SDK": "not-run-exact-head; no production Swift changes from prior compiled chapter version",
+  "SDK_after_filtered_action_sheet_fix": "app-only cumulative build passed; exact-head SDK/Hosted pending"
+}

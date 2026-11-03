@@ -1,0 +1,398 @@
+{
+  "schema_version": 1,
+  "task": "ios-native-detailed-validation-three-articles",
+  "date": "2026-10-24",
+  "timezone": "Asia/Tokyo",
+  "status": "representative-manual-validation-completed-with-exceptions",
+  "authorization": "User requested detailed offline, audio, table, code, link, VoiceOver and related validation of the representative three articles, with instructions for necessary manual operations.",
+  "baseline_app_version": "0.2.0",
+  "baseline_app_build": 2,
+  "articles": [
+    "01-concepts/agent-loop",
+    "01-concepts/tool-use",
+    "11-llm-internals/transformer-architecture"
+  ],
+  "checks": {
+    "OFF-01": {
+      "status": "passed-user-report",
+      "evidence": "user-manual-device-report",
+      "group": "A",
+      "reported_result": "Aはすべて正常",
+      "confirmed_on": "2026-10-24",
+      "checks": [
+        "airplane-mode-and-Wi-Fi-off",
+        "terminate-and-relaunch-offline",
+        "three-article-body-diagrams-transformer-math",
+        "MAX_STEPS-and-softmax-search",
+        "selected-article-link-and-back"
+      ]
+    },
+    "TABLE-01": {
+      "status": "passed-user-report",
+      "evidence": "user-manual-device-report",
+      "group": "B",
+      "confirmed_on": "2026-10-25",
+      "reported_result": "表・コピーともすべて正常",
+      "scope": [
+        "agent-loop-stop-conditions-third-column-and-final-row",
+        "tool-use-execution-control-table-long-cells"
+      ]
+    },
+    "CODE-01": {
+      "status": "passed-user-report",
+      "evidence": "user-manual-device-report",
+      "group": "B",
+      "confirmed_on": "2026-10-25",
+      "reported_result": "表・コピーともすべて正常",
+      "scope": [
+        "agent-loop-Python-copy-and-paste",
+        "tool-use-JSON-copy-and-paste",
+        "indentation-newlines-and-final-lines"
+      ]
+    },
+    "LINK-01": {
+      "status": "partially-confirmed",
+      "evidence": "selected-internal-and-external-user-report",
+      "internal": "passed-user-report",
+      "external": "passed-user-report",
+      "fragment": "not-represented-in-selected-articles",
+      "external_confirmed_on": "2026-10-25",
+      "external_scope": "MCP-servers-OpenAI-to-browser-and-return"
+    },
+    "FIGURE-01": {
+      "status": "passed-user-report",
+      "evidence": "B-zoom-source-and-D-theme-user-reports",
+      "zoom_and_source": "passed-user-report",
+      "themes": "passed-user-report",
+      "confirmed_on": "2026-10-25",
+      "excludes": [
+        "standalone-inline-math-image-zoom"
+      ]
+    },
+    "TYPE-01": {
+      "status": "passed-user-report",
+      "evidence": "user-manual-device-report",
+      "scope": [
+        "maximum-Dynamic-Type",
+        "portrait-landscape",
+        "light-dark",
+        "resume-after-size-or-orientation-change"
+      ],
+      "group": "D",
+      "confirmed_on": "2026-10-25",
+      "reported_result": "最大文字・縦横・明暗・復帰すべて正常"
+    },
+    "VO-01": {
+      "status": "passed-user-report",
+      "evidence": "user-manual-device-report",
+      "group": "D",
+      "confirmed_on": "2026-10-25",
+      "reading_order": "passed-user-report",
+      "math_semantics": "passed-user-report",
+      "math_source_and_controls": "passed-user-report",
+      "reported_results": [
+        "見出し・番号・表・図の読み上げすべて正常",
+        "数式の読み上げ・テキスト表示・各操作すべて正常"
+      ],
+      "scope": [
+        "representative-heading-navigation",
+        "numbered-list-items",
+        "table-row-column-labels",
+        "diagram-flow-descriptions",
+        "math-subscript-superscript-fraction-root-understanding",
+        "math-source-open-and-close",
+        "named-buttons-and-body-link-activation",
+        "paused-audio-position-rate-names-and-current-values"
+      ],
+      "excludes": [
+        "unrepresented-native-format-fixtures",
+        "unlimited-math-grammar-validation"
+      ]
+    },
+    "AUDIO-01": {
+      "status": "passed-user-report",
+      "evidence": "user-manual-device-report",
+      "group": "C",
+      "confirmed_on": "2026-10-25",
+      "reported_result": "通常再生・ロック操作・各操作・閉じる時の停止すべて正常",
+      "scope": [
+        "normal-playback",
+        "background-lock-playback",
+        "lock-pause-resume",
+        "15-second-skip",
+        "seek",
+        "1.5x-rate",
+        "chapter-selection",
+        "stop-on-player-close"
+      ]
+    },
+    "AUDIO-02": {
+      "status": "passed-user-report",
+      "evidence": "user-manual-device-report",
+      "group": "C",
+      "confirmed_on": "2026-10-25",
+      "reported_result": "エラー表示・通信復旧後の再試行とも正常",
+      "scope": [
+        "offline-error-and-retry-control",
+        "network-restoration-and-retry-near-saved-position"
+      ],
+      "measured_error_latency_seconds": null
+    },
+    "AUDIO-03": {
+      "status": "partially-confirmed",
+      "evidence": "headphone-disconnect-user-report-call-unconfirmed",
+      "group": "C",
+      "confirmed_on": "2026-10-25",
+      "reported_result": "イヤホン切断で正常に停止（着信は未確認）",
+      "headphone_disconnect": "passed-user-report",
+      "phone_interruption": "unconfirmed-natural-event-only"
+    }
+  },
+  "validation": {
+    "content_audit": {
+      "exit_code": 0,
+      "surface": "static/content-integrity",
+      "result": "passed",
+      "source_leaves": 680,
+      "table_cells": 45,
+      "code_blocks": 2,
+      "typed_links": 55,
+      "headings": 55,
+      "math_occurrences": 96,
+      "files": 140,
+      "pngs": 134,
+      "light_dark_pairs": 67,
+      "source_bound_diagram_descriptions": 3,
+      "outer_border_ink": [],
+      "native_ui_test": false,
+      "voiceover_test": false
+    },
+    "native_generator_unit": {
+      "passed": 10,
+      "failed": 0
+    },
+    "foundation_crypto_kit": {
+      "exit_code": 0
+    },
+    "device_xctest": {
+      "exit_code": 0,
+      "core_passed": 10,
+      "audio_passed": 6,
+      "failed": 0,
+      "media_network_used": false,
+      "evidence": "physical-iPhone-XCTest"
+    },
+    "device_xcuitest": {
+      "status": "not-executed-automation-setup-failed",
+      "message": "Timed out while enabling automation mode.",
+      "stopped_after_seconds": 207,
+      "test_cases_executed": 0,
+      "root_cause": "unconfirmed",
+      "test_runner_removed": true
+    },
+    "normal_device_build": {
+      "exit_code": 0,
+      "signature_verified": true,
+      "install_exit_code": 0,
+      "launch_exit_code": 0,
+      "test_plugins_present": false
+    },
+    "saved_state": {
+      "reading_unchanged": true,
+      "audio_preferences_unchanged": true
+    },
+    "audio_endpoint": {
+      "exitCode": 0,
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "downloadedBytes": 0,
+      "scope": "HTTP-HEAD-only-not-playback-not-full-SHA"
+    },
+    "repository_check": {
+      "exit_code": 0,
+      "tests": 552,
+      "passed": 537,
+      "skipped": 15,
+      "failed": 0
+    },
+    "candidate_structure": {
+      "files": 2609,
+      "problems": 0
+    },
+    "final_acceptance_record": {
+      "repository_check_exit_code": 0,
+      "markdown_links_exit_code": 0,
+      "json_valid": true,
+      "independent_condition_review": true,
+      "app_code_changed": false,
+      "device_settings_changed": false
+    }
+  },
+  "manual_acceptance": {
+    "requested_groups": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "pending_groups": [],
+    "checklist": "ios-native-manual-checklist.md",
+    "confirmed_groups": [
+      "A",
+      "B",
+      "D"
+    ],
+    "reports": [
+      {
+        "group": "A",
+        "result": "passed",
+        "reported_result": "Aはすべて正常",
+        "recorded_at_utc": "2026-10-24T14:54:02Z",
+        "evidence": "user-report",
+        "app_version": "0.2.1",
+        "app_build": 3,
+        "record_update_validation": {
+          "repository_check_exit_code": 0,
+          "tests": 552,
+          "passed": 537,
+          "skipped": 15,
+          "failed": 0,
+          "json_valid": true,
+          "diff_check_exit_code": 0
+        }
+      },
+      {
+        "group": "B",
+        "result": "passed",
+        "reported_results": [
+          "表・コピーともすべて正常",
+          "外部リンク・図と数式の拡大はすべて正常"
+        ],
+        "confirmed_on": "2026-10-25",
+        "recorded_at_utc": "2026-10-24T15:11:40Z",
+        "evidence": "user-report",
+        "app_version": "0.2.1",
+        "app_build": 3,
+        "excludes": [
+          "themes",
+          "Dynamic-Type-rotation",
+          "VoiceOver",
+          "audio",
+          "unrepresented-fragment-links"
+        ],
+        "record_update_validation": {
+          "repository_check_exit_code": 0,
+          "tests": 552,
+          "passed": 537,
+          "skipped": 15,
+          "failed": 0,
+          "json_valid": true,
+          "diff_check_exit_code": 0
+        }
+      },
+      {
+        "group": "C",
+        "result": "passed-performed-checks",
+        "reported_results": [
+          "通常再生・ロック操作・各操作・閉じる時の停止すべて正常",
+          "エラー表示・通信復旧後の再試行とも正常",
+          "イヤホン切断で正常に停止（着信は未確認）"
+        ],
+        "confirmed_on": "2026-10-25",
+        "recorded_at_utc": "2026-10-24T15:27:03Z",
+        "evidence": "user-report",
+        "app_version": "0.2.1",
+        "app_build": 3,
+        "excludes": [
+          "real-phone-call-interruption",
+          "full-audio-playthrough",
+          "full-MP3-SHA-measurement",
+          "measured-time-to-error",
+          "group-D"
+        ],
+        "record_update_validation": {
+          "repository_check_exit_code": 0,
+          "tests": 552,
+          "passed": 537,
+          "skipped": 15,
+          "failed": 0,
+          "json_valid": true,
+          "diff_check_exit_code": 0
+        }
+      },
+      {
+        "group": "D",
+        "result": "passed",
+        "reported_results": [
+          "最大文字・縦横・明暗・復帰すべて正常",
+          "見出し・番号・表・図の読み上げすべて正常",
+          "数式の読み上げ・テキスト表示・各操作すべて正常"
+        ],
+        "confirmed_on": "2026-10-25",
+        "recorded_at_utc": "2026-10-24T15:56:03Z",
+        "evidence": "user-report",
+        "app_version": "0.2.1",
+        "app_build": 3,
+        "excludes": [
+          "real-phone-call-interruption",
+          "unrepresented-format-and-fragment-fixtures",
+          "article-revision-migration",
+          "precise-intra-block-offset"
+        ],
+        "record_update_validation": {
+          "repository_check_exit_code": 0,
+          "tests": 552,
+          "passed": 537,
+          "skipped": 15,
+          "failed": 0,
+          "independent_scope_review": true,
+          "markdown_links_valid": true,
+          "json_valid": true,
+          "diff_check_exit_code": 0
+        }
+      }
+    ],
+    "partially_confirmed_groups": [
+      "C"
+    ],
+    "conditional_unconfirmed": [
+      "AUDIO-03.phone_interruption"
+    ],
+    "result": "passed-performed-representative-cases-with-exceptions",
+    "completed_on": "2026-10-25"
+  },
+  "not_performed": [
+    "full-199-article-migration",
+    "App-Store-submission",
+    "paid-registration",
+    "OS-upgrade",
+    "user-data-deletion"
+  ],
+  "app_version": "0.2.1",
+  "app_build": 3,
+  "content_revision": "c10353c16891efda1997cd17a698220c09d9af37092fe3a2e7691fd05999b6f4",
+  "remaining": [
+    "UI-fixtures-for-unrepresented-inline-table-list-fragment-cases",
+    "math-only-link-activation",
+    "standalone-inline-math-image-zoom",
+    "natural-call-interruption-acceptance-if-event-occurs",
+    "native-search-hit-position-and-revision-intra-block-migration"
+  ],
+  "last_confirmation_on": "2026-10-25",
+  "completed_on": "2026-10-25",
+  "todo_assessment": {
+    "completed_ids": [
+      "IOS-06",
+      "IOS-09"
+    ],
+    "pending_ids": [
+      "IOS-07",
+      "IOS-08",
+      "IOS-10",
+      "IOS-11",
+      "IOS-12"
+    ],
+    "independent_condition_review": true,
+    "full_IOS_12_acceptance": false
+  }
+}

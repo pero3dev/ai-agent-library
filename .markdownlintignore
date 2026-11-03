@@ -12,3 +12,9 @@ website/.next/
 website/out/
 website/test-results/
 website/playwright-report/
+ios/AILibrary/Content/
+ios/AILibrary/TestContent/
+# 意図的な重複見出し・番号開始値・タブを含むレンダラー試験入力。変換とリンクは別途検査する。
+ios/fixtures/native-reader.md
+ios/DerivedData/
+ios/build/

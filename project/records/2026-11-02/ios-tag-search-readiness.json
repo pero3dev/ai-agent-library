@@ -1,0 +1,107 @@
+{
+  "Doc323": "Unmerged; no Doc323 accepted/Core/fallback record bytes or index changes included",
+  "ProductSwift17_same": true,
+  "TODO_status": {
+    "changed": false,
+    "done": 14,
+    "rows": 32
+  },
+  "actual_parent": "36bec68537d741492f942c076469bb06d177f69a",
+  "actual_parent_tree": "04efdb8f21e896a39b5f68be597e9ad98e085db2",
+  "app_version": "0.2.28(30) unchanged",
+  "author_validation": {
+    "new_25s_AX_behavior_or_public_reveal_accepted": false,
+    "new_Node_SDK_Simulator_UI_API_download_Gitwrites": false,
+    "pure_stage_trees_and_forward_inverse": true,
+    "readonly_full2861_maps": true,
+    "static_class_roster26_and_exact_UI_inverse": true
+  },
+  "authorization": "User autonomous TODO implementation request; Parent limited UItest-only task. Physical checks may remain unfinished.",
+  "change": {
+    "OS_hardwall_or_root_cause_fix_claimed": false,
+    "UI_path": "ios/AILibraryUITests/PublishedReaderUITests.swift",
+    "after_SHA256": "14434a45e0c6aea910f62b6b6e1fc2cb5e4a42aadd884a3119df2931d522d87e",
+    "after_bytes": 87774,
+    "before_SHA256": "1ce25bb1fed983a3b45547fb60c9ac68dd1ee01f1fbbb610f2070ab70068c0b3",
+    "before_bytes": 78057,
+    "bounds": {
+      "candidate_windows_maximum": 4,
+      "initial_existence_cap_seconds": 10,
+      "maximum_public_downward_reveals": 8,
+      "new_wait_or_job_cap_inflation": false,
+      "total_monotonic_seconds": 25
+    },
+    "context": "Exact unique Tag navigation bar, unique enabled/hittable Close contained by bar, unique matching app-contained window; exact unique Tag search in that same window",
+    "default_false_flag": "scopedTagReadiness",
+    "fail_closed": "Missing/ambiguous context, no remaining budget or readiness loss throws; no alternative route or assertion retry",
+    "failure_diagnostics": {
+      "context_max_UTF8_bytes": 1024,
+      "count_phase_only": true,
+      "debugDescription_or_hierarchy_in_predicate": false,
+      "existing_capture_once": true
+    },
+    "new_helper": "enterScopedTagQuery",
+    "only_opt_in_callsite": "testCancelContentFolderPickerPreservesFiltersAndReadingAndAllowsMoreActions",
+    "other_case_paths": "unchanged legacy helper route",
+    "post_query_deadline_checks": [
+      "initial appeared positive return",
+      "immediate pre-swipe after usable getter",
+      "ready positive return"
+    ],
+    "production_changes": 0,
+    "reveal": "Only after current Tag/Close/window context and only when search is not usable; zero gestures if initially usable; never an action inside predicate",
+    "root_AX_kind_assumed": false,
+    "search_positive": "Finite nonempty app/window-contained frame, enabled and hittable; same Tag context rechecked before tap; pre-type verifies only the same tapped window and exact unique search, without assuming post-tap Tag/Close persistence"
+  },
+  "date_JST": "2026-11-02",
+  "failure": {
+    "OS_or_product_causality": "unresolved",
+    "actual_FullA": {
+      "fail": 1,
+      "pass": 17,
+      "skip": 0,
+      "total": 18
+    },
+    "after_timeout_geometry": "Sequential later snapshot reported hittable=true; not proof of within-deadline readiness or cause",
+    "assertion_or_external_job_retry": 0,
+    "attempt": 1,
+    "case": "PublishedReaderUITests/testCancelContentFolderPickerPreservesFiltersAndReadingAndAllowsMoreActions()",
+    "classification_SHA256": "7389b0a26fc5d9a95cf12c56c5a5af00a1638f14b5b6e99e6c43f673bb27a7d6",
+    "classification_name": "FullA-attempt1-classification.json",
+    "event": "push/main",
+    "first_unfulfilled": "Tag-search field existed, then requireHittable default15s timed out during tag selection setup; article-query/More/folder-open/Cancel not reached",
+    "first_unfulfilled_helper_line": 372,
+    "head": "36bec68537d741492f942c076469bb06d177f69a",
+    "job": 124894887634,
+    "raw_SHA256": "6b4bdc2dcf94fbf0ccf8aaa2c70a0f7d10314b33132633d22f21457806ca8b03",
+    "raw_bytes": 2187498,
+    "raw_name": "job-124894887634.log",
+    "run": 41322296116,
+    "seconds": 105.428,
+    "source_call_line": 994
+  },
+  "freeze_UTC": "2026-11-01T16:49:01Z",
+  "held": [
+    "Saved baseline before filters",
+    "Exact transformer tag and Transformer query, same combined summary/count/tag value",
+    "Folder Cancel and second public More Actions/About usability",
+    "Clear filters then same-suite terminate/relaunch/public Resume",
+    "Bookmark and fully visible noninitial 自己注意の数式 heading",
+    "Old functional26/class SourceCaseInventory and all workflow caps",
+    "Other cases, unrelated helpers, Product Swift17 and major UI inputs except owned Published UI",
+    "App0.2.28(30), TODO32/14, Original110/Content626"
+  ],
+  "old_results_scope": "PR322 initial source success and main before/after-timeout observations are historical evidence only; not proof this new helper passed",
+  "old_source_all2861_equal": true,
+  "old_source_head": "ad034650cbdb193f199761d6e5a8d8bd74e7ab35",
+  "pending": [
+    "Root Swift/SDK and independent final Source5 review",
+    "New common/forms/current-head CI, original26/Native8/copy374B/Release and normal main adoption",
+    "Actual AX shape/readiness and reveal behavior in runtime",
+    "Physical device/VoiceOver/provider/performance and unfinished IOS22/25"
+  ],
+  "purpose": "Prepare one existing folder-cancel case with an explicitly opted-in unique foreground TagChooser search",
+  "schema_version": 1,
+  "source_analysis_manifest_SHA256": "e13bfe31eeaa986130a13a687a9493c355c1648c365559b0e848e582f3942ac8",
+  "status": "private readiness candidate; new SDK/Hosted/main acceptance pending"
+}

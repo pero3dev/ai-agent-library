@@ -1,0 +1,319 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-26",
+  "status": "observed-CAR-based-audit-repair privately prepared; new actualhead CI pending",
+  "preview_only": true,
+  "publishable": false,
+  "source_basis": {
+    "kind": "explicit-immutable-main",
+    "commit": "30a8a1db8d6c30eeb2c6e682f92ba94126cc5e35",
+    "tree": "7e4a5fcd93b00caf67ea171c426d735555b507c7",
+    "live_main_lease_verified_by_helper": false,
+    "origin": "Explicit --actual-main argument, verified as an existing immutable local commit; live main status remains a root check"
+  },
+  "snapshot": {
+    "phase": "preparation-only",
+    "parent_sha": "30a8a1db8d6c30eeb2c6e682f92ba94126cc5e35",
+    "expected_payload_tree": null,
+    "expected_tree_location": "Private output manifest only; omitted here to avoid a self-referential tree",
+    "created_commit": null,
+    "final_payload_review": "pending",
+    "new_actual_CI_or_SDK_evidence": 0
+  },
+  "scope": {
+    "source_asset_helper_PBX": 13,
+    "Hosted_helper_tests_package_workflows": 9,
+    "minimal_docs": 5,
+    "total_paths": 27,
+    "proposed_version": "0.2.17(19)",
+    "basis_version": "0.2.16(18)",
+    "PBX_structural_delta": "approved asset6 fields plus four version values; total10",
+    "IOS29_complete": false,
+    "TODO_checkbox_changes": 0
+  },
+  "provenance": {
+    "original": "website/public/favicon.svg",
+    "SHA256": "f9fc05866f8a15027f02e4e76c1a7bf58ece9aa89f573638d06ab5ed5ef37de1",
+    "license": "MIT under repository LICENSE; unchanged full text already included in NOTICE/About",
+    "LICENSE_SHA256": "b153cb5539cdb8adad27eabb24e45ca19abe8737a461577eab50f3a177722956",
+    "visual": "existing mint book/#72e2d1; existing background/#0b1728; transparent rx7 corners flattened onto same square background",
+    "sizes": [
+      40,
+      58,
+      60,
+      80,
+      87,
+      120,
+      180,
+      1024
+    ],
+    "PNGs": 8,
+    "PNG_total_bytes": 22198,
+    "slots": 9,
+    "source_format": "opaque RGB8/no alpha or tRNS; original fingerprints and paths/colors retained",
+    "new_design_dependency_or_generator_execution_this_preview": 0
+  },
+  "historical_local_actool": {
+    "proof": "private-evidence-role/proof.json",
+    "SHA256": "3acf3117322d98d05f1d618b07c6fa29ddc0817a6fa0a14b908a9d548fb21453",
+    "attempts": 1,
+    "Xcode": "16.2",
+    "device_SDK": "18.2",
+    "requested_platform": "iphoneos",
+    "exit_code": 1,
+    "result": "runtime mismatch: no usable22D8075 runtime for iphonesimulatorSDK22C146; no retry",
+    "partial_only": {
+      "AppIcon60x60@2x.png": {
+        "bytes": 1521,
+        "SHA256": "315ababbc4c82ca383e24661f751a8eedd65d64532a5c1c7a89024657749b184",
+        "width": 120,
+        "height": 120,
+        "color_type": 6,
+        "CgBI": true
+      },
+      "partial_Info": "emitted",
+      "Assets_car": "absent"
+    },
+    "meaning": "Partial metadata/chunk CRC can be parsed; not complete PNG/pixel/CAR/compile acceptance"
+  },
+  "history": {
+    "after_PR275_preview": {
+      "basis_commit": "5f59010763fbded71cb1636a03159a5bf3cdd5d6",
+      "basis_tree": "af6550c2aa440e0149aab0e99f1a69c458a99b60",
+      "preview_tree": "9e28152bb78cb95247a6411ef098518e33078543",
+      "manifest_SHA256": "4849a9755628718ae9360c70bd513605b92ca1c8328d7598573d6ccf61ea2186",
+      "independent_review_SHA256": "e2cf172008dde8e86ee9d2e9fbc3b626e7b1d2e61b77c5bdbc4e69a75ed81d1a",
+      "review_scope": "private content rebind only; actual-main regeneration and final validation still required",
+      "record_SHA256": "bab6853fd7edca7076fcfe6a87dd7c0ae8ddc212916add3a7bf6ea5ea2ca3ade",
+      "is_current_source_basis": false
+    },
+    "independent_prerequisites": {
+      "source12": {
+        "path": "private-evidence-role/review.json",
+        "SHA256": "ef1e36f3423c2f95fb969a17f5acdaa7e89603d2fbc3f575cca114b8fd5b137b",
+        "status": "M0 approved private12 source; not actual assetcompiler/Archive acceptance"
+      },
+      "hosted6": {
+        "path": "private-evidence-role/independent-review.json",
+        "SHA256": "107db4d35a63f15593ead01de5494447c5104300e19b449d33a68ca3f16d222e",
+        "status": "M0 approved source integration and initial Hosted observation; not final preview or emitted scale proof"
+      }
+    },
+    "source_check_and_Node13": "Historical receipts only; no rerun by this helper",
+    "old_validation": {
+      "source_check": "Historical successful source-check receipt rehashed unchanged; no new source-check execution; source17 exact and Published workflow approved insertion rebind only.",
+      "Node_tests": {
+        "passed": 13,
+        "failed": 0,
+        "skipped": 0,
+        "scope": "historical Node13 synthetic/actual plutil receipt retained unchanged from previous Icon freeze; not rerun or actool/CAR acceptance"
+      },
+      "YAML": 3,
+      "Bash_blocks": 39,
+      "workflows": "All latest PR275 workflow bytes reconstruct after removing only exact approved icon insertions; Published retains job cap50 and three selectors.",
+      "package": "Original scripts/dependencies/overrides preserved; only ios:test:icon alias and check-chain call",
+      "PBX": "exact10 structural changes; Info source not edited",
+      "new_SDK_Swift_actool_Simulator_npm_install_fullcheck": 0,
+      "historical_old_static_checks": "Historical earlier23 freeze recorded source check/Node13/YAML3/Bash39/MD4/JSON5/links273 success. Those source check/Node13 receipts are retained history only; this PR275 rebind does not rerun either.",
+      "new_receipts": "Current PR275 rebind checks source/PNG byte bindings, YAML/Bash workflow insertion reversal, Markdown/JSON/links, trusted-main public-records/canonical metadata, and private trees only. Historical source check/Node13 logs are rehashed unchanged; new invocations0.",
+      "new_Node13_or_source_check_execution": 0
+    },
+    "initial_main30a_preparation_scope": {
+      "source_asset_helper_PBX": 12,
+      "Hosted_helper_tests_package_workflows": 6,
+      "minimal_docs": 5,
+      "total_paths": 23,
+      "proposed_version": "0.2.17(19)",
+      "basis_version": "0.2.16(18)",
+      "PBX_structural_delta": "approved asset6 fields plus four version values; total10",
+      "IOS29_complete": false,
+      "TODO_checkbox_changes": 0
+    },
+    "diagnostic_scope_before_CAR_repair": {
+      "parent": "1f07778791e3fc24464ed2512a9944639788bee5",
+      "owned_current_paths": 6,
+      "collector": 1,
+      "CI": 3,
+      "records": 2,
+      "cumulative_from_main": 24,
+      "version": "0.2.17(19)",
+      "production_source_PBX_PNG_changes": 0
+    }
+  },
+  "preparation": {
+    "fixed_technical_content": "Frozen PNG8/22198B, 9 slots, helper/validator/unit and binary recipes preserved byte exact",
+    "existing_paths": "Strict base guards for package/three CI/PBX; docs inserted at unique anchors; all nonowned entries retained from supplied main",
+    "PBX": "Approved six asset fields and four .16(18) to .17(19) version values only",
+    "Published": "Existing cap50, three selectors and every old command retained; approved icon audit insertions only",
+    "runtime_and_UI_and_incoming_records": "Nonowned actual-main mode/type/blob preserved, including PR275 setup and runtime changes",
+    "current_source_check_or_Node13_runs": 0,
+    "actual_registration_or_runtime_acceptance": null,
+    "snapshot_stage": "historical initial main30a preparation before PR278 source23"
+  },
+  "initial_Hosted_contracts": {
+    "Debug_iPhone16_required_3x": "unobserved on actual complete built app",
+    "generic_Release_Archive_required_2x3x": "unobserved on actual complete built app",
+    "content": "App-root Assets.car and Info-declared primary icon files audited independently from article Content; no Content allowlist/schema changes",
+    "policy": "unknown/missing/ambiguous/unsafe inventory fails; initial outputs may require reviewed policy adjustment, not automatic acceptance",
+    "snapshot_stage": "historical pre-first-build requirements"
+  },
+  "unverified": [
+    "Independent final actual-main payload review",
+    "Exact-head common/CI/SDK/built Info/PNG/Assets.car and emitted scale inventory",
+    "Home/Store/physical/VoiceOver/max-text/rotation/distribution acceptance"
+  ],
+  "IOS29_complete": false,
+  "normalization_or_budget_adoption": null,
+  "current_scope": {
+    "parent": "2eedf063b1c6b34e51f68e98adab7e0b53eed051",
+    "owned_current_paths": 8,
+    "source": 3,
+    "derived_fixture": 3,
+    "records": 2,
+    "cumulative_from_main": 27,
+    "version": "0.2.17(19)",
+    "App_PBX_PNG_CIcall_UI_budget_changes": 0
+  },
+  "initial_Hosted_observation": {
+    "head": "1f07778791e3fc24464ed2512a9944639788bee5",
+    "SDK26": {
+      "run": 40301396609,
+      "job": 121499884040,
+      "Archive": "succeeded",
+      "built_icon_audit": "failed Missing required iPhone60@3x PNG",
+      "acceptance": false
+    },
+    "full": {
+      "run": 40301396664,
+      "job": 121499884429,
+      "stage": "Debug built icon audit",
+      "same_failure": true,
+      "UI": "not reached",
+      "Release": "not reached",
+      "units": {
+        "registered": 153,
+        "passed": 151,
+        "private_skip": 2,
+        "failure": 0
+      }
+    },
+    "artifact": {
+      "id": 12640846633,
+      "ZIP_bytes": 97178,
+      "SHA256": "f7148b10da598773b9444502be3b28df01facde52e3e895f969a54a6312a6a78",
+      "memory_only": true,
+      "CRC_entries": 45,
+      "actual_App_Info_CAR_PNG_bytes_present": false,
+      "icon_result": "error1line"
+    },
+    "observed_loose_output": [
+      "AppIcon60x60@2x.png",
+      "Assets.car"
+    ],
+    "CAR_internal_180_rendition": "unknown",
+    "no_unchanged_head_retry": true
+  },
+  "diagnostic_preparation": {
+    "status": "observed on2eed; partial only unsupported help; original primary still failed",
+    "product_acceptance": false,
+    "original_required_scales_and_primary_validator": "unchanged",
+    "source_PNG_PBX_and_App": "unchanged",
+    "capture_failure_does_not_skip_primary_audit": true,
+    "outputs": "bounded actual Info/loosePNG/car hash and official assetutil output; no rawApp/CAR copy",
+    "collector_SHA256": "2e23fc5607a9232c75d2ac31c26561a87e776b0ef70b1a9d1e7e15ffd976592c",
+    "actual_new_head": "2eedf063b1c6b34e51f68e98adab7e0b53eed051",
+    "actual_new_run": {
+      "SDK26": 40307987707,
+      "full": 40307987669
+    },
+    "local_SDK_actool_Simulator": 0,
+    "new_CI_budgets": "unchanged",
+    "physical_QA": "skip authorized; incomplete",
+    "private_validation": {
+      "author_VM_cases": 27,
+      "Root_independent_VM_cases": 30,
+      "real_collector_child_calls": 0,
+      "CI_inverse_exact": 3,
+      "CI_control_mock_phases": 5,
+      "record_API_final_review": "pending",
+      "snapshot_stage": "historical pre-2eed diagnostic source4 preparation"
+    }
+  },
+  "CAR_repair_preparation": {
+    "source_parent": "2eedf063b1c6b34e51f68e98adab7e0b53eed051",
+    "source_sha": {
+      "validator": "cbecd7ce6fbeef0a07bf8355e1b3dac1fe9e36b285090a614c937a8904948ddf",
+      "tests": "215ceab3d71de512537aa0d531f6d997081046576303d3c557ec2482d88c365a",
+      "collector": "cba673695c733853540a5d5fa62da998f57298f3ac0a99b62d99e261537bb53e"
+    },
+    "source_freeze": "e9ba03f4f81a45f61eadccd498213d631d90acea8079423ffee59fe5867d8d0c",
+    "independent_observation": "f7311a318e05aa2c9dc9d1a646ce4bf3f725ebfde151a8986ff9f7a31a67f0b5",
+    "new_source_review": {
+      "SHA256": "7f76ca30c3ab9024bbb53fe4078b86a9bc43fc557fbc4998d53f47a6e507777a",
+      "manifest_SHA256": "609872b9c3fe0125d03ee8ae4be867d6127b9a99ea3cc5ac8c9cd8d999f6825d",
+      "blockers": 0,
+      "portable_VM_independent_pass": 20,
+      "collector_VM_independent_pass": 27,
+      "real_adapter_unexecuted": 2,
+      "final_Record2_API_review": "pending"
+    },
+    "portable_VM": 20,
+    "real_CLI_standalone_unexecuted": 2,
+    "collector_VM": 27,
+    "new_actual_head": null,
+    "new_actual_runs": null,
+    "required_scales": "unchanged3 or2,3; CAR standard60pt rendition requirement replaces loose3x assumption",
+    "metadata_contract": "Schema2/Storage17, dynamic index/nameid, matching namespace/idiom/subtype/scale/dimensions/opaqueRGB8",
+    "CAR_reader_before_after_bytes_SHA": "must match",
+    "Info_loose_CRC_dimensions_regular_CAR": "retained",
+    "new_raw_CAR_pixel_Home_acceptance": false,
+    "local_SDK_plutil_assetutil": 0
+  },
+  "observed_CAR": {
+    "archive": {
+      "run": 40307987707,
+      "artifact": 12642369650,
+      "ZIP_bytes": 105174,
+      "SHA256": "25ec7d2194ada8813a5187d3709696c3ea83a491e08f6af8bb1ea3d286949c77",
+      "CRC": 56,
+      "CoreUI": 975,
+      "Dump": 975,
+      "required60_scales": [
+        2,
+        3
+      ]
+    },
+    "debug": {
+      "run": 40307987669,
+      "artifact": 12644395908,
+      "ZIP_bytes": 365316,
+      "SHA256": "36243d5922184be9a9bc6cf14d8e8cc458844ec5c242c3530d8cbda724602a72",
+      "CRC": 357,
+      "CoreUI": 918,
+      "Dump": 918.8,
+      "required60_scales": [
+        3
+      ]
+    },
+    "Schema": 2,
+    "Storage": 17,
+    "legacy_loose": "only2x120 in both",
+    "independent_audit_SHA256": "f7311a318e05aa2c9dc9d1a646ce4bf3f725ebfde151a8986ff9f7a31a67f0b5",
+    "memory_only": true,
+    "loose120_CRC_IDAT_pixels_match_source": true,
+    "CAR180_pixels_Home_physical": "unverified",
+    "help_exit1": "unsupported; remove one unnecessary call",
+    "info_exit0_JSON_nontruncated": true
+  },
+  "snapshot_interpretation": {
+    "current_section": "CAR_repair_preparation and current_scope",
+    "historical_sections": [
+      "snapshot",
+      "preparation",
+      "initial_Hosted_contracts",
+      "unverified",
+      "diagnostic_preparation.private_validation"
+    ],
+    "historical_pending_meaning": "Values describe the named earlier preparation stage, not current verification state"
+  }
+}

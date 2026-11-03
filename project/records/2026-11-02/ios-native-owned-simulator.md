@@ -1,0 +1,251 @@
+# Native CIの専用Simulator所有と準備のmain400結合
+
+2026-11-02の未結合Code4・記録テンプレートr2である。Native helper/unitだけをcold Code2へ更新し、workflow c16bとReadingRecovery診断0114は全byte保持する。実親SHA/tree/count・公式Root attestation、将来Source8の実owned/newfilesはROOT_REQUIRED。Source8や索引全文/mapは生成せず、準備時点の実main057とPR326 Draft b8dを区別する。以下のr1本文は過去のfreezeを保持する履歴で、現在の準備はこのr2区画による。
+
+## r2の読み取りと所有証明
+
+prepareの5固定readonly role（runtimes/device-types/devices-before-create/devices-after-create/devices-after-boot）だけを、残り共有210秒へclipした各最大60秒の読取へ変更する。Nativeの実receiptがschema/binary/fixed argv/期限内/上限/canonical Base64/長さ/SHA、status null・SIGKILL・error_code ETIMEDOUT・非空かつboundedな実error・output_complete falseを満たす場合だけ、別名timeout-retry-1で1回再試行する。未知失敗・malformed successful JSON・late返却を成功やretry根拠へ読み替えず、3回目はない。期限をresetせず、最悪時間で必ず完了する保証でもない。
+
+intentは採用したprecreateのbase/retry1 label、既存raw stdout SHA、新canonical receipt SHAを結ぶ。cleanupは採用receiptと、retryの場合は元の厳密なtimeout proofも照合し、未知・改変・stale・beforeUUID・late・上限違反をmutating command前に拒否する。context/run/attempt/source/token/name/create UUID/外部step UUIDと前在除外を保持する。canonical SHAはraw fileの空白署名や悪意ある同一UID改変への防御ではない。ready保存前後も同じ期限を確認し、部分的なready fileが残ってもprepare exit失敗ならhandoff成功と扱わない。
+
+mutating create/boot/bootstatus/shutdown/deleteのcapとretry0、prepare210秒/step4分、cleanup90秒/read15秒/retry0/step2分、元job40分とNative8/Full26・collector・Releaseを保持する。サービス再起動、Runtime導入、既存Simulatorへのerase/deleteや別端末fallbackは追加しない。
+
+## r2の保存済み検証と未確認
+
+cold Code2の実Node24.22.1による新fake controlsは80件成功・失敗0・skip0、0.4703205秒で、旧34を再実行した結果と新46から成る。controls/result.json SHAee836b18d7aafd7a50e8abc59d0682ed91be4abe9222642eefedd095cb91ca6fとSourceMF/pinsへ結合する。このr2準備では再実行しない。旧34の過去の結果と初回78・spec/TAP整形停止を別履歴として保持し、old成功を新実行の代用にしない。cold独立IRはP1/P2=0である。
+
+128KiB境界はrunnerとfake executorによる検証だが、2MiB/64entryはinjected store拒否で、実diskStoreの新実行ではない。実diskStore～CLI/environment tailはbyte同一のまま、そのsampled-capやsync service、保存失敗でfailure記録も残せない場合の限界を保つ。実CLI/OS timeout救済、作成/起動/削除、SDK/UI/Hosted、guard新failurebranch・恒久安定と全cleanup成功は未受入である。
+
+## r2準備時点のhead別履歴
+
+実main057 NativeのUI6成功2失敗と別Full26/Common9/deploy成功、旧PR326 efbの初回6成功3失敗、2bcの7成功2失敗、374の8成功1失敗をそれぞれ保存する。374はNative8とFull26等に成功してもRevision1件が55.789秒で停止し、A-before-save一値だけでB未到達だった。374 observer MFc80968836d56ab822b97be2d0e27d3c824f5b87b7975106975aad6d2eb4e58f4へ結合する。通常toolbar Menu AXと別restore AX/capfailは未解決のまま、このCode4の修復やcoverage受入へ広げない。
+
+新PR326 b8dのfiltered setupは保存Root discovery時点でCI9系統がqueued/in-progressで、まだ新head全成功や新Revision受入とはしない。mainは057のままで、b8dをactualmainへ代入しない。PR326通常統合後、Rootがfresh official実mainと全before tuple/mapを確認して初めてSource8を生成・計数し、final IR/形式/common/必要SDK・CI/通常PRへ進める。prospective8path/newfiles4という旧予想は実map採択前の仮数である。
+
+App0.2.28（30）/PBX/保存契約/TODO32行14完了、Original110/Content626と全旧packetを保持し、この準備ではGit/API/SDK/Simulator/new tests・managed編集・削除・既存sim操作を行わない。
+
+## r1テンプレートの保存履歴
+
+## Native CIの専用Simulator所有と準備
+
+2026-11-02の未結合Code4と記録テンプレートである。既存Native workflow/helper/unitのCode3を3ファイルともbyte保持し、ReadingRecoveryUITestsのfirst-failed guard診断Code1を同一で加える。実親SHA/tree/countと公式Root attestationはROOT_REQUIREDで、Source8はまだ生成していない。準備snapshotは実main057、PR326 Draft efb→057であり、efbや仮想mergeをactual mainへ代入しない。PR326実main後にRootが初めて全before tupleへfresh-bindする。
+
+### main057の結果と過去の履歴
+
+[main057 Native](https://github.com/pero3dev/ai-agent-library/actions/runs/41372708102)の初回は単体278件中276成功・2skip・失敗0、元のUI8件が6成功・2失敗でReleaseはskipされた。exportは114.78秒、Browseは138.67秒、最終getterは147.53秒で、共有30秒期限の超過と整合するが、元compound guardのkey/shapeと排他的原因は観測していない。restoreは別caseのlibrary-article-count hittability/activation point異常で、exportとの因果は不明のままにする。
+
+同じ057の[Full](https://github.com/pero3dev/ai-agent-library/actions/runs/41372708108)は元の一意26件と独立した374-byteコピー、Bの全199記事/audio1/625files/noFixtureのReleaseに成功し、[Common](https://github.com/pero3dev/ai-agent-library/actions/runs/41372708204)の9検査とdeployも成功した。Native2失敗は残り、全mainpush受入やこのCode4の効果へ代用しない。
+
+### 旧sourceの保存履歴
+
+[旧mainDaのNative run](https://github.com/pero3dev/ai-agent-library/actions/runs/41339326495)は、初回に既存名のdestination解決でexit70となり、XCTestは未開始だった。条件を変えない1回の再試行では単体278件が276成功・2skip・失敗0、UI8件が7成功・1失敗だった。復元picker前の確認タイトルが元の5秒以内に見つからず、Release監査には到達していない。初回の宛先問題と後の確認タイトル失敗は別の事象で、原因を同一視しない。詳細は[既存の診断記録](ios-recovery-confirmation-diagnostics.md)へ残す。
+
+一方、確認失敗時診断の採用後の[main0a47 Native](https://github.com/pero3dev/ai-agent-library/actions/runs/41349865521)は初回で単体278件中276成功・2skip、UI8成功と代表3記事のRelease監査に成功した。[Full](https://github.com/pero3dev/ai-agent-library/actions/runs/41349865506)もA18＋B8の元の一意26件、独立した374-byteコピー内容一致とBの全199記事Releaseに成功し、[Common](https://github.com/pero3dev/ai-agent-library/actions/runs/41349865669)の9検査とdeployも成功した。これは別sourceの保存済み観測であり、今回の専用UUID準備や新しい確認失敗診断分岐の成功ではない。成功時にcollectorがskipされたことも失敗添付の収録確認に数えない。
+
+### 同一保持するCode3と保存済み検証
+
+既存Xcode16.4・SDK18.5を保持し、一意でavailableなRuntime18.5とiPhone16型を確認する。不在・重複・矛盾はcreate前に失敗させ、SDKやRuntimeを導入したり機種・OSを切り替えたりしない。
+
+作成前に全Runtimeの既存UUIDを固定し、repository/job/run/attempt/source/checkout/tree/tokenを結ぶintentを保存する。createは1回だけ行い、成功終了・単一UUID stdout・前在UUID除外を満たす新規端末だけを認める。現在のname/Runtime/available、任意の型fieldがある場合の一致とboot後のBootedを確認してから、同じUUID destinationを元の単体とUIへ渡す。
+
+cleanupは外部stepのUUID/token、context、intent、成功create receipt、前在一覧と現在metadataがすべて一致する作成所有端末だけをshutdown/deleteする。既存端末・未知所有・証明不足は操作しない。boot途中の失敗でも成功createが証明できた場合だけ片付けられる。既存Simulatorのerase/delete、全端末操作、サービス再起動、Runtime導入は追加しない。shutdown/deleteの失敗や残存は成功へ読み替えない。
+
+prepareは共有210秒、cleanupは別共有90秒で残時間を子commandへ渡す。各command合計出力128KiB、各JSON512KiB、証跡合計2MiBを上限とする。entry数の実装上の数学的上限は64で、旧準備READMEの「64files未満」を厳密な境界の受入として転用しない。workflowはprepare4分・cleanup2分、元job40分を維持し、元の単体/UI選択・並列抑止・Release・全uploadとcollectorを保持する。
+
+### 保存済み検証と限界
+
+同じCode3のRoot実Node24検証は、injected executor/controlの34件が全成功・skip/失敗0で、helperとunitのJS構文2入力も成功した。Code3独立レビューはP1/P2=0だった。本パケットの作者は再実行せず、この保存済み結果と各SHAへ結合した。34件は実CLIのevent/Git/filesystem/GITHUB_OUTPUT経路や実xcrun/simctl/Runtimeサービスを実行していない。実作成・起動・削除、単体/UI/ReleaseとHosted効果は最終sourceで未確認である。
+
+共有期限・出力上限は、呼出し周辺・中間allocation・サービス処理の全時間や全子孫の静止を保証しない。job強制終了、create完了後のUUID／step出力保存失敗などでは、証明不足としてcleanupを拒否し端末が残る場合がある。同jobが全信頼入力を能動的に改ざんする状況への暗号学的所有証明でもない。恒久安定や全cleanup成功は主張しない。
+
+### 同一保持するguard診断Code1
+
+currentReadingExportPickerの既存compound guardを同じ順序に分け、既存failure contextへdeadline-before/count/key/browse-shape-requires-back/browse-shape-root/deadline-afterのfirst-failedタグを加えるだけである。共有30秒、全witness/getter順と回数、短絡、成功時の時計2読取、元assert/test body/Native8/taps/Cancel、既存failure capture/lifetimeを保つ。後続の未評価条件を真と断定しない。
+
+Code1独立IRはP1/P2=0。初回xcrun parseは30秒timeoutでsyntax結果未確認として保持し、Root許可の既存swift-frontend直接parseを同一候補に1回だけ行いexit0/約6.214秒だった。これは構文だけでSDK typecheck/UIではない。新タグの実failurebranch出力は未受入、restore AXは別未解決で、共通isHittableは変更しない。保存Root Node34とCode1 syntaxを新ownedSim/OS/UI効果へ合算しない。
+
+### 次の小単位と残件
+
+所有候補はCode4、同記録MD/JSONの2、索引挿入2の計8パスである。今回は4コードの正逆と記録/挿入テンプレートだけを用意し、索引全文、Source8全map/tree/count、Git objectは生成しない。実親/公式証明はROOT_REQUIRED。RootがPR326の通常統合と実mainを確認後、最新の全before tupleへ再結合してSource8を生成し、旧index全文と他者変更を保持して独立finalreview・共通/形式検査・通常PR/必要CI・通常mainへ進める。mainpushは別確認とする。
+
+Native workflowの元job40分、prepare210秒/step4分、cleanup90秒/step2分、元unit/UI選択とNative8、Full26、App0.2.28（30）/PBX/保存契約/TODO32行14完了、Original110とContent626を保持する。既存端末やユーザーファイルの削除・既存Simulator操作・サービス再起動・downloadは追加しない。新ownedSim・guard branch・新SDK/UI効果、実機/provider/VoiceOver、IOS-11/23/25全体は未完了である。
+
+## 2026-11-03追補: 実main400への結合
+
+上記r1/r2の全文は各準備時点のfreezeを保つ履歴です。未結合、ROOT_REQUIRED、b8dのCI9進行中という記述を現在の状態へ読み替えません。2026-11-03のこの追補では、PR326を通常保護のsquashで統合した実main `400b2adf66bdf1b953ba89ec57b71f3f4ef2352d`、tree `1630b86a577aa2724569c2940ce9afa7d60ea989`、追跡2885件へ結合しました。公式Root proofのmanifestは `1a6ca807b8b15e49645b1002ba5df13b253a6fb4bd7f540959681f8d23e9c57e` で、承認head e6と全mode/type/blob tupleが一致します。managed worktreeのclean detached状態と、Code4の実beforetupleを読み取りで確認しました。
+
+Native workflowとReadingRecovery診断は実親でも元beforeと同一で、候補Code4はまだ採用されていません。helper/unitと記録2は未存在でした。実差分は8パス、新規4パスです。索引2本は実main400の全文を保ったまま挿入し、TODO32行14完了を保持します。独立した変更理由に合わせ、workflow/helper/unitの3本、その後にguard診断1本と記録・索引4本という2段階を準備しました。私有の中間tracked2887・最終tracked2889とtreeは投影値で、Git object・commit・branch・PRは作成していません。
+
+履歴の続きはRootの固定CI context（as of UTC `2026-11-02T16:05:47Z`、SHA `c42eaebf02d94301a51c84108cc736230ec4b0bfd276224d37cda4ba7e546f1c`）へ結びます。b8d初回は6成功3失敗で、Revision UI1件87.796秒の成功後にcontainer path比較で停止しました。別のRecovery retry2成功は初回失敗と分け、安定化やSource修復へ読み替えません。f13は5成功1失敗3cancelledで、profile path guard失敗とSource1記録修正に伴う停止を保持します。
+
+最終e6のPR326は9系統が成功し、Native UI8・Full UI26・Runtime26代表3件と、各単体278件中276成功2skipを確認した別sourceの結果です。制御した改訂1ケース130.456秒は全5phaseと実container変更下のA保持/B選択に成功しましたが、1記事・audio0・PNG0の受入に限ります。通常toolbar Menu AXは未解決で、今回のNative専用UUID/timeout救済/guard診断の効果へ転用しません。
+
+同じ固定context時点でmain400の新pushはCommon8成功・build進行中、Native/Fullも進行中でした。PR成功を新mainpush成功へ代用せず、後続結果はRootが別に観測します。この準備は候補コードを実行せず、既存cold80・構文・個別IRを再実行しません。cold80は旧34再実行と新46のinjected executor/clock/in-memory storeであり、2MiB/64entry拒否は実diskStore受入ではありません。
+
+Code4の全byte、r2 JSON全key/valueのsnapshotと内包するr1、Markdownの全旧本文、既存索引本文を保存しました。App0.2.28（30）/PBX/保存契約/Content626と他者の作業を保ちます。最終Source8レビュー・共通/形式・必要SDK/CIと通常PR/mainはRootの後続工程です。新実OS rescue・所有端末の作成/起動/cleanup・guard failurebranch・恒久安定、実機/provider/VoiceOver/最低OS、IOS-11/23/25全体は未受入です。
+
+## 2026-11-03追補: Native一覧読取の出力上限
+
+ここまでの全文は公開PR327の親head `d1518f226dad33917789cef372767d5a33dd7c41` に入った準備履歴として保持します。この追補は同head/tree `9d9af305020990bbf205c16b6876a27ec0a373eb`・追跡2889件へ追加する1コミット、Code2と既存記録/索引4本のSource6私有準備です。実main400との差分全体は累積8パスとして別に扱い、新しいmainやHosted効果の受入とはしません。
+
+Native初回run41483631222は、prepare先頭のruntimes読取でstdout133117Bが旧131072B上限を2045B超え、status null/SIGKILL/ENOBUFS、output_complete falseでした。timeout設定は60000msですが、typed ETIMEDOUTではありません。読取1回で再読なし・UI0・cleanup not-created/UUIDnull/oktrueを保持します。stdoutをJSONとしてparseできても、上限超過の不完全出力を完全成功へ戻しません。診断SHAは `d0e6692ec65e9cb4aa0a8a68444e5e60ce73686822ae141327135fb84077bdb6`、nested context追補SHAは `3a8088deea9fae41db09871257cbb11f5af23eb6aad0bcb63dd0b839205b7a69` です。
+
+限定診断artifact13160424324（11118B）のGETでは全ZIPのstream/readback SHAと、選択6JSON/180619BのCRC/SHAを検証し、context・prepare-failure.context・cleanup.contextがsource/run/attemptへ一致しました。0.480519秒でown childを回収し、TERMは使っていません。retry receiptだけがなく、success_inputs_completeはfalse、runtime acceptanceもfalseです。大きいfull artifact13161866666はGETしていません。reader SourceMF e12e1d.../IR5e6d...の閉じた範囲を維持します。
+
+修正は厳密なreadonly inventory3 argv（runtimes/devicetypes/devicesのJSON一覧）だけを512KiBへ揃え、他commandの128KiB、全期限、mutator retry0、所有証明・SHAと非timeout再読拒否を保ちます。512KiB rawのBase64が約699KiBになるため、diskStoreのreceipt read/writeを1MiBへ同期し、証跡総量16MiB・64entryを上限にします。上限は瞬間的な全allocationや全serviceの静止を保証しません。
+
+workerが封印した最終Code2 SourceMF `3e5547c5aba6c6cf39f7158a1b57ca53c8af3fedff9e90001ea2c1025e5c1588` を全byteで受け取ります。最終Darwinの専用unitは97件（旧80再実行＋新17）が97成功・失敗/skip0、wall 0.306476834秒です。helper/unitの保存JS構文2入力はexit0で、helper不変の最終追補ではunit構文だけを再確認しました。初回97成功のsource/logは別に保存し、その後、既存CLIのDarwin制約に合わせmain→diskStoreの2件だけへ他OS skipを明示した最終sourceを限定再検証しました。新17のうち15はplatform共通、2はDarwin専用で、他OSの95成功＋2skipは想定に留め未実行です。fake executor/clockの制御に加え、Darwin専用2件はstubbed builtin spawnSyncでmainから所有する実FSのdiskStore書込/cleanup読取とreceipt超過拒否を通しています。実xcrun・simctl・GitやSDKは実行していません。 このbinderは試験を再実行しません。実simctl・SDK・Simulator lifecycleや新head Hostedの受入ではありません。
+
+親d151初回CI（MF `17f131d7db68a6dad04969720ebe5406137785f449d18c38183e424938b7710d`）はCommon/SDK26/RecoveryとFull26、Full Aの単体278件中276成功2skip、374Bコピー/Release、必須11のhighest snapshotに成功しました。Nativeの上記失敗と、R26初回run failure/job cancelled/UI不明は残します。R26のraw取得1回失敗は再GETせず、同一headの通常retry2は別の進行中snapshotとして保持し、この修正の効果へ混ぜません。
+
+旧Markdown全文・JSON全key/valueと索引本文/TODO32行14完了、App0.2.28（30）、workflowと製品ソースを保ちます。Source6最終独立レビュー・共通/形式・新head Hosted・通常PR/mainと別mainpushは後続です。通常Menu/restore AXとcapfail、実機/provider/VoiceOver、IOS-11/23/25全体は未完了です。この私有準備では外部publication・Git/API・SDK/localUI・ユーザーデータ操作を行いません。
+
+## 2026-11-03追補: NativeとFullの標準Intel runner
+
+上記全文は公開PR327の親head `70ca56784e9c4d57d9e99b6d2fff2c265c98172f` /tree `c7e96f21700506f8cc1563aa600da4b9c4935849`・追跡2889件までの履歴として保持します。この追補は同親へ追加する1コミットのSource6私有準備です。RootはNativeとFull A/Bの2workflowだけを標準公開runner `macos-15-intel` へ移す候補を採択しました。SDK26/R26/Recoveryのarm64条件・製品・品質条件・期限は保持し、ユーザーMacやSDK、課金pool、署名を変更しません。
+
+70caのNative初回と同一headの通常retry2は、ともにjob cancelledでした。初回の公開注記はHosted runnerを取得できなかったこととmacOS arm64容量制約を報告しています（入力SHA `47ca8b3517f68a72620cde0ff64ddd885be9d1d329f8a3a1ca010e2d89c07569`）。初回logs/stepsは取得できず、retry2もraw404/empty stepsでprepare/UIはunknownのままです。空のstepsを実行0の証明にせず、これ以上retryしません。retry2 MFは `c9f3fe8c8ac2930429fdf2e19cd2105cd4b2bf4530b52166636db17401e910d6` です。FullB/SDK26初回の取消も結果unknownで、個別原因をNative注記と同一にはしません。
+
+Rootが引き継いだ同sourceのsnapshotでは、R26は実UI3成功、Recoveryはworkflow/auditor成功（child leaf/scalar未受領）、Common9とLinuxNode1446件中1428成功18skipを確認しています。FullA初回のlive functional UIはまだpendingだったsnapshotとして凍結し、その後の成功や失敗を予測しません。これらを新Intelでの実行結果へ転用しません。
+
+固定した公式runner-images commit `4da2307112a0fad2fd2ecaca8ba7d08683b8c581` のmacOS15 Intel一覧には、Xcode16.4（16F6）/SDK18.5とInstalled SimulatorsのiOS18.5/iPhone16が掲載されています。`macos-15-intel` は公開repositoryの無料対象となる標準labelで、large/xlarge等の有料poolを使いません。調査MF `1a234f6b44a2d920d96e2c93a223f2b5189911e65671005bb895243326425fef` のNative単独推奨は採択前の資料であり、今回のRoot採択はNative＋Fullだけに限定しています。実jobへ割り当てられるimage版やIntelの実容量改善は未確認です。
+
+workerのCode2 SourceMF `2055a511f60a517563915d7f54f3281cedc3e66da2db526bdbf1c63136b33cfe` は、NativeとFull各1箇所のruns-on literalだけの変更です。Fullの1literalはmatrixのA/B両sliceへ及びます。静的auditとYAML検証は保存結果へ結び、actionlint1.7.12の一次sourceでも既知の標準labelを確認していますが、ここでactionlint binaryや既存green test/fulltests/npm ciを再実行しません。SDK26/R26/Recoveryと全assert/許容差/期限/cleanup、512KiB inventory・1MiB receipt・16MiB証跡・unit97は全byte保持し再検証しません。
+
+host CPU/RAM/OS imageが変わるため、旧arm64のgeometry scalar・Clock/memory/Core性能をIntelの受入へ流用しません。現helperにhost architectureの記録fieldはなく、新jobの実architecture/image、Xcode/SDK/Runtime guardとtyped ownership/UI/Release/cleanupを別に確認します。新capacity・新Hosted・最終Source6レビュー/形式・通常PR/mainは未受入です。全旧MD/JSON値・索引/TODO32行14完了、App0.2.28（30）と保存契約を保ちます。この私有準備はGit/API/SDK/localUI/ユーザーデータ・publication操作0です。
+
+## 2026-11-03追補: Nativeの準備予算とAppIcon形式の互換対応
+
+上記全文は公開PR327 head `40f24a27cf9f75d5e2dd7e9425f13affbd528c6b` /tree `9fb493f10eea4671fd0d744d2111968eaad35552`・追跡2889件までの履歴として保持します。この追補は同親から2意図別コミットを投影する私有Source準備です。Group1はNativeの共有準備予算、Group2は取得済みAppIcon診断に限定したparser互換対応と記録・索引です。実commitと通常main採用、新headのCI結果はまだありません。
+
+40fのNativeではruntimesの初回60秒がtyped ETIMEDOUTとなり、許可された同readの1回retryは127609Bで成功しました。この出力は旧128KiB以内であり、512KiB化のHosted救済効果を示しません。続くbootstatusはper-command上限120秒に対して共有210秒の残り88205msに切られ、Data Migration中にETIMEDOUTで失敗しました。所有UUIDのcleanup deleted/absentは確認済みです。診断SHAは `11bcd795221e9a99f80bfc83c195edc9fa0c165c98777fef1c71d30a731a4124` です。
+
+Group1の既封印Code3 SourceMF `1391bb0ac26a105a62d237346f9751ddc907f47936d53636a26fefc6f6d02248` は共有prepareを210秒から360秒、Native workflowのprepare stepを4分から7分へ変えます。per-command bootstatus120秒・inventory read60秒・cleanup90秒・job40分、その他のcaps/所有/選択/assert/cleanupを保ちます。旧97件の予算fixture最小同期と新3境界を含む専用Darwin100件は100成功・失敗0・skip0（wall0.272808秒）で、JS構文2とlocked YAML before/after2parseも成功しました。Code3単独の独立IRはP1/P2とも0ですが、今回の記録・索引・全map・Iconの結合判定は含みません。360秒でも全readの最大時間が常に確保されるとは扱わず、実Data Migrationが120秒以内に終わることと新Hosted成功は未受入です。
+
+FullBのAppIcon診断は同source/run41503863477/attempt1/job125477979194、実checkout3a53a361b04c4c9750f319fdeb656cd318086676へ結びます。artifact13170288162は67237B、ZIP SHA `56ed5a3a5c1257d5bcd565a71c5c283f55220b7687beb4572ab843d2b996fd2a` です。独立IR済み閉readerで1回取得した固定8件12155BのCRC/SHA、receipt.savedの受領7件、3commandのexit0・signal/error/truncation無し、binary plistとJSONの一致をRootが確認しました。巨大log/CAR/PNGを追跡記録へ転載しません。typed診断SHAは `07abbed1a916c6566226d8c5f5e3e1c11ced7ec4e2008a43942289d8abee34ec` です。
+
+受領したcaptureはSchema2/Storage17/Platformios/CoreUI918/Dump918.8で、Key FormatはAppearance列の無い9項目でした。phoneの3x Icon Image4行とMultiSized Imageのjoinを確認しています。captureと後の失敗auditは別invocationで、失敗auditのstdout同一性やCAR pixels・Home Screen・Store・実機表示は確認していません。新derived fixtureは受領headerと名前・結合fieldを根拠に時刻/絶対runner pathを除き、PackedImage2行を制御witnessとして区別します。fixtureを新Hostedや実pixelsの受入へ広げず、既存provenanceの全key/valueとlegacy exact10形式を保持します。Group2 CodeMF `d671c78c512966503fcc6f85eb8904d303da4a39b68e2aa9d2143e9531fbc510` はこの実データに限定した互換対応で、詳細と保存済みaffected-unit結果をJSONへ結びます。同じ1回の影響unit実行で、公開28件（旧22＋新6）と私有の受領capture witness2件、計30件が成功し、失敗0・skip0（wall0.240872375秒）、parser/unit構文2もexit0でした。実SDK/assetutilを呼んだ受入ではありません。 画像・Assets・Appの変更はありません。
+
+40f初回の結果は前sourceや候補と分けて凍結します。Common9/required11/SDK26/Recoveryは成功し、FullA units278件中276成功2skip、Mac Node1446件中1431成功15skipでした。Nativeはbootstatusで失敗、FullA/BはDebug build成功後のUnknown catalog key formatでUI0、copy/Release未到達です。R26初回は1成功2失敗（背景assert/publicUI待ち）で、同headの条件不変control retry2もqueued後cancelled、raw1回404・empty stepsで実行数/UIはunknownです（MF `a200744d003fecf54645b1c36e79cbd06a82a16aa3f0b15a80f29bcb0f4d31c4`）。旧70caの成功を転用せず、新headのNode件数やCI成功を予測しません。
+
+Native/Fullの標準IntelとSDK26/R26/Recoveryのarm64条件、全品質/期限・512KiB inventory/128KiB generic/1MiB receipt/16MiB証跡を保持します。旧arm64 scalar/perfを流用しません。全旧MD/JSON値・索引/TODO32行14完了、App0.2.28（30）と製品を保持し、最終Source/metadata IR・新CI・通常mainと別push・実機/VoiceOver/minOS/追加audio/署名/Storeは未完了です。この結合作業でrepo/Git/API/SDK/tests/ユーザーデータ/publication操作はありません。
+
+## 2026-11-03追補: Intelの起動予算・後処理前検証・共通検査
+
+上記全文は公開PR327 `a812ae0da2cf764b91993847db55c4c571533b9b` /tree `d1f7a538392bd95907f60947385bb85b875be513`・追跡2890件までの履歴です。同親へ、Native Code3とCommon Code2＋記録/索引4を2意図のコミットとして投影する私有Source9候補を追補します。実commit・通常main・新head成功は未採用です。
+
+a812 Native run41515870039/attempt1/job125519169076では、bootstatusが実120000msを使い切りETIMEDOUT/SIGKILL、output incompleteで失敗しました。共有360秒によるclipはfalseで、旧40fの残り88205msへのclipと区別します。Data Migrationの進行表示・plugin変化はあってもterminal成功やNative単体/UI開始は受領していません。診断MF `093f21a2b0a2a7dcda9604700adaaecebdce424100ce65015cb145814e04a12c` /result SHA `935bb5e96a6e7a346b5b49ea120f62075a23da531303f0cd924863b5db42aec3` はZIP47084B・全SHA、選択13 JSON/474996BのCRC/SHA、context8keys/nested、9command（8成功1失敗）へ結びます。provider取得1回と返却file参照の監督読取を分け、provider download自体の期限保証は未証明です。
+
+失敗後のcleanupも、本体前のGit context検証でstatus=nullと想定0の比較に失敗しました。HEAD/treeのどちらのcallかとerror/signalの型付き原因は不明で、timeoutと断定しません。store/cleanup本体とcleanup receiptは未作成、shutdown/delete/absence成功も未証明です。旧40f cleanup成功をこのsourceへ転用しません。
+
+Group1 SourceMF `29e7224bb2782148a18e68b5c0cbc02c005ea4fd49720bd719e608be1041a957` はbootstatus300秒・共有prepare480秒・prepare工程9分と、HEAD/treeを固定Git1call/30秒/4KiBの完全2行full40 objectIDで照合する候補です。失敗時のstage/status/signal/error codeを限定診断し、証明不足で削除しません。cleanup本体90秒・工程3分、job40分、mutation retry0、正確なinventory3readだけ512KiB/他128KiB・receipt1MiB/証跡16MiBと全所有/assertを保ちます。Node24.22.1の対象専用1回で133件（旧100＋新33）が133成功・失敗/skip0、構文2件とlocked YAML before/after2parseもexit0でした。in-memory executorと既存Darwin diskStore fixtureのstub検証であり、実SDK/Git/Simulator commandは実行していません。 共有予算はper-commandが常に全上限を使える保証ではなく、新300秒内の実起動・後処理完了は未受入です。
+
+a812 FullA job125519170321はcommon工程3分timeoutでした。TAP1455件は1421成功19失敗15skip・cancelled0、19件すべてtestCodeFailureです。最初は実parent exit試験のreadiness JSON.parse Unexpectedend、後はENOENT17件とCLI assertion1件です。共通TMP ENOENTとtimeoutは同時観測で、root削除との直接因果や19件全部の製品regressionは確定していません。raw SHA `a285b5de7d9b162d6edf011513da7cd91584c3bbde1e4a1ae126e18d887d67c0` を保持します。
+
+Group2 Common SourceMF `534171db0492a0a7bc615b34a3ef0c50d1487b8abb3dac96a1f75f781311e97d` はcommon工程だけ3→6分、job50分と全npm check/他stepを保ちます。既存signal/exit fixtureの準備JSONをowned siblingへ書き終えてrename公開し、consumer/kill/signals/期限/assert/cleanupを全保持します。Node24.22.1の対象既存6件は1回で6成功・失敗/skip/cancel0（Node372.325875ms/wall0.402951917秒）、構文1・locked YAML2parseも成功しました。新test0でgreen全suite/SDKの反復はせず、製品CLI/helperは変更しません。
+
+他CIはfreeze `2026-11-02T20:32:27.553710+00:00`・公式metadata観測 `2026-11-02T20:29:34.639Z` の保存snapshotに限ります。run側は Common:completed/success、Native:completed/failure、Full:queued/None、SDK26:completed/success、R26:queued/None、Recovery:completed/success でした。job側の状況とrun metadataはJSONで別保持し、進行中/queued/nullを成功にしません。a812 CommonDocsのLinux1455=1437成功18skip、Recoveryのworkflow/auditor成功と直接leaf未受領を区別し、旧70ca/40f/e6や旧arm64 scalar/perfから新成功を補いません。以後のCI結果はこのsnapshotへ遡及しません。
+
+全旧MD/JSON値・索引・provenance・製品/画像/Content/保存形式、App0.2.28（30）/TODO32行14完了、SDK26/R26/Recoveryのhost条件とFull分割/UI/コピー374B/Release条件を保ちます。最終Source/metadata IR・形式・新CI/通常mainと別mainpush観測はRootの後続で、失敗pushも正確に別記します。実機/provider/VoiceOver/minOS/音声/署名/Storeは未完了です。
+
+## 2026-11-03追補: NativeとFull Aのjob予算
+
+上記全文は公開e8 `e8f3db7b08d925df337ca63b5ecbaec3b1b488c8` /tree `5bf131b9466d3a1d68915b90523febce5e026d9d`・追跡2890件までの履歴です。Rootは単一追加コミット用Source7として2YAMLと既存unit期待値1箇所、記録/索引4を結びます。Code3 SourceMF `3c7f18075afd85d267d007e0049d37de54cc2645a488d43fbbf0bb6d0fa6435f` はNative job40→60分、Fullのreading-stateだけ50→75分（content-copy50分保持）、既存failure-attachments unitのNative40→60期待値1literal同期です。個別step/commandの期限、全npm check/caps/assert/roster、standard Intel/source、helper/UI/製品は保持します。Runtime26別workflowの40分期待値も保持します。
+
+Rootが直接取得した公式注記はFullA check125541213358で50m0s超過（SHA `470f3d660115d30e86e8e2a63d8a4357f5e41858285148be12ad3212ff9c064e`）、Native control2 check125550085190で40m0s超過（SHA `25c636f487f7c8d68d332e0759374212a37aae59690a0b155d633a1a515c62bd`）を示しました。これはjob envelopeの是正根拠であり、すべてのUI不成立やcleanup原因が予算だけだったという証明ではありません。
+
+e8初回epoch MF `1ae2ea19fd053022a208a7be2e5f1a555bf1f0003071c017a8e1456b93b73cd8`（seal `2026-11-02T21:45:33.435746+00:00`）と同head Native control2 MF `d7a0e62db1f305deebe83b9f8f736a49ba58f7063368116546998a71fff62b81`（seal `2026-11-02T21:50:25.032454+00:00`）は別に保持します。初回Nativeはprepareのpostboot読取retryとcleanup-before失敗でunit/UI未開始でした。control2はunits278=276成功2skip、UI5terminal成功・6startsで期待8は未完了、Release skippedです。cleanupはcleanup-incomplete/okfalse/shutdownfalseで、delete_ok/absent_after trueも全cleanup成功へ読み替えません。単回controlの途中結果をNative8安定受入へ広げません。
+
+同e8 FullAはunits278=276成功2skip、Mac global1488=1473成功15skip、UI7leaf=6成功1失敗で期待18は未完了です。失敗したPublishedReaderのcontent-folder cancel case166.872秒とTagSearch25秒の不成立は別課題として残し、job75分で直ったとは断定しません。FullBの実8成功1417.253秒、374-byte copy marker1とRelease成功、SDK26 workflow成功、R26実UI3成功、Recovery workflow/auditor成功（direct leaf未受領）、Common/required11成功はこのe8の保存scopeです。以前のheadや新候補の成功へ転用しません。
+
+workerの既存対象unitは専用1回で51成功・失敗/skip/cancel0、wall0.154254083秒、構文1件もexit0でした。2YAMLのlocked before/after4解析と他AST/run-body保持を、Code3同一YAML SHAへ結びます。actionlint binary/実GitHub式評価・新Hostedは未実施です。旧133/6/40や新SDK、全green suiteはここで再実行せず、新しいtest/assertも追加しません。長くしたjobでも個別期限で失敗し得るため、新Native8/FullA18・Release/cleanupの完了は後続CIで確認します。
+
+全旧MD/JSON/provenance/索引、criteriaとTODO32行14完了、App0.2.28（30）、Native/helper/UI/製品を保持します。将来checkpointの32/16とStorage版0.2.29はこのunitへ適用しません。最終IR/形式・新head必要CI・通常mainと別mainpush観測はRootの後続で、実機/provider/VO/minOS/署名/Storeは未完了です。
+
+## 2026-11-03追補: 151のNative job予算期待値の同期
+
+上記全文は公開151 `15113fe1bad465a5bab32fe78be88a3eb3f752c1` /tree `e6e47f084dbad7929cd5d09abef2869181e1d60a`・追跡2890件までの履歴です。CommonDocs job125583726482の保存raw SHA `b3fcd5de7a32e93dc0fef12403bbe2c38d310e332d378d21aa77154cc523086c` はglobal1488=1469成功1失敗18skipを示し、唯一のnotok923は「workflow uses the same prepared UUID for both tests, then cleans after failure collector」でした。tests/unit/ios-native-simulator-prepare.test.mjs:176が旧 `/timeout-minutes: 40/` を要求し、実Native YAMLの60分に一致しない確定unit契約bugです。製品やhelperのruntime失敗とは区別します。
+
+このunitはPR内追加でmanagedmain400には存在せず、前回のmain400基準検索では期待値が残りました。Code1 SourceMF `838291f7d529962e4a2ab57a13213e2d1befe5efc2aa89858806ecb1cfb4d6d8` は実151 beforetupleを基準にその40→60期待値1literalだけを同期し、既存test/assert数・他判定・個別期限・全helper/YAML/UI/製品を保ちます。worker保存結果は対象2fileの既存184件が1回で184成功・失敗/skip/cancel0、構文成功です。詳しい保存値はJSONへ結び、ここで再実行しません。新しいtest追加や全green/SDK反復はありません。
+
+151の他CIはfreeze `2026-11-02T22:18:11.859510+00:00`・保存公式metadata観測 `2026-11-02T22:16:30.993Z` のsnapshotです。run/jobを別保持し、進行中/queued/未取得を成功へ読み替えません。Rootはこの既知unitbugのためwhole151の完了を待たず修正Sourceを通常FFする方針ですが、その後の151取消し/未完了は旧sourceの結果で、新headの成功には転用しません。新Common/iOS・workflow完了とmainは未受入です。
+
+e8初回とNative control2の途中結果、公式40/50分job cap注記、現Native60/Fullreading75/content-copy50、FullAのTagSearch25秒不成立166.872秒が別課題であることは上の履歴どおり保持します。全旧MD/JSON/index/provenance、App0.2.28（30）/TODO32行14完了を保ち、Doc16/Storage29は適用しません。単一追加commit10用Source5の最終IR/形式と新head必要CI・通常main/別push観測はRoot後続です。
+
+## 2026-11-03追補: Native期待値とAudio競合試験を2意図へ分ける
+
+直前のSource5 r2追補とその単一commit10案は未採択の準備履歴です。MD全文・JSONの全旧key/valueと保存証跡は保持し、今回のSource6で2意図へ置き換えます。実親は公開151 `15113fe1bad465a5bab32fe78be88a3eb3f752c1` /tree `e6e47f084dbad7929cd5d09abef2869181e1d60a`・追跡2890件のままです。
+
+Linux CommonDocs job125583726482はglobal1488=1469成功1失敗18skipで、Native job60に対する旧40期待値だけが失敗しました。Mac FullA job125583727133は別のglobal1488=1471成功2失敗15skipで、同じ期待値に加えて「two independent child processes contend on each audio namespace without overlap」がownerCount2≠1で失敗しました。FullA raw SHAは `eeaa88e1548b3a9ff046a94d80906a0a99ce367d907aec38f8a4816a832d6e2b` です。Swift unit/UI工程はskipで、新しい実UI/Swift結果はありません。
+
+Group1（予定commit10）はNative Code1 SourceMF `838291f7d529962e4a2ab57a13213e2d1befe5efc2aa89858806ecb1cfb4d6d8` の期待値1literalだけで、recordは含めません。保存済み対象2file184成功・失敗/skip/cancel0の1回と構文成功を継承し、再実行しません。Group2（予定commit11）はAudio Code1 SourceMF `3e7a1586b1058b7f7b502fed46a08b507958e0fb53e0c1be636a9d9202fd1f0b` の試験同期と本記録・索引4件です。Audioの保存結果は44成功、失敗/skip/cancel0の対象file1回と構文成功で、Native184や全green/SDKを反復しません。
+
+Audio試験の固定150ms待機では、遅れて起動したchildが最初のownerのrelease後に合法的な直列ownerとなり、ownerCount2を生じるfalse failureがあり得ます。今回のrawには実event時系列がなく、この説明を排他的な実原因とは断定しません。production lock gapは探索で検出されていません。変更は試験内のowner hold→親のBLOCKED確認→RELEASE handshakeに限り、production lock・音声制作・製品コードは変えません。
+
+他151結果はfreeze `2026-11-02T22:33:02.241368+00:00`・保存公式metadata観測 `2026-11-02T22:31:36.049Z` でrun/jobを別に保存しています。queued/進行中/未取得を成功や非triggerへ読み替えません。Rootは既知試験bugのためwhole151終端を待たずレビュー後に通常FFする方針ですが、旧sourceの取消/未完了を新headの成功へ転用しません。新Common/iOS・workflow完了・UI/cleanup/Release・通常mainは未受入です。
+
+e8初回/Native control2の履歴、公式40/50分job cap注記と現在のNative60/Fullreading75/content-copy50、別のTagSearch25秒不成立166.872秒を保持します。旧record/provenance/実151索引全文・App0.2.28（30）・TODO32行14完了を保ち、将来Doc16/Storage29は含めません。最終IR・形式・実commit/新head必要CI・通常main/別push観測はRoot後続です。
+
+## 公開874の初回と制御再試行、および次の準備候補
+
+この節より前の全文とJSONの既存key/valueは各準備時点の履歴として保持する。対象はPR327の公開head `874bf651db44b879214267e0c08767e754b51a49` /tree `0bbcdf2de779d0748d6343696717493f84d2a863`、main `400b2adf66bdf1b953ba89ec57b71f3f4ef2352d` である。次の候補を現headへ適用・公開した結果ではなく、新headのCIと通常main統合は未受入である。
+
+### 初回・単体artifact・制御の観測を分ける
+
+初回は必須11検査、Common、SDK26、iOS26の実3UI、Recoveryのstage/auditorが成功したが、Native UIは8件中6成功2失敗、全記事Aは18件中15成功3失敗、Bは8件中6成功2失敗だった。Nativeの失敗はConfirmedRecoveryとExport、Aは本文検索到着・フォルダ取消し・高い単一blockの復帰、Bは最初のfixture本文リンクと最初のコードコピーである。本文リンクは最初の段落をタップする前、コピーはCASE-CODE-01の見出しwaitで停止し、リンク到着やコピー操作の原因を断定しない。初回MF `07824985330449468fc9afecc9441d58166957293c33b460564278ecd65bfa61` を成功へ置き換えない。
+
+Native初回のconsoleで観測された230件は不完全な集計のまま保持した。独立照合した同じ初回の保持artifactでは278件すべての終了、276成功・既知2skip・失敗0とTEST SUCCEEDEDを確認した。review MF `677bc18ae03e3e475e863d118fbb901751f58bd6abe9a9f1a33afa68121d925c` の受入はこのunit targetだけで、UI・cleanup・Releaseの成功には広げない。初回cleanupはshutdown失敗・delete成功・最終不在で全体成功ではない。
+
+同headの一度のNative制御attempt2もUIは6/8成功で、HealthyLegacyとExportが失敗した。consoleの233件は部分観測で、初回artifactの278件を転用しない。所有UUID/contextとcleanupのshutdown/delete/不在は一致・成功したがReleaseは未受入である。制御MF `f75661ade3dde7d870a7326aef80b8139075353054664d4fe682d42b59c9caab` を保持する。
+
+全記事の一度の制御attempt2では、Bが実UI8/8、独立した374Bコピー、実consumer199記事、Debug/ReleaseのIconとRelease199記事を確認した。一方Aはxcodebuild exit70・宛先なしで試験前に停止しUI0、unit完了も未確認だった。制御MF `0b521e6b4e9584023cc58b3a5479d2d612260cb23d12abb18619d4b6e1d812e6` のB成功はそのroleだけで、全26件・A・Nativeの受入にはしない。役割ごとの通常199記事packageのrevision/bytes差は保持し、全package同一とは主張しない。
+
+初回の小さな読書位置証跡（Root照合MF `25f7dcd8b2dbdca5799bdbc8d6aa383c8181d48c0e94442ad4ddc9d19adc4536`）は、recovery確認の前のlive Resumeで先頭を観測した。確認操作の結果と取り違えず、原因は未特定のままとする。同じheadで追加の再試行を重ねず、IOS-11/18のcheckboxも変更しない。
+
+### 25箇所の正観測後のprobe停止と、全記事用の所有準備
+
+次のCode7候補はLoop4のUI4ファイルとFull3のhelper/YAML/新unitをそのまま結合する。Loop4はReadingRecovery3・Native2・Reflow4・Published16の計25箇所だけを、同一predicateを1回読みpositiveで準備loopを抜ける形へ変える。N=5/8/18、false時の同じreceiver・上下方向・slow swipe、最終requireと全assert/tap/FRAME・測定drag・保存状態witness、34宣言とFull26/Native8を保持する。positiveを最終合格の代わりに使わず、FirstCodeCopyの別headingwait等の修復も主張しない。Code MF `0a228f314e6546d1287d580a31c5321322c6c2df2b97e395f1672ce94ddf4ca1`、独立IR MF `abd8731ec3fa94f6da4860fb27741352a86d0b9b8894aaa5323e6ad5852418a2`、保存済みの4ファイル一括Swift5 DEBUG parse1回exit0だけに限定する。
+
+Full3は既存のNative準備helperへ全記事用の所有UUID/contextを追加し、YAMLがcanaryとUIの宛先へ同じ所有UUIDを渡し、読取・変更・cleanupと証跡の境界を保つ候補である。Full A/Bのjob全体を95/70分へ配分し、Native60分、個別のUI期限・判定・roster、strict374Bを保持する。余白は最悪時間や安定性の保証ではない。packet MF `cb0ca60e151978e1112d4896ee947d763205440911f1d294f90d65c57dbf6726` の最初の専用160件は158成功2失敗でNative既存133件は成功、新テストfixtureの出力splitを訂正した新27件の限定実行と、job上限変更後の新27件の限定実行が各成功した。元133件やglobal/SDK/UIを繰り返したとは扱わない。Node構文9件・YAML構文とactual YAML callerのstub確認も保存された範囲だけとする。
+
+この結合で新たな実SDK・UI・CI・latency改善や根本原因の解消は未確認である。新Trace8・Storage・Gate候補は組み込まず、製品30tuple・PBX/App0.2.28（30）・TODO32行14完了と原criteria、旧record/indexを保つ。新しい実親・commitと通常mainはRootの最終レビュー・新head CIの後で扱う。実機・VoiceOver・最低OS、署名・Store等は未完了として継続する。
+
+## f7de初回CIの終端とcheckout用テストfixtureの修正候補
+
+この追記はPR327 head `f7debb5751c6804b5f60b8414b7a0a3ce466b24a`、tree `3ff736a058c952310d95f1d6f2d42d6987b806bc`、checkout VM `3892b8d82af24a4161018134ad3d3f5944f9352c` の初回attempt1だけを扱う。9workflow・19jobは終端で、保存済み最新の必須11は10成功・docs失敗である。全体は未受入であり、旧874の初回・制御再試行や別branchの診断結果を転用しない。final audit MF `45c55f017ff7cae18487ae1410ac414a1b00234a93b08890d82aa312039f4e67`、旧partial MF `bfeae3253c0c2a6df46a91730531830f0646896593864d74a529293176cd0540`、型付きIR MF `d6074b9ad1c2bc050850ae846f16db34fe0d7b1f40bbc430ef07ed1625f30f12` を対応する範囲で参照する。
+
+### 実CIの失敗と未確認範囲
+
+Common docsのNodeは1489件=1465成功6失敗18skip、Full AのMac Nodeは1489件=1468成功6失敗15skipだった。既存clipboard post-seed VM5件ではsyntheticなowned入力が不足し、`owned is not defined` となった。Published Simulator単体のmoduleは通常checkoutに存在しない私有before workflowを読みENOENTとなり、新27件は登録前に停止した。いずれもテストfixtureの互換性問題として扱い、本番helperの拒否条件やUIの失敗原因と混同しない。Full Aのunit/UIはstep skippedで、実行成功を主張しない。
+
+Nativeは所有UUIDのready後、Debug unit commandのbuild末尾を出力したが、completed leafと実行aggregateをconsoleで受領する前にcancelledとなった。console leaf受領0は実行0の証明ではなく、unit278と既知2skipは未確認である。Debug AppIcon・UI8・Releaseはstep skipped、cleanupはcleanup-before-deleteでfailureとなり最終device状態は不明。build成功、test host接続の失敗、取消の根本原因も断定しない。
+
+Full Bは固定UI8件中3成功5失敗0skip。実374B一致のmarkerは受領0でcopyは未受入、Releaseはstep skippedだった。所有cleanupはshutdown/delete/absenceの全てがtrueである。Recoveryはruntime inventory assertionでUI前に停止し、下位stderrと根本原因は未確認である。R26は実3件全成功0skipを確認した。
+
+Dynamic・Rotation・Revisionは現sourceのUI/audit/cleanup/summary stage成功と、不変のfixed1 Passed/device guard通過に基づく推論として受け入れる。directなchild leaf・result tree・acceptance JSONは未受領で、console leaf受領0を実行0と扱わない。SDK26はXcode26.6/SDK26.5・App0.2.28（30）arm64のunsigned archiveとaudit、同revisionのRelease199/consumer199・asset metadataに限る互換性確認である。署名・配布・実機・最低OS runtime・SDK26上のUIへ拡大しない。
+
+### 本番guardを保持するテスト2本の私有候補
+
+Code2-r2 MF `1334ed545457a8a958a055fd338719cd26562d31ba88f87f2c123c78fac57066` をそのまま用いる。Clipboard VMへsynthetic owned入力を渡し、Published単体は私有beforeの読取を固定26件/marker検査へ置換する。本番helper全文は同じbytesのままテストのlexical process facadeでplatformだけを制御し、元27境界ケースとactual YAML callerを同じmoduleへ結ぶ。実hostの本番export検査2本は別に保ち、片OSに該当しない1件だけを明示skipする。本番platform guard・Full YAML・helperの所有条件・全roster・wait/assert・374B基準は変更しない。
+
+保存済みDarwin/Node24.22.1の専用1runは194件=193成功1skip0失敗で、r1のMac192成功は旧履歴として保持する。実Linux/Node22は未検証であり、このSource6結合で194件・global・SDK・UIを再実行していない。独立Code2-r2 IR MF `22429faabb2979957a43eb8328adf1a848761a06e4fef5f38c38df70a614069b` はP1/P2=0だが、新head CIや全体合格の代わりにはしない。
+
+テスト2本を予定commit14、記録2本と索引2本を予定commit15に分ける私有準備で、新しいcommit/headはまだ未生成である。既存Markdown全文・JSON全key/value・索引全文、App0.2.28（30）・TODO32行14完了と原criteria/checkboxを保持する。新しいARM比較診断は別branchの別目的で、このPR sourceへ含めない。実機・VoiceOver・最低OS・署名・Store、通常mainとwhole PRは未完了として継続する。
+
+## b05後の標準macos-15移行候補と別ARM診断の範囲
+
+この追記の実親はPR327 head `b05c4b8395bce1b4b137108c33857596eba0dbbc` /tree `a20b5ecd2b3ab40a5770a1193d15ceaedefe8bca` /tracked2891で確定している。mainは `400b2adf66bdf1b953ba89ec57b71f3f4ef2352d` のまま。RootはNativeとFull共通jobのrunnerを標準 `macos-15` へ変え、新sourceで通常のNative/Fullを検証し直す構成判断を採択した。まだ私有Source7であり、新しいcommit/headは未生成、新head CI・通常main・whole PRは未受入である。
+
+### 別ARM459で観測した元2ケース
+
+別診断head `4596eb8c2e213e5f7572312c1075425b1165bf1c` の保存packet MF `ab0fefeb1c0f889011254246d4fd643109fe78dfbc4f02a0ba909bc9c1cbce24` では、実arm64/Xcode16.4（16F6）/iOS18.5 iPhone16で、元のConfirmedRecoveryが123.074秒、ExportFilePickerCancelが158.816秒で成功し、2件=2成功0失敗0skip、所有cleanupも全てtrueだった。元のwait/assertによるこの2ケースだけの結果で、通常Native8・unit278・Full26を確認したものではない。Intel側989やf7deとの違いからOS原因や製品修復を断定せず、将来のrunner architecture・runtime可用性・費用や設定も保証しない。
+
+b05のRoot保存公式snapshotではLinux docs job `125816048995` がsuccessである。このSource7準備ではraw件数を受領していないのでNodeの全数を推定しない。他のb05 CIはpendingの範囲で、追加APIで更新していない。前節のf7de初回9workflow/19job終端・必須10成功とdocs失敗、Native取消/未知unit・Full B失敗・Recovery inventory停止と各未受入条件は、その古いsourceの記録として全て保持する。
+
+### 2つのrunner行と単体期待値だけを変える
+
+旧Code3 MF `3416f04cfa0b04e623fdefe67f5efc5fe429d4da25b6339c05b512636ab833eb` /packet `975d430fce8d7357588674a6152ec22bb72055473bdd3416e8bf78c65f00464c` を封印保持し、derived Code3-r2 MF `2346295d824d671f37da80313cf0e5bb7e4b87f209783c7f9214ad37664915c2` を用いる。Native YAMLとFull YAMLの `runs-on: macos-15-intel` 各1行だけを標準値へ変更し、Published単体の期待markerはJSのescaped newlineを含む完全行末に固定した。Intel・large・xlargeのsuffixを誤って受け入れないことを静的に確認した。helper・所有UUID/context・step列/個別caps、全wait/assert/roster・374B canary/Release条件は不変である。
+
+旧Code3の保存済みMac194件=193成功1skip0失敗はそのまま履歴とし、期待値訂正後はPublished29件だけを専用1runで検証して28成功1skip0失敗だった。skipは実non-Darwin拒否の片OS検査で、他の27境界ケースと実Darwin stub CLIは実行された。Native133・Clipboard32・全194を繰り返しておらず、この私有検証による実Linux/Node22・実SDK/UI/Simulatorの成功は主張しない。
+
+Native job60分・Full A95/B70分と既存全step予算、製品/App0.2.28（30）、旧source版、TODO32行14完了と原criteriaを保持する。予定commit16のCode3と予定commit17の記録・索引4本へ分け、旧Markdown全文・JSON全key/value・索引inverseを維持する。Reader Code5の別修正や診断branchは含めない。今後の通常CIで実runner/image/architectureと元の全条件を新sourceへ結び付けて確認するまで、正常系8/278/26・安定性や原因解消へ広げない。実機・VoiceOver・最低OS・署名・Storeは未完了のままである。

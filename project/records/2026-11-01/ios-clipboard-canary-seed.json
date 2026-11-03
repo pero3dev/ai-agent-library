@@ -1,0 +1,914 @@
+{
+  "mainCC_NodeTimeout_binding_20261101": {
+    "state": "PRIVATE_SOURCE7_BOUND_MAINCC_NEW_HOSTED_NOT_ACCEPTED",
+    "date_JST": "2026-11-01",
+    "actual_parent": "cc268c4a76f09434f27bbc841e3b9ca776ea566e",
+    "actual_parent_tree": "91b1b70a56ddbd518178f1d300ec1df20777647a",
+    "branch": "codex/ios-clipboard-canary-recovery",
+    "Code3_manifest_SHA256": "4a6ae36eab1913756c7d6b63811aa63fc73cae6952374f83028e8b163b59013a",
+    "Code3_bytes_changed_from_prior_candidate": false,
+    "actual_mainCC_first_FullB": {
+      "event": "push",
+      "run_id": 41316098352,
+      "attempt": 1,
+      "job_id": 124876362203,
+      "seed_actual_calls": 1,
+      "seed_intent": {
+        "binary": "xcrun",
+        "arguments": [
+          "simctl",
+          "pbcopy",
+          "141DD5FC-FF1D-429C-B43E-1323E1915FDE"
+        ],
+        "timeout_ms": 30000,
+        "max_buffer_bytes": 1048576
+      },
+      "seed_artifact_exit": {
+        "exit_code": null,
+        "signal": "SIGKILL",
+        "error": "spawnSync xcrun ETIMEDOUT"
+      },
+      "Node_error_code_from_raw": {
+        "value": "ETIMEDOUT",
+        "raw_line_one_based": 7449,
+        "errno": -60,
+        "errno_raw_line": 7450,
+        "second_error_code_line7481": "same error re-render, not a second attempt"
+      },
+      "full_tuple": {
+        "exit_code": null,
+        "signal": "SIGKILL",
+        "error_code": "ETIMEDOUT",
+        "error": "spawnSync xcrun ETIMEDOUT"
+      },
+      "stderr_bytes": 0,
+      "stdout_bytes": 0,
+      "helper_deployed_on_failed_main": false,
+      "UI_starts": 0,
+      "UI_results": 0,
+      "copy374_byte_equality_reached": false,
+      "copy_success_markers": 0,
+      "Release": "skipped",
+      "acceptance": false,
+      "external_job_retries": 0,
+      "not_an_app_assertion_failure": true
+    },
+    "evidence": {
+      "small_artifact_id": 13087259257,
+      "ZIP_bytes": 83253,
+      "ZIP_SHA256": "3e7c6aa497b9d2a487a4c6334dfc4a446bded16ab05069f52e0f6c5f4c0d1b47",
+      "entries": 45,
+      "receipt": {
+        "filename": "receipt.json",
+        "bytes": 5014,
+        "SHA256": "ac6b930afe2062b2df46a4bffac940db46ce8b79d768f85d67ccffc2ea2c147c"
+      },
+      "selected_members": {
+        "copy-seed.exit.json": {
+          "bytes": 87,
+          "SHA256": "e276b8cb690d1e9e5c8570fe23385eb968b18d7184f7f26c92755ac1443566e3"
+        },
+        "copy-seed.intent.json": {
+          "bytes": 171,
+          "SHA256": "bc5637cc566db0f2fd929a1f0e08d956a81fe316404479668459b7b6eecb7a29"
+        },
+        "copy-seed.stderr.log": {
+          "bytes": 0,
+          "SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "copy-seed.stdout.bin": {
+          "bytes": 0,
+          "SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "ui-selection.json": {
+          "bytes": 9190,
+          "SHA256": "c3fc2f4b1dedf951b823f7799a252d234d698b4492ef8a80c05c266298825673"
+        }
+      },
+      "raw": {
+        "filename": "job-124876362203.log",
+        "bytes": 836054,
+        "SHA256": "e419e4b3a562950106c96e98cc8908ce28297658334ed206b7fe8177f82718a2"
+      },
+      "classification": {
+        "filename": "FullB-attempt1-classification.json",
+        "bytes": 3183,
+        "SHA256": "eccc8d4a93bfeaa3261a793268c8b26264e2882ad9fde37afdfba9118e46e97e"
+      },
+      "artifact_exit_has_no_error_code": true,
+      "error_code_uses_raw_not_invented_sidecar_field": true
+    },
+    "different_timeout_histories": {
+      "current": "Node spawnSync ETIMEDOUT/null exit/SIGKILL; Node errno-60 is not Apple exit60",
+      "POSIX60": "Separate old observation: exit60 + signal/error/error_code null + exact165-byte stderr; not this CC failure"
+    },
+    "contract": {
+      "scope": "B pre-UI controlled canary seed only",
+      "max_attempts": 2,
+      "per_call_ms_max": 30000,
+      "shared_pair_ms_max": 60000,
+      "same_verified_UUID_and_immutable_controlled_bytes": true,
+      "fresh_permit_after_intent_before_spawn": true,
+      "Node_classifier": "exact null exit/SIGKILL/ETIMEDOUT/message tuple",
+      "POSIX_classifier": "strict exit60/null signal+error+error_code/exact165B stderr only; no blanket retry",
+      "A_original_strict_seed_functions": 2,
+      "pbpaste_ms": 90000,
+      "actual_UI_copy_content_bytes": 374,
+      "Full_fixed_selectors": 26,
+      "UI_retry_added": false,
+      "existing_all_caps_assertions_and_strict_gates_held": true,
+      "actual_OS_hard_wall_guarantee": false
+    },
+    "saved_component_evidence": {
+      "Root32_result_SHA256": "cc5df19a074ce78a1bf1a6191a3d0db1dec729ca60f09436e81a2f79a44d2dbf",
+      "Root32_exact_same_Code3": true,
+      "passed": 32,
+      "skipped": 0,
+      "failed": 0,
+      "scope": "Saved VM/fake callbacks and clock only; no actual simctl or OS retry/Hosted/full common by that run",
+      "static_review_SHA256": "b10596f1238f192f7ce8909e4dc449e66202afb3dabce371ba4f1565cdd709d2",
+      "P1": 0,
+      "P2": 0,
+      "scope_limit": "Prior same Code3 and frozen docs; new Source7 docs/actualCC graph require fresh review"
+    },
+    "fresh_binding": {
+      "base_files": 2857,
+      "new_files": 4,
+      "projected_files": 2861,
+      "Code3_exact": true,
+      "Core_or_accepted_Docs10_applied": false
+    },
+    "new_Hosted_effect": false,
+    "new_Source7_or_main_adopted": false,
+    "mainpush_freeze_other_scopes": "Common9 passed reported by Root; Native/A UI ongoing at preparation start; no B8/copy/Release acceptance substituted",
+    "App": "0.2.28(30) unchanged",
+    "TODO": {
+      "total": 32,
+      "complete": 14,
+      "physical_VoiceOver_provider_performance": "unfinished"
+    },
+    "author_execution": "Readonly Git/Python pure binding/inverses/protection only; no API/Gitwrites/Node/SDK/download/test/retry"
+  },
+  "Root_executed_validation_20261101": {
+    "state": "PRIVATE_DOC2_AFTER_SAVED_ROOT32_AND_EXISTING_STATIC_IR",
+    "date_JST": "2026-11-01",
+    "history": "Every pre-existing JSON value and Markdown prefix remains the frozen pre-execution candidate record.",
+    "Code3_manifest_SHA256": "4a6ae36eab1913756c7d6b63811aa63fc73cae6952374f83028e8b163b59013a",
+    "Code3_unchanged_and_reference_only": true,
+    "Root_saved_execution": {
+      "result_read_as_data": {
+        "filename": "result.json",
+        "bytes": 1114,
+        "SHA256": "cc5df19a074ce78a1bf1a6191a3d0db1dec729ca60f09436e81a2f79a44d2dbf"
+      },
+      "counts": {
+        "tests": 32,
+        "pass": 32,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "exit_code": 0
+      },
+      "stdout": {
+        "filename": "stdout.tap",
+        "bytes": 2916,
+        "SHA256": "c22fa0af08420a48ce79a5df86037b12491f86e7eb0a2fbe9df01e1f09ad6ba7"
+      },
+      "stderr": {
+        "filename": "stderr.log",
+        "bytes": 0,
+        "SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "TAP_duration_ms": 188.636125,
+      "duration_is_not_total_walltime": true,
+      "scope": "VM/fake callbacks and clock; network-deny sandbox, heap64MiB, concurrency1 from saved intent",
+      "not_exercised": [
+        "actual simctl",
+        "actual OS child or retry",
+        "Hosted",
+        "SDK",
+        "full common check"
+      ],
+      "syntax": {
+        "YAML_parse": true,
+        "inline_JavaScript": 5,
+        "standalone_modules": 2,
+        "all_exit_code": 0,
+        "workflow_driver_or_actionlint_execution": false,
+        "result": {
+          "filename": "result.json",
+          "bytes": 1601,
+          "SHA256": "90fbfeb2f469ce98b7ee2dcd9c94db648eacf246b9d4dccb7a2bb9f87e329b07"
+        }
+      }
+    },
+    "existing_independent_review": {
+      "SHA256": "b10596f1238f192f7ce8909e4dc449e66202afb3dabce371ba4f1565cdd709d2",
+      "P1": 0,
+      "P2": 0,
+      "scope": "Exact unchanged Code3, frozen Doc2 and proposed text, saved Root32/syntax addendum read as data",
+      "not_independent_OS_reproduction": true,
+      "this_new_Doc2_review": null,
+      "future_actual_parent_binding_review": null
+    },
+    "source_contract_held": {
+      "slice": "B pre-UI seed only",
+      "attempts_max": 2,
+      "per_call_ms_max": 30000,
+      "pair_ms_max": 60000,
+      "same_verified_UUID_and_controlled_bytes": true,
+      "fresh_permit_after_intent_and_before_spawn": true,
+      "Node_ETIMEDOUT": "All old exact tuple/message conditions held",
+      "Apple_POSIX60": "numeric exit60, signal/error/error_code all null, complete exact observed165-byte stderr",
+      "blanket_exit60_or_partial_text": false,
+      "A_pbpaste_UI374_Full26_and_caps_held": true,
+      "actual_OS_hard_wall_guarantee": false
+    },
+    "comparison_9310_reported_by_Root": {
+      "head": "9310d3f2f07b22785248000eda810157afa002d6",
+      "candidate_deployed": false,
+      "B_UI_passed": 8,
+      "actual_codecopy374": "exact match",
+      "Release": {
+        "articles": 199,
+        "audio": 1,
+        "verified_files": 625,
+        "test_content_absent": true
+      },
+      "not_candidate_effect_or_necessity_evidence": true
+    },
+    "adoption_boundary": {
+      "actual_parent": null,
+      "actual_parent_tree": null,
+      "fresh_Hosted_candidate_accepted": false,
+      "ordinary_main_accepted": null,
+      "actual_main_push_accepted": null,
+      "new_Doc2_and_index_review": null,
+      "full_common_and_required_CI": null,
+      "Root_must_rebind_against_fresh_actual_main": true
+    },
+    "evidence_filenames_and_hashes": {
+      "Root32_result": {
+        "filename": "result.json",
+        "bytes": 1114,
+        "SHA256": "cc5df19a074ce78a1bf1a6191a3d0db1dec729ca60f09436e81a2f79a44d2dbf"
+      },
+      "Root32_stdout": {
+        "filename": "stdout.tap",
+        "bytes": 2916,
+        "SHA256": "c22fa0af08420a48ce79a5df86037b12491f86e7eb0a2fbe9df01e1f09ad6ba7"
+      },
+      "Root32_stderr": {
+        "filename": "stderr.log",
+        "bytes": 0,
+        "SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "Root32_intent": {
+        "filename": "intent.json",
+        "bytes": 800,
+        "SHA256": "17402ad017d253ed9ce5ebd337931b68575e82716c6ecd6e34a0b762ee83d695"
+      },
+      "Root32_executor": {
+        "filename": "run-controlled.py",
+        "bytes": 2220,
+        "SHA256": "7f1c6b8c2d385aa5bd0d04c098d76b55b11a9a027ed4e2b4c9eff24cda2d5f03"
+      },
+      "Root_syntax_result": {
+        "filename": "result.json",
+        "bytes": 1601,
+        "SHA256": "90fbfeb2f469ce98b7ee2dcd9c94db648eacf246b9d4dccb7a2bb9f87e329b07"
+      },
+      "existing_static_review": {
+        "filename": "review.json",
+        "bytes": 10146,
+        "SHA256": "b10596f1238f192f7ce8909e4dc449e66202afb3dabce371ba4f1565cdd709d2"
+      }
+    },
+    "author_execution": "Python static/data read only; no new Node/SDK/Git/API/Simulator/test/retry",
+    "App": "unchanged",
+    "TODO": {
+      "total": 32,
+      "complete": 14,
+      "physical_VoiceOver_provider_performance": "unfinished unchanged"
+    }
+  },
+  "schema_version": 1,
+  "date_JST": "2026-11-01",
+  "status": "private-POSIX60-candidate-unexecuted",
+  "purpose": "B-only exact observed timeout recovery, not blanket exit60 or UI retry",
+  "owner": "/root/clipboard_posix60_candidate",
+  "authorization": "User autonomous TODO request and explicit Root private seed-only task; no external mutation delegated",
+  "code3_manifest_SHA256": "4a6ae36eab1913756c7d6b63811aa63fc73cae6952374f83028e8b163b59013a",
+  "code_files": [
+    {
+      "path": ".github/workflows/ios-published-candidate.yml",
+      "mode": "100644",
+      "type": "blob",
+      "bytes": 47463,
+      "SHA256": "a1b8b113bebdc7b9606472b210ad03fb7d73cc312909cec43875edb1a5eec1aa",
+      "blob_oid": "4d8aac22ddf64dc8c6024f0c7d1f94af98d3f20a",
+      "before_bytes": 44409,
+      "before_SHA256": "21902b42ed8eed1253fe109f7f944c1666cbd1e4f7f53c69b6ddb95d2450fb67",
+      "before_blob": "4b62d7538a98f47b0fef052046dbd142101de03a",
+      "revision2_SHA256": "1152fde46410935eb09e7d4a10ff509f7d5adb485086c8ae78f243cc04242c85"
+    },
+    {
+      "path": "ios/tests/clipboard-canary-seed.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "bytes": 4262,
+      "SHA256": "c6a2d29da33aed4d1f7ec15d1700e90bc361673afafce65949f2318205449283",
+      "blob_oid": "af99c5be4d01c5477f81abf3cb32ca9c42c02050",
+      "before_bytes": null,
+      "before_SHA256": null,
+      "before_blob": null,
+      "revision2_SHA256": "126d97962dfdccfe4829af3e69a05329ac320dfcb262262890500477539fe25f"
+    },
+    {
+      "path": "tests/unit/ios-clipboard-canary-seed.test.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "bytes": 25917,
+      "SHA256": "44e593f4b2e5eae40991ffb0f878b6aa6dca9fa1a72cefd061219544386f177a",
+      "blob_oid": "1165183ddad9240906f370433acce512c5630af7",
+      "before_bytes": null,
+      "before_SHA256": null,
+      "before_blob": null,
+      "revision2_SHA256": "2f6d0cdd1b9a3371ab3bad2847f77f8807d94a096739a7225b2b6766b8a3a338"
+    }
+  ],
+  "current_actual_failure": {
+    "source_head": "6d32f7c8277b1c260273de3ce8e76d8429b9e485",
+    "run_id": 41225191269,
+    "job_id": 124607761176,
+    "attempt": 1,
+    "artifact_id": 13051023734,
+    "artifact_ZIP_bytes": 84203,
+    "artifact_ZIP_SHA256": "f29fdbc60ffb904584aeb1044c38cb19b92b601716049aeeaede7d32bb243af7",
+    "raw_log_SHA256": "f69a43c64708556b02b4a5e5294578ea1712e0f5326c9be51957dc40f129daf5",
+    "seed_exit": {
+      "exit_code": 60,
+      "signal": null,
+      "error": null
+    },
+    "seed_stderr_bytes": 165,
+    "seed_stderr_SHA256": "7ff4affcdd33e2626095039d95a48b79bbb242537f484c3227f9dad8b56470d7",
+    "seed_stderr_text": "An error was encountered processing the command (domain=NSPOSIXErrorDomain, code=60):\nThe operation couldn’t be completed. Operation timed out\nOperation timed out\n",
+    "seed_intent": {
+      "binary": "xcrun",
+      "arguments": [
+        "simctl",
+        "pbcopy",
+        "141DD5FC-FF1D-429C-B43E-1323E1915FDE"
+      ],
+      "timeout_ms": 30000,
+      "max_buffer_bytes": 1048576
+    },
+    "verified_selected_sidecars": {
+      "copy-seed.exit.json": {
+        "bytes": 57,
+        "SHA256": "c7c267739bc897bff5ea0db1e762dc8be370cc3fdca3fad6ba4e4d96dff03ecf"
+      },
+      "copy-seed.intent.json": {
+        "bytes": 171,
+        "SHA256": "bc5637cc566db0f2fd929a1f0e08d956a81fe316404479668459b7b6eecb7a29"
+      },
+      "copy-seed.stderr.log": {
+        "bytes": 165,
+        "SHA256": "7ff4affcdd33e2626095039d95a48b79bbb242537f484c3227f9dad8b56470d7"
+      },
+      "copy-bootstatus.stdout.bin": {
+        "bytes": 1586,
+        "SHA256": "ccac61e4665f4bd68b5b23d9902aad66c4194a4f7825951179993c4b82a7baf5"
+      }
+    },
+    "bootstatus_terminal": "Finished, terminal YES in saved stdout",
+    "Node_ETIMEDOUT": false,
+    "UI_tests": 0,
+    "actual374_and_Release": "not reached",
+    "underlying_cause": "unresolved, no causal or new-recovery success claim"
+  },
+  "classifier": {
+    "first_attempt_only": true,
+    "Node_ETIMEDOUT": {
+      "exit_code": null,
+      "signal": "SIGKILL",
+      "error_code": "ETIMEDOUT",
+      "error": "spawnSync xcrun ETIMEDOUT"
+    },
+    "observed_POSIX": {
+      "exit_code": 60,
+      "signal": null,
+      "error_code": null,
+      "error": null,
+      "stderr_text_exact": "An error was encountered processing the command (domain=NSPOSIXErrorDomain, code=60):\nThe operation couldn’t be completed. Operation timed out\nOperation timed out\n"
+    },
+    "reject": [
+      "unrelated60",
+      "wrong type status",
+      "other domain",
+      "partial or altered text",
+      "non-null or undefined signal/error/error_code"
+    ],
+    "success0": "one ordinary success, no additional seed"
+  },
+  "limits": {
+    "attempts_max": 2,
+    "per_call_ms_max": 30000,
+    "pair_ms_max": 60000,
+    "callback_stderr_text_bytes_max": 512,
+    "fresh_permit_after_intent_before_spawn": true,
+    "OS_or_Node_cleanup_hard_wall_guarantee": false
+  },
+  "preserved": [
+    "A original seed",
+    "job50 minutes and all existing step limits",
+    "canary pbpaste90000ms and byte equality",
+    "actual374 byte length and SHA and destination equality",
+    "fixed full26 roster and OS/UUID guards",
+    "App/PBX/content/save schema",
+    "dated frozen Core observation CLI"
+  ],
+  "author_validation": {
+    "Python_data_only": true,
+    "all_workflow_roundtrips": true,
+    "prior_Code3_inverse": true,
+    "both_original_run_functions_A_and_caps_exact": true,
+    "fixture_cases_projected": 32,
+    "fixture_cases_executed": 0,
+    "Node_SDK_Git_API_Simulator_or_managed_writes": false
+  },
+  "completion_required": [
+    "Root new32 fixtures and YAML/syntax/common",
+    "independent Code3 and Doc2 review",
+    "fresh actualmain owned-path binding",
+    "new head Hosted B8/374/Release and required CI",
+    "ordinary main merge, actual merge proof and main push observation"
+  ],
+  "TODO_status": {
+    "rows": 32,
+    "complete": 14,
+    "physical_VoiceOver_product_budgets": "incomplete unchanged"
+  },
+  "prior_revision2": {
+    "record_exact_historical_value": {
+      "schema_version": 1,
+      "status": "private-candidate-revision2-static-reviewed-new-mock-pending",
+      "date_JST": "2026-11-01",
+      "purpose": "Recover only the known pre-UI canary seed in Full content-copy slice after one exact timeout",
+      "authorization": "User autonomous TODO request and explicit Root seed-only design from accepted main; no new external action or policy authorization",
+      "reported_base": {
+        "main": "88c9ac391459ead50cf5e28b25918f97ac9332cf",
+        "workflow": ".github/workflows/ios-published-candidate.yml",
+        "workflow_before_SHA256": "21902b42ed8eed1253fe109f7f944c1666cbd1e4f7f53c69b6ddb95d2450fb67",
+        "same_leaf_in_PR321": "Root-reported and local exact byte pin; actualmain rebind required after321"
+      },
+      "code3_manifest_SHA256": "0dd67b36b9d41b3c2a11e119d87dead3e4c140d6f7658e1e1db8b60b0a21c28a",
+      "code_files": [
+        {
+          "path": ".github/workflows/ios-published-candidate.yml",
+          "bytes": 47331,
+          "SHA256": "1152fde46410935eb09e7d4a10ff509f7d5adb485086c8ae78f243cc04242c85"
+        },
+        {
+          "path": "ios/tests/clipboard-canary-seed.mjs",
+          "bytes": 3672,
+          "SHA256": "126d97962dfdccfe4829af3e69a05329ac320dfcb262262890500477539fe25f"
+        },
+        {
+          "path": "tests/unit/ios-clipboard-canary-seed.test.mjs",
+          "bytes": 19890,
+          "SHA256": "2f6d0cdd1b9a3371ab3bad2847f77f8807d94a096739a7225b2b6766b8a3a338"
+        }
+      ],
+      "actual_failure": {
+        "PR": 321,
+        "source_head": "b4d5f04901984399333aeae9b21263b2c2020ed0",
+        "run": 41210390660,
+        "attempt": 1,
+        "job": 124563982260,
+        "run_URL": "https://github.com/pero3dev/ai-agent-library/actions/runs/41210390660",
+        "job_raw_SHA256": "cb811a19c22653bac9143f2be62c2510fd0b17a2ded22344da132793a94cd26a",
+        "Root_artifact": {
+          "id": 13045494671,
+          "ZIP_bytes": 83754,
+          "ZIP_SHA256": "a7d3683e56e63ee9daa966d149e72bde853dfb52b3d60cd08fd7be09d3857412",
+          "artifact_code_executed": false
+        },
+        "seed_exit": {
+          "exit_code": null,
+          "signal": "SIGKILL",
+          "error": "spawnSync xcrun ETIMEDOUT"
+        },
+        "seed_exit_SHA256": "e276b8cb690d1e9e5c8570fe23385eb968b18d7184f7f26c92755ac1443566e3",
+        "Node_error_code_same_console": "ETIMEDOUT",
+        "seed_intent": {
+          "binary": "xcrun",
+          "arguments": [
+            "simctl",
+            "pbcopy",
+            "same strictly verified Simulator UUID"
+          ],
+          "timeout_ms": 30000,
+          "max_buffer_bytes": 1048576
+        },
+        "seed_intent_SHA256": "bc5637cc566db0f2fd929a1f0e08d956a81fe316404479668459b7b6eecb7a29",
+        "actual_UI": 0,
+        "actual_code_copy374_probe": 0,
+        "published_Release": "not reached",
+        "underlying_OS_cause": "unresolved; do not treat retry hypothesis as causal proof"
+      },
+      "idempotency_audit": {
+        "scope": "same controlled canary bytes assigned to same previously verified Simulator before UI",
+        "once_generated_canary_and_const_UUID_held": true,
+        "initial_and_postboot_UUID_OS_type_Booted_checks_held": true,
+        "after_seed_exact_pbpaste_canary_held": true,
+        "clipboard_change_count_notifications": "not claimed identical",
+        "actualApp_copy_UI_actions": "not retried"
+      },
+      "candidate": {
+        "slice": "content-copy only; reading-state original strict single seed",
+        "helper_input": "canonical UUID and exact controlled canary ASCII schema <=256bytes",
+        "input_capture": "immutable hex string and fixed destination; fresh Buffer for each call",
+        "retry_classifier": {
+          "exit_code": null,
+          "signal": "SIGKILL",
+          "error_code": "ETIMEDOUT",
+          "error": "spawnSync xcrun ETIMEDOUT"
+        },
+        "attempts_max": 2,
+        "per_call_timeout_ms_max": 30000,
+        "seed_pair_allowance_ms": 60000,
+        "monotonic_remaining_clamp_and_no_call_after_exhaustion": true,
+        "hard_wall_or_global_resource_isolation": "not claimed",
+        "other_run_functions": "both byte-identical",
+        "preserved": [
+          "A original seed",
+          "job50 minutes and all existing step limits",
+          "canary pbpaste90000ms and byte equality",
+          "actual374 byte length and SHA and destination equality",
+          "fixed full26 roster and OS/UUID guards",
+          "App/PBX/content/save schema",
+          "dated frozen Core observation CLI"
+        ],
+        "spawn_boundary": {
+          "fixed_deadline_single_use_permit": "fresh monotonic remaining check after intent storage immediately before spawnSync",
+          "FSwrite_between_last_permit_check_and_spawn": false,
+          "planned_intent_timeout": "planned_timeout_ms; phase planned-before-intent-storage",
+          "actual_process_exit_timeout": "actual_timeout_ms; helper verifies equality with acquired permit",
+          "exhausted_boundary": "callback throws with planned intent retained; no invented process exit and no spawn",
+          "only_seed_callback_changed": "both original strict run functions and A seed remain held"
+        }
+      },
+      "author_validation": {
+        "Python_data_only": {
+          "workflow_3ops_and_full_inverse": true,
+          "both_original_run_whole_bytes": true,
+          "all_time_caps_and_comparison_blocks": true
+        },
+        "Node_fixtures": {
+          "projected": 24,
+          "actual": "not run by candidate author; prior22 only oldCode3 history"
+        },
+        "YAML_syntax_common_IR_Hosted": "not run by candidate author",
+        "Git_API_SDK_Simulator_managed_writes": false
+      },
+      "completion_required": [
+        "Root exact-new-source24 fixtures and syntax/YAML/common",
+        "independent final Source5 documentation review; Code3 static IR retained separately",
+        "bind owned source to actual published main after321 settles",
+        "new head Hosted B8/codecopy374/Release and required CI",
+        "ordinary PR merge and actualmain proof/push results"
+      ],
+      "TODO_status": {
+        "rows": 32,
+        "complete": 14,
+        "physical_VoiceOver_product_budgets": "incomplete unchanged"
+      },
+      "prior_candidate_history": {
+        "Code3_manifest_SHA256": "8f6f7a9cc486d59ba9b99fe4c99b922521ac637b5befc02dfacbb1f9e4cc44f3",
+        "Root_mock22": {
+          "scope": "source-pinned controlled callbacks, virtual clock, VM actual workflow branches, fake spawn only",
+          "Node_major": 24,
+          "max_old_space_MiB": 64,
+          "test_concurrency": 1,
+          "actual_tests": 22,
+          "pass": 22,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0,
+          "exit": 0,
+          "seconds": 0.471946541,
+          "result_SHA256": "b101d58a11478cf31de8519a8375b2a844dc1897355dd4817adec0ab68354db6",
+          "manifest_SHA256": "1a7be3d100a049d814c5e77b7eb7dcaeabdd5ab3417fcc3bdccb25b7d492bf0c",
+          "stdout_bytes": 1979,
+          "stdout_SHA256": "d36cbe3855b61ec5cceed0590afccaede4f8dcda939761dece4d110b55592258",
+          "stderr_bytes": 0,
+          "actual_childOS_Simulator_UI_Git_SDK_API": false,
+          "full_common": "not run"
+        },
+        "independent_review": {
+          "P1": 0,
+          "P2": 1,
+          "review_SHA256": "f3439a6e9f3a07472ff5d2c951112ee914c9536dbc27af9e20ff228066e8dfb3",
+          "finding": "intent storage after old guard can consume remaining allowance before actual spawn"
+        },
+        "adoption": "oldCode3 not accepted; immutable history retained"
+      },
+      "latest_Code3_static_IR": {
+        "source_manifest_SHA256": "0dd67b36b9d41b3c2a11e119d87dead3e4c140d6f7658e1e1db8b60b0a21c28a",
+        "P1": 0,
+        "P2": 0,
+        "review_SHA256": "9ede1bbf2809801b2acaf0a12660eb90b8945711a79173eed85356a4b65c1961",
+        "actual_Node_by_reviewer": false,
+        "review_manifest_SHA256": "0f75c8d373b6a71e1ef87f12e8c16995960617e0b941a4939b1d619b8d5a4f31",
+        "new_Root24": "NOT_RUN"
+      }
+    },
+    "Root24_current_receipt": {
+      "exit_code": 0,
+      "duration_seconds": 0.542614667,
+      "stdout_bytes": 2191,
+      "stdout_SHA256": "9057abce70d185678b2ce2aba6d89309e3b83d2669f69e26152827f3e2affe8d",
+      "stderr_bytes": 0,
+      "stderr_SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "code_manifest_SHA256": "0dd67b36b9d41b3c2a11e119d87dead3e4c140d6f7658e1e1db8b60b0a21c28a",
+      "actual_simulator_UI_copy": "NOT_RUN"
+    },
+    "Root24_stdout_SHA256": "9057abce70d185678b2ce2aba6d89309e3b83d2669f69e26152827f3e2affe8d",
+    "Root24_actual_cases": 24,
+    "Root24_pass": 24,
+    "Root24_fail": 0,
+    "Root24_skip": 0,
+    "scope": "predecessor Code3 only, not new32 execution"
+  },
+  "app_version_and_TODO_held": true,
+  "PR322_source_and_main36_adoption_20261102": {
+    "freeze_UTC": "2026-11-01T15:52:51Z",
+    "status": "PR322 source first hosted CI and normal main36 adoption accepted; new mainpush pending at this freeze",
+    "source_head": "ad034650cbdb193f199761d6e5a8d8bd74e7ab35",
+    "source_tree": "04efdb8f21e896a39b5f68be597e9ad98e085db2",
+    "PR": 322,
+    "PR_CI_snapshot_UTC": "2026-11-01T15:34:24Z",
+    "observer_manifest_SHA256": "b6bcf971671cc257e104d1dceb61a3a2d2024cf498ea2856fd993d5f85568802",
+    "observer_result": {
+      "name": "result.json",
+      "bytes": 19731,
+      "SHA256": "f8f82008c9619212a9b451abc8598c918cddb7abb0152aa028361ea2664a8ee4"
+    },
+    "actual_main": "36bec68537d741492f942c076469bb06d177f69a",
+    "actual_single_parent": "cc268c4a76f09434f27bbc841e3b9ca776ea566e",
+    "approved_source_all2861_mode_blob_equal": true,
+    "merged_UTC": "2026-11-01T15:39:01Z",
+    "merge_proof_manifest_SHA256": "9e8947e11e5232ea925875ca14c5acaba2984687ca087138e2a97f67728e4da0",
+    "official_after_merge": {
+      "name": "after-merge-official.json",
+      "bytes": 25106,
+      "SHA256": "7d585018a9ab4e3458ec62ee43f63f9d9124e4a564dcae437c4607280fc9afb9"
+    },
+    "Ready_final_epoch_UTC": "2026-11-01T15:37:11Z",
+    "fresh_ready_policies": [
+      {
+        "id": 41322144473,
+        "name": "Harness policy PR #322",
+        "created_at": "2026-11-01T15:37:13Z",
+        "run_started_at": "2026-11-01T15:37:13Z",
+        "conclusion": "success",
+        "head_sha": "ad034650cbdb193f199761d6e5a8d8bd74e7ab35",
+        "source": {
+          "name": "ready-policy-run-0.json",
+          "bytes": 15800,
+          "SHA256": "a9cb672b8356a0008698a0c1cb565effce40a1fbc365159424f18cb32bb2b33e"
+        }
+      },
+      {
+        "id": 41322144360,
+        "name": "Freshness policy PR #322",
+        "created_at": "2026-11-01T15:37:13Z",
+        "run_started_at": "2026-11-01T15:37:13Z",
+        "conclusion": "success",
+        "head_sha": "ad034650cbdb193f199761d6e5a8d8bd74e7ab35",
+        "source": {
+          "name": "ready-policy-run-1.json",
+          "bytes": 15806,
+          "SHA256": "6c52f794da0e72b12c74d43a5fcd1cd45426cbc126af49855015980bae9ab5e8"
+        }
+      }
+    ],
+    "initial_exact_head_runs": [
+      {
+        "run_id": 41318885433,
+        "name": "iOS 26.5 representative UI smoke",
+        "attempt": 1,
+        "conclusion": "success",
+        "html_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/41318885433"
+      },
+      {
+        "run_id": 41318885468,
+        "name": "iOS SDK 26 unsigned archive preflight",
+        "attempt": 1,
+        "conclusion": "success",
+        "html_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/41318885468"
+      },
+      {
+        "run_id": 41318885484,
+        "name": "iOS published app candidate",
+        "attempt": 1,
+        "conclusion": "success",
+        "html_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/41318885484"
+      },
+      {
+        "run_id": 41318885550,
+        "name": "iOS native regression",
+        "attempt": 1,
+        "conclusion": "success",
+        "html_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/41318885550"
+      },
+      {
+        "run_id": 41318885554,
+        "name": "iOS missing package and restored install UI",
+        "attempt": 1,
+        "conclusion": "success",
+        "html_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/41318885554"
+      },
+      {
+        "run_id": 41318885606,
+        "name": "CI",
+        "attempt": 1,
+        "conclusion": "success",
+        "html_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/41318885606"
+      }
+    ],
+    "required11_success": true,
+    "proof_summary": {
+      "Common_Linux_Node": {
+        "total": 1289,
+        "pass": 1273,
+        "skip": 16,
+        "fail": 0,
+        "new_seed_unit_pass": 32,
+        "new_seed_unit_skip": 0
+      },
+      "FullA_macOS_Node": {
+        "total": 1289,
+        "pass": 1274,
+        "skip": 15,
+        "fail": 0,
+        "new_seed_unit_pass": 32,
+        "new_seed_unit_skip": 0
+      },
+      "platform_difference": "Existing macOS production plist adapter passes in FullA and skips in Linux; neither skip is new seed unit. All other skip names retained in respective classification.",
+      "Native_units": {
+        "total": 278,
+        "pass": 276,
+        "skip": 2,
+        "fail": 0
+      },
+      "FullA_units": {
+        "total": 278,
+        "pass": 276,
+        "skip": 2,
+        "fail": 0
+      },
+      "Native_UI": {
+        "total": 8,
+        "pass": 8,
+        "fail": 0,
+        "skip": 0,
+        "seconds": 830.923,
+        "new_export_case_seconds": 175.396
+      },
+      "Full_UI": {
+        "A": 18,
+        "B": 8,
+        "unique_disjoint": 26,
+        "pass": 26,
+        "fail": 0,
+        "skip": 0,
+        "classes": {
+          "NativeReaderUITests": 3,
+          "PublishedReaderUITests": 17,
+          "ReaderViewportGeometryTests": 6
+        },
+        "A_seconds": 1178.292,
+        "B_sum_rounded_case_seconds": 765.835
+      },
+      "both_Debug": {
+        "published_articles": 199,
+        "fixture_articles": 4,
+        "passed": true
+      },
+      "B_copy": {
+        "actual_bytes": 374,
+        "actual_SHA256": "e29cb525957fb4bd72350927aa1cf47659da4aef9964ecbf0d43edb4dfe2cee8",
+        "equality": true,
+        "actual_console_marker_count": 1,
+        "Root_separate_compact_receipt_SHA256": "254be99c1c29354279b33479c2f3a4ea4f0be6376e61d350b87d691df8fe524a"
+      },
+      "B_seed_OS": {
+        "attempt_count": 1,
+        "accepted_attempt": "seed",
+        "planned_timeout_ms": 30000,
+        "actual_timeout_ms": 30000,
+        "exit_code": 0,
+        "signal": null,
+        "error_code": null,
+        "error": null,
+        "input_bytes": 78,
+        "input_SHA256": "876b5ca10f96a8ca99388c6967a8fdf85fb88ae10824999aee549568839921dc",
+        "retry_used": false,
+        "bounded_retry_rescue_effect_accepted": false
+      },
+      "B_Release": {
+        "articles": 199,
+        "audio": 1,
+        "payload_verified_files": 625,
+        "TestContent_absent": true,
+        "icon_metadata_passed": true
+      },
+      "R26": {
+        "strict_UI_pass": 3,
+        "ReaderWait": 20,
+        "unique_traces": 20,
+        "ContentsReadiness": 2,
+        "stages_success": 12,
+        "cleanup_step_success": true
+      },
+      "Recovery": {
+        "gates_success": 13,
+        "F_R_steps_success": true,
+        "individual_UI_leaf_count_in_console": null
+      },
+      "SDK26": {
+        "unsigned_archive_passed": true,
+        "head_tree_bound": true,
+        "arm64_dSYM_verified": true,
+        "published199_audio1_payload625_noTestContent": true,
+        "distribution_adoption": false
+      }
+    },
+    "small_official_artifact": {
+      "receipt": {
+        "name": "receipt.json",
+        "bytes": 3569,
+        "SHA256": "254be99c1c29354279b33479c2f3a4ea4f0be6376e61d350b87d691df8fe524a"
+      },
+      "artifact_id": 13089242799,
+      "ZIP_bytes": 50631,
+      "ZIP_SHA256": "d0c531791a996a5355b6d0ce127368d8fdbaad5ec351f64833e9029be95742f2",
+      "source_head": "ad034650cbdb193f199761d6e5a8d8bd74e7ab35",
+      "run_id": 41318885484,
+      "run_attempt": 1,
+      "seed": {
+        "schema_version": 1,
+        "source_head": "ad034650cbdb193f199761d6e5a8d8bd74e7ab35",
+        "run_id": "41318885484",
+        "run_attempt": "1",
+        "status": "controlled-canary-seeded",
+        "accepted_attempt": "seed",
+        "UUID": "141DD5FC-FF1D-429C-B43E-1323E1915FDE",
+        "input_bytes": 78,
+        "input_SHA256": "876b5ca10f96a8ca99388c6967a8fdf85fb88ae10824999aee549568839921dc",
+        "attempts": [
+          {
+            "name": "seed",
+            "planned_timeout_ms": 30000,
+            "actual_timeout_ms": 30000,
+            "exit_code": 0,
+            "signal": null,
+            "error_code": null,
+            "error": null,
+            "stderr_text": ""
+          }
+        ]
+      },
+      "actualcopy_bytes": 374,
+      "actualcopy_SHA256": "e29cb525957fb4bd72350927aa1cf47659da4aef9964ecbf0d43edb4dfe2cee8",
+      "equality": true,
+      "console_marker_count": 1,
+      "retry_files_present": []
+    },
+    "actual_OS_retry_rescue_effect_accepted": false,
+    "seed_OS_attempts": 1,
+    "external_job_retries": 0,
+    "new_mainpush": {
+      "freeze_UTC": "2026-11-01T15:52:51Z",
+      "accepted": false,
+      "status": "pending at Parent delegation snapshot; this author did not observe later runs; never substituted with PR322 success"
+    },
+    "old_CC_mainpush": {
+      "manifest_SHA256": "106e72e399bfb105c1589af843e125e6d9a5ccfc092b38aa5c6f09a985aa026c",
+      "status": "FullB first seed1 Node ETIMEDOUT/exitnull/SIGKILL; UI0/copy equality and Release unreached; Native8/A18/Common9 and Acheck1257 separate successes; external retry0"
+    },
+    "new_author_execution": {
+      "Git_readonly_and_pure_Python": true,
+      "Node_SDK_UI_performance_physical_API_download_Gitwrites": false
+    },
+    "limits": [
+      "Known timeout branch remains controlled32 evidence, not actual OS recovery",
+      "Historical record8 frozen values retained unchanged",
+      "App0.2.28(30), TODO32/14 and unfinished device/provider/VoiceOver/IOS22/25 unchanged",
+      "New Docs12 forms/independent review/CI/main adoption pending Root"
+    ]
+  }
+}

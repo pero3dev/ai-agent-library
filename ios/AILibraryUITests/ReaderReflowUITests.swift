@@ -1,0 +1,692 @@
+import XCTest
+import CoreFoundation
+
+
+/// Typed diagnostic records remain observations even when known request/actual values disagree.
+/// Missing fields, unknown names, booleans posing as numbers and wrong stage shapes are not observations.
+private enum DynamicTypeProbeSchema {
+    static let requests: Set<String> = ["default", "accessibility5"]
+    static let actualSizes: Set<String> = ["xSmall", "small", "medium", "large", "xLarge", "xxLarge", "xxxLarge",
+        "accessibility1", "accessibility2", "accessibility3", "accessibility4", "accessibility5"]
+    private static let common: Set<String> = ["schema", "status", "stage", "request", "actual"]
+
+    private static func number(_ value: Any?) -> Double? {
+        guard let number = value as? NSNumber,
+              CFGetTypeID(number) != CFBooleanGetTypeID() else { return nil }
+        let value = number.doubleValue
+        return value.isFinite ? value : nil
+    }
+
+    private static func positive(_ value: Any?) -> Bool {
+        guard let value = number(value) else { return false }
+        return value > 0
+    }
+
+    static func valid(_ record: [String: Any], stage: String) -> Bool {
+        let required: Set<String>
+        switch stage {
+        case "root": required = common
+        case "fixture": required = common.union(["sheetActual"])
+        case "reader": required = common.union(["bodySize", "fontScale"])
+        case "table": required = common.union(["bodySize", "fontScale", "widths", "blockID"])
+        default: return false
+        }
+        guard Set(record.keys) == required, number(record["schema"]) == 1,
+              record["status"] as? String == "observed", record["stage"] as? String == stage,
+              let request = record["request"] as? String, requests.contains(request),
+              let actual = record["actual"] as? String, actualSizes.contains(actual) else { return false }
+        switch stage {
+        case "root": return true
+        case "fixture":
+            guard let incoming = record["sheetActual"] as? String else { return false }
+            return actualSizes.contains(incoming)
+        case "reader":
+            return positive(record["bodySize"]) && positive(record["fontScale"])
+        case "table":
+            guard positive(record["bodySize"]), positive(record["fontScale"]),
+                  let widths = record["widths"] as? [Any], widths.count == 2,
+                  widths.allSatisfy({ positive($0) }),
+                  let blockID = record["blockID"] as? String,
+                  !blockID.isEmpty, blockID.utf8.count <= 128 else { return false }
+            return true
+        default: return false
+        }
+    }
+}
+
+/// Isolated fixture reflow cases plus one controlled normal-package revision case.
+/// These are not live system Settings, glyph-position, VoiceOver
+/// or physical-device acceptance tests.
+final class ReaderReflowUITests: NativeReaderUITestCase {
+    private var startingOrientation = XCUIDevice.shared.orientation
+
+    override func setUpWithError() throws {
+        switch XCUIDevice.shared.orientation {
+        case .portrait, .portraitUpsideDown, .landscapeLeft, .landscapeRight:
+            startingOrientation = XCUIDevice.shared.orientation
+        default:
+            startingOrientation = .portrait
+        }
+        XCUIDevice.shared.orientation = .portrait
+        try super.setUpWithError()
+    }
+
+    override func tearDownWithError() throws {
+        // XCTest calls teardown after a failed assertion as well. Only the app
+        // and orientation owned by this test are changed; no Settings are set.
+        defer { XCUIDevice.shared.orientation = startingOrientation }
+        app?.terminate()
+        try super.tearDownWithError()
+    }
+
+    private func singleForegroundControl(_ query: XCUIElementQuery,
+                                         name: String) throws -> XCUIElement {
+        let available = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            query.allElementsBoundByIndex.filter { self.isHittableOnScreen($0) }.count == 1
+        }, object: nil)
+        XCTAssertEqual(XCTWaiter.wait(for: [available], timeout: 15), .completed,
+                       "Exactly one foreground \(name) must be usable")
+        let visible = query.allElementsBoundByIndex.filter { isHittableOnScreen($0) }
+        guard visible.count == 1 else {
+            throw NSError(domain: "ReaderReflowUITests", code: 1,
+                          userInfo: [NSLocalizedDescriptionKey: "Missing or ambiguous foreground " + name])
+        }
+        return visible[0]
+    }
+
+    private func requireLayout(portrait: Bool) {
+        let layout = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            let frame = self.app.frame
+            guard self.app.state == .runningForeground, !frame.isNull, !frame.isInfinite,
+                  !frame.isEmpty,
+                  [frame.minX, frame.minY, frame.width, frame.height].allSatisfy(\.isFinite)
+            else { return false }
+            return portrait ? frame.height > frame.width : frame.width > frame.height
+        }, object: nil)
+        XCTAssertEqual(XCTWaiter.wait(for: [layout], timeout: 15), .completed,
+                       "The foreground application must actually use the requested layout")
+    }
+
+    private func foregroundArticleSearch() throws -> XCUIElement {
+        let prompt = "記事の本文を検索"
+        let query = app.searchFields.matching(
+            NSPredicate(format: "identifier == %@ OR label == %@", prompt, prompt))
+        // searchable has no always-visible placement. Use the baseline's bounded
+        // reveal only when no foreground search field is currently hittable.
+        for _ in 0..<8 {
+            if query.allElementsBoundByIndex.contains(where: { isHittableOnScreen($0) }) { break }
+            app.swipeDown(velocity: .slow)
+        }
+        return try singleForegroundControl(query, name: "article search")
+    }
+
+    private func setForegroundArticleQuery(_ query: String) throws {
+        let search = try foregroundArticleSearch()
+        search.tap()
+        if let current = search.value as? String, !current.isEmpty, current != search.placeholderValue {
+            let clear = search.buttons.firstMatch
+            requireHittable(clear)
+            clear.tap()
+        }
+        search.typeText(query + "\n")
+        XCTAssertEqual(search.value as? String, query)
+    }
+
+    private func openFixtureLibrary(dynamicTypeProbe: ((String, XCUIElement?) -> Void)? = nil) throws {
+        XCTAssertTrue(app.staticTexts["library-article-count"].waitForExistence(timeout: 45))
+        dynamicTypeProbe?("root", nil)
+        // The filtered public Button presents the sheet; the unfiltered toolbar
+        // Menu does not have the More Actions navigation stack used below.
+        try setForegroundArticleQuery("Transformer")
+        let summary = app.staticTexts["library-filter-summary"]
+        let filtered = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            summary.exists && summary.label.contains("検索: Transformer")
+        }, object: nil)
+        let filterResult = XCTWaiter.wait(for: [filtered], timeout: 10)
+        XCTAssertEqual(filterResult, .completed, "The public article query must activate the filtered library")
+        guard filterResult == .completed else {
+            throw NSError(domain: "ReaderReflowUITests", code: 2,
+                          userInfo: [NSLocalizedDescriptionKey: "The filtered library was not ready"])
+        }
+        let more = try singleForegroundControl(app.buttons.matching(
+            NSPredicate(format: "label == %@", "その他の操作")), name: "More Actions button")
+        more.tap()
+        XCTAssertTrue(app.navigationBars["その他の操作"].waitForExistence(timeout: 10))
+        let fixture = try singleForegroundControl(app.buttons.matching(identifier: "本文表示テスト"),
+                                                 name: "fixture action")
+        fixture.tap()
+        XCTAssertTrue(app.navigationBars["本文表示テスト"].waitForExistence(timeout: 45))
+        let count = try singleForegroundControl(app.staticTexts.matching(identifier: "library-article-count"),
+                                               name: "fixture article count")
+        XCTAssertEqual(count.label, "全1記事")
+        dynamicTypeProbe?("fixture", count)
+    }
+
+    private func soleCell(blockID: String, row: Int) -> XCUIElement {
+        let identifier = "native-table-cell-\(blockID)-\(row)-1"
+        let query = app.descendants(matching: .any).matching(identifier: identifier)
+        let unique = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in query.count == 1 }, object: nil)
+        XCTAssertEqual(XCTWaiter.wait(for: [unique], timeout: 15), .completed)
+        XCTAssertEqual(query.count, 1, "A row witness must be an unambiguous cell")
+        return query.element(boundBy: 0)
+    }
+
+    private func requireRowWitness(blockID: String) -> (offset: CGFloat, rowHeight: CGFloat) {
+        let reader = app.scrollViews["native-reader"]
+        let middle = soleCell(blockID: blockID, row: 25)
+        requireHittable(middle, inside: reader, fullyVisible: true)
+        XCTAssertEqual(middle.label, "INTRABLOCK-R25")
+        // R24 may intersect the viewport, but may not be fully visible. This
+        // is deliberately weaker than claiming adjacent zero-gap cells align
+        // on an exact subpixel boundary. R25 itself must remain fully visible.
+        XCTAssertFalse(hasVisibleFrame(soleCell(blockID: blockID, row: 24), inside: reader,
+                                       fullyVisible: true),
+                       "The previous row must not also be fully visible")
+        XCTAssertFalse(hasVisibleFrame(soleCell(blockID: blockID, row: 1), inside: reader),
+                       "Restoring the start of the tall block is not restoration of R25")
+        requireHittable(app.navigationBars["ネイティブ本文テスト専用記事"].buttons["しおりを削除"])
+        let frame = middle.frame
+        let visibleReader = reader.frame.intersection(app.frame)
+        let bar = app.navigationBars["ネイティブ本文テスト専用記事"]
+        let offset = frame.minY - max(visibleReader.minY, bar.frame.maxY)
+        XCTAssertTrue(offset.isFinite && frame.height.isFinite && frame.height > 0)
+        return (offset, frame.height)
+    }
+
+    // Adjacent origins measure the row spacing. A cell's StaticText height
+    // can stay unchanged when the scaled column width changes its wrapping.
+    private func measuredRowStride(blockID: String) throws -> CGFloat {
+        let previous = soleCell(blockID: blockID, row: 24).frame
+        let current = soleCell(blockID: blockID, row: 25).frame
+        let validFrames = [previous, current].allSatisfy { frame in
+            !frame.isNull && !frame.isInfinite && !frame.isEmpty &&
+            [frame.minX, frame.minY, frame.maxX, frame.maxY, frame.width, frame.height]
+                .allSatisfy(\.isFinite) && frame.width > 0 && frame.height > 0
+        }
+        guard validFrames else {
+            XCTFail("Both adjacent row frames must be finite with positive width and height")
+            throw NSError(domain: "ReaderReflowUITests", code: 4,
+                          userInfo: [NSLocalizedDescriptionKey: "Invalid adjacent row geometry"])
+        }
+        let stride = current.minY - previous.minY
+        guard stride.isFinite && stride > 0 else {
+            XCTFail("Adjacent row origins must yield a finite positive stride")
+            throw NSError(domain: "ReaderReflowUITests", code: 5,
+                          userInfo: [NSLocalizedDescriptionKey: "Invalid adjacent row stride"])
+        }
+        return stride
+    }
+
+    func testFixtureMeasuredRowAndBookmarkSurviveRotatedRelaunchAndLiveReturn() throws {
+        requireLayout(portrait: true)
+        let ownedSuite = app.launchEnvironment["AILIBRARY_UI_TEST_SUITE"]
+        XCTAssertNotNil(ownedSuite)
+        XCTAssertTrue(ownedSuite?.hasPrefix("ailibrary-uitest-") == true)
+        try openFixtureLibrary()
+        let article = try singleForegroundControl(app.descendants(matching: .any).matching(
+            identifier: "library-article-test-fixtures/native-reader"), name: "fixture article")
+        article.tap()
+        requireNativeBody()
+        let fixtureBar = app.navigationBars["ネイティブ本文テスト専用記事"]
+        XCTAssertTrue(fixtureBar.waitForExistence(timeout: 10))
+        let addBookmark = fixtureBar.buttons["しおりを追加"]
+        requireHittable(addBookmark)
+        addBookmark.tap()
+        requireHittable(fixtureBar.buttons["しおりを削除"])
+
+        // TOC and capped swipes are preparation only. Neither is used after
+        // saved-position restoration, including the later live rotation.
+        goToContents("CASE-INTRABLOCK-01", headingID: "case-intrablock-01")
+        let reader = app.scrollViews["native-reader"]
+        let tables = reader.scrollViews.matching(NSPredicate(format:
+            "identifier BEGINSWITH %@ AND label CONTAINS %@", "native-table-", "データ40行、2列"))
+        XCTAssertTrue(tables.firstMatch.waitForExistence(timeout: 10))
+        XCTAssertEqual(tables.count, 1, "Exactly one forty-row table must be present")
+        let blockID = String(tables.element(boundBy: 0).identifier.dropFirst("native-table-".count))
+        XCTAssertFalse(blockID.isEmpty)
+        let middle = soleCell(blockID: blockID, row: 25)
+        for _ in 0..<18 {
+            let ready = isHittableOnScreen(middle, inside: reader, fullyVisible: true)
+            if ready { break }
+            reader.swipeUp(velocity: .slow)
+        }
+        requireHittable(middle, inside: reader, fullyVisible: true)
+        XCTAssertEqual(middle.label, "INTRABLOCK-R25")
+        let middleFrame = middle.frame
+        let visibleReader = reader.frame.intersection(app.frame)
+        let top = max(visibleReader.minY, fixtureBar.frame.maxY)
+        XCTAssertTrue([middleFrame.minY, top, visibleReader.maxY, middleFrame.height].allSatisfy(\.isFinite))
+        XCTAssertGreaterThan(middleFrame.height, 0)
+        // This single measured setup drag places the short marker near the
+        // reading top. It does not require an exact zero-gap cell boundary.
+        let targetY = top + 24
+        let shift = middleFrame.minY - targetY
+        XCTAssertGreaterThan(shift, middleFrame.height,
+                             "The predeparture position must differ from the initial TOC/swipe arrival")
+        let startY = visibleReader.maxY - 12
+        XCTAssertGreaterThan(startY - shift, top + 12)
+        let origin = app.coordinate(withNormalizedOffset: .zero)
+        let start = origin.withOffset(CGVector(dx: visibleReader.midX, dy: startY))
+        let end = origin.withOffset(CGVector(dx: visibleReader.midX, dy: startY - shift))
+        start.press(forDuration: 0.05, thenDragTo: end, withVelocity: .slow, thenHoldForDuration: 0.2)
+        let savedWitness = requireRowWitness(blockID: blockID)
+        capture("Reflow-R25-portrait-before-departure")
+
+        let back = fixtureBar.buttons.element(boundBy: 0)
+        requireHittable(back)
+        back.tap()
+        let leftReader = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            !self.app.scrollViews["native-reader"].exists
+        }, object: nil)
+        XCTAssertEqual(XCTWaiter.wait(for: [leftReader], timeout: 10), .completed)
+        XCTAssertTrue(app.navigationBars["本文表示テスト"].exists)
+        app.terminate()
+        XCUIDevice.shared.orientation = .landscapeLeft
+        app.launch()
+        XCTAssertEqual(app.launchEnvironment["AILIBRARY_UI_TEST_SUITE"], ownedSuite)
+        requireLayout(portrait: false)
+        try openFixtureLibrary()
+        let resume = try singleForegroundControl(app.buttons.matching(identifier: "library-resume"),
+                                                name: "fixture Continue button")
+        resume.tap()
+        XCTAssertTrue(reader.waitForExistence(timeout: 20))
+        XCTAssertTrue(fixtureBar.waitForExistence(timeout: 10))
+        // First arrival only: no corrective TOC, search, swipe or drag below.
+        // Do not compare raw portrait Y to landscape Y or loosen visibility.
+        let landscapeWitness = requireRowWitness(blockID: blockID)
+        XCTAssertLessThanOrEqual(abs(landscapeWitness.offset - savedWitness.offset),
+                                max(landscapeWitness.rowHeight, savedWitness.rowHeight),
+                                "The row must remain within one measured row height of its saved reading-top offset")
+        capture("Reflow-R25-landscape-after-relaunch")
+        XCUIDevice.shared.orientation = .portrait
+        requireLayout(portrait: true)
+        let portraitWitness = requireRowWitness(blockID: blockID)
+        XCTAssertLessThanOrEqual(abs(portraitWitness.offset - savedWitness.offset),
+                                max(portraitWitness.rowHeight, savedWitness.rowHeight))
+        capture("Reflow-R25-portrait-after-live-return")
+    }
+
+
+    /// Diagnostics only. No wait, gesture, screenshot, assertion or fallback navigation.
+    /// Each phase adds at most 15 scalar/frame AX getters, sampled sequentially.
+    private func dynamicTypeProbeValue(_ query: XCUIElementQuery, stage: String) -> [String: Any] {
+        let count = query.count
+        guard count == 1 else { return ["status": "not-unique", "matches": count] }
+        return dynamicTypeProbeValue(resolved: query.element(boundBy: 0), stage: stage)
+    }
+
+    private func dynamicTypeProbeValue(resolved element: XCUIElement, stage: String) -> [String: Any] {
+        guard let value = element.value as? String, value.utf8.count <= 512,
+              let data = value.data(using: .utf8),
+              let record = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+              DynamicTypeProbeSchema.valid(record, stage: stage) else { return ["status": "unavailable"] }
+        return record
+    }
+
+    private func recordDynamicTypeProbe(phase: String, librarySamples: [String: Any], blockID: String,
+                                       offset: CGFloat, rowHeight: CGFloat, stride: CGFloat) {
+        var samples = librarySamples
+        samples["reader"] = dynamicTypeProbeValue(app.scrollViews.matching(identifier: "native-reader"), stage: "reader")
+        samples["table"] = dynamicTypeProbeValue(app.descendants(matching: .any).matching(
+            identifier: "native-table-cell-\(blockID)-25-1"), stage: "table")
+        var frames: [[String: Any]] = []
+        for row in [24, 25] {
+            for column in [1, 2] {
+                let query = app.descendants(matching: .any).matching(
+                    identifier: "native-table-cell-\(blockID)-\(row)-\(column)")
+                let count = query.count
+                var record: [String: Any] = ["row": row, "column": column, "matches": count]
+                if count == 1 {
+                    let frame = query.element(boundBy: 0).frame
+                    if !frame.isNull, !frame.isInfinite, !frame.isEmpty,
+                       [frame.minX, frame.minY, frame.width, frame.height].allSatisfy(\.isFinite) {
+                        record["status"] = "observed"
+                        record["rect"] = [frame.minX, frame.minY, frame.width, frame.height].map(Double.init)
+                    } else { record["status"] = "invalid-frame" }
+                } else { record["status"] = "not-unique" }
+                frames.append(record)
+            }
+        }
+        let record: [String: Any] = ["schema": 1, "phase": phase,
+            "runnerRequest": app.launchEnvironment["AILIBRARY_UI_TEST_DYNAMIC_TYPE"] ?? "missing",
+            "targetBlockID": blockID,
+            "sampling": "sequential-across-library-and-reader",
+            "librarySampling": "after-ready-before-navigation", "readerSampling": "after-existing-row-witness", "environments": samples, "frames": frames,
+            "offset": Double(offset), "rowHeight": Double(rowHeight), "stride": Double(stride)]
+        if let data = try? JSONSerialization.data(withJSONObject: record, options: [.sortedKeys]), data.count <= 4096 {
+            print("AILibraryDynamicTypeEnvironment " + String(decoding: data, as: UTF8.self))
+        } else {
+            print(#"AILibraryDynamicTypeEnvironment {"schema":1,"status":"unavailable","reason":"encoding-or-4096-byte-limit"}"#)
+        }
+    }
+
+    /// App-local DEBUG font overrides exercise saved-position relaunches, not
+    /// live system Settings, glyph accuracy, VoiceOver or physical-device use.
+    func testFixtureMeasuredRowAndBookmarkSurviveDynamicTypeRelaunches() throws {
+        guard let requestedSuite = app.launchEnvironment["AILIBRARY_UI_TEST_SUITE"],
+              requestedSuite.hasPrefix("ailibrary-uitest-"), requestedSuite.count < 100,
+              UUID(uuidString: String(requestedSuite.dropFirst("ailibrary-uitest-".count)))?.uuidString
+                == String(requestedSuite.dropFirst("ailibrary-uitest-".count)) else {
+            throw NSError(domain: "ReaderReflowUITests", code: 3,
+                          userInfo: [NSLocalizedDescriptionKey: "A canonical isolated UUID suite is required"])
+        }
+        app.terminate()
+        app.launchEnvironment["AILIBRARY_UI_TEST_DYNAMIC_TYPE_PROBE"] = "1"
+        defer { app.launchEnvironment.removeValue(forKey: "AILIBRARY_UI_TEST_DYNAMIC_TYPE_PROBE") }
+        app.launchEnvironment["AILIBRARY_UI_TEST_DYNAMIC_TYPE"] = "default"
+        app.launch()
+        requireLayout(portrait: true)
+        let ownedSuite = app.launchEnvironment["AILIBRARY_UI_TEST_SUITE"]
+        XCTAssertNotNil(ownedSuite)
+        XCTAssertTrue(ownedSuite?.hasPrefix("ailibrary-uitest-") == true)
+        var defaultProbeSamples: [String: Any] = [:]
+        try openFixtureLibrary(dynamicTypeProbe: { stage, carrier in
+            if let carrier {
+                defaultProbeSamples[stage] = self.dynamicTypeProbeValue(resolved: carrier, stage: stage)
+            } else {
+                defaultProbeSamples[stage] = self.dynamicTypeProbeValue(
+                    self.app.staticTexts.matching(identifier: "library-article-count"), stage: stage)
+            }
+        })
+        let article = try singleForegroundControl(app.descendants(matching: .any).matching(
+            identifier: "library-article-test-fixtures/native-reader"), name: "fixture article")
+        article.tap()
+        requireNativeBody()
+        let fixtureBar = app.navigationBars["ネイティブ本文テスト専用記事"]
+        XCTAssertTrue(fixtureBar.waitForExistence(timeout: 10))
+        let addBookmark = fixtureBar.buttons["しおりを追加"]
+        requireHittable(addBookmark)
+        addBookmark.tap()
+        requireHittable(fixtureBar.buttons["しおりを削除"])
+
+        // TOC and capped swipes are preparation only. Neither is used after
+        // saved-position restoration, including both font-size relaunches.
+        goToContents("CASE-INTRABLOCK-01", headingID: "case-intrablock-01")
+        let reader = app.scrollViews["native-reader"]
+        let tables = reader.scrollViews.matching(NSPredicate(format:
+            "identifier BEGINSWITH %@ AND label CONTAINS %@", "native-table-", "データ40行、2列"))
+        XCTAssertTrue(tables.firstMatch.waitForExistence(timeout: 10))
+        XCTAssertEqual(tables.count, 1, "Exactly one forty-row table must be present")
+        let blockID = String(tables.element(boundBy: 0).identifier.dropFirst("native-table-".count))
+        XCTAssertFalse(blockID.isEmpty)
+        let middle = soleCell(blockID: blockID, row: 25)
+        for _ in 0..<18 {
+            let ready = isHittableOnScreen(middle, inside: reader, fullyVisible: true)
+            if ready { break }
+            reader.swipeUp(velocity: .slow)
+        }
+        requireHittable(middle, inside: reader, fullyVisible: true)
+        XCTAssertEqual(middle.label, "INTRABLOCK-R25")
+        let middleFrame = middle.frame
+        let visibleReader = reader.frame.intersection(app.frame)
+        let top = max(visibleReader.minY, fixtureBar.frame.maxY)
+        XCTAssertTrue([middleFrame.minY, top, visibleReader.maxY, middleFrame.height].allSatisfy(\.isFinite))
+        XCTAssertGreaterThan(middleFrame.height, 0)
+        // This single measured setup drag places the short marker near the
+        // reading top. It does not require an exact zero-gap cell boundary.
+        let targetY = top + 24
+        let shift = middleFrame.minY - targetY
+        XCTAssertGreaterThan(shift, middleFrame.height,
+                             "The predeparture position must differ from the initial TOC/swipe arrival")
+        let startY = visibleReader.maxY - 12
+        XCTAssertGreaterThan(startY - shift, top + 12)
+        let origin = app.coordinate(withNormalizedOffset: .zero)
+        let start = origin.withOffset(CGVector(dx: visibleReader.midX, dy: startY))
+        let end = origin.withOffset(CGVector(dx: visibleReader.midX, dy: startY - shift))
+        start.press(forDuration: 0.05, thenDragTo: end, withVelocity: .slow, thenHoldForDuration: 0.2)
+        let savedWitness = requireRowWitness(blockID: blockID)
+        let savedStride = try measuredRowStride(blockID: blockID)
+        recordDynamicTypeProbe(phase: "default-before-departure", librarySamples: defaultProbeSamples,
+            blockID: blockID, offset: savedWitness.offset, rowHeight: savedWitness.rowHeight, stride: savedStride)
+        capture("DynamicType-R25-default-before-departure")
+
+        let back = fixtureBar.buttons.element(boundBy: 0)
+        requireHittable(back)
+        back.tap()
+        let leftReader = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            !self.app.scrollViews["native-reader"].exists
+        }, object: nil)
+        XCTAssertEqual(XCTWaiter.wait(for: [leftReader], timeout: 10), .completed)
+        XCTAssertTrue(app.navigationBars["本文表示テスト"].exists)
+        app.terminate()
+
+        for mode in ["accessibility5", "default"] {
+            app.launchEnvironment["AILIBRARY_UI_TEST_DYNAMIC_TYPE"] = mode
+            app.launch()
+            XCTAssertEqual(app.launchEnvironment["AILIBRARY_UI_TEST_SUITE"], ownedSuite)
+            XCTAssertEqual(app.launchEnvironment["AILIBRARY_UI_TEST_SUITE"], requestedSuite)
+            requireLayout(portrait: true)
+            var modeProbeSamples: [String: Any] = [:]
+            try openFixtureLibrary(dynamicTypeProbe: { stage, carrier in
+                if let carrier {
+                    modeProbeSamples[stage] = self.dynamicTypeProbeValue(resolved: carrier, stage: stage)
+                } else {
+                    modeProbeSamples[stage] = self.dynamicTypeProbeValue(
+                        self.app.staticTexts.matching(identifier: "library-article-count"), stage: stage)
+                }
+            })
+            let resume = try singleForegroundControl(app.buttons.matching(identifier: "library-resume"),
+                                                    name: "fixture Continue button")
+            resume.tap()
+            XCTAssertTrue(reader.waitForExistence(timeout: 20))
+            XCTAssertTrue(fixtureBar.waitForExistence(timeout: 10))
+            // First restored reader arrival only. No corrective TOC, search,
+            // swipe or drag is allowed after Continue in either font mode.
+            let witness = requireRowWitness(blockID: blockID)
+            XCTAssertLessThanOrEqual(abs(witness.offset - savedWitness.offset),
+                                    max(witness.rowHeight, savedWitness.rowHeight),
+                                    "The measured R25 must restore within one row height of its saved top offset")
+            let currentStride = try measuredRowStride(blockID: blockID)
+            recordDynamicTypeProbe(phase: mode + "-after-relaunch", librarySamples: modeProbeSamples,
+                blockID: blockID, offset: witness.offset, rowHeight: witness.rowHeight, stride: currentStride)
+            if mode == "accessibility5" {
+                XCTAssertGreaterThan(currentStride, savedStride * 1.25,
+                                     "The measured row spacing must actually grow; a requested font mode alone is not proof")
+            } else {
+                XCTAssertEqual(currentStride, savedStride, accuracy: 1,
+                               "Returning to the fixed default mode must restore the original measured row spacing")
+            }
+            capture("DynamicType-R25-" + mode + "-after-relaunch")
+            if mode == "accessibility5" {
+                let back = fixtureBar.buttons.element(boundBy: 0)
+                requireHittable(back)
+                back.tap()
+                let leftReader = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+                    !self.app.scrollViews["native-reader"].exists
+                }, object: nil)
+                XCTAssertEqual(XCTWaiter.wait(for: [leftReader], timeout: 10), .completed)
+                app.terminate()
+            }
+        }
+    }
+
+
+    // Separate normal-contract package scenario. The two fixture cases and
+    // their diagnostic schema above retain their original assertions/actions.
+    private func revisionParagraphWitness(_ blockID: String, phase: String)
+        throws -> (offset: CGFloat, width: CGFloat, height: CGFloat, fraction: CGFloat) {
+        let reader = app.scrollViews["native-reader"]
+        let query = reader.staticTexts.matching(identifier: "native-text-" + blockID)
+        var sampled: (offset: CGFloat, width: CGFloat, height: CGFloat, fraction: CGFloat)?
+        let arrived = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            guard query.count == 1 else { return false }
+            let paragraph = query.element(boundBy: 0)
+            let rect = paragraph.frame
+            let visible = reader.frame.intersection(self.app.frame)
+            let top = max(visible.minY, self.app.navigationBars["保存位置の改訂回帰"].frame.maxY)
+            guard !rect.isNull, !rect.isInfinite, !rect.isEmpty,
+                  [rect.minY, rect.width, rect.height, top, visible.maxY].allSatisfy(\.isFinite),
+                  rect.width > 0, rect.height > 0,
+                  paragraph.label.hasPrefix("REVISION-PARAGRAPH-WITNESS "),
+                  rect.minY <= top + 1, rect.maxY > top + 24,
+                  rect.intersects(visible) else { return false }
+            let offset = rect.minY - top
+            sampled = (offset, rect.width, rect.height, min(1, max(0, -offset / rect.height)))
+            return true
+        }, object: nil)
+        XCTAssertEqual(XCTWaiter.wait(for: [arrived], timeout: 15), .completed,
+                       "First arrival must expose the unique target paragraph at the reading line: " + phase)
+        guard let witness = sampled else {
+            throw NSError(domain: "ReaderReflowUITests", code: 2,
+                          userInfo: [NSLocalizedDescriptionKey: "Missing revision paragraph witness: " + phase])
+        }
+        let record: [String: Any] = ["schema": 1, "phase": phase, "blockID": blockID,
+            "offset": Double(witness.offset), "width": Double(witness.width),
+            "height": Double(witness.height), "fraction": Double(witness.fraction)]
+        let data = try JSONSerialization.data(withJSONObject: record, options: [.sortedKeys])
+        XCTAssertLessThanOrEqual(data.count, 1024)
+        print("AILibraryReaderRevision " + String(decoding: data, as: UTF8.self))
+        return witness
+    }
+
+    /// The controlled title query identifies the same article's public filtered List.
+    /// It neither opens another article nor writes the saved reading state.
+    private func revisionFilteredLibrary() -> XCUIElement? {
+        let prompt = "記事の本文を検索"
+        let searches = app.searchFields.matching(NSPredicate(
+            format: "identifier == %@ OR label == %@", prompt, prompt))
+        let libraries = app.collectionViews.containing(.staticText, identifier: "library-filter-summary")
+        guard searches.count == 1, libraries.count == 1 else { return nil }
+        let search = searches.element(boundBy: 0), library = libraries.element(boundBy: 0)
+        let summaries = library.staticTexts.matching(identifier: "library-filter-summary")
+        guard search.exists, search.value as? String == "保存位置の改訂回帰",
+              library.exists, summaries.count == 1 else { return nil }
+        let summary = summaries.element(boundBy: 0)
+        guard summary.exists, summary.label == "検索: 保存位置の改訂回帰" else { return nil }
+        return library
+    }
+
+    func testValidPackageRevisionAndParagraphReflowPreserveReadingAndBookmark() throws {
+        requireLayout(portrait: true)
+        let ownedSuite = app.launchEnvironment["AILIBRARY_UI_TEST_SUITE"]
+        XCTAssertTrue(ownedSuite?.hasPrefix("ailibrary-uitest-") == true)
+        XCTAssertTrue(app.staticTexts["library-article-count"].waitForExistence(timeout: 45))
+        XCTAssertEqual(app.staticTexts["library-article-count"].label, "全1記事")
+        let article = try singleForegroundControl(app.descendants(matching: .any).matching(
+            identifier: "library-article-reader-regression/revision"), name: "revision article")
+        article.tap()
+        requireNativeBody()
+        let bar = app.navigationBars["保存位置の改訂回帰"]
+        XCTAssertTrue(bar.waitForExistence(timeout: 10))
+        // If xcodebuild erased seeded A during installation, this must fail.
+        XCTAssertTrue(app.staticTexts["native-heading-revision-intro-A"].exists)
+        XCTAssertFalse(app.staticTexts["native-heading-revision-intro-B"].exists)
+        requireHittable(bar.buttons["しおりを追加"])
+        bar.buttons["しおりを追加"].tap()
+        requireHittable(bar.buttons["しおりを削除"])
+        goToContents("保存段落（改訂前）", headingID: "revision-section-A")
+        let reader = app.scrollViews["native-reader"]
+        let target = reader.staticTexts["native-text-revision-anchor-A"]
+        for _ in 0..<8 {
+            let ready = isHittableOnScreen(target, inside: reader, fullyVisible: true)
+            if ready { break }
+            reader.swipeUp(velocity: .slow)
+        }
+        requireHittable(target, inside: reader, fullyVisible: true)
+        let targetFrame = target.frame, visible = reader.frame.intersection(app.frame)
+        let top = max(visible.minY, bar.frame.maxY)
+        let shift = targetFrame.minY - (top - 48)
+        XCTAssertTrue([shift, top, visible.maxY].allSatisfy(\.isFinite))
+        XCTAssertGreaterThan(shift, 48, "The saved paragraph must differ from the TOC arrival")
+        let startY = visible.maxY - 12
+        XCTAssertGreaterThan(startY - shift, top + 12)
+        let origin = app.coordinate(withNormalizedOffset: .zero)
+        origin.withOffset(CGVector(dx: visible.midX, dy: startY)).press(forDuration: 0.05,
+            thenDragTo: origin.withOffset(CGVector(dx: visible.midX, dy: startY - shift)),
+            withVelocity: .slow, thenHoldForDuration: 0.2)
+        let saved = try revisionParagraphWitness("revision-anchor-A", phase: "A-before-save")
+        XCTAssertGreaterThan(saved.fraction, 0.02, "Save a point inside the paragraph, rather than its heading")
+        XCTAssertLessThan(saved.fraction, 0.8)
+        returnToLibrary() // Public back flushes the measured reading position.
+
+        // Search changes only the public list filter, not the saved reading state.
+        // The normal toolbar Menu AX failure remains a separate unresolved issue.
+        try setForegroundArticleQuery("保存位置の改訂回帰")
+        let filtered = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            self.revisionFilteredLibrary() != nil
+        }, object: nil)
+        let filteredResult = XCTWaiter.wait(for: [filtered], timeout: 15)
+        XCTAssertEqual(filteredResult, .completed,
+                       "The exact public revision query must identify one filtered library")
+        guard filteredResult == .completed, let library = revisionFilteredLibrary() else {
+            throw NSError(domain: "ReaderReflowUITests", code: 3,
+                          userInfo: [NSLocalizedDescriptionKey: "Missing exact revision filtered library"])
+        }
+        let more = try singleForegroundControl(library.buttons.matching(
+            NSPredicate(format: "label == %@", "その他の操作")),
+            name: "revision filtered-list More Actions button")
+        XCTAssertTrue(more.isEnabled)
+        requireHittable(more, inside: library)
+        more.tap()
+        XCTAssertTrue(app.navigationBars["その他の操作"].waitForExistence(timeout: 10))
+        let choose = app.buttons["library-bundled-content"]
+        requireHittable(choose)
+        choose.tap()
+        XCTAssertTrue(app.navigationBars["同梱コンテンツ"].waitForExistence(timeout: 45))
+        XCTAssertEqual(app.staticTexts["bundled-content-current-count"].label, "記事数: 1記事")
+        XCTAssertEqual(app.staticTexts["bundled-content-bundled-count"].label, "記事数: 1記事")
+        let confirm = app.buttons["bundled-content-confirm"]
+        for _ in 0..<5 {
+            let ready = isHittableOnScreen(confirm)
+            if ready { break }
+            app.swipeUp(velocity: .slow)
+        }
+        requireHittable(confirm)
+        confirm.tap()
+        let notice = app.alerts["コンテンツ"]
+        XCTAssertTrue(notice.waitForExistence(timeout: 45))
+        XCTAssertTrue(notice.staticTexts.matching(NSPredicate(format: "label CONTAINS %@",
+            "同梱コンテンツへ切り替えました")).firstMatch.exists)
+        notice.buttons["閉じる"].tap()
+        let normalLibrary = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            self.app.navigationBars["AI Agent Library"].exists &&
+                !self.app.staticTexts["library-filter-summary"].exists &&
+                !self.app.navigationBars["その他の操作"].exists &&
+                !self.app.navigationBars["同梱コンテンツ"].exists
+        }, object: nil)
+        let normalResult = XCTWaiter.wait(for: [normalLibrary], timeout: 15)
+        XCTAssertEqual(normalResult, .completed,
+                       "Bundled activation must clear filters and return to the normal root library")
+        guard normalResult == .completed else {
+            throw NSError(domain: "ReaderReflowUITests", code: 4,
+                          userInfo: [NSLocalizedDescriptionKey: "Normal library was not restored after activation"])
+        }
+        let resume = try singleForegroundControl(app.buttons.matching(identifier: "library-resume"),
+                                                name: "revision Continue button")
+        resume.tap()
+        XCTAssertTrue(reader.waitForExistence(timeout: 20))
+        // No TOC, query, swipe, drag or other correction after the first Resume.
+        let revised = try revisionParagraphWitness("revision-anchor-B", phase: "B-first-resume")
+        requireHittable(bar.buttons["しおりを削除"])
+        XCTAssertLessThanOrEqual(abs(revised.fraction - saved.fraction), 0.08)
+        XCTAssertLessThanOrEqual(abs(revised.offset - saved.offset), max(revised.height, saved.height))
+
+        XCUIDevice.shared.orientation = .landscapeLeft
+        requireLayout(portrait: false)
+        let landscape = try revisionParagraphWitness("revision-anchor-B", phase: "B-live-landscape")
+        XCTAssertGreaterThan(landscape.width, revised.width + 1, "The actual paragraph must grow wider")
+        XCTAssertLessThan(landscape.height, revised.height - 1, "The actual paragraph must rewrap to fewer lines")
+        XCTAssertLessThanOrEqual(abs(landscape.fraction - revised.fraction), 0.08)
+        requireHittable(bar.buttons["しおりを削除"])
+        XCUIDevice.shared.orientation = .portrait
+        requireLayout(portrait: true)
+        let portrait = try revisionParagraphWitness("revision-anchor-B", phase: "B-live-portrait")
+        XCTAssertEqual(portrait.width, revised.width, accuracy: 1)
+        XCTAssertEqual(portrait.height, revised.height, accuracy: 1)
+        XCTAssertLessThanOrEqual(abs(portrait.fraction - revised.fraction), 0.08)
+        returnToLibrary()
+        app.terminate()
+        app.launch()
+        XCTAssertEqual(app.launchEnvironment["AILIBRARY_UI_TEST_SUITE"], ownedSuite)
+        requireLayout(portrait: true)
+        XCTAssertTrue(app.staticTexts["library-article-count"].waitForExistence(timeout: 45))
+        XCTAssertEqual(app.staticTexts["library-article-count"].label, "全1記事")
+        let restartResume = try singleForegroundControl(app.buttons.matching(identifier: "library-resume"),
+                                                       name: "restarted revision Continue button")
+        restartResume.tap()
+        XCTAssertTrue(reader.waitForExistence(timeout: 20))
+        let restarted = try revisionParagraphWitness("revision-anchor-B", phase: "B-after-relaunch")
+        XCTAssertLessThanOrEqual(abs(restarted.fraction - portrait.fraction), 0.08)
+        requireHittable(bar.buttons["しおりを削除"])
+    }
+}

@@ -1,0 +1,596 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-30",
+  "status": "current_document_common_passed_final_review_and_ordinary_PR_pending",
+  "purpose": "adopted code, preserved signed candidate, bounded CI evidence, installation/expiry renewal and unaccepted work in one checkpoint",
+  "authority": {
+    "basis": "direct user personal-use goal and autonomous continuation with ordinary commits/PR/main; physical tests may remain incomplete",
+    "this_unit_external_operations": false,
+    "paid_contract_distribution_or_admin_authority": false
+  },
+  "ownership": {
+    "new": [
+      "project/records/2026-10-30/ios-personal-use-candidate-checkpoint.md",
+      "project/records/2026-10-30/ios-personal-use-candidate-checkpoint.json"
+    ],
+    "existing": [
+      "project/README.md",
+      "project/plans/engineering/ios-app-completion.md"
+    ],
+    "Source_changes": 0
+  },
+  "authorbase": {
+    "head": "ca59520b9a8d616ef0a749101de558afbd412b9a",
+    "tree": "5d46978f72e3afe3ecf2224b348ed0534223c66c",
+    "tracked_files": 2811
+  },
+  "adopted_source": {
+    "current_main": "ca59520b9a8d616ef0a749101de558afbd412b9a",
+    "previous_main": "da46832f6b289536fc67e76ba0511bce07bd0e41",
+    "App25_build_origin": "cc2f0aec9e6d741a431dd1fc02250439b8dd0c27",
+    "all_main_delta_paths": [
+      {
+        "path": ".github/workflows/ios-published-candidate.yml",
+        "change": "changed"
+      },
+      {
+        "path": "ios/AILibraryUITests/ReadingRecoveryUITests.swift",
+        "change": "changed"
+      },
+      {
+        "path": "ios/tests/capture-simulator-unit-failure.mjs",
+        "change": "new"
+      },
+      {
+        "path": "project/README.md",
+        "change": "changed"
+      },
+      {
+        "path": "project/plans/engineering/ios-app-completion.md",
+        "change": "changed"
+      },
+      {
+        "path": "project/records/2026-10-29/ios-full-core-failure-inventory.json",
+        "change": "new"
+      },
+      {
+        "path": "project/records/2026-10-29/ios-full-core-failure-inventory.md",
+        "change": "new"
+      },
+      {
+        "path": "project/records/2026-10-29/ios-reading-recovery-position-ui.json",
+        "change": "new"
+      },
+      {
+        "path": "project/records/2026-10-29/ios-reading-recovery-position-ui.md",
+        "change": "new"
+      },
+      {
+        "path": "tests/unit/ios-simulator-unit-failure.test.mjs",
+        "change": "new"
+      }
+    ],
+    "App_and_project_paths_byte_mode_equal": 31,
+    "candidate_tracked_inputs": 78,
+    "candidate_tracked_inputs_held": 77,
+    "only_different_inventory_path": "ios/AILibraryUITests/ReadingRecoveryUITests.swift",
+    "meaning": "current main app inputs equal; no current-main rebuild claim"
+  },
+  "candidate": {
+    "version": "0.2.23",
+    "build": 25,
+    "manifest_SHA256": "a661dbe0225269810219b310c4a3c4a2ba3cb5ac0d9085e1942c1e317e2e5862",
+    "receipt_SHA256": "d3118903228cc1304215be87473e492b2fe7d45255e0ea7073501b76559f4a8d",
+    "signature_review_manifest_SHA256": "21d8b280fa65fb9d501049355072f9e3b56b0959f4677bf103416b2fc517fd61",
+    "strict_signature_historical_exit": 0,
+    "new_codesign_or_signing_execution": false,
+    "artifacts": [
+      {
+        "kind": "unsigned",
+        "files": 632,
+        "bytes": 41476418,
+        "inventory_SHA256": "257b96a03e4823e982feb21defb41166fef76ae60648d9ce49c468688d76005b"
+      },
+      {
+        "kind": "signed",
+        "files": 634,
+        "bytes": 41726774,
+        "inventory_SHA256": "e4afacbd10d20bca1ee13e6eec940dcec3bfcbb1c13e4b63a6e88bcf27752955"
+      },
+      {
+        "kind": "Content",
+        "files": 626,
+        "bytes": 37744644,
+        "inventory_SHA256": "04c40ce9977fa83a31ea227159704a572f253e115d6a59374c0afabaec46684c"
+      }
+    ],
+    "content": {
+      "files": 626,
+      "articles": 199,
+      "PNG": 422,
+      "streaming_audio_metadata": 1,
+      "audio_MP3_embedded": false,
+      "inventory_SHA256": "04c40ce9977fa83a31ea227159704a572f253e115d6a59374c0afabaec46684c",
+      "generation_manifest_SHA256": "08a15cc89043a6c4610fd3348b5a3c90f7ec786f9bbd49fbb0e4a33f9ddb7831",
+      "revision": "5be64a00f783a1df3a2159dcb64b84551e36853c7fe7d0b0d300c80ccd7fd852",
+      "reused_not_regenerated": true,
+      "unsigned_signed_and_preserved_Content_all_tuples_equal": true
+    },
+    "compile_scope": {
+      "Xcode": "16.2 (16C5032a)",
+      "SDK": "18.2",
+      "architecture": "arm64",
+      "minimum_OS_metadata": "17.0",
+      "iPhone_family_only": true,
+      "actual_minimum_OS_functional_acceptance": false
+    },
+    "profile": {
+      "expiry_UTC": "2026-10-31T05:32:21Z",
+      "expiry_JST": "2026-10-31T14:32:21+09:00",
+      "future_launch_after_expiry_guaranteed": false,
+      "profile_not_certificate_lifetime": true,
+      "renewal_installation_acceptance": false
+    },
+    "source_to_build_provenance": "producer and Root attribution plus independently verified bytes; no independent rebuild in this unit",
+    "signature_and_file_audit_scope": "historical independent signature and V1 file hash/mode audit reused; not rerun or current validity assertion"
+  },
+  "CI": {
+    "PR300": {
+      "approved_head": "28f4566aa8696d1ac3e1ef2695855d3664fcdb8c",
+      "checkout": "b0898e9832e4d0604069cab13d2b91ad90e3e35c",
+      "checkout_tree_equal_approved": true,
+      "unit_total": 245,
+      "unit_skip": 2,
+      "unit_failed": 0,
+      "UI_unique": 6,
+      "each_once_start_and_pass": true,
+      "new_case_seconds": 100.668,
+      "scope": "saved raw-derived Native evidence; not physical overwrite, intrablock pixels or writer-ack proof"
+    },
+    "postpush": {
+      "da468": {
+        "head": "da46832f6b289536fc67e76ba0511bce07bd0e41",
+        "source_workflow_runs": [
+          40877005274,
+          40877005291,
+          40877005317
+        ],
+        "Source3_first_API_success": true,
+        "checks": {
+          "count": 12,
+          "all_bindings_verified": true,
+          "success": 12,
+          "skipped": 0
+        },
+        "raw_case_or_metric_acceptance": false
+      },
+      "ca595": {
+        "head": "ca59520b9a8d616ef0a749101de558afbd412b9a",
+        "source_workflow_runs": [
+          40902381126,
+          40902381171,
+          40902381280
+        ],
+        "Source3_first_API_success": true,
+        "checks": {
+          "count": 12,
+          "success": 12,
+          "skipped": 0,
+          "all_bindings_verified": true
+        },
+        "Full_unit": "success",
+        "failure_diagnostic": "skipped",
+        "actual_failure_path_acceptance": false
+      }
+    },
+    "PR301_checkpoint": {
+      "PR": 301,
+      "Draft": true,
+      "adopted": false,
+      "head": "a4d0d78902899df7ce40ca94b0928d5e832904e7",
+      "tree": "71787fca2f2e594450e512b857a68da7248c3465",
+      "commits": 12,
+      "cumulative_paths": 19,
+      "main_reflected": false,
+      "run": 40933024228,
+      "job": 123656170190,
+      "attempt": 1,
+      "functional_intent_timeout_ms": 600000,
+      "shared_work_budget_ms": 1380000,
+      "outer_receipt": {
+        "elapsed_ms": 600448.126459,
+        "code": null,
+        "signal": "SIGKILL",
+        "error": null,
+        "stop": "command-or-shared-deadline",
+        "resource_failure": false,
+        "cancelled_signal": null
+      },
+      "summary_elapsed_ms": 1365214.872417,
+      "cleanup": "owned-device-deleted",
+      "captured_UI_failure": {
+        "method": "NativeReaderUITests.testThreeArticlesHaveNativeBodyText",
+        "source_line": 493,
+        "reported_case_seconds": 241.479,
+        "reported_UI_suite_cases": 1,
+        "reported_UI_suite_failures": 1,
+        "message": "Failed to get matching snapshot: Timed out while evaluating UI query.",
+        "prior_event_loop_idle_and_animations_notifications_missing": true,
+        "stderr_TEST_FAILED": true,
+        "is_separate_evidence_from_outer_deadline": true,
+        "Root_cause": "Unresolved; no claim of production defect/keyboard/Simulator/load cause"
+      },
+      "functional47_accepted": false,
+      "evidence_limits": {
+        "stdout_bytes": 417469,
+        "only_tail_retained": true,
+        "all46_NativeInline_results_known": false,
+        "typed_functional_results_present": false,
+        "failed_open_typing_not_reached": true,
+        "source_line_subexpression_not_distinguished": true,
+        "stdout_diagnostic_tail_characters": 4096,
+        "stdout_diagnostic_tail_UTF8_bytes": 4536,
+        "character_vs_byte_unit_explicit": true
+      },
+      "runtime": {
+        "selected_exact17_0": true,
+        "initial_runtime_query_exit0": true,
+        "new_initial_recovery_executed": false,
+        "postboot_inventory_exit0": true,
+        "postboot_recovery_executed": false
+      },
+      "decision": {
+        "further_timecap_tuning": false,
+        "assertion_relaxation": false,
+        "retry": false,
+        "minimum_OS_change": false,
+        "cause": "unresolved",
+        "continue": "Draft hold; independent personal checkpoint documentation PR"
+      },
+      "API_preparation_history": {
+        "observed_at": "2026-10-29 19:18:34 UTC",
+        "snapshot_SHA256": "0b5a297df66b63b77b99fffcf1734aa12de56e9f1b90a1b4499d91499c9f0ab4",
+        "Source7": {
+          "success": 5,
+          "failure": 1,
+          "pending": 1
+        },
+        "Full": "published body UI in_progress",
+        "required11": {
+          "success": 11,
+          "pending": 0,
+          "failure": 0
+        },
+        "preReady_only": true,
+        "guard_problems": 0,
+        "latest_refresh_before_publication": "superseded by API_final snapshot"
+      },
+      "API_final": {
+        "observed_at": "2026-10-29T19:23:02Z",
+        "manifest_SHA256": "654938b3053d6a938e0a810fe916a72f00ae46d9c3cda12cbc6183e95f72ebe8",
+        "Source7": {
+          "success": 6,
+          "failure": 1,
+          "pending": 0
+        },
+        "Full": "success",
+        "known11": {
+          "success": 11,
+          "pending": 0,
+          "failure": 0
+        },
+        "preReady": true,
+        "guard_problems": 0,
+        "policy_scope": "Historical result bound to old PR301 body2026-10-29T18:40:44Z; no transfer to new metadata checks",
+        "Draft": true,
+        "functional47_accepted": false,
+        "main_adopted": false
+      }
+    },
+    "Runtime26_a4d": {
+      "source_head": "a4d0d78902899df7ce40ca94b0928d5e832904e7",
+      "run": 40933024730,
+      "job": 123656172092,
+      "attempt": 1,
+      "cases": [
+        {
+          "method": "testContentsBookmarkAndResumeAfterRelaunch",
+          "started": 1,
+          "passed": 1,
+          "failed": 0,
+          "seconds": 109.434
+        },
+        {
+          "method": "testThreeArticlesHaveNativeBodyText",
+          "started": 1,
+          "passed": 1,
+          "failed": 0,
+          "seconds": 99.405
+        }
+      ],
+      "Root_raw_GET": 1,
+      "raw_bytes": 481070,
+      "raw_SHA256": "d50bb298d0d0c1e25e26ea2e17e0d4be9240a9e2d50bc2475e0fb830f3ab5b3e",
+      "full_raw_reparsed_here": false,
+      "baseline_predicate_timeout_held": true,
+      "actual_selected2_fail0": true,
+      "no_iOS17_cause_fix_SLO_or_minimumOS_acceptance": true,
+      "scope": "saved Root raw-derived execution only"
+    }
+  },
+  "operation_links": {
+    "preparation": "../../../ios/README.md#macだけで進める準備",
+    "USB_update": "../../../ios/README.md#usb接続と本人の操作が必要な更新",
+    "reading_restore": "../../../ios/README.md#読書記録を戻す場合",
+    "saved_article_priority": "../../../ios/README.md#保存記事版と未確認事項",
+    "app_deletion_required": false,
+    "same_identity_and_team": true,
+    "export_and_personal_file_confirmation_before_update": true,
+    "explicit_bundled_content_selection_only": true
+  },
+  "unfinished": [
+    "physical overwrite and saved-data preservation",
+    "profile expiry renewal and reinstall before/after expiry",
+    "all-article and new-screen VoiceOver, largest text and display",
+    "Files provider",
+    "real incoming-call interruption",
+    "full minimum-OS functional acceptance",
+    "Release performance criteria",
+    "independent writer acknowledgment and exact intrablock position",
+    "Hosted Full failure-only diagnostic branch",
+    "post-initial-version retention preparation; private snapshot lease is unadopted, deletion GC incomplete"
+  ],
+  "TODO": {
+    "rows": 32,
+    "complete": 13,
+    "all_row_bytes_held": true
+  },
+  "evidence_references": [
+    {
+      "name": "pr300-reading-recovery-position-20261029",
+      "manifest_SHA256": "40dec0811d5544f57e7f97f4700950a88f38f101e090fe8abaf6f2d6f4644d2a",
+      "declared_members_verified": 52,
+      "declared_member_bytes": 489068,
+      "scope": "all manifest-declared local members; no new API/runtime execution",
+      "reuse": "historical V1 verified evidence; not rescanned"
+    },
+    {
+      "name": "pr300-main-push-verification-20261029",
+      "manifest_SHA256": "63d84df1cb8543b4dadfa81a482e295b7f603c707d36bd9113ceb55d220b9738",
+      "declared_members_verified": 7,
+      "declared_member_bytes": 132833,
+      "scope": "all manifest-declared local members; no new API/runtime execution",
+      "reuse": "historical V1 verified evidence; not rescanned"
+    },
+    {
+      "name": "pr302-main-push-verification-20261030",
+      "manifest_SHA256": "f2147528b15325220d5b91f5b995f17b8dd2319a3f54feb99f64ca6d94f9a38d",
+      "declared_members_verified": 7,
+      "declared_member_bytes": 139044,
+      "scope": "all manifest-declared local members; no new API/runtime execution",
+      "reuse": "historical V1 verified evidence; not rescanned"
+    },
+    {
+      "name": "personal-v25-signed-review-20261029",
+      "manifest_SHA256": "21d8b280fa65fb9d501049355072f9e3b56b0959f4677bf103416b2fc517fd61",
+      "declared_members_verified": 8,
+      "declared_member_bytes": 38705,
+      "scope": "all manifest-declared local members; no new API/runtime execution",
+      "reuse": "historical V1 verified evidence; not rescanned"
+    },
+    {
+      "name": "pr301-initial07e-first-terminals-20261030",
+      "manifest_SHA256": "94472abc3f07a7a8ad5b181ac211da7384f3c9362da0bf9aeefc8af0016ae475",
+      "declared_members_verified": 97,
+      "declared_member_bytes": 380544,
+      "scope": "saved initial07e first terminal observation; no fresh API query",
+      "reuse": "historical V1 verified evidence; not rescanned"
+    },
+    {
+      "name": "active-summary.json",
+      "SHA256": "0a35083ad0e051ffc6eafd249244a2e5dc26f01627767c059a7da22c55116702",
+      "bytes": 177417,
+      "scope": "coordination snapshot; assertions anchored by immutable evidence and actual Git blobs, not universal current status",
+      "reuse": "historical V1 verified evidence; not rescanned"
+    },
+    {
+      "name": "ios-personal-release-candidate-0.2.23-25",
+      "manifest_SHA256": "a661dbe0225269810219b310c4a3c4a2ba3cb5ac0d9085e1942c1e317e2e5862",
+      "manifest_members_verified": 1923,
+      "actual_files_including_manifest": 1924,
+      "receipt_SHA256": "d3118903228cc1304215be87473e492b2fe7d45255e0ea7073501b76559f4a8d",
+      "Content_inventory_SHA256": "04c40ce9977fa83a31ea227159704a572f253e115d6a59374c0afabaec46684c",
+      "artifacts": [
+        {
+          "kind": "unsigned",
+          "files": 632,
+          "bytes": 41476418,
+          "inventory_SHA256": "257b96a03e4823e982feb21defb41166fef76ae60648d9ce49c468688d76005b"
+        },
+        {
+          "kind": "signed",
+          "files": 634,
+          "bytes": 41726774,
+          "inventory_SHA256": "e4afacbd10d20bca1ee13e6eec940dcec3bfcbb1c13e4b63a6e88bcf27752955"
+        },
+        {
+          "kind": "Content",
+          "files": 626,
+          "bytes": 37744644,
+          "inventory_SHA256": "04c40ce9977fa83a31ea227159704a572f253e115d6a59374c0afabaec46684c"
+        }
+      ],
+      "reuse": "historical V1 verified evidence; not rescanned"
+    },
+    {
+      "name": "ios-personal-use-candidate-checkpoint-pre-review-20261030",
+      "manifest_SHA256": "d7bfe8cbf1bb993bac873796484510a904cf884a54ee65f6fe57ea014be14c48",
+      "declared_members": 2,
+      "selected_members_verified": [
+        "review.md",
+        "review.json"
+      ],
+      "scope": "all declared small members"
+    },
+    {
+      "name": "ios-pr301-time-a4d-pilot-first-failure-root-20261030",
+      "manifest_SHA256": "0b960e2ab1d33c051ed51b2a9a7ee9ee9e1cb65d1f289de6bd508d89367bfca3",
+      "declared_members": 89,
+      "selected_members_verified": [
+        "execution-summary.json"
+      ],
+      "scope": "selected small members only; large/raw/artifact bytes remain Root-attributed"
+    },
+    {
+      "name": "ios17-search-query-failure-diagnosis-20261030",
+      "manifest_SHA256": "ad177164843150fa287bd7d619f57871b57d6c0ec225bba722b58a6f35a91f59",
+      "declared_members": 2,
+      "selected_members_verified": [
+        "summary.md",
+        "summary.json"
+      ],
+      "scope": "all declared small members"
+    },
+    {
+      "name": "ios-pr301-time-a4d-runtime26-first-success-root-20261030",
+      "manifest_SHA256": "61962ad72041beebfc8373f1b87a67da511867d8169afff2cd4a36ee3f7bb612",
+      "declared_members": 3,
+      "selected_members_verified": [
+        "complete-result-lines.json",
+        "execution.json",
+        "wait527-original.json"
+      ],
+      "scope": "all declared small members"
+    },
+    {
+      "name": "personal-device-readonly-preflight-20261030",
+      "manifest_SHA256": "2aabb6b0c7b81f5091f3413245ed63b2a76bdb5bd8c8ab0c32eba96e158336f6",
+      "declared_members": 3,
+      "selected_members_verified": [
+        "execution.json",
+        "normal-service-summary.json",
+        "sandbox-summary.json"
+      ],
+      "scope": "all declared small members"
+    },
+    {
+      "name": "ios-long-scroll-clock-sdk-typecheck-20261030",
+      "manifest_SHA256": "b354778d1450254d30ed74385ec1c45be0369e6e3a2598a288109d187189676b",
+      "declared_members": 5,
+      "selected_members_verified": [
+        "result.json"
+      ],
+      "scope": "selected small members only; large/raw/artifact bytes remain Root-attributed"
+    },
+    {
+      "name": "ios-pr301-time-a4d-ci-observation-20261030/summary.json",
+      "SHA256": "0b5a297df66b63b77b99fffcf1734aa12de56e9f1b90a1b4499d91499c9f0ab4",
+      "bytes": 4008,
+      "observed_at": "2026-10-29 19:18:34 UTC",
+      "scope": "single read of Root already-saved mutable observer; frozen here, no new API call; no later status inferred"
+    },
+    {
+      "name": "ios-long-scroll-clock-source-review-20261030",
+      "manifest_SHA256": "e9f5e1206278392383f2beec3804c4e5f38b809c7043f87df29f0b938a981c40",
+      "declared_members": 3,
+      "selected_members_verified": [
+        "proof.json",
+        "review.json",
+        "report.md"
+      ],
+      "scope": "all three small review members; private Source4 approval only, not actual Hosted/performance adoption"
+    }
+  ],
+  "validation_scope": {
+    "current": "Root whole-tree Node/common check on exact mainCa plus4 documents; record-only final delta checked narrowly and independently",
+    "pending": [
+      "final document and metadata independent review",
+      "ordinary documentation PR checks/main integration/postpush"
+    ],
+    "preparation_not_reexecuted": [
+      "build",
+      "signature",
+      "SDK",
+      "simctl",
+      "device",
+      "Source tests",
+      "CI"
+    ],
+    "not_reexecuted_in_this_document_unit": [
+      "candidate regeneration/build",
+      "new signature verification",
+      "candidate SDK rebuild",
+      "simctl or native XCTest",
+      "device installation/launch/user data access"
+    ],
+    "Root_common": {
+      "manifest_SHA256": "ec56b1d801a89f60b5ef014c897b6dbe3ef8ad623bc31f4bb4ec30a011bc33d0",
+      "tests": 1172,
+      "pass": 1157,
+      "skip": 15,
+      "fail": 0,
+      "cancelled": 0,
+      "npm_exit": 0,
+      "seconds": 41.917,
+      "candidate_tree": "96be9d38bfd7257c5235b193c2df457026604344",
+      "tracked": 2813,
+      "Source_changes": 0,
+      "same_verified_lockfile_previous_actual_npm_ci_reused": true
+    },
+    "API_final_refresh_scope": "19:23:02 Source7 terminal snapshot; 301 remains Draft; its subsequent body-only update has independent policy epoch"
+  },
+  "next_unit": "one documentation commit/independent PR; ordinary protected checks/main merge/postpush; keep manual acceptance incomplete",
+  "history": {
+    "PR301_07e": {
+      "head": "07e435aed97e808612d8d0874bced12b10dcf6ad",
+      "functional_intent_timeout_ms": 480000,
+      "functional_elapsed_ms": 480821.75116600003,
+      "signal": "SIGKILL",
+      "functional47_accepted": false,
+      "scope": "retained first8minute trial failure, not current pending/success"
+    },
+    "previous_document_pre_review": {
+      "candidate_manifest_SHA256": "6c7cbd1b86df6bb8f7981f9ae952d3f0c57a719cfa94a2335754f256022065e9",
+      "review_manifest_SHA256": "d7bfe8cbf1bb993bac873796484510a904cf884a54ee65f6fe57ea014be14c48",
+      "P1": 0,
+      "P2": 0,
+      "not_final_updated_content_approval": true
+    }
+  },
+  "prior_evidence_reuse": {
+    "candidate_and_signature_audit_reference": "frozen checkpoint V1 input verification",
+    "packet_manifest_SHA256": "6c7cbd1b86df6bb8f7981f9ae952d3f0c57a719cfa94a2335754f256022065e9",
+    "evidence_members_verified_previously": 171,
+    "candidate_files_verified_previously": 1924,
+    "product_blob_paths_verified_previously": 31,
+    "recorded_input_paths_verified_previously": 78,
+    "held_inputs_previously": 77,
+    "new_rescan_or_retest": false
+  },
+  "device_readonly_preflight": {
+    "date": "2026-10-30",
+    "normal_service_exit": 0,
+    "normal_service_seconds": 0.216,
+    "usable_connected_device_confirmed": false,
+    "known_paired_states": "unavailable/disconnected; no identity or cachedOS retained",
+    "sandbox_first_initialization_timeout_is_not_absence_evidence": true,
+    "install_launch_settings_user_data_access": false,
+    "human_action_requested": false,
+    "manual_tests": "incomplete, skipped within prior user permission"
+  },
+  "private_unadopted_followups": {
+    "long_scroll_Clock": {
+      "Source4_manifest_SHA256": "70c3bc669c7a45b9fd9f43820429c788609ea4a9210a11d71f5ab96f98d439cd",
+      "Node57": "previously passed synthetic/owned mock tests, not rerun here",
+      "Root_SDK18_2_UI5_typecheck_exit": 0,
+      "Root_typecheck_seconds": 10.021,
+      "actual_XCTest_or_scroll_executed": false,
+      "Source_independent_review": "accepted_private_Source4_only",
+      "Hosted_product_performance_Release_SLO": "unaccepted",
+      "source_review_manifest_SHA256": "e9f5e1206278392383f2beec3804c4e5f38b809c7043f87df29f0b938a981c40",
+      "Source_review_P1": 0,
+      "Source_review_P2": 0
+    },
+    "snapshot_lease": "private post-first-version retention preparation; unadopted, deletion GC not complete"
+  }
+}

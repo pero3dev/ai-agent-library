@@ -24,6 +24,13 @@ The sample code and site tooling — everything under `examples/`, `website/`, a
 
 サンプルコードとサイト実装(`examples/`・`website/`・`scripts/` 配下)は下記 MIT です。
 
+The iOS prototype implementation under `ios/` (Swift, JavaScript, CSS, and build
+configuration) is also licensed under MIT. Generated articles, third-party
+libraries and fonts, and referenced audio retain their respective licenses.
+
+`ios/` の試作実装(Swift・JavaScript・CSS・ビルド設定)も MIT です。
+生成記事・第三者ライブラリとフォント・参照音声には、それぞれの利用条件が適用されます。
+
 ```
 MIT License
 

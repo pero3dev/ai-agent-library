@@ -1,0 +1,834 @@
+{
+  "schema_version": 1,
+  "recorded_date": "2026-10-27",
+  "status": "private-syntax-reviewed-UI-candidate-not-Hosted-or-adopted",
+  "purpose": "Public UI cancel/confirm and sameisolatedsuite relaunch test for reading recovery bookmark preservation.",
+  "context": {
+    "technical_basis_head": "eabf1a67ed6ceb0cd9e7bd2e20ba5bcb413020fa",
+    "technical_basis_tree": "740bbbfa73f1b850f7864c961ba78ab3ecb476d5",
+    "reported_main_short_reference": "main76",
+    "reported_main_SHA": "76d57595b52eb54b92ac188e3cdcd330c18aa116",
+    "reported_main_tree": "740bbbfa73f1b850f7864c961ba78ab3ecb476d5",
+    "main_tree_equals_eab_reported_by_independent_integration_verification": true,
+    "fresh_main_or_beforeblob_checked_in_this_record_step": false,
+    "new_record_paths_absent_on_main76_reported_verified": true,
+    "fresh_before_blob_binding": null
+  },
+  "technical_source5": [
+    {
+      "path": ".github/workflows/ios-native.yml",
+      "bytes": 8119,
+      "sha256": "97885ca2e290d558f380e4ea9a5c1a75f98c64589e3ee679a685168f0a3692ad"
+    },
+    {
+      "path": "ios/AILibrary/Sources/AILibraryApp.swift",
+      "bytes": 1397,
+      "sha256": "677a79c70816fa384d557778a1d112861b8d90bc11d890f5186f4221420340a0"
+    },
+    {
+      "path": "ios/AILibrary.xcodeproj/project.pbxproj",
+      "bytes": 21212,
+      "sha256": "a5f162fb926a278cbcf788c8916327452700aaa44bfc9122c2fd5588956167e3"
+    },
+    {
+      "path": "ios/AILibraryUITests/NativeReaderUITests.swift",
+      "bytes": 28313,
+      "sha256": "972b01afb3ba0af26bc0981ce9282036f5d0147294a97e96d01cb89bcd4bc881"
+    },
+    {
+      "path": "ios/AILibraryUITests/ReadingRecoveryUITests.swift",
+      "bytes": 4753,
+      "sha256": "a868b8821f8cb31e7c64dced24d4b039a200c863023f9cc086745bb1a7cf5388"
+    }
+  ],
+  "technical_manifest_sha256": "495f05471f69d748036772276db39e6b67168db16fa104a067b9bcd687be0f20",
+  "technical_proof_sha256": "5747a47f1db563b8d473ce2c72d8c3ba098ee86e5b06a67223a49e50797d2fd9",
+  "seed_boundary": {
+    "DEBUG_only": true,
+    "existing_isolated_suite_prefix": "ailibrary-uitest-",
+    "suite_suffix": "canonical UUID",
+    "additional_environment_flag": "AILIBRARY_UI_TEST_READING_RECOVERY",
+    "exact_flag_value": "partial-v1",
+    "only_empty_named_persistent_domain": true,
+    "before_ReadingStore": true,
+    "fixed_Data_bytes": 57,
+    "fixed_Data_scope": "Legacy readingformat: readableAgentLoopbookmark plus nonstringdamagedsibling; no articlebody injection",
+    "seed_key": "library.reading.v1",
+    "nonempty_domain_reseed": false,
+    "domain_delete_or_reset": false,
+    "standard_defaults_seed": false,
+    "Release_seed": false,
+    "validator_bypass": false,
+    "driver_userData_access": false
+  },
+  "base_hook": {
+    "default": false,
+    "timing": "Before first and only launch",
+    "enabled_by": "ReadingRecoveryUITests only",
+    "same_suite_and_application_reused_on_relaunch": true
+  },
+  "public_UI_cases": [
+    {
+      "name": "ReadingRecoveryUITests.testCancelKeepsRecoveryNoticeAfterRelaunch",
+      "purpose": "Observe partialnotice and readableexistingAgentLoopbookmark; cancel confirmation; after same-suite relaunch retain notice andbookmark."
+    },
+    {
+      "name": "ReadingRecoveryUITests.testConfirmedRecoveryPreservesReadableAndCurrentBookmarksAfterRelaunch",
+      "purpose": "AddToolUsebookmark via realUI beforeconfirmation; confirm; after same-suite relaunch retain existingAgentLoop and liveToolUsebookmark without recoverywarning."
+    }
+  ],
+  "UI_assertion_scope": {
+    "body_path": "Normalpackage/validator and existing open/nativebody helpers",
+    "notice_absence": "Includes positively observed warning common to all recoveryissues, so changing into a different error is not accepted",
+    "no_expected_body_injection": true,
+    "no_direct_defaults_or_backup_byte_assertions": true
+  },
+  "source_declared_selection_not_execution": {
+    "Native_existing": 2,
+    "Recovery_new": 2,
+    "Native_future_selected": 4,
+    "Full_current_selected": 22,
+    "Copy_separate_future_candidate": 23,
+    "Dedicated_F_R": "separate unchanged selectors",
+    "unit": "unchanged",
+    "existing_wait_limits": "unchanged",
+    "Native_job_minutes": 40
+  },
+  "validation": {
+    "Swift_syntax_parse": {
+      "calls": 3,
+      "selections": 5,
+      "first": {
+        "mode": "Swift frontend -parse",
+        "Swift_files": 3,
+        "exit": 0,
+        "output_bytes": 0
+      },
+      "second": {
+        "mode": "Swift frontend -parse -D DEBUG",
+        "Swift_files": 1,
+        "file": "ios/AILibrary/Sources/AILibraryApp.swift",
+        "exit": 0,
+        "output_bytes": 0
+      },
+      "SDK_typecheck": false,
+      "XCTest_or_UI_executed": false,
+      "third": {
+        "mode": "Swift frontend -parse after common-warning absence assertion update",
+        "Swift_files": 1,
+        "file": "ios/AILibraryUITests/ReadingRecoveryUITests.swift",
+        "exit": 0,
+        "output_bytes": 0
+      }
+    },
+    "fixed_seed_JSON_parse": "success",
+    "existing4_inverse_eab_allbytes": true,
+    "PBX_registration_only": true,
+    "independent_review": {
+      "status": "independently-reviewed-no-P1-P2",
+      "receipt_bytes": 1212,
+      "receipt_sha256": "8f7c61ded268cab6c918ecde19910b1ec0d92a521c71ac23e22447120fa9a369",
+      "scope": "Final technical5 static semantics and structure; no SDK/typecheck/AXdialog/realUI acceptance"
+    }
+  },
+  "actual_SDK_typecheck": null,
+  "actual_UI_execution": null,
+  "current_run": null,
+  "actualmain_adoption": null,
+  "fresh_publication_binding": null,
+  "incomplete": [
+    "reading-position UI recovery",
+    "rawbackup byte identity across kill",
+    "powerloss/diskdurability",
+    "allfailurebranches",
+    "VoiceOver",
+    "physicaldevice",
+    "IOS-22 overall"
+  ],
+  "next": "Separate technical5 and records2 commits in a later Draft PR; fresh actualmain/beforeblob, finalliteral independent review and exacthead Hosted required.",
+  "operations_in_this_record_step": {
+    "source_write": 0,
+    "other_record_write": 0,
+    "index_body_write": 0,
+    "SDK": 0,
+    "UI_or_test_execution": 0,
+    "API": 0,
+    "Git": 0,
+    "helper_execution": 0,
+    "shared_write": 0
+  },
+  "new_head": null,
+  "Hosted": null,
+  "first_hosted_attempt_and_locator_revision": {
+    "first_head": "3cb328dd87ac3542db9c704456fabb0a8e06f38f",
+    "first_tree": "1470e8fb7a0b8e500c9310918388499d713e23f6",
+    "Native": {
+      "id": 40508046124,
+      "name": "iOS native regression",
+      "path": ".github/workflows/ios-native.yml",
+      "event": "pull_request",
+      "head_sha": "3cb328dd87ac3542db9c704456fabb0a8e06f38f",
+      "head_branch": "codex/ios-reading-recovery-ui",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-10-27T12:58:30Z",
+      "updated_at": "2026-10-27T13:16:34Z",
+      "html_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40508046124"
+    },
+    "SDK26": {
+      "id": 40508046209,
+      "name": "iOS SDK 26 unsigned archive preflight",
+      "path": ".github/workflows/ios-sdk26-archive.yml",
+      "event": "pull_request",
+      "head_sha": "3cb328dd87ac3542db9c704456fabb0a8e06f38f",
+      "head_branch": "codex/ios-reading-recovery-ui",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-27T12:58:30Z",
+      "updated_at": "2026-10-27T13:16:27Z",
+      "html_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40508046209"
+    },
+    "summary": {
+      "unit": "Fresh165 executed/2 skipped/0 failures; added12 each Started1/Passed1",
+      "existing_UI": "2 distinct both passed",
+      "new_Recovery_UI": "2 distinct both Started1/Passed0/Failed1 at notice requireHittable line64",
+      "SDK26": "Current unsigned archive compatibility succeeded"
+    },
+    "source_binding": {
+      "Native_synthetic": {
+        "sha": "5b7204ab9a73e5750d84497109af80a5266fc833",
+        "tree": "1470e8fb7a0b8e500c9310918388499d713e23f6",
+        "parents": [
+          "76d57595b52eb54b92ac188e3cdcd330c18aa116",
+          "3cb328dd87ac3542db9c704456fabb0a8e06f38f"
+        ]
+      },
+      "SDK26_actual": {
+        "sha": "3cb328dd87ac3542db9c704456fabb0a8e06f38f",
+        "tree": "1470e8fb7a0b8e500c9310918388499d713e23f6",
+        "parents": [
+          "08bee2555eeea9812a946fae901d2e7eda03f867"
+        ]
+      }
+    },
+    "first_failure": "Both new Recovery cases failed at first notice button lookup after articlecount wait; dialog/cancel/recovery/relaunch/bookmark outcomes not reached",
+    "root_cause": null,
+    "seed_result": null,
+    "actual_AX_hierarchy": null,
+    "evidence_receipt_sha256": "59dd453b312243f914b88c6c3f7225630cd2a871289eb695e30dd9deb0f423c5",
+    "locator_revision": {
+      "path": "ios/AILibraryUITests/ReadingRecoveryUITests.swift",
+      "before_bytes": 4753,
+      "before_SHA256": "a868b8821f8cb31e7c64dced24d4b039a200c863023f9cc086745bb1a7cf5388",
+      "after_bytes": 4964,
+      "after_SHA256": "0354bf0f407f6f283e6430dca9cdd10285cc374f50b8497a5df48529ad30a716",
+      "change": "Use one exact public Button-label query for presence/action/absence, with count1 for presence and count0 for absence",
+      "preserved": "All other source bytes recover the exact first-head file by inverse splice; same message, geometry/hittable, scroll/wait, dialog, cancel, bookmark and relaunch conditions",
+      "syntax_parse_calls": 1,
+      "syntax_parse_exit": 0,
+      "production_UI_or_seed_changed": false,
+      "newhead": null,
+      "actual_SDK": null,
+      "actual_UI_effect": null
+    },
+    "first_preparation_fields_remain_historical": true
+  },
+  "dialog_scope_revision_after_0d7": {
+    "previous_head": "0d7b0a2cb789eb75dc79851438c0235e01f7a31a",
+    "previous_tree": "980d8084e5c18765469351f69bda2d42dbcf69ac",
+    "Native": {
+      "id": 40513391169,
+      "name": "iOS native regression",
+      "path": ".github/workflows/ios-native.yml",
+      "event": "pull_request",
+      "head_sha": "0d7b0a2cb789eb75dc79851438c0235e01f7a31a",
+      "head_branch": "codex/ios-reading-recovery-ui",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-10-27T13:35:42Z",
+      "updated_at": "2026-10-27T13:59:02Z",
+      "html_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40513391169"
+    },
+    "SDK26": {
+      "id": 40513391463,
+      "name": "iOS SDK 26 unsigned archive preflight",
+      "path": ".github/workflows/ios-sdk26-archive.yml",
+      "event": "pull_request",
+      "head_sha": "0d7b0a2cb789eb75dc79851438c0235e01f7a31a",
+      "head_branch": "codex/ios-reading-recovery-ui",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-27T13:35:42Z",
+      "updated_at": "2026-10-27T13:40:10Z",
+      "html_url": "https://github.com/pero3dev/ai-agent-library/actions/runs/40513391463"
+    },
+    "summary": {
+      "unit": "Current165 executed/2 skipped/0 failures; added12 each Started1/Passed1",
+      "existing_UI": "Current2 distinct both passed",
+      "new_Recovery_UI": "Current2 distinct each Started1/Passed0/Failed1; progressed to dialog, failed global Cancel multiple match at NativeReaderUITests.swift133",
+      "SDK26": "Current unsigned archive compatibility success"
+    },
+    "Recovery_phase_scope": {
+      "both": {
+        "notice_public_exact_label_count1_and_hittable_reached": true,
+        "partial_and_common_warning_checks_passed": true,
+        "dialog_title_and_message_checks_passed": true,
+        "confirm_hittable_check_passed_before_cancel": true,
+        "confirm_unique_count_not_asserted_in_this_revision": true,
+        "cancel_query_failed_before_tap": true,
+        "dialog_cancel_tap": false,
+        "dialog_confirm_tap": false,
+        "dialog_close_wait": false,
+        "same_suite_relaunch": false,
+        "post_relaunch_bookmark_acceptance": false
+      },
+      "Cancel": {
+        "existing_Agent_loop_bookmark_UI_checked": true,
+        "after_cancel_or_relaunch_bookmark_acceptance": false
+      },
+      "Confirmed": {
+        "existing_Agent_loop_bookmark_UI_checked": true,
+        "Tool_Use_opened": true,
+        "live_bookmark_added_via_UI_and_delete_button_seen": true,
+        "after_recovery_or_relaunch_old_new_bookmark_acceptance": false
+      },
+      "assessment": "Source-bound ordered activity plus continuation past assertions; no standalone seed/backup bytes or persisted post-relaunch acceptance."
+    },
+    "source_binding": {
+      "Native_synthetic": {
+        "sha": "cca14a30a3ddf6b2e92a2126b062d74595fd888e",
+        "tree": "980d8084e5c18765469351f69bda2d42dbcf69ac",
+        "parents": [
+          "76d57595b52eb54b92ac188e3cdcd330c18aa116",
+          "0d7b0a2cb789eb75dc79851438c0235e01f7a31a"
+        ]
+      },
+      "SDK26_actual": {
+        "sha": "0d7b0a2cb789eb75dc79851438c0235e01f7a31a",
+        "tree": "980d8084e5c18765469351f69bda2d42dbcf69ac",
+        "parents": [
+          "07e1be8ed57b816e9565f2084cec01ba91bbb6dc"
+        ]
+      }
+    },
+    "observation_SHA256": "0657155f0bf3803a41c5431af0367b3ef5d7c070881986d51645d047e8e7fd42",
+    "Sparse_scope": "GlobalCancel matches libraryNavigationBar and recoveryTitle-labeledSheet descendants",
+    "revision": {
+      "path": "ios/AILibraryUITests/ReadingRecoveryUITests.swift",
+      "after_bytes": 5713,
+      "after_SHA256": "a5c820737f11cf6dc1f520bc662668270ff96070d89fa0f2813055b764a92681",
+      "independent_static_review_SHA256": "6c420273dd6dd7ef0760e9483e1f852153c4898338a616d48f58c1dea184f84a",
+      "syntax_parse_calls": 1,
+      "syntax_parse_exit": 0,
+      "title_and_message": "Scoped existence, not independent count1",
+      "Sheet_confirm_cancel": "Exact public labels and count1 before actions",
+      "dialog_close": "Existingconfirmabsence plus recoverySheetcount0",
+      "production_or_seed_changed": false,
+      "waits_and_conditions_preserved": true,
+      "newhead": null,
+      "SDK_or_UI_effect": null
+    },
+    "separate_Runtime26": {
+      "run": 40513391433,
+      "job": 122220734042,
+      "head": "0d7b0a2cb789eb75dc79851438c0235e01f7a31a",
+      "existing_cases": 2,
+      "passed": 1,
+      "failed": 1,
+      "failure_stage": "Initial TOC to selfattention, before resume/relaunch",
+      "after_timeout_snapshot": {
+        "encodingError": null,
+        "sampling": "after-timeout-sequential",
+        "schemaVersion": 1,
+        "snapshot": {
+          "app": {
+            "frame": {
+              "coordinates": {
+                "height": 874,
+                "width": 402,
+                "x": 0,
+                "y": 0
+              },
+              "state": "finite-nonempty"
+            }
+          },
+          "container": {
+            "exists": true,
+            "frame": {
+              "coordinates": {
+                "height": 874,
+                "width": 402,
+                "x": 0,
+                "y": 0
+              },
+              "state": "finite-nonempty"
+            },
+            "requested": true
+          },
+          "navigationBars": {
+            "items": [
+              {
+                "eligibleAsForeground": true,
+                "frame": {
+                  "coordinates": {
+                    "height": 54,
+                    "width": 402,
+                    "x": 0,
+                    "y": 62
+                  },
+                  "state": "finite-nonempty"
+                },
+                "hasEnabledHittableControl": true,
+                "index": 0
+              }
+            ],
+            "omitted": 0,
+            "sampling": "sampled",
+            "total": 1
+          },
+          "predicate": {
+            "fullyVisible": true,
+            "geometry": {
+              "reason": null,
+              "state": "visible"
+            },
+            "satisfied": true,
+            "targetIsHittable": true,
+            "targetIsHittableRead": "once-after-visible-geometry"
+          },
+          "target": {
+            "exists": true,
+            "frame": {
+              "coordinates": {
+                "height": 24,
+                "width": 131,
+                "x": 18,
+                "y": 121.84709480122365
+              },
+              "state": "finite-nonempty"
+            }
+          },
+          "viewport": {
+            "frame": {
+              "coordinates": {
+                "height": 758,
+                "width": 402,
+                "x": 0,
+                "y": 116
+              },
+              "state": "finite-nonempty"
+            },
+            "reason": null,
+            "state": "resolved"
+          }
+        }
+      },
+      "timing_scope": "Sequentialposttimeout sample, not earlierwaitingpredicate values",
+      "geometry_receipt_SHA256": "e39a17de8402b1c2129a1a4c0374dedd30c1bde7e35c33c0e18b49de26b1e9f2",
+      "code_or_wait_changes_here": false,
+      "cause": null,
+      "newhead_result": null
+    }
+  }
+,
+  "adopted89_and_mainc1_checkpoint_20261028": {
+    "recorded_date": "2026-10-28",
+    "status": "adopted89-UI-feature-and-independent-mainc1-push-checkpoint",
+    "historical_preparation_values_unchanged": true,
+    "interpretation": "旧本文・旧JSONの未採用/未実施/nullは当時の準備snapshotです。以下に採用89と新mainc1実測を別scopeで追加します。Driver修正や製品全体受入へ成功を補完しません。",
+    "adopted_PR283": {
+      "PR": 283,
+      "head": "89a32389678d5b752f5b550553b42f32274c6fcc",
+      "head_tree": "a1487b7072d090ba25f8944a9b94c3234a308350",
+      "base": "76d57595b52eb54b92ac188e3cdcd330c18aa116",
+      "Ready": {
+        "draft": false,
+        "required11_all_success": true,
+        "checks": [
+          {
+            "name": "actionlint",
+            "check_id": 122243147460,
+            "conclusion": "success",
+            "head": "89a32389678d5b752f5b550553b42f32274c6fcc"
+          },
+          {
+            "name": "docs",
+            "check_id": 122243147673,
+            "conclusion": "success",
+            "head": "89a32389678d5b752f5b550553b42f32274c6fcc"
+          },
+          {
+            "name": "examples",
+            "check_id": 122243147808,
+            "conclusion": "success",
+            "head": "89a32389678d5b752f5b550553b42f32274c6fcc"
+          },
+          {
+            "name": "lint",
+            "check_id": 122243147925,
+            "conclusion": "success",
+            "head": "89a32389678d5b752f5b550553b42f32274c6fcc"
+          },
+          {
+            "name": "harness",
+            "check_id": 122243147971,
+            "conclusion": "success",
+            "head": "89a32389678d5b752f5b550553b42f32274c6fcc"
+          },
+          {
+            "name": "harness-windows",
+            "check_id": 122243148036,
+            "conclusion": "success",
+            "head": "89a32389678d5b752f5b550553b42f32274c6fcc"
+          },
+          {
+            "name": "build",
+            "check_id": 122243148102,
+            "conclusion": "success",
+            "head": "89a32389678d5b752f5b550553b42f32274c6fcc"
+          },
+          {
+            "name": "Audio playback regression",
+            "check_id": 122243148054,
+            "conclusion": "success",
+            "head": "89a32389678d5b752f5b550553b42f32274c6fcc"
+          },
+          {
+            "name": "Safari audio playback regression",
+            "check_id": 122243148085,
+            "conclusion": "success",
+            "head": "89a32389678d5b752f5b550553b42f32274c6fcc"
+          },
+          {
+            "name": "harness-policy",
+            "check_id": 122272903653,
+            "conclusion": "success",
+            "head": "89a32389678d5b752f5b550553b42f32274c6fcc"
+          },
+          {
+            "name": "freshness-policy",
+            "check_id": 122272891984,
+            "conclusion": "success",
+            "head": "89a32389678d5b752f5b550553b42f32274c6fcc"
+          }
+        ],
+        "latest_Ready_policy_runs": [
+          {
+            "id": 40528047932,
+            "path": ".github/workflows/harness-policy.yml",
+            "event": "pull_request_target",
+            "head": "89a32389678d5b752f5b550553b42f32274c6fcc",
+            "conclusion": "success"
+          },
+          {
+            "id": 40528047872,
+            "path": ".github/workflows/freshness-policy.yml",
+            "event": "pull_request_target",
+            "head": "89a32389678d5b752f5b550553b42f32274c6fcc",
+            "conclusion": "success"
+          }
+        ]
+      },
+      "scope_review_sha256": "419cde2ba2b0aba5ee276c906a2013f8cf4d56d83c13e40629548607daf55e9a",
+      "actual_main": "c1e89ad994e424d1cb572802f118a82a42899bea",
+      "actual_main_tree": "a1487b7072d090ba25f8944a9b94c3234a308350",
+      "actual_main_parent": "76d57595b52eb54b92ac188e3cdcd330c18aa116",
+      "ordinary_protected_squash": true,
+      "admin_or_protection_change": false,
+      "all2770_mode_type_blob_tuples_equal_accepted89": true,
+      "main_proof_sha256": "562b4a6024c7fc5326b847cd4c5a809798ea5fc0b17a884be744e96974593b42",
+      "future_docs_publication_main_binding": null
+    },
+    "accepted89_related_runs": {
+      "scope": "PR89実測。新mainpushや新Driver結果ではありません。",
+      "Native": {
+        "run_id": 40519707888,
+        "job_id": 122243144968,
+        "profile": "representative3 plus separate fixture4",
+        "raw_UI_tests": 4,
+        "passed": 4,
+        "failures": 0,
+        "UI_seconds": 410.029,
+        "unit_executed": 165,
+        "unit_skipped": 2,
+        "unit_failures": 0,
+        "Recovery_cases": {
+          "Cancel": {
+            "case_passed": true,
+            "seconds": 120.422,
+            "notice_and_partial_common_warning_assertions": true,
+            "unique_Sheet_and_scoped_controls_assertions": true,
+            "scoped_cancel_tap": true,
+            "dialog_closed_assertion": true,
+            "notice_retained_after_cancel": true,
+            "raw_launch_count": 2,
+            "same_suite_launch_environment_assertion_passed": true,
+            "raw_suite_value_observed": false,
+            "post_relaunch_notice_retained": true,
+            "post_relaunch_old_Agent_loop_bookmark_UI_assertion": true
+          },
+          "Confirmed": {
+            "case_passed": true,
+            "seconds": 136.75,
+            "notice_old_Agent_loop_and_live_Tool_Use_bookmark_add_UI_assertions": true,
+            "unique_Sheet_and_scoped_controls_assertions": true,
+            "scoped_confirm_tap": true,
+            "dialog_closed_and_notice_absent_assertions": true,
+            "raw_launch_count": 2,
+            "same_suite_launch_environment_assertion_passed": true,
+            "raw_suite_value_observed": false,
+            "post_relaunch_notice_absent": true,
+            "post_relaunch_old_Agent_loop_and_live_Tool_Use_bookmark_UI_assertions": true
+          }
+        },
+        "proof_scope": "Fresh raw individual Passed events, ordered public activities and current approved source assertions. No direct raw defaults/backup read, physical acceptance or causal proof of earlier failure."
+      },
+      "SDK26": {
+        "run_id": 40519708024,
+        "job_id": 122243145301,
+        "conclusion": "success",
+        "scope": "unsigned archive compatibility only; no Runtime/device/distribution acceptance"
+      },
+      "Runtime26": {
+        "run_id": 40519708263,
+        "job_id": 122243146400,
+        "raw_UI_tests": 2,
+        "passed": 2,
+        "failures": 0,
+        "seconds": 258.131,
+        "prior0d7_failure_cause_or_fix_proven": false
+      },
+      "Full": {
+        "run_id": 40519707922,
+        "job_id": 122244442473,
+        "raw_UI_tests": 22,
+        "passed": 22,
+        "failures": 0,
+        "seconds": 1324.692,
+        "profile": "published199; Native2+Published14+geometry6, excluding newRecovery2",
+        "Release": {
+          "schema_version": 1,
+          "status": "passed",
+          "native_schema_version": 2,
+          "revision": "e3530249c3e21f9a77e79e08f93123997551d02845a8624c8d89b4d13c9bfbbd",
+          "articles": 199,
+          "audio": 1,
+          "verified_files": 625,
+          "verified_bytes": 36958860,
+          "test_content_absent": true
+        }
+      },
+      "Dedicated": {
+        "run_id": 40519707868,
+        "job_id": 122243145160,
+        "F_raw_case_count": 1,
+        "F_result": "Passed",
+        "R_raw_case_count": 1,
+        "R_result": "Failed",
+        "R_xcodebuild_exit": 65,
+        "R_timed_out": false,
+        "App_arrays7_all_match": true,
+        "same_live_data_container_and_new_RPID_Dead_bundle_observed": true,
+        "mechanism": null,
+        "after_body_sentinel_acceptance": null,
+        "whole_Dedicated_accepted": false
+      }
+    },
+    "work_unit_boundary": {
+      "feature_UI_separate_reviewable_unit": true,
+      "Driver3_base76_to89_unchanged": true,
+      "F_R_seed_override_false_does_not_prove_causal_independence": true,
+      "causality_limit": "Default-false seed removes the added seed write from F/R; it does not prove every changed UITest bundle artifact cannot interact with Xcode. Do not claim causal independence or a fixed R.",
+      "Dedicated_failure_disclosed_not_success": true,
+      "separate_driver_PR": 284,
+      "driver_preparation_head": "56fef8f00946aba553a42cc2081d7df6100fb65e",
+      "driver_preparation_tree": "a6a9184b3c90240c36face73bc7c69d4b70bd5f4",
+      "Driver_effect_or_F_R_acceptance": null,
+      "Source3_main_adoption": null,
+      "new_Driver_normal_or_Dedicated_CI_not_substituted_here": true
+    },
+    "mainc1_new_push_checkpoint": {
+      "source": {
+        "head": "c1e89ad994e424d1cb572802f118a82a42899bea",
+        "tree": "a1487b7072d090ba25f8944a9b94c3234a308350",
+        "parent": "76d57595b52eb54b92ac188e3cdcd330c18aa116",
+        "binding": "fresh commit API plus each directly observed Native/Full/build/harness checkout"
+      },
+      "manifest_sha256": "10d8b8a7e9285b9e682135e6d8381345bc516ab0eea3e3eece8d0e45fbe118fe",
+      "fresh_push_runlist": {
+        "observed_at": "2026-10-27T15:39:43.360Z",
+        "total_count": 3,
+        "runs": [
+          {
+            "id": 40528422662,
+            "name": "iOS native regression",
+            "head": "c1e89ad994e424d1cb572802f118a82a42899bea",
+            "event": "push",
+            "attempt": 1,
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 40528422874,
+            "name": "CI",
+            "head": "c1e89ad994e424d1cb572802f118a82a42899bea",
+            "event": "push",
+            "attempt": 1,
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 40528422694,
+            "name": "iOS published app candidate",
+            "head": "c1e89ad994e424d1cb572802f118a82a42899bea",
+            "event": "push",
+            "attempt": 1,
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ]
+      },
+      "Common": {
+        "run": 40528422874,
+        "jobs": 10,
+        "success": 10,
+        "deploy_success": true,
+        "PRpolicy11_or_public_screen_acceptance": false
+      },
+      "Native": {
+        "run": 40528422662,
+        "job": 122274234209,
+        "UI_tests": 4,
+        "UI_passed": 4,
+        "UI_failures": 0,
+        "UI_seconds": 277.996,
+        "unit_executed": 165,
+        "unit_skipped": 2,
+        "unit_failures": 0,
+        "unit_seconds": 2.342,
+        "Recovery_cancel_seconds": 74.945,
+        "Recovery_confirm_seconds": 103.842,
+        "each_Recovery_case_actual_launches": 2,
+        "post_relaunch_old_and_live_bookmarks_scope": "Current source assertions plus selected current public activities and individual Passed events; no raw suite or backup byte read acceptance.",
+        "Release": {
+          "schema_version": 1,
+          "status": "passed",
+          "native_schema_version": 2,
+          "revision": "994189bffc65ef21782058280f5f8d9aabae72dbfc63a42e832ac99a177bec56",
+          "articles": 3,
+          "audio": 1,
+          "verified_files": 140,
+          "verified_bytes": 2577102,
+          "test_content_absent": true
+        }
+      },
+      "Full": {
+        "run": 40528422694,
+        "job": 122274233822,
+        "UI_tests": 22,
+        "UI_passed": 22,
+        "UI_failures": 0,
+        "UI_seconds": 1109.326,
+        "unit_executed": 165,
+        "unit_skipped": 2,
+        "unit_failures": 0,
+        "unit_seconds": 4.465,
+        "Release": {
+          "schema_version": 1,
+          "status": "passed",
+          "native_schema_version": 2,
+          "revision": "0c7170913db012fff41c0e14a9b62b64f6173b8e24e207e8f06af4964de5d7fa",
+          "articles": 199,
+          "audio": 1,
+          "verified_files": 625,
+          "verified_bytes": 36958884,
+          "test_content_absent": true
+        },
+        "diagnostic_prefixes": 0
+      },
+      "Recovery_each_actual_launches": 2,
+      "proof_scope": "Current c1 Source assertions, current individual Passed events and ordered public activities; raw suite value/defaults/backup bytes and position precision not independently read.",
+      "SDK26_Runtime26_Dedicated_new_push": {
+        "observed": false,
+        "scope": "No corresponding additional workflow run in fresh c1/eventpush list; old PR89 results not transferred.",
+        "results": null
+      },
+      "profiles_kept_separate": true,
+      "PR89_Runtime_counts_or_Release_values_transferred": false,
+      "Common10_push_jobs_not_PR11_policies": true,
+      "deploy_success_not_independent_public_screen_acceptance": true,
+      "actual_artifact_metadata_or_body_GET_by_checkpoint_observer": 0
+    },
+    "still_unaccepted": {
+      "Core_historical_benchmark_reassigned_to_currentApp": false,
+      "Core_performance": null,
+      "physical_device": null,
+      "VoiceOver": null,
+      "reading_position_precision": null,
+      "raw_backup_bytes": null,
+      "crash_power_loss_disk_durability": null,
+      "offline_import_sameProcessRetry_product_scope": null,
+      "IOS22_whole_acceptance": null,
+      "new_Driver_effect": null
+    },
+    "evidence": {
+      "scope_review": {
+        "reference": "<private-evidence>/ios-pr283-89-final-scope-independent-review-20261028/review.json",
+        "bytes": 3871,
+        "sha256": "419cde2ba2b0aba5ee276c906a2013f8cf4d56d83c13e40629548607daf55e9a"
+      },
+      "mainc1_integration_proof": {
+        "reference": "<private-evidence>/ios-pr283-main-c1-integration-verification-20261028/proof.json",
+        "bytes": 781,
+        "sha256": "562b4a6024c7fc5326b847cd4c5a809798ea5fc0b17a884be744e96974593b42"
+      },
+      "Ready_gate": {
+        "reference": "<private-evidence>/ios-pr283-89-final-integration-metadata-20261028/ready-gate.json",
+        "bytes": 6682,
+        "sha256": "45a0f5d6c16ef512d6c63570b639ad7d34f880e5a6db9c5697ddc09f88bbd812"
+      },
+      "parent89_Native_SDK": {
+        "reference": "<private-evidence>/ios-pr283-89-native-sdk-observation-20261027/observation.json",
+        "bytes": 4989,
+        "sha256": "9330b9913db0c42f1d469075c534f3c61f110fc0df6b8b24f57b973a525b24f4"
+      },
+      "parent89_Runtime26": {
+        "reference": "<private-evidence>/ios-pr283-89-full-runtime-observation-20261027/runtime26-summary.json",
+        "bytes": 17259,
+        "sha256": "33849fa682a30812e94c8c6909a913a7791228771b2760ef4b3f9aa4bd4eceb1"
+      },
+      "parent89_Full": {
+        "reference": "<private-evidence>/ios-pr283-89-full-runtime-observation-20261027/full-summary.json",
+        "bytes": 27710,
+        "sha256": "4e24a03f705736f7c776cec3fd7cd76c172ba90a3ff8671e36bf320270d2418f"
+      },
+      "parent89_Dedicated": {
+        "reference": "<private-evidence>/ios-pr283-89-dedicated-observation-20261027/findings.json",
+        "bytes": 4242,
+        "sha256": "8b43b44ee6b63e8a719d5027c62ca1f6344888c8973d1691a51e65abe83122b7"
+      },
+      "mainc1_push_manifest": {
+        "reference": "<private-evidence>/ios-mainc1-postmerge-observation-20261028/manifest.json",
+        "bytes": 1545,
+        "sha256": "10d8b8a7e9285b9e682135e6d8381345bc516ab0eea3e3eece8d0e45fbe118fe"
+      },
+      "mainc1_push_observation": {
+        "reference": "<private-evidence>/ios-mainc1-postmerge-observation-20261028/observation.json",
+        "bytes": 4662,
+        "sha256": "7206b27e4fa578a008393fb7d230789305c19f169b7b31b30de9bf9ae70ed636"
+      }
+    },
+    "record_append_operations": {
+      "API_GET_write": 0,
+      "Git_mutation": 0,
+      "immutable_Git_read_prefix_only": true,
+      "source_shared_existing_private_public9_record6_edits": 0,
+      "SDK_UI_Node_test_reruns": 0,
+      "index_wholefile_output": 0
+    }
+  }
+}

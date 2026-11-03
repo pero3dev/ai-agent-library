@@ -28,6 +28,8 @@ P0の方式確認を完了し、TypeScript 6.0.3とNode22系・React19系の型�
 
 2026-11-04、head`460e1a0`の11必須check成功後、mainが`cdf2b6e5259f42ff547d8ff804dc62992fd8542a`へ進んでstrict同期が必要になった。読書位置修正のSwift/PBX/Swift試験とproject記録14ファイルを競合なく取り込んだ。JS/TS・website・policyには上流差分がなく、351ソースの正規化Git blob fingerprintは一致した。自動マージ予約を解除し、統合headでCIを取り直す。既存の他作業の記録・実装を保持する。
 
+その統合head`51d3050`でも11必須checkが成功した後、mainが`1f752a7cef0c1e4593d7900e51338d56d30587e0`へ進んだ。EC2ミラー対応のhelper9行・回帰44行とproject記録を保持して取り込んだ。MJS試験入口の競合は薄い入口を維持し、追加11ケースを既存MTS本体へ移植した。parseMirrorの実行ASTとPython writerは上流の意味を保持し、型検査2設定0・関連89/89成功・APT実行0を確認した。以前の351ソース不変という判定はcdf同期時点のものと区別し、この同期後のsource fingerprintを集計JSONへ更新した。
+
 ## 中間検証と残件
 
 | 対象 | 確認した結果 | 残件 |
@@ -84,7 +86,7 @@ UIとNodeの相対importは実在する拡張子へ同期し、Nodeの`.mts`に�
 | 対象 | ローカルで確認した結果 |
 | --- | --- |
 | 型検査 | ルート6・サイト5のstrict/noEmit検査で診断0。coverage未分類0、凍結SHA一致 |
-| 共通check | Node24.19、固定試験復元後も終了0。単体1,545件中1,445成功、100件は理由付きWindows/外部環境skip。POSIX専用の固定Notice試験1ファイルは別途not-runを明示、Linux/macOS CIでは原文を実施 |
+| 共通check | Node24.19、EC2対応の統合後も終了0。単体1,556件中1,456成功、100件は理由付きWindows/外部環境skip。POSIX専用の固定Notice試験1ファイルは別途not-runを明示、Linux/macOS CIでは原文を実施 |
 | 負荷時の再現 | 並行browser実行中の初回checkはPowerShellと2秒child期限の2件がtimeout。負荷低下後、同じ契約・直列で2/2成功。期限や不変runner本文を緩和していない |
 | サイトunit | hostで99/99成功、skip0。sandboxのsymlink EPERMとは分けた |
 | サイトbrowser | 公開相当出力で677成功、5skip、失敗0。5件は専用音声fixtureビルドでのみ実施する試験で、通常ビルドの成功へ数えない |

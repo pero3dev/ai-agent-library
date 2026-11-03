@@ -68,12 +68,15 @@ export function validateHost(context, osRelease) {
 /** @param {Buffer} bytes */
 export function parseMirror(bytes) {
   // actions/runner-images configure-apt-sources.sh, reviewed at c74a28e5f894
-  // (blob b3f5b2b180df8eb39fcbba034f616e03a69e775c). Unknown layouts fail closed.
+  // (blob b3f5b2b180df8eb39fcbba034f616e03a69e775c).
+  // EC2 east2 was observed on ubuntu24/20261018.96; Canonical cloud-init
+  // documents regional EC2 archives. Only this exact extra profile is reviewed.
   const azure = 'http://azure.archive.ubuntu.com/ubuntu/\tpriority:1\n';
+  const ec2East2 = 'http://us-east-2.ec2.archive.ubuntu.com/ubuntu/\tpriority:1\n';
   const retained = 'https://archive.ubuntu.com/ubuntu/\tpriority:2\nhttps://security.ubuntu.com/ubuntu/\tpriority:3\n';
-  if (!bytes.equals(Buffer.from(azure + retained)))
+  if (!bytes.equals(Buffer.from(azure + retained)) && !bytes.equals(Buffer.from(ec2East2 + retained)))
     fail('Unknown mirror-list bytes, priorities or hosts; no sudo operation permitted.');
-  // Remove only the existing Azure candidate; retain both official alternatives
+  // Remove only the first reviewed cloud candidate; retain both official alternatives
   // byte-for-byte, including security and its priority. Never rewrite a source.
   return Buffer.from(retained);
 }

@@ -5,7 +5,7 @@
   "source_snapshot": {
     "algorithm": "sha256 of sorted paths and normalized Git blob IDs",
     "files": 351,
-    "digest": "5038bd40573ce21a94adaaf2f8e549e5fee622ea265c3ca1842a11be0e8ffe09"
+    "digest": "ccc6ecb8009bf2625c17f1da94584164e63880cb2f17c52df4178d57b543ce15"
   },
   "coverage": {
     "verified": true,
@@ -118,8 +118,8 @@
     "node": "24.19.0",
     "root_check": {
       "exit_code": 0,
-      "tests": 1545,
-      "passed": 1445,
+      "tests": 1556,
+      "passed": 1456,
       "skipped": 100,
       "failed": 0,
       "not_run_files": [
@@ -187,9 +187,21 @@
       "paid model or real speech synthesis"
     ]
   },
+  "main_sync_history": [
+    {
+      "sha": "cdf2b6e5259f42ff547d8ff804dc62992fd8542a",
+      "js_ts_snapshot_unchanged": true,
+      "source_snapshot_digest": "5038bd40573ce21a94adaaf2f8e549e5fee622ea265c3ca1842a11be0e8ffe09"
+    },
+    {
+      "sha": "1f752a7cef0c1e4593d7900e51338d56d30587e0",
+      "js_ts_snapshot_unchanged": false,
+      "scope": "Upstream EC2 mirror behavior and 11 additional cases ported to checked MTS; source count unchanged",
+      "source_snapshot_digest": "ccc6ecb8009bf2625c17f1da94584164e63880cb2f17c52df4178d57b543ce15"
+    }
+  ],
   "integrated_main": {
-    "sha": "cdf2b6e5259f42ff547d8ff804dc62992fd8542a",
-    "js_ts_snapshot_unchanged": true,
-    "scope": "Swift/PBX/Swift tests and project records; original benchmark base retained"
+    "sha": "1f752a7cef0c1e4593d7900e51338d56d30587e0",
+    "original_benchmark_base_retained": true
   }
 }

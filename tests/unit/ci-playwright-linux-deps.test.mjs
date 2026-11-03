@@ -277,3 +277,47 @@ test('unknown source filenames are rejected without reading or logging them', as
   } });
   await assert.rejects(io.sourceNames(), /filename/);
 });
+
+const EC2_EAST2_MIRROR = Buffer.from('http://us-east-2.ec2.archive.ubuntu.com/ubuntu/\tpriority:1\nhttps://archive.ubuntu.com/ubuntu/\tpriority:2\nhttps://security.ubuntu.com/ubuntu/\tpriority:3\n');
+
+test('observed exact EC2 east2 profile retains official alternatives and needs no rewrite on success', async () => {
+  assert.equal(EC2_EAST2_MIRROR.length, 152);
+  assert.deepEqual(parseMirror(EC2_EAST2_MIRROR), FALLBACK);
+  const f = fixture(); f.files.get(MIRROR_FILE).bytes = Buffer.from(EC2_EAST2_MIRROR);
+  await f.run();
+  assert.deepEqual(f.calls.map((c) => c.phase), ['metadata', 'download', 'install']);
+  assert.equal(f.writes.length, 0);
+  assert.deepEqual(f.files.get(MIRROR_FILE).bytes, EC2_EAST2_MIRROR);
+});
+
+for (const [name, codes, phases] of [
+  ['metadata failure', [124, 0, 0, 0], ['metadata', 'metadata', 'download', 'install']],
+  ['download failure', [0, 100, 0, 0, 0], ['metadata', 'download', 'metadata', 'download', 'install']],
+]) test(`EC2 east2 ${name} falls back once and restores original 152 bytes before install`, async () => {
+  const f = fixture(codes); f.files.get(MIRROR_FILE).bytes = Buffer.from(EC2_EAST2_MIRROR);
+  const original = { ...f.files.get(MIRROR_FILE) };
+  f.hook(async (c) => {
+    if (c.phase === 'install') assert.deepEqual(f.files.get(MIRROR_FILE), original);
+  });
+  await f.run();
+  assert.deepEqual(f.calls.map((c) => c.phase), phases);
+  assert.deepEqual(f.writes, [FALLBACK, EC2_EAST2_MIRROR]);
+  assert.deepEqual(f.files.get(MIRROR_FILE), original);
+  assert.equal(f.logs.filter((l) => l.phase === 'fallback').length, 1);
+});
+
+for (const [name, text] of [
+  ['unreviewed region', EC2_EAST2_MIRROR.toString().replace('us-east-2.', 'us-east-1.')],
+  ['lookalike host', EC2_EAST2_MIRROR.toString().replace('ec2.archive.ubuntu.com/', 'ec2.archive.ubuntu.com.evil.invalid/')],
+  ['unreviewed scheme', EC2_EAST2_MIRROR.toString().replace('http://us-east-2.', 'https://us-east-2.')],
+  ['wrong priority', EC2_EAST2_MIRROR.toString().replace('priority:1', 'priority:2')],
+  ['spaces instead of tab', EC2_EAST2_MIRROR.toString().replaceAll('\t', ' ')],
+  ['missing final newline', EC2_EAST2_MIRROR.toString().trimEnd()],
+  ['extra URI', `${EC2_EAST2_MIRROR}https://archive.ubuntu.com/ubuntu/\tpriority:4\n`],
+  ['credential URI', EC2_EAST2_MIRROR.toString().replace('http://us-east-2.', 'http://user:secret@us-east-2.')],
+]) test(`reject EC2 east2 ${name} before sudo or mirror writes`, async () => {
+  const f = fixture(); f.files.get(MIRROR_FILE).bytes = Buffer.from(text);
+  await assert.rejects(f.run(), /mirror-list/);
+  assert.equal(f.calls.length + f.writes.length, 0);
+  assert.ok(!JSON.stringify(f.logs).includes('secret'));
+});

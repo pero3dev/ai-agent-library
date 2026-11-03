@@ -6,11 +6,23 @@ import childProcess from 'node:child_process'
 import { syncBuiltinESMExports } from 'node:module'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { createHash } from 'node:crypto'
-import { nativeSimulatorContract as C, main, readPublishedSimulatorReady } from '../../ios/tests/native-simulator-prepare.mjs'
+import { nativeSimulatorContract as C, main as productionMain, readPublishedSimulatorReady as productionReadPublishedReady } from '../../ios/tests/native-simulator-prepare.mjs'
 
 const base = fileURLToPath(new URL('../../', import.meta.url))
 const workflow = fs.readFileSync(path.join(base, '.github/workflows/ios-published-candidate.yml'), 'utf8')
-const baseline = fs.readFileSync(path.join(base, '../before/.github/workflows/ios-published-candidate.yml'), 'utf8')
+// Run every ownership/context/receipt case on every host against the exact
+// production helper body with a module-local simulated Darwin platform. This
+// facade never changes global process.platform or grants real device authority.
+// The unmodified production exports have separate actual-host checks below.
+const helperSource = fs.readFileSync(path.join(base, 'ios/tests/native-simulator-prepare.mjs'), 'utf8')
+assert.ok(helperSource.startsWith('#!/usr/bin/env node\n'))
+const facadePrefix = "import ailibTestProcess from 'node:process'\n" +
+  "const process = new Proxy(ailibTestProcess, { get(target, key) { return key === 'platform' ? 'darwin' : Reflect.get(target, key, target) } })\n"
+const firstLineEnd = helperSource.indexOf('\n') + 1
+const facadeSource = helperSource.slice(0, firstLineEnd) + facadePrefix + helperSource.slice(firstLineEnd)
+assert.equal(facadeSource.slice(0, firstLineEnd) + facadeSource.slice(firstLineEnd + facadePrefix.length), helperSource)
+const simulatedDarwinModuleURL = 'data:text/javascript;base64,' + Buffer.from(facadeSource).toString('base64')
+const { main, readPublishedSimulatorReady } = await import(simulatedDarwinModuleURL)
 const NEW = 'AAAAAAAA-AAAA-4AAA-8AAA-AAAAAAAAAAAA', OLD = 'BBBBBBBB-BBBB-4BBB-8BBB-BBBBBBBBBBBB'
 const source = '874bf651db44b879214267e0c08767e754b51a49', checkout = '0e001e930126187339d6c3d705bd2cf49c566dce'
 const tree = '0bbcdf2de779d0748d6343696717493f84d2a863'
@@ -26,7 +38,7 @@ const uiStep = step(workflow, 'Run functional native UI tests against the publis
 const uiBlocks = [...uiStep.matchAll(/<<'NODE'\n([\s\S]*?)\n          NODE/g)].map(m => m[1].replace(/^          /gm, ''))
 assert.equal(uiBlocks.length, 2)
 function callerModule(code, contract) {
-  return code.replaceAll("'./ios/tests/native-simulator-prepare.mjs'", JSON.stringify(pathToFileURL(path.join(base, 'ios/tests/native-simulator-prepare.mjs')).href))
+  return code.replaceAll("'./ios/tests/native-simulator-prepare.mjs'", JSON.stringify(simulatedDarwinModuleURL))
     .replaceAll("'./ios/tests/clipboard-canary-seed.mjs'", JSON.stringify(pathToFileURL(path.join(base, 'ios/tests/clipboard-canary-seed.mjs')).href))
     .replaceAll("'./.local/ios-published-candidate/evidence/ui-slice-contract.mjs'", JSON.stringify(pathToFileURL(contract).href))
 }
@@ -73,7 +85,7 @@ async function fixture(slice, body) {
   syncBuiltinESMExports(); console.log = line => logs.push(line)
   const receipts = path.join(root, `.local/ios-published-candidate/evidence/owned-simulator/${slice}`)
   const h = { root, env, calls, logs, receipts, get made() { return made },
-    prepare: () => { const ready = main(['prepare'], env); const outputs = Object.fromEntries(fs.readFileSync(output, 'utf8').trim().split('\n').map(row => { const at = row.indexOf('='); return [row.slice(0, at), row.slice(at + 1)] }))
+    prepare: (entry = main) => { const ready = entry(['prepare'], env); const outputs = Object.fromEntries(fs.readFileSync(output, 'utf8').trim().split('\n').map(row => { const at = row.indexOf('='); return [row.slice(0, at), row.slice(at + 1)] }))
       env.AILIBRARY_PUBLISHED_OWNER_TOKEN = outputs.owner_token; env.AILIBRARY_PUBLISHED_CREATED_UUID = outputs.created_uuid
       env.AILIBRARY_PUBLISHED_DESTINATION = outputs.destination; return ready },
     read: () => readPublishedSimulatorReady(env), cleanup: extra => main(['cleanup'], { ...env, ...extra }),
@@ -86,8 +98,28 @@ async function fixture(slice, body) {
     Object.assign(process.env, previousEnv); fs.rmSync(root, { recursive: true }) }
 }
 
+// These two tests use the real unmodified exports, never the facade. Each
+// host runs its applicable check and explicitly skips the other host's case.
+test('production CLI rejects an actual non-Darwin host at the platform assertion before any command', {
+  skip: process.platform === 'darwin' ? 'Requires an actual non-Darwin host; current host is Darwin' : false,
+}, async () => fixture('reading-state', h => {
+  const platformRefusal = error => error.code === 'ERR_ASSERTION' && error.actual === process.platform && error.expected === 'darwin'
+  assert.throws(() => productionMain(['prepare'], h.env), platformRefusal)
+  assert.throws(() => productionReadPublishedReady(h.env), platformRefusal)
+  assert.equal(h.calls.length, 0, 'The platform refusal must precede Git, Xcode and Simulator commands')
+  assert.equal(fs.existsSync(h.receipts), false)
+}))
+test('production CLI on an actual Darwin host prepares, reads and cleans with stubbed commands', {
+  skip: process.platform !== 'darwin' ? 'Requires an actual Darwin host; every child command is still stubbed' : false,
+}, async () => fixture('reading-state', h => {
+  const ready = h.prepare(productionMain)
+  assert.equal(productionReadPublishedReady(h.env).UUID, ready.UUID)
+  assert.equal(productionMain(['cleanup'], h.env).ok, true)
+  assert.equal(h.made, null)
+}))
+
 for (const slice of ['reading-state', 'content-copy']) {
-  test(slice + ': real CLI profile creates one unique owned UUID, verifies ready and cleans only that UUID', async () => fixture(slice, h => {
+  test(slice + ': simulated-Darwin CLI profile creates one unique owned UUID, verifies ready and cleans only that UUID', async () => fixture(slice, h => {
     const ready = h.prepare(), prefix = `AILibrary-published-${slice}-12345-2-`
     assert.equal(ready.UUID, NEW); assert.ok(ready.name.startsWith(prefix)); assert.equal(ready.context.job, 'ios-published-candidate')
     assert.equal(ready.context.profile, 'published'); assert.equal(ready.context.ui_slice, slice)
@@ -101,7 +133,7 @@ for (const slice of ['reading-state', 'content-copy']) {
     for (const call of h.calls.filter(x => x.binary === '/usr/bin/git')) { assert.equal(call.options.timeout, 30000); assert.equal(call.options.maxBuffer, 4096) }
     assert.equal(h.calls.find(x => x.args[1] === 'bootstatus').options.timeout, 300000)
   }))
-  test(slice + ': YAML environment bindings feed the real prepare/ready/cleanup CLI without Native aliases', async () => fixture(slice, h => {
+  test(slice + ': YAML environment bindings feed the simulated-Darwin prepare/ready/cleanup CLI without Native aliases', async () => fixture(slice, h => {
     const prepare = step(workflow, 'Prepare one fresh owned published Simulator')
     assert.match(prepare, /id: published_simulator\n\s+timeout-minutes: 9\n\s+run: node ios\/tests\/native-simulator-prepare\.mjs prepare/)
     for (const name of ['Prepare the fixed disjoint full UI slice', 'Run all native XCTest units on the iPhone Simulator',
@@ -114,7 +146,7 @@ for (const slice of ['reading-state', 'content-copy']) {
     const ready = h.prepare(); assert.equal(main(['ready'], h.env).destination, ready.destination)
     assert.equal(h.cleanup().status, 'owned-simulator-deleted'); assert.equal(workflow.includes('AILIBRARY_NATIVE_'), false)
   }))
-  test(slice + ': actual YAML clipboard callers use the owned ready UUID and preserve the exact canary/results contract', async () => fixture(slice, async h => {
+  test(slice + ': actual YAML clipboard callers use the simulated-Darwin owned ready UUID and preserve the exact canary/results contract', async () => fixture(slice, async h => {
     const ready = h.prepare(), evidence = path.join(h.root, '.local/ios-published-candidate/evidence'), contract = path.join(evidence, 'ui-slice-contract.mjs')
     fs.writeFileSync(contract, contractSource); const { caseIDsForSlice } = await import(pathToFileURL(contract).href)
     const ids = caseIDsForSlice(slice), owned = { context: ready.context, token: ready.token, UUID: ready.UUID }
@@ -142,14 +174,22 @@ for (const slice of ['reading-state', 'content-copy']) {
   }))
 }
 
-for (const [name, change] of [
-  ['unknown job', e => { e.GITHUB_JOB = 'other' }], ['missing slice', e => { delete e.UI_SLICE }],
-  ['unknown slice', e => { e.UI_SLICE = 'other' }], ['path slice', e => { e.UI_SLICE = '../reading-state' }],
-  ['Native source alias cannot substitute', e => { e.AILIBRARY_NATIVE_SOURCE_HEAD = source; delete e.EXPECTED_SOURCE_HEAD }],
-  ['source mismatch', e => { e.EXPECTED_SOURCE_HEAD = 'f'.repeat(40) }], ['wrong developer', e => { e.DEVELOPER_DIR = '/other/Xcode' }]
-]) test('CLI boundary before device operations: ' + name, async () => fixture('reading-state', h => {
-  change(h.env); assert.throws(() => main(['prepare'], h.env)); assert.equal(h.calls.some(x => x.binary === '/usr/bin/xcrun'), false)
+for (const [name, change, expected] of [
+  ['unknown job', e => { e.GITHUB_JOB = 'other' }, /Unknown Simulator ownership profile/],
+  ['missing slice', e => { delete e.UI_SLICE }, /Unknown published UI slice/],
+  ['unknown slice', e => { e.UI_SLICE = 'other' }, /Unknown published UI slice/],
+  ['path slice', e => { e.UI_SLICE = '../reading-state' }, /Unknown published UI slice/],
+  ['Native source alias cannot substitute', e => { e.AILIBRARY_NATIVE_SOURCE_HEAD = source; delete e.EXPECTED_SOURCE_HEAD },
+    error => error.code === 'ERR_ASSERTION' && error.actual === source && error.expected === undefined],
+  ['source mismatch', e => { e.EXPECTED_SOURCE_HEAD = 'f'.repeat(40) },
+    error => error.code === 'ERR_ASSERTION' && error.actual === source && error.expected === 'f'.repeat(40)],
+  ['wrong developer', e => { e.DEVELOPER_DIR = '/other/Xcode' },
+    error => error.code === 'ERR_ASSERTION' && error.actual === '/other/Xcode' && error.expected === C.developer],
+]) test('simulated-Darwin CLI boundary before device operations: ' + name, async () => fixture('reading-state', h => {
+  change(h.env); assert.throws(() => main(['prepare'], h.env), expected)
+  assert.equal(h.calls.some(x => x.binary === '/usr/bin/xcrun'), false)
   assert.equal(h.calls.some(x => x.binary === '/usr/bin/xcodebuild'), false)
+  assert.equal(h.calls.filter(x => x.binary === '/usr/bin/git').length, name === 'wrong developer' ? 1 : 0)
 }))
 for (const [name, change] of [
   ['wrong token', e => { e.AILIBRARY_PUBLISHED_OWNER_TOKEN = 'dddddddd-dddd-4ddd-8ddd-dddddddddddd' }],
@@ -172,21 +212,61 @@ for (const [name, file, change] of [
   assert.equal(h.calls.length, n + 1); assert.equal(h.calls.at(-1).binary, '/usr/bin/git')
 }))
 
-test('YAML binds exactly three xcode destinations and preserves original roster/canary/Release/limits', () => {
+test('YAML binds exactly three xcode destinations and preserves fixed roster/canary/Release/limits', async () => {
   assert.equal((workflow.match(/-destination "\$AILIBRARY_PUBLISHED_DESTINATION"/g) ?? []).length, 3)
   assert.equal(workflow.includes('name=iPhone 16'), false); assert.equal(workflow.includes("device.name === 'iPhone 16'"), false)
   assert.ok(workflow.includes('[[ "$AILIBRARY_PUBLISHED_DESTINATION" == "platform=iOS Simulator,id=$COPY_SIMULATOR_ID" ]]'))
-  const extractContract = text => text.match(/cat >[^\n]+<<'NODE'\n([\s\S]*?)\n          NODE/)[1]
-  assert.equal(extractContract(workflow), extractContract(baseline), 'Original26 selectors/assertions are unchanged')
-  for (const marker of ['-destination-timeout 120', '-parallel-testing-enabled NO -jobs 2', 'expected.length, 374',
-    "'e29cb525957fb4bd72350927aa1cf47659da4aef9964ecbf0d43edb4dfe2cee8'", "-destination 'generic/platform=iOS Simulator'",
-    'runs-on: macos-15-intel']) {
-    assert.equal(workflow.split(marker).length, baseline.split(marker).length, marker)
+  // The checkout contains the current contract, not a private previous-workflow
+  // snapshot. Keep the independently fixed 26-case roster explicit here.
+  const expectedSlices = {
+    "reading-state": [
+      "NativeReaderUITests/testContentsBookmarkAndResumeAfterRelaunch()",
+      "NativeReaderUITests/testHealthyLegacyHeadingPositionAndBookmarkPersistAfterNativeResumeAndRelaunch()",
+      "NativeReaderUITests/testThreeArticlesHaveNativeBodyText()",
+      "PublishedReaderUITests/testBodySearchArrivesAtNestedParagraphContainingAllTermsWithoutReaderGestures()",
+      "PublishedReaderUITests/testBundledContentSelectionCancelConfirmAndRestartKeepReadingAndGuide()",
+      "PublishedReaderUITests/testCancelContentFolderPickerPreservesFiltersAndReadingAndAllowsMoreActions()",
+      "PublishedReaderUITests/testChapter03LongArticleContentsBookmarkAndResume()",
+      "PublishedReaderUITests/testFilteredFixtureActionsAndReadingChangesRemainIsolatedFromNormalLibrary()",
+      "PublishedReaderUITests/testFilteredMoreActionsAboutRoundTripPreservesQueryAndLearningTag()",
+      "PublishedReaderUITests/testFixtureCrossArticleBodyLinkReturnsToMeasuredSourcePositionAndBookmark()",
+      "PublishedReaderUITests/testFixtureTallSingleBlockResumesNearItsMeasuredInternalRowAfterRelaunch()",
+      "PublishedReaderUITests/testResumeUsesLaterReadingPositionInsteadOfReplayingThePreviousBodyQuery()",
+      "ReaderViewportGeometryTests/testCopiedFramesSelectLowestFullyVisibleParagraph()",
+      "ReaderViewportGeometryTests/testEqualTopFramesPreserveCollectionOrder()",
+      "ReaderViewportGeometryTests/testForegroundOcclusionAndPartialFrameRemainExcluded()",
+      "ReaderViewportGeometryTests/testInvalidViewportAndEmptyCollectionFailClosed()",
+      "ReaderViewportGeometryTests/testNonfiniteEmptyAndOccludedFramesCannotWin()",
+      "ReaderViewportGeometryTests/testUnknownOrAmbiguousForegroundDoesNotBecomeVisible()"
+    ],
+    "content-copy": [
+      "PublishedReaderUITests/testChapter03LargeDiagramCanExpandAndShowSource()",
+      "PublishedReaderUITests/testChapter08LargestTableReachesFinalRowAndColumn()",
+      "PublishedReaderUITests/testFixtureBodyLinksShowFragmentFilenameFarAndDuplicateWitnesses()",
+      "PublishedReaderUITests/testFixtureFirstCodeCopyUsesThePublicButton()",
+      "PublishedReaderUITests/testGlossarySearchRelatedArticleAndReturnPreserveReaderState()",
+      "PublishedReaderUITests/testLearningRouteShowsItsInstructionChapterOrderAndArticle()",
+      "PublishedReaderUITests/testLearningTagSearchCombinesWithArticleSearchAndClearsZeroResults()",
+      "PublishedReaderUITests/testRelatedChapterLinkClosesInPlaceAndOpensAnArticleWithoutLosingTheReader()"
+    ]
   }
+  const { ORIGINAL_CASE_IDS, SLICE_CASE_IDS, caseIDsForSlice } = await import(
+    'data:text/javascript;base64,' + Buffer.from(contractSource).toString('base64'))
+  assert.deepEqual(Object.keys(SLICE_CASE_IDS).sort(), Object.keys(expectedSlices).sort())
+  assert.deepEqual(ORIGINAL_CASE_IDS, Object.values(expectedSlices).flat().sort())
+  for (const [slice, expected] of Object.entries(expectedSlices)) {
+    assert.deepEqual(SLICE_CASE_IDS[slice], expected); assert.deepEqual(caseIDsForSlice(slice), expected)
+  }
+  for (const [marker, count] of [
+    ['-destination-timeout 120', 3], ['-parallel-testing-enabled NO -jobs 2', 3], ['expected.length, 374', 1],
+    ["'e29cb525957fb4bd72350927aa1cf47659da4aef9964ecbf0d43edb4dfe2cee8'", 1],
+    ["-destination 'generic/platform=iOS Simulator'", 1], ['runs-on: macos-15-intel', 1],
+  ]) assert.equal(workflow.split(marker).length - 1, count, marker)
   assert.ok(workflow.includes("timeout-minutes: ${{ matrix.slice == 'reading-state' && 95 || 70 }}"))
-  assert.ok(baseline.includes("timeout-minutes: ${{ matrix.slice == 'reading-state' && 75 || 50 }}"))
-  const canary = text => text.match(/          \/\/ BEGIN CONTENT-COPY CANARY SEED RECOVERY[\s\S]*?          \/\/ END CONTENT-COPY CANARY SEED RECOVERY/)[0]
-  assert.equal(canary(workflow), canary(baseline))
+  const canary = uiBlocks[0].match(/\/\/ BEGIN CONTENT-COPY CANARY SEED RECOVERY[\s\S]*?\/\/ END CONTENT-COPY CANARY SEED RECOVERY/)[0]
+  assert.equal((canary.match(/seedClipboardCanary\(UUID, canary, seed\)/g) ?? []).length, 1)
+  assert.ok(canary.includes("run('seed', ['simctl', 'pbcopy', UUID], canary)"))
+  assert.ok(uiBlocks[0].includes("assert.ok(observed.equals(canary), 'Device pasteboard must first return the exact unique canary bytes')"))
   assert.ok(uiBlocks[0].indexOf('readPublishedSimulatorReady()') < uiBlocks[0].indexOf("['simctl', 'pbpaste'"))
   assert.ok(uiBlocks[1].indexOf('binding.UUID, owned.UUID') < uiBlocks[1].indexOf("['simctl', 'pbpaste'"))
   const cleanup = step(workflow, 'Clean up only the proven owned published Simulator')

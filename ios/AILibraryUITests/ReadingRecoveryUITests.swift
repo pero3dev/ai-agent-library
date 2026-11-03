@@ -122,7 +122,11 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
         returnToLibrary()
 
         let clear = app.buttons["library-clear-filters"]
-        for _ in 0..<8 where !isHittableOnScreen(clear) { app.swipeDown(velocity: .slow) }
+        for _ in 0..<8 {
+            let ready = isHittableOnScreen(clear)
+            if ready { break }
+            app.swipeDown(velocity: .slow)
+        }
         requireHittable(clear)
         clear.tap()
         // Resume has no heading/search route. Prove the live saved position
@@ -167,7 +171,11 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
         returnToLibrary()
 
         let clear = app.buttons["library-clear-filters"]
-        for _ in 0..<8 where !isHittableOnScreen(clear) { app.swipeDown(velocity: .slow) }
+        for _ in 0..<8 {
+            let ready = isHittableOnScreen(clear)
+            if ready { break }
+            app.swipeDown(velocity: .slow)
+        }
         requireHittable(clear)
         clear.tap()
         try finishLibrarySearchBeforeExportResume()
@@ -653,7 +661,11 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
     private func requireRecoveryNotice() {
         waitForLibrary()
         let recovery = recoveryButtons.firstMatch
-        for _ in 0..<8 where !isHittableOnScreen(recovery) { app.swipeDown(velocity: .slow) }
+        for _ in 0..<8 {
+            let ready = isHittableOnScreen(recovery)
+            if ready { break }
+            app.swipeDown(velocity: .slow)
+        }
         requireHittable(recovery)
         XCTAssertEqual(recoveryButtons.count, 1, "Expected one public recovery Button")
         XCTAssertTrue(app.staticTexts[partialMessage].waitForExistence(timeout: 5))

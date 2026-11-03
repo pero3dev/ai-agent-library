@@ -34,7 +34,7 @@ jobs:
       matrix:
         slice: [reading-state, content-copy]
     runs-on: macos-15-intel
-    timeout-minutes: ${{ matrix.slice == 'reading-state' && 75 || 50 }}
+    timeout-minutes: ${{ matrix.slice == 'reading-state' && 95 || 70 }}
     env:
       DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
       UI_SLICE: ${{ matrix.slice }}
@@ -137,7 +137,15 @@ jobs:
             2>&1 | tee .local/ios-published-candidate/evidence/published-package.json
           bash ios/tests/check-package.sh ios/AILibrary/TestContent 4 \
             2>&1 | tee .local/ios-published-candidate/evidence/fixture-package.json
+      - name: Prepare one fresh owned published Simulator
+        id: published_simulator
+        timeout-minutes: 9
+        run: node ios/tests/native-simulator-prepare.mjs prepare
       - name: Prepare the fixed disjoint full UI slice
+        env:
+          AILIBRARY_PUBLISHED_OWNER_TOKEN: ${{ steps.published_simulator.outputs.owner_token }}
+          AILIBRARY_PUBLISHED_CREATED_UUID: ${{ steps.published_simulator.outputs.created_uuid }}
+          AILIBRARY_PUBLISHED_DESTINATION: ${{ steps.published_simulator.outputs.destination }}
         run: |
           set -euo pipefail
           cat > .local/ios-published-candidate/evidence/ui-slice-contract.mjs <<'NODE'
@@ -337,6 +345,8 @@ jobs:
           import assert from 'node:assert/strict';
           import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
           import { createHash } from 'node:crypto';
+          import { readPublishedSimulatorReady } from './ios/tests/native-simulator-prepare.mjs';
+          const owned = readPublishedSimulatorReady();
           import { ORIGINAL_CASE_IDS, caseIDsForSlice, validatePartitions, validateSwiftCaseSources, flatUISourceNames } from './.local/ios-published-candidate/evidence/ui-slice-contract.mjs';
           assert.equal(process.env.GITHUB_ACTIONS, 'true');
           const event = JSON.parse(readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8'));
@@ -363,7 +373,8 @@ jobs:
             source_case_inventory: sourceCaseInventory, source_case_files: sourceCaseFiles,
             expected_case_IDs: ids, expected_count: ids.length, original_full_case_IDs: ORIGINAL_CASE_IDS,
             contract_SHA256: createHash('sha256').update(contract).digest('hex'),
-            destination: { platform: 'iOS Simulator', name: 'iPhone 16', osVersion: '18.5' },
+            owned_simulator: { context: owned.context, token: owned.token, UUID: owned.UUID },
+            destination: { platform: 'iOS Simulator', id: owned.UUID, name: owned.name, osVersion: '18.5' },
             native_units_required: slice === 'reading-state', code_copy_and_Release_required: slice === 'content-copy' };
           writeFileSync('.local/ios-published-candidate/evidence/ui-selection.json', JSON.stringify(selection, null, 2) + '\n', { flag: 'wx', mode: 0o600 });
           writeFileSync('.local/ios-published-candidate/evidence/ui-selectors.txt',
@@ -374,11 +385,16 @@ jobs:
       - name: Run all native XCTest units on the iPhone Simulator
         if: ${{ matrix.slice == 'reading-state' }}
         id: native_units
+        env:
+          AILIBRARY_PUBLISHED_OWNER_TOKEN: ${{ steps.published_simulator.outputs.owner_token }}
+          AILIBRARY_PUBLISHED_CREATED_UUID: ${{ steps.published_simulator.outputs.created_uuid }}
+          AILIBRARY_PUBLISHED_DESTINATION: ${{ steps.published_simulator.outputs.destination }}
         run: |
           set -euo pipefail
+          node ios/tests/native-simulator-prepare.mjs ready
           xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary \
             -configuration Debug \
-            -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.5' \
+            -destination "$AILIBRARY_PUBLISHED_DESTINATION" \
             -destination-timeout 120 \
             -derivedDataPath .local/ios-published-candidate/DebugDerivedData \
             -resultBundlePath .local/ios-published-candidate/evidence/unit.xcresult \
@@ -396,8 +412,13 @@ jobs:
         run: node ios/tests/capture-simulator-unit-failure.mjs
       - name: Build the selected UI targets before the content-copy Debug audit
         if: ${{ matrix.slice == 'content-copy' }}
+        env:
+          AILIBRARY_PUBLISHED_OWNER_TOKEN: ${{ steps.published_simulator.outputs.owner_token }}
+          AILIBRARY_PUBLISHED_CREATED_UUID: ${{ steps.published_simulator.outputs.created_uuid }}
+          AILIBRARY_PUBLISHED_DESTINATION: ${{ steps.published_simulator.outputs.destination }}
         run: |
           set -euo pipefail
+          node ios/tests/native-simulator-prepare.mjs ready
           UI_SELECTORS=()
           while IFS= read -r selector; do
             [[ "$selector" =~ ^-only-testing:AILibraryUITests/[A-Za-z0-9_]+/test[A-Za-z0-9_]+$ ]]
@@ -411,7 +432,7 @@ jobs:
           # Same AILibrary scheme and UI dependency; filtering does not assert Core compile omission.
           xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary \
             -configuration Debug \
-            -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.5' \
+            -destination "$AILIBRARY_PUBLISHED_DESTINATION" \
             -destination-timeout 120 \
             -derivedDataPath .local/ios-published-candidate/DebugDerivedData \
             -parallel-testing-enabled NO -jobs 2 \
@@ -436,6 +457,9 @@ jobs:
       # Keep functional UI acceptance separate from the dedicated performance suite.
       - name: Run functional native UI tests against the published app
         env:
+          AILIBRARY_PUBLISHED_OWNER_TOKEN: ${{ steps.published_simulator.outputs.owner_token }}
+          AILIBRARY_PUBLISHED_CREATED_UUID: ${{ steps.published_simulator.outputs.created_uuid }}
+          AILIBRARY_PUBLISHED_DESTINATION: ${{ steps.published_simulator.outputs.destination }}
           TEST_RUNNER_AILIBRARY_EXPECTED_PUBLISHED_COUNT: ${{ env.PUBLISHED_ARTICLE_COUNT }}
         run: |
           set -euo pipefail
@@ -446,6 +470,9 @@ jobs:
           import { createHash, randomUUID } from 'node:crypto';
           import { caseIDsForSlice } from './.local/ios-published-candidate/evidence/ui-slice-contract.mjs';
           import { seedClipboardCanary } from './ios/tests/clipboard-canary-seed.mjs';
+          import { readPublishedSimulatorReady } from './ios/tests/native-simulator-prepare.mjs';
+          const owned = readPublishedSimulatorReady();
+          assert.equal(process.env.AILIBRARY_PUBLISHED_DESTINATION, owned.destination);
           const evidence = '.local/ios-published-candidate/evidence';
           const selection = JSON.parse(readFileSync(`${evidence}/ui-selection.json`, 'utf8'));
           assert.equal(selection.status, 'fixed-disjoint-full-UI-slice');
@@ -453,6 +480,8 @@ jobs:
           assert.equal(selection.source_head, process.env.EXPECTED_SOURCE_HEAD);
           assert.equal(selection.event_commit, process.env.GITHUB_SHA);
           assert.deepEqual(selection.expected_case_IDs, caseIDsForSlice(process.env.UI_SLICE));
+          assert.deepEqual(selection.owned_simulator, { context: owned.context, token: owned.token, UUID: owned.UUID });
+          assert.equal(selection.destination.id, owned.UUID);
           assert.equal(selection.contract_SHA256, createHash('sha256').update(readFileSync(`${evidence}/ui-slice-contract.mjs`)).digest('hex'));
           const put = (name, value) => writeFileSync(`${evidence}/${name}`, value, { flag: 'wx', mode: 0o600 });
           const json = (name, value) => put(name, JSON.stringify(value, null, 2) + '\n');
@@ -473,24 +502,13 @@ jobs:
           const inventory = JSON.parse(raw.toString('utf8'));
           const runtimeID = 'com.apple.CoreSimulator.SimRuntime.iOS-18-5';
           assert.ok(Array.isArray(inventory.devices?.[runtimeID]));
-          const matches = inventory.devices[runtimeID].filter(device => device.name === 'iPhone 16');
-          assert.equal(matches.length, 1, 'Exactly one iPhone 16 on iOS18.5 must own the clipboard test');
-          const device = matches[0], UUID = device.udid.toUpperCase();
-          assert.match(UUID, /^[A-F0-9]{8}(?:-[A-F0-9]{4}){3}-[A-F0-9]{12}$/);
-          assert.equal(device.isAvailable, true);
-          assert.equal(device.deviceTypeIdentifier, 'com.apple.CoreSimulator.SimDeviceType.iPhone-16');
-          assert.ok(['Shutdown', 'Booted'].includes(device.state), 'Only Shutdown or Booted is accepted before preparation');
-          if (device.state === 'Shutdown') run('boot', ['simctl', 'boot', UUID]);
-          run('bootstatus', ['simctl', 'bootstatus', UUID, '-b'], undefined, 1024 * 1024, 240000);
-          const readyRaw = run('devices-ready', ['simctl', 'list', 'devices', 'available', '--json'], undefined, 16 * 1024 * 1024, 90000);
-          const readyInventory = JSON.parse(readyRaw.toString('utf8'));
-          assert.ok(Array.isArray(readyInventory.devices?.[runtimeID]));
-          const readyMatches = readyInventory.devices[runtimeID].filter(candidate => candidate.name === 'iPhone 16');
-          assert.equal(readyMatches.length, 1, 'Exactly the original unique iPhone 16 must remain after bootstatus');
-          const ready = readyMatches[0];
-          assert.equal(ready.udid.toUpperCase(), UUID, 'Preparation must not switch the selected Simulator');
-          assert.equal(ready.deviceTypeIdentifier, 'com.apple.CoreSimulator.SimDeviceType.iPhone-16');
-          assert.equal(ready.isAvailable, true); assert.equal(ready.state, 'Booted');
+          const UUID = owned.UUID;
+          const matches = inventory.devices[runtimeID].filter(device => device.udid.toUpperCase() === UUID);
+          assert.equal(matches.length, 1, 'Exactly the proven owned UUID must own the clipboard test');
+          const device = matches[0];
+          assert.equal(device.name, owned.name); assert.equal(device.isAvailable, true);
+          assert.equal(device.deviceTypeIdentifier, owned.device_type_identifier);
+          assert.equal(device.state, 'Booted', 'The prepared owned UUID must remain Booted; no named-device fallback');
           const canary = Buffer.from(`AILibrary-code-copy-canary:${process.env.GITHUB_RUN_ID}:${process.env.GITHUB_RUN_ATTEMPT}:${randomUUID()}\n`, 'utf8');
           // BEGIN CONTENT-COPY CANARY SEED RECOVERY
           if (selection.slice === 'content-copy') {
@@ -533,11 +551,13 @@ jobs:
             slice: selection.slice, expected_case_IDs: selection.expected_case_IDs, source_head: selection.source_head,
             source_case_files: selection.source_case_files,
             contract_SHA256: selection.contract_SHA256, runtime_identifier: runtimeID, device_type_identifier: device.deviceTypeIdentifier, UUID,
+            owned_simulator: { context: owned.context, token: owned.token, UUID: owned.UUID },
             canary_bytes: canary.length, canary_SHA256: createHash('sha256').update(canary).digest('hex') });
           console.log(UUID);
           NODE
           )"
           export COPY_SIMULATOR_ID
+          [[ "$AILIBRARY_PUBLISHED_DESTINATION" == "platform=iOS Simulator,id=$COPY_SIMULATOR_ID" ]]
           UI_SELECTORS=()
           while IFS= read -r selector; do
             [[ "$selector" =~ ^-only-testing:AILibraryUITests/[A-Za-z0-9_]+/test[A-Za-z0-9_]+$ ]]
@@ -550,7 +570,7 @@ jobs:
           esac
           xcodebuild -project ios/AILibrary.xcodeproj -scheme AILibrary \
             -configuration Debug \
-            -destination "platform=iOS Simulator,id=$COPY_SIMULATOR_ID" \
+            -destination "$AILIBRARY_PUBLISHED_DESTINATION" \
             -destination-timeout 120 \
             -derivedDataPath .local/ios-published-candidate/DebugDerivedData \
             -resultBundlePath .local/ios-published-candidate/evidence/ui.xcresult \
@@ -563,6 +583,9 @@ jobs:
           import { readFileSync, writeFileSync } from 'node:fs';
           import { createHash } from 'node:crypto';
           import { caseIDsForSlice, validateUITestTree } from './.local/ios-published-candidate/evidence/ui-slice-contract.mjs';
+          import { readPublishedSimulatorReady } from './ios/tests/native-simulator-prepare.mjs';
+          const owned = readPublishedSimulatorReady();
+          assert.equal(process.env.AILIBRARY_PUBLISHED_DESTINATION, owned.destination);
           const evidence = '.local/ios-published-candidate/evidence';
           const put = (name, value) => writeFileSync(`${evidence}/${name}`, value, { flag: 'wx', mode: 0o600 });
           const json = (name, value) => put(name, JSON.stringify(value, null, 2) + '\n');
@@ -573,6 +596,8 @@ jobs:
           assert.equal(binding.run_id, process.env.GITHUB_RUN_ID); assert.equal(binding.run_attempt, process.env.GITHUB_RUN_ATTEMPT);
           assert.equal(binding.event_commit, process.env.GITHUB_SHA);
           assert.equal(binding.UUID, process.env.COPY_SIMULATOR_ID);
+          assert.equal(binding.UUID, owned.UUID);
+          assert.deepEqual(binding.owned_simulator, { context: owned.context, token: owned.token, UUID: owned.UUID });
           assert.equal(binding.slice, process.env.UI_SLICE);
           assert.equal(binding.source_head, process.env.EXPECTED_SOURCE_HEAD);
           assert.deepEqual(binding.expected_case_IDs, caseIDsForSlice(binding.slice));
@@ -668,6 +693,23 @@ jobs:
         with:
           name: ios-published-candidate-evidence-${{ matrix.slice }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: .local/ios-published-candidate/evidence
+          include-hidden-files: true
+          if-no-files-found: ignore
+          retention-days: 90
+      - name: Clean up only the proven owned published Simulator
+        if: always()
+        timeout-minutes: 3
+        env:
+          AILIBRARY_PUBLISHED_OWNER_TOKEN: ${{ steps.published_simulator.outputs.owner_token }}
+          AILIBRARY_PUBLISHED_CREATED_UUID: ${{ steps.published_simulator.outputs.created_uuid }}
+        run: node ios/tests/native-simulator-prepare.mjs cleanup
+      - name: Retain bounded published Simulator ownership receipts
+        if: always()
+        timeout-minutes: 2
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ios-published-simulator-${{ matrix.slice }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/ios-published-candidate/evidence/owned-simulator/${{ matrix.slice }}
           include-hidden-files: true
           if-no-files-found: ignore
           retention-days: 90

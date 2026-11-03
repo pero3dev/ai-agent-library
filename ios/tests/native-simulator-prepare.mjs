@@ -36,12 +36,25 @@ function context(value) {
   assert.ok(plain(value), 'Missing CI context')
   const keys = ['repository', 'run_id', 'run_attempt', 'job', 'source_head', 'checkout_sha', 'source_tree', 'developer_dir']
   const selected = Object.fromEntries(keys.map(k => [k, value[k]]))
-  assert.equal(selected.repository, C.repository); assert.equal(selected.job, 'ios-native')
+  assert.equal(selected.repository, C.repository)
+  assert.ok(['ios-native', 'ios-published-candidate'].includes(selected.job), 'Unknown Simulator ownership profile')
+  if (selected.job === 'ios-published-candidate') {
+    assert.ok(['reading-state', 'content-copy'].includes(value.ui_slice), 'Unknown published UI slice')
+    selected.profile = 'published'; selected.ui_slice = value.ui_slice
+  }
   for (const k of ['run_id', 'run_attempt']) assert.match(selected[k], /^[1-9][0-9]{0,19}$/)
   for (const k of ['source_head', 'checkout_sha', 'source_tree']) assert.match(selected[k], /^[a-f0-9]{40}$/)
   assert.equal(selected.developer_dir, C.developer)
   return selected
 }
+
+function profile(ctx) {
+  return ctx.job === 'ios-native' ? { source: 'AILIBRARY_NATIVE_SOURCE_HEAD', token: 'AILIBRARY_NATIVE_OWNER_TOKEN',
+    UUID: 'AILIBRARY_NATIVE_CREATED_UUID', root: '.local/ios-ci/evidence/native-simulator', name: 'AILibrary-native' } :
+    { source: 'EXPECTED_SOURCE_HEAD', token: 'AILIBRARY_PUBLISHED_OWNER_TOKEN', UUID: 'AILIBRARY_PUBLISHED_CREATED_UUID',
+      root: `.local/ios-published-candidate/evidence/owned-simulator/${ctx.ui_slice}`, name: `AILibrary-published-${ctx.ui_slice}` }
+}
+const ownedName = (ctx, token) => `${profile(ctx).name}-${ctx.run_id}-${ctx.run_attempt}-${token}`
 
 // A failed or incomplete create never grants authority to delete a guessed device.
 function successful(receipt) {
@@ -195,7 +208,7 @@ export function prepareNativeSimulator(options) {
     const beforeAttempt = prepareInventory(run, 'devices-before-create'), beforeReceipt = beforeAttempt.receipt
     const before = devices(json(beforeReceipt)).map(x => x.UUID)
     const token = (options.makeToken ?? randomUUID)(); uuid(token)
-    const intent = { schema_version: 1, context: ctx, token, name: `AILibrary-native-${ctx.run_id}-${ctx.run_attempt}-${token}`,
+    const intent = { schema_version: 1, context: ctx, token, name: ownedName(ctx, token),
       runtime_identifier: C.runtime, device_type_identifier: C.type, preexisting_UUIDs: before,
       before_devices_stdout_SHA256: beforeReceipt.stdout_SHA256,
       before_devices_attempt_label: beforeAttempt.label, before_devices_receipt_SHA256: sha(encode(beforeReceipt)) }
@@ -225,6 +238,33 @@ export function prepareNativeSimulator(options) {
   }
 }
 
+// A ready handoff grants no new device authority: every field must agree with
+// the successful create, pre-create exclusion and the external step outputs.
+export function verifyNativeSimulatorReady(options) {
+  const ctx = context(options.context), { store } = options
+  const intent = store.read('intent'); same(intent.context, ctx); assert.equal(intent.schema_version, 1)
+  uuid(intent.token); assert.equal(options.token, intent.token, 'Unknown ownership token')
+  assert.equal(intent.name, ownedName(ctx, intent.token))
+  assert.equal(intent.runtime_identifier, C.runtime); assert.equal(intent.device_type_identifier, C.type)
+  const before = devices(json(acceptedBeforeCreate(store, intent))).map(x => x.UUID)
+  same(intent.preexisting_UUIDs, before)
+  const creation = store.read('create')
+  assert.equal(creation.binary, '/usr/bin/xcrun'); same(creation.arguments, ['simctl', 'create', intent.name, C.type, C.runtime])
+  assert.equal(creation.returned_within_deadline, true)
+  const UUID = createdUUID(creation); assert.equal(uuid(options.createdUUID), UUID, 'Step UUID differs from create receipt')
+  assert.ok(!before.includes(UUID), 'Refuse handoff of preexisting UUID')
+  const owned = store.read('created'), ready = store.read('ready')
+  for (const value of [owned, ready]) {
+    same(value.context, ctx); assert.equal(value.token, intent.token); assert.equal(value.UUID, UUID)
+    assert.equal(value.name, intent.name); assert.equal(value.runtime_identifier, C.runtime)
+    assert.equal(value.device_type_identifier, C.type)
+  }
+  assert.equal(ready.status, 'ready'); assert.equal(ready.destination, nativeSimulatorDestination(UUID))
+  const row = ownedRow([ready.inventory], intent, UUID)
+  assert.equal(row.device.isAvailable, true); assert.equal(row.device.state, 'Booted')
+  return ready
+}
+
 export function cleanupNativeSimulator(options) {
   const ctx = context(options.context), { store } = options, run = runner(options, C.cleanupMs)
   const report = { status: 'not-completed', context: ctx, UUID: null, ok: false, error: null }
@@ -235,7 +275,7 @@ export function cleanupNativeSimulator(options) {
     }
     const intent = store.read('intent'); same(intent.context, ctx); assert.equal(intent.schema_version, 1)
     uuid(intent.token); assert.equal(options.token, intent.token, 'Unknown ownership token')
-    assert.equal(intent.name, `AILibrary-native-${ctx.run_id}-${ctx.run_attempt}-${intent.token}`)
+    assert.equal(intent.name, ownedName(ctx, intent.token))
     assert.equal(intent.runtime_identifier, C.runtime); assert.equal(intent.device_type_identifier, C.type)
     const before = acceptedBeforeCreate(store, intent)
     const preexisting = devices(json(before)).map(x => x.UUID); same(intent.preexisting_UUIDs, preexisting)
@@ -351,32 +391,49 @@ function cliContext(env, execute, childEnv) {
   assert.equal(event.repository.full_name, C.repository)
   assert.match(env.GITHUB_SHA, /^[a-f0-9]{40}$/)
   const source = env.GITHUB_EVENT_NAME === 'pull_request' ? event.pull_request?.head?.sha : event.after
-  assert.equal(source, env.AILIBRARY_NATIVE_SOURCE_HEAD)
+  assert.ok(['ios-native', 'ios-published-candidate'].includes(env.GITHUB_JOB), 'Unknown Simulator ownership profile')
+  if (env.GITHUB_JOB === 'ios-published-candidate') assert.ok(['reading-state', 'content-copy'].includes(env.UI_SLICE), 'Unknown published UI slice')
+  const ownershipProfile = profile({ job: env.GITHUB_JOB, ui_slice: env.UI_SLICE })
+  assert.equal(source, env[ownershipProfile.source])
+  if (env.GITHUB_JOB === 'ios-published-candidate') assert.equal(event.repository.private, false)
   if (env.GITHUB_EVENT_NAME === 'push') assert.equal(source, env.GITHUB_SHA)
   else assert.equal(event.pull_request?.base?.repo?.full_name, C.repository)
   const identity = readNativeGitIdentity({ execute, env: childEnv, expectedCheckout: env.GITHUB_SHA })
   return context({ repository: env.GITHUB_REPOSITORY, job: env.GITHUB_JOB, run_id: env.GITHUB_RUN_ID,
     run_attempt: env.GITHUB_RUN_ATTEMPT, source_head: source, checkout_sha: identity.checkout_sha,
-    source_tree: identity.source_tree, developer_dir: env.DEVELOPER_DIR })
+    source_tree: identity.source_tree, developer_dir: env.DEVELOPER_DIR, ui_slice: env.UI_SLICE })
 }
 function output(file, key, value) {
   assert.ok(!/[\r\n]/.test(value)); assert.ok(['owner_token', 'created_uuid', 'destination'].includes(key))
   const fd = fs.openSync(file, fs.constants.O_WRONLY | fs.constants.O_APPEND | fs.constants.O_NOFOLLOW)
   try { assert.ok(fs.fstatSync(fd).isFile()); fs.writeSync(fd, `${key}=${value}\n`) } finally { fs.closeSync(fd) }
 }
-export function main(argv = process.argv.slice(2), env = process.env) {
-  assert.ok(argv.length === 1 && ['prepare', 'cleanup'].includes(argv[0]), 'Usage: native-simulator-prepare.mjs prepare|cleanup')
+function cliOptions(env) {
   const execute = (binary, args, options) => spawnSync(binary, args, options)
   const childEnv = childEnvironment(env), ctx = cliContext(env, execute, childEnv)
   assert.ok(env.GITHUB_WORKSPACE && fs.realpathSync(env.GITHUB_WORKSPACE) === path.resolve(env.GITHUB_WORKSPACE))
-  const directory = path.join(env.GITHUB_WORKSPACE, '.local/ios-ci/evidence/native-simulator')
+  const ownershipProfile = profile(ctx), directory = path.join(env.GITHUB_WORKSPACE, ownershipProfile.root)
+  return { directory, ownershipProfile, options: { context: ctx, execute, env: childEnv } }
+}
+export function readPublishedSimulatorReady(env = process.env) {
+  const { directory, ownershipProfile, options } = cliOptions(env)
+  assert.equal(options.context.job, 'ios-published-candidate', 'Published ready handoff requires the real published job')
+  assert.ok(fs.existsSync(directory), 'Missing published Simulator evidence')
+  return verifyNativeSimulatorReady({ ...options, store: diskStore(directory),
+    token: env[ownershipProfile.token] || '', createdUUID: env[ownershipProfile.UUID] || '' })
+}
+export function main(argv = process.argv.slice(2), env = process.env) {
+  assert.ok(argv.length === 1 && ['prepare', 'ready', 'cleanup'].includes(argv[0]), 'Usage: native-simulator-prepare.mjs prepare|ready|cleanup')
+  const { directory, ownershipProfile, options } = cliOptions(env)
   if (argv[0] === 'prepare') assert.ok(!fs.existsSync(directory), 'Native Simulator preparation must be fresh')
-  const store = diskStore(directory), options = { context: ctx, execute, store, env: childEnv }
-  const result = argv[0] === 'prepare' ? prepareNativeSimulator({ ...options,
+  else if (argv[0] === 'ready') assert.ok(fs.existsSync(directory), 'Missing Simulator ownership evidence')
+  const store = diskStore(directory), ownedOptions = { ...options, store,
+    token: env[ownershipProfile.token] || '', createdUUID: env[ownershipProfile.UUID] || '' }
+  const result = argv[0] === 'prepare' ? prepareNativeSimulator({ ...options, store,
     onToken: token => output(env.GITHUB_OUTPUT, 'owner_token', token),
     onCreated: UUID => output(env.GITHUB_OUTPUT, 'created_uuid', UUID),
     onReady: destination => output(env.GITHUB_OUTPUT, 'destination', destination) }) :
-    cleanupNativeSimulator({ ...options, token: env.AILIBRARY_NATIVE_OWNER_TOKEN || '', createdUUID: env.AILIBRARY_NATIVE_CREATED_UUID || '' })
+    argv[0] === 'ready' ? verifyNativeSimulatorReady(ownedOptions) : cleanupNativeSimulator(ownedOptions)
   console.log(JSON.stringify(result))
   if (argv[0] === 'cleanup' && !result.ok) process.exitCode = 1
   return result

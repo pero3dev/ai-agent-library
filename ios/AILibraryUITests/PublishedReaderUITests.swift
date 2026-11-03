@@ -24,7 +24,11 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         open("モデル選定ガイド", articleID: "03-implementation/model-selection", query: "データを外部 API に出せるか")
         let reader = app.scrollViews["native-reader"]
         let expand = app.buttons["図を拡大"].firstMatch
-        for _ in 0..<5 where !isHittableOnScreen(expand, inside: reader) { reader.swipeUp(velocity: .slow) }
+        for _ in 0..<5 {
+            let ready = isHittableOnScreen(expand, inside: reader)
+            if ready { break }
+            reader.swipeUp(velocity: .slow)
+        }
         requireHittable(expand)
         expand.tap()
         let detail = app.scrollViews["native-image-detail"]
@@ -41,7 +45,11 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         XCTAssertEqual(XCTWaiter.wait(for: [closed], timeout: 10), .completed)
 
         let sourceToggle = app.buttons["図のテキスト表現"].firstMatch
-        for _ in 0..<5 where !isHittableOnScreen(sourceToggle, inside: reader) { reader.swipeUp(velocity: .slow) }
+        for _ in 0..<5 {
+            let ready = isHittableOnScreen(sourceToggle, inside: reader)
+            if ready { break }
+            reader.swipeUp(velocity: .slow)
+        }
         requireHittable(sourceToggle)
         sourceToggle.tap()
         let source = app.staticTexts.matching(NSPredicate(format: "identifier BEGINSWITH %@", "native-figure-source-text-")).firstMatch
@@ -105,7 +113,11 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
 
     private func openLearningGuide() {
         let guide = app.buttons["library-learning-guide"]
-        for _ in 0..<8 where !isHittableOnScreen(guide) { app.swipeDown(velocity: .slow) }
+        for _ in 0..<8 {
+            let ready = isHittableOnScreen(guide)
+            if ready { break }
+            app.swipeDown(velocity: .slow)
+        }
         requireHittable(guide)
         guide.tap()
         XCTAssertTrue(app.navigationBars["学習ガイド"].waitForExistence(timeout: 10))
@@ -128,7 +140,11 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         XCTAssertTrue(element("library-article-01-concepts/agent-loop").waitForExistence(timeout: 10))
 
         let search = app.searchFields["記事の本文を検索"]
-        for _ in 0..<8 where !isHittableOnScreen(search) { app.swipeDown(velocity: .slow) }
+        for _ in 0..<8 {
+            let ready = isHittableOnScreen(search)
+            if ready { break }
+            app.swipeDown(velocity: .slow)
+        }
         requireHittable(search)
         search.tap()
         search.typeText("ネイティブ検証未一致872351\n")
@@ -217,7 +233,11 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         returnToLibrary()
 
         let tags = app.buttons["library-tag-filter"]
-        for _ in 0..<8 where !isHittableOnScreen(tags) { app.swipeDown(velocity: .slow) }
+        for _ in 0..<8 {
+            let ready = isHittableOnScreen(tags)
+            if ready { break }
+            app.swipeDown(velocity: .slow)
+        }
         requireHittable(tags)
         tags.tap()
         let tagSearch = app.searchFields["タグを検索"]
@@ -243,7 +263,11 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
 
         openBundledContentConfirmation()
         let confirm = app.buttons["bundled-content-confirm"]
-        for _ in 0..<5 where !isHittableOnScreen(confirm) { app.swipeUp(velocity: .slow) }
+        for _ in 0..<5 {
+            let ready = isHittableOnScreen(confirm)
+            if ready { break }
+            app.swipeUp(velocity: .slow)
+        }
         requireHittable(confirm)
         confirm.tap()
         let notice = app.alerts["コンテンツ"]
@@ -274,7 +298,9 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         goToContents("関連トピック", headingID: "関連トピック")
         let reader = app.scrollViews["native-reader"]
         let paragraph = app.staticTexts["native-text-paragraph-5020d29916dbd75df6ba41fa"]
-        for _ in 0..<8 where !isHittableOnScreen(paragraph, inside: reader, fullyVisible: true) {
+        for _ in 0..<8 {
+            let ready = isHittableOnScreen(paragraph, inside: reader, fullyVisible: true)
+            if ready { break }
             reader.swipeUp(velocity: .slow)
         }
         requireHittable(paragraph, inside: reader, fullyVisible: true)
@@ -307,7 +333,11 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         requireHittable(paragraph, inside: reader, fullyVisible: true)
         tapChapterLink()
         let firstArticle = app.buttons["learning-chapter-article-13-domain-agents/deep-research-agents"]
-        for _ in 0..<8 where !isHittableOnScreen(firstArticle) { app.swipeUp(velocity: .slow) }
+        for _ in 0..<8 {
+            let ready = isHittableOnScreen(firstArticle)
+            if ready { break }
+            app.swipeUp(velocity: .slow)
+        }
         requireHittable(firstArticle)
         firstArticle.tap()
         XCTAssertTrue(app.navigationBars["ディープリサーチ型エージェントの設計"].waitForExistence(timeout: 10))
@@ -520,7 +550,11 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
 
     private func setLearningTagAndArticleQuery(tag: String, query: String, scopedTagReadiness: Bool = false) throws {
         let tags = app.buttons["library-tag-filter"]
-        for _ in 0..<8 where !isHittableOnScreen(tags) { app.swipeDown(velocity: .slow) }
+        for _ in 0..<8 {
+            let ready = isHittableOnScreen(tags)
+            if ready { break }
+            app.swipeDown(velocity: .slow)
+        }
         requireHittable(tags)
         tags.tap()
         if scopedTagReadiness {
@@ -638,7 +672,9 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         // This source-bound paragraph is one link covering all of its text.
         // Its XCUI type need not be guessed as Link rather than StaticText.
         let agentLink = element("native-text-paragraph-54e8aecd2e87e69446c1b222")
-        for _ in 0..<8 where !isHittableOnScreen(agentLink, inside: reader, fullyVisible: true) {
+        for _ in 0..<8 {
+            let ready = isHittableOnScreen(agentLink, inside: reader, fullyVisible: true)
+            if ready { break }
             reader.swipeUp(velocity: .slow)
         }
         requireHittable(agentLink, inside: reader, fullyVisible: true)
@@ -684,7 +720,11 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         XCTAssertEqual(normalCount.label, "全\(expectedPublishedCount)記事")
         let resume = element("library-resume")
         XCTAssertTrue(resume.waitForExistence(timeout: 10))
-        for _ in 0..<8 where !isHittableOnScreen(resume) { app.swipeDown(velocity: .slow) }
+        for _ in 0..<8 {
+            let ready = isHittableOnScreen(resume)
+            if ready { break }
+            app.swipeDown(velocity: .slow)
+        }
         requireHittable(resume)
         resume.tap()
         requireNativeBody()
@@ -751,7 +791,11 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
                       "The library query must reset on process relaunch")
         XCTAssertFalse(app.staticTexts["library-filter-summary"].exists)
         let resume = element("library-resume")
-        for _ in 0..<8 where !isHittableOnScreen(resume) { app.swipeDown(velocity: .slow) }
+        for _ in 0..<8 {
+            let ready = isHittableOnScreen(resume)
+            if ready { break }
+            app.swipeDown(velocity: .slow)
+        }
         requireHittable(resume)
         resume.tap()
         try requireResumedNativeBody(expectedTitle: "Agent ループ")
@@ -1146,7 +1190,11 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         let originalCount = count.label
         let resume = element("library-resume")
         XCTAssertTrue(resume.waitForExistence(timeout: 10))
-        for _ in 0..<8 where !isHittableOnScreen(resume) { app.swipeDown(velocity: .slow) }
+        for _ in 0..<8 {
+            let ready = isHittableOnScreen(resume)
+            if ready { break }
+            app.swipeDown(velocity: .slow)
+        }
         requireHittable(resume)
         let originalResume = resume.label
         XCTAssertFalse(originalResume.isEmpty)
@@ -1244,7 +1292,9 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         let reader = app.scrollViews["native-reader"]
         let matches = reader.descendants(matching: .any).matching(identifier: identifier)
         let paragraph = matches.firstMatch
-        for _ in 0..<8 where !isHittableOnScreen(paragraph, inside: reader, fullyVisible: true) {
+        for _ in 0..<8 {
+            let ready = isHittableOnScreen(paragraph, inside: reader, fullyVisible: true)
+            if ready { break }
             reader.swipeUp(velocity: .slow)
         }
         requireHittable(paragraph, inside: reader, fullyVisible: true)
@@ -1376,7 +1426,9 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         let blockID = String(table.identifier.dropFirst("native-table-".count))
         XCTAssertFalse(blockID.isEmpty)
         let middle = element("native-table-cell-\(blockID)-25-1")
-        for _ in 0..<18 where !isHittableOnScreen(middle, inside: reader, fullyVisible: true) {
+        for _ in 0..<18 {
+            let ready = isHittableOnScreen(middle, inside: reader, fullyVisible: true)
+            if ready { break }
             reader.swipeUp(velocity: .slow)
         }
         requireHittable(middle, inside: reader, fullyVisible: true)
@@ -1439,7 +1491,9 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         let blockID = String(codeText.identifier.dropFirst("native-code-text-".count))
         XCTAssertFalse(blockID.isEmpty)
         let copy = app.buttons["native-code-copy-" + blockID]
-        for _ in 0..<8 where !isHittableOnScreen(copy, inside: reader, fullyVisible: true) {
+        for _ in 0..<8 {
+            let ready = isHittableOnScreen(copy, inside: reader, fullyVisible: true)
+            if ready { break }
             reader.swipeUp(velocity: .slow)
         }
         requireHittable(copy, inside: reader, fullyVisible: true)

@@ -3304,5 +3304,120 @@
       "IOS11_18_checkboxes_changed": false,
       "hardware_VoiceOver_minimumOS_signing_Store": "incomplete"
     }
+  },
+  "sourceb05_standard_macos15_candidate_and_separate_arm459_20261103": {
+    "state": "STANDARD_MACOS15_RUNNER_CANDIDATE_ON_ACTUAL_B05_PENDING_NEW_SOURCE_CI",
+    "actual_parent": "b05c4b8395bce1b4b137108c33857596eba0dbbc",
+    "actual_parent_tree": "a20b5ecd2b3ab40a5770a1193d15ceaedefe8bca",
+    "actual_parent_tracked": 2891,
+    "base_main": "400b2adf66bdf1b953ba89ec57b71f3f4ef2352d",
+    "PR": 327,
+    "Root_decision": "Change Native and Full common job to standard macos-15, then validate those new-source workflows anew. This is a controlled configuration decision, not a proven OS cause or product repair.",
+    "separate_ARM459": {
+      "packetMF": "ab0fefeb1c0f889011254246d4fd643109fe78dfbc4f02a0ba909bc9c1cbce24",
+      "head": "4596eb8c2e213e5f7572312c1075425b1165bf1c",
+      "observed_architecture": "arm64",
+      "observed_Xcode": "16.4 (16F6)",
+      "runtime_model": "iOS18.5 iPhone16",
+      "original_UI2": {
+        "total": 2,
+        "pass": 2,
+        "fail": 0,
+        "skip": 0,
+        "leaves": [
+          {
+            "line": 4687,
+            "id": "ReadingRecoveryUITests/testConfirmedRecoveryPreservesCurrentPositionAndBookmarkAfterRelaunch()",
+            "outcome": "passed",
+            "seconds": 123.074
+          },
+          {
+            "line": 5694,
+            "id": "ReadingRecoveryUITests/testExportFilePickerCancelKeepsHealthyPositionAndBookmarkAfterRelaunch()",
+            "outcome": "passed",
+            "seconds": 158.816
+          }
+        ]
+      },
+      "owned_cleanup_all_true": true,
+      "scope": "Two original reading/recovery diagnostic cases only; not normal Native8/unit278/Full26 or PR acceptance."
+    },
+    "b05_saved_Root_official_snapshot": {
+      "docs_job_id": 125816048995,
+      "docs_job_conclusion": "success",
+      "raw_Node_totals_received_here": false,
+      "raw_Node_totals": null,
+      "other_source_CI": "pending; no all-green claim or agent API refresh"
+    },
+    "old_f7de_initial_epoch": {
+      "all9_19_terminal": true,
+      "required10success_docsfailure": true,
+      "scope": "Prior record remains unchanged; no failure is replaced by a later or unrelated success."
+    },
+    "private_Code3_r2": {
+      "CodeMF": "2346295d824d671f37da80313cf0e5bb7e4b87f209783c7f9214ad37664915c2",
+      "packetMF": "bf34f6e7969c7702eef8815794e23159f40efb95ea15342bd68bc5d79d6d1bff",
+      "derived_from_CodeMF": "3416f04cfa0b04e623fdefe67f5efc5fe429d4da25b6339c05b512636ab833eb",
+      "derived_from_packetMF": "975d430fce8d7357588674a6152ec22bb72055473bdd3416e8bf78c65f00464c",
+      "delta": "Native and Full runs-on label rows plus one Published unit runner expectation only",
+      "runner_value": "macos-15",
+      "full_line_unit_marker": "runs-on: macos-15\n",
+      "Intel_large_xlarge_suffixes_rejected": true,
+      "new_targeted_published29": {
+        "tests": 29,
+        "pass": 28,
+        "fail": 0,
+        "skipped": 1
+      },
+      "old_saved_full194": {
+        "tests": 194,
+        "pass": 193,
+        "fail": 0,
+        "skipped": 1
+      },
+      "Native133_clipboard32_or_full194_repeated": false,
+      "actual_Linux_Node22_from_this_private_validation": false
+    },
+    "held": {
+      "Native_job_minutes": 60,
+      "Full_A_B_job_minutes": [
+        95,
+        70
+      ],
+      "all_step_timeouts_and_caps": true,
+      "owned_UUID_context_and_cleanup": true,
+      "helper_production_bytes": true,
+      "UIwaits_assertions_and_Native8_Full26_rosters": true,
+      "374B_canary_Release_guards": true,
+      "App": "0.2.28(30)",
+      "TODO_total": 32,
+      "TODO_complete": 14,
+      "all_criteria_and_old_source_versions": true
+    },
+    "not_claimed": [
+      "OS root cause",
+      "product root-cause fix",
+      "stability or performance",
+      "future runner architecture/runtime availability guarantee",
+      "new expenses or settings authorization",
+      "normal Native8/unit278/Full26",
+      "new-source CI success",
+      "whole PR/main/hardware/VoiceOver/minimumOS/signing/Store acceptance"
+    ],
+    "separate_candidates_not_included": [
+      "Reader Code5 fix",
+      "new diagnostic or ARM-comparison branch source"
+    ],
+    "planned_commits": [
+      16,
+      17
+    ],
+    "actual_new_commits": [
+      null,
+      null
+    ],
+    "new_head": null,
+    "new_tree_actual_commit": null,
+    "publication": false
   }
 }

@@ -1,5 +1,7 @@
 # iOS完成版に向けたTODO
 
+[b05後の標準macos-15候補と別ARM459診断](../../records/2026-11-02/ios-native-owned-simulator.md)では、実arm64/Xcode16.4で元2ケース成功とcleanupを別診断の範囲に限り保存し、OS原因や通常8/278/26の成功へ転用しない。Root採択のNative/Full標準runner2行と単体期待値1箇所だけをCode3-r2へまとめ、訂正後Published29件は28成功1skip。b05 docsの公式successは件数未受領、他CIはpendingとし、Native60/Full95-70・全caps/所有/roster/wait/assert・App28/TODO32行14完了を保持する私有Source7である。新commit/head・CI/main・実機等は未受入。
+
 [f7de初回CIとcheckout fixture修正](../../records/2026-11-02/ios-native-owned-simulator.md)では、9workflow/19job終端・必須10成功とdocs失敗を保存する。Common/Full Aのテストfixture2原因だけをCode2-r2で修正する私有Source6で、Mac専用194件=193成功1skipと実Linux/Node22未検証を分ける。Native cancelled・unit278不明、Full B3/8とcopy/Release未受入、strict3のguard推論・SDK26 unsigned範囲を保持し、新head CI/通常main/実機等は未受入のままとする。旧全文/JSON値・TODO32行14完了と原criteriaを保つ。
 
 [公開874と制御再試行の保存](../../records/2026-11-02/ios-native-owned-simulator.md)では、初回Native6/8・全記事A15/18/B6/8、初回artifactで確認したunit278=276成功2既知skipを別に保持する。Native制御は6/8で別の2失敗、Full制御Bは8/8＋実374B/Release199成功、Aは宛先なし・試験前停止だった。原因未特定・全体未受入のためIOS11/18は変更せず、現行32行14完了とcriteriaを保つ。次は25箇所の同一positive probeの停止と全記事の所有Simulator・job95/70の限定候補で、個別wait/assert/全rosterを維持する。新head/実機/通常main等は未受入である。

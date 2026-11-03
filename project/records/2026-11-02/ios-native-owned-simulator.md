@@ -231,3 +231,21 @@ Code2-r2 MF `1334ed545457a8a958a055fd338719cd26562d31ba88f87f2c123c78fac57066` �
 保存済みDarwin/Node24.22.1の専用1runは194件=193成功1skip0失敗で、r1のMac192成功は旧履歴として保持する。実Linux/Node22は未検証であり、このSource6結合で194件・global・SDK・UIを再実行していない。独立Code2-r2 IR MF `22429faabb2979957a43eb8328adf1a848761a06e4fef5f38c38df70a614069b` はP1/P2=0だが、新head CIや全体合格の代わりにはしない。
 
 テスト2本を予定commit14、記録2本と索引2本を予定commit15に分ける私有準備で、新しいcommit/headはまだ未生成である。既存Markdown全文・JSON全key/value・索引全文、App0.2.28（30）・TODO32行14完了と原criteria/checkboxを保持する。新しいARM比較診断は別branchの別目的で、このPR sourceへ含めない。実機・VoiceOver・最低OS・署名・Store、通常mainとwhole PRは未完了として継続する。
+
+## b05後の標準macos-15移行候補と別ARM診断の範囲
+
+この追記の実親はPR327 head `b05c4b8395bce1b4b137108c33857596eba0dbbc` /tree `a20b5ecd2b3ab40a5770a1193d15ceaedefe8bca` /tracked2891で確定している。mainは `400b2adf66bdf1b953ba89ec57b71f3f4ef2352d` のまま。RootはNativeとFull共通jobのrunnerを標準 `macos-15` へ変え、新sourceで通常のNative/Fullを検証し直す構成判断を採択した。まだ私有Source7であり、新しいcommit/headは未生成、新head CI・通常main・whole PRは未受入である。
+
+### 別ARM459で観測した元2ケース
+
+別診断head `4596eb8c2e213e5f7572312c1075425b1165bf1c` の保存packet MF `ab0fefeb1c0f889011254246d4fd643109fe78dfbc4f02a0ba909bc9c1cbce24` では、実arm64/Xcode16.4（16F6）/iOS18.5 iPhone16で、元のConfirmedRecoveryが123.074秒、ExportFilePickerCancelが158.816秒で成功し、2件=2成功0失敗0skip、所有cleanupも全てtrueだった。元のwait/assertによるこの2ケースだけの結果で、通常Native8・unit278・Full26を確認したものではない。Intel側989やf7deとの違いからOS原因や製品修復を断定せず、将来のrunner architecture・runtime可用性・費用や設定も保証しない。
+
+b05のRoot保存公式snapshotではLinux docs job `125816048995` がsuccessである。このSource7準備ではraw件数を受領していないのでNodeの全数を推定しない。他のb05 CIはpendingの範囲で、追加APIで更新していない。前節のf7de初回9workflow/19job終端・必須10成功とdocs失敗、Native取消/未知unit・Full B失敗・Recovery inventory停止と各未受入条件は、その古いsourceの記録として全て保持する。
+
+### 2つのrunner行と単体期待値だけを変える
+
+旧Code3 MF `3416f04cfa0b04e623fdefe67f5efc5fe429d4da25b6339c05b512636ab833eb` /packet `975d430fce8d7357588674a6152ec22bb72055473bdd3416e8bf78c65f00464c` を封印保持し、derived Code3-r2 MF `2346295d824d671f37da80313cf0e5bb7e4b87f209783c7f9214ad37664915c2` を用いる。Native YAMLとFull YAMLの `runs-on: macos-15-intel` 各1行だけを標準値へ変更し、Published単体の期待markerはJSのescaped newlineを含む完全行末に固定した。Intel・large・xlargeのsuffixを誤って受け入れないことを静的に確認した。helper・所有UUID/context・step列/個別caps、全wait/assert/roster・374B canary/Release条件は不変である。
+
+旧Code3の保存済みMac194件=193成功1skip0失敗はそのまま履歴とし、期待値訂正後はPublished29件だけを専用1runで検証して28成功1skip0失敗だった。skipは実non-Darwin拒否の片OS検査で、他の27境界ケースと実Darwin stub CLIは実行された。Native133・Clipboard32・全194を繰り返しておらず、この私有検証による実Linux/Node22・実SDK/UI/Simulatorの成功は主張しない。
+
+Native job60分・Full A95/B70分と既存全step予算、製品/App0.2.28（30）、旧source版、TODO32行14完了と原criteriaを保持する。予定commit16のCode3と予定commit17の記録・索引4本へ分け、旧Markdown全文・JSON全key/value・索引inverseを維持する。Reader Code5の別修正や診断branchは含めない。今後の通常CIで実runner/image/architectureと元の全条件を新sourceへ結び付けて確認するまで、正常系8/278/26・安定性や原因解消へ広げない。実機・VoiceOver・最低OS・署名・Storeは未完了のままである。

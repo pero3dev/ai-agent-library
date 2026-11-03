@@ -30,6 +30,8 @@ import { plainSummary, publicSectionIndex } from '../lib/page-metadata.mjs'
 import { replaceMermaid } from '../lib/static-mermaid.mjs'
 import { articleMarkdown } from '../lib/article-markdown.mjs'
 import { copyFileForRoute } from '../lib/article-copy.mjs'
+import { writeLibraryExport } from '../lib/library-export.mts'
+import type { LibraryArticleSource } from '../lib/library-export.mts'
 import { observationReport } from '../../scripts/freshness-observation-report.mjs'
 import { generatedContentLoaderSource } from '../lib/nextra-generated-loader.mjs'
 import { generatedLayoutSource } from '../lib/nextra-generated-layout.mjs'
@@ -311,6 +313,7 @@ async function main() {
   const titles = new Map<string, string>() // repoRel -> title
   const readmeTexts = new Map<string, string>() // sectionSlug -> README 原文
   const articleMeta: ArticleMetadata[] = []
+  const libraryArticles: LibraryArticleSource[] = []
   const pagesMeta: PagesMetadata = {}
   const charts = new Map<string, string>()
   let count = 0
@@ -341,7 +344,13 @@ async function main() {
     errors.push(...rewriteMarkdownRoutes(tree, file.repoRel, routeMap))
     const copyPath = path.join(GEN_DIR, 'markdown', copyFileForRoute(route))
     await mkdir(path.dirname(copyPath), { recursive: true })
-    await writeFile(copyPath, JSON.stringify(articleMarkdown(tree, route)), 'utf8')
+    const markdown = articleMarkdown(tree, route)
+    await writeFile(copyPath, JSON.stringify(markdown), 'utf8')
+    if (file.repoRel.startsWith('docs/') && file.slug !== 'index') {
+      libraryArticles.push({ source_path: file.repoRel, route, chapter: file.section, title: getTitle(text),
+        description: pagesMeta[route].description, tags: getFrontMatterTags(text),
+        last_updated: getFrontMatterField(text, 'last_updated'), status: getFrontMatterField(text, 'status'), markdown })
+    }
     applyDecorations(tree, { route, glossary: glossaryForLinks })
     replaceMermaid(tree, getTitle(text), charts)
     out = String(mdxWriter.stringify(tree))
@@ -394,6 +403,10 @@ async function main() {
 
   // generated/glossary.json(概念カード・用語ページ用)
   await writeFile(path.join(GEN_DIR, 'glossary.json'), JSON.stringify(glossaryJson, null, 2), 'utf8')
+  const libraryIndex = await writeLibraryExport(path.join(GEN_DIR, 'library'), {
+    articles: libraryArticles, sections: sectionsJson, readmes: readmeTexts, glossary: glossaryJson
+  })
+  console.log(`library export: published記事 ${libraryIndex.articles.length} 本 / 用語 ${libraryIndex.glossary.length} 語`)
 
   // generated/tags.json(タグ別一覧ページ用)。件数の多い順 → 同数はタグ名順
   const tagMap = new Map<string, ArticleSummary[]>()

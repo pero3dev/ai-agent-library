@@ -48,6 +48,31 @@ Mermaid は安全性を検査した静的 SVG 画像で表示します。「図�
 
 「記事をコピー」は、サイト専用の装飾や静的画像化を行う前の Markdown を使います。Mermaid コード、数式、チェックリストを保持し、記事リンクは公開先の絶対 URL にします。コピー用データは記事別に生成し、サーバー側で表示中の記事だけを読み取って操作部品へ渡します。
 
+## AI向けのMarkdownと索引
+
+公開ビルドは`docs/`を正本として、次のファイルを同時に生成します。生成途中のデータは`generated/library/`、公開物は`out/`に置き、どちらも追跡しません。手書きのMDX装飾は出力に含めず、既存の「記事をコピー」と同じ装飾前のMarkdownを使います。
+
+| 公開パス（basePathの後） | 内容 |
+| --- | --- |
+| `/llms.txt` | サイト概要、ライセンス、まず読む記事、章別目次、Optionalの用語集と索引 |
+| `/docs/<章>/llms.txt` | 章内のpublished記事をセクションREADMEの収録順に列挙 |
+| `/docs/<章>/<記事>.md` | 同じURLのHTMLに対応するMarkdown。Mermaid・数式・チェックリストを保持 |
+| `/glossary.md` | 公開用語集のMarkdown |
+| `/library-index.json` | 後続のMCP・スキルから参照できる機械可読な索引 |
+| `/library-index.schema.json` | 索引JSONの検証用スキーマ |
+
+記事は`status: published`だけを含めます。draft、章README、ブラウザー試験等のfixtureを記事として収録しません。章の順番は既存の章一覧に合わせ、記事は章READMEの収録順に並べます。同じ入力と公開URL設定から同じバイト列を生成し、実行日時は埋めません。ルートのllms.txtは16KiB以下、章別は48KiB以下とし、超過は生成失敗として分割・説明の見直しを促します。全記事や章の全文をまとめた`llms-full.txt`は生成しません。
+
+全URLは既存の`publicUrl`を使い、`NEXT_PUBLIC_SITE_URL`と`NEXT_PUBLIC_BASE_PATH`を反映します。記事と用語集のHTMLのheadに`rel="alternate" type="text/markdown"`、各ページに対応する目次への`rel="describedby"`を付けます。[llms.txt v2の提案](https://llmstxt.org/)を2026-11-04に確認した設計です。標準化団体の規格ではなく、AIクライアントが読む保証はありません。
+
+### 索引JSONの互換性
+
+`schema_version: 1`のルートは`articles`、`glossary`、`license`を持ちます。記事には`slug`（例:`concepts/agent-loop`）、`title`、`chapter`、`description`、`tags`、`last_updated`、`status`、`url`、`md_url`、`headings`、`checklist`を含めます。見出しは`depth`と`text`、チェックリストは`text`と`checked`、用語は`term`・`english`・`definition`・`url`を持ちます。本文はCC BY 4.0、コードはMITというライセンスを目次とJSONの両方に示します。
+
+フィールドの削除・改名・型の変更、slugや配列順の意味の変更、必須フィールドの追加など、既存consumerの解釈を変える変更では`schema_version`を上げます。既存の意味を変えない任意フィールドの追加や通常の記事更新は同じ版とします。consumerは未対応の版を拒否し、既知の版の未知フィールドを無視してください。スキーマ・生成処理・試験・この説明は同じ変更で更新します。
+
+生成とpostbuildはスキーマ、目次内のリンク先、公開Markdownの対応を検査します。回帰試験では構造・順序・draft除外・上限・2回生成の一致を固定します。MCPサーバーと配布用スキルは別Issueで実装します。
+
 Zodの脆弱性修正版に合わせ、Nextraテーマ4.6.1のLayoutを[生成helper](lib/nextra-generated-layout.mjs)で互換化しています。[上流修正](https://github.com/shuding/nextra/pull/4990)と同じく、childrenを含むprops全体を検証し、childrenをテーマ設定から除外します。`node_modules`を直接変更せず、sync時に`generated/nextra-layout.mjs`を作ります。対象版と期待するソースが変わった場合は生成を停止するため、依存更新時にhelperと[実ソース回帰試験](tests/unit/nextra-generated-layout.test.mjs)を見直してください。
 
 ## 音声学習

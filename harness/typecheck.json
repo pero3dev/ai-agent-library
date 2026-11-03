@@ -132,6 +132,21 @@
   ],
   "wrappers": [
     {
+      "path": "website/lib/library-links.mjs",
+      "target": "website/lib/library-links.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "website/tests/unit/library-links.test.mjs",
+      "target": "website/tests/unit/library-links.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "website/tests/unit/library-export.test.mjs",
+      "target": "website/tests/unit/library-export.test.mts",
+      "kind": "side-effect"
+    },
+    {
       "path": "ios/tests/capture-reader-failure-diagnostics.mjs",
       "target": "ios/tests/capture-reader-failure-diagnostics.mts",
       "kind": "cli",

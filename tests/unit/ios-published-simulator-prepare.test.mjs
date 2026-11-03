@@ -260,7 +260,7 @@ test('YAML binds exactly three xcode destinations and preserves fixed roster/can
   for (const [marker, count] of [
     ['-destination-timeout 120', 3], ['-parallel-testing-enabled NO -jobs 2', 3], ['expected.length, 374', 1],
     ["'e29cb525957fb4bd72350927aa1cf47659da4aef9964ecbf0d43edb4dfe2cee8'", 1],
-    ["-destination 'generic/platform=iOS Simulator'", 1], ['runs-on: macos-15-intel', 1],
+    ["-destination 'generic/platform=iOS Simulator'", 1], ['runs-on: macos-15\n', 1],
   ]) assert.equal(workflow.split(marker).length - 1, count, marker)
   assert.ok(workflow.includes("timeout-minutes: ${{ matrix.slice == 'reading-state' && 95 || 70 }}"))
   const canary = uiBlocks[0].match(/\/\/ BEGIN CONTENT-COPY CANARY SEED RECOVERY[\s\S]*?\/\/ END CONTENT-COPY CANARY SEED RECOVERY/)[0]

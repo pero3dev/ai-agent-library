@@ -1,6 +1,6 @@
 # TypeScript 段階移行 — 実施記録
 
-開始日: 2026-11-03(JST)。本書はP0〜P6の実装・ローカル検証記録。GitHubの実マージ・最終CI・公開結果は対応PRの最終証跡と合わせて照合する。
+開始日: 2026-11-03(JST)。本書はP0〜P6の実装・ローカル検証記録。GitHubの実マージ・最終CI・公開結果は[PR #329](https://github.com/pero3dev/ai-agent-library/pull/329)の最終証跡と合わせて照合する。
 
 ## 作業契約
 
@@ -90,5 +90,7 @@ UIとNodeの相対importは実在する拡張子へ同期し、Nodeの`.mts`に�
 | 依存・workflow | root/website/ios-tools監査はhigh以上0。low/moderateは残存し、破壊的な自動fixは行っていない。固定actionlint 1.7.12でworkflow検査成功 |
 
 ビルド時間は前節の制約を保って解釈する。別途のルート型検査実測は81.333秒だが、並行負荷があり同条件の最新main check基準はないため、全体checkの増加率や速度向上は主張しない。
+
+初回PRのLinux CIは1,547件中1,527成功・19skip・期限注入の1件失敗だった。xcresultの追加構造検証が模擬getterをCSV export前に読んだためで、baseline成功・候補失敗・型除去後の候補も失敗と切り分けた。期限値と期待6コマンドを保持し、期限注入をCSV export後のnormalization読取へ合わせ、期限切れ時のcommand数と最終数の一致も検査した。実装は変更せず、修正した試験はbaseline/候補/型除去後の全経路で6/6成功、memory全体はhost35成功・POSIX skip17だった。純mockの期限5段階はWindowsでも実施する。最終headのLinux CIはPRで取り直す。
 
 Windowsで扱えない不変runnerのPOSIX絶対パス、symlink権限、process groupやAppleツールはbaselineでも確認し、対象外を明記した。Linux/macOSの検証はCIの正確なheadと結果を照合する。実Agentでのhook発火、物理iPhone/Safari/AirPods、有料モデル・実音声生成をこの移行の成功と読み替えない。ローカルログ・3回分のビルド出力・baseline checkoutは`.local/typescript-plan/`等の非追跡領域へ保持し、公開する記録は本書と小さな集計JSONに限定する。

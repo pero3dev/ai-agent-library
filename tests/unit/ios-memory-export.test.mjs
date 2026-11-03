@@ -844,8 +844,10 @@ test('same-inode growth or timestamp change before open is rejected before alloc
 function deadlineFixture(t, stage) {
   const fixture = inputFixture(t)
   const actualReadDirectory = fs.readdirSync, actualWrite = fs.writeFileSync, actualParse = JSON.parse
-  let elapsed = 0, triggered = false, commands = 0, finalArmed = false, finalChecks = 0
-  const expire = () => { triggered = true; elapsed = memoryCaps.exportMilliseconds + 1 }
+  let elapsed = 0, triggered = false, commands = 0, finalArmed = false, finalChecks = 0, normalizationReads = 0
+  /** @type {number | null} */
+  let commandsAtExpiration = null
+  const expire = () => { if (!triggered) commandsAtExpiration = commands; triggered = true; elapsed = memoryCaps.exportMilliseconds + 1 }
   /** @param {string} binary @param {string[]} args */
   const run = (binary, args) => {
     assert.equal(binary, 'xcrun'); assert.equal(args[0], 'xcresulttool'); commands++
@@ -877,7 +879,12 @@ function deadlineFixture(t, stage) {
       const value = actualParse(...args)
       if (stage === 'normalization' && value?._type?._name === 'ActionTestSummary') {
         const metrics = value.performanceMetrics
-        Object.defineProperty(value, 'performanceMetrics', { get() { expire(); return metrics } })
+        // Structural validation may inspect metrics before CSV export. This stage
+        // injects expiration only when normalization reads the retained summary.
+        Object.defineProperty(value, 'performanceMetrics', { get() {
+          if (commands === 6) { normalizationReads++; expire() }
+          return metrics
+        } })
       }
       return value
     })],
@@ -896,6 +903,8 @@ function deadlineFixture(t, stage) {
   ], () => assert.throws(() => exportMemory(fixture), /shared deadline exhausted/, stage))
   assert.equal(triggered, true, stage)
   assert.equal(commands, 6, 'No external command is retried after expiration')
+  assert.equal(commands, commandsAtExpiration, 'Expiration forbids every subsequent external command')
+  if (stage === 'normalization') assert.ok(normalizationReads > 0, 'Normalization reaches the metric read after CSV export')
   const summary = JSON.parse(readFileSync(path.join(fixture.output, 'summary.json'), 'utf8'))
   assert.equal(summary.status, 'failed-or-unavailable', stage)
   assert.equal(summary.accepted_measurements, null)
@@ -914,8 +923,9 @@ function deadlineFixture(t, stage) {
   assert.equal(readFileSync(path.join(fixture.result, 'database.sqlite3'), 'utf8'), 'immutable synthetic result')
 }
 
-test('shared deadline covers CSV walking, normalization, accepted/manifest writes and final return', posixOnly, t => {
-  for (const stage of ['csv-walk', 'normalization', 'accepted-receipt', 'manifest-receipt', 'final-return']) deadlineFixture(t, stage)
+// All command and clock operations are synchronous in-process doubles, including on Windows.
+test('shared deadline covers CSV walking, normalization, accepted/manifest writes and final return', async t => {
+  for (const stage of ['csv-walk', 'normalization', 'accepted-receipt', 'manifest-receipt', 'final-return']) await t.test(stage, stageTest => deadlineFixture(stageTest, stage))
 })
 
 test('failure receipt downgrade refuses a late replacement, hardlink or symbolic leaf', posixOnly, t => {

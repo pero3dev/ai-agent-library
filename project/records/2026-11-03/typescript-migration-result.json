@@ -5,7 +5,7 @@
   "source_snapshot": {
     "algorithm": "sha256 of sorted paths and normalized Git blob IDs",
     "files": 348,
-    "digest": "25e78c246706402a0b10c8e17f10f825b54b683285d0e1f4d127230179e1624c"
+    "digest": "732dc35c84fbf145a250b8e78fca69d217ea9559921de213002b30e8937dd2a9"
   },
   "coverage": {
     "verified": true,
@@ -172,7 +172,7 @@
   },
   "evidence_levels": {
     "independent_review": "cross-ownership source review; unresolved findings checked before submission",
-    "github_and_publication": "See the matching pull request final evidence comment",
+    "github_and_publication": "https://github.com/pero3dev/ai-agent-library/pull/329 - final evidence comment",
     "not_claimed": [
       "actual Agent hook firing",
       "physical iPhone Safari AirPods",

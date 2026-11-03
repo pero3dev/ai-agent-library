@@ -30,9 +30,9 @@ hook-coreの薄い入口化で先頭のroot識別markerが失われ、PreToolUse
 
 残っていた126件の自前JS実装をTSへ移し、CIの11ワークフローにあった35件のNode実装もMTSへ抽出した。共有する入力契約3件を追加した。設定に埋め込む必要があるhook bootstrapと公開HTTP検証childも、型検査するTS関数から実行用コードを組み立てる。
 
-分類検査の対象は、追加監査で抽出したTS helperと回帰試験を含む521ファイル。TS実装302、宣言18、互換入口190、SHA固定4、過去証跡6、vendor1へ分類する。変更可能なJS実装は0。17ワークフロー内のNode heredoc/eval/print実装も0。単にcheckJsで検査するJSを完了扱いにしない契約と、その拒否試験を追加した。最終件数・未分類と型検査の各programは[分類・検証結果](typescript-source-migration.json)で照合する。
+分類検査の対象は、追加監査とmain統合を含む529ファイル。TS実装307、宣言18、互換入口193、SHA固定4、過去証跡6、vendor1へ分類する。変更可能なJS実装は0。17ワークフロー内のNode heredoc/eval/print実装も0。単にcheckJsで検査するJSを完了扱いにしない契約と、その拒否試験を追加した。最終件数・未分類と型検査の各programは[分類・検証結果](typescript-source-migration.json)で照合する。
 
-190件の互換入口は、ASTで制限するside-effect 90、reexport 59、CLI 38、default-reexport 2、CommonJS 1。CLIは追加でSHAを固定し、従来のMJS/CJS起動パスを維持する。ソース実体の束縛が必要なiOS証跡にはMTSも加え、旧証跡のsource hashや性能観測値は変更しない。
+193件の互換入口は、ASTで制限するside-effect 92、reexport 60、CLI 38、default-reexport 2、CommonJS 1。CLIは追加でSHAを固定し、従来のMJS/CJS起動パスを維持する。ソース実体の束縛が必要なiOS証跡にはMTSも加え、旧証跡のsource hashや性能観測値は変更しない。
 
 ## 互換性の確認範囲
 
@@ -55,8 +55,8 @@ Node 22.22.2でCIドライバーの構文検査、旧新の選別・cleanup比�
 | 検証 | 結果・範囲 |
 | --- | --- |
 | 共通check | Node24.22.1で終了0。型検査6系統、単体1,575件中1,475成功・失敗0・既存skip100、icon・Markdown・文書・リンク・難易度・TODO形式・harness・配置・Git設定検査が成功 |
-| 分類 | 521件すべて分類、TS実装302・実装JS0・互換入口190・未分類0・workflow内Node実装0。semantic診断と分類証拠を分けて確認 |
-| サイト | unit99/99、型検査5系統、230/230ルート生成。browserの結果と性能1件の同基準再検証は前節のとおり |
+| 分類 | main統合後529件すべて分類、TS実装307・実装JS0・互換入口193・未分類0・workflow内Node実装0。semantic診断と分類証拠を分けて確認 |
+| サイト | main統合後unit110/110、型検査5系統、230/230ルート生成。新規出力のbrowser7件とCSP/JS無効時2件も成功。移行単独のbrowser結果と性能1件の同基準再検証は前節のとおり |
 | 最低Node | 22.22.2でCI構文・記事集計、23子関数の24.22.1とのbyte一致、子process回帰22成功、audio/eval回帰67成功、Notice entry回帰5成功を確認 |
 | Notice外側 | schema・producer・verifierをTS正本へ移行。固定9契約・argv式・選択6関数のAST一致、pure fixture本文はEXPECTED以外同一。native WindowsはSIGKILL未提供により旧新同じ失敗、隔離したSIGKILL=9のPOSIXモデルでは旧新26/26。実macOS観測の成功とは扱わない |
 | 最終レビュー | 実装担当を交代した独立レビュー、埋め込みJSの再監査、設定・依存順の統合レビューを承認。未解消指摘0。ソース・入口・例外・設定等560件と追加監査44件のSHAをローカルへ保存 |
@@ -67,3 +67,11 @@ Windowsでは、既存の不変POSIX専用Notice試験1ファイルをcollector�
 初回head `55c5c9a`の実CIは、Linux単体1,582件中1,563成功・19skip・失敗0だった。Windowsではhookの実体照合が7件失敗した。Hostedの一時フォルダーではimport.meta.urlに8.3短縮名が残り、native realpathで得た期待位置との文字列比較が同一ファイルを拒否していた。実モジュールURLもnative realpathで正規化し、期待位置のnative==lexical、marker、symlink・別root実装の拒否は維持した。実短縮名からの起動で旧版exit2・修正版exit0を両クライアント/Node22・24で再現し、全hooksは各25/25成功。short entryの正負と別rootの実MTS拒否を恒久試験に加え、独立レビューを取り直した。修正後の共通checkは上表の1,575件で終了0。新headのHosted検証はPRの最終証跡へ記録する。
 
 PRの最終head、必須11check、実merge SHA・tree、main CI・Pages deploymentと公開4URLのHTTP/本文確認は、commit後に得る外部証跡として対応PRの最終コメントで管理する。旧PR #329の公開証拠を今回の完了証拠へ流用しない。詳細ログ・比較・snapshotは非追跡の`.local/ts-complete/`に保持する。
+
+## Web出力機能を追加したmainの統合
+
+CI待機中にmain `a5f99d8086de4c653ee2bcab5df32c3c2a7801d8`へ[llms.txt・Markdown版・索引JSON](llms-markdown-index.md)の16ファイルが追加・変更された。実装を保持して通常mergeで統合し、`harness/typecheck.json`の競合だけを、既存190入口と新規3入口の和集合で解決した。他の契約値と既存入口は変更していない。追加5実装もTSであり、分類は521件/TS302から529件/TS307へ増える。サイト機能自体の設計をこの移行で変更しない。
+
+統合後はunit110件、5系統の型検査、静的230ルートと新規参照用出力219ファイルの生成、新規出力browser7件・CSP/JavaScript無効時2件が成功した。初期JSの12script・raw962,476B/gzip307,969Bは変わらない。追加3入口とTS必須契約、既存設定・loaderとの相互依存は別担当が独立レビューし、未解消0。
+
+iOSの直接・間接実行入力を広域735ファイル/約8.18MBで比較し、`d568fa9`から統合indexへblob・mode差分、追加・削除は0、実runtimeのraw byte差も0と独立確認した。既存Macの証跡は同じruntimeソースの実証として保持するが、receiptのhead/treeを統合後へ読み替えず、最終headで実行したとは扱わない。変更したWeb/契約と共通検証は統合後に取り直し、必須CIも最終headで確認する。

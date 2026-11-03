@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AI Agent Library index version 1",
+  "type": "object",
+  "required": ["schema_version", "license", "articles", "glossary"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "license": {
+      "type": "object",
+      "required": ["text", "code", "attribution", "url"],
+      "properties": {
+        "text": { "const": "CC-BY-4.0" },
+        "code": { "const": "MIT" },
+        "attribution": { "type": "string", "minLength": 1 },
+        "url": { "type": "string", "format": "uri" }
+      }
+    },
+    "articles": { "type": "array", "items": { "$ref": "#/$defs/article" } },
+    "glossary": { "type": "array", "items": { "$ref": "#/$defs/term" } }
+  },
+  "$defs": {
+    "article": {
+      "type": "object",
+      "required": ["slug", "title", "chapter", "description", "tags", "last_updated", "status", "url", "md_url", "source_path", "headings", "checklist"],
+      "properties": {
+        "slug": { "type": "string", "pattern": "^[a-z0-9-]+/[a-z0-9-]+$" },
+        "title": { "type": "string", "minLength": 1 },
+        "chapter": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+        "description": { "type": "string", "minLength": 1 },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "last_updated": { "type": ["string", "null"], "format": "date" },
+        "status": { "const": "published" },
+        "url": { "type": "string", "format": "uri" },
+        "md_url": { "type": "string", "format": "uri" },
+        "source_path": { "type": "string", "pattern": "^docs/[0-9]{2}-[a-z0-9-]+/[a-z0-9-]+\\.md$" },
+        "headings": { "type": "array", "items": { "$ref": "#/$defs/heading" } },
+        "checklist": { "type": "array", "items": { "$ref": "#/$defs/checklist" } }
+      }
+    },
+    "heading": {
+      "type": "object", "required": ["depth", "text"],
+      "properties": { "depth": { "type": "integer", "minimum": 1, "maximum": 6 }, "text": { "type": "string", "minLength": 1 } }
+    },
+    "checklist": {
+      "type": "object", "required": ["text", "checked"],
+      "properties": { "text": { "type": "string" }, "checked": { "type": "boolean" } }
+    },
+    "term": {
+      "type": "object", "required": ["term", "english", "definition", "url"],
+      "properties": {
+        "term": { "type": "string", "minLength": 1 },
+        "english": { "type": ["string", "null"] },
+        "definition": { "type": "string" },
+        "url": { "type": "string", "format": "uri" }
+      }
+    }
+  }
+}

@@ -945,6 +945,11 @@
       "kind": "reexport"
     },
     {
+      "path": "website/lib/library-links.mjs",
+      "target": "website/lib/library-links.mts",
+      "kind": "reexport"
+    },
+    {
       "path": "website/lib/markdown-routes.mjs",
       "target": "website/lib/markdown-routes.mts",
       "kind": "reexport"
@@ -1073,6 +1078,16 @@
     {
       "path": "website/tests/unit/issue-forms.test.mjs",
       "target": "website/tests/unit/issue-forms.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "website/tests/unit/library-export.test.mjs",
+      "target": "website/tests/unit/library-export.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "website/tests/unit/library-links.test.mjs",
+      "target": "website/tests/unit/library-links.test.mts",
       "kind": "side-effect"
     },
     {

@@ -1,5 +1,7 @@
 # project — 計画と実施記録
 
+[f7de初回CIとcheckout fixture修正](records/2026-11-02/ios-native-owned-simulator.md)では、9workflow/19job終端・必須10成功とdocs失敗を保存する。Common/Full Aのテストfixture2原因だけをCode2-r2で修正する私有Source6で、Mac専用194件=193成功1skipと実Linux/Node22未検証を分ける。Native cancelled・unit278不明、Full B3/8とcopy/Release未受入、strict3のguard推論・SDK26 unsigned範囲を保持し、新head CI/通常main/実機等は未受入のままとする。旧全文/JSON値・TODO32行14完了と原criteriaを保つ。
+
 [iOS検証の874と次の候補](records/2026-11-02/ios-native-owned-simulator.md)は、初回のNative6/8・A15/18・B6/8、独立artifactで確認した初回unit278、Native制御6/8とFull制御B8/8・A試験前停止を別scopeへ保持する。原因未特定・全体未受入のまま、同じ判定/期限を保つ25準備loopのpositive停止と、全記事の所有Simulator・job95/70分をCode7＋記録4へまとめる候補である。旧全文/全JSON値、App0.2.28（30）・TODO32行14完了と原criteriaを保持し、新head CI/通常main・実機等は未受入である。
 
 [151のNative期待値とAudio試験同期](records/2026-11-02/ios-native-owned-simulator.md)は、Linux1488=1469成功1失敗18skipとMac FullA1488=1471成功2失敗15skipを分け、Native期待値1literalのGroup1とAudio試験handshake＋記録4件のGroup2を準備します。固定150msのfalse failure可能性と今回の時系列未収録を区別し、production lock・音声制作・全製品/helper/YAML/UIを保ちます。保存Native184とAudio対象結果、未採択Source5履歴、旧151進行/取消を新成功へ転用しない範囲、60/75/B50・App28・TODO32/14を保持します。

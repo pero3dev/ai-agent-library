@@ -209,3 +209,25 @@ Native初回のconsoleで観測された230件は不完全な集計のまま保�
 Full3は既存のNative準備helperへ全記事用の所有UUID/contextを追加し、YAMLがcanaryとUIの宛先へ同じ所有UUIDを渡し、読取・変更・cleanupと証跡の境界を保つ候補である。Full A/Bのjob全体を95/70分へ配分し、Native60分、個別のUI期限・判定・roster、strict374Bを保持する。余白は最悪時間や安定性の保証ではない。packet MF `cb0ca60e151978e1112d4896ee947d763205440911f1d294f90d65c57dbf6726` の最初の専用160件は158成功2失敗でNative既存133件は成功、新テストfixtureの出力splitを訂正した新27件の限定実行と、job上限変更後の新27件の限定実行が各成功した。元133件やglobal/SDK/UIを繰り返したとは扱わない。Node構文9件・YAML構文とactual YAML callerのstub確認も保存された範囲だけとする。
 
 この結合で新たな実SDK・UI・CI・latency改善や根本原因の解消は未確認である。新Trace8・Storage・Gate候補は組み込まず、製品30tuple・PBX/App0.2.28（30）・TODO32行14完了と原criteria、旧record/indexを保つ。新しい実親・commitと通常mainはRootの最終レビュー・新head CIの後で扱う。実機・VoiceOver・最低OS、署名・Store等は未完了として継続する。
+
+## f7de初回CIの終端とcheckout用テストfixtureの修正候補
+
+この追記はPR327 head `f7debb5751c6804b5f60b8414b7a0a3ce466b24a`、tree `3ff736a058c952310d95f1d6f2d42d6987b806bc`、checkout VM `3892b8d82af24a4161018134ad3d3f5944f9352c` の初回attempt1だけを扱う。9workflow・19jobは終端で、保存済み最新の必須11は10成功・docs失敗である。全体は未受入であり、旧874の初回・制御再試行や別branchの診断結果を転用しない。final audit MF `45c55f017ff7cae18487ae1410ac414a1b00234a93b08890d82aa312039f4e67`、旧partial MF `bfeae3253c0c2a6df46a91730531830f0646896593864d74a529293176cd0540`、型付きIR MF `d6074b9ad1c2bc050850ae846f16db34fe0d7b1f40bbc430ef07ed1625f30f12` を対応する範囲で参照する。
+
+### 実CIの失敗と未確認範囲
+
+Common docsのNodeは1489件=1465成功6失敗18skip、Full AのMac Nodeは1489件=1468成功6失敗15skipだった。既存clipboard post-seed VM5件ではsyntheticなowned入力が不足し、`owned is not defined` となった。Published Simulator単体のmoduleは通常checkoutに存在しない私有before workflowを読みENOENTとなり、新27件は登録前に停止した。いずれもテストfixtureの互換性問題として扱い、本番helperの拒否条件やUIの失敗原因と混同しない。Full Aのunit/UIはstep skippedで、実行成功を主張しない。
+
+Nativeは所有UUIDのready後、Debug unit commandのbuild末尾を出力したが、completed leafと実行aggregateをconsoleで受領する前にcancelledとなった。console leaf受領0は実行0の証明ではなく、unit278と既知2skipは未確認である。Debug AppIcon・UI8・Releaseはstep skipped、cleanupはcleanup-before-deleteでfailureとなり最終device状態は不明。build成功、test host接続の失敗、取消の根本原因も断定しない。
+
+Full Bは固定UI8件中3成功5失敗0skip。実374B一致のmarkerは受領0でcopyは未受入、Releaseはstep skippedだった。所有cleanupはshutdown/delete/absenceの全てがtrueである。Recoveryはruntime inventory assertionでUI前に停止し、下位stderrと根本原因は未確認である。R26は実3件全成功0skipを確認した。
+
+Dynamic・Rotation・Revisionは現sourceのUI/audit/cleanup/summary stage成功と、不変のfixed1 Passed/device guard通過に基づく推論として受け入れる。directなchild leaf・result tree・acceptance JSONは未受領で、console leaf受領0を実行0と扱わない。SDK26はXcode26.6/SDK26.5・App0.2.28（30）arm64のunsigned archiveとaudit、同revisionのRelease199/consumer199・asset metadataに限る互換性確認である。署名・配布・実機・最低OS runtime・SDK26上のUIへ拡大しない。
+
+### 本番guardを保持するテスト2本の私有候補
+
+Code2-r2 MF `1334ed545457a8a958a055fd338719cd26562d31ba88f87f2c123c78fac57066` をそのまま用いる。Clipboard VMへsynthetic owned入力を渡し、Published単体は私有beforeの読取を固定26件/marker検査へ置換する。本番helper全文は同じbytesのままテストのlexical process facadeでplatformだけを制御し、元27境界ケースとactual YAML callerを同じmoduleへ結ぶ。実hostの本番export検査2本は別に保ち、片OSに該当しない1件だけを明示skipする。本番platform guard・Full YAML・helperの所有条件・全roster・wait/assert・374B基準は変更しない。
+
+保存済みDarwin/Node24.22.1の専用1runは194件=193成功1skip0失敗で、r1のMac192成功は旧履歴として保持する。実Linux/Node22は未検証であり、このSource6結合で194件・global・SDK・UIを再実行していない。独立Code2-r2 IR MF `22429faabb2979957a43eb8328adf1a848761a06e4fef5f38c38df70a614069b` はP1/P2=0だが、新head CIや全体合格の代わりにはしない。
+
+テスト2本を予定commit14、記録2本と索引2本を予定commit15に分ける私有準備で、新しいcommit/headはまだ未生成である。既存Markdown全文・JSON全key/value・索引全文、App0.2.28（30）・TODO32行14完了と原criteria/checkboxを保持する。新しいARM比較診断は別branchの別目的で、このPR sourceへ含めない。実機・VoiceOver・最低OS・署名・Store、通常mainとwhole PRは未完了として継続する。

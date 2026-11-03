@@ -3144,5 +3144,165 @@
       "ordinary_next_head_CI_IR_main": "pending Root review and exact new-head evidence"
     },
     "old_record_scope": "Every old Markdown byte and existing JSON key/value remains preparation history; this addition reports only its explicit source/attempt scopes."
+  },
+  "sourcef7de_initial_ci_and_checkout_fixture_candidate_20261103": {
+    "state": "F7DE_INITIAL_CI_CLOSED_NOT_ACCEPTED_WITH_PRIVATE_CODE2_R2_FOLLOWUP",
+    "source": "f7debb5751c6804b5f60b8414b7a0a3ce466b24a",
+    "tree": "3ff736a058c952310d95f1d6f2d42d6987b806bc",
+    "checkout_VM": "3892b8d82af24a4161018134ad3d3f5944f9352c",
+    "base_main": "400b2adf66bdf1b953ba89ec57b71f3f4ef2352d",
+    "PR": 327,
+    "attempt": 1,
+    "evidence": {
+      "final_audit_MF": "45c55f017ff7cae18487ae1410ac414a1b00234a93b08890d82aa312039f4e67",
+      "old_partial_MF": "bfeae3253c0c2a6df46a91730531830f0646896593864d74a529293176cd0540",
+      "typed_driver_IR_MF": "d6074b9ad1c2bc050850ae846f16db34fe0d7b1f40bbc430ef07ed1625f30f12"
+    },
+    "all9_workflows_terminal": true,
+    "all19_jobs_terminal": true,
+    "required11": {
+      "success": 10,
+      "failure": 1,
+      "failed_name": "docs",
+      "scope": "Saved highest IDs with current R13 harness/freshness policy identity; not a claim of all-green or a new metadata refresh."
+    },
+    "workflow_conclusions": {
+      "CI": "failure",
+      "Native": "cancelled",
+      "Full": "failure",
+      "SDK26": "success",
+      "R26": "success",
+      "Recovery": "failure",
+      "Dynamic": "success",
+      "Rotation": "success",
+      "Revision": "success"
+    },
+    "CommonDocs": {
+      "run": 41563972195,
+      "job": 125680904945,
+      "Node": {
+        "total": 1489,
+        "pass": 1465,
+        "fail": 6,
+        "skip": 18
+      }
+    },
+    "FullA": {
+      "run": 41563972246,
+      "job": 125680905323,
+      "Node": {
+        "total": 1489,
+        "pass": 1468,
+        "fail": 6,
+        "skip": 15
+      },
+      "unit_and_UI_steps": "skipped; no runtime acceptance"
+    },
+    "two_test_fixture_causes": [
+      "Five existing clipboard post-seed VM cases lacked the newly referenced synthetic owned input (owned is not defined).",
+      "Published Simulator test module read a private ../before workflow file absent from a normal checkout, causing ENOENT before its27 cases registered."
+    ],
+    "Native": {
+      "run": 41563972314,
+      "job": 125680905014,
+      "conclusion": "cancelled",
+      "prepare_ready": true,
+      "completed_console_unit_leaves": 0,
+      "unit_execution_count": null,
+      "unit278_and_known2_skips_confirmed": false,
+      "Debug_AppIcon_UI8_Release_steps": "skipped",
+      "cleanup_step": "failure at cleanup-before-delete",
+      "cleanup_final_device_state": "unknown",
+      "cause": "unknown; build tail then no reported test leaf before cancellation"
+    },
+    "FullB": {
+      "run": 41563972246,
+      "job": 125680905666,
+      "UI": {
+        "total": 8,
+        "pass": 3,
+        "fail": 5,
+        "skip": 0
+      },
+      "exact374B_copy_marker_received": 0,
+      "exact374B_copy_accepted": false,
+      "Release_step": "skipped",
+      "cleanup_shutdown_delete_absent_all_true": true
+    },
+    "Recovery": {
+      "run": 41563972204,
+      "job": 125680904721,
+      "failure": "runtime inventory assertion before UI",
+      "UI_leaf_count_confirmed": false,
+      "underlying_runtime_stderr_and_root_cause": "unknown"
+    },
+    "R26": {
+      "run": 41563972229,
+      "actual_UI": {
+        "total": 3,
+        "pass": 3,
+        "fail": 0,
+        "skip": 0
+      }
+    },
+    "strict3": {
+      "families": [
+        "Dynamic",
+        "Rotation",
+        "Revision"
+      ],
+      "accepted_type": "current-source UI/audit/cleanup/summary stage success plus fixed1 Passed/device guard inference",
+      "direct_child_leaf_result_tree_JSON_received": false,
+      "received_console_leaf_count": 0,
+      "zero_is_executed_zero": false
+    },
+    "SDK26": {
+      "run": 41563972198,
+      "actual_archive_and_audit_passed": true,
+      "scope": "unsigned iPhoneOS archive/content/binary/asset-metadata compatibility",
+      "Xcode": "26.6",
+      "SDK": "iphoneos26.5",
+      "App": "0.2.28(30)",
+      "architecture": "arm64",
+      "Release199_consumer199_same_revision": true,
+      "signing_distribution_hardware_minOS_runtime_or_SDK26_UI_accepted": false
+    },
+    "private_followup": {
+      "CodeMF": "1334ed545457a8a958a055fd338719cd26562d31ba88f87f2c123c78fac57066",
+      "packetMF": "efe5d687fe1fa4ca100a9be805f6f0ac052ced045e422201e3610ff607de8a94",
+      "independent_IR_MF": "22429faabb2979957a43eb8328adf1a848761a06e4fef5f38c38df70a614069b",
+      "code_files": 2,
+      "production_helper_YAML_or_platform_guard_changed": false,
+      "lexical_test_process_facade_only": true,
+      "original27_boundary_cases_use_same_mock_host": true,
+      "actual_host_tests": 2,
+      "saved_Darwin_Node24_22_1": {
+        "total": 194,
+        "pass": 193,
+        "fail": 0,
+        "skip": 1
+      },
+      "r1_Mac192pass_retained_as_history": true,
+      "actual_Linux_Node22_verified": false,
+      "tests_repeated_for_Source6": 0,
+      "new_head_CI_or_acceptance": false,
+      "actual_new_commits": [
+        null,
+        null
+      ]
+    },
+    "scope_separation": {
+      "old874_controls_not_transferred": true,
+      "diagnostic989_or_new_ARM_comparison_not_PR_source": true,
+      "whole_PR_or_main_accepted": false
+    },
+    "current_state": {
+      "App": "0.2.28(30)",
+      "TODO_total": 32,
+      "TODO_complete": 14,
+      "all_criteria_held": true,
+      "IOS11_18_checkboxes_changed": false,
+      "hardware_VoiceOver_minimumOS_signing_Store": "incomplete"
+    }
   }
 }

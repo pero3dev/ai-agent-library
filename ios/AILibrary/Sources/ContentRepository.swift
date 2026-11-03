@@ -72,6 +72,12 @@ final class ContentRepository {
         return (previous, retained)
     }
 
+    /// Bounded metadata observation only. No validation, pointer change or cleanup.
+    func previewStorageUsage() throws -> ContentStoragePreview {
+        try ContentStoragePreviewScanner.scan(root: storageRoot,
+                                              advisoryUses: advisorySnapshotAcquisitions)
+    }
+
     func previewBundledContent() throws -> BundledContentPreview {
         let bundled = try validate(root: bundledRoot)
         let current = try load()

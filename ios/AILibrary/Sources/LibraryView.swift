@@ -26,6 +26,7 @@ struct LibraryView: View {
     @State private var readingBackupMessage: String?
     @State private var readingRestorePresented = false
     @State private var aboutPresented = false
+    @State private var storageUsagePresented = false
     @State private var readingRecoveryPresented = false
     @State private var moreActionsPresented = false
     @State private var pendingMoreAction: MoreAction?
@@ -46,7 +47,7 @@ struct LibraryView: View {
     #endif
 
     private enum MoreAction {
-        case importContent, bundledContent, exportReadingBackup, restoreReadingBackup, about
+        case importContent, bundledContent, exportReadingBackup, restoreReadingBackup, about, storageUsage
         #if DEBUG
         case readerTest
         #endif
@@ -127,6 +128,13 @@ struct LibraryView: View {
             .accessibilityIdentifier("library-bundled-content")
             .disabled(store.snapshot == nil || !path.isEmpty)
         }
+        if !store.isTestLibrary {
+            Button("保存コンテンツの容量を確認", systemImage: "internaldrive") {
+                selectMoreAction(.storageUsage, inSheet: inSheet)
+            }
+            .accessibilityIdentifier("library-storage-usage")
+            .disabled(!path.isEmpty)
+        }
         if store.allowsReadingBackup {
             Button("読書記録を書き出す", systemImage: "square.and.arrow.up") {
                 selectMoreAction(.exportReadingBackup, inSheet: inSheet)
@@ -195,6 +203,9 @@ struct LibraryView: View {
             guard path.isEmpty, store.allowsReadingRestore else { return }
             readingRestorePresented = true
         case .about: aboutPresented = true
+        case .storageUsage:
+            guard !store.isTestLibrary, !isBusy, path.isEmpty else { return }
+            storageUsagePresented = true
         #if DEBUG
         case .readerTest: readerTestPresented = true
         #endif
@@ -423,6 +434,7 @@ struct LibraryView: View {
             bundledContentConfirmation
         }
         .sheet(isPresented: $aboutPresented) { LibraryAboutView(snapshot: store.snapshot) }
+        .sheet(isPresented: $storageUsagePresented) { ContentStoragePreviewView(store: store) }
         .sheet(isPresented: $readingRestorePresented) { ReadingRestoreCenter(store: store, isPresented: $readingRestorePresented) }
         #if DEBUG
         .sheet(isPresented: $readerTestPresented) {

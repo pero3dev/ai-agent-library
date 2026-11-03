@@ -4,6 +4,7 @@
  * 識別子は別プロジェクトの誤起動を防ぐためであり、コードの信頼を証明しない。
  * https://learn.chatgpt.com/docs/hooks (確認: 2026-09-10)
  */
+/** @param {string} client @param {string} mode */
 export function hookCommand(client, mode) {
   if (!['codex', 'claude'].includes(client) || !['guard', 'validate'].includes(mode)) throw new Error('不明な hook adapter です')
   const script = mode === 'guard' ? 'guard-generated.mjs' : 'validate-doc.mjs'
@@ -25,6 +26,7 @@ export function hookCommand(client, mode) {
  * -Command の末尾が native command のままだと PowerShell は非ゼロ終了を 1 に変換し、
  * Codex が期待する blocking error (2) にならない。Unix と Claude の command は変更しない。
  */
+/** @param {string} mode */
 export function codexWindowsHookCommand(mode) {
   return `${hookCommand('codex', mode)}; exit $LASTEXITCODE`
 }

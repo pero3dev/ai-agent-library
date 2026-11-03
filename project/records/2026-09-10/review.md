@@ -226,7 +226,7 @@ Mermaid は「モデルが決定 → クリック等を実行 → 不可逆操�
 
 ### F22 — P2: カスタムページの「本文へスキップ」のリンク先がありません
 
-根拠: [app/page.jsx](../../../website/app/page.jsx) L16、[glossary/page.jsx](../../../website/app/glossary/page.jsx) L11、[roadmap/page.jsx](../../../website/app/roadmap/page.jsx) L12、[tags/page.jsx](../../../website/app/tags/page.jsx) L13。
+根拠: [app/page.jsx](https://github.com/pero3dev/ai-agent-library/blob/ae86cc3aff60f6571e1b201edaa31d1219789954/website/app/page.jsx#L16) L16、[glossary/page.jsx](https://github.com/pero3dev/ai-agent-library/blob/ae86cc3aff60f6571e1b201edaa31d1219789954/website/app/glossary/page.jsx#L11) L11、[roadmap/page.jsx](https://github.com/pero3dev/ai-agent-library/blob/ae86cc3aff60f6571e1b201edaa31d1219789954/website/app/roadmap/page.jsx#L12) L12、[tags/page.jsx](https://github.com/pero3dev/ai-agent-library/blob/ae86cc3aff60f6571e1b201edaa31d1219789954/website/app/tags/page.jsx#L13) L13。
 
 共通レイアウトの `#nextra-skip-nav` に対応する id が各 main にありません。生成 HTML 全体でこの 4 ページと 404 / _not-found の計 6 件に不在アンカーを確認しました。キーボード利用者がナビゲーションを飛ばして本文へ進めません。
 

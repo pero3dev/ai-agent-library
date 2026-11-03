@@ -8,18 +8,21 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const PNG_SIGNATURE = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
+/** @param {import('node:crypto').BinaryLike} bytes */
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 const crcTable = Array.from({ length: 256 }, (_, initial) => {
   let value = initial;
   for (let bit = 0; bit < 8; bit++) value = value & 1 ? 0xedb88320 ^ (value >>> 1) : value >>> 1;
   return value >>> 0;
 });
+/** @param {Uint8Array} bytes */
 function crc32(bytes) {
   let value = 0xffffffff;
   for (const byte of bytes) value = crcTable[(value ^ byte) & 255] ^ (value >>> 8);
   return (value ^ 0xffffffff) >>> 0;
 }
 
+/** @param {string} file @param {number} maximum */
 async function regular(file, maximum) {
   const stat = await lstat(file);
   assert.ok(stat.isFile() && !stat.isSymbolicLink(), `Expected regular file: ${file}`);
@@ -31,19 +34,24 @@ async function regular(file, maximum) {
 
 // plutil is the existing macOS plist reader; input is the bytes just read from
 // this app's Info.plist. No temporary files, package dependency, shell or SDK.
+/** @param {Buffer} bytes @returns {unknown} */
 export function decodeApplePlist(bytes) {
   return JSON.parse(execFileSync('/usr/bin/plutil', ['-convert', 'json', '-o', '-', '-'], {
     input: bytes, encoding: 'utf8', timeout: 5000, maxBuffer: 1024 * 1024
   }));
 }
 
+/** @param {unknown} bytes */
 export function inspectCompiledIconPng(bytes) {
   assert.ok(Buffer.isBuffer(bytes) && bytes.length >= 45 && bytes.length <= 32 * 1024 * 1024, 'Invalid compiled icon PNG byte length');
   assert.ok(bytes.subarray(0, 8).equals(PNG_SIGNATURE), 'Invalid icon PNG signature');
   let cursor = 8, header, cgbi = false, idatBytes = 0, ended = false, chunks = 0;
   while (cursor < bytes.length) {
     assert.ok(++chunks <= 4096 && cursor + 12 <= bytes.length, 'Truncated or excessive icon PNG chunks');
-    const length = bytes.readUInt32BE(cursor), end = cursor + 12 + length;
+    /** @type {number} */
+    const length = bytes.readUInt32BE(cursor);
+    /** @type {number} */
+    const end = cursor + 12 + length;
     assert.ok(end <= bytes.length, 'Truncated icon PNG data');
     const type = bytes.toString('ascii', cursor + 4, cursor + 8);
     assert.equal(crc32(bytes.subarray(cursor + 4, end - 4)), bytes.readUInt32BE(end - 4), 'Icon PNG CRC mismatch');
@@ -74,6 +82,7 @@ export function inspectCompiledIconPng(bytes) {
 
 // This adapter observes only the captured assetutil format. It does not decode
 // CAR pixels or establish a general Apple asset catalog specification.
+/** @param {string} carPath @returns {unknown} */
 export function readAppleAssetCatalog(carPath) {
   const output = execFileSync('/usr/bin/xcrun', ['assetutil', '--info', carPath], {
     encoding: 'utf8', timeout: 45000, maxBuffer: 4 * 1024 * 1024, killSignal: 'SIGKILL'
@@ -82,6 +91,7 @@ export function readAppleAssetCatalog(carPath) {
   return JSON.parse(output);
 }
 
+/** @param {unknown} rows @param {{requiredScales?: number[], primaryName?: string}} [options] */
 export function inspectCompiledAppIconCatalog(rows, { requiredScales = [2, 3], primaryName = 'AppIcon' } = {}) {
   assert.ok(Array.isArray(requiredScales) && requiredScales.length > 0
     && requiredScales.every(scale => [2, 3].includes(scale))
@@ -89,11 +99,17 @@ export function inspectCompiledAppIconCatalog(rows, { requiredScales = [2, 3], p
   assert.ok(typeof primaryName === 'string' && primaryName.length > 0 && primaryName.length <= 256, 'Invalid primary catalog name');
   assert.ok(Array.isArray(rows) && rows.length >= 2 && rows.length <= 4096, 'Unknown asset catalog root');
   assert.ok(Buffer.byteLength(JSON.stringify(rows), 'utf8') <= 4 * 1024 * 1024, 'Asset catalog parsed input cap');
-  const object = value => value && typeof value === 'object' && !Array.isArray(value);
-  const integer = value => Number.isSafeInteger(value) && value > 0 && value <= 0x7fffffff;
+  /** @param {unknown} value @returns {value is Record<string, unknown>} */
+  const object = value => value !== null && typeof value === 'object' && !Array.isArray(value);
+  /** @param {unknown} value @returns {value is number} */
+  const integer = value => typeof value === 'number' && Number.isSafeInteger(value) && value > 0 && value <= 0x7fffffff;
+  /** @param {unknown} value @returns {value is number} */
   const finiteVersion = value => typeof value === 'number' && Number.isFinite(value) && value > 0;
+  /** @param {unknown} value @returns {value is string} */
   const text = value => typeof value === 'string' && value.length > 0 && value.length <= 512 && !value.includes('\0');
+  /** @param {object} value @param {PropertyKey} key */
   const has = (value, key) => Object.prototype.hasOwnProperty.call(value, key);
+  /** @param {Record<string, unknown>} row */
   const subtype = row => {
     if (!has(row, 'Subtype')) return null;
     assert.ok(integer(row.Subtype), 'Invalid catalog subtype'); return row.Subtype;
@@ -113,6 +129,7 @@ export function inspectCompiledAppIconCatalog(rows, { requiredScales = [2, 3], p
     'kCRThemeDimension2Name', 'kCRThemeDimension1Name', 'kCRThemeIdentifierName',
     'kCRThemeElementName', 'kCRThemePartName', 'kCRThemeStateName'];
   const format = header['Key Format'];
+  /** @param {string[]} known */
   const matchesFormat = known => Array.isArray(format) && format.length === known.length
     && known.every((key, index) => has(format, index) && typeof format[index] === 'string' && format[index] === key);
   const observedStateFormat = matchesFormat(stateKeyFormat);
@@ -132,9 +149,9 @@ export function inspectCompiledAppIconCatalog(rows, { requiredScales = [2, 3], p
   for (const row of rows.slice(1)) {
     assert.ok(object(row) && Object.keys(row).length <= 128, 'Unknown asset catalog row');
     if (observedStateFormat) assert.equal(row.State, 'Normal', 'Unobserved state-key catalog row state');
-    assert.ok(['Icon Image', 'MultiSized Image', 'PackedImage'].includes(row.AssetType), 'Unknown asset catalog asset type');
-    assert.ok(text(row.Name) && ['phone', 'marketing'].includes(row.Idiom), 'Invalid catalog name or idiom');
-    assert.ok(Number.isSafeInteger(row.Scale) && row.Scale >= 1 && row.Scale <= 3, 'Invalid catalog scale');
+    assert.ok(typeof row.AssetType === 'string' && ['Icon Image', 'MultiSized Image', 'PackedImage'].includes(row.AssetType), 'Unknown asset catalog asset type');
+    assert.ok(text(row.Name) && typeof row.Idiom === 'string' && ['phone', 'marketing'].includes(row.Idiom), 'Invalid catalog name or idiom');
+    assert.ok(typeof row.Scale === 'number' && Number.isSafeInteger(row.Scale) && row.Scale >= 1 && row.Scale <= 3, 'Invalid catalog scale');
     if (row.AssetType === 'PackedImage') continue; // Never a primary icon candidate.
     assert.ok(integer(row.NameIdentifier), 'Invalid catalog name identifier');
     const common = { name: row.Name, name_identifier: row.NameIdentifier, idiom: row.Idiom, subtype: subtype(row) };
@@ -167,9 +184,13 @@ export function inspectCompiledAppIconCatalog(rows, { requiredScales = [2, 3], p
         bits_per_component: row.BitsPerComponent, color_model: row.ColorModel, opaque_metadata: row.Opaque });
     }
   }
+  /** @typedef {{name: string, name_identifier: number, idiom: string, subtype: number|null, points: number, index: number}} SizeMapping */
+  /** @param {Omit<SizeMapping, 'points'>} entry */
   const indexKey = entry => JSON.stringify([entry.name, entry.name_identifier, entry.idiom, entry.subtype, entry.index]);
+  /** @param {Omit<SizeMapping, 'index'>} entry */
   const pointsKey = entry => JSON.stringify([entry.name, entry.name_identifier, entry.idiom, entry.subtype, entry.points]);
-  const byIndex = new Map(), byPoints = new Set();
+  /** @type {Map<string, SizeMapping>} */
+  const byIndex = new Map(); const byPoints = new Set();
   for (const mapping of mappings) for (const size of mapping.sizes) {
     const key = indexKey(size), point = pointsKey(size);
     assert.ok(!byIndex.has(key) && !byPoints.has(point), 'Duplicate or ambiguous MultiSized mapping');
@@ -190,6 +211,7 @@ export function inspectCompiledAppIconCatalog(rows, { requiredScales = [2, 3], p
   assert.equal(target.length, 1, 'Missing or ambiguous phone60pt primary mapping');
   const mapping = target[0], images = [];
   for (const scale of requiredScales) {
+    /** @type {typeof icons} */
     const matches = icons.filter(image => indexKey(image) === indexKey(mapping) && image.scale === scale);
     assert.equal(matches.length, 1, `Missing or ambiguous required CAR iPhone60@${scale}x rendition`);
     images.push(matches[0]);
@@ -205,6 +227,8 @@ export function inspectCompiledAppIconCatalog(rows, { requiredScales = [2, 3], p
  * Required [3] for iPhone16 Debug and [2,3] for generic Release/Archive are
  * verified by the observed CAR mapping, not loose PNG layout. Legacy Info/PNG
  * resolution remains independently checked. CAR pixels are not decoded.
+ * @param {string} appRoot
+ * @param {{requiredScales?: number[], decodePlist?: (bytes: Buffer) => unknown, readAssetCatalog?: (file: string) => unknown | Promise<unknown>}} [options]
  */
 export async function verifyBuiltAppIcon(appRoot, { requiredScales = [2, 3], decodePlist = decodeApplePlist, readAssetCatalog = readAppleAssetCatalog } = {}) {
   assert.ok(Array.isArray(requiredScales) && requiredScales.length > 0
@@ -214,12 +238,17 @@ export async function verifyBuiltAppIcon(appRoot, { requiredScales = [2, 3], dec
   assert.ok(rootStat.isDirectory() && !rootStat.isSymbolicLink(), 'Expected real built app directory');
   const infoBytes = await regular(path.join(app, 'Info.plist'), 1024 * 1024);
   const info = decodePlist(infoBytes);
-  assert.equal(info?.CFBundlePackageType, 'APPL', 'Expected built application Info.plist');
-  assert.deepEqual(info.UIDeviceFamily, [1], 'Expected the adopted iPhone-only target');
-  assert.ok(Array.isArray(info.CFBundleSupportedPlatforms) && info.CFBundleSupportedPlatforms.length === 1
-    && ['iPhoneOS', 'iPhoneSimulator'].includes(info.CFBundleSupportedPlatforms[0]), 'Unexpected built app platform');
-  const primary = info.CFBundleIcons?.CFBundlePrimaryIcon;
-  assert.equal(primary?.CFBundleIconName, 'AppIcon', 'Built primary icon name must be AppIcon');
+  assert.ok(info !== null && typeof info === 'object' && !Array.isArray(info));
+  const dictionary = /** @type {Record<string, unknown>} */ (info);
+  assert.equal(dictionary.CFBundlePackageType, 'APPL', 'Expected built application Info.plist');
+  assert.deepEqual(dictionary.UIDeviceFamily, [1], 'Expected the adopted iPhone-only target');
+  assert.ok(Array.isArray(dictionary.CFBundleSupportedPlatforms) && dictionary.CFBundleSupportedPlatforms.length === 1
+    && ['iPhoneOS', 'iPhoneSimulator'].includes(dictionary.CFBundleSupportedPlatforms[0]), 'Unexpected built app platform');
+  assert.ok(dictionary.CFBundleIcons !== null && typeof dictionary.CFBundleIcons === 'object', 'Built primary icon name must be AppIcon');
+  const primaryValue = /** @type {Record<string, unknown>} */ (dictionary.CFBundleIcons).CFBundlePrimaryIcon;
+  assert.ok(primaryValue !== null && typeof primaryValue === 'object', 'Built primary icon name must be AppIcon');
+  const primary = /** @type {Record<string, unknown>} */ (primaryValue);
+  assert.ok(primary.CFBundleIconName === 'AppIcon', 'Built primary icon name must be AppIcon');
   const entries = primary.CFBundleIconFiles;
   assert.ok(Array.isArray(entries) && entries.length > 0 && entries.length <= 16
     && new Set(entries).size === entries.length, 'Invalid CFBundleIconFiles');
@@ -228,7 +257,7 @@ export async function verifyBuiltAppIcon(appRoot, { requiredScales = [2, 3], dec
   const carBefore = hash(car);
   const names = await readdir(app), files = new Map();
   for (const entry of entries) {
-    assert.equal(typeof entry, 'string', 'Invalid icon file stem');
+    assert.ok(typeof entry === 'string', 'Invalid icon file stem');
     const parts = /^AppIcon([1-9][0-9]{0,3})x([1-9][0-9]{0,3})(?:@([123])x)?(?:~iphone)?(?:\.png)?$/.exec(entry);
     assert.ok(parts && parts[1] === parts[2], 'Unsafe or unsupported primary icon file stem');
     const stem = `AppIcon${parts[1]}x${parts[2]}`;
@@ -240,6 +269,7 @@ export async function verifyBuiltAppIcon(appRoot, { requiredScales = [2, 3], dec
     assert.ok(matches.length > 0, `No built PNG resolves icon file stem: ${entry}`);
     for (const { name, scale } of matches) {
       const image = inspectCompiledIconPng(await regular(path.join(app, name), 32 * 1024 * 1024));
+      /** @type {number} */
       const expected = Number(parts[1]) * scale;
       assert.equal(image.width, expected, `Icon width does not match its stem/scale: ${name}`);
       assert.equal(image.height, expected, `Icon height does not match its stem/scale: ${name}`);
@@ -252,7 +282,7 @@ export async function verifyBuiltAppIcon(appRoot, { requiredScales = [2, 3], dec
   assert.equal(hash(carAfter), carBefore, 'Assets.car changed during catalog read');
   const catalog = inspectCompiledAppIconCatalog(catalogRows, { requiredScales, primaryName: primary.CFBundleIconName });
   return { schema_version: 1, status: 'passed', scope: 'built-AppIcon-file-and-CAR-metadata-only',
-    platform: info.CFBundleSupportedPlatforms[0], primary_icon_name: primary.CFBundleIconName,
+    platform: dictionary.CFBundleSupportedPlatforms[0], primary_icon_name: primary.CFBundleIconName,
     primary_icon_files: entries, required_iphone_scales: requiredScales,
     Info_plist_sha256: hash(infoBytes), Assets_car: { bytes: car.length, sha256: carBefore, stable_across_reader: true },
     CAR: catalog,
@@ -267,6 +297,6 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
       'Usage: node ios/tests/check-built-app-icon.mjs <built AILibrary.app> --required-scales <3|2,3>');
     console.log(JSON.stringify(await verifyBuiltAppIcon(args[0], { requiredScales: args[2].split(',').map(Number) }), null, 2));
   } catch (error) {
-    console.error(`Built AppIcon audit failed: ${error.message}`); process.exitCode = 1;
+    console.error(`Built AppIcon audit failed: ${error instanceof Error ? error.message : String(error)}`); process.exitCode = 1;
   }
 }

@@ -109,6 +109,12 @@ jobs:
           cache-dependency-path: package-lock.json
       - run: npm audit --package-lock-only --audit-level=high
       - run: npm ci --ignore-scripts
+      - name: Audit iOS tool types before installation
+        run: npm audit --prefix ios/tools --package-lock-only --audit-level=high
+      - name: Install iOS tool types
+        run: npm ci --prefix ios/tools --ignore-scripts
+      - run: npm run typecheck
+      - run: npm run typecheck:coverage
       - run: npm run check:harness
 
   # Windows 固有のパス・worktree・排他・hook adapter を確認する。サイト一式は build job。
@@ -404,6 +410,9 @@ jobs:
           STATIC_EXPORT: '1'
           NEXT_PUBLIC_BASE_PATH: ${{ vars.SITE_BASE_PATH || '' }}
           NEXT_PUBLIC_SITE_URL: ${{ vars.SITE_URL || '' }}
+      - name: Check website implementation and test types
+        run: npm run typecheck
+        working-directory: website
       - name: Capture theme after screenshots
         if: steps.theme-changes.outputs.changed == 'true'
         run: node scripts/capture-theme-evidence.mjs --export-root out --output-dir ../.local/theme-evidence/after --revision "$GITHUB_SHA"
@@ -417,7 +426,7 @@ jobs:
         env:
           NEXT_PUBLIC_BASE_PATH: ${{ vars.SITE_BASE_PATH || '' }}
       - name: Firefox site appearance checks
-        run: npx playwright test site-appearance.spec.mjs --output ../.local/appearance-results/firefox
+        run: npx playwright test site-appearance.spec.ts --output ../.local/appearance-results/firefox
         working-directory: website
         env:
           PLAYWRIGHT_BROWSER: firefox
@@ -528,7 +537,7 @@ jobs:
           NEXT_PUBLIC_BASE_PATH: /__audio-test
           NEXT_PUBLIC_SITE_URL: http://127.0.0.1:4183/__audio-test
       - name: WebKit site appearance checks
-        run: npx playwright test site-appearance.spec.mjs --output ../.local/appearance-results/webkit
+        run: npx playwright test site-appearance.spec.ts --output ../.local/appearance-results/webkit
         working-directory: website
         env:
           PLAYWRIGHT_BROWSER: webkit

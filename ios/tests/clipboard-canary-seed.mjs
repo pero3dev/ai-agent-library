@@ -7,6 +7,12 @@ const pairLimit = 2 * perCallLimit;
 const observedPOSIXTimeoutStderr = "An error was encountered processing the command (domain=NSPOSIXErrorDomain, code=60):\nThe operation couldn’t be completed. Operation timed out\nOperation timed out\n";
 
 /** Seed the same controlled pre-UI canary twice at most; no other action retries. */
+/**
+ * @param {string} UUID
+ * @param {Buffer} canary
+ * @param {(name: string, destination: string, input: Buffer, timeout: number, acquirePermit: () => Readonly<{timeout_ms: number, remaining_ms: number}>) => unknown} execute
+ * @param {() => number} [now]
+ */
 export function seedClipboardCanary(UUID, canary, execute, now = () => performance.now()) {
   assert.match(UUID, /^[A-F0-9]{8}(?:-[A-F0-9]{4}){3}-[A-F0-9]{12}$/);
   assert.ok(Buffer.isBuffer(canary) && canary.length > 0 && canary.length <= 256);
@@ -35,6 +41,7 @@ export function seedClipboardCanary(UUID, canary, execute, now = () => performan
     const before = readClock();
     const plannedTimeout = Math.min(perCallLimit, Math.max(0, Math.floor(deadline - before)));
     assert.ok(plannedTimeout > 0, 'Canary seed allowance exhausted before another call');
+    /** @type {Readonly<{timeout_ms: number, remaining_ms: number}> | null} */
     let permit = null;
     const acquirePermit = () => {
       assert.equal(permit, null, 'One spawn permit per seed attempt');
@@ -44,14 +51,17 @@ export function seedClipboardCanary(UUID, canary, execute, now = () => performan
       permit = Object.freeze({ timeout_ms: timeout, remaining_ms: remaining });
       return permit;
     };
-    const result = execute(name, destination, Buffer.from(inputHex, 'hex'), plannedTimeout, acquirePermit);
+    const rawResult = execute(name, destination, Buffer.from(inputHex, 'hex'), plannedTimeout, acquirePermit);
     const after = readClock();
-    assert.ok(permit, 'Seed callback must acquire its spawn permit');
-    assert.ok(result && typeof result === 'object' && !Array.isArray(result), name);
+    // The synchronous callback acquires the captured permit; widen its type after that call.
+    const acquired = /** @type {Readonly<{timeout_ms: number, remaining_ms: number}> | null} */ (permit);
+    assert.ok(acquired, 'Seed callback must acquire its spawn permit');
+    assert.ok(rawResult && typeof rawResult === 'object' && !Array.isArray(rawResult), name);
+    const result = /** @type {Record<string, unknown>} */ (rawResult);
     assert.equal(result.spawned, true, name);
     assert.equal(result.planned_timeout_ms, plannedTimeout, name);
-    assert.equal(result.actual_timeout_ms, permit.timeout_ms, name);
-    const receipt = { name, planned_timeout_ms: plannedTimeout, actual_timeout_ms: permit.timeout_ms,
+    assert.equal(result.actual_timeout_ms, acquired.timeout_ms, name);
+    const receipt = { name, planned_timeout_ms: plannedTimeout, actual_timeout_ms: acquired.timeout_ms,
       exit_code: result.exit_code, signal: result.signal,
       error_code: result.error_code, error: result.error,
       stderr_text: typeof result.stderr_text === 'string' && result.stderr_text.length <= 512 ? result.stderr_text : null };

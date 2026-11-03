@@ -16,21 +16,24 @@ const rulesFor = {
   website: ['AGENTS.md', 'CONTRIBUTING.md', 'website/package.json'],
   harness: ['AGENTS.md', 'CONTRIBUTING.md', 'harness/verification.json']
 }
+/** @param {string} markdown @param {string | undefined} task @param {Pick<import('./lib/document-types.d.mts').SourceDocument, 'repoRel'>[]} [docs] */
 export function selectTask(markdown, task, docs = []) {
   if (!task) return null
   const inventory = docs.map(doc => doc.repoRel)
   const row = roadmapTasks(markdown, inventory).get(task)
   if (!row) throw new Error(`ROADMAP にタスクがありません: ${task}`)
-  return { ...row, artifacts: row.artifacts.map(file => ({ declared: file, resolved: inventory.includes(file) ? file : null, status: inventory.includes(file) ? 'exists' : 'planned-or-missing' })) }
+  return { ...row, artifacts: row.artifacts.map((/** @type {string} */ file) => ({ declared: file, resolved: inventory.includes(file) ? file : null, status: inventory.includes(file) ? 'exists' : 'planned-or-missing' })) }
 }
+/** @param {string} [root] @param {{profile?: string, task?: string}} [options] */
 export function buildContext(root = ROOT, { profile = 'harness', task } = {}) {
   const catalog = jsonFile(path.join(root, 'harness/profiles.json'))
-  if (catalog.schema_version !== 1 || !catalog.profiles?.[profile] || !rulesFor[profile]) throw new Error(`未対応の profile: ${profile}`)
+  if (!catalog || typeof catalog !== 'object' || !('schema_version' in catalog) || catalog.schema_version !== 1 || !('profiles' in catalog) || !catalog.profiles || typeof catalog.profiles !== 'object' || !(profile in catalog.profiles) || !Object.hasOwn(rulesFor, profile)) throw new Error(`未対応の profile: ${profile}`)
+  const selected = rulesFor[/** @type {keyof typeof rulesFor} */ (profile)]
   const roadmap = readRoadmapSource(root)
   return {
-    schema_version: 1, commit: git(root, 'rev-parse', 'HEAD'), profile, contract: catalog.profiles[profile],
+    schema_version: 1, commit: git(root, 'rev-parse', 'HEAD'), profile, contract: /** @type {unknown} */ (Reflect.get(catalog.profiles, profile)),
     roadmap: { source: 'ROADMAP.md', sha256: crypto.createHash('sha256').update(roadmap).digest('hex'), task: selectTask(roadmap, task, collectDocs(root)) },
-    instructions: [...rulesFor[profile], 'harness/git-rules.md'].map(file => ({ path: file, text: readFileSync(path.join(root, file), 'utf8') })),
+    instructions: [...selected, 'harness/git-rules.md'].map(file => ({ path: file, text: readFileSync(path.join(root, file), 'utf8') })),
     verification: verificationManifest(root).checks.filter(row => ['unit', 'markdown', 'articles', 'links'].includes(row.id) || (profile === 'harness' && ['harness', 'windows'].includes(row.id)) || (profile === 'website' && row.job === 'build') || (profile === 'examples' && row.id === 'python')),
     authorization: '依頼・セッションの許可を作業契約へ記録してください。この出力は新しい外部操作を許可しません。'
   }

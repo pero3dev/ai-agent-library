@@ -2,6 +2,7 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import { checkPrerequisiteLevels } from '../../scripts/lib/prerequisite-levels.mjs'
 
+/** @param {string} file @param {string} level @param {string} body */
 const doc = (file, level, body) => ({ file, text: `---\nlevel: "${level}"\n---\n${body}` })
 test('難しい必須前提はエラー。同級・下級と関連参考は許可', () => {
   const result = checkPrerequisiteLevels([

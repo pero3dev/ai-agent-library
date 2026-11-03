@@ -6,7 +6,9 @@ import { GIT_CONVENTIONS, formatSquashMessage, validateCommitMessage, validatePr
 
 const implementationRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 
+/** @param {string} inputFile @param {string} bodyFile @param {string} body */
 function writeSquashBody(inputFile, bodyFile, body) {
+  /** @param {string} first @param {string} second */
   const samePath = (first, second) => process.platform === 'win32' ? first.toLowerCase() === second.toLowerCase() : first === second
   if (samePath(inputFile, bodyFile)) throw new Error('入力 JSON と出力本文は別ファイルにしてください')
   const inputFd = openSync(inputFile, 'r')
@@ -26,8 +28,18 @@ function writeSquashBody(inputFile, bodyFile, body) {
   }
 }
 
-const json = file => JSON.parse(readFileSync(file, 'utf8').replace(/^\uFEFF/, ''))
+/** @param {unknown} value @returns {value is Record<string, unknown>} */
+const object = value => value !== null && typeof value === 'object' && !Array.isArray(value)
+/** @param {string} file @returns {Record<string, unknown>} */
+const json = file => {
+  /** @type {unknown} */
+  const value = JSON.parse(readFileSync(file, 'utf8').replace(/^\uFEFF/, ''))
+  if (!object(value)) throw new Error('Git metadata JSONはobjectで指定してください')
+  return value
+}
+/** @param {string[]} args */
 export function parseGitConventionArgs(args) {
+  /** @type {import('./types/diagnostics.d.mts').GitConventionOptions} */
   const result = {}
   const values = new Set(['root', 'message-file', 'agent', 'pr-file', 'base', 'head', 'event', 'squash-file', 'body-file'])
   for (let i = 0; i < args.length; i++) {
@@ -48,12 +60,15 @@ export function parseGitConventionArgs(args) {
   return result
 }
 
+/** @param {string[]} args @param {string} [cwd] */
 export function checkGitConventions(args, cwd = process.cwd()) {
   const options = parseGitConventionArgs(args)
   const root = path.resolve(cwd, options.root ?? '.')
   let problems = validateGitConventions()
+  /** @type {Partial<ReturnType<typeof validatePrRange>> & {checked_commits: number, checked_merges: number}} */
   let evidence = { checked_commits: 0, checked_merges: 0 }
   if (options['check-config']) {
+    /** @param {string} text */
     const fill = text => text.replaceAll('{{summary}}', '規約を確認する').replaceAll('{{reason}}', '記載形式を統一するため').replaceAll('{{validation}}', '静的検証に成功').replaceAll('{{impact}}', 'なし')
     const message = fill(readFileSync(path.join(implementationRoot, 'harness/commit-message.txt'), 'utf8'))
     const body = fill(readFileSync(path.join(implementationRoot, '.github/pull_request_template.md'), 'utf8'))
@@ -71,15 +86,16 @@ export function checkGitConventions(args, cwd = process.cwd()) {
   if (options.event) {
     const event = json(path.resolve(cwd, options.event))
     const pr = event.pull_request
-    if (!pr || pr.base?.ref !== GIT_CONVENTIONS.base_branch || typeof pr.head?.ref !== 'string' || pr.head.ref === pr.base.ref) throw new Error(`${GIT_CONVENTIONS.base_branch} を base とする pull_request イベントが必要です`)
+    if (!object(pr) || !object(pr.base) || !object(pr.head) || pr.base.ref !== GIT_CONVENTIONS.base_branch || typeof pr.head.ref !== 'string' || pr.head.ref === pr.base.ref) throw new Error(`${GIT_CONVENTIONS.base_branch} を base とする pull_request イベントが必要です`)
     problems.push(...validatePr({ title: pr.title, body: pr.body, branch: pr.head.ref }))
-    evidence = validatePrRange({ root, base: pr.base.sha, head: pr.head.sha, pr: { title: pr.title, body: pr.body } })
+    evidence = validatePrRange({ root, base: typeof pr.base.sha === 'string' ? pr.base.sha : undefined, head: typeof pr.head.sha === 'string' ? pr.head.sha : undefined, pr: { title: pr.title, body: pr.body } })
   }
   if (options['squash-file']) {
     const pr = json(path.resolve(cwd, options['squash-file']))
     problems.push(...validatePr(pr))
     if (problems.length) throw new Error(problems.join('\n'))
     const output = formatSquashMessage(pr)
+    if (!options['body-file']) throw new Error('--body-fileが必要です')
     const bodyFile = path.resolve(cwd, options['body-file'])
     writeSquashBody(path.resolve(cwd, options['squash-file']), bodyFile, output.body)
     return { valid: true, subject: output.subject, body_file: bodyFile }
@@ -93,5 +109,5 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     const result = checkGitConventions(process.argv.slice(2))
     console.log(JSON.stringify(result, null, 2))
     if (!result.valid) process.exitCode = 1
-  } catch (error) { console.error(error.message); process.exitCode = 1 }
+  } catch (error) { console.error(error instanceof Error ? error.message : String(error)); process.exitCode = 1 }
 }

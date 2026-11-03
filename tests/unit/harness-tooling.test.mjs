@@ -7,9 +7,11 @@ import { checkHarness, isActiveTeachingFile, parseConfiguration, validateSchemaR
 import { checkCommand, describeChecks, runChecks } from '../../scripts/check-ci.mjs'
 import { buildContext, selectTask } from '../../scripts/harness-context.mjs'
 import { readObservations, selectedConfig } from '../../scripts/harness-doctor.mjs'
-import { measureStorage, summarizeHealth } from '../../scripts/harness-health.mjs'
-import { filesUnder, resolvePython, ROOT, versionSupported } from '../../scripts/lib/tooling-common.mjs'
+import { health, measureStorage, summarizeHealth } from '../../scripts/harness-health.mjs'
+import { filesUnder, resolvePython, ROOT, versionSupported, verificationManifest } from '../../scripts/lib/tooling-common.mjs'
+import { objectFixture, stringFixture, workflowFixture, requiredFixture } from '../helpers/json-fixtures.mjs'
 
+/** @param {import('node:test').TestContext} t */
 function fixture(t) {
   const base = path.resolve(os.tmpdir())
   const root = mkdtempSync(path.join(base, 'ai-agent-library-tooling-'))
@@ -18,19 +20,20 @@ function fixture(t) {
     assert.ok(path.basename(root).startsWith('ai-agent-library-tooling-'))
     rmSync(root, { recursive: true, force: true })
   })
+  /** @param {string} file @param {unknown} content */
   const write = (file, content) => { const target = path.join(root, file); mkdirSync(path.dirname(target), { recursive: true }); writeFileSync(target, typeof content === 'string' ? content : JSON.stringify(content)) }
   return { root, write }
 }
 
 test('YAML and TOML parsers handle multiline values and reject duplicate or malformed keys', () => {
-  assert.equal(parseConfiguration('role.toml', 'name="role"\ndeveloper_instructions="""line1\nline2"""').developer_instructions, 'line1\nline2')
-  assert.equal(parseConfiguration('role.md', '---\nname: role\ndescription: >\n  first\n  second\n---\n# Body').description.trim(), 'first second')
+  assert.equal(objectFixture(parseConfiguration('role.toml', 'name="role"\ndeveloper_instructions="""line1\nline2"""')).developer_instructions, 'line1\nline2')
+  assert.equal(stringFixture(objectFixture(parseConfiguration('role.md', '---\nname: role\ndescription: >\n  first\n  second\n---\n# Body')).description).trim(), 'first second')
   for (const [file, text] of [['a.yml', 'name: one\nname: two'], ['a.toml', 'name="one"\nname="two"'], ['a.json', '{invalid'], ['role.md', '# No metadata']]) assert.throws(() => parseConfiguration(file, text))
 })
 
 test('every npm install is preceded by the same working directory lockfile audit', () => {
   for (const file of readdirSync(path.join(ROOT, '.github/workflows')).filter(name => name.endsWith('.yml'))) {
-    const workflow = parseConfiguration(file, readFileSync(path.join(ROOT, '.github/workflows', file), 'utf8'))
+    const workflow = workflowFixture(parseConfiguration(file, readFileSync(path.join(ROOT, '.github/workflows', file), 'utf8')))
     for (const [job, value] of Object.entries(workflow.jobs)) for (const [index, step] of (value.steps ?? []).entries()) {
       if (!/\bnpm ci\b/.test(step.run ?? '')) continue
       const directory = step['working-directory'] ?? value.defaults?.run?.['working-directory'] ?? '.'
@@ -62,7 +65,7 @@ test('schema verification resolves escaped local references and rejects dangling
 })
 
 test('YAML configuration retains JSON schema scalars and treats merge keys as plain data', () => {
-  const value = parseConfiguration('config.yml', 'base: &base {enabled: true}\ncopy: {<<: *base, count: 3}\non: off\ndate: 2026-10-03\n')
+  const value = objectFixture(parseConfiguration('config.yml', 'base: &base {enabled: true}\ncopy: {<<: *base, count: 3}\non: off\ndate: 2026-10-03\n'))
   assert.deepEqual(value.copy, { '<<': { enabled: true }, count: 3 })
   assert.equal(value.on, 'off')
   assert.equal(value.date, '2026-10-03')
@@ -72,7 +75,7 @@ test('doctor reports selected configuration origins without exposing unrelated s
   const rows = selectedConfig({ model: 'gpt-example', api_key: 'DO_NOT_EXPOSE', mcp_servers: { server: { token: 'DO_NOT_EXPOSE' } }, features: { hooks: true }, projects: { '/repo': { trust_level: 'trusted' } } }, '/user/config.toml', '/repo')
   assert.equal(rows.length, 3)
   assert.ok(rows.every(row => row.source === '/user/config.toml' && row.classification === 'configured'))
-  assert.equal(rows.at(-1).hook_trust, 'unknown')
+  assert.equal(requiredFixture(rows.at(-1)).hook_trust, 'unknown')
   assert.doesNotMatch(JSON.stringify(rows), /DO_NOT_EXPOSE|mcp_servers/)
   assert.equal(selectedConfig({ model: { secret: 'DO_NOT_EXPOSE' } }, 'config', '/repo')[0].value, 'invalid-type')
 })
@@ -86,13 +89,16 @@ test('Python selection detects an unsupported PATH interpreter and uses an avail
   assert.equal(versionSupported('v24.19.0', 'node'), 'supported')
   assert.equal(versionSupported('v23.5.0', 'node'), 'unsupported')
   const selected = resolvePython({ platform: 'win32', execute: binary => binary === 'python' ? 'Python 3.10.1' : 'Python 3.11.3' })
+  assert.ok('binary' in selected)
   assert.equal(selected.binary, 'py')
   assert.deepEqual(selected.args, ['-3.11'])
   assert.equal(resolvePython({ platform: 'linux', execute: () => { throw new Error('not installed') } }).result, 'unknown')
   const { root, write } = fixture(t)
   write('python.exe', 'inert version probe fixture')
   const binary = path.join(root, 'python.exe')
-  assert.equal(resolvePython({ python: binary, execute: () => 'Python 3.11.3' }).binary, binary)
+  const explicit = resolvePython({ python: binary, execute: () => 'Python 3.11.3' })
+  assert.ok('binary' in explicit)
+  assert.equal(explicit.binary, binary)
   assert.equal(resolvePython({ python: binary, execute: () => 'Python 3.10.1' }).result, 'unknown', 'explicit unsupported interpreter does not fall back')
   assert.throws(() => resolvePython({ python: 'relative/python.exe' }))
 })
@@ -122,28 +128,67 @@ test('health separates configuration, app registration, starts and saved publica
     registration: { registered: 1, expected: 2, tasks: [{ id: 'task', configured_status: 'ACTIVE', status: 'PAUSED', last_run_at: null }] }
   }, new Date('2026-01-02T00:00:00Z'))
   assert.deepEqual(value.freshness.published, [], 'merged status alone does not prove a live publication')
-  assert.equal(value.freshness.pending_observations[0].next_retry_at, '2026-01-03T00:00:00Z')
-  assert.equal(value.harness.published[0].state, 'superseded')
+  assert.equal(requiredFixture(value.freshness.pending_observations)[0].next_retry_at, '2026-01-03T00:00:00Z')
+  const published = value.harness.published[0]
+  assert.ok(typeof published !== 'string')
+  assert.equal(published.state, 'superseded')
   assert.equal(value.harness.waiting[0].overdue, true)
-  assert.equal(value.automation.tasks[0].configured, 'ACTIVE')
-  assert.equal(value.automation.tasks[0].registered_status, 'PAUSED')
-  assert.equal(value.automation.tasks[0].last_started_at, null)
-  assert.equal(summarizeHealth({ harness: { status: 'recovery_required', recovery: { pending: true } } }).harness.successful, 'unknown')
+  assert.equal(requiredFixture(value.automation.tasks)[0].configured, 'ACTIVE')
+  assert.equal(requiredFixture(value.automation.tasks)[0].registered_status, 'PAUSED')
+  assert.equal(requiredFixture(value.automation.tasks)[0].last_started_at, null)
+  const legacyRecovery = /** @type {unknown} */ (Reflect.apply(summarizeHealth, undefined, [{ harness: { status: 'recovery_required', recovery: { pending: true } } }]))
+  assert.equal(objectFixture(objectFixture(legacyRecovery).harness).successful, 'unknown')
   assert.equal(summarizeHealth({ freshness: { recovery: { needed: true }, runs: {} } }).freshness.successful, 'unknown')
   assert.equal(summarizeHealth({ harness: { compatibility: { supported: false } } }).harness.availability, 'unknown')
   const local = summarizeHealth({ harness: { state: { runs: { a: { status: 'local' } } }, records: [{ run_id: 'a', status: 'local', completed_at: '2026-01-01T01:00:00Z' }] } }).harness
   assert.equal(local.successful, 1)
   assert.equal(local.last_success_at, '2026-01-01T01:00:00.000Z')
 })
+test('health preserves unverified metadata without assuming counts, identifiers or optional dates have domain types', () => {
+  const value = summarizeHealth({
+    harness: {
+      state: { runs: { malformed: null, old: { status: 'local', started_at: 1e300 } }, pending: [null, { id: 42, status: 17, next_retry_at: { raw: true } }] },
+      records: [null, { run_id: 7, github_verification: { verified: 'true', publication: { verified: true } } }],
+      queue: { waiting_external: [null, { run_id: 23, wait_reason: 31, next_eligible_at: { raw: true } }], malformed: false },
+      lock: { run_id: 19, expires_at: { raw: true } }
+    },
+    registration: { expected: '1', registered: null, tasks: [null, { id: 7, configured_status: 19, last_run_at: 1e300 }] }
+  })
+  assert.equal(value.harness.successful, 1)
+  assert.equal(value.harness.started, null)
+  assert.deepEqual(value.harness.published, [], 'truthy metadata does not prove publication verification')
+  assert.deepEqual(requiredFixture(value.harness.pending_observations)[0], { id: 42, status: 17, next_retry_at: { raw: true } })
+  assert.equal(value.harness.waiting[0].run_id, 23)
+  assert.equal(value.harness.waiting[0].overdue, false)
+  assert.equal(value.harness.waiting[0].reason, null)
+  assert.deepEqual(value.harness.lock, { run_id: 19, expires_at: { raw: true } })
+  assert.equal(value.automation.expected, '1')
+  assert.equal(requiredFixture(value.automation.tasks)[0].id, 7)
+  assert.equal(requiredFixture(value.automation.tasks)[0].last_started_at, null)
+  assert.equal(summarizeHealth({ freshness: null, registration: { tasks: 'invalid' } }).automation.availability, 'unknown')
+})
+test('health treats status-module and registration results as untrusted diagnostic inputs', async t => {
+  const { root, write } = fixture(t)
+  write('scripts/freshness-run.mjs', 'export async function main() { return { runs: { previous: { outcome: "observed" } } } }')
+  write('scripts/harness-run.mjs', 'export const main = 42')
+  const value = await health(root, { registrationReader: async () => ({ expected: '1', tasks: [{ id: 9, last_run_at: null }] }), storageReader: () => ({ fixture: true }) })
+  assert.equal(value.freshness.successful, 1)
+  assert.equal(value.harness.availability, 'unknown')
+  assert.match(String(value.harness.reason), /入口/)
+  assert.equal(value.automation.expected, '1')
+  assert.equal(requiredFixture(value.automation.tasks)[0].id, 9)
+  assert.deepEqual(value.retained_storage, { fixture: true })
+})
 
 test('context selects an actual ROADMAP task table and preserves planned artifacts', () => {
   const table = '| タスク | 内容 | 成果物 | ステータス |\n| --- | --- | --- | --- |\n| 2-1 | Work | `topic.md`, `01-concepts/future.md` | 完了 |\n| 2-10 | Other | `01-concepts/other.md` | 未着手 |\n'
   const markdown = '# Roadmap\n\n### Phase\n```markdown\n' + table + '```\n<!--\n' + table + '-->\n\n' + table
   const row = selectTask(markdown, '2-1', [{ repoRel: 'docs/01-concepts/topic.md' }])
+  assert.ok(row)
   assert.equal(row.id, '2-1')
   assert.equal(row.status, '完了')
-  assert.equal(row.artifacts.find(item => item.declared.endsWith('/topic.md')).resolved, 'docs/01-concepts/topic.md')
-  assert.equal(row.artifacts.find(item => item.declared.endsWith('/future.md')).status, 'planned-or-missing')
+  assert.equal(requiredFixture(row.artifacts.find(item => item.declared.endsWith('/topic.md'))).resolved, 'docs/01-concepts/topic.md')
+  assert.equal(requiredFixture(row.artifacts.find(item => item.declared.endsWith('/future.md'))).status, 'planned-or-missing')
   assert.throws(() => selectTask(markdown + '\n' + table, '2-1', [{ repoRel: 'docs/01-concepts/topic.md' }]))
   assert.throws(() => selectTask('```markdown\n' + table + '```', '2-1'))
   assert.throws(() => selectTask(markdown, 'missing'))
@@ -178,6 +223,7 @@ test('health measures owned run and evaluation logs without counting checkouts o
 
 test('verification manifest rejects CI command, working directory and optional-step drift', () => {
   const manifest = { checks: [{ id: 'test', job: 'docs', command: 'npm test', cwd: 'website' }] }
+  /** @param {Record<string, unknown>} step */
   const workflow = step => ({ jobs: { docs: { steps: [step] } } })
   const good = { run: 'npm test', 'working-directory': 'website' }
   assert.deepEqual(verificationDrift(manifest, workflow(good)), [])
@@ -187,8 +233,8 @@ test('verification manifest rejects CI command, working directory and optional-s
 })
 
 test('real article prerequisite levels remain registered and mandatory in the CI docs job', () => {
-  const manifest = JSON.parse(readFileSync(path.join(ROOT, 'harness/verification.json'), 'utf8'))
-  const workflow = parseConfiguration('ci.yml', readFileSync(path.join(ROOT, '.github/workflows/ci.yml'), 'utf8'))
+  const manifest = verificationManifest(ROOT)
+  const workflow = workflowFixture(parseConfiguration('ci.yml', readFileSync(path.join(ROOT, '.github/workflows/ci.yml'), 'utf8')))
   const levels = manifest.checks.filter(row => row.id === 'levels')
   assert.equal(levels.length, 1)
   assert.equal(levels[0].job, 'docs')
@@ -200,6 +246,7 @@ test('real article prerequisite levels remain registered and mandatory in the CI
   changed.jobs.docs.steps = changed.jobs.docs.steps.filter(step => step.run !== levels[0].command)
   assert.match(verificationDrift({ checks: levels }, changed).join('\n'), /levels/)
   assert.ok(describeChecks(ROOT, 'linux').checks.some(row => row.id === 'levels' && row.result === 'not-run'))
+  /** @type {[string, string, string[]][]} */
   const planned = []
   const selected = runChecks(ROOT, 'levels', { platform: 'linux', execute: (row, command) => { planned.push([row.id, row.cwd, command.args]); return 'fixture execution' } })
   assert.deepEqual(planned, [['levels', '.', ['scripts/check-prerequisite-levels.mjs']]])
@@ -209,7 +256,7 @@ test('real article prerequisite levels remain registered and mandatory in the CI
 test('CI inventory cannot claim unexecuted checks or execute deploy through a selected command', () => {
   const inventory = describeChecks(ROOT, 'linux')
   assert.ok(inventory.checks.every(row => row.result === 'not-run'))
-  assert.equal(inventory.checks.find(row => row.id === 'windows').availability, 'other-os')
+  assert.equal(requiredFixture(inventory.checks.find(row => row.id === 'windows')).availability, 'other-os')
   assert.ok(inventory.excluded_actions.includes('deploy'))
   for (const command of ['npm run deploy', 'npm publish', 'curl https://example.com', 'node scripts/test.mjs; echo bad']) assert.throws(() => checkCommand(command))
 })
@@ -225,6 +272,7 @@ test('selected CI checks reject bad IDs before execution and retain failed and o
   assert.deepEqual(result.results.map(row => row.result), ['failed', 'not-run'])
 })
 
+/** @param {import('node:test').TestContext} t */
 function configuredFixture(t) {
   const { root, write } = fixture(t)
   for (const entry of readdirSync(ROOT, { withFileTypes: true })) if (entry.isFile() && entry.name.endsWith('.md')) cpSync(path.join(ROOT, entry.name), path.join(root, entry.name))
@@ -238,7 +286,9 @@ function configuredFixture(t) {
     }
     write(file, config)
   }
-  return { root, write, options: { trackedFiles: [], hooks: { hookCommand: () => 'fixture-expected-command', codexWindowsHookCommand: () => 'fixture-expected-windows-command', generatedPath: file => file.startsWith('website/generated/') } } }
+  /** @type {NonNullable<Parameters<typeof checkHarness>[1]>} */
+  const options = { trackedFiles: [], hooks: { hookCommand: () => 'fixture-expected-command', codexWindowsHookCommand: () => 'fixture-expected-windows-command', generatedPath: file => file.startsWith('website/generated/') } }
+  return { root, write, options }
 }
 
 test('harness verification detects source drift, role metadata, hook changes and tracked generated files', async t => {
@@ -248,7 +298,7 @@ test('harness verification detects source drift, role metadata, hook changes and
   write('CLAUDE.md', 'drift')
   write('.codex/agents/doc-reviewer.toml', 'name="wrong"\ndescription="fixture"\ndeveloper_instructions="fixture"')
   write('tests/outside-harness/AGENTS.md', 'active fixture')
-  options.trackedFiles.push('website/generated/file.json')
+  requiredFixture(options.trackedFiles).push('website/generated/file.json')
   const value = await checkHarness(root, options)
   assert.equal(value.verified, false)
   for (const expected of [/同期/, /name \/ description/, /sandbox_mode/, /教材設定/, /生成物/]) assert.match(value.problems.join('\n'), expected)

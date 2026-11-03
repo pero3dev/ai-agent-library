@@ -1,0 +1,1422 @@
+{
+  "schema_version": 1,
+  "kind": "typescript-migration-planning-inventory",
+  "observed_date": "2026-11-03",
+  "timezone": "Asia/Tokyo",
+  "source_sha": "405e29273a7a3257adeb370c6ac3196d35693d4d",
+  "scope": "Git-tracked JS/TS source; ignored generated output, dependencies and compressed historical evidence are excluded",
+  "line_count": "UTF-8 physical lines, including blanks/comments; final newline is not an additional line",
+  "totals": {
+    "all": {
+      "files": 176,
+      "lines": 18899
+    },
+    "owned": {
+      "files": 169,
+      "lines": 18364
+    },
+    "owned_tests_and_helpers": {
+      "files": 56,
+      "lines": 8652
+    },
+    "historical": {
+      "files": 6,
+      "lines": 509
+    },
+    "vendor": {
+      "files": 1,
+      "lines": 26
+    },
+    "typescript": {
+      "files": 0,
+      "lines": 0
+    }
+  },
+  "tracked_tsconfigs": [],
+  "groups": {
+    ".claude": {
+      "files": 2,
+      "lines": 8
+    },
+    ".codex": {
+      "files": 2,
+      "lines": 8
+    },
+    "project": {
+      "files": 6,
+      "lines": 509
+    },
+    "scripts": {
+      "files": 47,
+      "lines": 6254
+    },
+    "tests": {
+      "files": 30,
+      "lines": 6030
+    },
+    "website/app": {
+      "files": 13,
+      "lines": 391
+    },
+    "website/components": {
+      "files": 24,
+      "lines": 1112
+    },
+    "website/lib": {
+      "files": 15,
+      "lines": 1002
+    },
+    "website/mdx-components.js": {
+      "files": 1,
+      "lines": 46
+    },
+    "website/next.config.mjs": {
+      "files": 1,
+      "lines": 55
+    },
+    "website/playwright.config.mjs": {
+      "files": 1,
+      "lines": 25
+    },
+    "website/scripts": {
+      "files": 7,
+      "lines": 811
+    },
+    "website/tests": {
+      "files": 26,
+      "lines": 2622
+    },
+    "website/vendor": {
+      "files": 1,
+      "lines": 26
+    }
+  },
+  "packages": {
+    "root": {
+      "engines": {
+        "node": "^22.22.2 || ^24.15.0 || >=26.0.0"
+      },
+      "type": null,
+      "versions": {
+        "next": null,
+        "nextra": null,
+        "nextra-theme-docs": null,
+        "react": null,
+        "react-dom": null,
+        "typescript": null,
+        "@types/node": null,
+        "@types/react": null,
+        "@types/react-dom": null
+      }
+    },
+    "website": {
+      "engines": null,
+      "type": "module",
+      "versions": {
+        "next": {
+          "version": "16.3.8",
+          "direct": true,
+          "peer": false
+        },
+        "nextra": {
+          "version": "4.6.1",
+          "direct": true,
+          "peer": false
+        },
+        "nextra-theme-docs": {
+          "version": "4.6.1",
+          "direct": true,
+          "peer": false
+        },
+        "react": {
+          "version": "19.3.0",
+          "direct": true,
+          "peer": false
+        },
+        "react-dom": {
+          "version": "19.3.0",
+          "direct": true,
+          "peer": false
+        },
+        "typescript": {
+          "version": "6.0.3",
+          "direct": false,
+          "peer": true
+        },
+        "@types/node": null,
+        "@types/react": null,
+        "@types/react-dom": null
+      }
+    }
+  },
+  "planning_verification": {
+    "production_migration": "not-started",
+    "compiler_typecheck": "not-run",
+    "website_build": "not-run",
+    "minimum_node_22_22_2_runtime": "not-run",
+    "initial_node": "24.14.0",
+    "validation_node": "24.19.0",
+    "npm": "11.9.0",
+    "root_dependency_install": "passed-on-node-24.19.0",
+    "root_check": {
+      "result": "passed",
+      "exit_code": 0,
+      "node": "24.19.0",
+      "tests": 532,
+      "passed": 529,
+      "failed": 0,
+      "skipped": 3,
+      "skip_reasons": [
+        "real-ffmpeg-ffprobe-unavailable",
+        "file-symlink-permission-two-tests"
+      ]
+    },
+    "detailed_results": "typescript-migration-plan.md",
+    "additional_structure_check": {
+      "result": "passed",
+      "candidate_paths": 2560,
+      "problems": 0,
+      "includes_untracked": true
+    },
+    "research_links_check": {
+      "result": "passed",
+      "files": 473,
+      "links": 6141
+    },
+    "independent_plan_review": "approved"
+  },
+  "files": [
+    {
+      "path": ".claude/hooks/guard-generated.mjs",
+      "lines": 4,
+      "area": ".claude",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": ".claude/hooks/validate-doc.mjs",
+      "lines": 4,
+      "area": ".claude",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": ".codex/hooks/guard-generated.mjs",
+      "lines": 4,
+      "area": ".codex",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": ".codex/hooks/validate-doc.mjs",
+      "lines": 4,
+      "area": ".codex",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "project/records/2026-09-30/p1-kit-preparation/raw/source/check-f2-correction-slots.mjs",
+      "lines": 22,
+      "area": "project",
+      "classification": "historical-evidence",
+      "test": false
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-native-zoom-evidence/raw/capture/local-extension/background.js",
+      "lines": 1,
+      "area": "project",
+      "classification": "historical-evidence",
+      "test": false
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-native-zoom-evidence/raw/helpers/reasoning-native-zoom-capture-probe.mjs",
+      "lines": 222,
+      "area": "project",
+      "classification": "historical-evidence",
+      "test": false
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-native-zoom-evidence/raw/helpers/reasoning-native-zoom-probe.mjs",
+      "lines": 202,
+      "area": "project",
+      "classification": "historical-evidence",
+      "test": false
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-native-zoom-evidence/raw/initial/local-extension/background.js",
+      "lines": 1,
+      "area": "project",
+      "classification": "historical-evidence",
+      "test": false
+    },
+    {
+      "path": "project/records/2026-10-03/maintenance-baseline.mjs",
+      "lines": 61,
+      "area": "project",
+      "classification": "historical-evidence",
+      "test": false
+    },
+    {
+      "path": "scripts/audio-publish.mjs",
+      "lines": 33,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/audio-run.mjs",
+      "lines": 40,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/audio/authorship.mjs",
+      "lines": 109,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/audio/claude.mjs",
+      "lines": 82,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/audio/core.mjs",
+      "lines": 191,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/audio/lock.mjs",
+      "lines": 62,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/audio/pipeline.mjs",
+      "lines": 197,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/audio/publication.mjs",
+      "lines": 682,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/audio/synthesis.mjs",
+      "lines": 191,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/check-ci.mjs",
+      "lines": 62,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/check-git-conventions.mjs",
+      "lines": 97,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/check-harness.mjs",
+      "lines": 147,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/check-links.mjs",
+      "lines": 137,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/check-prerequisite-levels.mjs",
+      "lines": 9,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/check-structure.mjs",
+      "lines": 67,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/deadline-report.mjs",
+      "lines": 100,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/eval-harness.mjs",
+      "lines": 243,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/freshness-observation-report.mjs",
+      "lines": 37,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/freshness-policy.mjs",
+      "lines": 267,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/freshness-public-observation.mjs",
+      "lines": 67,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/freshness-registry.mjs",
+      "lines": 218,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/freshness-run.mjs",
+      "lines": 264,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/harness-context.mjs",
+      "lines": 38,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/harness-doctor.mjs",
+      "lines": 66,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/harness-health.mjs",
+      "lines": 67,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/harness-policy.mjs",
+      "lines": 379,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/harness-run.mjs",
+      "lines": 285,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/lib/comparison-base.mjs",
+      "lines": 30,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/lib/git-conventions.mjs",
+      "lines": 250,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/lib/github-evidence.mjs",
+      "lines": 184,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/lib/github-policy.mjs",
+      "lines": 21,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/lib/harness-state.mjs",
+      "lines": 243,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/lib/hook-command.mjs",
+      "lines": 30,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/lib/hook-core.mjs",
+      "lines": 192,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/lib/markdown-links.mjs",
+      "lines": 69,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/lib/md-utils.mjs",
+      "lines": 195,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/lib/prerequisite-levels.mjs",
+      "lines": 38,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/lib/public-records.mjs",
+      "lines": 37,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/lib/reference-comparison.mjs",
+      "lines": 19,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/lib/roadmap-source.mjs",
+      "lines": 23,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/lib/tooling-common.mjs",
+      "lines": 71,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/lib/validate-core.mjs",
+      "lines": 273,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/reviewer-command-guard.mjs",
+      "lines": 24,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/structure-inventory.mjs",
+      "lines": 122,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/sync-harness.mjs",
+      "lines": 114,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/todo-report.mjs",
+      "lines": 69,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "scripts/validate-docs.mjs",
+      "lines": 113,
+      "area": "scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "tests/helpers/isolated-git.mjs",
+      "lines": 22,
+      "area": "tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "tests/helpers/windows-test-path.mjs",
+      "lines": 21,
+      "area": "tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "tests/unit/audio-authorship.test.mjs",
+      "lines": 89,
+      "area": "tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "tests/unit/audio-production.test.mjs",
+      "lines": 518,
+      "area": "tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "tests/unit/audio-publication.test.mjs",
+      "lines": 720,
+      "area": "tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "tests/unit/audio-runtime.test.mjs",
+      "lines": 116,
+      "area": "tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "tests/unit/audio-synthesis.test.mjs",
+      "lines": 168,
+      "area": "tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "tests/unit/audio-tool-installation.test.mjs",
+      "lines": 75,
+      "area": "tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "tests/unit/deadline-report.test.mjs",
+      "lines": 138,
+      "area": "tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "tests/unit/eval-harness.test.mjs",
+      "lines": 162,
+      "area": "tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "tests/unit/freshness-observation-report.test.mjs",
+      "lines": 15,
+      "area": "tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "tests/unit/freshness-policy.test.mjs",
+      "lines": 317,
+      "area": "tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "tests/unit/freshness-public-observation.test.mjs",
+      "lines": 50,
+      "area": "tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "tests/unit/freshness-registry.test.mjs",
+      "lines": 175,
+      "area": "tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "tests/unit/freshness-run.test.mjs",
+      "lines": 650,
+      "area": "tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "tests/unit/git-conventions.test.mjs",
+      "lines": 285,
+      "area": "tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "tests/unit/github-evidence.test.mjs",
+      "lines": 161,
+      "area": "tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "tests/unit/harness-policy.test.mjs",
+      "lines": 497,
+      "area": "tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "tests/unit/harness-run.test.mjs",
+      "lines": 428,
+      "area": "tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "tests/unit/harness-tooling.test.mjs",
+      "lines": 306,
+      "area": "tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "tests/unit/hooks.test.mjs",
+      "lines": 381,
+      "area": "tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "tests/unit/isolated-git.test.mjs",
+      "lines": 24,
+      "area": "tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "tests/unit/markdown-validation.test.mjs",
+      "lines": 217,
+      "area": "tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "tests/unit/prerequisite-levels.test.mjs",
+      "lines": 39,
+      "area": "tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "tests/unit/public-records.test.mjs",
+      "lines": 60,
+      "area": "tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "tests/unit/reviewer-command-guard.test.mjs",
+      "lines": 8,
+      "area": "tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "tests/unit/roadmap-history.test.mjs",
+      "lines": 36,
+      "area": "tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "tests/unit/structure.test.mjs",
+      "lines": 136,
+      "area": "tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "tests/unit/sync-harness.test.mjs",
+      "lines": 129,
+      "area": "tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "tests/unit/validate-docs-cli.test.mjs",
+      "lines": 87,
+      "area": "tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "website/app/about/page.jsx",
+      "lines": 22,
+      "area": "website/app",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/app/audio/page.jsx",
+      "lines": 13,
+      "area": "website/app",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/app/docs/[[...mdxPath]]/page.jsx",
+      "lines": 29,
+      "area": "website/app",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/app/freshness/page.jsx",
+      "lines": 23,
+      "area": "website/app",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/app/glossary/page.jsx",
+      "lines": 18,
+      "area": "website/app",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/app/layout.jsx",
+      "lines": 83,
+      "area": "website/app",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/app/not-found.jsx",
+      "lines": 11,
+      "area": "website/app",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/app/opengraph-image.jsx",
+      "lines": 56,
+      "area": "website/app",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/app/page.jsx",
+      "lines": 56,
+      "area": "website/app",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/app/roadmap/page.jsx",
+      "lines": 21,
+      "area": "website/app",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/app/robots.js",
+      "lines": 6,
+      "area": "website/app",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/app/sitemap.js",
+      "lines": 8,
+      "area": "website/app",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/app/tags/page.jsx",
+      "lines": 45,
+      "area": "website/app",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/components/audio/article-audio.jsx",
+      "lines": 35,
+      "area": "website/components",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/components/audio/audio-library.jsx",
+      "lines": 55,
+      "area": "website/components",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/components/audio/audio-player.jsx",
+      "lines": 57,
+      "area": "website/components",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/components/audio/audio-provider.jsx",
+      "lines": 55,
+      "area": "website/components",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/components/audio/queue-list.jsx",
+      "lines": 19,
+      "area": "website/components",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/components/deferred-pages.jsx",
+      "lines": 10,
+      "area": "website/components",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/components/glossary/glossary-explorer.jsx",
+      "lines": 54,
+      "area": "website/components",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/components/home/anti-pattern-roots.jsx",
+      "lines": 20,
+      "area": "website/components",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/components/home/concept-cards.jsx",
+      "lines": 20,
+      "area": "website/components",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/components/home/data.js",
+      "lines": 135,
+      "area": "website/components",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/components/home/hero.jsx",
+      "lines": 48,
+      "area": "website/components",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/components/home/route-explorer.jsx",
+      "lines": 48,
+      "area": "website/components",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/components/home/section-grid.jsx",
+      "lines": 20,
+      "area": "website/components",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/components/mdx/article-actions.jsx",
+      "lines": 30,
+      "area": "website/components",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/components/mdx/article-toc.jsx",
+      "lines": 93,
+      "area": "website/components",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/components/mdx/checklist-box.jsx",
+      "lines": 24,
+      "area": "website/components",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/components/mdx/doc-meta.jsx",
+      "lines": 26,
+      "area": "website/components",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/components/mdx/glossary-term.jsx",
+      "lines": 73,
+      "area": "website/components",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/components/mdx/mermaid.jsx",
+      "lines": 70,
+      "area": "website/components",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/components/mdx/practice-section.jsx",
+      "lines": 7,
+      "area": "website/components",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/components/mdx/static-mermaid.jsx",
+      "lines": 16,
+      "area": "website/components",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/components/mdx/todo-callout.jsx",
+      "lines": 9,
+      "area": "website/components",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/components/roadmap/dependency-graph.jsx",
+      "lines": 164,
+      "area": "website/components",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/components/theme-switch.jsx",
+      "lines": 24,
+      "area": "website/components",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/lib/article-copy.mjs",
+      "lines": 14,
+      "area": "website/lib",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/lib/article-markdown.mjs",
+      "lines": 27,
+      "area": "website/lib",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/lib/audio-catalog.mjs",
+      "lines": 71,
+      "area": "website/lib",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/lib/audio-player.mjs",
+      "lines": 365,
+      "area": "website/lib",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/lib/doc-decorations.mjs",
+      "lines": 160,
+      "area": "website/lib",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/lib/export-checks.mjs",
+      "lines": 35,
+      "area": "website/lib",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/lib/export-policy.mjs",
+      "lines": 24,
+      "area": "website/lib",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/lib/export-segments.mjs",
+      "lines": 73,
+      "area": "website/lib",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/lib/markdown-routes.mjs",
+      "lines": 48,
+      "area": "website/lib",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/lib/mdx-safety.mjs",
+      "lines": 62,
+      "area": "website/lib",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/lib/mermaid-render.mjs",
+      "lines": 25,
+      "area": "website/lib",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/lib/nextra-generated-loader.mjs",
+      "lines": 20,
+      "area": "website/lib",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/lib/page-metadata.mjs",
+      "lines": 38,
+      "area": "website/lib",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/lib/search-titles.mjs",
+      "lines": 16,
+      "area": "website/lib",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/lib/static-mermaid.mjs",
+      "lines": 24,
+      "area": "website/lib",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/mdx-components.js",
+      "lines": 46,
+      "area": "website/mdx-components.js",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/next.config.mjs",
+      "lines": 55,
+      "area": "website/next.config.mjs",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/playwright.config.mjs",
+      "lines": 25,
+      "area": "website/playwright.config.mjs",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/scripts/capture-theme-evidence.mjs",
+      "lines": 123,
+      "area": "website/scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/scripts/clean.mjs",
+      "lines": 15,
+      "area": "website/scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/scripts/nextra-loader.cjs",
+      "lines": 11,
+      "area": "website/scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/scripts/postbuild.mjs",
+      "lines": 110,
+      "area": "website/scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/scripts/render-mermaid-assets.mjs",
+      "lines": 69,
+      "area": "website/scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/scripts/serve-export.mjs",
+      "lines": 46,
+      "area": "website/scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/scripts/sync-content.mjs",
+      "lines": 437,
+      "area": "website/scripts",
+      "classification": "owned-current-code",
+      "test": false
+    },
+    {
+      "path": "website/tests/browser/accessibility.spec.mjs",
+      "lines": 104,
+      "area": "website/tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "website/tests/browser/all-routes-accessibility.spec.mjs",
+      "lines": 19,
+      "area": "website/tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "website/tests/browser/article-layout.spec.mjs",
+      "lines": 27,
+      "area": "website/tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "website/tests/browser/audio.spec.mjs",
+      "lines": 284,
+      "area": "website/tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "website/tests/browser/glossary.spec.mjs",
+      "lines": 55,
+      "area": "website/tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "website/tests/browser/math.spec.mjs",
+      "lines": 217,
+      "area": "website/tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "website/tests/browser/mermaid.spec.mjs",
+      "lines": 136,
+      "area": "website/tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "website/tests/browser/mobile-menu.spec.mjs",
+      "lines": 153,
+      "area": "website/tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "website/tests/browser/publishing.spec.mjs",
+      "lines": 132,
+      "area": "website/tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "website/tests/browser/reading-layout.spec.mjs",
+      "lines": 52,
+      "area": "website/tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "website/tests/browser/site-appearance.spec.mjs",
+      "lines": 223,
+      "area": "website/tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "website/tests/browser/site.spec.mjs",
+      "lines": 175,
+      "area": "website/tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "website/tests/unit/article-markdown.test.mjs",
+      "lines": 67,
+      "area": "website/tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "website/tests/unit/audio-catalog.test.mjs",
+      "lines": 38,
+      "area": "website/tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "website/tests/unit/audio-player.test.mjs",
+      "lines": 449,
+      "area": "website/tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "website/tests/unit/export-checks.test.mjs",
+      "lines": 17,
+      "area": "website/tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "website/tests/unit/export-policy.test.mjs",
+      "lines": 24,
+      "area": "website/tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "website/tests/unit/export-segments.test.mjs",
+      "lines": 119,
+      "area": "website/tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "website/tests/unit/issue-forms.test.mjs",
+      "lines": 23,
+      "area": "website/tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "website/tests/unit/markdown-routes.test.mjs",
+      "lines": 32,
+      "area": "website/tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "website/tests/unit/mdx-safety.test.mjs",
+      "lines": 66,
+      "area": "website/tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "website/tests/unit/mermaid-render.test.mjs",
+      "lines": 94,
+      "area": "website/tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "website/tests/unit/nextra-generated-loader.test.mjs",
+      "lines": 12,
+      "area": "website/tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "website/tests/unit/nextra-glob.test.mjs",
+      "lines": 53,
+      "area": "website/tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "website/tests/unit/page-metadata.test.mjs",
+      "lines": 29,
+      "area": "website/tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "website/tests/unit/search-titles.test.mjs",
+      "lines": 22,
+      "area": "website/tests",
+      "classification": "owned-current-code",
+      "test": true
+    },
+    {
+      "path": "website/vendor/nextra-glob/index.cjs",
+      "lines": 26,
+      "area": "website/vendor",
+      "classification": "vendor-exception",
+      "test": false
+    }
+  ]
+}

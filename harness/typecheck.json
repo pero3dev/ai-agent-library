@@ -1,0 +1,462 @@
+{
+  "schema_version": 1,
+  "typescript": "6.0.3",
+  "projects": [
+    {
+      "id": "node",
+      "cwd": ".",
+      "config": "scripts/tsconfig.json"
+    },
+    {
+      "id": "node-browser",
+      "cwd": ".",
+      "config": "scripts/tsconfig.browser.json"
+    },
+    {
+      "id": "unit-tests",
+      "cwd": ".",
+      "config": "tests/tsconfig.json"
+    },
+    {
+      "id": "ios-node",
+      "cwd": ".",
+      "config": "ios/tsconfig.json"
+    },
+    {
+      "id": "ios-reader",
+      "cwd": ".",
+      "config": "ios/tsconfig.reader.json"
+    },
+    {
+      "id": "ci-node",
+      "cwd": ".",
+      "config": ".github/scripts/tsconfig.json"
+    },
+    {
+      "id": "website-ui",
+      "cwd": "website",
+      "config": "website/tsconfig.json"
+    },
+    {
+      "id": "website-node",
+      "cwd": "website",
+      "config": "website/tsconfig.node.json"
+    },
+    {
+      "id": "website-browser-tests",
+      "cwd": "website",
+      "config": "website/tsconfig.browser-tests.json"
+    },
+    {
+      "id": "website-unit-tests",
+      "cwd": "website",
+      "config": "website/tsconfig.unit-tests.json"
+    },
+    {
+      "id": "website-contracts",
+      "cwd": "website",
+      "config": "website/tsconfig.contracts.json"
+    }
+  ],
+  "exceptions": [
+    {
+      "path": "tests/unit/ios-core-performance-notice-20261031.test.mjs",
+      "kind": "frozen",
+      "sha256": "43126d0daa63ceea3d6d520098b47b6c540c00283f70bd406b45a6d68212e712",
+      "boundary": "tests/unit/ios-core-performance-notice-20261031.test.d.mts",
+      "reason": "Immutable Notice guard fixture with no exported runtime API; fixed test body is not typechecked"
+    },
+    {
+      "path": "ios/tests/core-performance-runner.mjs",
+      "kind": "frozen",
+      "sha256": "4276643f3c0df1e21d62f020c0ebd5ec32639b536fa6933806e7ad611edcaf5f",
+      "boundary": "ios/tests/core-performance-runner.d.mts",
+      "reason": "Immutable preregistered performance evidence; declaration interoperability only"
+    },
+    {
+      "path": "ios/tests/verify-core-performance-notice-20261031.mjs",
+      "kind": "frozen",
+      "sha256": "c911db411741ddfa60af310a6d1906f565f3413375a6538655b29053a28d5784",
+      "boundary": "ios/tests/verify-core-performance-notice-20261031.d.mts",
+      "reason": "Immutable preregistered performance evidence; declaration interoperability only"
+    },
+    {
+      "path": "ios/tests/verify-core-performance.mjs",
+      "kind": "frozen",
+      "sha256": "15880ac76ec61af487d888684fa8910a5f74e74a43a717bb839442ce7fa30c51",
+      "boundary": "ios/tests/verify-core-performance.d.mts",
+      "reason": "Immutable preregistered performance evidence; declaration interoperability only"
+    },
+    {
+      "path": "project/records/2026-09-30/p1-kit-preparation/raw/source/check-f2-correction-slots.mjs",
+      "kind": "historical",
+      "sha256": "e9e2679c97990dfbffb38919088c613f0a5b0b8cbe880e02936b54f8b57ccd79",
+      "reason": "Historical evidence retained unchanged"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-native-zoom-evidence/raw/capture/local-extension/background.js",
+      "kind": "historical",
+      "sha256": "7e9c368e21496d7a9c897bbb6887c70fd328348b82fd1365af538b0ec014da0f",
+      "reason": "Historical evidence retained unchanged"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-native-zoom-evidence/raw/helpers/reasoning-native-zoom-capture-probe.mjs",
+      "kind": "historical",
+      "sha256": "c2ccbc8853c66d035fe1599674548c726f59c4da3f3473c0de024a3a9def77c6",
+      "reason": "Historical evidence retained unchanged"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-native-zoom-evidence/raw/helpers/reasoning-native-zoom-probe.mjs",
+      "kind": "historical",
+      "sha256": "8e825aee26dd99f6767d2fabc907028f319651f7d9aef21dbecf4086f974dcb1",
+      "reason": "Historical evidence retained unchanged"
+    },
+    {
+      "path": "project/records/2026-09-30/reasoning-native-zoom-evidence/raw/initial/local-extension/background.js",
+      "kind": "historical",
+      "sha256": "7e9c368e21496d7a9c897bbb6887c70fd328348b82fd1365af538b0ec014da0f",
+      "reason": "Historical evidence retained unchanged"
+    },
+    {
+      "path": "project/records/2026-10-03/maintenance-baseline.mjs",
+      "kind": "historical",
+      "sha256": "76e37a11bed1a6588b1c9d5b128fe58a392e7391599449a1583e6810b0e059b6",
+      "reason": "Historical evidence retained unchanged"
+    },
+    {
+      "path": "website/vendor/nextra-glob/index.cjs",
+      "kind": "vendor",
+      "sha256": "470031ad8ea5b871faf0052eda21058c486a713a054c15e1e5b37183695ae335",
+      "reason": "External Nextra glob adapter retained unchanged"
+    }
+  ],
+  "wrappers": [
+    {
+      "path": "ios/tests/capture-reader-failure-diagnostics.mjs",
+      "target": "ios/tests/capture-reader-failure-diagnostics.mts",
+      "kind": "cli",
+      "sha256": "db6538d687286b2f4235dd402cadd7db125f218ba0723424f199691ba6e9a9a9"
+    },
+    {
+      "path": "scripts/check-type-coverage.mjs",
+      "target": "scripts/check-type-coverage.mts",
+      "kind": "cli",
+      "sha256": "23feda5deae2e5448149dea827fb5cc888636c42314d994b40424ba51b81d623"
+    },
+    {
+      "path": "scripts/freshness-policy.mjs",
+      "target": "scripts/freshness-policy.mts",
+      "kind": "cli",
+      "sha256": "c8d4901c3bc22627af686597457e59c5f2099858f7198c30b7de468118efb6e1"
+    },
+    {
+      "path": "scripts/freshness-run.mjs",
+      "target": "scripts/freshness-run.mts",
+      "kind": "cli",
+      "sha256": "a61683ec67131e71a0ed2101e76dd6e5c6da4b58d7826ea5e3cb7fb1a09ebb7c"
+    },
+    {
+      "path": "scripts/harness-policy.mjs",
+      "target": "scripts/harness-policy.mts",
+      "kind": "cli",
+      "sha256": "19dbfc85e988c09457379436e4f06c6e44fa2019c7418f5b4fa0769fc9152af8"
+    },
+    {
+      "path": "scripts/harness-run.mjs",
+      "target": "scripts/harness-run.mts",
+      "kind": "cli",
+      "sha256": "61c943e32b6a03a5a81ce5bec6acd09e672cd495c45a8cd7d2c52a1b5b25d94a"
+    },
+    {
+      "path": "scripts/lib/github-evidence.mjs",
+      "target": "scripts/lib/github-evidence.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "scripts/lib/harness-state.mjs",
+      "target": "scripts/lib/harness-state.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "tests/unit/audio-authorship.test.mjs",
+      "target": "tests/unit/audio-authorship.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/audio-production.test.mjs",
+      "target": "tests/unit/audio-production.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/audio-publication.test.mjs",
+      "target": "tests/unit/audio-publication.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/audio-runtime.test.mjs",
+      "target": "tests/unit/audio-runtime.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/audio-synthesis.test.mjs",
+      "target": "tests/unit/audio-synthesis.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/audio-tool-installation.test.mjs",
+      "target": "tests/unit/audio-tool-installation.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/ci-playwright-linux-deps.test.mjs",
+      "target": "tests/unit/ci-playwright-linux-deps.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/freshness-policy.test.mjs",
+      "target": "tests/unit/freshness-policy.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/freshness-public-observation.test.mjs",
+      "target": "tests/unit/freshness-public-observation.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/freshness-run.test.mjs",
+      "target": "tests/unit/freshness-run.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/github-evidence.test.mjs",
+      "target": "tests/unit/github-evidence.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/harness-policy.test.mjs",
+      "target": "tests/unit/harness-policy.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/ios-native-failure-attachments.test.mjs",
+      "target": "tests/unit/ios-native-failure-attachments.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/ios-reader-failure-diagnostics.test.mjs",
+      "target": "tests/unit/ios-reader-failure-diagnostics.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/ios-simulator-unit-failure.test.mjs",
+      "target": "tests/unit/ios-simulator-unit-failure.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/type-coverage.test.mjs",
+      "target": "tests/unit/type-coverage.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "website/lib/article-copy.mjs",
+      "target": "website/lib/article-copy.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "website/lib/article-markdown.mjs",
+      "target": "website/lib/article-markdown.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "website/lib/audio-catalog.mjs",
+      "target": "website/lib/audio-catalog.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "website/lib/audio-player.mjs",
+      "target": "website/lib/audio-player.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "website/lib/doc-decorations.mjs",
+      "target": "website/lib/doc-decorations.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "website/lib/export-checks.mjs",
+      "target": "website/lib/export-checks.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "website/lib/export-policy.mjs",
+      "target": "website/lib/export-policy.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "website/lib/export-segments.mjs",
+      "target": "website/lib/export-segments.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "website/lib/markdown-routes.mjs",
+      "target": "website/lib/markdown-routes.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "website/lib/mdx-safety.mjs",
+      "target": "website/lib/mdx-safety.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "website/lib/mermaid-dimensions.mjs",
+      "target": "website/lib/mermaid-dimensions.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "website/lib/mermaid-render.mjs",
+      "target": "website/lib/mermaid-render.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "website/lib/nextra-generated-layout.mjs",
+      "target": "website/lib/nextra-generated-layout.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "website/lib/nextra-generated-loader.mjs",
+      "target": "website/lib/nextra-generated-loader.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "website/lib/page-metadata.mjs",
+      "target": "website/lib/page-metadata.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "website/lib/search-titles.mjs",
+      "target": "website/lib/search-titles.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "website/lib/static-mermaid.mjs",
+      "target": "website/lib/static-mermaid.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "website/scripts/capture-theme-evidence.mjs",
+      "target": "website/scripts/capture-theme-evidence.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "website/scripts/clean.mjs",
+      "target": "website/scripts/clean.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "website/scripts/postbuild.mjs",
+      "target": "website/scripts/postbuild.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "website/scripts/render-mermaid-assets.mjs",
+      "target": "website/scripts/render-mermaid-assets.mts",
+      "kind": "cli",
+      "sha256": "5473ee67470e4c3fcaba5bfe0b80154121ebdf1035e67e6fe85c3a0d56adb05e"
+    },
+    {
+      "path": "website/scripts/serve-export.mjs",
+      "target": "website/scripts/serve-export.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "website/scripts/sync-content.mjs",
+      "target": "website/scripts/sync-content.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "website/tests/unit/article-markdown.test.mjs",
+      "target": "website/tests/unit/article-markdown.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "website/tests/unit/audio-catalog.test.mjs",
+      "target": "website/tests/unit/audio-catalog.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "website/tests/unit/audio-player.test.mjs",
+      "target": "website/tests/unit/audio-player.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "website/tests/unit/export-checks.test.mjs",
+      "target": "website/tests/unit/export-checks.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "website/tests/unit/export-policy.test.mjs",
+      "target": "website/tests/unit/export-policy.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "website/tests/unit/export-segments.test.mjs",
+      "target": "website/tests/unit/export-segments.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "website/tests/unit/generated-data.test.mjs",
+      "target": "website/tests/unit/generated-data.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "website/tests/unit/issue-forms.test.mjs",
+      "target": "website/tests/unit/issue-forms.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "website/tests/unit/markdown-routes.test.mjs",
+      "target": "website/tests/unit/markdown-routes.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "website/tests/unit/mdx-safety.test.mjs",
+      "target": "website/tests/unit/mdx-safety.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "website/tests/unit/mermaid-dimensions.test.mjs",
+      "target": "website/tests/unit/mermaid-dimensions.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "website/tests/unit/mermaid-render.test.mjs",
+      "target": "website/tests/unit/mermaid-render.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "website/tests/unit/nextra-generated-layout.test.mjs",
+      "target": "website/tests/unit/nextra-generated-layout.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "website/tests/unit/nextra-generated-loader.test.mjs",
+      "target": "website/tests/unit/nextra-generated-loader.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "website/tests/unit/nextra-glob.test.mjs",
+      "target": "website/tests/unit/nextra-glob.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "website/tests/unit/page-metadata.test.mjs",
+      "target": "website/tests/unit/page-metadata.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "website/tests/unit/search-titles.test.mjs",
+      "target": "website/tests/unit/search-titles.test.mts",
+      "kind": "side-effect"
+    }
+  ]
+}

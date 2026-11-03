@@ -6,10 +6,13 @@ import path from 'node:path';
 import os from 'node:os';
 import test from 'node:test';
 import { execFileSync } from 'node:child_process';
-import { main, storage, pathAllowed, validateContract, readProfiles, reconcile } from '../../scripts/harness-run.mjs';
+import { main, storage, pathAllowed, validateContract, readProfiles, readRecord, assertHarnessRecord, reconcile } from '../../scripts/harness-run.mjs';
+import { requiredFixture } from '../helpers/json-fixtures.mjs';
 import { saveGeneration, recoverGeneration, queuedRuns, budgetStatus, acquireLock, releaseLock, releaseLockIfOwned, readLock, snapshotOwned } from '../../scripts/lib/harness-state.mjs';
 
+/** @param {string} file @param {unknown} data */
 const json = (file, data) => { fs.mkdirSync(path.dirname(file), { recursive: true }); fs.writeFileSync(file, JSON.stringify(data)); };
+/** @param {import('node:test').TestContext} t */
 function fixture(t) {
   const base = fs.realpathSync(os.tmpdir());
   const directory = fs.mkdtempSync(path.join(base, 'harness-runtime-test-'));
@@ -20,6 +23,7 @@ function fixture(t) {
     fs.rmSync(resolved, { recursive: true, force: true });
   });
   const root = path.join(directory, 'checkout'); fs.mkdirSync(root);
+  /** @param {...string} args */
   const git = (...args) => fixtureGit(args, { cwd: root, encoding: 'utf8', windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] }).trim();
   git('init', '-b', 'main'); git('config', 'user.name', 'Harness Fixture'); git('config', 'user.email', 'fixture@example.invalid');
   for (const file of ['scripts/example.mjs', 'docs/01-concepts/article.md', 'website/app/page.tsx']) {
@@ -28,12 +32,28 @@ function fixture(t) {
   git('add', '.'); git('commit', '-m', 'Fixture'); git('update-ref', 'refs/remotes/origin/main', 'HEAD'); git('switch', '-c', 'task/fixture');
   const contract = path.join(directory, 'contract.json');
   json(contract, { profile: 'harness', goal: 'Maintain one validation script', authorization: 'User requested implementation', owned_paths: ['scripts/example.mjs'], completion: 'local' });
+  /** @type {import('../../scripts/lib/harness-runtime-types.mts').HarnessDependencies} */
   const deps = { runLocalCheck: () => ({ type: 'mock-local', command: 'fixture only', passed: true }) };
+  /** @param {...string} args */
   const run = (...args) => main([...args, '--root', root], deps);
   return { base, directory, root, git, contract, deps, run, ...storage(root) };
 }
-const active = async f => f.run('start', '--contract', f.contract);
+/** @param {ReturnType<typeof fixture>} f */
+const active = async f => {
+  const result = await f.run('start', '--contract', f.contract);
+  const runID = requiredFixture(result.run_id);
+  const stored = result.schema_version === 1 ? result : readRecord(f.dir, runID);
+  assertHarnessRecord(stored);
+  return { ...stored, ...result, run_id: runID, attempt_id: requiredFixture(stored.attempt_id), checkpoint: requiredFixture(result.checkpoint) };
+};
+/** @param {ReturnType<typeof fixture>} f @param {{run_id: string, attempt_id: string}} record */
 const release = (f, record) => f.run('release', '--run-id', record.run_id, '--attempt-id', record.attempt_id);
+/** @param {import('../../scripts/lib/harness-runtime-types.mts').HarnessRunResult} value
+ * @returns {import('../../scripts/lib/harness-runtime-types.mts').HarnessRunResult & import('../../scripts/lib/harness-runtime-types.mts').HarnessRecord & {attempt_id: string}}
+ */
+function ownedResult(value) { assertHarnessRecord(value); return { ...value, attempt_id: requiredFixture(value.attempt_id) }; }
+/** @param {import('../../scripts/lib/harness-runtime-types.mts').HarnessRunResult} value */
+function localProof(value) { return requiredFixture(requiredFixture((value.record ?? value).verification).local); }
 
 test('profiles reject traversal, generated files, credentials and broadened freshness work', () => {
   const profiles = readProfiles();
@@ -62,9 +82,9 @@ test('article profiles own only the designated manifest JSON namespace', async t
   const record = await active(f);
   json(path.join(f.root, 'harness/changes/review-one.json'), { run_id: 'review-one' });
   fs.writeFileSync(path.join(f.root, 'harness/changes/note.md'), 'not an owned manifest');
-  const saved = await f.run('checkpoint', '--run-id', record.run_id, '--attempt-id', record.attempt_id);
+  const saved = ownedResult(await f.run('checkpoint', '--run-id', record.run_id, '--attempt-id', record.attempt_id));
   assert.match(f.git('show', `${saved.snapshot_commit}:harness/changes/review-one.json`), /review-one/);
-  assert.doesNotMatch(f.git('ls-tree', '-r', '--name-only', saved.snapshot_commit), /note\.md/);
+  assert.doesNotMatch(f.git('ls-tree', '-r', '--name-only', requiredFixture(saved.snapshot_commit)), /note\.md/);
   await release(f, record);
 });
 
@@ -133,20 +153,20 @@ test('checkpoint snapshots only owned files and leaves the user index and other 
   f.git('add', 'docs/01-concepts/article.md');
   const status = f.git('status', '--porcelain=v1');
   const index = fs.readFileSync(path.join(f.root, '.git/index'));
-  const saved = await f.run('checkpoint', '--run-id', record.run_id, '--attempt-id', record.attempt_id);
+  const saved = ownedResult(await f.run('checkpoint', '--run-id', record.run_id, '--attempt-id', record.attempt_id));
   assert.equal(f.git('show', `${saved.snapshot_commit}:scripts/example.mjs`), 'owned change');
   assert.equal(f.git('show', `${saved.snapshot_commit}:docs/01-concepts/article.md`), 'original');
   assert.equal(f.git('status', '--porcelain=v1'), status);
   assert.deepEqual(fs.readFileSync(path.join(f.root, '.git/index')), index);
-  assert.doesNotMatch(f.git('ls-tree', '-r', '--name-only', saved.snapshot_commit), /\.env/);
-  const message = f.git('log', '-1', '--format=%B', saved.snapshot_commit);
+  assert.doesNotMatch(f.git('ls-tree', '-r', '--name-only', requiredFixture(saved.snapshot_commit)), /\.env/);
+  const message = f.git('log', '-1', '--format=%B', requiredFixture(saved.snapshot_commit));
   assert.match(message, /^chore\(harness\): 作業状態を保存する\n/);
   assert.ok(message.includes(record.run_id));
   assert.match(message, /保存のみ・未実施/);
   assert.match(message, /^Agent: automation$/m);
   assert.match(message, /^Generated-by: ai-agent-library$/m);
   assert.doesNotMatch(message, /Co-authored-by:|Codex|Claude/);
-  assert.equal(f.git('log', '-1', '--format=%an <%ae>', saved.snapshot_commit), 'AI Agent Library automation <automation@ai-agent-library.invalid>');
+  assert.equal(f.git('log', '-1', '--format=%an <%ae>', requiredFixture(saved.snapshot_commit)), 'AI Agent Library automation <automation@ai-agent-library.invalid>');
   assert.equal(f.git('config', 'user.name'), 'Harness Fixture');
   assert.equal(f.git('config', 'user.email'), 'fixture@example.invalid');
   await release(f, record);
@@ -156,16 +176,16 @@ test('a lost linked worktree restores its snapshot into a clean detached worktre
   const f = fixture(t);
   const lost = path.join(f.directory, 'lost'), replacement = path.join(f.directory, 'replacement');
   f.git('worktree', 'add', '--detach', lost, 'HEAD');
-  const record = await main(['start', '--contract', f.contract, '--root', lost], f.deps);
+  const record = ownedResult(await main(['start', '--contract', f.contract, '--root', lost], f.deps));
   fs.writeFileSync(path.join(lost, 'scripts/example.mjs'), 'recover this exact work\n');
-  const saved = await main(['suspend', '--run-id', record.run_id, '--attempt-id', record.attempt_id, '--root', lost], f.deps);
+  const saved = ownedResult(await main(['suspend', '--run-id', record.run_id, '--attempt-id', record.attempt_id, '--root', lost], f.deps));
   assert.equal(path.dirname(path.resolve(lost)), f.directory);
   f.git('worktree', 'remove', '--force', lost);
   f.git('worktree', 'add', '--detach', replacement, 'HEAD');
-  const resumed = await main(['resume', '--run-id', record.run_id, '--apply', '--root', replacement], f.deps);
+  const resumed = ownedResult(await main(['resume', '--run-id', record.run_id, '--apply', '--root', replacement], f.deps));
   assert.equal(resumed.restored, true);
   assert.equal(fs.readFileSync(path.join(replacement, 'scripts/example.mjs'), 'utf8').replaceAll('\r\n', '\n'), 'recover this exact work\n');
-  assert.equal(resumed.snapshot_commit, saved.snapshot_commit);
+  assert.equal(resumed.snapshot_commit, requiredFixture(saved.snapshot_commit));
   await main(['release', '--run-id', resumed.run_id, '--attempt-id', resumed.attempt_id, '--root', replacement], f.deps);
 });
 
@@ -174,7 +194,7 @@ test('snapshot restore preserves ignored files and releases the failed resume at
   json(f.contract, { profile: 'harness', goal: 'Create one script', authorization: 'User requested', owned_paths: ['scripts/new.mjs'] });
   const record = await active(f);
   fs.writeFileSync(path.join(f.root, 'scripts/new.mjs'), 'snapshot content\n');
-  const saved = await f.run('suspend', '--run-id', record.run_id, '--attempt-id', record.attempt_id);
+  const saved = ownedResult(await f.run('suspend', '--run-id', record.run_id, '--attempt-id', record.attempt_id));
   const replacement = path.join(f.directory, 'replacement');
   f.git('worktree', 'add', '--detach', replacement, 'HEAD');
   fs.appendFileSync(path.join(f.root, '.git/info/exclude'), '\nscripts/new.mjs\n');
@@ -185,33 +205,33 @@ test('snapshot restore preserves ignored files and releases the failed resume at
   assert.equal(fs.readFileSync(ignored, 'utf8'), 'user ignored content\n');
   assert.equal(fixtureGit(['rev-parse', 'HEAD'], { cwd: replacement, encoding: 'utf8' }).trim(), head);
   assert.equal(readLock(f.locks), null);
-  assert.equal(f.git('rev-parse', `refs/harness/checkpoints/${record.run_id}`), saved.snapshot_commit);
+  assert.equal(f.git('rev-parse', `refs/harness/checkpoints/${record.run_id}`), requiredFixture(saved.snapshot_commit));
   fs.unlinkSync(ignored);
-  const resumed = await main(['resume', '--run-id', record.run_id, '--apply', '--root', replacement], f.deps);
+  const resumed = ownedResult(await main(['resume', '--run-id', record.run_id, '--apply', '--root', replacement], f.deps));
   assert.equal(resumed.restored, true);
   await main(['release', '--run-id', resumed.run_id, '--attempt-id', resumed.attempt_id, '--root', replacement], f.deps);
 });
 
 test('resume save failure releases its attempt and leaves the saved snapshot recoverable', async t => {
   const f = fixture(t), record = await active(f);
-  const saved = await f.run('suspend', '--run-id', record.run_id, '--attempt-id', record.attempt_id);
+  const saved = ownedResult(await f.run('suspend', '--run-id', record.run_id, '--attempt-id', record.attempt_id));
   const stateFile = path.join(f.dir, 'state.json'), original = fs.readFileSync(stateFile);
   fs.unlinkSync(stateFile); fs.mkdirSync(stateFile);
   await assert.rejects(f.run('resume', '--run-id', record.run_id), /EISDIR|EPERM/);
   assert.equal(readLock(f.locks), null);
-  assert.equal(f.git('rev-parse', `refs/harness/checkpoints/${record.run_id}`), saved.snapshot_commit);
+  assert.equal(f.git('rev-parse', `refs/harness/checkpoints/${record.run_id}`), requiredFixture(saved.snapshot_commit));
   fs.rmdirSync(stateFile); fs.writeFileSync(stateFile, original);
-  const resumed = await f.run('resume', '--run-id', record.run_id);
+  const resumed = ownedResult(await f.run('resume', '--run-id', record.run_id));
   await release(f, resumed);
 });
 
 test('resume preserves a dirty worktree and invalidates review after main or PR head drift', async t => {
   const f = fixture(t), record = await active(f);
   fs.writeFileSync(path.join(f.root, 'scripts/example.mjs'), 'saved work\n');
-  const saved = await f.run('suspend', '--run-id', record.run_id, '--attempt-id', record.attempt_id);
+  const saved = ownedResult(await f.run('suspend', '--run-id', record.run_id, '--attempt-id', record.attempt_id));
   assert.equal(reconcile(f.root, saved).action, 'preserve_worktree');
   const before = fs.readFileSync(path.join(f.root, 'scripts/example.mjs'), 'utf8');
-  const resumed = await f.run('resume', '--run-id', record.run_id, '--apply');
+  const resumed = ownedResult(await f.run('resume', '--run-id', record.run_id, '--apply'));
   assert.equal(resumed.restored, false); assert.equal(fs.readFileSync(path.join(f.root, 'scripts/example.mjs'), 'utf8'), before);
   await release(f, resumed);
   f.git('add', 'scripts/example.mjs'); f.git('commit', '-m', 'Integrate new main fixture'); f.git('update-ref', 'refs/remotes/origin/main', 'HEAD');
@@ -223,7 +243,7 @@ test('resume preserves a dirty worktree and invalidates review after main or PR 
 test('resume fences the previous attempt and refuses changing ownership through input JSON', async t => {
   const f = fixture(t), record = await active(f);
   await f.run('suspend', '--run-id', record.run_id, '--attempt-id', record.attempt_id);
-  const resumed = await f.run('resume', '--run-id', record.run_id);
+  const resumed = ownedResult(await f.run('resume', '--run-id', record.run_id));
   await assert.rejects(f.run('checkpoint', '--run-id', record.run_id, '--attempt-id', record.attempt_id), /current lock attempt/);
   const input = path.join(f.directory, 'changed-contract.json');
   json(input, { ...resumed, owned_paths: ['scripts/', 'docs/'] });
@@ -241,9 +261,9 @@ test('queue keeps external and decision waits while selecting runnable work', ()
 test('usage limit saves WIP and releases ownership without claiming completion', async t => {
   const f = fixture(t), record = await active(f);
   fs.writeFileSync(path.join(f.root, 'scripts/example.mjs'), 'preserve at limit\n');
-  const saved = await f.run('checkpoint', '--run-id', record.run_id, '--attempt-id', record.attempt_id, '--usage-limit');
+  const saved = ownedResult(await f.run('checkpoint', '--run-id', record.run_id, '--attempt-id', record.attempt_id, '--usage-limit'));
   assert.equal(saved.released, true); assert.equal(saved.queue_state, 'waiting_external'); assert.equal(saved.status, 'in_progress');
-  assert.equal(saved.budget_status.usage, 'not_observed');
+  assert.equal(requiredFixture(saved.budget_status).usage, 'not_observed');
   assert.equal(f.git('show', `${saved.snapshot_commit}:scripts/example.mjs`), 'preserve at limit');
   assert.equal((await f.run('resume', '--run-id', record.run_id)).status, 'waiting');
   assert.equal(budgetStatus({ budget: { deadline_at: '2026-09-10T01:00:00Z', save_margin_seconds: 120 } }, new Date('2026-09-10T00:58:00Z')).must_save, true);
@@ -258,8 +278,8 @@ for (const phase of ['journal', 'state.json', 'runs/run-crash.json']) test(`jour
   assert.equal(recoverGeneration(f.dir).needed, true);
   assert.equal(fs.readFileSync(path.join(f.dir, 'journal.json'), 'utf8'), journal);
   recoverGeneration(f.dir, { dryRun: false });
-  assert.equal(JSON.parse(fs.readFileSync(path.join(f.dir, 'state.json'))).generation, 1);
-  assert.deepEqual(JSON.parse(fs.readFileSync(path.join(f.dir, 'runs/run-crash.json'))).notes, record.notes);
+  assert.equal(JSON.parse(fs.readFileSync(path.join(f.dir, 'state.json'), "utf8")).generation, 1);
+  assert.deepEqual(JSON.parse(fs.readFileSync(path.join(f.dir, 'runs/run-crash.json'), "utf8")).notes, record.notes);
   assert.equal(recoverGeneration(f.dir).needed, false);
 });
 
@@ -278,7 +298,7 @@ test('snapshot saved before the journal is discoverable after interruption', asy
   fs.writeFileSync(path.join(f.root, 'scripts/example.mjs'), 'orphan snapshot\n');
   const saved = snapshotOwned(f.root, f.dir, record.run_id, { candidates: record.owned_paths, accepts: file => file === 'scripts/example.mjs' });
   const result = reconcile(f.root, record);
-  assert.equal(result.orphan_snapshot, true); assert.equal(result.snapshot_commit, saved.snapshot_commit);
+  assert.equal(result.orphan_snapshot, true); assert.equal(result.snapshot_commit, requiredFixture(saved.snapshot_commit));
   await release(f, record);
 });
 
@@ -302,36 +322,37 @@ test('unsupported stored schema is reported without automatic migration', async 
   const f = fixture(t), file = path.join(f.dir, 'state.json');
   const legacy = '{"schema_version":99,"legacy":"preserve"}'; fs.mkdirSync(f.dir, { recursive: true }); fs.writeFileSync(file, legacy);
   const status = await f.run('status', '--dry-run');
-  assert.equal(status.compatibility.migration_required, true);
-  assert.equal(status.compatibility.automatic_migration, false);
+  assert.equal(requiredFixture(status.compatibility).migration_required, true);
+  assert.equal(requiredFixture(status.compatibility).automatic_migration, false);
   assert.equal(fs.readFileSync(file, 'utf8'), legacy);
 });
 
+/** @param {ReturnType<typeof fixture>} f @param {string} [head] @param {string} [merge] @returns {import('../../scripts/lib/github-evidence.mts').GithubVerification} */
 function publication(f, head = f.git('rev-parse', 'HEAD'), merge = head) {
-  return { verified: true, head_sha: head, head_tree_sha: f.git('rev-parse', `${head}^{tree}`), merge_sha: merge, merge_tree_sha: f.git('rev-parse', `${merge}^{tree}`), publication: { verified: true } };
+  return { verified: true, pr_url: 'https://github.com/pero3dev/ai-agent-library/pull/1', checks: [], head_sha: head, head_tree_sha: f.git('rev-parse', `${head}^{tree}`), merge_sha: merge, merge_tree_sha: f.git('rev-parse', `${merge}^{tree}`), publication: { verified: true, urls: [] } };
 }
 
 test('completion rejects a stale PR candidate without overwriting the locally verified tree', async t => {
   const f = fixture(t);
-  json(f.contract, { ...JSON.parse(fs.readFileSync(f.contract)), completion: 'published' });
+  json(f.contract, { ...JSON.parse(fs.readFileSync(f.contract, "utf8")), completion: 'published' });
   const record = await active(f), old = f.git('rev-parse', 'HEAD');
   fs.writeFileSync(path.join(f.root, 'scripts/example.mjs'), 'updated candidate\n');
   f.git('add', '.'); f.git('commit', '-m', 'Updated candidate');
   const verified = await f.run('verify', '--run-id', record.run_id, '--attempt-id', record.attempt_id);
-  assert.equal(verified.record.verification.local.commit_sha, f.git('rev-parse', 'HEAD'));
+  assert.equal(localProof(verified).commit_sha, f.git('rev-parse', 'HEAD'));
   const input = path.join(f.directory, 'stale-pr.json');
   json(input, { ...verified.record, pr_url: 'https://github.com/pero3dev/ai-agent-library/pull/1', head_sha: old });
   let called = false;
   f.deps.verifyGithubEvidence = () => { called = true; return publication(f, old); };
   await assert.rejects(f.run('finish', '--run', input, '--attempt-id', record.attempt_id), /local verify|verified candidate/);
   assert.equal(called, false);
-  assert.equal((await f.run('status')).records[0].status, 'in_progress');
+  assert.equal(requiredFixture((await f.run('status')).records)[0].status, 'in_progress');
   await release(f, record);
 });
 
 test('publication must return the same API head tree requested by local verification', async t => {
   const f = fixture(t);
-  json(f.contract, { ...JSON.parse(fs.readFileSync(f.contract)), completion: 'published' });
+  json(f.contract, { ...JSON.parse(fs.readFileSync(f.contract, "utf8")), completion: 'published' });
   const record = await active(f);
   await f.run('verify', '--run-id', record.run_id, '--attempt-id', record.attempt_id);
   f.deps.verifyGithubEvidence = options => {
@@ -345,7 +366,7 @@ test('publication must return the same API head tree requested by local verifica
 
 test('published completion preserves a newer unpublished checkout instead of finishing the old candidate', async t => {
   const f = fixture(t);
-  json(f.contract, { ...JSON.parse(fs.readFileSync(f.contract)), completion: 'published' });
+  json(f.contract, { ...JSON.parse(fs.readFileSync(f.contract, "utf8")), completion: 'published' });
   const record = await active(f), proof = publication(f);
   await f.run('verify', '--run-id', record.run_id, '--attempt-id', record.attempt_id);
   fs.writeFileSync(path.join(f.root, 'scripts/example.mjs'), 'later unpublished work\n');
@@ -353,13 +374,13 @@ test('published completion preserves a newer unpublished checkout instead of fin
   f.deps.verifyGithubEvidence = () => proof;
   await assert.rejects(f.run('finish', '--run-id', record.run_id, '--attempt-id', record.attempt_id), /neither the candidate/);
   assert.equal(fs.readFileSync(path.join(f.root, 'scripts/example.mjs'), 'utf8'), 'later unpublished work\n');
-  assert.equal((await f.run('status')).records[0].status, 'in_progress');
+  assert.equal(requiredFixture((await f.run('status')).records)[0].status, 'in_progress');
   await release(f, record);
 });
 
 for (const laterMain of [false, true]) test(`publication resumes after a merge with a different tree${laterMain ? ' and later main' : ''}`, async t => {
   const f = fixture(t);
-  json(f.contract, { ...JSON.parse(fs.readFileSync(f.contract)), completion: 'published' });
+  json(f.contract, { ...JSON.parse(fs.readFileSync(f.contract, "utf8")), completion: 'published' });
   const record = await active(f);
   fs.writeFileSync(path.join(f.root, 'scripts/example.mjs'), 'reviewed candidate\n');
   f.git('add', '.'); f.git('commit', '-m', 'Reviewed candidate');
@@ -380,8 +401,8 @@ for (const laterMain of [false, true]) test(`publication resumes after a merge w
   f.git('update-ref', 'refs/remotes/origin/main', 'HEAD');
   f.deps.readPullRequest = () => ({ state: 'MERGED', headRefOid: head, mergeCommit: { oid: merge } });
   f.deps.verifyGithubEvidence = options => { assert.equal(options.expectedTree, proof.head_tree_sha); return proof; };
-  const resumed = await f.run('resume', '--run-id', record.run_id);
-  assert.equal(resumed.verification.local.commit_sha, head);
+  const resumed = ownedResult(await f.run('resume', '--run-id', record.run_id));
+  assert.equal(localProof(resumed).commit_sha, head);
   assert.equal((await f.run('finish', '--run-id', record.run_id, '--attempt-id', resumed.attempt_id)).outcome, 'published');
 });
 

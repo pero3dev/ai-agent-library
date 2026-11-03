@@ -20,22 +20,37 @@ const articleID = /^\d{2}-[a-z0-9-]+\/[a-z0-9-]+$/;
 const chapterID = /^\d{2}-[a-z0-9-]+$/;
 const hashPattern = /^[a-f0-9]{64}$/;
 const limits = { index: 4 * 1024 * 1024, source: 16 * 1024 * 1024, manifest: 8 * 1024 * 1024, string: 16384 };
+/** @typedef {import('../../scripts/lib/ios-types.d.mts').MarkdownToken} Token */
+/** @typedef {{ type: string, tag: string, map: [number, number] | null, inlines: Token[] | null, nodes: BlockNode[] }} BlockNode */
+/** @typedef {import('../../scripts/lib/ios-types.d.mts').LearningTarget} LearningTarget */
+/** @typedef {import('../../scripts/lib/ios-types.d.mts').LearningInline} LearningInline */
+/** @typedef {{type: 'text', text: string} | {type: 'link', text: string, href: string}} SourceRun */
+/** @param {import('node:crypto').BinaryLike} bytes */
 const sha256 = bytes => createHash('sha256').update(bytes).digest('hex');
+/** @param {unknown} actual @param {unknown} expected @param {string} label */
 const same = (actual, expected, label) => assert.ok(isDeepStrictEqual(actual, expected), label);
+/** @template T @param {Iterable<T>} values */
 const sorted = values => [...values].sort();
-const object = (value, label) => assert.ok(value && typeof value === 'object' && !Array.isArray(value), `Learning ${label} must be an object`);
-const keys = (value, expected, label) => { object(value, label); same(sorted(Object.keys(value)), sorted(expected), `Learning ${label} fields`); };
-const list = (value, minimum, maximum, label) => assert.ok(Array.isArray(value) && value.length >= minimum && value.length <= maximum, `Learning ${label} count must be ${minimum}–${maximum}`);
-const string = (value, label, { blank = false, bytes = limits.string } = {}) => assert.ok(typeof value === 'string' && (blank || value.trim()) && !value.includes('\0') && Buffer.byteLength(value) <= bytes, `Invalid or oversized learning ${label}`);
+/** @param {unknown} value @param {string} label @returns {asserts value is Record<string, unknown>} */
+function object(value, label) { assert.ok(value && typeof value === 'object' && !Array.isArray(value), `Learning ${label} must be an object`); }
+/** @param {unknown} value @param {string[]} expected @param {string} label @returns {asserts value is Record<string, unknown>} */
+function keys(value, expected, label) { object(value, label); same(sorted(Object.keys(value)), sorted(expected), `Learning ${label} fields`); }
+/** @param {unknown} value @param {number} minimum @param {number} maximum @param {string} label @returns {asserts value is unknown[]} */
+function list(value, minimum, maximum, label) { assert.ok(Array.isArray(value) && value.length >= minimum && value.length <= maximum, `Learning ${label} count must be ${minimum}–${maximum}`); }
+/** @param {unknown} value @param {string} label @param {{blank?: boolean, bytes?: number}} [options] @returns {asserts value is string} */
+function string(value, label, { blank = false, bytes = limits.string } = {}) { assert.ok(typeof value === 'string' && (blank || value.trim()) && !value.includes('\0') && Buffer.byteLength(value) <= bytes, `Invalid or oversized learning ${label}`); }
+/** @param {unknown[]} values @param {string} label */
 const unique = (values, label) => assert.equal(new Set(values).size, values.length, `Duplicate learning ${label}`);
 
 // Keep the same input authority as the package audit, without importing that
 // entrypoint (which will call this module). No arbitrary content directory is read.
+/** @param {string} root @param {string} [requested] */
 async function resolveContent(root, requested) {
   const canonical = path.join(root, 'ios/AILibrary/Content');
   let content = requested === undefined ? canonical : path.resolve(requested);
   const temporary = await realpath(os.tmpdir()), alias = path.resolve(os.tmpdir());
   if (content.startsWith(alias + path.sep)) content = path.join(temporary, path.relative(alias, content));
+  /** @param {string} value */
   const comparable = value => ['darwin', 'win32'].includes(process.platform) ? value.toLowerCase() : value;
   if (comparable(content) !== comparable(canonical)) {
     const relative = path.relative(temporary, content);
@@ -50,6 +65,7 @@ async function resolveContent(root, requested) {
   return content;
 }
 
+/** @param {string} base @param {string} relative @param {number} maximum @param {string} label */
 async function boundedRead(base, relative, maximum, label) {
   assert.ok(typeof relative === 'string' && relative && !relative.includes('\\') && !relative.includes('\0') && !path.posix.isAbsolute(relative) && relative.split('/').every(part => part && part !== '.' && part !== '..'), `Unsafe learning ${label} path`);
   const file = path.resolve(base, relative);
@@ -69,7 +85,9 @@ async function boundedRead(base, relative, maximum, label) {
 // bounded index first so it cannot erase a duplicate that the native consumer
 // rejects. Decode each key string once, including Unicode escape aliases. The
 // full JSON parser still validates JSON grammar after this structural preflight.
+/** @param {string} source */
 function preflightIndexJSON(source) {
+  /** @type {{opening: string, expectingKey: boolean, keys: Set<string>}[]} */
   const containers = [];
   let quoted = false, escaped = false, keyStart;
   for (let offset = 0; offset < source.length; offset++) {
@@ -82,6 +100,7 @@ function preflightIndexJSON(source) {
         if (keyStart !== undefined) {
           const key = JSON.parse(source.slice(keyStart, offset + 1));
           const container = containers.at(-1);
+          assert.ok(container, 'JSON object key requires a container');
           assert.ok(Buffer.byteLength(key) <= limits.string && !container.keys.has(key), 'Learning index JSON has a duplicate or oversized decoded key');
           container.keys.add(key);
         }
@@ -98,15 +117,17 @@ function preflightIndexJSON(source) {
     } else if (character === '}' || character === ']') {
       const container = containers.pop();
       assert.ok(container && (container.opening === '{' && character === '}' || container.opening === '[' && character === ']'), 'Invalid learning index JSON structure');
-    } else if (character === ':' && containers.at(-1)?.opening === '{') containers.at(-1).expectingKey = false;
-    else if (character === ',' && containers.at(-1)?.opening === '{') containers.at(-1).expectingKey = true;
+    } else if (character === ':' && containers.at(-1)?.opening === '{') { const last = containers.at(-1); if (last) last.expectingKey = false; }
+    else if (character === ',' && containers.at(-1)?.opening === '{') { const last = containers.at(-1); if (last) last.expectingKey = true; }
   }
   assert.ok(!quoted && !containers.length, 'Invalid learning index JSON structure');
 }
 
+/** @param {string} source @param {string} label */
 function frontMatter(source, label) {
   const lines = toLines(source), parsed = parseFrontMatter(lines);
   assert.ok(parsed && !parsed.unclosed && !parsed.errors.length, `Invalid learning source front matter: ${label}`);
+  /** @param {string} name */
   const field = name => {
     const values = parsed.fields.filter(value => value.key === name);
     assert.equal(values.length, 1, `Learning source requires exactly one ${name}: ${label}`);
@@ -117,24 +138,28 @@ function frontMatter(source, label) {
 
 // A small block tree makes scope explicit: a code fence is a leaf, table cells
 // belong to tbody rows, and an H3 definition ends at the next H1/H2/H3.
+/** @param {string} source @param {MarkdownIt} [parser] */
 function blockTree(source, parser = new MarkdownIt({ html: false, linkify: false, typographer: false })) {
-  const root = { type: 'root', nodes: [] }, stack = [root];
+  /** @type {BlockNode} */
+  const root = { type: 'root', tag: '', map: null, inlines: null, nodes: [] }, stack = [root];
   for (const token of parser.parse(source, {})) {
     if (token.nesting === -1) { assert.ok(stack.length > 1, 'Balanced learning Markdown blocks'); stack.pop(); continue; }
     const node = { type: token.type.replace(/_open$/, ''), tag: token.tag, map: token.map, inlines: token.children, nodes: [] };
-    stack.at(-1).nodes.push(node);
+    const parent = stack.at(-1); assert.ok(parent, 'Learning tree parent'); parent.nodes.push(node);
     if (token.nesting === 1) stack.push(node);
   }
   assert.equal(stack.length, 1, 'Balanced learning Markdown blocks');
   return root.nodes;
 }
 
+/** @param {BlockNode[]} nodes @param {string} type @returns {BlockNode[]} */
 function descendants(nodes, type) {
   return nodes.flatMap(node => [...(node.type === type ? [node] : []), ...descendants(node.nodes, type)]);
 }
 
+/** @param {Token[] | null} [inlines] */
 function plain(inlines = []) {
-  return inlines.map(token => {
+  return (inlines ?? []).map(token => {
     if (['text', 'code_inline'].includes(token.type)) return token.content;
     if (['softbreak', 'hardbreak'].includes(token.type)) return '\n';
     assert.ok(token.nesting && /^(?:link|em|strong|s)_(?:open|close)$/.test(token.type), `Unsupported learning source inline: ${token.type}`);
@@ -142,7 +167,10 @@ function plain(inlines = []) {
   }).join('');
 }
 
+/** @param {Token[] | null} [inlines] @returns {SourceRun[]} */
 function sourceRuns(inlines = []) {
+  inlines ??= [];
+  /** @type {SourceRun[]} */
   const runs = [];
   for (let index = 0; index < inlines.length; index++) {
     const token = inlines[index];
@@ -154,46 +182,56 @@ function sourceRuns(inlines = []) {
     const start = index;
     while (++index < inlines.length && inlines[index].type !== 'link_close') { /* Find the parser-resolved link label. */ }
     assert.ok(index < inlines.length, 'Balanced learning source links');
-    runs.push({ type: 'link', text: plain(inlines.slice(start + 1, index)), href: token.attrGet('href') });
+    const href = token.attrGet('href'); assert.ok(href !== null, 'Learning source link requires destination');
+    runs.push({ type: 'link', text: plain(inlines.slice(start + 1, index)), href });
   }
   return runs;
 }
 
+/** @param {BlockNode[]} nodes */
 function tableRows(nodes) {
   return descendants(nodes, 'tbody').flatMap(body => body.nodes.filter(node => node.type === 'tr').map(row => row.nodes.filter(node => node.type === 'td').map(cell => descendants(cell.nodes, 'inline').flatMap(node => node.inlines || []))));
 }
 
+/** @param {LearningInline[]} inlines */
 function mergeText(inlines) {
+  /** @type {LearningInline[]} */
   const result = [];
   for (const inline of inlines) {
-    if (inline.type === 'text' && result.at(-1)?.type === 'text') result.at(-1).text += inline.text;
+    const previous = result.at(-1);
+    if (inline.type === 'text' && previous?.type === 'text') previous.text += inline.text;
     else result.push({ ...inline });
   }
   return result;
 }
 
+/** @param {SourceRun[]} runs @param {(href: string, sourcePath: string) => LearningTarget} destination */
 function sourceSteps(runs, destination) {
+  /** @type {LearningInline[][]} */
   const steps = [[]];
   for (const run of runs) {
-    if (run.type === 'link') steps.at(-1).push({ type: 'link', text: run.text, target: destination(run.href, roadmapPath) });
+    if (run.type === 'link') steps[steps.length - 1].push({ type: 'link', text: run.text, target: destination(run.href, roadmapPath) });
     else for (const [index, part] of run.text.split('→').entries()) {
       if (index) steps.push([]);
-      if (part) steps.at(-1).push({ type: 'text', text: part });
+      if (part) steps[steps.length - 1].push({ type: 'text', text: part });
     }
   }
   return steps.map(inlines => {
     const merged = mergeText(inlines);
     if (merged[0]?.type === 'text') merged[0].text = merged[0].text.trimStart();
-    if (merged.at(-1)?.type === 'text') merged.at(-1).text = merged.at(-1).text.trimEnd();
+    const last = merged.at(-1); if (last?.type === 'text') last.text = last.text.trimEnd();
     return { inlines: merged.filter(inline => inline.type !== 'text' || inline.text) };
   });
 }
 
-/** Throws on invalid/missing metadata; callers decide when this optional audit applies. */
+/** Throws on invalid/missing metadata; callers decide when this optional audit applies.
+ * @param {{root?: string, content?: string, manifest?: unknown}} [options]
+ */
 export async function auditNativeLearningContent({ root = repositoryRoot, content: requestedContent, manifest: suppliedManifest } = {}) {
   root = await realpath(root);
   const content = await resolveContent(root, requestedContent);
   const manifestBytes = await boundedRead(content, 'manifest.json', limits.manifest, 'manifest');
+  /** @type {unknown} */
   const manifest = JSON.parse(manifestBytes.toString('utf8'));
   if (suppliedManifest !== undefined) same(suppliedManifest, manifest, 'Supplied learning manifest matches the actual package');
   object(manifest, 'manifest');
@@ -211,16 +249,23 @@ export async function auditNativeLearningContent({ root = repositoryRoot, conten
   assert.equal(sha256(bytes), manifest.files[indexPath], 'Learning index package SHA');
   const rawIndex = bytes.toString('utf8');
   preflightIndexJSON(rawIndex);
+  /** @type {unknown} */
   const index = JSON.parse(rawIndex);
   keys(index, ['schema_version', 'source_sha256', 'article_tags', 'chapters', 'routes', 'glossary'], 'index');
   assert.equal(index.schema_version, 1, 'Learning index schema version');
 
+  /** @type {Map<string, Buffer>} */
   const sourceCache = new Map();
+  /** @param {string} file @returns {Promise<Buffer>} */
   const read = async file => {
     if (!sourceCache.has(file)) sourceCache.set(file, await boundedRead(root, file, limits.source, 'source'));
-    return sourceCache.get(file);
+    const bytes = sourceCache.get(file); assert.ok(bytes); return bytes;
   };
-  const articles = new Map(), bySource = new Map();
+  /** @type {Map<string, {source_path: string, headings: Set<string>}>} */
+  const articles = new Map();
+  /** @type {Map<string, string>} */
+  const bySource = new Map();
+  /** @type {Record<string, string[]>} */
   const expectedTags = {};
   for (const article of manifest.articles) {
     object(article, 'manifest article');
@@ -263,7 +308,7 @@ export async function auditNativeLearningContent({ root = repositoryRoot, conten
       assert.ok(!file.isSymbolicLink() && file.isFile(), 'Learning article source must be a regular file');
       const sourcePath = `docs/${section.name}/${file.name}`;
       const status = parseScalar(frontMatter((await read(sourcePath)).toString('utf8'), sourcePath).field('status'));
-      assert.ok(['published', 'draft'].includes(status), 'Learning source status must be published or draft');
+      assert.ok(status === 'published' || status === 'draft', 'Learning source status must be published or draft');
       if (status === 'published') published.push(sourcePath);
     }
   }
@@ -279,11 +324,11 @@ export async function auditNativeLearningContent({ root = repositoryRoot, conten
 
   list(index.chapters, 1, 100, 'chapter');
   const chapterIDs = sorted(new Set([...articles.keys()].map(id => id.split('/')[0])));
-  same(index.chapters.map(chapter => chapter?.id), chapterIDs, 'Learning canonical chapter order and coverage');
+  same(index.chapters.map(chapter => { object(chapter, 'chapter'); return chapter.id; }), chapterIDs, 'Learning canonical chapter order and coverage');
   const covered = [];
   for (const chapter of index.chapters) {
     keys(chapter, ['id', 'title', 'description', 'article_ids'], 'chapter');
-    string(chapter.title, 'chapter title'); string(chapter.description, 'chapter description');
+    string(chapter.id, 'chapter id'); string(chapter.title, 'chapter title'); string(chapter.description, 'chapter description');
     list(chapter.article_ids, 1, 2000, 'chapter article'); unique(chapter.article_ids, 'chapter articles');
     const nodes = blockTree((await read(`docs/${chapter.id}/README.md`)).toString('utf8'));
     const firstH1 = nodes.findIndex(node => node.type === 'heading' && node.tag === 'h1');
@@ -298,31 +343,35 @@ export async function auditNativeLearningContent({ root = repositoryRoot, conten
     for (const row of tableRows(nodes)) for (const cell of row) for (const link of sourceRuns(cell).filter(run => run.type === 'link')) {
       const target = splitLocalDestination(link.href);
       assert.ok(!target.error, 'Invalid learning chapter source destination');
-      if (target.external || !/^(?:\.\/)?[a-z0-9-]+\.md$/.test(target.pathname)) continue;
+      if (target.external) continue;
+      assert.ok(typeof target.pathname === 'string', 'Learning local destination pathname');
+      if (!/^(?:\.\/)?[a-z0-9-]+\.md$/.test(target.pathname)) continue;
+      /** @type {string} */
       const sourcePath = `docs/${chapter.id}/${target.pathname.replace(/^\.\//, '')}`;
       if (bySource.has(sourcePath)) order.push(bySource.get(sourcePath));
       else assert.equal(parseScalar(frontMatter((await read(sourcePath)).toString('utf8'), sourcePath).field('status')), 'draft', 'Learning chapter may only omit verified draft links');
     }
     unique(order, 'chapter source destinations');
     same(chapter.article_ids, order, `Learning canonical README article order: ${chapter.id}`);
-    for (const id of chapter.article_ids) assert.ok(articles.has(id) && id.split('/')[0] === chapter.id, 'Learning chapter article must exist in its own chapter');
+    for (const id of chapter.article_ids) assert.ok(typeof id === 'string' && articles.has(id) && id.split('/')[0] === chapter.id, 'Learning chapter article must exist in its own chapter');
     covered.push(...chapter.article_ids);
   }
   unique(covered, 'chapter article coverage');
   same(sorted(covered), sorted(articles.keys()), 'Learning chapters cover every selected article once');
 
-  const validateTarget = target => {
+  /** @param {unknown} target @returns {asserts target is LearningTarget} */
+  function validateTarget(target) {
     object(target, 'target');
     if (target.type === 'article') {
       keys(target, ['type', 'article_id', ...(Object.hasOwn(target, 'heading_id') ? ['heading_id'] : [])], 'article target');
       assert.ok(typeof target.article_id === 'string' && articles.has(target.article_id), 'Unknown learning target article');
       if (Object.hasOwn(target, 'heading_id')) {
         string(target.heading_id, 'target heading', { bytes: 256 });
-        assert.ok(articles.get(target.article_id).headings.has(target.heading_id), 'Unknown learning target heading');
+        assert.ok(articles.get(target.article_id)?.headings.has(target.heading_id), 'Unknown learning target heading');
       }
     } else if (target.type === 'chapter') {
       keys(target, ['type', 'chapter_id'], 'chapter target');
-      assert.ok(chapterIDs.includes(target.chapter_id), 'Unknown learning target chapter');
+      assert.ok(typeof target.chapter_id === 'string' && chapterIDs.includes(target.chapter_id), 'Unknown learning target chapter');
     } else {
       keys(target, ['type', 'url'], 'external target');
       assert.equal(target.type, 'external', 'Unknown learning target type');
@@ -330,7 +379,8 @@ export async function auditNativeLearningContent({ root = repositoryRoot, conten
       const url = new URL(target.url);
       assert.ok(url.protocol === 'https:' && !url.username && !url.password && url.href === target.url, 'Learning external target requires normalized HTTPS without credentials');
     }
-  };
+  }
+  /** @param {string} href @param {string} sourcePath @returns {LearningTarget} */
   const destination = (href, sourcePath) => {
     string(href, 'source destination');
     const parts = splitLocalDestination(href);
@@ -338,13 +388,14 @@ export async function auditNativeLearningContent({ root = repositoryRoot, conten
     let result;
     if (parts.external) result = { type: 'external', url: new URL(href).href };
     else {
+      assert.ok(typeof parts.suffix === 'string' && typeof parts.pathname === 'string', 'Learning local destination parts');
       assert.ok(!parts.suffix.startsWith('?'), 'Learning local source destination cannot contain a query');
       const target = parts.pathname ? path.posix.normalize(path.posix.join(path.posix.dirname(sourcePath), parts.pathname)) : sourcePath;
       assert.ok(target !== '..' && !target.startsWith('../') && !target.startsWith('/') && !target.includes('\\'), 'Learning source destination escapes repository');
       if (bySource.has(target)) result = { type: 'article', article_id: bySource.get(target), ...(parts.fragment ? { heading_id: parts.fragment } : {}) };
       else {
         const chapter = target.match(/^docs\/(\d{2}-[a-z0-9-]+)\/README\.md$/)?.[1];
-        if (chapterIDs.includes(chapter) && !parts.fragment) result = { type: 'chapter', chapter_id: chapter };
+        if (chapter !== undefined && chapterIDs.includes(chapter) && !parts.fragment) result = { type: 'chapter', chapter_id: chapter };
         else {
           assert.ok(!/^docs\/\d{2}-[a-z0-9-]+\/[a-z0-9-]+\.md$/.test(target), 'Unknown learning source article destination');
           const site = 'https://pero3dev.github.io/ai-agent-library';
@@ -362,20 +413,23 @@ export async function auditNativeLearningContent({ root = repositoryRoot, conten
   };
 
   list(index.routes, 8, 8, 'route');
-  same(index.routes.map(route => route?.id), [...'ABCDEFGH'], 'Learning routes have canonical A–H identity and order');
+  same(index.routes.map(route => { object(route, 'route'); return route.id; }), [...'ABCDEFGH'], 'Learning routes have canonical A–H identity and order');
   for (const route of index.routes) {
     keys(route, ['id', 'label', 'persona', 'steps'], 'route');
     string(route.label, 'route label'); string(route.persona, 'route persona'); list(route.steps, 1, 128, 'route step');
     for (const step of route.steps) {
       keys(step, ['inlines'], 'route step'); list(step.inlines, 1, 64, 'route inline');
       for (const inline of step.inlines) {
+        object(inline, 'route inline');
         keys(inline, ['type', 'text', ...(inline.type === 'link' ? ['target'] : [])], 'route inline');
-        assert.ok(['text', 'link'].includes(inline.type), 'Unknown learning route inline type');
+        assert.ok(inline.type === 'text' || inline.type === 'link', 'Unknown learning route inline type');
         string(inline.text, 'route inline text', { blank: inline.type === 'text' });
         if (inline.type === 'link') validateTarget(inline.target);
       }
     }
   }
+  // Exact keys and every inline/target have been validated above.
+  const validatedRoutes = /** @type {{id: string, label: string, persona: string, steps: {inlines: LearningInline[]}[]}[]} */ (index.routes);
   const routeNodes = blockTree(frontMatter((await read(roadmapPath)).toString('utf8'), roadmapPath).body);
   const sections = routeNodes.flatMap((node, position) => node.type === 'heading' && plain(descendants(node.nodes, 'inline')[0]?.inlines) === '読者タイプ別の推奨ルート' ? [position] : []);
   assert.equal(sections.length, 1, 'Learning source requires one reader-route section');
@@ -388,11 +442,11 @@ export async function auditNativeLearningContent({ root = repositoryRoot, conten
     const identity = plain(row[0]).trim().match(/^([A-H]):\s*(.+)$/);
     assert.ok(identity, 'Learning source route identity');
     const expected = { id: identity[1], label: identity[2], persona: plain(row[1]).trim(), steps: sourceSteps(sourceRuns(row[2]), destination) };
-    const actual = { ...index.routes[position], steps: index.routes[position].steps.map(step => ({ inlines: mergeText(step.inlines) })) };
+    const actual = { ...validatedRoutes[position], steps: validatedRoutes[position].steps.map(step => ({ inlines: mergeText(step.inlines) })) };
     same(actual, expected, `Learning canonical route text, qualifiers and destinations: ${identity[1]}`);
   }
 
-  list(index.glossary, 1, 2000, 'glossary term'); unique(index.glossary.map(term => term?.id), 'glossary IDs');
+  list(index.glossary, 1, 2000, 'glossary term'); unique(index.glossary.map(term => { object(term, 'glossary term'); return term.id; }), 'glossary IDs');
   for (const term of index.glossary) {
     keys(term, ['id', 'name', 'english', 'summary', 'links'], 'glossary term');
     for (const field of ['id', 'name', 'summary']) string(term[field], `glossary ${field}`);
@@ -403,11 +457,12 @@ export async function auditNativeLearningContent({ root = repositoryRoot, conten
   const glossarySource = (await read('GLOSSARY.md')).toString('utf8');
   const glossaryNodes = blockTree(glossarySource), sourceHeadings = parseMarkdownLinks(glossarySource).headings;
   const glossaryInlines = descendants(glossaryNodes, 'inline');
-  same(descendants(glossaryNodes, 'heading').filter(node => node.tag === 'h3').map(node => node.map[0] + 1), sourceHeadings.filter(value => value.level === 3).map(value => value.line), 'Learning glossary H3 parser agreement');
+  same(descendants(glossaryNodes, 'heading').filter(node => node.tag === 'h3').map(node => { assert.ok(node.map); return node.map[0] + 1; }), sourceHeadings.filter(value => value.level === 3).map(value => value.line), 'Learning glossary H3 parser agreement');
   const canonicalTerms = [];
   for (const [position, heading] of sourceHeadings.entries()) {
     if (heading.level !== 3) continue;
     const end = sourceHeadings.slice(position + 1).find(next => next.level <= 3)?.line ?? Infinity;
+    /** @param {BlockNode} node */
     const inside = node => node.map && node.map[0] + 1 > heading.line && node.map[0] + 1 < end;
     const definition = glossaryNodes.find(node => node.type === 'paragraph' && inside(node));
     assert.ok(definition, 'Learning glossary requires a first definition paragraph');

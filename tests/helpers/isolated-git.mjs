@@ -11,12 +11,20 @@ process.once('exit', () => {
   if (path.dirname(directory) === os.tmpdir() && path.basename(directory).startsWith('ai-agent-library-empty-git-config-')) rmSync(directory, { recursive: true, force: true })
 })
 const override = [['commit.gpgsign', 'false'], ['tag.gpgsign', 'false'], ['core.hooksPath', directory], ['init.defaultBranch', 'main']]
+/** @param {NodeJS.ProcessEnv} [environment] @returns {NodeJS.ProcessEnv} */
 export function isolatedGitEnv(environment = process.env) {
+  /** @type {NodeJS.ProcessEnv} */
   const result = { ...environment, GIT_CONFIG_GLOBAL: emptyConfig, GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_COUNT: String(override.length) }
   for (const key of Object.keys(result)) if (/^GIT_CONFIG_(?:KEY|VALUE)_\d+$/.test(key)) delete result[key]
   override.forEach(([key, value], i) => { result[`GIT_CONFIG_KEY_${i}`] = key; result[`GIT_CONFIG_VALUE_${i}`] = value })
   return result
 }
 export function isolateGitForTests() { Object.assign(process.env, isolatedGitEnv()) }
+/** @overload @param {string[]} args @param {import('node:child_process').ExecFileSyncOptionsWithStringEncoding} options @returns {string} */
+/** @overload @param {string[]} args @param {import('node:child_process').ExecFileSyncOptions} [options] @returns {string | Buffer} */
+/** @param {string[]} args @param {import('node:child_process').ExecFileSyncOptions} [options] */
 export function fixtureGit(args, options = {}) { return execFileSync('git', ['-c', 'commit.gpgsign=false', '-c', 'tag.gpgsign=false', '-c', `core.hooksPath=${directory}`, ...args], { ...options, env: isolatedGitEnv(options.env) }) }
+/** @overload @param {string[]} args @param {import('node:child_process').SpawnSyncOptionsWithStringEncoding} options @returns {import('node:child_process').SpawnSyncReturns<string>} */
+/** @overload @param {string[]} args @param {import('node:child_process').SpawnSyncOptions} [options] @returns {import('node:child_process').SpawnSyncReturns<string | Buffer>} */
+/** @param {string[]} args @param {import('node:child_process').SpawnSyncOptions} [options] */
 export function fixtureGitSpawn(args, options = {}) { return spawnSync('git', ['-c', 'commit.gpgsign=false', '-c', 'tag.gpgsign=false', '-c', `core.hooksPath=${directory}`, ...args], { ...options, env: isolatedGitEnv(options.env) }) }

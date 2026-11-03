@@ -1,4 +1,5 @@
 import test from 'node:test';
+import { requiredFixture } from '../helpers/json-fixtures.mjs';
 import assert from 'node:assert/strict';
 import path from 'node:path';
 import os from 'node:os';
@@ -7,10 +8,13 @@ import { buildNativeLearningIndex, NATIVE_LEARNING_PATH } from '../../scripts/li
 import { parseArticle, sha256 } from '../../scripts/lib/ios-content.mjs';
 import { parseMarkdownLinks } from '../../scripts/lib/markdown-links.mjs';
 
+/** @param {string} title @param {string} content @param {string} [tags] */
 const source = (title, content, tags = '["first-tag", "second-tag"]') => `---\ntitle: "${title}"\ncategory: "overview"\nlevel: "basic"\nstatus: "published"\nlast_updated: "2026-10-25"\ntags: ${tags}\n---\n\n# ${title}\n\n${content}\n`;
 const roadmap = (route = '[章](../01-concepts/README.md) を全部 → 前提なら [本文][article] → [前提](#前提) → [例](https://example.com/path?x=1#sample)') => source('学習', `### 読者タイプ別の推奨ルート\n\n| タイプ | 状況 | 推奨ルート |\n| --- | --- | --- |\n${[...'ABCDEFGH'].map(id => `| ${id}: ${id}担当 | 状況${id} | ${route} |`).join('\n')}\n\n[article]: ../01-concepts/one.md#本文\n\n### 前提\n\n前提本文。`);
+/** @param {string} id @param {string} links */
 const readme = (id, links) => `# ${id} — 見出し\n\n章の**説明**です。\n\n\`\`\`markdown\n| [偽物](fake.md) |\n\`\`\`\n\n| ファイル | 内容 |\n| --- | --- |\n${links}\n`;
 
+/** @param {import('node:test').TestContext} t */
 async function fixture(t) {
   const root = await realpath(await mkdtemp(path.join(os.tmpdir(), 'ailibrary-ios-learning-test-')));
   t.after(() => rm(root, { recursive: true, force: true }));
@@ -22,6 +26,7 @@ async function fixture(t) {
     ['docs/01-concepts/README.md', readme('01-concepts', '| [紛らわしい一番目](two.md) | 第二を先に |\n| [第一][first] | 第一 |\n\n[first]: one.md')],
     ['GLOSSARY.md', '# 用語\n\n```markdown\n### 偽用語(Fake)\n\n[偽](docs/01-concepts/missing.md)\n```\n\n## 一覧\n\n### 用語(Term)\n\n定義の**太字**。→ [第一](docs/01-concepts/one.md#本文) / [第二][second]\n\n[second]: docs/01-concepts/two.md\n\n### 用語(Term)\n\n詳細は執筆予定。\n']
   ]);
+  /** @param {string} file @param {string} data */
   const save = async (file, data) => { files.set(file, data); await mkdir(path.dirname(path.join(root, file)), { recursive: true }); await writeFile(path.join(root, file), data); };
   for (const [file, data] of files) await save(file, data);
   const articles = async () => [...files].filter(([file]) => /^docs\/[^/]+\/(?!README)[^/]+\.md$/.test(file)).map(([file, data]) => {
@@ -44,16 +49,16 @@ test('learning metadata preserves chapter table destinations, route qualifiers, 
   assert.equal(data.routes.map(route => route.id).join(''), 'ABCDEFGH');
   assert.deepEqual(data.routes[0].steps[0].inlines, [{ type: 'link', text: '章', target: { type: 'chapter', chapter_id: '01-concepts' } }, { type: 'text', text: ' を全部' }]);
   assert.equal(data.routes[0].steps[1].inlines[0].text, '前提なら ');
-  assert.deepEqual(data.routes[0].steps[1].inlines[1].target, { type: 'article', article_id: '01-concepts/one', heading_id: '本文' });
-  assert.deepEqual(data.routes[0].steps[2].inlines[0].target, { type: 'article', article_id: '00-overview/learning-roadmap', heading_id: '前提' });
-  assert.deepEqual(data.routes[0].steps[3].inlines[0].target, { type: 'external', url: 'https://example.com/path?x=1#sample' });
+  assert.deepEqual(learningLink(data.routes[0].steps[1].inlines[1]).target, { type: 'article', article_id: '01-concepts/one', heading_id: '本文' });
+  assert.deepEqual(learningLink(data.routes[0].steps[2].inlines[0]).target, { type: 'article', article_id: '00-overview/learning-roadmap', heading_id: '前提' });
+  assert.deepEqual(learningLink(data.routes[0].steps[3].inlines[0]).target, { type: 'external', url: 'https://example.com/path?x=1#sample' });
   assert.deepEqual(data.glossary.map(term => term.id), ['用語term', '用語term-1']);
   assert.equal(data.glossary[0].name, '用語');
   assert.equal(data.glossary[0].english, 'Term');
   assert.equal(data.glossary[0].summary, '定義の太字。→ 第一 / 第二');
-  assert.deepEqual(data.glossary[0].links.map(link => link.target.article_id), ['01-concepts/one', '01-concepts/two']);
+  assert.deepEqual(data.glossary[0].links.map(link => { assert.equal(link.target.type, 'article'); return link.target.type === 'article' ? link.target.article_id : undefined; }), ['01-concepts/one', '01-concepts/two']);
   assert.deepEqual(data.glossary[1].links, []);
-  assert.equal(data.source_sha256['GLOSSARY.md'], sha256(value.files.get('GLOSSARY.md')));
+  assert.equal(data.source_sha256['GLOSSARY.md'], sha256(requiredFixture(value.files.get('GLOSSARY.md'))));
   assert.deepEqual(Object.keys(data.source_sha256), [...value.files.keys()].sort());
   assert.deepEqual(await value.build(), data, 'Identical source bytes produce identical metadata');
 });
@@ -78,7 +83,7 @@ test('learning metadata rejects malformed, duplicate, oversized and stale articl
 test('learning metadata rejects missing or duplicate chapter order and route identities', async t => {
   const value = await fixture(t);
   const file = 'docs/01-concepts/README.md';
-  const original = value.files.get(file);
+  const original = requiredFixture(value.files.get(file));
   await value.save(file, original.replace('| [第一][first] | 第一 |', '| `one.md` | 未掲載 |'));
   await assert.rejects(value.build(), /Incomplete learning chapter order/);
   await value.save(file, original.replace('| [第一][first] | 第一 |', '| [第一][first] と [同じ](one.md) | 重複 |'));
@@ -91,7 +96,7 @@ test('learning metadata rejects missing or duplicate chapter order and route ide
 test('learning chapter order excludes verified drafts but does not silently discard missing or unselected published files', async t => {
   const value = await fixture(t);
   const readmePath = 'docs/01-concepts/README.md';
-  const original = value.files.get(readmePath);
+  const original = requiredFixture(value.files.get(readmePath));
   await value.save(readmePath, original.replace('| [第一][first] | 第一 |', '| [第一][first] | 第一 |\n| [追加](extra.md) | 追加 |'));
   await assert.rejects(value.build(), /ENOENT/);
   const extraPath = path.join(value.root, 'docs/01-concepts/extra.md');
@@ -124,7 +129,11 @@ test('learning source reads reject symlinks and sources over the byte budget bef
   const data = await readFile(glossary);
   await writeFile(path.join(value.root, 'glossary-copy.md'), data);
   await rm(glossary);
-  await symlink(path.join(value.root, 'glossary-copy.md'), glossary);
+  try { await symlink(path.join(value.root, 'glossary-copy.md'), glossary); }
+  catch (error) {
+    if (process.platform === 'win32' && error instanceof Error && 'code' in error && error.code === 'EPERM') { t.skip('File symlinks require Windows privileges'); return; }
+    throw error;
+  }
   await assert.rejects(value.build(), /Symlink/);
   await rm(glossary);
   await writeFile(glossary, 'x'.repeat(16 * 1024 * 1024 + 1));
@@ -153,9 +162,13 @@ test('learning metadata bounds route steps and inlines and glossary detail links
   await value.save(file, roadmap(inlines + ' 完了'));
   await assert.rejects(value.build(), /exceeds 64 inlines/);
   await value.save(file, roadmap());
+  /** @param {number} count */
   const details = count => '# 用語\n\n### 用語\n\n' + Array.from({ length: count }, () => '[本文](docs/01-concepts/one.md)').join(' / ') + '\n';
   await value.save('GLOSSARY.md', details(256));
   assert.equal((await value.build()).glossary[0].links.length, 256);
   await value.save('GLOSSARY.md', details(257));
   await assert.rejects(value.build(), /exceeds 256 links/);
 });
+
+/** @param {import('../../scripts/lib/ios-types.d.mts').LearningInline} inline @returns {Extract<import('../../scripts/lib/ios-types.d.mts').LearningInline,{type:'link'}>} */
+function learningLink(inline) { assert.equal(inline.type, 'link'); if(inline.type !== 'link') throw new Error('Expected link inline'); return inline; }

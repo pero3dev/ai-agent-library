@@ -1,4 +1,6 @@
 import test from 'node:test';
+import { requiredFixture, objectFixture, objectArrayFixture } from '../helpers/json-fixtures.mjs';
+import { nativeDocumentFixture, nativeNodes as nodes, markdownNodes } from '../helpers/native-document-fixture.mts';
 import assert from 'node:assert/strict';
 import { mkdtemp, mkdir, readFile, realpath, rm, symlink, writeFile } from 'node:fs/promises';
 import os from 'node:os';
@@ -6,7 +8,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import MarkdownIt from 'markdown-it';
 import { buildNativeContent, parseNativeArticle, validateNativePackageBounds } from '../../scripts/lib/ios-native-content.mjs';
-import { installMath, NATIVE_READER_FIXTURE, parseArticle, renderArticle, rewriteLink, sha256, validateOutput } from '../../scripts/lib/ios-content.mjs';
+import { installMath, parseIOSSelection, NATIVE_READER_FIXTURE, parseArticle, renderArticle, rewriteLink, sha256, validateOutput } from '../../scripts/lib/ios-content.mjs';
 import { nativePaintGeometry, nativeRasterGeometry } from '../../scripts/lib/ios-native-assets.mjs';
 import { parseNativeBuildOptions } from '../../scripts/build-ios-native-content.mjs';
 
@@ -33,13 +35,17 @@ test('large raster assets retain aspect ratio within the native decoder budget',
   assert.throws(() => nativeRasterGeometry(1, 0));
 });
 
+/** @param {string} title @param {string} [body] */
 const source = (title, body = '本文です。') => `---\ntitle: "${title}"\ncategory: "concepts"\nlevel: "basic"\nstatus: "published"\nlast_updated: "2026-10-22"\ntags: ["fixture"]\n---\n\n# ${title}\n\n## この記事の目的\n\n${body}\n`;
+/** @param {string} body */
 const fixtureSource = body => source('テスト専用', body).replace('status: "published"', 'status: "test-fixture"');
 const paths = ['docs/01-concepts/one.md', 'docs/01-concepts/two.md', 'docs/11-llm-internals/three.md'];
 const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=', 'base64');
+/** @type {import('../../scripts/lib/ios-types.d.mts').IOSNativeDependencies} */
 const mockDependencies = {
   async renderAssets(requests) {
     const files = new Map([['assets/katex/LICENSE.txt', Buffer.from('Fixture KaTeX notice')], ['assets/licenses/Mermaid-LICENSE.txt', Buffer.from('Fixture Mermaid notice')]]);
+    /** @type {import('../../scripts/lib/ios-types.d.mts').NativeRenderedAssets['metadata']} */
     const metadata = new Map();
     for (const [key, request] of requests) {
       const asset = { light: `assets/native/${key}-light.png`, dark: `assets/native/${key}-dark.png`, width: 1, height: 1, scale: 1, ...(request.kind === 'math' && !request.display ? { baseline: 0 } : {}) };
@@ -66,12 +72,10 @@ test('native package bounds include manifest.json in the file and byte totals', 
   ]) assert.throws(() => validateNativePackageBounds(invalid), /Invalid native package size/);
 });
 
-function nodes(value) {
-  if (!value || typeof value !== 'object') return [];
-  return [value, ...Object.values(value).flatMap(child => Array.isArray(child) ? child.flatMap(nodes) : nodes(child))];
-}
-const plain = values => values.map(value => value.text || (value.children ? plain(value.children) : '')).join('');
+/** @param {import('../../scripts/lib/ios-types.d.mts').NativeInline[]} values @returns {string} */
+const plain = values => values.map(value => 'text' in value ? value.text : 'children' in value ? plain(value.children) : '').join('');
 
+/** @param {import('node:test').TestContext} t */
 async function fixture(t) {
   const root = await realpath(await mkdtemp(path.join(os.tmpdir(), 'ailibrary-ios-native-test-')));
   t.after(() => rm(root, { recursive: true, force: true }));
@@ -82,12 +86,14 @@ async function fixture(t) {
     [paths[2], source('第三記事', '式 $x^2$ です。\n\n$$\nx = y + 1\n$$')],
     [NATIVE_READER_FIXTURE.source_path, fixtureSource('## CASE-START\n\n[同じ記事](#case-end)と[同じファイル](native-reader.md#case-end)と[元記事](../../docs/01-concepts/one.md#第一記事)。\n\n## CASE-END\n\n到着。')]
   ]);
-  const episode = { id: 'test-episode', title: '第一記事 音声', article_path: paths[0], part: 1, parts: 1, script_sha256: 'b'.repeat(64), source_digest: sha256(files.get(paths[0])), audio_sha256: 'a'.repeat(64), audio_url: 'https://github.com/pero3dev/ai-agent-library/releases/download/test/episode.mp3', duration_seconds: 123, attribution: 'VOICEVOX Nemo（女声1・男声1）', voices: [{ license_url: 'https://voicevox.hiroshiba.jp/nemo/term/' }], chapters: [{ id: 'intro', title: '導入', start_seconds: 0 }, { id: 'main', title: '本文', start_seconds: 60 }] };
+  const episode = { id: 'test-episode', title: '第一記事 音声', article_path: paths[0], part: 1, parts: 1, script_sha256: 'b'.repeat(64), source_digest: sha256(requiredFixture(files.get(paths[0]))), audio_sha256: 'a'.repeat(64), audio_url: 'https://github.com/pero3dev/ai-agent-library/releases/download/test/episode.mp3', duration_seconds: 123, attribution: 'VOICEVOX Nemo（女声1・男声1）', voices: [{ license_url: 'https://voicevox.hiroshiba.jp/nemo/term/' }], chapters: [{ id: 'intro', title: '導入', start_seconds: 0 }, { id: 'main', title: '本文', start_seconds: 60 }] };
   episode.audio_url = `https://github.com/pero3dev/ai-agent-library/releases/download/test-${episode.source_digest.slice(0, 16)}-${episode.script_sha256.slice(0, 16)}/episode-${episode.audio_sha256.slice(0, 16)}.mp3`;
   const trustedAudioDeclarations = [{ episode_id: episode.id, article_id: episode.article_path.slice(5, -3), article_path: episode.article_path, audio_url: episode.audio_url, audio_sha256: episode.audio_sha256, source_digest: episode.source_digest, script_sha256: episode.script_sha256, credit: episode.attribution, license_url: episode.voices[0].license_url }];
   files.set('website/audio/catalog.json', JSON.stringify({ schema_version: 1, episodes: [episode] }));
   for (const [name, content] of files) { await mkdir(path.dirname(path.join(root, name)), { recursive: true }); await writeFile(path.join(root, name), content); }
-  return { root, files, episode, trustedAudioDeclarations, selection: { schema_version: 1, articles: paths, audio_article: paths[0] }, output: path.join(root, 'bundle/Content') };
+  /** @type {import('../../scripts/lib/ios-types.d.mts').IOSSelection} */
+  const selection = { schema_version: 1, articles: paths, audio_article: paths[0] };
+  return { root, files, episode, trustedAudioDeclarations, selection, output: path.join(root, 'bundle/Content') };
 }
 
 test('native parser preserves styled inline content, typed links, nested lists, quotes and tables', () => {
@@ -96,16 +102,16 @@ test('native parser preserves styled inline content, typed links, nested lists, 
   assert.equal(parsed.document.schema_version, 1);
   assert.equal(parsed.document.article_id, '01-concepts/one');
   for (const type of ['heading', 'paragraph', 'strong', 'emphasis', 'code', 'link', 'hard_break', 'list', 'quote', 'table', 'math', 'diagram', 'thematic_break']) assert.ok(all.some(node => node.type === type), type);
-  const ordered = all.find(node => node.type === 'list' && node.ordered);
+  const ordered = requiredFixture(all.find(node => node.type === 'list' && node.ordered));
   assert.equal(ordered.start, 3);
   assert.equal(ordered.items[0].blocks[1].type, 'list');
-  assert.equal(all.find(node => node.type === 'quote').blocks[1].type, 'list');
-  const table = all.find(node => node.type === 'table').table;
+  assert.equal(requiredFixture(all.find(node => node.type === 'quote')).blocks[1].type, 'list');
+  const table = requiredFixture(all.find(node => node.type === 'table')).table;
   assert.deepEqual(table.alignments, ['left', 'center', 'right']);
   assert.equal(table.rows[0][0][0].type, 'emphasis');
   assert.equal(table.rows[0][1][0].type, 'math');
-  assert.deepEqual(table.rows[0][2][0].target, { kind: 'article', article_id: '01-concepts/two' });
-  assert.ok(all.some(node => node.target?.article_id === '01-concepts/one' && node.target.heading_id === '章'));
+  assert.deepEqual(('target' in table.rows[0][2][0] ? table.rows[0][2][0].target : undefined), { kind: 'article', article_id: '01-concepts/two' });
+  assert.ok(all.some(node => node.target?.kind === 'article' && node.target.article_id === '01-concepts/one' && node.target.heading_id === '章'));
   assert.equal(parsed.requests.size, 3); // Repeated inline x is deduplicated; display x+y and the diagram remain distinct.
   assert.match(parsed.search_text, /子項目 x/);
   assert.equal(new Set(all.filter(node => node.id).map(node => node.id)).size, all.filter(node => node.id).length);
@@ -161,8 +167,9 @@ test('published-library CLI fixes its destination and rejects mixed profiles', (
   ]) assert.throws(() => parseNativeBuildOptions(args));
 });
 
+/** @param {Awaited<ReturnType<typeof fixture>>} value */
 async function fullDescriptionMap(value) {
-  const requests = new Map(value.selection.articles.flatMap(file => [...parseNativeArticle(parseArticle(value.files.get(file), file)).requests]));
+  const requests = new Map(value.selection.articles.flatMap(file => [...parseNativeArticle(parseArticle(requiredFixture(value.files.get(file)), file)).requests]));
   const diagram_descriptions = Object.fromEntries([...requests].filter(([, request]) => request.kind === 'diagram').map(([key]) => [key, 'AからBへ進む図です。']));
   const file = path.join(value.root, 'ios/all-published-diagram-descriptions.json');
   await mkdir(path.dirname(file), { recursive: true });
@@ -192,12 +199,12 @@ test('all-published selection is ordered, excludes draft and README, and preserv
   assert.ok(manifest.articles.every(article => article.is_test_fixture === undefined));
   assert.equal(manifest.audio.length, 1);
   assert.equal(manifest.audio[0].article_id, '01-concepts/one');
-  assert.equal(manifest.articles.find(article => article.source_path === paths[0]).audio_id, value.episode.id);
+  assert.equal(requiredFixture(manifest.articles.find(article => article.source_path === paths[0])).audio_id, value.episode.id);
   assert.ok(manifest.articles.filter(article => article.source_path !== paths[0]).every(article => article.audio_id === undefined));
-  const first = JSON.parse(await readFile(path.join(output, manifest.articles[0].document_path)));
-  assert.deepEqual(nodes(first).find(node => node.type === 'link').target, { kind: 'article', article_id: '01-concepts/one', heading_id: '第一記事' });
-  const second = JSON.parse(await readFile(path.join(output, manifest.articles[2].document_path)));
-  assert.match(nodes(second).find(node => node.type === 'diagram').accessibility_text, /^AからBへ進む図です。\n図中のラベル:/);
+  const first = nativeDocumentFixture(JSON.parse(await readFile(path.join(output, manifest.articles[0].document_path), 'utf8')));
+  assert.deepEqual(requiredFixture(nodes(first).find(node => node.type === 'link')).target, { kind: 'article', article_id: '01-concepts/one', heading_id: '第一記事' });
+  const second = nativeDocumentFixture(JSON.parse(await readFile(path.join(output, manifest.articles[2].document_path), 'utf8')));
+  assert.match(requiredFixture(requiredFixture(nodes(second).find(node => node.type === 'diagram')).accessibility_text), /^AからBへ進む図です。\n図中のラベル:/);
   assert.equal((await buildNativeContent({ ...value, allPublished: true, dependencies: mockDependencies })).revision, manifest.revision);
   assert.deepEqual(await readFile(path.join(normalRoot, 'manifest.json')), normalManifest);
   assert.deepEqual(await readFile(path.join(fixtureRoot, 'manifest.json')), fixtureManifest);
@@ -214,7 +221,7 @@ test('all-published output cannot overwrite normal or fixture packages or use a 
     await assert.rejects(buildNativeContent({ ...value, allPublished: true, output, dependencies: mockDependencies }), /allPublished|All-published|Output must/);
   }
   await assert.rejects(buildNativeContent({ ...value, allPublished: true, fixtures: true, dependencies: mockDependencies }), /cannot be combined/);
-  await assert.rejects(buildNativeContent({ ...value, allPublished: 'yes', dependencies: mockDependencies }), /boolean/);
+  await assert.rejects(Reflect.apply(buildNativeContent, undefined, [{ ...value, allPublished: 'yes', dependencies: mockDependencies }]), /boolean/);
   for (const directory of [normalRoot, fixtureRoot]) assert.equal(await readFile(path.join(directory, 'sentinel'), 'utf8'), 'keep');
 });
 
@@ -251,11 +258,11 @@ test('published profiles reject unpublished audio and invalid article metadata w
   let invoked = false;
   const dependencies = { renderAssets() { invoked = true; throw new Error('must not render'); } };
   const profiles = [() => buildNativeContent({ ...value, allPublished: true, dependencies }), () => buildNativeContent({ ...options, publishedLibrary: true, dependencies })];
-  await writeFile(path.join(value.root, paths[0]), value.files.get(paths[0]).replace('status: "published"', 'status: "draft"'));
+  await writeFile(path.join(value.root, paths[0]), requiredFixture(value.files.get(paths[0])).replace('status: "published"', 'status: "draft"'));
   for (const generate of profiles) await assert.rejects(generate(), /Selected audio article must be included/);
-  await writeFile(path.join(value.root, paths[0]), value.files.get(paths[0]).replace('status: "published"', 'status: "unknown"'));
+  await writeFile(path.join(value.root, paths[0]), requiredFixture(value.files.get(paths[0])).replace('status: "published"', 'status: "unknown"'));
   for (const generate of profiles) await assert.rejects(generate(), /Invalid article status/);
-  for (const file of paths) await writeFile(path.join(value.root, file), value.files.get(file).replace('status: "published"', 'status: "draft"'));
+  for (const file of paths) await writeFile(path.join(value.root, file), requiredFixture(value.files.get(file)).replace('status: "published"', 'status: "draft"'));
   for (const generate of profiles) await assert.rejects(generate(), /between 1 and 2000/);
   assert.equal(invoked, false);
   for (const directory of [output, canonical]) assert.equal(await readFile(path.join(directory, 'sentinel'), 'utf8'), 'keep');
@@ -299,18 +306,18 @@ test('published-library adds hash-bound learning metadata only to canonical Cont
   assert.ok(library.articles.every(article => article.is_test_fixture === undefined));
   assert.deepEqual(library.audio, normal.audio);
   assert.equal(library.articles.filter(article => article.audio_id === value.episode.id).length, 1);
-  const diagramArticle = library.articles.find(article => article.source_path === paths[1]);
-  const diagram = nodes(JSON.parse(await readFile(path.join(normalRoot, diagramArticle.document_path)))).find(node => node.type === 'diagram');
-  assert.ok(diagram.accessibility_text.startsWith(`${Object.values(descriptions.diagram_descriptions)[0]}\n図中のラベル:`));
+  const diagramArticle = requiredFixture(library.articles.find(article => article.source_path === paths[1]));
+  const diagram = requiredFixture(nodes(nativeDocumentFixture(JSON.parse(await readFile(path.join(normalRoot, diagramArticle.document_path), 'utf8')))).find(node => node.type === 'diagram'));
+  assert.ok(requiredFixture(diagram.accessibility_text).startsWith(`${Object.values(descriptions.diagram_descriptions)[0]}\n図中のラベル:`));
   assert.deepEqual(await readFile(path.join(normalRoot, 'manifest.json')), Buffer.from(`${JSON.stringify(library, null, 2)}\n`));
   const learningPath = 'assets/learning/index.json';
   const learningBytes = await readFile(path.join(normalRoot, learningPath));
-  const learning = JSON.parse(learningBytes);
+  const learning = objectFixture(JSON.parse(learningBytes.toString('utf8')));
   assert.equal(library.files[learningPath], sha256(learningBytes));
   assert.equal(learning.schema_version, 1);
-  assert.deepEqual(learning.chapters[1].article_ids, ['01-concepts/two', '01-concepts/one']);
-  assert.deepEqual(Object.keys(learning.article_tags), library.articles.map(article => article.id));
-  await writeFile(path.join(value.root, 'GLOSSARY.md'), additions.get('GLOSSARY.md').replace('定義。', '改訂した定義。'));
+  assert.deepEqual(objectArrayFixture(learning.chapters)[1].article_ids, ['01-concepts/two', '01-concepts/one']);
+  assert.deepEqual(Object.keys(objectFixture(learning.article_tags)), library.articles.map(article => article.id));
+  await writeFile(path.join(value.root, 'GLOSSARY.md'), requiredFixture(additions.get('GLOSSARY.md')).replace('定義。', '改訂した定義。'));
   const revisedLearning = await buildNativeContent({ ...options, publishedLibrary: true, dependencies: mockDependencies });
   assert.notEqual(revisedLearning.revision, library.revision, 'A glossary-only edit changes the hash-bound package revision');
   assert.deepEqual(revisedLearning.articles, library.articles);
@@ -319,7 +326,7 @@ test('published-library adds hash-bound learning metadata only to canonical Cont
   await writeFile(path.join(value.root, 'GLOSSARY.md'), '# No entries\n');
   await assert.rejects(buildNativeContent({ ...options, publishedLibrary: true, dependencies: mockDependencies }), /learning glossary entries/);
   assert.deepEqual(await readFile(path.join(normalRoot, 'manifest.json')), previousManifest, 'Metadata failures preserve the previous generated package');
-  await writeFile(path.join(value.root, 'GLOSSARY.md'), additions.get('GLOSSARY.md'));
+  await writeFile(path.join(value.root, 'GLOSSARY.md'), requiredFixture(additions.get('GLOSSARY.md')));
   const temporary = await buildNativeContent({ ...value, allPublished: true, dependencies: mockDependencies });
   assert.notEqual(library.revision, temporary.revision, 'The optional metadata is bound into the existing revision recipe');
   assert.deepEqual(library.articles, temporary.articles);
@@ -343,12 +350,12 @@ test('published-library rejects caller destinations and mixed or non-boolean pro
   let invoked = false;
   const dependencies = { renderAssets() { invoked = true; throw new Error('must not render'); } };
   for (const destination of [normalRoot, fixtureRoot, output, path.dirname(normalRoot), path.join(normalRoot, 'nested/Content'), null, '']) {
-    await assert.rejects(buildNativeContent({ ...options, publishedLibrary: true, output: destination, dependencies }), /canonical Content/);
+    await assert.rejects(Reflect.apply(buildNativeContent, undefined, [{ ...options, publishedLibrary: true, output: destination, dependencies }]), /canonical Content/);
   }
   for (const flags of [{ allPublished: true }, { fixtures: true }]) {
     await assert.rejects(buildNativeContent({ ...options, publishedLibrary: true, ...flags, dependencies }), /cannot be combined/);
   }
-  await assert.rejects(buildNativeContent({ ...options, publishedLibrary: 'yes', dependencies }), /boolean/);
+  await assert.rejects(Reflect.apply(buildNativeContent, undefined, [{ ...options, publishedLibrary: 'yes', dependencies }]), /boolean/);
   assert.equal(invoked, false);
   for (const directory of [normalRoot, fixtureRoot]) assert.equal(await readFile(path.join(directory, 'sentinel'), 'utf8'), 'keep');
 });
@@ -417,11 +424,11 @@ test('fixture generation writes a separate package and cannot overwrite ordinary
   assert.ok(normal.articles.every(article => article.is_test_fixture === undefined));
   assert.equal(testPackage.articles.length, 4);
   assert.equal(testPackage.articles.filter(article => article.is_test_fixture).length, 1);
-  assert.equal(testPackage.articles.at(-1).id, NATIVE_READER_FIXTURE.id);
-  assert.equal(testPackage.articles.at(-1).source_path, NATIVE_READER_FIXTURE.source_path);
+  assert.equal(requiredFixture(testPackage.articles.at(-1)).id, NATIVE_READER_FIXTURE.id);
+  assert.equal(requiredFixture(testPackage.articles.at(-1)).source_path, NATIVE_READER_FIXTURE.source_path);
   assert.equal(await readFile(path.join(normalRoot, 'manifest.json'), 'utf8'), normalManifest);
   const testManifest = await readFile(path.join(testRoot, 'manifest.json'), 'utf8');
-  await assert.rejects(buildNativeContent({ ...options, fixtures: 'yes', dependencies: mockDependencies }), /boolean/);
+  await assert.rejects(Reflect.apply(buildNativeContent, undefined, [{ ...options, fixtures: 'yes', dependencies: mockDependencies }]), /boolean/);
   await assert.rejects(buildNativeContent({ ...options, fixtures: true, output: normalRoot, dependencies: mockDependencies }), /Output must be ios\/AILibrary\/TestContent/);
   await assert.rejects(buildNativeContent({ ...options, fixtures: true, output: path.join(normalRoot, 'child'), dependencies: mockDependencies }), /Output must/);
   await assert.rejects(buildNativeContent({ ...options, fixtures: true, output: path.dirname(normalRoot), dependencies: mockDependencies }), /Output must/);
@@ -432,7 +439,7 @@ test('fixture generation writes a separate package and cannot overwrite ordinary
   assert.equal(await readFile(path.join(testRoot, 'manifest.json'), 'utf8'), testManifest);
   const regenerated = await buildNativeContent({ ...options, fixtures: true, dependencies: mockDependencies });
   assert.equal(regenerated.revision, testPackage.revision);
-  const testDocument = JSON.parse(await readFile(path.join(testRoot, testPackage.articles.at(-1).document_path)));
+  const testDocument = nativeDocumentFixture(JSON.parse(await readFile(path.join(testRoot, requiredFixture(testPackage.articles.at(-1)).document_path), 'utf8')));
   assert.deepEqual(nodes(testDocument).filter(node => node.type === 'link').map(node => node.target), [
     { kind: 'article', article_id: NATIVE_READER_FIXTURE.id, heading_id: 'case-end' },
     { kind: 'article', article_id: NATIVE_READER_FIXTURE.id, heading_id: 'case-end' },
@@ -448,42 +455,46 @@ test('fixture generation writes a separate package and cannot overwrite ordinary
 
 test('the real fixture covers mixed structures, copy boundaries, duplicate headings and all selected heading links', async () => {
   const root = fileURLToPath(new URL('../../', import.meta.url));
-  const selection = JSON.parse(await readFile(path.join(root, 'ios/content-selection.json')));
+  const selection = parseIOSSelection(JSON.parse(await readFile(path.join(root, 'ios/content-selection.json'), 'utf8')));
   const sourcePaths = [...selection.articles, NATIVE_READER_FIXTURE.source_path];
   const articles = await Promise.all(sourcePaths.map(async file => parseArticle(await readFile(path.join(root, file), 'utf8'), file, { fixture: file === NATIVE_READER_FIXTURE.source_path })));
   const selected = new Map(articles.map(article => [article.source_path, article.id]));
   const parsed = articles.map(article => parseNativeArticle(article, { selected }));
   const destinations = new Map(articles.map((article, index) => [article.id, new Set(parsed[index].headings.map(heading => heading.id))]));
-  const document = parsed.at(-1).document;
+  const document = requiredFixture(parsed.at(-1)).document;
   const all = nodes(document);
-  for (const { target } of all.filter(node => node.type === 'link' && node.target.kind === 'article')) {
+  for (const { target } of all.filter(node => node.type === 'link').filter(node => node.target.kind === 'article')) {
+    assert.equal(target.kind, 'article');
+    if (target.kind !== 'article') throw new Error('Expected article target');
     assert.ok(destinations.has(target.article_id));
-    assert.ok(!target.heading_id || destinations.get(target.article_id).has(target.heading_id), JSON.stringify(target));
+    assert.ok(!target.heading_id || requiredFixture(destinations.get(target.article_id)).has(target.heading_id), JSON.stringify(target));
   }
-  const table = all.find(node => node.type === 'table');
+  const table = requiredFixture(all.find(node => node.type === 'table'));
   assert.deepEqual(table.table.alignments, ['left', 'center', 'right']);
   for (const type of ['strong', 'emphasis', 'math', 'link', 'code']) assert.ok(nodes(table).some(node => node.type === type));
-  const depth = (blocks, value = 0) => Math.max(value, ...blocks.map(block => block.type === 'list' ? Math.max(value + 1, ...block.items.map(item => depth(item.blocks, value + 1))) : depth(block.blocks || [], value)));
+  /** @param {import('../../scripts/lib/ios-types.d.mts').NativeBlock[]} blocks @param {number} [value] @returns {number} */
+  const depth = (blocks, value = 0) => Math.max(value, ...blocks.map(block => block.type === 'list' ? Math.max(value + 1, ...block.items.map(item => depth(item.blocks, value + 1))) : depth(block.type === 'quote' ? block.blocks : [], value)));
   assert.equal(depth(document.blocks), 3);
   assert.ok(all.some(node => node.type === 'list' && node.ordered && node.start === 8));
   assert.ok(all.some(node => node.type === 'quote' && nodes(node.blocks).some(child => child.type === 'list')));
   assert.ok(all.filter(node => node.type === 'hard_break').length >= 2);
   assert.ok(all.some(node => node.type === 'thematic_break'));
-  const duplicates = parsed.at(-1).headings.filter(heading => heading.title === '同じ見出し');
+  const duplicates = requiredFixture(parsed.at(-1)).headings.filter(heading => heading.title === '同じ見出し');
   assert.deepEqual(duplicates.map(heading => heading.id), ['同じ見出し', '同じ見出し-1']);
-  const code = all.find(node => node.type === 'code' && node.id && node.text.startsWith('BEGIN-COPY-01\n'));
-  assert.ok(code.text.endsWith('END-COPY-01\n'));
-  assert.ok(code.text.includes('\n\ttab-indented:'));
-  assert.ok(code.text.includes('\n```\n'));
+  const code = requiredFixture(all.find(node => node.type === 'code' && node.id && node.text.startsWith('BEGIN-COPY-01\n')));
+  assert.ok(requiredFixture(code.text).endsWith('END-COPY-01\n'));
+  assert.ok(requiredFixture(code.text).includes('\n\ttab-indented:'));
+  assert.ok(requiredFixture(code.text).includes('\n```\n'));
   assert.ok(all.some(node => node.type === 'code' && node.id && node.text === ''));
   const mathOnly = all.filter(node => node.type === 'link' && node.children.length === 1 && node.children[0].type === 'math');
   assert.ok(mathOnly.length >= 2);
   assert.ok(all.some(node => node.type === 'link' && node.children.some(child => child.type === 'text') && node.children.some(child => child.type === 'math')));
   const md = new MarkdownIt({ html: false, linkify: false, typographer: false });
   installMath(md, () => { throw new Error('unused'); });
+  /** @param {import('../../scripts/lib/ios-types.d.mts').MarkdownToken[]} values @returns {string[]} */
   const sourceLeaves = values => values.flatMap(token => token.children ? sourceLeaves(token.children) : ['text', 'code_inline', 'math_inline', 'math_block', 'fence', 'code_block'].includes(token.type) ? [token.content] : ['hardbreak', 'softbreak'].includes(token.type) ? ['\n'] : []);
-  const nativeLeaves = all.flatMap(node => ['text', 'code'].includes(node.type) ? [node.text] : ['math', 'diagram'].includes(node.type) ? [node.source] : ['soft_break', 'hard_break'].includes(node.type) ? ['\n'] : []);
-  assert.deepEqual(nativeLeaves, sourceLeaves(md.parse(articles.at(-1).body, {})));
+  const nativeLeaves = all.flatMap(node => ['text', 'code'].includes(node.type ?? '') ? [node.text] : ['math', 'diagram'].includes(node.type ?? '') ? [node.source] : ['soft_break', 'hard_break'].includes(node.type ?? '') ? ['\n'] : []);
+  assert.deepEqual(nativeLeaves, sourceLeaves(md.parse(requiredFixture(articles.at(-1)).body, {})));
 });
 
 test('fixture source and TestContent symlinks fail without changing existing output', { skip: process.platform === 'win32' ? 'Windows symlinks require extra privileges' : false }, async t => {
@@ -504,9 +515,11 @@ test('fixture source and TestContent symlinks fail without changing existing out
 
 test('block and list item IDs survive unrelated content insertion in the same section', () => {
   const first = '## 安定した章\n\n保持する段落。\n\n- 保持する項目\n- 他の項目\n\n同じ段落。\n\n同じ段落。';
+  /** @param {string} body */
   const parse = body => parseNativeArticle(parseArticle(source('ID', body), paths[0])).document;
   const before = parse(first), after = parse(first.replace('保持する段落。', '先に追加した段落。\n\n保持する段落。'));
-  const find = (document, value) => nodes(document).find(node => node.type === 'paragraph' && plain(node.inlines) === value);
+  /** @param {import('../../scripts/lib/ios-types.d.mts').NativeDocument} document @param {string} value */
+  const find = (document, value) => requiredFixture(nodes(document).find(node => node.type === 'paragraph' && plain(node.inlines) === value));
   assert.equal(find(before, '保持する段落。').id, find(after, '保持する段落。').id);
   assert.deepEqual(nodes(before).filter(node => node.blocks && !node.type).map(node => node.id), nodes(after).filter(node => node.blocks && !node.type).map(node => node.id));
   const repeated = nodes(before).filter(node => node.type === 'paragraph' && plain(node.inlines) === '同じ段落。');
@@ -515,7 +528,7 @@ test('block and list item IDs survive unrelated content insertion in the same se
 
 test('representative source documents retain legacy heading IDs and all mathematical expressions', async () => {
   const root = fileURLToPath(new URL('../../', import.meta.url));
-  const selection = JSON.parse(await readFile(path.join(root, 'ios/content-selection.json')));
+  const selection = parseIOSSelection(JSON.parse(await readFile(path.join(root, 'ios/content-selection.json'), 'utf8')));
   const types = new Set();
   let inlineMath = 0, blockMath = 0, diagrams = 0;
   for (const file of selection.articles) {
@@ -528,11 +541,12 @@ test('representative source documents retain legacy heading IDs and all mathemat
     const md = new MarkdownIt({ html: false, linkify: false, typographer: false });
     installMath(md, () => { throw new Error('unused renderer'); });
     const sourceTokens = md.parse(article.body, {});
+    /** @param {import('../../scripts/lib/ios-types.d.mts').MarkdownToken[]} values @returns {string[]} */
     const leaves = values => values.flatMap(token => token.children ? leaves(token.children) : ['text', 'code_inline', 'math_inline', 'math_block', 'fence', 'code_block'].includes(token.type) ? [token.content] : ['hardbreak', 'softbreak'].includes(token.type) ? ['\n'] : []);
-    const nativeLeaves = nodes(value.document).flatMap(node => ['text', 'code'].includes(node.type) ? [node.text] : ['math', 'diagram'].includes(node.type) ? [node.source] : ['soft_break', 'hard_break'].includes(node.type) ? ['\n'] : []);
+    const nativeLeaves = nodes(value.document).flatMap(node => ['text', 'code'].includes(node.type ?? '') ? [node.text] : ['math', 'diagram'].includes(node.type ?? '') ? [node.source] : ['soft_break', 'hard_break'].includes(node.type ?? '') ? ['\n'] : []);
     assert.deepEqual(nativeLeaves, leaves(sourceTokens), `all source content survives: ${file}`);
-    const expectedLinks = sourceTokens.flatMap(token => nodes(token.children || [])).filter(token => token.type === 'link_open').map(token => {
-      const href = token.attrGet('href');
+    const expectedLinks = sourceTokens.flatMap(token => markdownNodes(token.children || [])).filter(token => token.type === 'link_open').map(token => {
+      const href = requiredFixture(token.attrGet('href'));
       if (href.startsWith('#')) return { kind: 'article', article_id: article.id, ...(href.length > 1 ? { heading_id: decodeURIComponent(href.slice(1)) } : {}) };
       const target = rewriteLink(href, file, new Set(selection.articles));
       return target.article_id ? { kind: 'article', article_id: target.article_id, ...(target.fragment ? { heading_id: target.fragment } : {}) } : { kind: 'external', url: target.href };
@@ -554,13 +568,13 @@ test('representative source documents retain legacy heading IDs and all mathemat
 
 test('diagram descriptions follow their source digest and stale or missing descriptions fail before rendering', async t => {
   const value = await fixture(t);
-  const parsed = parseNativeArticle(parseArticle(value.files.get(paths[1]), paths[1]));
-  const key = [...parsed.requests].find(([, request]) => request.kind === 'diagram')[0];
+  const parsed = parseNativeArticle(parseArticle(requiredFixture(value.files.get(paths[1])), paths[1]));
+  const key = requiredFixture([...parsed.requests].find(([, request]) => request.kind === 'diagram'))[0];
   value.selection.diagram_descriptions = { [key]: 'AからBへ進む図です。' };
   const manifest = await buildNativeContent({ ...value, dependencies: mockDependencies });
-  const document = JSON.parse(await readFile(path.join(value.output, manifest.articles[1].document_path)));
-  const diagram = nodes(document).find(node => node.type === 'diagram');
-  assert.ok(diagram.accessibility_text.startsWith('AからBへ進む図です。\n図中のラベル: '));
+  const document = nativeDocumentFixture(JSON.parse(await readFile(path.join(value.output, manifest.articles[1].document_path), 'utf8')));
+  const diagram = requiredFixture(nodes(document).find(node => node.type === 'diagram'));
+  assert.ok(requiredFixture(diagram.accessibility_text).startsWith('AからBへ進む図です。\n図中のラベル: '));
   let invoked = false;
   const dependencies = { renderAssets() { invoked = true; throw new Error('must not render'); } };
   value.selection.diagram_descriptions = { ['f'.repeat(24)]: '古い図の説明。' };
@@ -588,8 +602,8 @@ test('native generator writes only JSON, PNG, notices and hashes every file dete
     assert.equal(hash, sha256(await readFile(path.join(value.output, file))));
   }
   for (const article of manifest.articles) {
-    assert.equal(article.html_path, undefined);
-    const document = JSON.parse(await readFile(path.join(value.output, article.document_path)));
+    assert.equal(Reflect.get(article, 'html_path'), undefined);
+    const document = nativeDocumentFixture(JSON.parse(await readFile(path.join(value.output, article.document_path), 'utf8')));
     assert.equal(document.article_id, article.id);
     assert.deepEqual(nodes(document).filter(node => node.type === 'heading').map(node => ({ id: node.heading_id, title: plain(node.inlines), level: node.level })), article.headings);
     for (const node of nodes(document)) if (node.asset) {
@@ -597,19 +611,19 @@ test('native generator writes only JSON, PNG, notices and hashes every file dete
       assert.match(node.accessibility_text, /^読み上げ:/);
     }
   }
-  const body = JSON.parse(await readFile(path.join(value.output, manifest.articles[0].document_path)));
-  assert.deepEqual(nodes(body).find(node => node.type === 'link').target, { kind: 'article', article_id: '01-concepts/two', heading_id: '見出し' });
+  const body = nativeDocumentFixture(JSON.parse(await readFile(path.join(value.output, manifest.articles[0].document_path), 'utf8')));
+  assert.deepEqual(requiredFixture(nodes(body).find(node => node.type === 'link')).target, { kind: 'article', article_id: '01-concepts/two', heading_id: '見出し' });
 });
 
 test('unknown inline types, images, HTTP URLs and excessive nesting fail early', () => {
-  for (const [body, error] of [
+  for (const [body, error] of /** @type {[string,RegExp][]} */ ([
     ['~~取り消し~~', /Unsupported native inline token s_open/],
     ['![画像](https://example.com/image.png)', /Unsupported native inline token image/],
     ['[外部](http://example.com/)', /require HTTPS/],
     ['[外部](https://user:pass@example.com/)', /Credentials/],
     [`${'> '.repeat(34)}深すぎる引用`, /exceeds depth/],
     ['$$\n閉じない数式', /Unclosed display math/]
-  ]) assert.throws(() => parseNativeArticle(parseArticle(source('拒否', body), paths[0])), error);
+  ])) assert.throws(() => parseNativeArticle(parseArticle(source('拒否', body), paths[0])), error);
 });
 
 test('invalid references and asset output preserve a previous generated package', async t => {
@@ -620,12 +634,13 @@ test('invalid references and asset output preserve a previous generated package'
   await writeFile(path.join(value.root, paths[2]), source('第三記事', '[不存在](../01-concepts/two.md#不明)'));
   await assert.rejects(buildNativeContent({ ...value, dependencies: mockDependencies }), /Unknown native article or heading/);
   assert.equal(await readFile(sentinel, 'utf8'), 'keep');
-  await writeFile(path.join(value.root, paths[2]), value.files.get(paths[2]));
+  await writeFile(path.join(value.root, paths[2]), requiredFixture(value.files.get(paths[2])));
+  /** @param {(result:import('../../scripts/lib/ios-types.d.mts').NativeRenderedAssets)=>void} mutate @returns {import('../../scripts/lib/ios-types.d.mts').IOSNativeDependencies} */
   const invalid = mutate => ({ async renderAssets(requests) { const result = await mockDependencies.renderAssets(requests); mutate(result); return result; } });
   await assert.rejects(buildNativeContent({ ...value, dependencies: invalid(result => result.metadata.clear()) }), /Missing native rendered metadata/);
-  await assert.rejects(buildNativeContent({ ...value, dependencies: invalid(result => result.metadata.values().next().value.asset.width = 100) }), /dimensions disagree/);
+  await assert.rejects(buildNativeContent({ ...value, dependencies: invalid(result => requiredFixture(result.metadata.values().next().value).asset.width = 100) }), /dimensions disagree/);
   await assert.rejects(buildNativeContent({ ...value, dependencies: invalid(result => result.files.set('assets/bad.js', Buffer.from('bad'))) }), /Unsafe native output/);
-  await assert.rejects(buildNativeContent({ ...value, dependencies: invalid(result => result.metadata.values().next().value.accessibility_text = '') }), /Missing native asset accessibility/);
+  await assert.rejects(buildNativeContent({ ...value, dependencies: invalid(result => requiredFixture(result.metadata.values().next().value).accessibility_text = '') }), /Missing native asset accessibility/);
   assert.equal(await readFile(sentinel, 'utf8'), 'keep');
 });
 
@@ -633,6 +648,7 @@ test('too many native files fail before replacing an existing package', async t 
   const value = await fixture(t);
   await mkdir(value.output, { recursive: true });
   await writeFile(path.join(value.output, 'sentinel'), 'keep');
+  /** @type {import('../../scripts/lib/ios-types.d.mts').IOSNativeDependencies} */
   const dependencies = { async renderAssets(requests) {
     const rendered = await mockDependencies.renderAssets(requests);
     for (let index = 0; index < 4096; index++) rendered.files.set(`assets/boundary-${index}.txt`, Buffer.alloc(0));
@@ -646,9 +662,10 @@ test('a PNG beyond the consumer byte limit is rejected even when its dimensions 
   const value = await fixture(t);
   await mkdir(value.output, { recursive: true });
   await writeFile(path.join(value.output, 'sentinel'), 'keep');
+  /** @type {import('../../scripts/lib/ios-types.d.mts').IOSNativeDependencies} */
   const dependencies = { async renderAssets(requests) {
     const rendered = await mockDependencies.renderAssets(requests);
-    const [file, original] = [...rendered.files].find(([file]) => file.endsWith('.png'));
+    const [file, original] = requiredFixture([...rendered.files].find(([file]) => file.endsWith('.png')));
     const oversized = Buffer.alloc(32 * 1024 * 1024 + 1);
     original.copy(oversized); // Retain the valid 1×1 PNG header and dimensions.
     rendered.files.set(file, oversized);

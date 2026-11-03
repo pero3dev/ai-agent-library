@@ -2,10 +2,14 @@ import path from 'node:path'
 import { parseFrontMatter, toLines, unquote, splitLocalDestination } from './md-utils.mjs'
 import { parseMarkdownLinks } from './markdown-links.mjs'
 
+/** @type {Readonly<Record<string, number>>} */
 export const LEVEL_ORDER = Object.freeze({ basic: 0, intermediate: 1, advanced: 2 })
 
-/** 前提知識節のリンクだけを必須前提とする。任意の参考は関連トピックへ置く。 */
+/** 前提知識節のリンクだけを必須前提とする。任意の参考は関連トピックへ置く。
+ * @param {import('./document-types.d.mts').SourceText[]} documents
+ */
 export function prerequisiteGraph(documents) {
+  /** @type {Map<string, import('./document-types.d.mts').MarkdownArticle>} */
   const articles = new Map()
   for (const { file, text } of documents) {
     const frontMatter = parseFrontMatter(toLines(text))
@@ -21,8 +25,8 @@ export function prerequisiteGraph(documents) {
         const destination = splitLocalDestination(link.target)
         if (destination.external || destination.error || !destination.pathname) continue
         const target = path.posix.normalize(path.posix.join(path.posix.dirname(article.file), destination.pathname))
-        if (!articles.has(target)) continue // 切れたリンクは check-links の担当。
         const prerequisite = articles.get(target)
+        if (!prerequisite) continue // 切れたリンクは check-links の担当。
         edges.push({ file: article.file, line: link.line, level: article.level, target, targetLevel: prerequisite.level })
       }
     }
@@ -30,6 +34,7 @@ export function prerequisiteGraph(documents) {
   return { articles, edges }
 }
 
+/** @param {import('./document-types.d.mts').SourceText[]} documents */
 export function checkPrerequisiteLevels(documents) {
   const { articles, edges } = prerequisiteGraph(documents)
   const inversions = edges.filter(edge => LEVEL_ORDER[edge.targetLevel] > LEVEL_ORDER[edge.level])

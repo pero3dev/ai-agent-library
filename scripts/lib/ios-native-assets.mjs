@@ -9,21 +9,27 @@ const scale = 3;
 const themes = ['light', 'dark'];
 const unsafeSVG = /<script\b|\son[a-z]+\s*=|(?:href|src)\s*=\s*["'](?:https?:|\/\/|javascript:)|url\(\s*["']?(?:https?:|\/\/)|@import/i;
 
-/** Browser dependencies are used only while preparing the native content package. */
+/** Browser dependencies are used only while preparing the native content package.
+ * @param {string} root @returns {Promise<import('./ios-types.d.mts').IOSNativeDependencies>}
+ */
 export async function loadNativeRenderingDependencies(root) {
   const toolsRoot = process.env.IOS_TOOLS_DIR ? path.resolve(root, process.env.IOS_TOOLS_DIR) : path.join(root, 'ios/tools');
   const require = createRequire(path.join(toolsRoot, 'package.json'));
   const math = await loadRenderingDependencies(root);
   const playwright = await import(pathToFileURL(require.resolve('@playwright/test')).href);
+  /** @type {import('./ios-types.d.mts').RenderChromium} */
   const chromium = playwright.chromium || playwright.default?.chromium;
   const mermaidDist = path.dirname(require.resolve('mermaid/dist/mermaid.esm.min.mjs'));
+  const katexLicense = math.mathAssets.get('assets/katex/LICENSE.txt');
+  if (!katexLicense) throw new Error('Missing KaTeX license');
   const licenses = new Map([
-    ['assets/katex/LICENSE.txt', math.mathAssets.get('assets/katex/LICENSE.txt')],
+    ['assets/katex/LICENSE.txt', katexLicense],
     ['assets/licenses/Mermaid-LICENSE.txt', await readFile(path.join(mermaidDist, '../LICENSE'))]
   ]);
   return { renderAssets: requests => renderNativeAssets(requests, { chromium, mermaidDist, mathAssets: math.mathAssets, renderMath: math.renderMath, licenses }) };
 }
 
+/** @param {number} width @param {number} height */
 export function nativeRasterGeometry(width, height) {
   if (![width, height].every(value => Number.isFinite(value) && value > 0 && value <= 100000)) throw new Error(`Native image exceeds safe dimensions: ${width} × ${height}`);
   // Very wide Mermaid diagrams retain their full content, but use a smaller
@@ -34,7 +40,9 @@ export function nativeRasterGeometry(width, height) {
   return { width: Math.ceil(width * factor), height: Math.ceil(height * factor), factor };
 }
 
-/** Union painted text/SVG rectangles after applying their overflow clipping ancestors. */
+/** Union painted text/SVG rectangles after applying their overflow clipping ancestors.
+ * @param {import('./ios-types.d.mts').NativeRect} main @param {import('./ios-types.d.mts').NativePaint[]} [painted]
+ */
 export function nativePaintGeometry(main, painted = []) {
   const bounds = { ...main };
   for (const paint of painted) {
@@ -51,13 +59,17 @@ export function nativePaintGeometry(main, painted = []) {
   return { width: Math.ceil(bounds.right - bounds.left) + padding * 2, height: Math.ceil(bounds.bottom - bounds.top) + padding * 2, offsetX: main.left - bounds.left + padding, offsetY: main.top - bounds.top + padding };
 }
 
-/** Rasterize diagrams and math into common-size transparent light/dark PNG pairs. */
+/** Rasterize diagrams and math into common-size transparent light/dark PNG pairs.
+ * @param {Map<string, import('./ios-types.d.mts').NativeImageRequest>} requests
+ * @param {{chromium: import('./ios-types.d.mts').RenderChromium, mermaidDist: string, mathAssets: Map<string, Buffer>, renderMath: import('./ios-types.d.mts').IOSRenderDependencies['renderMath'], licenses?: Map<string, Buffer>}} options
+ * @returns {Promise<import('./ios-types.d.mts').NativeRenderedAssets>}
+ */
 export async function renderNativeAssets(requests, { chromium, mermaidDist, mathAssets, renderMath, licenses = new Map() }) {
   const files = new Map(licenses), metadata = new Map();
   if (!requests.size) return { files, metadata };
   const server = createServer(async (request, response) => {
     try {
-      const pathname = decodeURIComponent(new URL(request.url, 'http://local').pathname);
+      const pathname = decodeURIComponent(new URL(request.url ?? '', 'http://local').pathname);
       if (pathname === '/') {
         response.setHeader('Content-Type', 'text/html; charset=utf-8');
         response.end('<!doctype html><html lang="ja"><head><meta charset="utf-8"><link rel="stylesheet" href="/katex/katex.min.css"><style>html,body{margin:0;padding:0;background:transparent}body{font-family:Arial,sans-serif}#capture{position:relative;overflow:hidden;background:transparent}#visual{position:absolute;display:inline-block;white-space:nowrap;line-height:normal;font-size:18px}#visual.display{font-size:20px}.katex-display{margin:0!important}.baseline{display:inline-block;width:0;height:0;padding:0;margin:0;vertical-align:baseline}</style></head><body><div id="capture"><div id="visual"></div></div></body></html>');
@@ -74,22 +86,25 @@ export async function renderNativeAssets(requests, { chromium, mermaidDist, math
       response.setHeader('Content-Type', 'text/javascript'); response.end(await readFile(file));
     } catch { response.writeHead(404).end(); }
   });
-  await new Promise((resolve, reject) => { server.once('error', reject); server.listen(0, '127.0.0.1', resolve); });
+  await new Promise((resolve, reject) => { server.once('error', reject); server.listen(0, '127.0.0.1', () => resolve(undefined)); });
   let browser;
   try {
     browser = await chromium.launch({ channel: process.env.PLAYWRIGHT_CHANNEL || undefined });
     const page = await browser.newPage({ viewport: { width: 1440, height: 960 }, deviceScaleFactor: scale });
-    const origin = `http://127.0.0.1:${server.address().port}`;
+    const address = server.address();
+    if (!address || typeof address === 'string') throw new Error('Local rendering server did not bind TCP');
+    const origin = `http://127.0.0.1:${address.port}`;
     await page.route('**/*', route => new URL(route.request().url()).origin === origin ? route.continue() : route.abort());
     await page.goto(origin);
-    if ([...requests.values()].some(request => request.kind === 'diagram')) await page.evaluate(async () => { window.mermaid = (await import('/mermaid/mermaid.esm.min.mjs')).default; });
+    if ([...requests.values()].some(request => request.kind === 'diagram')) await page.evaluate(async () => { const moduleURL = '/mermaid/mermaid.esm.min.mjs'; window.mermaid = (await import(moduleURL)).default; });
     for (const [key, request] of [...requests].sort(([a], [b]) => a.localeCompare(b))) {
       if (!['math', 'diagram'].includes(request.kind)) throw new Error(`Unsupported native image kind: ${request.kind}`);
       const mathHTML = request.kind === 'math' ? renderMath(request.source, request.display) : null;
       const variants = [];
       for (const theme of themes) {
-        const variant = await page.evaluate(async ({ key, request, theme, mathHTML }) => {
+        const measured = await page.evaluate(async ({ key, request, theme, mathHTML }) => {
           const visual = document.getElementById('visual');
+          if (!visual) throw new Error('Missing native visual container');
           visual.className = request.display ? 'display' : '';
           visual.style.cssText = `left:0;top:0;color:${theme === 'dark' ? '#f3f4f6' : '#172033'}`;
           visual.replaceChildren();
@@ -100,7 +115,7 @@ export async function renderNativeAssets(requests, { chromium, mermaidDist, math
             visual.innerHTML = svg;
             const element = visual.querySelector('svg');
             const bounds = element?.getAttribute('viewBox')?.trim().split(/\s+/).map(Number);
-            if (bounds?.length !== 4 || !bounds.slice(2).every(size => Number.isFinite(size) && size > 0)) throw new Error('Invalid native diagram bounds');
+            if (!element || bounds?.length !== 4 || !bounds.slice(2).every(size => Number.isFinite(size) && size > 0)) throw new Error('Invalid native diagram bounds');
             element.setAttribute('width', String(bounds[2])); element.setAttribute('height', String(bounds[3]));
             element.style.cssText = `display:block;max-width:none;width:${bounds[2]}px;height:${bounds[3]}px`;
             // Flowcharts may put labels in foreignObject HTML even when edge
@@ -108,13 +123,16 @@ export async function renderNativeAssets(requests, { chromium, mermaidDist, math
             accessibility_text = [...new Set([...element.querySelectorAll('text, title, desc, .nodeLabel, .edgeLabel')].map(node => node.textContent.replace(/\s+/g, ' ').trim()).filter(Boolean))].join('。');
           } else {
             visual.innerHTML = `${mathHTML}<span class="baseline"></span>`;
-            const mathml = visual.querySelector('math')?.cloneNode(true);
+            const clonedMath = visual.querySelector('math')?.cloneNode(true);
+            const mathml = clonedMath instanceof Element ? clonedMath : null;
             // KaTeX annotations contain the original TeX. Exclude them from spoken math.
             mathml?.querySelectorAll('annotation, annotation-xml').forEach(node => node.remove());
+            /** @type {Record<string, string>} */
             const operators = { '=': ' イコール ', '+': ' プラス ', '−': ' マイナス ', '-': ' マイナス ', '×': ' かける ', '∈': ' 属する ', '≈': ' およそ ', '∞': ' 無限大 ', '∑': ' 総和 ', '→': ' から ', '⊙': ' 要素ごとの積 ' };
+            /** @param {Node} node @returns {string} */
             const speak = node => {
-              if (node.nodeType === Node.TEXT_NODE) return node.textContent;
-              const children = [...node.childNodes].filter(child => child.nodeType === Node.ELEMENT_NODE || child.textContent.trim());
+              if (node.nodeType === Node.TEXT_NODE) return node.textContent ?? '';
+              const children = [...node.childNodes].filter(child => child.nodeType === Node.ELEMENT_NODE || child.textContent?.trim());
               const parts = children.map(speak);
               const tag = node.nodeName.toLowerCase();
               if (tag === 'annotation' || tag === 'annotation-xml') return '';
@@ -124,16 +142,19 @@ export async function renderNativeAssets(requests, { chromium, mermaidDist, math
               if (tag === 'msubsup') return ` ${parts[0]} 添字 ${parts[1]} の ${parts[2]} 乗 `;
               if (tag === 'msqrt') return ` 平方根 ${parts.join(' ')} `;
               if (tag === 'mroot') return ` ${parts[1]} 乗根 ${parts[0]} `;
-              if (tag === 'mo') return operators[node.textContent] || ` ${node.textContent} `;
+              if (tag === 'mo') return operators[node.textContent ?? ''] || ` ${node.textContent} `;
               return parts.join(' ');
             };
             accessibility_text = mathml ? speak(mathml) : '';
           }
           await document.fonts.ready;
           await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+          /** @param {DOMRectReadOnly} value */
           const rect = value => ({ left: value.left, top: value.top, right: value.right, bottom: value.bottom });
           const main = rect(visual.getBoundingClientRect());
+          /** @type {import('./ios-types.d.mts').NativePaint[]} */
           const painted = [];
+          /** @param {DOMRectReadOnly} bounds @param {Element | null} element */
           const addPaint = (bounds, element) => {
             const clips = [];
             // The capture canvas belongs to the previous image until measurement
@@ -148,25 +169,30 @@ export async function renderNativeAssets(requests, { chromium, mermaidDist, math
           };
           if (request.kind === 'math') {
             const html = visual.querySelector('.katex-html');
+            if (!html) throw new Error('Missing KaTeX HTML');
             // KaTeX's transparent pstrut spans are layout aids, not painted ink.
             // Its square-root SVG is deliberately 400em wide and is clipped by
             // hide-tail. Counting every element's box creates huge empty images.
             const walker = document.createTreeWalker(html, NodeFilter.SHOW_TEXT);
             let node;
             while ((node = walker.nextNode())) {
-              if (!node.textContent.replace(/[\s\u200b]/g, '')) continue;
+              if (!(node.textContent ?? '').replace(/[\s\u200b]/g, '')) continue;
               const range = document.createRange(); range.selectNodeContents(node);
               for (const bounds of range.getClientRects()) addPaint(bounds, node.parentElement);
             }
             for (const svg of html.querySelectorAll('svg')) addPaint(svg.getBoundingClientRect(), svg);
           }
-          const baselineY = request.kind === 'math' && !request.display ? visual.querySelector('.baseline').getBoundingClientRect().top : undefined;
+          let baselineY;
+          if (request.kind === 'math' && !request.display) {
+            const marker = visual.querySelector('.baseline');
+            if (!marker) throw new Error('Missing native math baseline');
+            baselineY = marker.getBoundingClientRect().top;
+          }
           return { html: visual.innerHTML, color: visual.style.color, className: visual.className, main, painted, baselineY, accessibility_text: accessibility_text.replace(/\s+/g, ' ').trim() };
         }, { key, request, theme, mathHTML });
-        const { main, painted, baselineY } = variant;
-        Object.assign(variant, nativePaintGeometry(main, painted));
-        if (baselineY !== undefined) variant.baseline = variant.height - (baselineY - main.top + variant.offsetY);
-        delete variant.main; delete variant.painted; delete variant.baselineY;
+        const { main, painted, baselineY, ...content } = measured;
+        const geometry = nativePaintGeometry(main, painted);
+        const variant = { ...content, ...geometry, ...(baselineY === undefined ? {} : { baseline: geometry.height - (baselineY - main.top + geometry.offsetY) }) };
         if (request.kind === 'diagram' && unsafeSVG.test(variant.html)) throw new Error('Unsafe SVG generated for native diagram');
         if (!variant.accessibility_text) throw new Error(`Missing accessible native ${request.kind}: ${key}`);
         variants.push(variant);
@@ -174,15 +200,17 @@ export async function renderNativeAssets(requests, { chromium, mermaidDist, math
       const originalWidth = Math.max(...variants.map(value => value.width)), originalHeight = Math.max(...variants.map(value => value.height));
       const { width, height, factor } = nativeRasterGeometry(originalWidth, originalHeight);
       // Two themes use exactly the same canvas dimensions and baseline.
-      const originalBaseline = request.kind === 'math' && !request.display ? Math.max(...variants.map(value => value.baseline + originalHeight - value.height)) : undefined;
+      const originalBaseline = request.kind === 'math' && !request.display ? Math.max(...variants.map(value => { if (value.baseline === undefined) throw new Error('Missing native math baseline'); return value.baseline + originalHeight - value.height; })) : undefined;
       const baseline = originalBaseline === undefined ? undefined : originalBaseline * factor;
       for (const [index, theme] of themes.entries()) {
         const variant = variants[index];
         await page.evaluate(async ({ variant, width, height, originalHeight, originalBaseline, factor }) => {
           const capture = document.getElementById('capture'), visual = document.getElementById('visual');
+          if (!capture || !visual) throw new Error('Missing native capture container');
           capture.style.width = `${width}px`; capture.style.height = `${height}px`;
           visual.className = variant.className;
-          const baselineOffset = originalBaseline === undefined ? 0 : (originalHeight - originalBaseline) - (variant.height - variant.baseline);
+          let baselineOffset = 0;
+          if (originalBaseline !== undefined) { if (variant.baseline === undefined) throw new Error('Missing native math baseline'); baselineOffset = (originalHeight - originalBaseline) - (variant.height - variant.baseline); }
           visual.style.cssText = `color:${variant.color};left:${variant.offsetX * factor}px;top:${(variant.offsetY + baselineOffset) * factor}px;transform-origin:top left;transform:scale(${factor})`;
           visual.innerHTML = variant.html;
           await document.fonts.ready;

@@ -11,6 +11,7 @@ const emptyCredentialFields = [
 
 // Xcode omits unset signing credentials from -showBuildSettings -json.
 // The suppression flags must still be reported explicitly; absence is not NO.
+/** @param {Record<string, unknown>} settings */
 export function assertSigningDisabledBuildSettings(settings) {
   assert.ok(settings !== null && typeof settings === 'object' && !Array.isArray(settings)
     && [Object.prototype, null].includes(Object.getPrototypeOf(settings)), 'Build settings must be a JSON object');

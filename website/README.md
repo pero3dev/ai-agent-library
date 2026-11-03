@@ -25,6 +25,7 @@ npm ci
 | `npm run build:clean` | `.next` / `out` を消してからビルド(**公開相当のビルドはこれを使う**) |
 | `npm run clean` | `.next` / `out` を削除 |
 | `npm test` | MDX 属性・静的 HTML の回帰検査 |
+| `npm run typecheck` | sync/build後、UI・Node処理・unit/browser試験・自前宣言のstrict型検査 |
 | `npm run test:browser` | ビルド済み `out/` のキーボード操作・検索・Mermaid をブラウザーで検査 |
 | `npm run test:audio` | 専用 fixture ビルドで再生・再開・リスト・通信失敗をブラウザーで検査 |
 
@@ -68,7 +69,7 @@ Zodの脆弱性修正版に合わせ、Nextraテーマ4.6.1のLayoutを[生成he
   許可コンポーネントでも属性式・spread は拒否し、挿入する文字列属性と値だけを許可する
   （`ChecklistBox` のchecked値も文字列`true`/`false`に限定する）
 - **Mermaid の描画設定**: Nextra が生成する直接 import を、Turbopack / Webpack ともに
-  `components/mdx/mermaid.jsx` へ解決する。`lib/mermaid-render.mjs` が描画ごとに
+  `components/mdx/mermaid.tsx` へ解決する。`lib/mermaid-render.mjs` が描画ごとに
   `securityLevel: 'strict'` を指定し、Mermaid 既定の `secure` キーを維持する。
   図からのクリック処理は利用せず、記事の通常の Markdown リンクを使う。
   設定と import 経路を単体試験、実際の静的出力の図表示・テーマ変更・拡大をブラウザー試験で確認する。

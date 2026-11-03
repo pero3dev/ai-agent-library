@@ -6,6 +6,7 @@ venv/
 
 # Node.js(root検証・website・将来のTypeScriptサンプル)
 node_modules/
+*.tsbuildinfo
 
 # 私有の作業証跡・ブラウザー/検証依存キャッシュ
 .local/

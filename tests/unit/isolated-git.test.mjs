@@ -14,6 +14,7 @@ test('fixture Git ignores forced signing, user aliases and hooks without changin
   writeFileSync(config, contents)
   const env = isolatedGitEnv({ ...process.env, GIT_CONFIG_GLOBAL: config })
   assert.notEqual(env.GIT_CONFIG_GLOBAL, config)
+  /** @param {...string} args */
   const git = (...args) => fixtureGit(args, { cwd: root, encoding: 'utf8', env: { ...process.env, GIT_CONFIG_GLOBAL: config } }).trim()
   git('init', '--quiet'); git('config', 'user.name', 'Fixture'); git('config', 'user.email', 'fixture@example.invalid')
   writeFileSync(path.join(root, 'value'), 'test')

@@ -3,19 +3,30 @@ import * as fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 
+/** @param {unknown} value @returns {value is Record<string, unknown>} */
 const record = value => value !== null && typeof value === 'object' && !Array.isArray(value);
+/** @param {object} value @param {PropertyKey} key */
 const own = (value, key) => Object.hasOwn(value, key);
+/** @param {unknown} value @returns {value is string} */
 const name = value => typeof value === 'string' && value.length > 0 && value.trim() === value;
 
+/** @typedef {Record<string, unknown> & {BlueprintName: string}} TestTarget */
+/** @typedef {{expectedBlueprintName: string, expectedBundleIdentifier: string, actualAppBundleIdentifier: string}} TargetOptions */
+/** @typedef {TargetOptions & {testRoot: string, appPath: string, phase: string}} PhaseOptions */
+/** @typedef {{path: string, bytes: number, mode: number, sha256: string}} InventoryFile */
+/** @typedef {{dev: bigint, ino: bigint, nlink: bigint}} FileIdentity */
+
+/** @param {unknown} value @returns {TestTarget} */
 function targetRecord(value) {
   assert.ok(record(value), 'Malformed xctestrun target dictionary');
   assert.ok(own(value, 'BlueprintName') && name(value.BlueprintName), 'Target BlueprintName is required');
   if (own(value, 'IsUITestBundle')) assert.equal(typeof value.IsUITestBundle, 'boolean', 'IsUITestBundle must be boolean');
-  return value;
+  return /** @type {TestTarget} */ (value);
 }
 
 // Select the observed legacy/modern schemas only. Paths are deliberately left
 // untouched: the caller must resolve and audit its owned build products.
+/** @param {unknown} metadata @param {unknown} options */
 export function selectUITestTarget(metadata, options) {
   assert.ok(record(metadata), 'xctestrun metadata must be a dictionary');
   assert.ok(record(options), 'Expected target and actual App identifiers are required');
@@ -28,6 +39,7 @@ export function selectUITestTarget(metadata, options) {
   const formatVersion = metadata.__xctestrun_metadata__.FormatVersion;
   assert.ok(own(metadata.__xctestrun_metadata__, 'FormatVersion') && (formatVersion === 1 || formatVersion === 2), 'Unsupported or missing xctestrun FormatVersion');
 
+  /** @type {TestTarget[]} */
   let targets;
   if (formatVersion === 1) {
     assert.ok(!own(metadata, 'TestConfigurations'), 'Mixed legacy and TestConfigurations xctestrun schema');
@@ -67,12 +79,16 @@ export function selectUITestTarget(metadata, options) {
   return { formatVersion, target };
 }
 
+/** @param {unknown} value @returns {value is string} */
 const canonical = value => name(value) && value.startsWith('/') && !/[\x00-\x1f\x7f\\]/.test(value) &&
   !value.includes('__') && value.split('/').slice(1).every(p => p !== '' && p !== '.' && p !== '..');
+/** @param {unknown} value @returns {value is string} */
 const relativeFile = value => name(value) && !value.startsWith('/') && !/[\x00-\x1f\x7f\\]/.test(value) &&
   value.split('/').every(p => p !== '' && p !== '.' && p !== '..');
+/** @param {import('node:crypto').BinaryLike} bytes */
 const digest = bytes => createHash('sha256').update(bytes).digest('hex');
 
+/** @param {unknown} value @param {string} root @param {string} [host] */
 function sourcePath(value, root, host) {
   assert.ok(name(value), 'Source path is required');
   if (value.startsWith('__TESTROOT__/')) value = root + value.slice('__TESTROOT__'.length);
@@ -82,8 +98,11 @@ function sourcePath(value, root, host) {
 }
 
 // Simulator source-artifact mode. The caller keeps this runfile beside stock.
+/** @param {unknown} metadata @param {PhaseOptions} options */
 export function phaseUITestRun(metadata, options) {
   const { formatVersion, target } = selectUITestTarget(metadata, options);
+  // selectUITestTarget has validated the schema before either branch is used.
+  assert.ok(record(metadata));
   const { testRoot, appPath, phase } = options;
   assert.ok(own(options, 'testRoot') && canonical(testRoot), 'Owned test root is required');
   assert.ok(own(options, 'appPath') && appPath === testRoot + '/Debug-iphonesimulator/AILibrary.app', 'Owned baseline App is required');
@@ -114,11 +133,13 @@ export function phaseUITestRun(metadata, options) {
   let converted;
   if (formatVersion === 1) converted = { __xctestrun_metadata__: structuredClone(metadata.__xctestrun_metadata__), [options.expectedBlueprintName]: convertedTarget };
   else {
-    const configuration = metadata.TestConfigurations.find(row => row.IsEnabled !== false && row.TestTargets.includes(target));
+    const configurations = /** @type {{IsEnabled?: boolean, TestTargets: TestTarget[]}[]} */ (metadata.TestConfigurations);
+    const configuration = configurations.find(row => row.IsEnabled !== false && row.TestTargets.includes(target));
     converted = structuredClone(metadata);
     converted.TestConfigurations = [{ ...structuredClone(configuration), TestTargets: [convertedTarget] }];
   }
   const originalReferences = [appPath, '__TESTROOT__/Debug-iphonesimulator/AILibrary.app'];
+  /** @param {unknown} value */
   function rejectOriginal(value) {
     if (typeof value === 'string') assert.ok(!originalReferences.some(original => value.includes(original)), 'Residual original App reference');
     else if (Array.isArray(value)) value.forEach(rejectOriginal);
@@ -129,6 +150,7 @@ export function phaseUITestRun(metadata, options) {
 }
 
 // Fresh regular-file copies only. The built baseline is never written/unlinked.
+/** @param {string} testRoot @param {string} phase @param {InventoryFile[]} expected @param {string|null} [omitted] */
 export function copyPhaseApp(testRoot, phase, expected, omitted = null) {
   assert.ok(canonical(testRoot) && fs.realpathSync(testRoot) === testRoot, 'Canonical owned Products is required');
   assert.ok(['failure', 'restored'].includes(phase), 'Explicit phase is required');
@@ -137,8 +159,15 @@ export function copyPhaseApp(testRoot, phase, expected, omitted = null) {
   const source = path.join(testRoot, 'Debug-iphonesimulator/AILibrary.app');
   const phaseRoot = path.join(testRoot, 'owned-phase-apps');
   const parent = path.join(phaseRoot, phase), destination = path.join(parent, 'AILibrary.app');
+  /** @param {string} root */
   function snapshot(root) {
-    const rows = [], directories = [], identities = new Map(); let count = 0, total = 0;
+    /** @type {InventoryFile[]} */
+    const rows = [];
+    /** @type {{path: string, mode: number}[]} */
+    const directories = [];
+    /** @type {Map<string, FileIdentity>} */
+    const identities = new Map(); let count = 0, total = 0;
+    /** @param {string} full @param {string} relative */
     function walk(full, relative) {
       assert.ok(++count <= 8192, 'Copy tree entry bound'); assert.equal(fs.realpathSync(full), full);
       const stat = fs.lstatSync(full, { bigint: true }); assert.equal(stat.isSymbolicLink(), false);
@@ -165,6 +194,7 @@ export function copyPhaseApp(testRoot, phase, expected, omitted = null) {
     const from = path.join(source, row.path), to = path.join(destination, row.path);
     fs.copyFileSync(from, to, fs.constants.COPYFILE_EXCL);
     const identity = fs.lstatSync(to, { bigint: true }), original = before.identities.get(row.path);
+    assert.ok(original, 'Source inventory identity is required');
     assert.ok(identity.isFile() && identity.nlink === 1n && (identity.dev !== original.dev || identity.ino !== original.ino), 'Copy must not alias baseline inode');
     fs.chmodSync(to, row.mode);
   }
@@ -175,6 +205,7 @@ export function copyPhaseApp(testRoot, phase, expected, omitted = null) {
   assert.deepEqual(actual.directories, before.directories, 'Phase directory modes must match');
   for (const [relative, identity] of actual.identities) {
     const original = before.identities.get(relative);
+    assert.ok(original, 'Source inventory identity is required');
     assert.ok(identity.dev !== original.dev || identity.ino !== original.ino, 'Every copied inode must be distinct');
   }
   return { source, destination, inventory: actual.rows, baselineAfter: after.rows,

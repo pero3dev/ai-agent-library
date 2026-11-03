@@ -3,15 +3,18 @@ import { closeSync, lstatSync, openSync, readFileSync, renameSync, unlinkSync, w
 import path from 'node:path'
 import { withLockMutex } from '../lib/harness-state.mjs'
 import { PrerequisiteError } from './core.mjs'
+import { errorCode, errorMessage } from './errors.mjs'
+import { record } from './cache-contracts.mjs'
 
 const namespaces = new Set(['run', 'publication'])
 const tokenPattern = /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/
 const pause = new Int32Array(new SharedArrayBuffer(4))
 
+/** @template T @param {string} guard @param {() => T} action @returns {T} */
 function withAudioMutex(guard, action) {
   for (let attempt = 0; ; attempt++) {
     try { return withLockMutex(guard, action) } catch (error) {
-      if (!error.message.startsWith('Lock recovery is already running.') || attempt >= 50) throw error
+      if (!errorMessage(error).startsWith('Lock recovery is already running.') || attempt >= 50) throw error
       // A different process may be finishing its short metadata mutation. Never
       // remove its mutex; a crashed/persistent mutex still fails after the wait.
       Atomics.wait(pause, 0, 0, 10)
@@ -19,21 +22,24 @@ function withAudioMutex(guard, action) {
   }
 }
 
+/** @param {string} file */
 function readOwner(file) {
   let info
-  try { info = lstatSync(file) } catch (error) { if (error.code === 'ENOENT') return null; throw error }
+  try { info = lstatSync(file) } catch (error) { if (errorCode(error) === 'ENOENT') return null; throw error }
   if (!info.isFile() || info.isSymbolicLink() || info.size > 4096) throw new Error('Invalid audio lock; preserve it for inspection')
-  const owner = JSON.parse(readFileSync(file, 'utf8'))
+  const owner = /** @type {unknown} */ (JSON.parse(readFileSync(file, 'utf8')))
+  if (!record(owner)) throw new Error('Invalid audio lock owner; preserve it for inspection')
   const started = owner?.created_at ?? owner?.started_at
-  if (!Number.isSafeInteger(owner?.pid) || owner.pid <= 0 || typeof started !== 'string' || !Number.isFinite(Date.parse(started)) ||
+  if (typeof owner.pid !== 'number' || !Number.isSafeInteger(owner.pid) || owner.pid <= 0 || typeof started !== 'string' || !Number.isFinite(Date.parse(started)) ||
       (owner.attempt_id !== undefined && (typeof owner.attempt_id !== 'string' || !tokenPattern.test(owner.attempt_id)))) throw new Error('Invalid audio lock owner; preserve it for inspection')
-  return owner
+  return { pid: owner.pid, attempt_id: typeof owner.attempt_id === 'string' ? owner.attempt_id : undefined }
 }
 
 /** Keep the existing file namespaces; all mutations share the OS-level mutex.
  * Legacy PID/date records migrate only after ESRCH. Malformed records and a
  * persistent lock-mutex are preserved for inspection, never guessed stale.
  */
+/** @param {string} stateDir @param {string} namespace */
 export function acquireAudioLock(stateDir, namespace) {
   if (!namespaces.has(namespace)) throw new Error('Invalid audio lock namespace')
   const file = path.join(stateDir, `${namespace}.lock`)
@@ -43,7 +49,7 @@ export function acquireAudioLock(stateDir, namespace) {
     const previous = readOwner(file)
     if (previous) {
       let alive = true
-      try { process.kill(previous.pid, 0) } catch (error) { if (error.code === 'ESRCH') alive = false; else throw error }
+      try { process.kill(previous.pid, 0) } catch (error) { if (errorCode(error) === 'ESRCH') alive = false; else throw error }
       if (alive) throw new PrerequisiteError(`Audio ${namespace === 'run' ? 'producer' : 'publication'} is already running (PID ${previous.pid})`)
       renameSync(file, path.join(stateDir, `expired-${namespace}.lock-${randomUUID()}`))
     }

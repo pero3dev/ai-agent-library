@@ -1,0 +1,63 @@
+import remarkFrontmatter from 'remark-frontmatter'
+import remarkGfm from 'remark-gfm'
+import remarkMath from 'remark-math'
+import remarkMdx from 'remark-mdx'
+import remarkParse from 'remark-parse'
+import { unified } from 'unified'
+import type { Nodes } from 'mdast'
+
+const parser = unified().use(remarkParse).use(remarkGfm).use(remarkMath)
+  .use(remarkFrontmatter, ['yaml']).use(remarkMdx)
+
+const attributes: Record<string, Record<string, (value: string) => boolean>> = {
+  StaticMermaid: { diagram: value => /^[a-f0-9]{24}$/.test(value), label: value => value.length > 0 && value.length < 300 },
+  TodoCallout: {},
+  PracticeSection: { kind: value => ['antipattern', 'checklist'].includes(value) },
+  ChecklistBox: { defaultChecked: value => ['true', 'false'].includes(value) },
+  GlossaryTerm: {
+    href: value => /^\/(?!\/)/.test(value) && !/[\\\u0000-\u0020\u007f]/.test(value),
+    summary: () => true
+  }
+}
+
+/** 実行せずに生成 MDX を再パースし、許可外の構造・属性を返す。 */
+export function findUnsafeMdx(mdx: string) {
+  let tree
+  try {
+    tree = parser.parse(mdx)
+  } catch (error) {
+    return [`生成 MDX の再パースに失敗(${error instanceof Error ? error.message : String(error)})`]
+  }
+  const bad = new Set<string>()
+  const walk = (node: Nodes) => {
+    switch (node.type) {
+      case 'html': bad.add('生 HTML'); break
+      case 'mdxjsEsm': bad.add('import/export (ESM)'); break
+      case 'mdxFlowExpression':
+      case 'mdxTextExpression': bad.add('{式}'); break
+      case 'mdxJsxFlowElement':
+      case 'mdxJsxTextElement': {
+        const allowed = node.name !== null && Object.hasOwn(attributes, node.name) ? attributes[node.name] : null
+        if (!allowed) bad.add(`JSX <${node.name ?? '?'}>`)
+        const seen = new Set()
+        for (const attribute of node.attributes ?? []) {
+          if (attribute.type !== 'mdxJsxAttribute') {
+            bad.add('JSX 属性スプレッド')
+            continue
+          }
+          if (typeof attribute.value !== 'string') {
+            bad.add(`JSX 属性式・非文字列値 (${attribute.name})`)
+          } else if (!allowed || !Object.hasOwn(allowed, attribute.name) || !allowed[attribute.name](attribute.value)) {
+            bad.add(`許可外の JSX 属性・値 (${node.name}.${attribute.name})`)
+          }
+          if (seen.has(attribute.name)) bad.add(`重複した JSX 属性 (${attribute.name})`)
+          seen.add(attribute.name)
+        }
+        break
+      }
+    }
+    if ('children' in node) for (const child of node.children) walk(child)
+  }
+  walk(tree)
+  return [...bad]
+}

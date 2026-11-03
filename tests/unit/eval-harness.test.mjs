@@ -7,7 +7,9 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { parseOptions, summarizeEvents, assertArchiveTree, assertUnlinked, articleStatus, prepareExecutionEnvironment, executionEnvironment, seedDependencies, consoleSummary, SCRATCH_DIRECTORY } from '../../scripts/eval-harness.mjs';
+import { objectFixture, requiredFixture } from '../helpers/json-fixtures.mjs';
 
+/** @param {import('node:test').TestContext} t */
 function fixture(t) {
   const parent = fs.realpathSync.native(os.tmpdir());
   const directory = fs.mkdtempSync(path.join(parent, 'harness-eval-path-'));
@@ -19,6 +21,7 @@ function fixture(t) {
   });
   const checkout = path.join(directory, 'checkout');
   fs.mkdirSync(checkout);
+  /** @param {...string} args */
   const git = (...args) => {
     const result = fixtureGitSpawn(args, { cwd: checkout, encoding: 'utf8', windowsHide: true });
     assert.equal(result.status, 0, result.stderr);
@@ -100,7 +103,7 @@ test('scratch preparation rejects a linked Git info directory and does not creat
 });
 
 test('launch environment refuses missing, modified and newly linked scratch directories', t => {
-  for (const key of ['temporary_directory', 'npm_cache_directory']) {
+  for (const key of /** @type {const} */ (['temporary_directory', 'npm_cache_directory'])) {
     const { directory, checkout } = fixture(t);
     const contract = prepareExecutionEnvironment(checkout, directory);
     assert.throws(() => executionEnvironment({ ...contract, cwd: 'relative' }), /Invalid/);
@@ -120,15 +123,17 @@ test('dependency preparation seeds the same child cache and records attempted in
   const recordFile = path.join(directory, 'evaluation.json');
   fs.writeFileSync(recordFile, JSON.stringify({ schema_version: 1, execution_contract: contract }));
   const environment = seedDependencies(prepared, (binary, args, options) => {
+    assert.ok(options);
+    assert.ok(options.env);
     assert.equal(binary, process.platform === 'win32' ? 'npm.cmd' : 'npm');
     assert.deepEqual(args, ['ci', '--ignore-scripts']);
     assert.equal(options.cwd, checkout);
     assert.equal(options.env.npm_config_cache, contract.npm_cache_directory);
     assert.equal(options.env.TEMP, contract.temporary_directory);
     assert.equal(JSON.parse(fs.readFileSync(recordFile, 'utf8')).dependency_install.result, 'running');
-    fs.writeFileSync(path.join(options.env.npm_config_cache, 'seed.txt'), 'offline fixture');
+    fs.writeFileSync(path.join(requiredFixture(options.env.npm_config_cache), 'seed.txt'), 'offline fixture');
   });
-  assert.equal(fs.readFileSync(path.join(environment.npm_config_cache, 'seed.txt'), 'utf8'), 'offline fixture');
+  assert.equal(fs.readFileSync(path.join(requiredFixture(environment.npm_config_cache), 'seed.txt'), 'utf8'), 'offline fixture');
   assert.equal(JSON.parse(fs.readFileSync(recordFile, 'utf8')).dependency_install.result, 'passed');
   assert.throws(() => seedDependencies(prepared, () => { throw new Error('installation failed'); }), /installation failed/);
   const failed = JSON.parse(fs.readFileSync(recordFile, 'utf8')).dependency_install;
@@ -136,16 +141,39 @@ test('dependency preparation seeds the same child cache and records attempted in
   assert.ok(Date.parse(failed.completed_at) >= Date.parse(failed.started_at));
 });
 
+test('saved evaluation metadata remains opaque and never replaces the prepared execution contract', t => {
+  const { directory, checkout } = fixture(t);
+  const contract = prepareExecutionEnvironment(checkout, directory);
+  const recordFile = path.join(directory, 'evaluation.json');
+  const metadata = { execution_contract: 'unverified saved metadata', provider: { arbitrary: [1, false] } };
+  fs.writeFileSync(recordFile, JSON.stringify({ ...metadata, ...Object.fromEntries([['__proto__', { retained: true }]]) }));
+  let invoked = false;
+  seedDependencies({ directory, checkout, execution_contract: contract }, (_binary, _args, options) => {
+    invoked = true;
+    assert.equal(options.cwd, contract.cwd);
+    assert.equal(options.env?.TEMP, contract.temporary_directory);
+  });
+  assert.equal(invoked, true);
+  const saved = objectFixture(JSON.parse(fs.readFileSync(recordFile, 'utf8')));
+  assert.equal(saved.execution_contract, metadata.execution_contract);
+  assert.deepEqual(saved.provider, metadata.provider);
+  assert.equal(Object.hasOwn(saved, '__proto__'), true);
+  assert.deepEqual(saved.__proto__, { retained: true });
+  assert.equal(objectFixture(saved.dependency_install).result, 'passed');
+});
+
 test('stdout previews disclose omissions while preserving every saved-summary path and command', () => {
-  const report = { schema_version: 1, evidence_class: 'actual-agent', summary_file: '/owned/summary.json', changes: Array.from({ length: 650 }, (_, i) => `?? research/cache-${i}`), committed_changes: [], observed: { command_count: 30, commands: Array.from({ length: 30 }, () => 'node check') } };
+  /** @satisfies {Partial<import('../../scripts/types/evaluation.d.mts').EvaluationRecord>} */
+  const report = { schema_version: 1, evidence_class: 'actual-agent', summary_file: '/owned/summary.json', changes: Array.from({ length: 650 }, (_, i) => `?? research/cache-${i}`), committed_changes: [], observed: { ...summarizeEvents(''), command_count: 30, commands: Array.from({ length: 30 }, () => 'node check') } };
   const original = JSON.stringify(report);
-  const summary = consoleSummary(report);
+  const summary = objectFixture(consoleSummary(report));
   assert.equal(summary.changes_count, 650);
+  assert.ok(Array.isArray(summary.changes_preview));
   assert.equal(summary.changes_preview.length, 10);
   assert.equal(summary.preview_truncated, true);
   assert.equal(summary.full_report, report.summary_file);
-  assert.equal(summary.observed.commands_saved, 30);
-  assert.equal(summary.observed.commands, undefined);
+  assert.equal(objectFixture(summary.observed).commands_saved, 30);
+  assert.equal(objectFixture(summary.observed).commands, undefined);
   assert.equal(JSON.stringify(report), original);
   assert.ok(JSON.stringify(summary).length < 2000);
 });
@@ -159,4 +187,19 @@ test('event evidence distinguishes failed commands, failed turns, and unavailabl
   const result = summarizeEvents(lines);
   assert.equal(result.command_count, 1); assert.equal(result.command_failures, 1); assert.equal(result.failed_turns, 1); assert.equal(result.completed_turns, 0); assert.equal(result.usage, null);
   assert.throws(() => summarizeEvents('not-json'));
+});
+
+test('unverified event telemetry remains opaque without changing accepted evidence', () => {
+  const events = [
+    { type: 'thread.started', thread_id: 42 },
+    { type: 'turn.completed', usage: { tokens: 'not-a-number' } },
+    { type: 'item.completed', item: { type: 'command_execution', command: false, exit_code: 0 } },
+    { type: 'item.completed', item: 'provider-specific metadata' },
+  ];
+  const result = summarizeEvents(events.map(value => JSON.stringify(value)).join('\n'));
+  assert.equal(result.thread_id, 42);
+  assert.deepEqual(result.usage, { tokens: 'not-a-number' });
+  assert.deepEqual(result.commands, [false]);
+  assert.equal(result.command_count, 1); assert.equal(result.command_failures, 0); assert.equal(result.completed_turns, 1);
+  for (const event of [null, [], {}, { type: 1 }]) assert.throws(() => summarizeEvents(JSON.stringify(event)), /Invalid evaluation event/);
 });

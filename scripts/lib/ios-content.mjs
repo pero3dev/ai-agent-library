@@ -8,16 +8,23 @@ import { pathToFileURL } from 'node:url';
 import MarkdownIt from 'markdown-it';
 import GithubSlugger from 'github-slugger';
 import { load as loadYaml, JSON_SCHEMA } from 'js-yaml';
+import { isRecord, isStringRecord, errorMessage } from './json-guards.mjs';
 
 export const PUBLIC_SITE = 'https://pero3dev.github.io/ai-agent-library';
 export const NATIVE_READER_FIXTURE = Object.freeze({ source_path: 'ios/fixtures/native-reader.md', id: 'test-fixtures/native-reader' });
+/** @param {import('node:crypto').BinaryLike} value */
 export const sha256 = value => createHash('sha256').update(value).digest('hex');
+/** @param {unknown} value */
 const escape = value => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#39;');
 const articlePattern = /^docs\/\d{2}-[a-z0-9-]+\/[a-z0-9-]+\.md$/;
+/** @param {string} source */
 const idFor = source => source.replace(/^docs\//, '').replace(/\.md$/, '');
+/** @param {string} id */
 const fileFor = id => `articles/${id.replaceAll('/', '--')}.html`;
+/** @param {[string, unknown]} a @param {[string, unknown]} b */
 const comparePath = ([a], [b]) => a < b ? -1 : a > b ? 1 : 0;
 
+/** @param {string} file */
 export async function rejectSymlinks(file) {
   const absolute = path.resolve(file);
   const { root } = path.parse(absolute);
@@ -26,10 +33,11 @@ export async function rejectSymlinks(file) {
     current = path.join(current, part);
     try {
       if ((await lstat(current)).isSymbolicLink()) throw new Error(`Symlink is not permitted: ${current}`);
-    } catch (error) { if (error.code !== 'ENOENT') throw error; }
+    } catch (error) { if (!(error instanceof Error) || !('code' in error) || error.code !== 'ENOENT') throw error; }
   }
 }
 
+/** @param {string} root @param {string} relative */
 export async function readSource(root, relative) {
   if (typeof relative !== 'string' || relative.includes('\\') || relative.includes('\0') || path.posix.isAbsolute(relative) || relative.split('/').includes('..')) throw new Error(`Unsafe source path: ${relative}`);
   const file = path.resolve(root, relative);
@@ -38,6 +46,7 @@ export async function readSource(root, relative) {
   return readFile(file);
 }
 
+/** @param {string} root @param {string} output @param {{fixtures?: boolean}} [options] */
 export async function validateOutput(root, output, { fixtures = false } = {}) {
   if (typeof fixtures !== 'boolean') throw new Error('fixtures must be a boolean');
   let absolute = path.resolve(output);
@@ -58,6 +67,7 @@ export async function validateOutput(root, output, { fixtures = false } = {}) {
   return absolute;
 }
 
+/** @param {string} source @param {string} sourcePath @param {{fixture?: boolean}} [options] @returns {import('./ios-types.d.mts').IOSArticle} */
 export function parseArticle(source, sourcePath, { fixture = false } = {}) {
   if (typeof fixture !== 'boolean') throw new Error('fixture must be a boolean');
   if (fixture ? sourcePath !== NATIVE_READER_FIXTURE.source_path : !articlePattern.test(sourcePath)) throw new Error(`Invalid article selection: ${sourcePath}`);
@@ -65,11 +75,15 @@ export function parseArticle(source, sourcePath, { fixture = false } = {}) {
   const match = normalized.match(/^---\n([\s\S]*?)\n---(?:\n|$)/);
   if (!match) throw new Error(`Front matter missing: ${sourcePath}`);
   const metadata = loadYaml(match[1], { schema: JSON_SCHEMA });
-  for (const key of ['title', 'category', 'level', 'last_updated']) if (typeof metadata?.[key] !== 'string' || !metadata[key].trim()) throw new Error(`Missing ${key}: ${sourcePath}`);
+  if (!isRecord(metadata)) throw new Error(`Missing title: ${sourcePath}`);
+  /** @param {string} key */
+  const field = key => { const value = metadata[key]; if (typeof value !== 'string' || !value.trim()) throw new Error(`Missing ${key}: ${sourcePath}`); return value; };
+  const title = field('title'), category = field('category'), level = field('level'), last_updated = field('last_updated');
   if (metadata.status !== (fixture ? 'test-fixture' : 'published')) throw new Error(`Only ${fixture ? 'explicit test-fixture' : 'published'} articles can be bundled: ${sourcePath}`);
-  return { id: fixture ? NATIVE_READER_FIXTURE.id : idFor(sourcePath), ...(fixture ? { is_test_fixture: true } : {}), source_path: sourcePath, source_sha256: sha256(source), normalized_digest: sha256(normalized), title: metadata.title, category: metadata.category, level: metadata.level, last_updated: metadata.last_updated, body: normalized.slice(match[0].length) };
+  return { id: fixture ? NATIVE_READER_FIXTURE.id : idFor(sourcePath), ...(fixture ? { is_test_fixture: true } : {}), source_path: sourcePath, source_sha256: sha256(source), normalized_digest: sha256(normalized), title, category, level, last_updated, body: normalized.slice(match[0].length) };
 }
 
+/** @param {string} href @param {string} sourcePath @param {import('./ios-types.d.mts').IOSSelected} selected */
 export function rewriteLink(href, sourcePath, selected) {
   if (href.startsWith('#')) return { href };
   if (/^https?:\/\//i.test(href)) {
@@ -79,6 +93,7 @@ export function rewriteLink(href, sourcePath, selected) {
   }
   if (/^[a-z][a-z\d+.-]*:/i.test(href) || href.startsWith('//')) throw new Error(`Unsupported link: ${href}`);
   const parts = href.match(/^([^?#]*)(\?[^#]*)?(#.*)?$/);
+  if (!parts) throw new Error(`Malformed link: ${href}`);
   let pathname;
   try { pathname = decodeURIComponent(parts[1]); } catch { throw new Error(`Malformed link: ${href}`); }
   if (pathname.includes('\\') || pathname.includes('\0') || pathname.startsWith('/')) throw new Error(`Unsafe link: ${href}`);
@@ -99,6 +114,7 @@ export function rewriteLink(href, sourcePath, selected) {
   return { href: `https://github.com/pero3dev/ai-agent-library/blob/main/${target.split('/').map(encodeURIComponent).join('/')}${fragment}` };
 }
 
+/** @param {import('markdown-it').default} md @param {import('./ios-types.d.mts').IOSRenderDependencies['renderMath']} renderMath */
 export function installMath(md, renderMath) {
   md.inline.ruler.before('escape', 'ios_math', (state, silent) => {
     const start = state.pos;
@@ -128,10 +144,12 @@ export function installMath(md, renderMath) {
   md.renderer.rules.math_block = (tokens, index) => `<div class="math-display" tabindex="0" role="group" aria-label="数式。左右にスクロールできます">${renderMath(tokens[index].content, true)}</div>\n`;
 }
 
+/** @param {import('./ios-types.d.mts').MarkdownToken[]} tokens @returns {string} */
 export function tokenText(tokens) {
   return tokens.map(token => token.children ? tokenText(token.children) : ['text', 'code_inline', 'math_inline', 'math_block', 'fence', 'code_block'].includes(token.type) ? token.content : ['softbreak', 'hardbreak'].includes(token.type) ? '\n' : '').join(' ');
 }
 
+/** @param {import('./ios-types.d.mts').IOSArticle} article @param {{selected: import('./ios-types.d.mts').IOSSelected, diagrams: Map<string, string>, renderMath: import('./ios-types.d.mts').IOSRenderDependencies['renderMath']}} options */
 export function renderArticle(article, { selected, diagrams, renderMath }) {
   const md = new MarkdownIt({ html: false, linkify: false, typographer: false });
   installMath(md, renderMath);
@@ -150,9 +168,9 @@ export function renderArticle(article, { selected, diagrams, renderMath }) {
   const link = md.renderer.rules.link_open || ((values, index, options, env, self) => self.renderToken(values, index, options));
   md.renderer.rules.link_open = (values, index, options, env, self) => {
     const token = values[index];
-    const destination = rewriteLink(token.attrGet('href'), article.source_path, selected);
+    const destination = rewriteLink(token.attrGet('href') ?? '', article.source_path, selected);
     token.attrSet('href', destination.href);
-    if (destination.article_id) { token.attrSet('data-article-id', destination.article_id); token.attrSet('data-fragment', destination.fragment); }
+    if (destination.article_id) { token.attrSet('data-article-id', destination.article_id); token.attrSet('data-fragment', destination.fragment ?? ''); }
     else if (!destination.href.startsWith('#')) token.attrSet('rel', 'noreferrer');
     return link(values, index, options, env, self);
   };
@@ -181,17 +199,22 @@ export function renderArticle(article, { selected, diagrams, renderMath }) {
   return { html, summary, search_text: text, headings };
 }
 
+/** @param {string} root @returns {Promise<import('./ios-types.d.mts').IOSRenderDependencies>} */
 export async function loadRenderingDependencies(root) {
   const toolsRoot = process.env.IOS_TOOLS_DIR ? path.resolve(root, process.env.IOS_TOOLS_DIR) : path.join(root, 'ios/tools');
   const require = createRequire(path.join(toolsRoot, 'package.json'));
-  let katex, chromium, mermaidDist;
+  /** @type {{renderToString(source: string, options: Record<string, unknown>): string}} */
+  let katex;
+  /** @type {import('./ios-types.d.mts').RenderChromium} */
+  let chromium;
+  let mermaidDist;
   try {
     katex = (await import(pathToFileURL(require.resolve('katex/dist/katex.mjs')).href)).default;
     const playwright = await import(pathToFileURL(require.resolve('@playwright/test')).href);
     chromium = playwright.chromium || playwright.default?.chromium;
     if (!chromium) throw new Error('Playwright chromium export is unavailable');
     mermaidDist = path.dirname(require.resolve('mermaid/dist/mermaid.esm.min.mjs'));
-  } catch (error) { throw new Error(`Rendering dependencies are required. Run npm ci --prefix ios/tools, or set IOS_TOOLS_DIR. ${error.message}`); }
+  } catch (error) { throw new Error(`Rendering dependencies are required. Run npm ci --prefix ios/tools, or set IOS_TOOLS_DIR. ${errorMessage(error)}`); }
   const dist = path.dirname(require.resolve('katex/dist/katex.min.css'));
   const mathAssets = new Map([['assets/katex/katex.min.css', await readFile(path.join(dist, 'katex.min.css'))], ['assets/katex/LICENSE.txt', await readFile(require.resolve('katex/LICENSE'))]]);
   for (const name of (await readdir(path.join(dist, 'fonts'))).sort()) mathAssets.set(`assets/katex/fonts/${name}`, await readFile(path.join(dist, 'fonts', name)));
@@ -202,11 +225,12 @@ export async function loadRenderingDependencies(root) {
   };
 }
 
+/** @param {Map<string, string>} diagrams @param {{chromium: import('./ios-types.d.mts').RenderChromium, mermaidDist: string}} options @returns {Promise<Map<string, Buffer>>} */
 export async function renderDiagrams(diagrams, { chromium, mermaidDist }) {
   if (!diagrams.size) return new Map();
   const server = createServer(async (request, response) => {
     try {
-      const pathname = decodeURIComponent(new URL(request.url, 'http://local').pathname);
+      const pathname = decodeURIComponent(new URL(request.url ?? '', 'http://local').pathname);
       if (pathname === '/') { response.setHeader('Content-Type', 'text/html'); response.end('<!doctype html><html lang="ja"><body></body></html>'); return; }
       if (pathname.includes('..') || pathname.includes('\\') || !/\.m?js$/.test(pathname)) { response.writeHead(403).end(); return; }
       const file = path.resolve(mermaidDist, `.${pathname}`);
@@ -214,15 +238,17 @@ export async function renderDiagrams(diagrams, { chromium, mermaidDist }) {
       response.setHeader('Content-Type', 'text/javascript'); response.end(await readFile(file));
     } catch { response.writeHead(404).end(); }
   });
-  await new Promise((resolve, reject) => { server.once('error', reject); server.listen(0, '127.0.0.1', resolve); });
+  await new Promise((resolve, reject) => { server.once('error', reject); server.listen(0, '127.0.0.1', () => resolve(undefined)); });
   let browser;
   try {
     browser = await chromium.launch({ channel: process.env.PLAYWRIGHT_CHANNEL || undefined });
     const page = await browser.newPage({ viewport: { width: 1440, height: 960 } });
-    const origin = `http://127.0.0.1:${server.address().port}`;
+    const address = server.address();
+    if (!address || typeof address === 'string') throw new Error('Local rendering server did not bind TCP');
+    const origin = `http://127.0.0.1:${address.port}`;
     await page.route('**/*', route => new URL(route.request().url()).origin === origin ? route.continue() : route.abort());
     await page.goto(origin);
-    await page.evaluate(async () => { window.mermaid = (await import('/mermaid.esm.min.mjs')).default; });
+    await page.evaluate(async () => { const moduleURL = '/mermaid.esm.min.mjs'; window.mermaid = (await import(moduleURL)).default; });
     const assets = new Map();
     for (const [key, source] of [...diagrams].sort(comparePath)) for (const theme of ['light', 'dark']) {
       const svg = await page.evaluate(async ({ key, source, theme }) => {
@@ -232,7 +258,8 @@ export async function renderDiagrams(diagrams, { chromium, mermaidDist }) {
           const { svg } = await mermaid.render(`m${key}${theme}`, source, host);
           host.innerHTML = svg;
           const element = host.querySelector('svg');
-          const bounds = element.getAttribute('viewBox').split(/\s+/).map(Number);
+          if (!element) throw new Error('Missing SVG');
+          const bounds = (element.getAttribute('viewBox') ?? '').split(/\s+/).map(Number);
           if (bounds.length !== 4 || !bounds.slice(2).every(size => Number.isFinite(size) && size > 0)) throw new Error('Invalid SVG bounds');
           element.setAttribute('width', String(bounds[2])); element.setAttribute('height', String(bounds[3]));
           const result = new XMLSerializer().serializeToString(element);
@@ -247,35 +274,56 @@ export async function renderDiagrams(diagrams, { chromium, mermaidDist }) {
   } finally { await browser?.close(); await new Promise(resolve => server.close(resolve)); }
 }
 
+/** @param {unknown} catalog @param {import('./ios-types.d.mts').IOSArticle} article @param {string} sourcePath */
 export function audioMetadata(catalog, article, sourcePath) {
-  if (catalog?.schema_version !== 1 || !Array.isArray(catalog.episodes)) throw new Error('Invalid audio catalog schema');
-  const episodes = catalog.episodes.filter(episode => episode.article_path === sourcePath);
+  if (!isRecord(catalog) || catalog.schema_version !== 1 || !Array.isArray(catalog.episodes)) throw new Error('Invalid audio catalog schema');
+  const episodes = (/** @type {unknown[]} */ (catalog.episodes)).map(episode => { if (!isRecord(episode)) throw new Error('Invalid audio metadata'); return episode; }).filter(episode => episode.article_path === sourcePath);
   if (episodes.length !== 1 || episodes[0].parts !== 1) throw new Error('Prototype requires exactly one complete audio episode');
   const episode = episodes[0];
+  if (typeof episode.audio_url !== 'string') throw new Error('Audio must use an existing versioned repository release');
   const url = new URL(episode.audio_url);
   if (url.protocol !== 'https:' || url.hostname !== 'github.com' || url.username || url.password || url.port || url.search || url.hash || !/^\/pero3dev\/ai-agent-library\/releases\/download\/[^/]+\/[^/]+\.mp3$/.test(url.pathname)) throw new Error('Audio must use an existing versioned repository release');
-  if (!/^[a-zA-Z0-9][a-zA-Z0-9_-]{0,199}$/.test(episode.id || '') || typeof episode.title !== 'string' || !episode.title.trim() || !/^[a-f0-9]{64}$/.test(episode.audio_sha256) || !/^[a-f0-9]{64}$/.test(episode.source_digest) || !Number.isFinite(episode.duration_seconds) || !(episode.duration_seconds > 0) || episode.duration_seconds > 86_400 || typeof episode.attribution !== 'string' || !episode.attribution.trim() || !Array.isArray(episode.voices) || !Array.isArray(episode.chapters) || !episode.chapters.length) throw new Error('Invalid audio metadata');
-  const licenseURLs = [...new Set(episode.voices.map(voice => voice.license_url))];
+  if (typeof episode.id !== 'string' || !/^[a-zA-Z0-9][a-zA-Z0-9_-]{0,199}$/.test(episode.id) || typeof episode.title !== 'string' || !episode.title.trim() || typeof episode.audio_sha256 !== 'string' || !/^[a-f0-9]{64}$/.test(episode.audio_sha256) || typeof episode.source_digest !== 'string' || !/^[a-f0-9]{64}$/.test(episode.source_digest) || typeof episode.duration_seconds !== 'number' || !Number.isFinite(episode.duration_seconds) || !(episode.duration_seconds > 0) || episode.duration_seconds > 86_400 || typeof episode.attribution !== 'string' || !episode.attribution.trim() || !Array.isArray(episode.voices) || !Array.isArray(episode.chapters) || !episode.chapters.length) throw new Error('Invalid audio metadata');
+  const licenseURLs = [...new Set((/** @type {unknown[]} */ (episode.voices)).map(voice => { if (!isRecord(voice) || typeof voice.license_url !== 'string') throw new Error('Audio credit requires a shared HTTPS license URL'); return voice.license_url; }))];
   if (licenseURLs.length !== 1 || new URL(licenseURLs[0]).protocol !== 'https:') throw new Error('Audio credit requires a shared HTTPS license URL');
   let previous = -1;
   const chapterIDs = new Set();
-  for (const chapter of episode.chapters) {
-    if (typeof chapter.id !== 'string' || !chapter.id || chapterIDs.has(chapter.id) || typeof chapter.title !== 'string' || !chapter.title.trim() || !Number.isFinite(chapter.start_seconds) || chapter.start_seconds < 0 || chapter.start_seconds <= previous || chapter.start_seconds >= episode.duration_seconds) throw new Error('Invalid audio chapter');
+  /** @type {import('./ios-types.d.mts').IOSChapter[]} */
+  const chapters = [];
+  for (const chapter of /** @type {unknown[]} */ (episode.chapters)) {
+    if (!isRecord(chapter) || typeof chapter.id !== 'string' || !chapter.id || chapterIDs.has(chapter.id) || typeof chapter.title !== 'string' || !chapter.title.trim() || typeof chapter.start_seconds !== 'number' || !Number.isFinite(chapter.start_seconds) || chapter.start_seconds < 0 || chapter.start_seconds <= previous || chapter.start_seconds >= episode.duration_seconds) throw new Error('Invalid audio chapter');
     previous = chapter.start_seconds;
     chapterIDs.add(chapter.id);
+    chapters.push({ id: chapter.id, title: chapter.title, start_seconds: chapter.start_seconds });
   }
-  return { id: episode.id, title: episode.title, article_id: article.id, url: url.href, duration_seconds: episode.duration_seconds, sha256: episode.audio_sha256, credit: episode.attribution, license_url: licenseURLs[0], source_digest: episode.source_digest, source_is_current: episode.source_digest === article.normalized_digest, chapters: episode.chapters.map(({ id, title, start_seconds }) => ({ id, title, start_seconds })) };
+  return { id: episode.id, title: episode.title, article_id: article.id, url: url.href, duration_seconds: episode.duration_seconds, sha256: episode.audio_sha256, credit: episode.attribution, license_url: licenseURLs[0], source_digest: episode.source_digest, source_is_current: episode.source_digest === article.normalized_digest, chapters };
 }
 
-export async function buildContent({ root, output = path.join(root, 'ios/AILibrary/Content'), dependencies, selection } = {}) {
+/** Selection is untrusted JSON even when supplied through a test seam.
+ * @param {unknown} value @param {{published?: boolean}} [options]
+ * @returns {import('./ios-types.d.mts').IOSSelection}
+ */
+export function parseIOSSelection(value, { published = false } = {}) {
+  if (!isRecord(value) || value.schema_version !== 1 || typeof value.audio_article !== 'string') throw new Error('Invalid native content selection');
+  const selected = value.articles;
+  const articles = Array.isArray(selected) && selected.every(file => typeof file === 'string') ? selected : [];
+  if (!published && (articles.length !== 3 || new Set(articles).size !== 3 || !articles.includes(value.audio_article))) throw new Error('Select exactly three distinct articles and audio from one of them');
+  if (value.diagram_descriptions !== undefined && !isStringRecord(value.diagram_descriptions)) throw new Error('Invalid native diagram descriptions');
+  return { schema_version: 1, articles, audio_article: value.audio_article, ...(value.diagram_descriptions === undefined ? {} : { diagram_descriptions: value.diagram_descriptions }) };
+}
+
+/** @param {import('./ios-types.d.mts').IOSContentOptions} [options] */
+export async function buildContent({ root, output, dependencies, selection } = {}) {
+  if (!root) throw new Error('Content build requires root');
   root = await realpath(root);
+  output ??= path.join(root, 'ios/AILibrary/Content');
   output = await validateOutput(root, output);
-  selection ||= JSON.parse(await readSource(root, 'ios/content-selection.json'));
-  if (selection.schema_version !== 1 || !Array.isArray(selection.articles) || selection.articles.length !== 3 || new Set(selection.articles).size !== 3 || !selection.articles.includes(selection.audio_article)) throw new Error('Select exactly three distinct articles and audio from one of them');
-  const articles = await Promise.all(selection.articles.map(async sourcePath => parseArticle((await readSource(root, sourcePath)).toString('utf8'), sourcePath)));
-  const catalog = JSON.parse(await readSource(root, 'website/audio/catalog.json'));
-  const audioArticle = articles.find(article => article.source_path === selection.audio_article);
-  const audio = [audioMetadata(catalog, audioArticle, selection.audio_article)];
+  const selectedSources = parseIOSSelection(selection || /** @type {unknown} */ (JSON.parse((await readSource(root, 'ios/content-selection.json')).toString('utf8'))));
+  const articles = await Promise.all(selectedSources.articles.map(async sourcePath => parseArticle((await readSource(root, sourcePath)).toString('utf8'), sourcePath)));
+  const catalog = /** @type {unknown} */ (JSON.parse((await readSource(root, 'website/audio/catalog.json')).toString('utf8')));
+  const audioArticle = articles.find(article => article.source_path === selectedSources.audio_article);
+  if (!audioArticle) throw new Error('Selected audio article must be included among published articles');
+  const audio = [audioMetadata(catalog, audioArticle, selectedSources.audio_article)];
   const diagrams = new Map();
   const parser = new MarkdownIt({ html: false });
   for (const article of articles) for (const token of parser.parse(article.body, {})) if (token.type === 'fence' && token.info.trim() === 'mermaid') diagrams.set(sha256(token.content.trim()).slice(0, 24), token.content.trim());
@@ -284,7 +332,7 @@ export async function buildContent({ root, output = path.join(root, 'ios/AILibra
   for (const [file, data] of await dependencies.renderDiagrams(diagrams)) assets.set(file, data);
   for (const name of ['reader.js', 'reader.css']) assets.set(`assets/${name}`, await readSource(root, `ios/renderer/${name}`));
   assets.set('assets/licenses/NOTICE.txt', await readSource(root, 'LICENSE'));
-  const selected = new Set(selection.articles);
+  const selected = new Set(selectedSources.articles);
   const manifestArticles = articles.map(article => {
     const rendered = renderArticle(article, { selected, diagrams, renderMath: dependencies.renderMath });
     const html_path = fileFor(article.id);

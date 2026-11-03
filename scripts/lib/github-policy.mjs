@@ -15,7 +15,8 @@ export const requiredWorkflows = Object.freeze({
 })
 export const requiredChecks = Object.freeze(Object.keys(requiredWorkflows))
 
+/** @param {string} name */
 export function workflowFor(name) {
   if (!Object.hasOwn(requiredWorkflows, name)) throw new Error(`必須チェックの workflow 対応が未登録です: ${name}`)
-  return requiredWorkflows[name]
+  return requiredWorkflows[/** @type {keyof typeof requiredWorkflows} */ (name)]
 }

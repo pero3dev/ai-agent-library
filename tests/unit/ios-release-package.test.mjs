@@ -6,9 +6,11 @@ import os from 'node:os';
 import path from 'node:path';
 import { verifyReleasePackage } from '../../ios/tests/check-release-package.mjs';
 
+/** @param {import('node:crypto').BinaryLike} data */
 const digest = data => createHash('sha256').update(data).digest('hex');
 const document = Buffer.from('{"text":"ネイティブ本文"}\n');
 
+/** @param {import('node:test').TestContext} t */
 async function fixture(t) {
   const root = await realpath(await mkdtemp(path.join(os.tmpdir(), 'ailibrary-ios-release-test-')));
   t.after(() => rm(root, { recursive: true, force: true }));
@@ -84,6 +86,7 @@ test('Release package audit rejects symlinks and a broken TestContent link', {
 
 test('Release package audit rejects traversal and fixture metadata even when manifests agree', async t => {
   const value = await fixture(t);
+/** @param {Record<string,unknown>} body */
   async function replace(body) {
     const manifest = { ...body, revision: digest(JSON.stringify(body)) };
     for (const directory of [value.sourceContentRoot, value.content]) await writeFile(path.join(directory, 'manifest.json'), JSON.stringify(manifest));

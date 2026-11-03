@@ -13,7 +13,9 @@ import { fileURLToPath } from 'node:url'
 /** リポジトリルート(scripts/lib/ からの相対で解決。cwd に依存しない) */
 export const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..')
 
-/** CRLF / BOM を正規化して行配列にする */
+/** CRLF / BOM を正規化して行配列にする。
+ * @param {string} text
+ */
 export function toLines(text) {
   return text.replace(/^﻿/, '').replace(/\r\n?/g, '\n').split('\n')
 }
@@ -23,6 +25,8 @@ export function toLines(text) {
  * このリポジトリの front matter はトップレベルの 1 行値に限定する。
  * 対応しない YAML を黙って捨てず errors に残す。コメントは引用符外だけ除く。
  * 返り値: { fields: [{ key, value, line }], errors, endLine, unclosed } | null
+ * @param {string[]} lines
+ * @returns {import('./document-types.d.mts').FrontMatter | null}
  */
 export function parseFrontMatter(lines) {
   if (lines[0] !== '---') return null
@@ -46,6 +50,7 @@ export function parseFrontMatter(lines) {
   return { fields, errors, endLine: end + 1, unclosed: false }
 }
 
+/** @param {string} value */
 function stripYamlComment(value) {
   let quote = null
   for (let i = 0; i < value.length; i++) {
@@ -59,10 +64,13 @@ function stripYamlComment(value) {
   return value
 }
 
-/** 1 行文字列の限定 YAML 構文。複雑な YAML はテンプレートの引用文字列へ直す。 */
+/** 1 行文字列の限定 YAML 構文。複雑な YAML はテンプレートの引用文字列へ直す。
+ * @param {string} value
+ * @returns {string | null}
+ */
 export function parseScalar(value) {
   if (value.startsWith('"')) {
-    try { const parsed = JSON.parse(value); return typeof parsed === 'string' ? parsed : null } catch { return null }
+    try { const parsed = /** @type {unknown} */ (JSON.parse(value)); return typeof parsed === 'string' ? parsed : null } catch { return null }
   }
   if (value.startsWith("'")) {
     return /^'(?:[^']|'')*'$/.test(value) ? value.slice(1, -1).replaceAll("''", "'") : null
@@ -72,20 +80,30 @@ export function parseScalar(value) {
   return value
 }
 
-/** 対応する文字列値を返す。不正な値は元の文字列を維持(検証は parseScalar)。 */
+/** 対応する文字列値を返す。不正な値は元の文字列を維持(検証は parseScalar)。
+ * @param {string} value
+ */
 export function unquote(value) {
   return parseScalar(value) ?? value
 }
 
-/** tags: ["a", "b"] 形式を配列にする。形式不正なら null */
+/** tags: ["a", "b"] 形式を配列にする。形式不正なら null
+ * @param {string} value
+ * @returns {string[] | null}
+ */
 export function parseTagsArray(value) {
   const m = value.match(/^\[(.*)\]$/)
   if (!m) return null
   const inner = m[1].trim()
   if (!inner) return []
   // tag はケバブケースなので、引用符内のコンマや複雑な YAML 値は対象外。
-  const tags = inner.split(',').map(s => parseScalar(s.trim()))
-  return tags.some(tag => tag === null || tag === '') ? null : tags
+  const tags = []
+  for (const raw of inner.split(',')) {
+    const tag = parseScalar(raw.trim())
+    if (tag === null || tag === '') return null
+    tags.push(tag)
+  }
+  return tags
 }
 
 /**
@@ -93,6 +111,8 @@ export function parseTagsArray(value) {
  * fn(line, lineNo, inFence, kind) — 境界も inFence: true。kind は open/close/content/null。
  * CommonMark 準拠: 閉じフェンスは開きフェンスと同じ記号かつ同じ長さ以上
  * (```` の中に ``` を書く markdown-in-markdown の例を誤って閉じない)
+ * @param {string[]} lines
+ * @param {import('./document-types.d.mts').LineVisitor} fn
  */
 export function forEachLine(lines, fn) {
   let fenceChar = null
@@ -103,6 +123,7 @@ export function forEachLine(lines, fn) {
     const body = line.replace(/^(?: {0,3}>[ \t]?)+/, '')
     const m = body.match(/^ {0,3}(`{3,}|~{3,})(.*)$/)
     let inFence = fenceChar !== null
+    /** @type {import('./document-types.d.mts').FenceKind} */
     let kind = inFence ? 'content' : null
     if (m) {
       if (fenceChar === null && !(m[1][0] === '`' && m[2].includes('`'))) {
@@ -122,10 +143,15 @@ export function forEachLine(lines, fn) {
   return { unclosedFence: fenceChar === null ? null : openedAt }
 }
 
-/** docs/ 配下の全 .md を列挙する({ abs, repoRel, section, isReadme }) */
+/** docs/ 配下の全 .md を列挙する({ abs, repoRel, section, isReadme })
+ * @param {string} [repoRoot]
+ * @returns {import('./document-types.d.mts').SourceDocument[]}
+ */
 export function collectDocs(repoRoot = REPO_ROOT) {
   const docsDir = path.join(repoRoot, 'docs')
+  /** @type {import('./document-types.d.mts').SourceDocument[]} */
   const out = []
+  /** @param {string} dir */
   const walk = dir => {
     for (const entry of readdirSync(dir, { withFileTypes: true })) {
       const abs = path.join(dir, entry.name)
@@ -148,6 +174,10 @@ export function collectDocs(repoRoot = REPO_ROOT) {
  * パスが「大文字小文字まで厳密に」存在するかを readdir 突合で判定する。
  * Windows の FS は大小文字を区別しないため existsSync だけでは ubuntu の CI で
  * 壊れるリンクを見逃す。stopDir(通常はリポジトリルート)より上は検査しない。
+ * @param {string} absPath
+ * @param {string} [stopDir]
+ * @param {import('./document-types.d.mts').DirectoryEntryCache} [dirEntryCache]
+ * @returns {boolean}
  */
 export function existsCaseSensitive(absPath, stopDir = REPO_ROOT, dirEntryCache = new Map()) {
   const norm = path.resolve(absPath)
@@ -168,12 +198,18 @@ export function existsCaseSensitive(absPath, stopDir = REPO_ROOT, dirEntryCache 
   return existsCaseSensitive(parent, stopDir, dirEntryCache)
 }
 
-/** リポジトリルートからの相対パス(区切りは / に統一) */
+/** リポジトリルートからの相対パス(区切りは / に統一)
+ * @param {string} absPath
+ * @param {string} [repoRoot]
+ */
 export function toRepoRel(absPath, repoRoot = REPO_ROOT) {
   return path.relative(repoRoot, absPath).split(path.sep).join('/')
 }
 
-/** URL のパス・query・fragment を分ける。Web URL とローカル絶対パスを区別する。 */
+/** URL のパス・query・fragment を分ける。Web URL とローカル絶対パスを区別する。
+ * @param {string} raw
+ * @returns {import('./document-types.d.mts').LocalDestination}
+ */
 export function splitLocalDestination(raw) {
   if (/^[A-Za-z]:[\\/]/.test(raw) || raw.startsWith('/') && !raw.startsWith('//') || raw.includes('\\')) {
     return { error: '絶対パス・バックスラッシュは使わずリポジトリ内の相対パスで書いてください' }

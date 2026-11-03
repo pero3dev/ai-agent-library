@@ -8,21 +8,37 @@ import path from 'node:path';
 import { deflateRawSync, deflateSync } from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 import { inspectCompiledAppIconCatalog, verifyBuiltAppIcon } from '../../ios/tests/check-built-app-icon.mjs';
+import { resultObject } from '../../ios/tests/xcresult-json.mjs';
+/** @typedef {Record<string, unknown>[]} CatalogRows */
+/** @param {unknown} value @returns {CatalogRows} */
+function catalogRows(value) { assert.ok(Array.isArray(value)); return value.map(row => { resultObject(row); return row; }); }
 
 // These are synthetic file/metadata fixtures. Their nonempty CAR is a sentinel,
 // never a claim that actool compiled a catalog or that CAR internals are valid.
 const helper = fileURLToPath(new URL('../../ios/tests/check-built-app-icon.mjs', import.meta.url));
+/** @param {string} name */
 const derived = name => new URL('../fixtures/ios-built-app-icon/' + name, import.meta.url);
-const archiveCatalog = JSON.parse(await readFile(derived('archive-car.derived.json'), 'utf8'));
-const debugCatalog = JSON.parse(await readFile(derived('debug-car.derived.json'), 'utf8'));
-const stateCatalog = JSON.parse(await readFile(derived('debug-state9-car.derived.json'), 'utf8'));
+const archiveCatalog = catalogRows(/** @type {unknown} */ (JSON.parse(await readFile(derived('archive-car.derived.json'), 'utf8'))));
+const debugCatalog = catalogRows(/** @type {unknown} */ (JSON.parse(await readFile(derived('debug-car.derived.json'), 'utf8'))));
+const stateCatalog = catalogRows(/** @type {unknown} */ (JSON.parse(await readFile(derived('debug-state9-car.derived.json'), 'utf8'))));
+/** @type {{debug: {Info: ReturnType<typeof info>}, debug_state9: {reader_stdout_SHA256: string}}} */
 const observations = JSON.parse(await readFile(derived('observations.derived.json'), 'utf8'));
+/** @template T @param {T} value @returns {T} */
 const clone = value => JSON.parse(JSON.stringify(value));
-const primaryMap = rows => rows.find(row => row.AssetType === 'MultiSized Image' && row.Name === 'AppIcon' && row.Idiom === 'phone' && !Object.hasOwn(row, 'Subtype'));
+/** @param {CatalogRows} rows */
+const primaryMap = rows => { const row = rows.find(row => row.AssetType === 'MultiSized Image' && row.Name === 'AppIcon' && row.Idiom === 'phone' && !Object.hasOwn(row, 'Subtype')); assert.ok(row); const sizes = row.Sizes; assert.ok(Array.isArray(sizes) && sizes.every(value => typeof value === 'string')); return /** @type {Record<string, unknown> & {Sizes: string[]}} */ (row); };
+/** @param {CatalogRows} rows */
 const primaryImages = rows => rows.filter(row => row.AssetType === 'Icon Image' && row.Name === 'AppIcon' && row.Idiom === 'phone' && row['Icon Index'] === 4 && !Object.hasOwn(row, 'Subtype'));
-const primaryImage = (rows, scale = 3) => primaryImages(rows).find(row => row.Scale === scale);
+/** @param {CatalogRows} rows @param {number} [scale] */
+const primaryImage = (rows, scale = 3) => { const row = primaryImages(rows).find(row => row.Scale === scale); assert.ok(row); return row; };
+/** @param {CatalogRows} rows */
+const keyFormat = rows => { const value = rows[0]['Key Format']; assert.ok(Array.isArray(value)); return /** @type {unknown[]} */ (value); };
+/** @param {CatalogRows} rows */
+const appearances = rows => { const value = rows[0].Appearances; resultObject(value); return value; };
 const signature = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
+/** @param {import('node:crypto').BinaryLike} bytes */
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
+/** @param {string} type @param {Buffer} data */
 function chunk(type, data) {
   const name = Buffer.from(type), body = Buffer.concat([name, data]);
   let crc = 0xffffffff;
@@ -35,6 +51,7 @@ function chunk(type, data) {
   result.writeUInt32BE((crc ^ 0xffffffff) >>> 0, result.length - 4);
   return result;
 }
+/** @param {number} size @param {boolean} [optimized] */
 function png(size, optimized = false) {
   const header = Buffer.alloc(13);
   header.writeUInt32BE(size); header.writeUInt32BE(size, 4); header[8] = 8; header[9] = 6;
@@ -52,6 +69,7 @@ function info() {
   return { CFBundlePackageType: 'APPL', UIDeviceFamily: [1], CFBundleSupportedPlatforms: ['iPhoneSimulator'],
     CFBundleIcons: { CFBundlePrimaryIcon: { CFBundleIconName: 'AppIcon', CFBundleIconFiles: ['AppIcon60x60'] } } };
 }
+/** @param {import('node:test').TestContext} t @param {{scales?: number[], catalog?: CatalogRows, metadata?: ReturnType<typeof info>}} [options] */
 async function fixture(t, { scales = [2, 3], catalog = archiveCatalog, metadata: sourceInfo } = {}) {
   const root = await realpath(await mkdtemp(path.join(os.tmpdir(), 'ailibrary-built-icon-test-')));
   t.after(() => rm(root, { recursive: true, force: true }));
@@ -64,9 +82,11 @@ async function fixture(t, { scales = [2, 3], catalog = archiveCatalog, metadata:
   await writeFile(path.join(app, 'Content', 'manifest.json'), '{}');
   for (const scale of scales) await writeFile(path.join(app, `AppIcon60x60@${scale}x.png`), png(60 * scale, scale === 3));
   return { root, app, metadata, writeInfo,
-    verify: (options = {}) => verifyBuiltAppIcon(app, { decodePlist: bytes => JSON.parse(bytes.toString('utf8')),
+    /** @param {NonNullable<Parameters<typeof verifyBuiltAppIcon>[1]>} [options] */
+    verify: (options = {}) => verifyBuiltAppIcon(app, { decodePlist: bytes => /** @type {unknown} */ (JSON.parse(bytes.toString('utf8'))),
       readAssetCatalog: async carPath => { assert.equal(carPath, path.join(app, 'Assets.car')); return clone(catalog); }, ...options }) };
 }
+/** @param {string} app */
 async function snapshots(app) {
   return Object.fromEntries(await Promise.all((await readdir(app)).filter(name => name !== 'Content').map(async name =>
     [name, hash(await readFile(path.join(app, name)))])));
@@ -104,8 +124,8 @@ test('iPhoneOS bundle and explicit .png Info file entries resolve the same scale
 });
 
 test('wrong or missing primary icon metadata is rejected', async t => {
-  for (const change of [metadata => { metadata.CFBundleIcons.CFBundlePrimaryIcon.CFBundleIconName = 'OldIcon'; },
-    metadata => { delete metadata.CFBundleIcons; }, metadata => { metadata.CFBundleIcons.CFBundlePrimaryIcon.CFBundleIconFiles = []; }]) {
+  for (const change of /** @type {((metadata: ReturnType<typeof info>) => void)[]} */ ([metadata => { metadata.CFBundleIcons.CFBundlePrimaryIcon.CFBundleIconName = 'OldIcon'; },
+    metadata => { Reflect.deleteProperty(metadata, 'CFBundleIcons'); }, metadata => { metadata.CFBundleIcons.CFBundlePrimaryIcon.CFBundleIconFiles = []; }])) {
     const value = await fixture(t); change(value.metadata); await value.writeInfo();
     await assert.rejects(value.verify(), /primary icon name|CFBundleIconFiles/);
   }
@@ -136,9 +156,9 @@ test('a valid PNG with wrong dimensions cannot satisfy its filename scale', asyn
 });
 
 test('invalid signature, truncated chunks, CRC corruption, and trailing data are rejected', async t => {
-  for (const change of [bytes => Buffer.alloc(bytes.length), bytes => bytes.subarray(0, bytes.length - 3),
+  for (const change of /** @type {((bytes: Buffer) => Buffer)[]} */ ([bytes => Buffer.alloc(bytes.length), bytes => bytes.subarray(0, bytes.length - 3),
     bytes => { const changed = Buffer.from(bytes); changed[changed.length - 5] ^= 1; return changed; },
-    bytes => Buffer.concat([bytes, Buffer.from('unexpected')])]) {
+    bytes => Buffer.concat([bytes, Buffer.from('unexpected')])])) {
     const value = await fixture(t), file = path.join(value.app, 'AppIcon60x60@3x.png');
     await writeFile(file, change(await readFile(file)));
     await assert.rejects(value.verify(), /PNG signature|Truncated|CRC mismatch|trailing data/);
@@ -216,6 +236,7 @@ test('nonbinding extra metadata is permitted and positive finite fractional Dump
 
 test('catalog root, header, schema, storage and numeric header types fail closed', () => {
   for (const rows of [null, {}, [], [null]]) assert.throws(() => inspectCompiledAppIconCatalog(rows));
+  /** @type {[string, (rows: CatalogRows) => unknown][]} */
   const changes = [
     ['missing header', rows => rows.shift()],
     ['duplicate header', rows => rows.push(clone(rows[0]))],
@@ -229,20 +250,22 @@ test('catalog root, header, schema, storage and numeric header types fail closed
     ['nonpositive DumpToolVersion', rows => { rows[0].DumpToolVersion = 0; }],
     ['wrong platform', rows => { rows[0].Platform = 'macos'; }]
   ];
-  for (const [name, change] of changes) { const rows = clone(archiveCatalog); change(rows); assert.throws(() => inspectCompiledAppIconCatalog(rows), undefined, name); }
+  for (const [name, change] of changes) { const rows = clone(archiveCatalog); change(rows); assert.throws(() => inspectCompiledAppIconCatalog(rows), name); }
 });
 
 test('wrong namespace, marketing or PackedImage cannot substitute for the primary phone icon', () => {
+  /** @type {[string, (rows: CatalogRows) => unknown][]} */
   const changes = [
     ['other namespace', rows => { primaryImage(rows).Name = 'OtherIcon'; }],
     ['marketing', rows => { primaryImage(rows).Idiom = 'marketing'; }],
     ['PackedImage', rows => { primaryImage(rows).AssetType = 'PackedImage'; }],
     ['unknown binding type', rows => { primaryImage(rows).AssetType = 'Future Icon'; }]
   ];
-  for (const [name, change] of changes) { const rows = clone(archiveCatalog); change(rows); assert.throws(() => inspectCompiledAppIconCatalog(rows), undefined, name); }
+  for (const [name, change] of changes) { const rows = clone(archiveCatalog); change(rows); assert.throws(() => inspectCompiledAppIconCatalog(rows), name); }
 });
 
 test('missing or malformed scale, dimensions, subtype and identifier bridges are rejected', () => {
+  /** @type {[string, (rows: CatalogRows) => unknown][]} */
   const changes = [
     ['missing3x', rows => rows.splice(rows.indexOf(primaryImage(rows)), 1)],
     ['wrong scale', rows => { primaryImage(rows).Scale = 4; }],
@@ -258,28 +281,29 @@ test('missing or malformed scale, dimensions, subtype and identifier bridges are
     ['missing60-point map', rows => { primaryMap(rows).Sizes = primaryMap(rows).Sizes.filter(value => !value.startsWith('60x60 ')); }],
     ['map idiom mismatch', rows => { primaryMap(rows).Sizes = primaryMap(rows).Sizes.map(value => value.replace('60x60 index:4 idiom:phone', '60x60 index:4 idiom:marketing')); }]
   ];
-  for (const [name, change] of changes) { const rows = clone(archiveCatalog); change(rows); assert.throws(() => inspectCompiledAppIconCatalog(rows), undefined, name); }
+  for (const [name, change] of changes) { const rows = clone(archiveCatalog); change(rows); assert.throws(() => inspectCompiledAppIconCatalog(rows), name); }
 });
 
 test('primary binding requires opaque RGB8 metadata rather than merely correctly sized image bytes', () => {
-  for (const [field, value] of [['Opaque', false], ['Opaque', 1], ['ColorModel', 'Gray'], ['BitsPerComponent', 16], ['BitsPerComponent', '8']]) {
+  for (const [field, value] of /** @type {[string, unknown][]} */ ([['Opaque', false], ['Opaque', 1], ['ColorModel', 'Gray'], ['BitsPerComponent', 16], ['BitsPerComponent', '8']])) {
     const rows = clone(archiveCatalog); primaryImage(rows)[field] = value;
-    assert.throws(() => inspectCompiledAppIconCatalog(rows), undefined, field);
+    assert.throws(() => inspectCompiledAppIconCatalog(rows), String(field));
   }
   for (const field of ['Opaque', 'ColorModel', 'BitsPerComponent']) {
     const rows = clone(archiveCatalog); delete primaryImage(rows)[field];
-    assert.throws(() => inspectCompiledAppIconCatalog(rows), undefined, 'missing ' + field);
+    assert.throws(() => inspectCompiledAppIconCatalog(rows), 'missing ' + field);
   }
 });
 
 test('duplicate mapping, duplicate primary rendition and ambiguous size links are rejected', () => {
+  /** @type {[string, (rows: CatalogRows) => unknown][]} */
   const changes = [
     ['mapping duplicate', rows => rows.push(clone(primaryMap(rows)))],
     ['rendition duplicate', rows => rows.push(clone(primaryImage(rows)))],
     ['ambiguous duplicate', rows => rows.push({ ...clone(primaryImage(rows)), RenditionName: 'Other180.png' })],
     ['second60-point map link', rows => primaryMap(rows).Sizes.push('60x60 index:9 idiom:phone')]
   ];
-  for (const [name, change] of changes) { const rows = clone(archiveCatalog); change(rows); assert.throws(() => inspectCompiledAppIconCatalog(rows), undefined, name); }
+  for (const [name, change] of changes) { const rows = clone(archiveCatalog); change(rows); assert.throws(() => inspectCompiledAppIconCatalog(rows), name); }
 });
 
 test('CAR reader failure, malformed output and same-length CAR mutation cannot pass bundle audit', async t => {
@@ -293,8 +317,9 @@ test('CAR reader failure, malformed output and same-length CAR mutation cannot p
   } }));
 });
 
+/** @param {unknown} value @returns {string} */
 const xmlValue = value => Array.isArray(value) ? '<array>' + value.map(xmlValue).join('') + '</array>'
-  : typeof value === 'object' ? '<dict>' + Object.entries(value).map(([key, item]) => '<key>' + key + '</key>' + xmlValue(item)).join('') + '</dict>'
+  : value !== null && typeof value === 'object' ? '<dict>' + Object.entries(value).map(([key, item]) => '<key>' + key + '</key>' + xmlValue(item)).join('') + '</dict>'
   : typeof value === 'number' ? '<integer>' + value + '</integer>' : '<string>' + value + '</string>';
 
 test('macOS production plist adapter reads XML and binary Info with injected derived CAR rows', { skip: process.platform !== 'darwin' }, async t => {
@@ -354,21 +379,22 @@ test('state9 bundle still binds real synthetic file hashes while CAR3x is separa
 });
 
 test('only complete own string columns in either exact known Key Format order are accepted', () => {
+  /** @type {[string, (rows: CatalogRows) => unknown][]} */
   const changes = [
     ['missing', rows => { delete rows[0]['Key Format']; }],
     ['null', rows => { rows[0]['Key Format'] = null; }],
-    ['string', rows => { rows[0]['Key Format'] = rows[0]['Key Format'].join(','); }],
+    ['string', rows => { rows[0]['Key Format'] = keyFormat(rows).join(','); }],
     ['empty', rows => { rows[0]['Key Format'] = []; }],
-    ['short', rows => { rows[0]['Key Format'].pop(); }],
-    ['extra', rows => { rows[0]['Key Format'].push('kCRThemeUnobservedName'); }],
-    ['unknown', rows => { rows[0]['Key Format'][0] = 'kCRThemeUnobservedName'; }],
-    ['duplicate', rows => { rows[0]['Key Format'][1] = rows[0]['Key Format'][0]; }],
-    ['order', rows => { [rows[0]['Key Format'][0], rows[0]['Key Format'][1]] = [rows[0]['Key Format'][1], rows[0]['Key Format'][0]]; }],
-    ['numeric', rows => { rows[0]['Key Format'][0] = 0; }],
-    ['sparse', rows => { delete rows[0]['Key Format'][0]; }],
+    ['short', rows => { keyFormat(rows).pop(); }],
+    ['extra', rows => { keyFormat(rows).push('kCRThemeUnobservedName'); }],
+    ['unknown', rows => { keyFormat(rows)[0] = 'kCRThemeUnobservedName'; }],
+    ['duplicate', rows => { keyFormat(rows)[1] = keyFormat(rows)[0]; }],
+    ['order', rows => { [keyFormat(rows)[0], keyFormat(rows)[1]] = [keyFormat(rows)[1], keyFormat(rows)[0]]; }],
+    ['numeric', rows => { keyFormat(rows)[0] = 0; }],
+    ['sparse', rows => { delete keyFormat(rows)[0]; }],
     ['inherited sparse', rows => {
-      const value = rows[0]['Key Format'][0], proto = Object.create(Array.prototype);
-      proto[0] = value; delete rows[0]['Key Format'][0]; Object.setPrototypeOf(rows[0]['Key Format'], proto);
+      const value = keyFormat(rows)[0], proto = Object.create(Array.prototype);
+      proto[0] = value; delete keyFormat(rows)[0]; Object.setPrototypeOf(rows[0]['Key Format'], proto);
     }]
   ];
   for (const catalog of [debugCatalog, stateCatalog]) for (const [name, change] of changes) {
@@ -378,6 +404,7 @@ test('only complete own string columns in either exact known Key Format order ar
 });
 
 test('state9 requires its observed full tool/platform/appearance/normal-state combination', () => {
+  /** @type {[string, (rows: CatalogRows) => unknown][]} */
   const changes = [
     ['schema', rows => { rows[0].SchemaVersion = 3; }],
     ['storage', rows => { rows[0].StorageVersion = 18; }],
@@ -392,25 +419,26 @@ test('state9 requires its observed full tool/platform/appearance/normal-state co
     ['appearance null', rows => { rows[0].Appearances = null; }],
     ['appearance array', rows => { rows[0].Appearances = []; }],
     ['appearance empty', rows => { rows[0].Appearances = {}; }],
-    ['appearance bool', rows => { rows[0].Appearances.UIAppearanceAny = false; }],
-    ['appearance string', rows => { rows[0].Appearances.UIAppearanceAny = '0'; }],
-    ['appearance value', rows => { rows[0].Appearances.UIAppearanceAny = 1; }],
-    ['appearance extra', rows => { rows[0].Appearances.UIAppearanceDark = 1; }],
+    ['appearance bool', rows => { appearances(rows).UIAppearanceAny = false; }],
+    ['appearance string', rows => { appearances(rows).UIAppearanceAny = '0'; }],
+    ['appearance value', rows => { appearances(rows).UIAppearanceAny = 1; }],
+    ['appearance extra', rows => { appearances(rows).UIAppearanceDark = 1; }],
     ['appearance nonenumerable extra', rows => { Object.defineProperty(rows[0].Appearances, 'UIAppearanceDark', { value: 1 }); }],
     ['appearance inherited any', rows => { rows[0].Appearances = Object.create({ UIAppearanceAny: 0 }); }],
     ['appearance other key', rows => { rows[0].Appearances = { UIAppearanceLight: 0 }; }],
     ['icon State missing', rows => { delete primaryImage(rows).State; }],
     ['icon State selected', rows => { primaryImage(rows).State = 'Selected'; }],
     ['mapping State', rows => { primaryMap(rows).State = 'Highlighted'; }],
-    ['packed State', rows => { rows.find(row => row.AssetType === 'PackedImage').State = false; }]
+    ['packed State', rows => { Object.assign(rows.find(row => row.AssetType === 'PackedImage') ?? assert.fail('PackedImage fixture'), {State: false}); }]
   ];
   for (const [name, change] of changes) {
     const rows = clone(stateCatalog); change(rows);
-    assert.throws(() => inspectCompiledAppIconCatalog(rows, { requiredScales: [3] }), undefined, name);
+    assert.throws(() => inspectCompiledAppIconCatalog(rows, { requiredScales: [3] }), name);
   }
 });
 
 test('state9 preserves namespace/id/idiom/subtype/index/scale/dimension/opaqueRGB8 rendition checks', () => {
+  /** @type {[string, (rows: CatalogRows) => unknown][]} */
   const changes = [
     ['namespace', rows => { primaryImage(rows).Name = 'OtherIcon'; }],
     ['identifier', rows => { primaryImage(rows).NameIdentifier = 999; }],
@@ -434,6 +462,6 @@ test('state9 preserves namespace/id/idiom/subtype/index/scale/dimension/opaqueRG
   ];
   for (const [name, change] of changes) {
     const rows = clone(stateCatalog); change(rows);
-    assert.throws(() => inspectCompiledAppIconCatalog(rows, { requiredScales: [3] }), undefined, name);
+    assert.throws(() => inspectCompiledAppIconCatalog(rows, { requiredScales: [3] }), name);
   }
 });

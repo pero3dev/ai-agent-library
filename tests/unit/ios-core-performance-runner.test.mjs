@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { requiredFixture, objectFixture, stringFixture } from '../helpers/json-fixtures.mjs';
 import { test } from 'node:test';
 import { spawn } from 'node:child_process';
 import { mkdtemp, mkdir, readFile, rm, symlink, writeFile } from 'node:fs/promises';
@@ -11,6 +12,7 @@ const digest = 'a'.repeat(64), invocationID = '11111111-1111-4111-8111-111111111
 const identity = { manifest_sha256: digest, query_sha256: digest, query_count: 2, expected_article_count: 3,
   corpus_revision: 'revision', article_order_sha256: digest, executable_architecture: 'arm64' };
 const queryResults = [0, 1].map(index => ({ query_index: index, result_count: index, ordered_ids_sha256: digest }));
+/** @param {string} [mode] @returns {import('../../ios/tests/core-performance-runner.mjs').PerformanceRecord} */
 function record(mode = SCENARIOS[2]) {
   return { schema_version: 1, mode, invocation_id: invocationID, process_id: 123,
     executable_architecture: 'arm64', host_os_version: 'fixture macOS',
@@ -19,12 +21,15 @@ function record(mode = SCENARIOS[2]) {
     ...(mode === 'correctness' ? { correctness: 'ordered-indexed-equals-production-uncached' } : { wall_seconds: 0.005, process_peak_resident_bytes: 123456 }),
     ...(mode !== SCENARIOS[0] ? { query_results: structuredClone(queryResults) } : {}) };
 }
+/** @param {ReturnType<typeof record>} value */
 const validate = value => validateRecord(value, identity, digest, value.mode, invocationID, { query_results: queryResults }, 123);
 
+/** @template T @param {(root:string)=>Promise<T>} action @returns {Promise<T>} */
 async function fixture(action) {
   const location = await mkdtemp(path.join(candidate, '.core-performance-test-'));
   try { return await action(location); } finally { await rm(location, { recursive: true, force: true }); }
 }
+/** @param {string} root */
 async function corpus(root) {
   const content = path.join(root, 'Content'); await mkdir(content);
   await mkdir(path.join(content, 'articles'));
@@ -45,7 +50,7 @@ test('missing/nonfinite/zero/negative metrics are rejected, without zero filling
   for (const key of ['wall_seconds', 'process_peak_resident_bytes']) {
     for (const invalid of [undefined, null, NaN, Infinity, -Infinity, 0, -1, '0.1']) {
       const value = record();
-      if (invalid === undefined) delete value[key]; else value[key] = invalid;
+      if (invalid === undefined) Reflect.deleteProperty(value, key); else Reflect.set(value, key, invalid);
       assert.throws(() => validate(value), `${key}=${String(invalid)}`);
     }
   }
@@ -58,23 +63,23 @@ test('SHA/count/order/revision/process/scenario mismatches fail closed', () => {
   for (const [key, invalid] of Object.entries({ schema_version: 2, invocation_id: 'other', process_id: 124, identity_sha256: 'b'.repeat(64),
     manifest_sha256: 'b'.repeat(64), query_sha256: 'b'.repeat(64), query_count: 1, actual_article_count: 2,
     corpus_revision: 'other', article_order_sha256: 'b'.repeat(64), executable_architecture: 'x86_64', host_os_version: '' })) {
-    const value = record(); value[key] = invalid; assert.throws(() => validate(value), key);
+    const value = record(); Reflect.set(value, key, invalid); assert.throws(() => validate(value), key);
   }
-  const value = record(); value.extraMetric = 5; assert.throws(() => validate(value));
+  const value = record(); Reflect.set(value, 'extraMetric', 5); assert.throws(() => validate(value));
   assert.throws(() => validateRecord(record(), identity, digest, SCENARIOS[1], invocationID, null, 123));
 });
 
 test('each ordered indexed result must equal the correctness oracle digest', () => {
-  for (const mutate of [
-    value => { delete value.query_results; },
-    value => { value.query_results.pop(); },
-    value => { value.query_results.reverse(); },
-    value => { value.query_results[1].result_count = -1; },
-    value => { value.query_results[1].result_count = 4; },
-    value => { value.query_results[1].ordered_ids_sha256 = 'b'.repeat(64); },
-    value => { value.query_results[1].ordered_ids_sha256 = 'missing'; },
-    value => { value.query_results[0].extra = true; }
-  ]) { const value = record(); mutate(value); assert.throws(() => validate(value)); }
+  for (const mutate of /** @type {((value:ReturnType<typeof record>)=>void)[]} */ ([
+    value => { Reflect.deleteProperty(value, 'query_results'); },
+    value => { requiredFixture(value.query_results).pop(); },
+    value => { requiredFixture(value.query_results).reverse(); },
+    value => { requiredFixture(value.query_results)[1].result_count = -1; },
+    value => { requiredFixture(value.query_results)[1].result_count = 4; },
+    value => { requiredFixture(value.query_results)[1].ordered_ids_sha256 = 'b'.repeat(64); },
+    value => { requiredFixture(value.query_results)[1].ordered_ids_sha256 = 'missing'; },
+    value => { Reflect.set(requiredFixture(value.query_results)[0], 'extra', true); }
+  ])) { const value = record(); mutate(value); assert.throws(() => validate(value)); }
   assert.notEqual(idsDigest(['ab', 'c']), idsDigest(['a', 'bc']));
   assert.notEqual(idsDigest(['one', 'two']), idsDigest(['two', 'one']));
   assert.equal(idsDigest(['ガイド']), sha256('9:ガイド\n'));
@@ -88,7 +93,9 @@ test('five-sample statistics retain median/minimum/maximum/range only', () => {
 });
 
 test('literal Swift escape conversion preserves width/kana/combining marks and whitespace', async () => {
-  const queries = JSON.parse(await readFile(path.join(candidate, 'ios/tests/core-performance-queries.json')));
+  const parsedQueries = /** @type {unknown} */ (JSON.parse(await readFile(path.join(candidate, 'ios/tests/core-performance-queries.json'), 'utf8')));
+  assert.ok(Array.isArray(parsedQueries));
+  const queries = parsedQueries.map(stringFixture);
   assert.equal(queries.length, 16);
   assert.equal(queries[1], ' \t\n　');
   assert.equal(queries[11], 'cafe\u0301');
@@ -107,7 +114,7 @@ test('independent front matter scanner rejects ambiguous or unknown status', () 
 
 test('bounded child collects one JSON record and rejects timeout/output/failure', async () => {
   const value = await runBounded(process.execPath, ['-e', 'process.stdout.write(JSON.stringify({fixture:true}))'], { timeoutMs: 2000 });
-  assert.deepEqual(JSON.parse(value.stdout), { fixture: true });
+  assert.deepEqual(JSON.parse(value.stdout.toString('utf8')), { fixture: true });
   assert(Number.isSafeInteger(value.pid));
   await assert.rejects(runBounded(process.execPath, ['-e', 'setInterval(()=>{},1000)'], { timeoutMs: 100 }), /time limit/);
   await assert.rejects(runBounded(process.execPath, ['-e', 'process.stdout.write("x".repeat(100000))'], { maxBytes: 128 }), /output limit/);
@@ -116,7 +123,7 @@ test('bounded child collects one JSON record and rejects timeout/output/failure'
   assert.throws(() => runBounded(process.execPath, [], { deadline: Date.now() - 1 }), /deadline/);
 });
 
-test('inventory accepts hashed miniature bytes, detects drift, and rejects unlisted/symlink input', async () => {
+test('inventory accepts hashed miniature bytes, detects drift, and rejects unlisted/symlink input', { skip: process.platform === 'win32' ? "The immutable runner requires POSIX paths, /bin/bash or process group signals" : false }, async () => {
   await fixture(async root => {
     const content = await corpus(root), first = await inventoryCorpus(content);
     assert.equal(first.files_including_manifest, 2); assert.equal(first.listed_sha_files, 1);
@@ -136,7 +143,7 @@ test('inventory accepts hashed miniature bytes, detects drift, and rejects unlis
   });
 });
 
-test('shell help and absent-run guard never reach a compiler', async () => {
+test('shell help and absent-run guard never reach a compiler', { skip: process.platform === 'win32' ? "The immutable runner requires POSIX paths, /bin/bash or process group signals" : false }, async () => {
   const script = path.join(candidate, 'ios/tests/check-core-performance.sh');
   const env = { NODE_BINARY: process.execPath };
   const help = await runBounded('/bin/bash', [script, '--help'], { env });
@@ -144,18 +151,20 @@ test('shell help and absent-run guard never reach a compiler', async () => {
   await assert.rejects(runBounded('/bin/bash', [script], { env }), /explicit --run/);
   assert.throws(() => parseArgs(['--run', '--repo', '/repo', '--revision', 'main', '--corpus', '/Content', '--output', '/new']), /immutable/);
   assert.throws(() => parseArgs(['--run', '--repo', '/repo', '--repo', '/other', '--corpus', '/Content', '--output', '/new']), /duplicate/);
-  assert.equal(parseArgs(['--run', '--repo', '/repo', '--revision', 'a'.repeat(40), '--corpus', '/Content', '--output', '/new'])['--revision'], 'a'.repeat(40));
+  assert.equal(requiredFixture(parseArgs(['--run', '--repo', '/repo', '--revision', 'a'.repeat(40), '--corpus', '/Content', '--output', '/new']))['--revision'], 'a'.repeat(40));
 });
 
 
 test('complete protocol uses 19 distinct fixture processes and discards only warmups', async () => {
-  const calls = [], pids = new Set();
+  /** @type {[string,string,number][]} */
+  const calls = [];
+  const pids = new Set();
   const scenarios = await collectSamples(async (mode, kind, ordinal, oracle) => {
     const value = record(mode);
     if (mode !== 'correctness') value.wall_seconds = kind === 'discarded-warmup' ? 999 : ordinal;
     const child = await runBounded(process.execPath, ['-e', 'const value=JSON.parse(process.argv[1]);value.process_id=process.pid;process.stdout.write(JSON.stringify(value))', JSON.stringify(value)], { timeoutMs: 2000 });
     assert(!pids.has(child.pid)); pids.add(child.pid);
-    const actual = validateRecord(JSON.parse(child.stdout), identity, digest, mode, invocationID, oracle, child.pid);
+    const actual = validateRecord(JSON.parse(child.stdout.toString('utf8')), identity, digest, mode, invocationID, oracle, child.pid);
     calls.push([mode, kind, ordinal]);
     return actual;
   });
@@ -171,6 +180,7 @@ test('complete protocol uses 19 distinct fixture processes and discards only war
 });
 
 
+/** @param {()=>boolean|Promise<boolean>} predicate @param {string} message @param {number} [limitMs] */
 async function waitFor(predicate, message, limitMs = 3000) {
   const deadline = Date.now() + limitMs;
   while (Date.now() < deadline) {
@@ -179,10 +189,12 @@ async function waitFor(predicate, message, limitMs = 3000) {
   }
   assert.fail(message);
 }
+/** @param {number} pid */
 function isAlive(pid) {
   try { process.kill(pid, 0); return true; }
-  catch (error) { if (error.code === 'ESRCH') return false; throw error; }
+  catch (error) { if (error instanceof Error && 'code' in error && error.code === 'ESRCH') return false; throw error; }
 }
+/** @param {import('node:child_process').ChildProcess} child @returns {Promise<{code:number|null,signal:NodeJS.Signals|null}>} */
 function closed(child) {
   return new Promise((resolve, reject) => {
     child.once('error', reject);
@@ -190,8 +202,8 @@ function closed(child) {
   });
 }
 
-for (const [ending, expectedCode] of [['SIGINT', 130], ['SIGTERM', 143], ['exit', 7]]) {
-  test(`parent ${ending} kills only its active child group and exits nonzero`, { timeout: 10000 }, async () => {
+for (const [ending, expectedCode] of /** @type {[NodeJS.Signals|'exit',number][]} */ ([['SIGINT', 130], ['SIGTERM', 143], ['exit', 7]])) {
+  test(`parent ${ending} kills only its active child group and exits nonzero`, { skip: process.platform === 'win32' ? "The immutable runner requires POSIX paths, /bin/bash or process group signals" : false, timeout: 10000 }, async () => {
     await fixture(async root => {
       const marker = path.join(root, 'child.pid');
       const runnerURL = pathToFileURL(path.join(candidate, 'ios/tests/core-performance-runner.mjs')).href;
@@ -206,20 +218,21 @@ for (const [ending, expectedCode] of [['SIGINT', 130], ['SIGTERM', 143], ['exit'
       const controlClosed = closed(control);
       const parent = spawn(process.execPath, ['--input-type=module', '-e', parentCode, marker], { stdio: 'ignore' });
       const parentClosed = closed(parent);
+      /** @type {number|undefined} */
       let ownedChildPID;
       try {
         await waitFor(async () => {
           try { ownedChildPID = Number(await readFile(marker, 'utf8')); return Number.isSafeInteger(ownedChildPID) && ownedChildPID > 0; }
-          catch (error) { if (error.code === 'ENOENT') return false; throw error; }
+          catch (error) { if (error instanceof Error && 'code' in error && error.code === 'ENOENT') return false; throw error; }
         }, 'Fixture child did not report its PID');
         if (ending !== 'exit') {
-          assert(isAlive(ownedChildPID), 'Fixture child must be running before signal');
+          assert(isAlive(requiredFixture(ownedChildPID)), 'Fixture child must be running before signal');
           assert(parent.kill(ending), 'Could not signal fixture parent');
         }
         const result = await Promise.race([parentClosed, new Promise((_, reject) => setTimeout(() => reject(new Error('Fixture parent did not terminate')), 3000).unref())]);
         assert.deepEqual(result, { code: expectedCode, signal: null });
-        await waitFor(() => !isAlive(ownedChildPID), 'Owned long-running child survived parent cleanup');
-        assert(isAlive(control.pid), 'Cleanup killed an unrelated control process');
+        await waitFor(() => !isAlive(requiredFixture(ownedChildPID)), 'Owned long-running child survived parent cleanup');
+        assert(isAlive(requiredFixture(control.pid)), 'Cleanup killed an unrelated control process');
       } finally {
         // Cleanup only fixture handles/PIDs created here, even if an assertion fails.
         if (parent.exitCode === null && parent.signalCode === null) parent.kill('SIGKILL');

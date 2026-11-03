@@ -7,10 +7,12 @@ const requests = new Map([
   ['devices-after-boot', ['simctl', 'list', 'devices', '--json']],
 ]);
 
+/** @param {unknown} value @param {string} name @returns {Record<string, unknown> & {stdout: string}} */
 function receipt(value, name) {
   assert.ok(value && typeof value === 'object' && !Array.isArray(value), name);
-  assert.equal(typeof value.stdout, 'string', name);
-  return value;
+  const fields = /** @type {Record<string, unknown>} */ (value);
+  assert.ok(typeof fields.stdout === 'string', name);
+  return { ...fields, stdout: fields.stdout };
 }
 
 /**
@@ -20,6 +22,7 @@ function receipt(value, name) {
  * The accepted attempt and its unchanged output are returned so later ownership
  * checks can verify the same successful raw read, including after a retry.
  */
+/** @param {string} name @param {readonly string[]} args @param {(attempt: string) => unknown} execute */
 export function readSimctlInventory(name, args, execute) {
   assert.ok(requests.has(name), 'Only the four inventory reads may repeat');
   assert.deepEqual(args, requests.get(name), name);

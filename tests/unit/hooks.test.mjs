@@ -12,13 +12,17 @@ import { codexWindowsHookCommand, hookCommand } from '../../scripts/lib/hook-com
 import { windowsShortPath } from '../helpers/windows-test-path.mjs'
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
+/** @param {...string} lines */
 const patch = (...lines) => ({ tool_name: 'apply_patch', cwd: root, tool_input: { command: ['*** Begin Patch', ...lines, '*** End Patch'].join('\n') } })
+/** @param {string} script @param {unknown} event @param {string} [cwd] */
 const invoke = (script, event, cwd = root) => spawnSync(process.execPath, [path.join(root, '.codex/hooks', script)], {
   input: typeof event === 'string' ? event : JSON.stringify(event), encoding: 'utf8', cwd
 })
+/** @param {string} client @param {string} script @param {unknown} event @param {string} [repo] @param {string} [cwd] */
 const invokeAdapter = (client, script, event, repo = root, cwd = repo) => spawnSync(process.execPath, [path.join(repo, `.${client}/hooks`, script)], {
   input: typeof event === 'string' ? event : JSON.stringify(event), encoding: 'utf8', cwd,
 })
+/** @param {import('node:test').TestContext} t */
 function fixtureRoot(t) {
   const tempBase = realpathSync(os.tmpdir())
   const fixture = mkdtempSync(path.join(tempBase, 'ai-agent-library-hooks-'))
@@ -29,16 +33,19 @@ function fixtureRoot(t) {
   })
   return fixture
 }
+/** @param {string} repo */
 function copyHooks(repo) {
   for (const client of ['codex', 'claude']) cpSync(path.join(root, `.${client}/hooks`), path.join(repo, `.${client}/hooks`), { recursive: true })
   cpSync(path.join(root, 'scripts/lib'), path.join(repo, 'scripts/lib'), { recursive: true })
   mkdirSync(path.join(repo, 'website'), { recursive: true })
 }
+/** @param {string} repo @param {...string} args */
 function git(repo, ...args) {
   const result = fixtureGitSpawn(args, { cwd: repo, encoding: 'utf8' })
   assert.equal(result.status, 0, result.stderr)
   return result.stdout.trim()
 }
+/** @param {string} client @param {string} mode @param {unknown} event @param {string} repo @param {string} [cwd] */
 function invokeCommand(client, mode, event, repo, cwd = repo) {
   return spawnSync(hookCommand(client, mode), {
     shell: true, cwd, encoding: 'utf8', input: JSON.stringify(event),
@@ -139,7 +146,9 @@ test('Codex Windows command preserves blocking exit codes through PowerShell fro
   git(repo, 'init', '--quiet')
   mkdirSync(path.join(repo, 'docs/01-concepts'), { recursive: true })
   writeFileSync(path.join(repo, 'docs/01-concepts/invalid.md'), '# 不正な記事\n')
+  /** @param {string} file */
   const event = file => ({ cwd: repo, tool_name: 'Write', tool_input: { file_path: file } })
+  /** @param {string} command @param {unknown} input @param {string} [cwd] */
   const run = (command, input, cwd = path.join(repo, 'website')) => spawnSync('powershell.exe', ['-NoProfile', '-NonInteractive', '-Command', command], {
     cwd, encoding: 'utf8', input: JSON.stringify(input), windowsHide: true,
   })
@@ -147,13 +156,15 @@ test('Codex Windows command preserves blocking exit codes through PowerShell fro
   const previous = run(hookCommand('codex', 'guard'), generated)
   assert.equal(previous.status, 1, previous.stderr)
   assert.match(previous.stderr, /生成物/)
-  for (const [mode, input, expected, message] of [
+  /** @type {[string, unknown, number, RegExp][]} */
+  const cases = [
     ['guard', generated, 2, /生成物/],
     ['guard', event('website/content-src/source.mdx'), 0, /^$/],
     ['validate', event('docs/01-concepts/invalid.md'), 2, /検証エラー/],
     ['validate', event('website/content-src/source.mdx'), 0, /^$/],
     ['guard', { cwd: repo, tool_name: 'apply_patch', tool_input: {} }, 2, /編集対象を検査できません/],
-  ]) {
+  ]
+  for (const [mode, input, expected, message] of cases) {
     const result = run(codexWindowsHookCommand(mode), input)
     assert.equal(result.status, expected, result.stderr)
     assert.match(result.stderr, message)
@@ -167,11 +178,13 @@ test('Codex Windows command preserves blocking exit codes through PowerShell fro
 })
 
 test('relative path boundaries cover POSIX, Windows drives, UNC paths, and prefix collisions', () => {
-  for (const [api, base, inside, outside] of [
+  /** @type {[typeof path.posix, string, string, string][]} */
+  const boundaries = [
     [path.posix, '/repo space', '/repo space/website/out/a', '/repo space-other/website/out/a'],
     [path.win32, 'C:\\repo space', 'c:\\repo space\\website\\out\\a', 'D:\\repo space\\website\\out\\a'],
     [path.win32, '\\\\host\\share\\repo', '\\\\host\\share\\repo\\website\\out\\a', '\\\\host\\share\\repo-other\\a'],
-  ]) {
+  ]
+  for (const [api, base, inside, outside] of boundaries) {
     assert.equal(relativeInside(base, inside, api), 'website/out/a')
     assert.equal(relativeInside(base, outside, api), null)
     assert.ok(generatedPath(relativeInside(base, inside, api)))
@@ -258,9 +271,9 @@ test('Windows 8.3 event cwd names preserve source checks, generated guards and f
   const externalAlias = path.join(foreign, 'back-to-repo')
   symlinkSync(path.join(repo, 'docs/01-concepts'), externalAlias, 'junction')
   const short = windowsShortPath(repo)
-  if (!short.path) { t.skip(short.reason); return }
+  if (!short.path) { t.skip(short.reason ?? 'Windows 8.3 name unavailable'); return }
   const shortForeign = windowsShortPath(foreign)
-  assert.ok(shortForeign.path, shortForeign.reason)
+  assert.ok(shortForeign.path, shortForeign.reason ?? 'Windows 8.3 name unavailable')
   for (const client of ['codex', 'claude']) {
     const source = invokeAdapter(client, 'guard-generated.mjs', { cwd: short.path, tool_input: { file_path: 'website/content-src/page.mdx' } }, repo)
     assert.equal(source.status, 0, source.stderr)
@@ -332,7 +345,7 @@ test('configured commands locate a detached worktree from its subdirectory on bo
   git(repo, 'worktree', 'add', '--quiet', '--detach', worktree)
   mkdirSync(path.join(worktree, 'website'), { recursive: true })
   for (const client of ['codex', 'claude']) {
-    for (const [mode, expected] of [['guard', 2], ['validate', 0]]) {
+    for (const [mode, expected] of /** @type {[string, number][]} */ ([['guard', 2], ['validate', 0]])) {
       const result = invokeCommand(client, mode, { cwd: path.join(worktree, 'website'), tool_input: { file_path: 'out/probe.html' } }, worktree, path.join(worktree, 'website'))
       assert.equal(result.status, expected, result.stderr)
     }

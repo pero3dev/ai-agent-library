@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { requiredFixture, objectFixture, objectArrayFixture, stringFixture } from '../helpers/json-fixtures.mjs';
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import path from 'node:path';
@@ -6,6 +7,7 @@ import test from 'node:test';
 import vm from 'node:vm';
 import { readSimctlInventory } from '../../ios/tests/simctl-inventory-read.mjs';
 
+/** @type {[string,string[]][]} */
 const requests = [
   ['runtimes', ['simctl', 'list', 'runtimes', '--json']],
   ['device-types', ['simctl', 'list', 'devicetypes', '--json']],
@@ -13,13 +15,15 @@ const requests = [
   ['devices-after-boot', ['simctl', 'list', 'devices', '--json']],
 ];
 const args = requests[0][1];
+/** @param {string} stdout */
 const passed = stdout => ({ exit_code: 0, signal: null, error: null, stdout });
 const timedOut = () => ({ exit_code: null, signal: 'SIGKILL',
   error: 'spawnSync xcrun ETIMEDOUT', stdout: '' });
 
 test('successful exact reads return their original output with one execution', () => {
   for (const [name, request] of requests) {
-    const calls = [];
+    /** @type {string[]} */
+  const calls = [];
     const output = '  {"value":"' + name + '"}\n';
     assert.deepEqual(readSimctlInventory(name, Object.freeze([...request]), attempt => {
       calls.push(attempt); return passed(output);
@@ -29,6 +33,7 @@ test('successful exact reads return their original output with one execution', (
 });
 
 test('one exact timeout can recover with a distinct second attempt', () => {
+  /** @type {string[]} */
   const calls = [];
   const first = timedOut();
   const output = '{"runtimes":[{"isAvailable":true}]}';
@@ -40,6 +45,7 @@ test('one exact timeout can recover with a distinct second attempt', () => {
 });
 
 test('a second timeout fails without a third execution', () => {
+  /** @type {string[]} */
   const calls = [];
   assert.throws(() => readSimctlInventory('runtimes', args, attempt => {
     calls.push(attempt); return timedOut();
@@ -103,7 +109,7 @@ test('malformed receipts fail rather than yielding missing output', () => {
 });
 
 test('unknown reads and altered commands are rejected before execution', () => {
-  for (const [name, request] of [
+  for (const [name, request] of /** @type {[string,string[]][]} */ ([
     ['create-simulator', ['simctl', 'create', 'anything']],
     ['boot-simulator', ['simctl', 'boot', 'anything']],
     ['cleanup-before', ['simctl', 'list', 'devices', '--json']],
@@ -111,7 +117,7 @@ test('unknown reads and altered commands are rejected before execution', () => {
     ['runtimes', ['simctl', 'list', 'runtimes']],
     ['runtimes', ['simctl', 'list', 'runtimes', '--json', '--extra']],
     ['devices-after-boot', ['simctl', 'list', 'devices', 'available', '--json']],
-  ]) {
+  ])) {
     let calls = 0;
     assert.throws(() => readSimctlInventory(name, request, () => {
       calls += 1; return passed('{}');
@@ -134,29 +140,35 @@ test('valid JSON failing runtime validation is not retried', () => {
     const value = JSON.parse(readSimctlInventory('runtimes', args, () => {
       calls += 1; return passed('{"runtimes":[]}');
     }).stdout);
-    assert.equal(value.runtimes.filter(row => row.version === '18.5').length, 1);
+    assert.equal(objectArrayFixture(objectFixture(value).runtimes).filter(row => row.version === '18.5').length, 1);
   });
   assert.equal(calls, 1);
 });
 
 // Evaluate the production run function with an in-memory clock, process runner
 // and receipt store. No command, Simulator, timer or filesystem write is used.
+/** @typedef {{status:number|null,signal:string|null,error?:Error,stdout?:string,stderr?:string,elapsed:number|'timeout'}} ProcessResponse */
+/** @param {string} workflow @param {number} budget @param {ProcessResponse[]} responses */
 function boundedProductionRun(workflow, budget, responses) {
   const source = readFileSync(new URL('../../.github/workflows/' + workflow, import.meta.url), 'utf8');
-  const match = source.match(/^          function run\(name, binary, args,[\s\S]*?^          }\n/m);
+  const match = requiredFixture(source.match(/^          function run\(name, binary, args,[\s\S]*?^          }\n/m));
   assert.ok(match, 'Expected one production bounded run function');
-  assert.equal(source.match(/^          function run\(/gm).length, 1);
+  assert.equal(requiredFixture(source.match(/^          function run\(/gm)).length, 1);
   const functionSource = match[0].split('\n').map(line => line.slice(10)).join('\n');
   let now = 0;
-  const files = new Map(), spawns = [];
+  /** @type {Map<string,string>} */
+  const files = new Map();
+  /** @type {{binary:string,command:string[],timeout:number}[]} */
+  const spawns = [];
+  /** @param {string} name @param {unknown} value */
   const put = (name, value) => {
     assert.ok(!files.has(name), 'Attempt evidence must not overwrite: ' + name);
-    files.set(name, value);
+    files.set(name, String(value));
   };
   const context = vm.createContext({ assert, workspace: '/fake/workspace', deadline: budget,
     stage: 'inventory', performance: { now: () => now }, process: { env: { PATH: '/fake/tools' } },
-    put, json: (name, value) => put(name, JSON.stringify(value)),
-    spawnSync: (binary, command, options) => {
+    put, json: /** @param {string} name @param {unknown} value */ (name, value) => put(name, JSON.stringify(value)),
+    spawnSync: /** @param {string} binary @param {string[]} command @param {{timeout:number,killSignal:string,maxBuffer:number,encoding:string,cwd:string}} options */ (binary, command, options) => {
       assert.equal(binary, 'xcrun'); assert.ok(options.timeout > 0);
       assert.equal(options.killSignal, 'SIGKILL'); assert.equal(options.maxBuffer, 8 * 1024 * 1024);
       assert.equal(options.encoding, 'utf8'); assert.equal(options.cwd, '/fake/workspace');
@@ -166,14 +178,16 @@ function boundedProductionRun(workflow, budget, responses) {
       return { status: result.status, signal: result.signal, error: result.error,
         stdout: result.stdout ?? '', stderr: result.stderr ?? '' };
     } });
-  const run = vm.runInContext('(' + functionSource + ')', context);
-  return { execute: name => run(name, 'xcrun', args, 30000, '/fake/workspace', false), files, spawns };
+  const run = functionFixture(vm.runInContext('(' + functionSource + ')', context));
+  return { execute: /** @param {string} name */ name => /** @type {unknown} */ (Reflect.apply(run, undefined, [name, 'xcrun', args, 30000, '/fake/workspace', false])), files, spawns };
 }
 
+/** @returns {ProcessResponse} */
 function processTimeout() {
   return { status: null, signal: 'SIGKILL', error: new Error('spawnSync xcrun ETIMEDOUT'),
     stdout: '', stderr: 'first timed-out read', elapsed: 'timeout' };
 }
+/** @returns {ProcessResponse} */
 const processPass = () => ({ status: 0, signal: null, stdout: '{"runtimes":[]}', elapsed: 1 });
 
 for (const workflow of ['ios-reader-reflow.yml', 'ios-reader-dynamic-type.yml']) {
@@ -184,19 +198,19 @@ for (const workflow of ['ios-reader-reflow.yml', 'ios-reader-dynamic-type.yml'])
     assert.deepEqual(harness.spawns.map(row => row.timeout), [30000, 30000]);
     assert.ok(harness.spawns.every(row => JSON.stringify(row.command) === JSON.stringify(args)));
     assert.equal(harness.files.size, 8);
-    const first = JSON.parse(harness.files.get('runtimes.exit.json'));
+    const first = parseReceipt(harness.files.get('runtimes.exit.json'));
     assert.deepEqual(first, { exit_code: null, signal: 'SIGKILL', error: 'spawnSync xcrun ETIMEDOUT' });
     assert.equal(harness.files.get('runtimes.stderr.log'), 'first timed-out read');
-    assert.deepEqual(JSON.parse(harness.files.get('runtimes-timeout-retry-1.exit.json')),
+    assert.deepEqual(parseReceipt(harness.files.get('runtimes-timeout-retry-1.exit.json')),
       { exit_code: 0, signal: null, error: null });
-    assert.equal(JSON.parse(harness.files.get('runtimes-timeout-retry-1.intent.json')).remaining_ms, 60000);
+    assert.equal(parseReceipt(harness.files.get('runtimes-timeout-retry-1.intent.json')).remaining_ms, 60000);
   });
 
   test(workflow + ': second read is clamped to the original remaining stage budget', () => {
     const harness = boundedProductionRun(workflow, 45000, [processTimeout(), processPass()]);
     readSimctlInventory('runtimes', args, harness.execute);
     assert.deepEqual(harness.spawns.map(row => row.timeout), [30000, 15000]);
-    const intent = JSON.parse(harness.files.get('runtimes-timeout-retry-1.intent.json'));
+    const intent = parseReceipt(harness.files.get('runtimes-timeout-retry-1.intent.json'));
     assert.equal(intent.stage_deadline_monotonic_ms, 45000);
     assert.equal(intent.timeout_ms, 15000);
   });
@@ -205,14 +219,15 @@ for (const workflow of ['ios-reader-reflow.yml', 'ios-reader-dynamic-type.yml'])
     const harness = boundedProductionRun(workflow, 30000, [processTimeout()]);
     assert.throws(() => readSimctlInventory('runtimes', args, harness.execute), /runtimes-timeout-retry-1/);
     assert.equal(harness.spawns.length, 1);
-    const intent = JSON.parse(harness.files.get('runtimes-timeout-retry-1.intent.json'));
+    const intent = parseReceipt(harness.files.get('runtimes-timeout-retry-1.intent.json'));
     assert.equal(intent.timeout_ms, 0); assert.equal(intent.spawn_planned, false);
-    assert.equal(JSON.parse(harness.files.get('runtimes-timeout-retry-1.exit.json')).error, 'Stage budget exhausted');
+    assert.equal(parseReceipt(harness.files.get('runtimes-timeout-retry-1.exit.json')).error, 'Stage budget exhausted');
   });
 }
 
+/** @param {string} source @param {string} name */
 function workflowFunction(source, name) {
-  const match = source.match(new RegExp('^          function ' + name + '\\([\\s\\S]*?^          }\\n', 'm'));
+  const match = requiredFixture(source.match(new RegExp('^          function ' + name + '\\([\\s\\S]*?^          }\\n', 'm')));
   assert.ok(match, 'Expected production ' + name + ' function');
   return match[0].split('\n').map(line => line.slice(10)).join('\n');
 }
@@ -221,6 +236,7 @@ function workflowFunction(source, name) {
 // Only process responses and files are faked; no command or filesystem write is
 // available to these functions. Keeping all evaluated code in one VM realm also
 // preserves production deep-strict comparisons between parsed JSON and arrays.
+/** @param {string} workflow @param {{timeoutBeforeCreate?:boolean,firstOutput?:string}} [settings] */
 function ownershipClosure(workflow, { timeoutBeforeCreate = true, firstOutput = '' } = {}) {
   const source = readFileSync(new URL('../../.github/workflows/' + workflow, import.meta.url), 'utf8');
   const helper = readFileSync(new URL('../../ios/tests/simctl-inventory-read.mjs', import.meta.url), 'utf8')
@@ -234,26 +250,35 @@ function ownershipClosure(workflow, { timeoutBeforeCreate = true, firstOutput = 
   const expected = '9eca95f3fe571291999803424e724bd733583db2';
   const files = new Map([['selection.json', JSON.stringify({ source_head: expected,
     runtime: { identifier: runtime }, device_type: { identifier: deviceType } })]]);
-  const spawns = [], reads = [];
-  let now = 0, currentIntent, createdName, state = 'Shutdown', deleted = false;
+  /** @type {{name:string,command:string[],timeout:number}[]} */
+  const spawns = [];
+  /** @type {string[]} */
+  const reads = [];
+  let now = 0, currentIntent = '', createdName = '', state = 'Shutdown', deleted = false;
+  /** @param {import('node:crypto').BinaryLike} value */
   const hash = value => createHash('sha256').update(value).digest('hex');
+  /** @param {string} full */
   const filename = full => {
     const name = path.relative(root, full);
     assert.ok(name && path.basename(name) === name && !name.includes('..'));
     return name;
   };
+  /** @param {string} name */
   const getRaw = name => {
     reads.push(name); assert.ok(files.has(name), 'Unexpected evidence read: ' + name);
-    return files.get(name);
+    return requiredFixture(files.get(name));
   };
+  /** @param {string} name @param {unknown} value */
   const put = (name, value) => {
     assert.ok(!files.has(name), 'Receipt overwrite: ' + name);
     files.set(name, String(value));
   };
+  /** @param {string} name @param {unknown} value */
   const json = (name, value) => {
     put(name, JSON.stringify(value));
     if (name.endsWith('.intent.json')) currentIntent = name.slice(0, -'.intent.json'.length);
   };
+  /** @param {boolean} includeOwned */
   const inventory = includeOwned => JSON.stringify({ devices: { [runtime]: [
     { udid: oldUUID, name: 'preexisting', state: 'Shutdown', isAvailable: true },
     ...(includeOwned && !deleted ? [{ udid: newUUID, name: createdName, state,
@@ -266,17 +291,17 @@ function ownershipClosure(workflow, { timeoutBeforeCreate = true, firstOutput = 
       GITHUB_RUN_ID: '9001', GITHUB_RUN_ATTEMPT: '1', PATH: '/fake/tools' } },
     randomUUID: () => 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',
     fs: {
-      readFileSync: (full, encoding) => {
+      readFileSync: /** @param {string} full @param {string} encoding */ (full, encoding) => {
         const value = getRaw(filename(full));
         return encoding === 'utf8' ? value : Buffer.from(value);
       },
-      existsSync: full => files.has(filename(full)),
-      lstatSync: full => {
+      existsSync: /** @param {string} full */ full => files.has(filename(full)),
+      lstatSync: /** @param {string} full */ full => {
         const value = getRaw(filename(full));
         return { isFile: () => true, isSymbolicLink: () => false, size: Buffer.byteLength(value) };
       },
     },
-    spawnSync: (binary, command, options) => {
+    spawnSync: /** @param {string} binary @param {string[]} command @param {{timeout:number,killSignal:string,maxBuffer:number,encoding:string,cwd:string}} options */ (binary, command, options) => {
       assert.equal(binary, 'xcrun'); assert.ok(options.timeout > 0);
       assert.equal(options.killSignal, 'SIGKILL');
       spawns.push({ name: currentIntent, command: [...command], timeout: options.timeout });
@@ -315,11 +340,11 @@ function ownershipClosure(workflow, { timeoutBeforeCreate = true, firstOutput = 
     + 'function sameSource() { return read(\'selection.json\'); }\n'
     + helper + '\n' + functions, context);
   return { files, spawns, reads, hash, newUUID, oldUUID, runtime,
-    simulator: () => vm.runInContext('simulator()', context),
-    owned: () => vm.runInContext('owned()', context),
+    simulator: () => /** @type {unknown} */ (vm.runInContext('simulator()', context)),
+    owned: () => objectFixture(vm.runInContext('owned()', context)),
     cleanup: () => {
       context.stage = 'cleanup'; context.deadline = now + 150000;
-      return vm.runInContext('cleanup()', context);
+      return /** @type {unknown} */ (vm.runInContext('cleanup()', context));
     } };
 }
 
@@ -329,15 +354,15 @@ for (const workflow of ['ios-reader-reflow.yml', 'ios-reader-dynamic-type.yml'])
       const harness = ownershipClosure(workflow, { firstOutput });
       harness.simulator();
       assert.equal(harness.owned().UUID, harness.newUUID);
-      const accepted = JSON.parse(harness.files.get('devices-before-create.accepted.json'));
+      const accepted = parseReceipt(harness.files.get('devices-before-create.accepted.json'));
       assert.equal(accepted.attempt, 'devices-before-create-timeout-retry-1');
       assert.equal(harness.files.get('devices-before-create.stdout.log'), firstOutput);
-      assert.equal(JSON.parse(harness.files.get('devices-before-create.exit.json')).error,
+      assert.equal(parseReceipt(harness.files.get('devices-before-create.exit.json')).error,
         'spawnSync xcrun ETIMEDOUT');
       assert.equal(accepted.stdout_sha256,
-        harness.hash(harness.files.get('devices-before-create-timeout-retry-1.stdout.log')));
+        harness.hash(requiredFixture(harness.files.get('devices-before-create-timeout-retry-1.stdout.log'))));
       harness.cleanup();
-      assert.equal(JSON.parse(harness.files.get('cleanup.json')).status, 'owned-simulator-deleted');
+      assert.equal(parseReceipt(harness.files.get('cleanup.json')).status, 'owned-simulator-deleted');
       for (const name of ['create-simulator', 'boot-simulator', 'bootstatus-simulator',
         'cleanup-shutdown', 'cleanup-delete']) {
         assert.equal(harness.spawns.filter(row => row.name === name).length, 1, name);
@@ -349,12 +374,12 @@ for (const workflow of ['ios-reader-reflow.yml', 'ios-reader-dynamic-type.yml'])
   test(workflow + ': first successful before-create read remains the accepted ownership source', () => {
     const harness = ownershipClosure(workflow, { timeoutBeforeCreate: false });
     harness.simulator();
-    const accepted = JSON.parse(harness.files.get('devices-before-create.accepted.json'));
+    const accepted = parseReceipt(harness.files.get('devices-before-create.accepted.json'));
     assert.equal(accepted.attempt, 'devices-before-create');
     assert.equal(harness.owned().UUID, harness.newUUID);
     assert.equal(harness.spawns.filter(row => row.name.startsWith('devices-before-create')).length, 1);
     harness.cleanup();
-    assert.equal(JSON.parse(harness.files.get('cleanup.json')).status, 'owned-simulator-deleted');
+    assert.equal(parseReceipt(harness.files.get('cleanup.json')).status, 'owned-simulator-deleted');
   });
 
   test(workflow + ': tampered accepted read provenance blocks owned-only cleanup before mutation', () => {
@@ -363,10 +388,11 @@ for (const workflow of ['ios-reader-reflow.yml', 'ios-reader-dynamic-type.yml'])
     for (const variant of variants) {
       const harness = ownershipClosure(workflow);
       harness.simulator(); assert.equal(harness.owned().UUID, harness.newUUID);
-      const accepted = JSON.parse(harness.files.get('devices-before-create.accepted.json'));
+      const accepted = parseReceipt(harness.files.get('devices-before-create.accepted.json'));
       const attempt = accepted.attempt;
+      /** @param {string} name @param {(record:Record<string,unknown>)=>void} change */
       const changeJSON = (name, change) => {
-        const value = JSON.parse(harness.files.get(name)); change(value);
+        const value = parseReceipt(harness.files.get(name)); change(value);
         harness.files.set(name, JSON.stringify(value));
       };
       if (variant === 'attempt') accepted.attempt = '../unrelated';
@@ -391,10 +417,10 @@ for (const workflow of ['ios-reader-reflow.yml', 'ios-reader-dynamic-type.yml'])
       }
       harness.files.set('devices-before-create.accepted.json', JSON.stringify(accepted));
       const count = harness.spawns.length;
-      assert.throws(() => harness.owned(), undefined, variant);
-      assert.throws(() => harness.cleanup(), undefined, variant);
+      assert.throws(() => harness.owned(), variant);
+      assert.throws(() => harness.cleanup(), variant);
       assert.equal(harness.spawns.length, count, 'No cleanup command after invalid provenance: ' + variant);
-      const cleanup = JSON.parse(harness.files.get('cleanup.json'));
+      const cleanup = parseReceipt(harness.files.get('cleanup.json'));
       assert.equal(cleanup.status, 'not-completed', variant); assert.ok(cleanup.error, variant);
       assert.ok(!harness.reads.some(name => name.includes('unrelated')), variant);
     }
@@ -406,13 +432,15 @@ for (const workflow of ['ios-reader-reflow.yml', 'ios-reader-dynamic-type.yml'])
 // models latency against the timeout that production actually requests; it does
 // not sleep, spawn a process, or write a file. The older 30s harness remains
 // unchanged above as historical lower-level run coverage.
+/** @typedef {{timeout:true,stdout?:string,latency?:number}|{timeout?:false,stdout?:string,latency:number}} ReadPlan */
+/** @param {string} workflow @param {{stage?:string,remaining?:number,latency?:number,plans?:Record<string,ReadPlan[]>,oldCallerNegativeControl?:boolean}} [settings] */
 function inventoryReadBudgetClosure(workflow, { stage = 'inventory', remaining,
   latency = 45000, plans = {}, oldCallerNegativeControl = false } = {}) {
   const source = readFileSync(new URL('../../.github/workflows/' + workflow, import.meta.url), 'utf8');
   const helper = readFileSync(new URL('../../ios/tests/simctl-inventory-read.mjs', import.meta.url), 'utf8')
     .replace("import assert from 'node:assert/strict';\n", '')
     .replace('export function readSimctlInventory(', 'function readSimctlInventory(');
-  const capMatch = source.match(/^          const caps = (\{[\s\S]*?\});$/m);
+  const capMatch = requiredFixture(source.match(/^          const caps = (\{[\s\S]*?\});$/m));
   assert.ok(capMatch, 'Actual workflow caps must be available');
   const root = '/fake/budget-evidence', workspace = '/fake/workspace';
   const runtime = 'com.apple.CoreSimulator.SimRuntime.iOS-18-5';
@@ -420,28 +448,39 @@ function inventoryReadBudgetClosure(workflow, { stage = 'inventory', remaining,
   const oldUUID = '11111111-1111-4111-8111-111111111111';
   const newUUID = 'CCCCCCCC-CCCC-4CCC-8CCC-CCCCCCCCCCCC';
   const expected = '5826e13b19ae1f71b6d6a67f282245e3d37bd5a2';
+  /** @param {import('node:crypto').BinaryLike} value */
   const hash = value => createHash('sha256').update(value).digest('hex');
   const files = new Map([['selection.json', JSON.stringify({ source_head: expected,
     runtime: { identifier: runtime }, device_type: { identifier: deviceType } })]]);
-  const spawns = [], reads = [], counts = new Map();
-  let now = 0, currentIntent, createdName, state = 'Shutdown', deleted = false;
+  /** @type {{name:string,command:string[],timeout:number}[]} */
+  const spawns = [];
+  /** @type {string[]} */
+  const reads = [];
+  /** @type {Map<string,number>} */
+  const counts = new Map();
+  let now = 0, currentIntent = '', createdName = '', state = 'Shutdown', deleted = false;
+  /** @param {string} full */
   const filename = full => {
     const name = path.relative(root, full);
     assert.ok(name && path.basename(name) === name && !name.includes('..'));
     return name;
   };
+  /** @param {string} name */
   const getRaw = name => {
     reads.push(name); assert.ok(files.has(name), 'Unexpected evidence read: ' + name);
-    return files.get(name);
+    return requiredFixture(files.get(name));
   };
+  /** @param {string} name @param {unknown} value */
   const put = (name, value) => {
     assert.ok(!files.has(name), 'Budget evidence must not overwrite: ' + name);
     files.set(name, String(value));
   };
+  /** @param {string} name @param {unknown} value */
   const json = (name, value) => {
     put(name, JSON.stringify(value));
     if (name.endsWith('.intent.json')) currentIntent = name.slice(0, -'.intent.json'.length);
   };
+  /** @param {boolean} includeOwned */
   const devices = includeOwned => JSON.stringify({ devices: { [runtime]: [
     { udid: oldUUID, name: 'preexisting', state: 'Shutdown', isAvailable: true },
     ...(includeOwned && !deleted ? [{ udid: newUUID, name: createdName, state,
@@ -453,16 +492,16 @@ function inventoryReadBudgetClosure(workflow, { stage = 'inventory', remaining,
       GITHUB_RUN_ID: '9002', GITHUB_RUN_ATTEMPT: '1', PATH: '/fake/tools' } },
     randomUUID: () => 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',
     fs: {
-      readFileSync: (full, encoding) => {
+      readFileSync: /** @param {string} full @param {string} encoding */ (full, encoding) => {
         const value = getRaw(filename(full)); return encoding === 'utf8' ? value : Buffer.from(value);
       },
-      existsSync: full => files.has(filename(full)),
-      lstatSync: full => {
+      existsSync: /** @param {string} full */ full => files.has(filename(full)),
+      lstatSync: /** @param {string} full */ full => {
         const value = getRaw(filename(full));
         return { isFile: () => true, isSymbolicLink: () => false, size: Buffer.byteLength(value) };
       },
     },
-    spawnSync: (binary, command, options) => {
+    spawnSync: /** @param {string} binary @param {string[]} command @param {{timeout:number,killSignal:string,maxBuffer:number,encoding:string,cwd:string}} options */ (binary, command, options) => {
       assert.equal(binary, 'xcrun'); assert.equal(options.cwd, workspace);
       assert.ok(options.timeout > 0); assert.equal(options.killSignal, 'SIGKILL');
       assert.equal(options.maxBuffer, 8 * 1024 * 1024); assert.equal(options.encoding, 'utf8');
@@ -508,7 +547,7 @@ function inventoryReadBudgetClosure(workflow, { stage = 'inventory', remaining,
       now += 1;
       return { status: 0, signal: null, stdout, stderr: '' };
     } });
-  const caps = vm.runInContext('(' + capMatch[1] + ')', context);
+  const caps = numberRecord(vm.runInContext('(' + capMatch[1] + ')', context));
   assert.ok(Object.hasOwn(caps, stage)); context.deadline = remaining ?? caps[stage];
   const functions = ['run', 'listInventory', 'acceptedBeforeCreate', 'allDevices', 'owned', 'simulator', 'cleanup']
     .map(name => {
@@ -523,15 +562,15 @@ function inventoryReadBudgetClosure(workflow, { stage = 'inventory', remaining,
     + "function sameSource() { return read('selection.json'); }\n"
     + helper + '\n' + functions, context);
   return { source, caps, files, spawns, reads, hash, newUUID, oldUUID, runtime,
-    list: name => {
+    list: /** @param {string} name */ name => {
       const request = requests.find(([key]) => key === name); assert.ok(request);
-      return vm.runInContext('listInventory(' + JSON.stringify(name) + ', ' + JSON.stringify(request[1]) + ')', context);
+      return stringFixture(vm.runInContext('listInventory(' + JSON.stringify(name) + ', ' + JSON.stringify(request[1]) + ')', context));
     },
-    simulator: () => vm.runInContext('simulator()', context),
-    owned: () => vm.runInContext('owned()', context),
+    simulator: () => /** @type {unknown} */ (vm.runInContext('simulator()', context)),
+    owned: () => objectFixture(vm.runInContext('owned()', context)),
     cleanup: () => {
       context.stage = 'cleanup'; context.deadline = now + caps.cleanup;
-      return vm.runInContext('cleanup()', context);
+      return /** @type {unknown} */ (vm.runInContext('cleanup()', context));
     } };
 }
 
@@ -541,7 +580,7 @@ for (const workflow of ['ios-reader-reflow.yml', 'ios-reader-dynamic-type.yml'])
       const harness = inventoryReadBudgetClosure(workflow);
       const output = harness.list(name); assert.equal(typeof output, 'string'); assert.ok(output.length > 0);
       assert.deepEqual(harness.spawns.map(row => row.timeout), [60000]);
-      assert.equal(JSON.parse(harness.files.get(name + '.intent.json')).timeout_ms, 60000);
+      assert.equal(parseReceipt(harness.files.get(name + '.intent.json')).timeout_ms, 60000);
       const old = inventoryReadBudgetClosure(workflow, { oldCallerNegativeControl: true });
       assert.throws(() => old.list(name), new RegExp(name + '-timeout-retry-1'));
       assert.deepEqual(old.spawns.map(row => row.timeout), [30000, 30000]);
@@ -555,11 +594,11 @@ for (const workflow of ['ios-reader-reflow.yml', 'ios-reader-dynamic-type.yml'])
     harness.list('runtimes');
     assert.deepEqual(harness.spawns.map(row => row.timeout), [60000, 60000]);
     assert.equal(harness.files.get('runtimes.stdout.log'), '{partial');
-    assert.equal(JSON.parse(harness.files.get('runtimes.exit.json')).error, 'spawnSync xcrun ETIMEDOUT');
-    assert.equal(JSON.parse(harness.files.get('runtimes.accepted.json')).attempt, 'runtimes-timeout-retry-1');
-    const intent = JSON.parse(harness.files.get('runtimes-timeout-retry-1.intent.json'));
+    assert.equal(parseReceipt(harness.files.get('runtimes.exit.json')).error, 'spawnSync xcrun ETIMEDOUT');
+    assert.equal(parseReceipt(harness.files.get('runtimes.accepted.json')).attempt, 'runtimes-timeout-retry-1');
+    const intent = parseReceipt(harness.files.get('runtimes-timeout-retry-1.intent.json'));
     assert.equal(intent.remaining_ms, 120000); assert.equal(intent.stage_deadline_monotonic_ms, 180000);
-    assert.equal(JSON.parse(harness.files.get('runtimes-timeout-retry-1.exit.json')).exit_code, 0);
+    assert.equal(parseReceipt(harness.files.get('runtimes-timeout-retry-1.exit.json')).exit_code, 0);
   });
 
   test(workflow + ': two real caller timeouts never spawn a third attempt', () => {
@@ -573,27 +612,27 @@ for (const workflow of ['ios-reader-reflow.yml', 'ios-reader-dynamic-type.yml'])
   test(workflow + ': actual caller clamps to remaining20s and remaining0 never spawns', () => {
     const clamped = inventoryReadBudgetClosure(workflow, { remaining: 20000, latency: 15000 });
     clamped.list('runtimes'); assert.deepEqual(clamped.spawns.map(row => row.timeout), [20000]);
-    const issued = JSON.parse(clamped.files.get('runtimes.intent.json'));
+    const issued = parseReceipt(clamped.files.get('runtimes.intent.json'));
     assert.equal(issued.remaining_ms, 20000); assert.equal(issued.stage_deadline_monotonic_ms, 20000);
     const retryClamped = inventoryReadBudgetClosure(workflow, { remaining: 80000, plans: {
       runtimes: [{ timeout: true }, { latency: 15000 }],
     } });
     retryClamped.list('runtimes');
     assert.deepEqual(retryClamped.spawns.map(row => row.timeout), [60000, 20000]);
-    const retryIntent = JSON.parse(retryClamped.files.get('runtimes-timeout-retry-1.intent.json'));
+    const retryIntent = parseReceipt(retryClamped.files.get('runtimes-timeout-retry-1.intent.json'));
     assert.equal(retryIntent.remaining_ms, 20000); assert.equal(retryIntent.stage_deadline_monotonic_ms, 80000);
     const expiredRetry = inventoryReadBudgetClosure(workflow, { remaining: 60000, plans: {
       runtimes: [{ timeout: true }],
     } });
     assert.throws(() => expiredRetry.list('runtimes'), /runtimes-timeout-retry-1/);
     assert.deepEqual(expiredRetry.spawns.map(row => row.timeout), [60000]);
-    const expired = JSON.parse(expiredRetry.files.get('runtimes-timeout-retry-1.intent.json'));
+    const expired = parseReceipt(expiredRetry.files.get('runtimes-timeout-retry-1.intent.json'));
     assert.equal(expired.timeout_ms, 0); assert.equal(expired.spawn_planned, false);
     const empty = inventoryReadBudgetClosure(workflow, { remaining: 0 });
     assert.throws(() => empty.list('runtimes'), /runtimes/); assert.equal(empty.spawns.length, 0);
-    const zero = JSON.parse(empty.files.get('runtimes.intent.json'));
+    const zero = parseReceipt(empty.files.get('runtimes.intent.json'));
     assert.equal(zero.timeout_ms, 0); assert.equal(zero.spawn_planned, false);
-    assert.equal(JSON.parse(empty.files.get('runtimes.exit.json')).error, 'Stage budget exhausted');
+    assert.equal(parseReceipt(empty.files.get('runtimes.exit.json')).error, 'Stage budget exhausted');
   });
 
   test(workflow + ': 60s before-create receipts pass the actual owner and cleanup chain', () => {
@@ -603,11 +642,11 @@ for (const workflow of ['ios-reader-reflow.yml', 'ios-reader-dynamic-type.yml'])
       } });
       harness.simulator();
       assert.equal(harness.owned().UUID, harness.newUUID);
-      const accepted = JSON.parse(harness.files.get('devices-before-create.accepted.json'));
+      const accepted = parseReceipt(harness.files.get('devices-before-create.accepted.json'));
       assert.equal(accepted.attempt, retry ? 'devices-before-create-timeout-retry-1' : 'devices-before-create');
-      assert.equal(JSON.parse(harness.files.get(accepted.attempt + '.intent.json')).timeout_ms, 60000);
+      assert.equal(parseReceipt(harness.files.get(accepted.attempt + '.intent.json')).timeout_ms, 60000);
       harness.cleanup();
-      assert.equal(JSON.parse(harness.files.get('cleanup.json')).status, 'owned-simulator-deleted');
+      assert.equal(parseReceipt(harness.files.get('cleanup.json')).status, 'owned-simulator-deleted');
       for (const name of ['create-simulator', 'boot-simulator', 'bootstatus-simulator', 'cleanup-shutdown', 'cleanup-delete']) {
         assert.equal(harness.spawns.filter(row => row.name === name).length, 1, name);
       }
@@ -615,17 +654,17 @@ for (const workflow of ['ios-reader-reflow.yml', 'ios-reader-dynamic-type.yml'])
     }
     const clamped = inventoryReadBudgetClosure(workflow, { stage: 'simulator', remaining: 50000, latency: 1000 });
     clamped.simulator(); assert.equal(clamped.owned().UUID, clamped.newUUID);
-    assert.equal(JSON.parse(clamped.files.get('devices-before-create.intent.json')).timeout_ms, 50000);
-    clamped.cleanup(); assert.equal(JSON.parse(clamped.files.get('cleanup.json')).status, 'owned-simulator-deleted');
+    assert.equal(parseReceipt(clamped.files.get('devices-before-create.intent.json')).timeout_ms, 50000);
+    clamped.cleanup(); assert.equal(parseReceipt(clamped.files.get('cleanup.json')).status, 'owned-simulator-deleted');
   });
 
   test(workflow + ': tampered 60s ownership proof blocks all cleanup commands before mutation', () => {
     for (const variant of ['limit60001', 'limit0', 'negative', 'fraction', 'remaining-lt-timeout', 'source', 'raw', 'hash', 'owned-UUID-in-before', 'attempt', 'issued-stage', 'issued-command']) {
       const harness = inventoryReadBudgetClosure(workflow, { stage: 'simulator' });
       harness.simulator(); assert.equal(harness.owned().UUID, harness.newUUID);
-      const accepted = JSON.parse(harness.files.get('devices-before-create.accepted.json'));
+      const accepted = parseReceipt(harness.files.get('devices-before-create.accepted.json'));
       const issuedName = accepted.attempt + '.intent.json';
-      const issued = JSON.parse(harness.files.get(issuedName));
+      const issued = parseReceipt(harness.files.get(issuedName));
       if (variant === 'limit60001') issued.timeout_ms = 60001;
       if (variant === 'limit0') issued.timeout_ms = 0;
       if (variant === 'negative') issued.timeout_ms = -1;
@@ -646,10 +685,10 @@ for (const workflow of ['ios-reader-reflow.yml', 'ios-reader-dynamic-type.yml'])
       harness.files.set(issuedName, JSON.stringify(issued));
       harness.files.set('devices-before-create.accepted.json', JSON.stringify(accepted));
       const count = harness.spawns.length;
-      assert.throws(() => harness.owned(), undefined, variant);
-      assert.throws(() => harness.cleanup(), undefined, variant);
+      assert.throws(() => harness.owned(), variant);
+      assert.throws(() => harness.cleanup(), variant);
       assert.equal(harness.spawns.length, count, 'No command after invalid proof: ' + variant);
-      assert.equal(JSON.parse(harness.files.get('cleanup.json')).status, 'not-completed');
+      assert.equal(parseReceipt(harness.files.get('cleanup.json')).status, 'not-completed');
       assert.ok(!harness.reads.some(name => name.includes('unrelated')));
     }
   });
@@ -658,13 +697,20 @@ for (const workflow of ['ios-reader-reflow.yml', 'ios-reader-dynamic-type.yml'])
     const harness = inventoryReadBudgetClosure(workflow);
     assert.equal(harness.caps.inventory, 180000); assert.equal(harness.caps.simulator, 300000);
     const steps = [...harness.source.matchAll(/^        timeout-minutes: (\d+)$/gm)].map(match => Number(match[1]));
-    const job = Number(harness.source.match(/^    timeout-minutes: (\d+)$/m)[1]);
+    const job = Number(requiredFixture(harness.source.match(/^    timeout-minutes: (\d+)$/m))[1]);
     const dynamic = workflow === 'ios-reader-dynamic-type.yml';
     assert.equal(steps.length, 15); assert.equal(steps.reduce((a, b) => a + b, 0), dynamic ? 51 : 50);
     assert.equal(job, dynamic ? 52 : 51); assert.equal(job - steps.reduce((a, b) => a + b, 0), 1);
     assert.equal(harness.caps.ui, dynamic ? 720000 : 600000);
-    assert.equal(Number(harness.source.match(/id: ui\n        timeout-minutes: (\d+)/)[1]), dynamic ? 13 : 12);
-    assert.equal(Number(harness.source.match(/id: inventory\n        timeout-minutes: (\d+)/)[1]), 4);
-    assert.equal(Number(harness.source.match(/id: simulator\n        timeout-minutes: (\d+)/)[1]), 6);
+    assert.equal(Number(requiredFixture(harness.source.match(/id: ui\n        timeout-minutes: (\d+)/))[1]), dynamic ? 13 : 12);
+    assert.equal(Number(requiredFixture(harness.source.match(/id: inventory\n        timeout-minutes: (\d+)/))[1]), 4);
+    assert.equal(Number(requiredFixture(harness.source.match(/id: simulator\n        timeout-minutes: (\d+)/))[1]), 6);
   });
 }
+
+/** @param {unknown} value */
+function functionFixture(value) { assert.equal(typeof value, 'function'); if(typeof value !== 'function') throw new Error('Expected workflow function'); return value; }
+/** @param {unknown} value @returns {Record<string,number>} */
+function numberRecord(value) { const row=objectFixture(value); return Object.fromEntries(Object.entries(row).map(([key,value])=>{assert.equal(typeof value,'number');if(typeof value!=='number')throw new Error('Expected stage budget');return [key,value];})); }
+/** @param {string|undefined} value */
+function parseReceipt(value) { return objectFixture(JSON.parse(requiredFixture(value))); }

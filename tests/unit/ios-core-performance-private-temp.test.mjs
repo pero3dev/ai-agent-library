@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { requiredFixture, objectFixture, stringFixture } from '../helpers/json-fixtures.mjs';
 import { test } from 'node:test';
 import { spawn } from 'node:child_process';
 import { mkdtemp, mkdir, readFile, writeFile, lstat, chmod, rm, rename, symlink } from 'node:fs/promises';
@@ -8,23 +9,27 @@ import { createPrivateTempRoot, cleanupPrivateTempRoot, controlledChildEnvironme
 
 const candidate = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const runnerURL = pathToFileURL(path.join(candidate, 'ios/tests/core-performance-runner.mjs')).href;
+/** @template T @param {(root:string)=>Promise<T>} action @returns {Promise<T>} */
 async function fixture(action) {
   const root = await mkdtemp(path.join(candidate, '.core-private-temp-test-'));
   try { return await action(root); } finally { await rm(root, { recursive: true, force: true }); }
 }
+/** @param {string} location */
 async function absent(location) {
-  try { await lstat(location); return false; } catch (error) { if (error.code === 'ENOENT') return true; throw error; }
+  try { await lstat(location); return false; } catch (error) { if (error instanceof Error && 'code' in error && error.code === 'ENOENT') return true; throw error; }
 }
+/** @param {number} pid */
 function alive(pid) {
-  try { process.kill(pid, 0); return true; } catch (error) { if (error.code === 'ESRCH') return false; throw error; }
+  try { process.kill(pid, 0); return true; } catch (error) { if (error instanceof Error && 'code' in error && error.code === 'ESRCH') return false; throw error; }
 }
+/** @param {()=>boolean|Promise<boolean>} predicate @param {string} message @param {number} [limit] */
 async function waitFor(predicate, message, limit = 3000) {
   const deadline = Date.now() + limit;
   while (Date.now() < deadline) { if (await predicate()) return; await new Promise(resolve => setTimeout(resolve, 20)); }
   assert.fail(message);
 }
 
-test('controlled child gets only PATH/private TMPDIR, creates real private tempfile, and normal cleanup removes it', async () => {
+test('controlled child gets only PATH/private TMPDIR, creates real private tempfile, and normal cleanup removes it', { skip: process.platform === 'win32' ? "The immutable runner requires POSIX paths, owner modes and process groups" : false }, async () => {
   await fixture(async root => {
     const context = createPrivateTempRoot(root);
     const previousTMP = process.env.TMPDIR, previousSecret = process.env.ARTIFICIAL_CORE_SECRET;
@@ -33,14 +38,17 @@ test('controlled child gets only PATH/private TMPDIR, creates real private tempf
       assert.equal((await lstat(context.root)).mode & 0o777, 0o700);
       assert.deepEqual(Object.keys(controlledChildEnvironment(context)).sort(), ['PATH', 'TMPDIR']);
       const child = `const fs=require('node:fs'),os=require('node:os'),path=require('node:path');const temp=fs.mkdtempSync(path.join(os.tmpdir(),'actual-child-'));fs.writeFileSync(path.join(temp,'payload'),'fixture');process.stdout.write(JSON.stringify({tmpdir:os.tmpdir(),temp,keys:Object.keys(process.env).sort(),secret:process.env.ARTIFICIAL_CORE_SECRET??null,home:process.env.HOME??null}));`;
-      const value = JSON.parse((await runBounded(process.execPath, ['-e', child], { privateTempRoot: context, env: { ARTIFICIAL_CORE_SECRET: 'caller-secret-must-not-pass', HOME: '/uncontrolled-home' } })).stdout);
-      assert.equal(value.tmpdir, context.root); assert(value.temp.startsWith(context.root + path.sep));
+      const value = objectFixture(JSON.parse((await runBounded(process.execPath, ['-e', child], { privateTempRoot: context, env: { ARTIFICIAL_CORE_SECRET: 'caller-secret-must-not-pass', HOME: '/uncontrolled-home' } })).stdout.toString('utf8')));
+      const temp = stringFixture(value.temp);
+      assert.ok(Array.isArray(value.keys));
+      const keys = value.keys.map(stringFixture);
+      assert.equal(value.tmpdir, context.root); assert(temp.startsWith(context.root + path.sep));
       // Darwin Node startup can add this runtime key after receiving the two-key
       // spawn environment. All other unexpected keys remain a failure.
       const runtimeKeys = process.platform === 'darwin' ? ['__CF_USER_TEXT_ENCODING'] : [];
-      assert.deepEqual(value.keys.filter(key => !runtimeKeys.includes(key)), ['PATH', 'TMPDIR']);
+      assert.deepEqual(keys.filter(key => !runtimeKeys.includes(key)), ['PATH', 'TMPDIR']);
       assert.equal(value.secret, null); assert.equal(value.home, null);
-      assert.equal(await readFile(path.join(value.temp, 'payload'), 'utf8'), 'fixture');
+      assert.equal(await readFile(path.join(temp, 'payload'), 'utf8'), 'fixture');
       cleanupPrivateTempRoot(context); assert(await absent(context.root));
       assert(await absent(process.env.TMPDIR), 'Must not fall back to operator TMPDIR');
     } finally {
@@ -51,7 +59,7 @@ test('controlled child gets only PATH/private TMPDIR, creates real private tempf
   });
 });
 
-test('relative/symlink/preexisting/forged/changed ownership contexts reject without fallback or substitute deletion', async () => {
+test('relative/symlink/preexisting/forged/changed ownership contexts reject without fallback or substitute deletion', { skip: process.platform === 'win32' ? "The immutable runner requires POSIX paths, owner modes and process groups" : false }, async () => {
   await fixture(async root => {
     assert.throws(() => createPrivateTempRoot('relative'), /absolute/);
     const linked = path.join(root, 'linked'); await symlink(root, linked);
@@ -78,7 +86,7 @@ test('relative/symlink/preexisting/forged/changed ownership contexts reject with
   });
 });
 
-test('actual Node parent timeout path removes its owned private temp and terminated child', async () => {
+test('actual Node parent timeout path removes its owned private temp and terminated child', { skip: process.platform === 'win32' ? "The immutable runner requires POSIX paths, owner modes and process groups" : false }, async () => {
   await fixture(async root => {
     const owner = path.join(root, 'owner'); await mkdir(owner); const marker = path.join(root, 'child.json');
     const childCode = `const fs=require('node:fs'),os=require('node:os'),path=require('node:path');fs.writeFileSync(path.join(os.tmpdir(),'timeout-payload'),'fixture');fs.writeFileSync(process.argv[1]+'.pending',JSON.stringify({pid:process.pid,tmp:os.tmpdir()}));fs.renameSync(process.argv[1]+'.pending',process.argv[1]);setInterval(()=>{},1000);`;
@@ -127,34 +135,35 @@ test('actual Node parent timeout path removes its owned private temp and termina
         mock.restoreAll();
       }
     `;
+    /** @type {{pid:number,tmp:string}|undefined} */
     let child;
     try {
       await assert.rejects(runBounded(process.execPath, ['--input-type=module', '-e', parentCode, owner, marker], { timeoutMs: 3000 }), error => {
-        assert.match(error.message, /^Subprocess failed \(1\):/, 'The real outer watchdog must not be the timeout witness');
-        assert.match(error.message, /Error: Subprocess time limit exceeded/);
+        assert.match(error instanceof Error ? error.message : String(error), /^Subprocess failed \(1\):/, 'The real outer watchdog must not be the timeout witness');
+        assert.match(error instanceof Error ? error.message : String(error), /Error: Subprocess time limit exceeded/);
         return true;
       });
-      child = JSON.parse(await readFile(marker)); assert.equal(child.tmp, path.join(owner, '.process-tmp'));
-      assert(await absent(child.tmp)); await waitFor(() => !alive(child.pid), 'Timeout child survived');
+      child = witness(JSON.parse(await readFile(marker, 'utf8'))); assert.equal(child.tmp, path.join(owner, '.process-tmp'));
+      assert(await absent(requiredFixture(child).tmp)); await waitFor(() => !alive(requiredFixture(child).pid), 'Timeout child survived');
       assert((await lstat(owner)).isDirectory(), 'Only private temp was removed');
     } finally {
       // An outer watchdog/early assertion failure can kill the parent before its
       // synchronous exit hook runs. Reap only the child identified by this
       // fixture's atomically published marker before fixture() removes the root.
-      if (!child && !(await absent(marker))) child = JSON.parse(await readFile(marker));
+      if (!child && !(await absent(marker))) child = witness(JSON.parse(await readFile(marker, 'utf8')));
       if (child) {
         assert(Number.isSafeInteger(child.pid) && child.pid > 0, 'The fixture marker must identify one positive child PID');
-        if (alive(child.pid)) {
-          try { process.kill(process.platform === 'win32' ? child.pid : -child.pid, 'SIGKILL'); } catch (error) { if (error.code !== 'ESRCH') throw error; }
-          await waitFor(() => !alive(child.pid), 'Timeout fallback child survived');
+        if (alive(requiredFixture(child).pid)) {
+          try { process.kill(process.platform === 'win32' ? child.pid : -child.pid, 'SIGKILL'); } catch (error) { if (!(error instanceof Error && 'code' in error && error.code === 'ESRCH')) throw error; }
+          await waitFor(() => !alive(requiredFixture(child).pid), 'Timeout fallback child survived');
         }
       }
     }
   });
 });
 
-for (const [ending, code] of [['SIGINT', 130], ['SIGTERM', 143], ['exit', 7]]) {
-  test(`actual Node parent ${ending} cleans owned temp and child while unrelated paths/processes survive`, { timeout: 10000 }, async () => {
+for (const [ending, code] of /** @type {[NodeJS.Signals|'exit',number][]} */ ([['SIGINT', 130], ['SIGTERM', 143], ['exit', 7]])) {
+  test(`actual Node parent ${ending} cleans owned temp and child while unrelated paths/processes survive`, { skip: process.platform === 'win32' ? "The immutable runner requires POSIX paths, owner modes and process groups" : false, timeout: 10000 }, async () => {
     await fixture(async root => {
       const owner = path.join(root, 'owner'); await mkdir(owner); const marker = path.join(root, 'child.json'), sentinel = path.join(root, 'sentinel'); await writeFile(sentinel, 'keep');
       const childCode = `const fs=require('node:fs'),os=require('node:os'),path=require('node:path');fs.writeFileSync(path.join(os.tmpdir(),'signal-payload'),'fixture');fs.writeFileSync(process.argv[1]+'.pending',JSON.stringify({pid:process.pid,tmp:os.tmpdir()}));fs.renameSync(process.argv[1]+'.pending',process.argv[1]);setInterval(()=>{},1000);`;
@@ -163,18 +172,22 @@ for (const [ending, code] of [['SIGINT', 130], ['SIGTERM', 143], ['exit', 7]]) {
       const controlClosed = new Promise(resolve => control.once('close', resolve));
       const parent = spawn(process.execPath, ['--input-type=module', '-e', parentCode, owner, marker], { stdio: 'ignore' });
       const parentClosed = new Promise((resolve, reject) => { parent.once('error', reject); parent.once('close', (exitCode, signal) => resolve({ code: exitCode, signal })); });
+      /** @type {{pid:number,tmp:string}|undefined} */
       let child;
       try {
-        await waitFor(async () => { try { child = JSON.parse(await readFile(marker)); return true; } catch (error) { if (error.code === 'ENOENT') return false; throw error; } }, 'Private child did not start');
-        if (ending !== 'exit') { assert(alive(child.pid)); assert(parent.kill(ending)); }
+        await waitFor(async () => { try { child = witness(JSON.parse(await readFile(marker, 'utf8'))); return true; } catch (error) { if (error instanceof Error && 'code' in error && error.code === 'ENOENT') return false; throw error; } }, 'Private child did not start');
+        if (ending !== 'exit') { assert(alive(requiredFixture(child).pid)); assert(parent.kill(ending)); }
         const result = await Promise.race([parentClosed, new Promise((_, reject) => setTimeout(() => reject(new Error('Parent did not terminate')), 3000).unref())]);
-        assert.deepEqual(result, { code, signal: null }); assert(await absent(child.tmp)); await waitFor(() => !alive(child.pid), 'Owned child survived');
-        assert(alive(control.pid)); assert.equal(await readFile(sentinel, 'utf8'), 'keep'); assert((await lstat(owner)).isDirectory());
+        assert.deepEqual(result, { code, signal: null }); assert(await absent(requiredFixture(child).tmp)); await waitFor(() => !alive(requiredFixture(child).pid), 'Owned child survived');
+        assert(alive(requiredFixture(control.pid))); assert.equal(await readFile(sentinel, 'utf8'), 'keep'); assert((await lstat(owner)).isDirectory());
       } finally {
         if (parent.exitCode === null && parent.signalCode === null) parent.kill('SIGKILL');
-        if (child && alive(child.pid)) { try { process.kill(-child.pid, 'SIGKILL'); } catch {} }
+        if (child && alive(requiredFixture(child).pid)) { try { process.kill(-child.pid, 'SIGKILL'); } catch {} }
         control.kill('SIGKILL'); await Promise.all([parentClosed, controlClosed]);
       }
     });
   });
 }
+
+/** @param {unknown} value @returns {{pid:number,tmp:string}} */
+function witness(value) { const row = objectFixture(value); assert.equal(typeof row.pid, 'number'); if(typeof row.pid !== 'number') throw new Error('Expected child PID'); return {pid: row.pid, tmp: stringFixture(row.tmp)}; }

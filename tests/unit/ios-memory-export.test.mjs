@@ -16,18 +16,22 @@ import { compareMemoryCSVNumbers, enforceCompactCaps, equalMemoryDecimalTokens, 
 const exporter = fileURLToPath(new URL('../../ios/tests/export-memory.mjs', import.meta.url))
 const id = 'PublishedPerformanceUITests/testPublishedArticleAppMemory()'
 const head = 'a'.repeat(40)
-const clone = value => structuredClone(value)
+/** @template T @param {T} value @returns {import('../helpers/ios-fixture-types.ts').MutableFixture<T>} */
+const clone = value => /** @type {import('../helpers/ios-fixture-types.ts').MutableFixture<T>} */ (/** @type {unknown} */ (structuredClone(value)))
+/** @param {import('node:crypto').BinaryLike} bytes */
 const hash = bytes => createHash('sha256').update(bytes).digest('hex')
 const posixOnly = { skip: process.platform === 'win32' ? 'Local xcrun executable double uses POSIX; no real Xcode process runs' : false }
 
 // Arbitrary candidates exercise normalization only. Fixed-wire fixtures below
 // use adopted identifiers with synthetic values, never a product budget.
+/** @param {string} name @param {unknown[]} [values] */
 const metric = (name, values = ['-4.00', '0', '+1e0']) => ({
   _type: { _name: 'ActionTestPerformanceMetricSummary' }, identifier: { _type: { _name: 'String' }, _value: name },
   displayName: { _type: { _name: 'String' }, _value: 'Fictional ' + name }, unitOfMeasurement: { _type: { _name: 'String' }, _value: 'fictional-units' },
   baselineAverage: { _type: { _name: 'Double' }, _value: '0.0' }, baselineName: { _type: { _name: 'String' }, _value: '' },
   measurements: { _values: values.map(value => ({ _type: { _name: 'Double' }, _value: value })) }
 })
+/** @param {number} index @param {unknown[]} [values] @returns {ReturnType<typeof metric>} */
 const fixedMetric = (index, values) => ({ ...metric(trustedMemoryContract.metrics[index].identifier, values),
   displayName: { _type: { _name: 'String' }, _value: trustedMemoryContract.metrics[index].display_name },
   unitOfMeasurement: { _type: { _name: 'String' }, _value: 'kB' } })
@@ -64,12 +68,14 @@ const contextFixture = () => ({ schema_version: 1, ...memoryObservation, configu
 const currentFB29Summary = {"_type":{"_name":"ActionTestSummary","_supertype":{"_name":"ActionTestSummaryIdentifiableObject","_supertype":{"_name":"ActionAbstractTestSummary"}}},"identifier":{"_type":{"_name":"String"},"_value":"PublishedPerformanceUITests/testPublishedArticleAppMemory()"},"testStatus":{"_type":{"_name":"String"},"_value":"Success"},"performanceMetrics":{"_type":{"_name":"Array"},"_values":[{"_type":{"_name":"ActionTestPerformanceMetricSummary"},"baselineAverage":{"_type":{"_name":"Double"},"_value":"0.0"},"baselineName":{"_type":{"_name":"String"},"_value":""},"displayName":{"_type":{"_name":"String"},"_value":"Absolute Memory Physical (prototype)"},"identifier":{"_type":{"_name":"String"},"_value":"com.apple.dt.XCTMetric_Memory-dev.pero3.aiagentlibrary.prototype.physical_absolute"},"maxPercentRegression":{"_type":{"_name":"Double"},"_value":"10.0"},"maxPercentRelativeStandardDeviation":{"_type":{"_name":"Double"},"_value":"10.0"},"maxRegression":{"_type":{"_name":"Double"},"_value":"0.0"},"maxStandardDeviation":{"_type":{"_name":"Double"},"_value":"10.0"},"measurements":{"_type":{"_name":"Array"},"_values":[{"_type":{"_name":"Double"},"_value":"115629.696"},{"_type":{"_name":"Double"},"_value":"116989.568"},{"_type":{"_name":"Double"},"_value":"117530.24"}]},"polarity":{"_type":{"_name":"String"},"_value":"prefers smaller"},"unitOfMeasurement":{"_type":{"_name":"String"},"_value":"kB"}},{"_type":{"_name":"ActionTestPerformanceMetricSummary"},"baselineAverage":{"_type":{"_name":"Double"},"_value":"0.0"},"baselineName":{"_type":{"_name":"String"},"_value":""},"displayName":{"_type":{"_name":"String"},"_value":"Memory Peak Physical (prototype)"},"identifier":{"_type":{"_name":"String"},"_value":"com.apple.dt.XCTMetric_Memory-dev.pero3.aiagentlibrary.prototype.physical_peak"},"maxPercentRegression":{"_type":{"_name":"Double"},"_value":"10.0"},"maxPercentRelativeStandardDeviation":{"_type":{"_name":"Double"},"_value":"10.0"},"maxRegression":{"_type":{"_name":"Double"},"_value":"0.0"},"maxStandardDeviation":{"_type":{"_name":"Double"},"_value":"10.0"},"measurements":{"_type":{"_name":"Array"},"_values":[{"_type":{"_name":"Double"},"_value":"117972.608"},{"_type":{"_name":"Double"},"_value":"119398.016"},{"_type":{"_name":"Double"},"_value":"120151.68"}]},"polarity":{"_type":{"_name":"String"},"_value":"prefers smaller"},"unitOfMeasurement":{"_type":{"_name":"String"},"_value":"kB"}},{"_type":{"_name":"ActionTestPerformanceMetricSummary"},"baselineAverage":{"_type":{"_name":"Double"},"_value":"0.0"},"baselineName":{"_type":{"_name":"String"},"_value":""},"displayName":{"_type":{"_name":"String"},"_value":"Memory Physical (prototype)"},"identifier":{"_type":{"_name":"String"},"_value":"com.apple.dt.XCTMetric_Memory-dev.pero3.aiagentlibrary.prototype.physical"},"maxPercentRegression":{"_type":{"_name":"Double"},"_value":"10.0"},"maxPercentRelativeStandardDeviation":{"_type":{"_name":"Double"},"_value":"10.0"},"maxRegression":{"_type":{"_name":"Double"},"_value":"0.0"},"maxStandardDeviation":{"_type":{"_name":"Double"},"_value":"10.0"},"measurements":{"_type":{"_name":"Array"},"_values":[{"_type":{"_name":"Double"},"_value":"3489.792"},{"_type":{"_name":"Double"},"_value":"3129.344"},{"_type":{"_name":"Double"},"_value":"2441.216"}]},"polarity":{"_type":{"_name":"String"},"_value":"prefers smaller"},"unitOfMeasurement":{"_type":{"_name":"String"},"_value":"kB"}}]}}
 const currentFB29CSV = Buffer.from("\"Destination\",\"Configuration\",\"Absolute Memory Physical (prototype) (Average)\",\"Absolute Memory Physical (prototype) (Iterations)\",\"Absolute Memory Physical (prototype) (Baseline)\",\"Memory Peak Physical (prototype) (Average)\",\"Memory Peak Physical (prototype) (Iterations)\",\"Memory Peak Physical (prototype) (Baseline)\",\"Memory Physical (prototype) (Average)\",\"Memory Physical (prototype) (Iterations)\",\"Memory Physical (prototype) (Baseline)\"\n\"iPhone 16 iOS Simulator 18.5\",\"Test Scheme Action\",\"116716.5013 kB\",\"[115629.696, 116989.568, 117530.24]\",\"0\",\"119174.1013 kB\",\"[117972.608, 119398.016, 120151.68]\",\"0\",\"3020.117333 kB\",\"[3489.792, 3129.344, 2441.216]\",\"0\"")
 
+/** @param {import('node:test').TestContext} t */
 function temporary(t) {
   const directory = realpathSync(mkdtempSync(path.join(os.tmpdir(), 'ailibrary-memory-export-test-')))
   t.after(() => rmSync(directory, { recursive: true, force: true }))
   return directory
 }
 
+/** @param {import('node:test').TestContext} t */
 function inputFixture(t) {
   const root = temporary(t), result = path.join(root, 'memory.xcresult'), context = path.join(root, 'context.json')
   mkdirSync(result); writeFileSync(path.join(result, 'database.sqlite3'), 'immutable synthetic result')
@@ -77,6 +83,7 @@ function inputFixture(t) {
   return { root, result, context, output: path.join(root, 'export'), expectedHead: head }
 }
 
+/** @param {ReturnType<typeof summaryFixture>} summary @param {number} count */
 function verboseSummaryFixture(summary, count) {
   return { ...summary, activitySummaries: { _values: Array.from({ length: count }, (_, index) => ({
     _type: { _name: 'ActionTestActivitySummary' },
@@ -85,25 +92,30 @@ function verboseSummaryFixture(summary, count) {
   })) } }
 }
 
+/** @param {ReturnType<typeof summaryFixture>} summary @param {ReturnType<typeof detailsFixture>} details */
 function memoryCSVFixture(summary, details) {
   const header = ['Destination', 'Configuration'], device = details.devices[0]
   const row = [[device.modelName, device.platform, device.osVersion].join(' '), details.testPlanConfigurations[0].configurationName]
   for (const metric of summary.performanceMetrics._values) {
     const values = metric.measurements._values.map(value => value._value), title = metric.displayName._value
     for (const suffix of ['Average', 'Iterations', 'Baseline']) header.push(title + ' (' + suffix + ')')
-    const mean = values.reduce((total, value) => total + Number(value) / values.length, 0)
+    const mean = values.reduce(/** @param {number} total */ (total, value) => total + Number(value) / values.length, 0)
     row.push(mean.toFixed(6) + ' kB', '[' + values.join(', ') + ']', '0')
   }
+  /** @param {string} value */
   const quoted = value => '"' + value.replaceAll('"', '""') + '"'
   return header.map(quoted).join(',') + '\n' + row.map(quoted).join(',') + '\n'
 }
 
+/** @param {Buffer} bytes @param {(parsed: ReturnType<typeof parseMemoryCSV>) => void} mutate */
 function rewriteCSVFixture(bytes, mutate) {
   const parsed = parseMemoryCSV(bytes); mutate(parsed)
+  /** @param {string} value */
   const quoted = value => '"' + value.replaceAll('"', '""') + '"'
   return Buffer.from(parsed.header.map(quoted).join(',') + '\n' + parsed.row.map(quoted).join(',') + '\n')
 }
 
+/** @param {import('node:test').TestContext} t @param {string} [mode] @param {string[]} [flags] */
 function fixtureCLI(t, mode = 'complete', flags = []) {
   const options = inputFixture(t), bin = path.join(options.root, 'bin'); mkdirSync(bin)
   const commands = path.join(options.root, 'calls.jsonl'), database = path.join(options.result, 'database.sqlite3')
@@ -196,7 +208,7 @@ else if (args.includes('object')) {
     encoding: 'utf8', timeout: 15000, env: { ...process.env, PATH: [bin, path.dirname(process.execPath), process.env.PATH ?? ''].join(path.delimiter) }
   })
   assert.equal(run.error, undefined)
-  return { ...options, run, calls: () => existsSync(commands) ? readFileSync(commands, 'utf8').trim().split('\n').map(JSON.parse) : [],
+  return { ...options, run, calls: () => existsSync(commands) ? readFileSync(commands, 'utf8').trim().split('\n').map(line => /** @type {string[]} */ (JSON.parse(line))) : [],
     summary: () => JSON.parse(readFileSync(path.join(options.output, 'summary.json'), 'utf8')),
     verboseSummaryBytes: () => Buffer.from(JSON.stringify(verboseSummaryFixture(fixtures.summary, mode === 'large-summary' ? 2800 : 4200), null, 2) + '\n'),
     databaseBytes: () => readFileSync(database, 'utf8') }
@@ -209,11 +221,11 @@ test('fixed one case and modern/legacy identity join accept a synthetic passed c
 
 test('extra, foreign, skipped, failed and mismatched cases are refused', () => {
   for (const mutate of [
-    value => value.testNodes[0].children.push(clone(value.testNodes[0].children[0])),
-    value => { value.testNodes[0].children[0].nodeIdentifier = 'Other/test()' },
-    value => { value.testNodes[0].children[0].result = 'Skipped' },
-    value => { value.testNodes[0].children[0].result = 'Failed' },
-    value => { value.testNodes[0].result = 'Failed' }
+    (/** @type {ReturnType<typeof testsFixture>} */ value) => value.testNodes[0].children.push(clone(value.testNodes[0].children[0])),
+    (/** @type {ReturnType<typeof testsFixture>} */ value) => { value.testNodes[0].children[0].nodeIdentifier = 'Other/test()' },
+    (/** @type {ReturnType<typeof testsFixture>} */ value) => { value.testNodes[0].children[0].result = 'Skipped' },
+    (/** @type {ReturnType<typeof testsFixture>} */ value) => { value.testNodes[0].children[0].result = 'Failed' },
+    (/** @type {ReturnType<typeof testsFixture>} */ value) => { value.testNodes[0].result = 'Failed' }
   ]) { const report = testsFixture(); mutate(report); assert.throws(() => verifyMemoryCase(report, detailsFixture())) }
   for (const patch of [{ testIdentifier: 'Other/test()' }, { testResult: 'Failed' }, { hasPerformanceMetrics: false }, { devices: [] }]) {
     assert.throws(() => verifyMemoryCase(testsFixture(), { ...detailsFixture(), ...patch }))
@@ -221,16 +233,17 @@ test('extra, foreign, skipped, failed and mismatched cases are refused', () => {
 })
 
 test('legacy invocation, plan, duplicate refs, summary type/status and identifiers fail closed', () => {
+  /** @type {[ReturnType<typeof rootFixture>, ReturnType<typeof planFixture>, ReturnType<typeof summaryFixture>, string]} */
   const baseline = [rootFixture(), planFixture(), summaryFixture(), id]
   for (const mutate of [
-    value => { value[0]._type._name = 'Wrong' }, value => { value[0].actions._values.push(clone(value[0].actions._values[0])) },
-    value => { delete value[0].actions._values[0].actionResult.testsRef },
-    value => { value[1]._type._name = 'Wrong' }, value => { value[1].summaries.push(clone(value[1].summaries[0])) },
-    value => { value[1].summaries[0].identifier._value = 'Other/test()' },
-    value => { const foreign = clone(value[1].summaries[0]); foreign.identifier._value = 'Other/testForeign()'; value[1].summaries.push(foreign) },
-    value => { value[1].summaries = [] },
-    value => { value[2]._type._name = 'Wrong' }, value => { value[2].testStatus._value = 'Failure' },
-    value => { value[2].identifier._value = 'Other/test()' }
+    (/** @type {typeof baseline} */ value) => { value[0]._type._name = 'Wrong' }, (/** @type {typeof baseline} */ value) => { value[0].actions._values.push(clone(value[0].actions._values[0])) },
+    (/** @type {typeof baseline} */ value) => { Reflect.deleteProperty(value[0].actions._values[0].actionResult, 'testsRef') },
+    (/** @type {typeof baseline} */ value) => { value[1]._type._name = 'Wrong' }, (/** @type {typeof baseline} */ value) => { value[1].summaries.push(clone(value[1].summaries[0])) },
+    (/** @type {typeof baseline} */ value) => { value[1].summaries[0].identifier._value = 'Other/test()' },
+    (/** @type {typeof baseline} */ value) => { const foreign = clone(value[1].summaries[0]); foreign.identifier._value = 'Other/testForeign()'; value[1].summaries.push(foreign) },
+    (/** @type {typeof baseline} */ value) => { value[1].summaries = [] },
+    (/** @type {typeof baseline} */ value) => { value[2]._type._name = 'Wrong' }, (/** @type {typeof baseline} */ value) => { value[2].testStatus._value = 'Failure' },
+    (/** @type {typeof baseline} */ value) => { value[2].identifier._value = 'Other/test()' }
   ]) { const args = clone(baseline); mutate(args); assert.throws(() => selectLegacySummary(...args)) }
 })
 
@@ -245,13 +258,13 @@ test('candidate set preserves signed, zero and decimal spelling without identify
 
 test('missing, extra, duplicate, mistyped, nonfinite and underflowed metric samples are refused', () => {
   for (const mutate of [
-    value => { value.performanceMetrics._values = [] },
-    value => { value.performanceMetrics._values.push(clone(value.performanceMetrics._values[0])) },
-    value => { value.performanceMetrics._values[0]._type._name = 'Wrong' },
-    value => { value.performanceMetrics._values[0].measurements._values.pop() },
-    value => { value.performanceMetrics._values[0].measurements._values.push({ _type: { _name: 'Double' }, _value: '4' }) },
-    value => { value.performanceMetrics._values[0].measurements._values[0]._type._name = 'Int' },
-    value => { delete value.performanceMetrics._values[0].measurements._values[0]._value }
+    (/** @type {ReturnType<typeof summaryFixture>} */ value) => { value.performanceMetrics._values = [] },
+    (/** @type {ReturnType<typeof summaryFixture>} */ value) => { value.performanceMetrics._values.push(clone(value.performanceMetrics._values[0])) },
+    (/** @type {ReturnType<typeof summaryFixture>} */ value) => { value.performanceMetrics._values[0]._type._name = 'Wrong' },
+    (/** @type {ReturnType<typeof summaryFixture>} */ value) => { value.performanceMetrics._values[0].measurements._values.pop() },
+    (/** @type {ReturnType<typeof summaryFixture>} */ value) => { value.performanceMetrics._values[0].measurements._values.push({ _type: { _name: 'Double' }, _value: '4' }) },
+    (/** @type {ReturnType<typeof summaryFixture>} */ value) => { value.performanceMetrics._values[0].measurements._values[0]._type._name = 'Int' },
+    (/** @type {ReturnType<typeof summaryFixture>} */ value) => { Reflect.deleteProperty(value.performanceMetrics._values[0].measurements._values[0], '_value') }
   ]) { const summary = summaryFixture(); mutate(summary); assert.throws(() => normalizeMemoryCandidates(summary, id)) }
   for (const token of ['NaN', 'Infinity', '-Infinity', '1e999', '1e-999', '', ' ', true, null, ' 1']) {
     const summary = summaryFixture(); summary.performanceMetrics._values[0].measurements._values[0]._value = token
@@ -265,8 +278,8 @@ test('fixed source contract is deeply frozen and rejects runtime substitution or
   assert.ok(Object.isFrozen(trustedMemoryContract)); assert.ok(Object.isFrozen(trustedMemoryContract.metrics))
   for (const value of trustedMemoryContract.metrics) assert.ok(Object.isFrozen(value))
   assert.ok(Object.isFrozen(trustedMemoryContract.csv)); assert.ok(Object.isFrozen(trustedMemoryContract.csv.fixed_headers)); assert.ok(Object.isFrozen(trustedMemoryContract.csv.suffixes))
-  assert.throws(() => { trustedMemoryContract.metrics[0].identifier = 'foreign' })
-  assert.throws(() => { trustedMemoryContract.csv.suffixes.push('foreign') })
+  assert.throws(() => { Object.assign(trustedMemoryContract.metrics[0], {identifier: 'foreign'}) })
+  assert.throws(() => { Array.prototype.push.call(trustedMemoryContract.csv.suffixes, 'foreign') })
   assert.equal(validateMemoryMetricSet(candidates).confirmed, true)
   assert.throws(() => validateMemoryMetricSet(candidates, { identifiers: ['synthetic.alpha'] }))
   assert.throws(() => validateMemoryMetricSet(candidates, clone(trustedMemoryContract)))
@@ -334,6 +347,7 @@ test('generic mean comparison separates printed rounding from bounded binary64 a
   assert.throws(() => compareMemoryCSVNumbers(['1', '2', '3'], '[1, 2, 3]', '2e0'), /plain printed average/)
 })
 
+/** @param {number} value */
 function plainDouble(value) {
   const token = String(value), match = /^(-?)(\d+)(?:\.(\d+))?[eE]([+-]?\d+)$/.exec(token)
   if (!match) return token
@@ -421,24 +435,26 @@ test('current fb29 typed and CSV wire fixture joins all three metrics, samples a
 test('fixed metric set rejects missing, extra, unknown, mistyped or inconsistent metadata and baselines', () => {
   const baseline = normalizeMemoryCandidates(summaryFixture(), id)
   for (const mutate of [
-    values => values.pop(), values => values.push(clone(values[0])),
-    values => { values[0].identifier += '.foreign' }, values => { values[0].display_name += ' Runner' },
-    values => { values[0].unit = 'MB' }, values => { values[0].sample_count = 2 },
-    values => { values[0].samples[0] = 99 }, values => { values[0].raw_samples.pop() }, values => { values[0].raw_samples[0] = 100 },
-    values => { values[0].baseline.average_raw = '1' }, values => { values[0].baseline.name = 'adopted budget' },
-    values => { delete values[0].baseline }
+    (/** @type {import('../../ios/tests/xcresult-types.ts').MemoryCandidate[]} */ values) => values.pop(), (/** @type {import('../../ios/tests/xcresult-types.ts').MemoryCandidate[]} */ values) => values.push(clone(values[0])),
+    (/** @type {import('../../ios/tests/xcresult-types.ts').MemoryCandidate[]} */ values) => { values[0].identifier += '.foreign' }, (/** @type {import('../../ios/tests/xcresult-types.ts').MemoryCandidate[]} */ values) => { values[0].display_name += ' Runner' },
+    (/** @type {import('../../ios/tests/xcresult-types.ts').MemoryCandidate[]} */ values) => { values[0].unit = 'MB' }, (/** @type {import('../../ios/tests/xcresult-types.ts').MemoryCandidate[]} */ values) => { values[0].sample_count = 2 },
+    (/** @type {import('../../ios/tests/xcresult-types.ts').MemoryCandidate[]} */ values) => { values[0].samples[0] = 99 }, (/** @type {import('../../ios/tests/xcresult-types.ts').MemoryCandidate[]} */ values) => { values[0].raw_samples.pop() }, (/** @type {import('../../ios/tests/xcresult-types.ts').MemoryCandidate[]} */ values) => { Reflect.set(values[0].raw_samples, 0, 100) },
+    (/** @type {import('../../ios/tests/xcresult-types.ts').MemoryCandidate[]} */ values) => { values[0].baseline.average_raw = '1' }, (/** @type {import('../../ios/tests/xcresult-types.ts').MemoryCandidate[]} */ values) => { values[0].baseline.name = 'adopted budget' },
+    (/** @type {import('../../ios/tests/xcresult-types.ts').MemoryCandidate[]} */ values) => { Reflect.deleteProperty(values[0], 'baseline') }
   ]) { const candidates = clone(baseline); mutate(candidates); assert.throws(() => validateMemoryMetricSet(candidates)) }
   for (const mutate of [
-    summary => { summary.performanceMetrics._values[0].identifier._type._name = 'Int' },
-    summary => { summary.performanceMetrics._values[0].baselineAverage._type._name = 'Int' },
-    summary => { delete summary.performanceMetrics._values[0].baselineName },
-    summary => { summary.performanceMetrics._values[0].baselineAverage._value = 'Infinity' },
-    summary => { summary.performanceMetrics._values[0].measurements._values[0]._value = 100 }
+    (/** @type {ReturnType<typeof summaryFixture>} */ summary) => { summary.performanceMetrics._values[0].identifier._type._name = 'Int' },
+    (/** @type {ReturnType<typeof summaryFixture>} */ summary) => { summary.performanceMetrics._values[0].baselineAverage._type._name = 'Int' },
+    (/** @type {ReturnType<typeof summaryFixture>} */ summary) => { Reflect.deleteProperty(summary.performanceMetrics._values[0], 'baselineName') },
+    (/** @type {ReturnType<typeof summaryFixture>} */ summary) => { summary.performanceMetrics._values[0].baselineAverage._value = 'Infinity' },
+    (/** @type {ReturnType<typeof summaryFixture>} */ summary) => { summary.performanceMetrics._values[0].measurements._values[0]._value = 100 }
   ]) { const summary = summaryFixture(); mutate(summary); assert.throws(() => normalizeMemoryCandidates(summary, id)) }
 })
 
 test('memory CSV header correlation is by the exact column-name set rather than column positions', () => {
-  const candidates = normalizeMemoryCandidates(currentFB29Summary, id), files = bytes => [{ name: 'current.csv', bytes }]
+  const candidates = normalizeMemoryCandidates(currentFB29Summary, id)
+  /** @param {Buffer} bytes */
+  const files = bytes => [{ name: 'current.csv', bytes }]
   const baseline = validateMemoryCSV(files(currentFB29CSV), candidates, detailsFixture(), contextFixture())
   const reordered = rewriteCSVFixture(currentFB29CSV, parsed => {
     parsed.header.reverse(); parsed.row.reverse()
@@ -450,6 +466,7 @@ test('memory CSV header correlation is by the exact column-name set rather than 
 
 test('memory CSV refuses altered headers, samples, units, means, baselines, configurations and extra records', () => {
   const candidates = normalizeMemoryCandidates(currentFB29Summary, id)
+  /** @param {(parsed: ReturnType<typeof parseMemoryCSV>) => void} mutate */
   const invalid = mutate => rewriteCSVFixture(currentFB29CSV, mutate)
   for (const bytes of [
     invalid(value => { value.header[0] = 'Foreign Destination' }),
@@ -475,18 +492,18 @@ test('memory CSV refuses altered headers, samples, units, means, baselines, conf
 test('memory CSV result UUID, custom name, model, platform, OS and Debug producer context must agree', () => {
   const candidates = normalizeMemoryCandidates(currentFB29Summary, id), files = [{ name: 'one.csv', bytes: currentFB29CSV }]
   for (const mutate of [
-    (details, context) => { details.devices[0].deviceId = 'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee' },
-    (details, context) => { details.devices[0].deviceName = 'foreign-owned-name' },
-    (details, context) => { details.devices[0].modelName = 'iPhone 15' },
-    (details, context) => { details.devices[0].platform = 'iOS' },
-    (details, context) => { details.devices[0].osVersion = '18.6' },
-    (details, context) => { details.devices.push(clone(details.devices[0])) },
-    (details, context) => { details.testPlanConfigurations[0].configurationName = 'Debug' },
-    (details, context) => { details.testPlanConfigurations.push(clone(details.testPlanConfigurations[0])) },
-    (details, context) => { context.destination.uuid = 'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee' },
-    (details, context) => { context.destination.owned = false },
-    (details, context) => { context.destination.runtime_identifier = 'foreign-runtime' },
-    (details, context) => { context.configuration = 'Release' }
+    (/** @type {ReturnType<typeof detailsFixture>} */ details, /** @type {import('../helpers/ios-fixture-types.ts').MutableFixture<ReturnType<typeof contextFixture>>} */ context) => { details.devices[0].deviceId = 'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee' },
+    (/** @type {ReturnType<typeof detailsFixture>} */ details, /** @type {import('../helpers/ios-fixture-types.ts').MutableFixture<ReturnType<typeof contextFixture>>} */ context) => { details.devices[0].deviceName = 'foreign-owned-name' },
+    (/** @type {ReturnType<typeof detailsFixture>} */ details, /** @type {import('../helpers/ios-fixture-types.ts').MutableFixture<ReturnType<typeof contextFixture>>} */ context) => { details.devices[0].modelName = 'iPhone 15' },
+    (/** @type {ReturnType<typeof detailsFixture>} */ details, /** @type {import('../helpers/ios-fixture-types.ts').MutableFixture<ReturnType<typeof contextFixture>>} */ context) => { details.devices[0].platform = 'iOS' },
+    (/** @type {ReturnType<typeof detailsFixture>} */ details, /** @type {import('../helpers/ios-fixture-types.ts').MutableFixture<ReturnType<typeof contextFixture>>} */ context) => { details.devices[0].osVersion = '18.6' },
+    (/** @type {ReturnType<typeof detailsFixture>} */ details, /** @type {import('../helpers/ios-fixture-types.ts').MutableFixture<ReturnType<typeof contextFixture>>} */ context) => { details.devices.push(clone(details.devices[0])) },
+    (/** @type {ReturnType<typeof detailsFixture>} */ details, /** @type {import('../helpers/ios-fixture-types.ts').MutableFixture<ReturnType<typeof contextFixture>>} */ context) => { details.testPlanConfigurations[0].configurationName = 'Debug' },
+    (/** @type {ReturnType<typeof detailsFixture>} */ details, /** @type {import('../helpers/ios-fixture-types.ts').MutableFixture<ReturnType<typeof contextFixture>>} */ context) => { details.testPlanConfigurations.push(clone(details.testPlanConfigurations[0])) },
+    (/** @type {ReturnType<typeof detailsFixture>} */ details, /** @type {import('../helpers/ios-fixture-types.ts').MutableFixture<ReturnType<typeof contextFixture>>} */ context) => { context.destination.uuid = 'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee' },
+    (/** @type {ReturnType<typeof detailsFixture>} */ details, /** @type {import('../helpers/ios-fixture-types.ts').MutableFixture<ReturnType<typeof contextFixture>>} */ context) => { context.destination.owned = false },
+    (/** @type {ReturnType<typeof detailsFixture>} */ details, /** @type {import('../helpers/ios-fixture-types.ts').MutableFixture<ReturnType<typeof contextFixture>>} */ context) => { context.destination.runtime_identifier = 'foreign-runtime' },
+    (/** @type {ReturnType<typeof detailsFixture>} */ details, /** @type {import('../helpers/ios-fixture-types.ts').MutableFixture<ReturnType<typeof contextFixture>>} */ context) => { context.configuration = 'Release' }
   ]) {
     const details = detailsFixture(), context = contextFixture(); mutate(details, context)
     assert.throws(() => validateMemoryCSV(files, candidates, details, context))
@@ -499,12 +516,12 @@ test('producer provenance requires independent expected head while allowing PR s
   assert.equal(result.runtime_checkout_cryptographically_verified, false); assert.equal(result.protocol_payload_verified, false)
   assert.throws(() => verifyMemoryProvenance(contextFixture(), '0'.repeat(40)))
   for (const mutate of [
-    value => { value.checkout_head = '0'.repeat(40) }, value => { value.scenario = 'launch-to-published-readiness' },
-    value => { value.metric_configuration = 'XCTMemoryMetric()' }, value => { value.expected_articles = 3 },
-    value => { value.github.event_name = 'pull_request_target' }, value => { value.github.event_name = 'push' },
-    value => { value.github.run_id = '1;bad' }, value => { value.destination.owned = false },
-    value => { value.destination.device_model_name = 'Other' }, value => { value.application.articles = 3 },
-    value => { value.application.fixture_audited = false }, value => { value.source_sha256.extra = 'f'.repeat(64) }
+    (/** @type {import('../helpers/ios-fixture-types.ts').MutableFixture<ReturnType<typeof contextFixture>>} */ value) => { value.checkout_head = '0'.repeat(40) }, (/** @type {import('../helpers/ios-fixture-types.ts').MutableFixture<ReturnType<typeof contextFixture>>} */ value) => { value.scenario = 'launch-to-published-readiness' },
+    (/** @type {import('../helpers/ios-fixture-types.ts').MutableFixture<ReturnType<typeof contextFixture>>} */ value) => { value.metric_configuration = 'XCTMemoryMetric()' }, (/** @type {import('../helpers/ios-fixture-types.ts').MutableFixture<ReturnType<typeof contextFixture>>} */ value) => { value.expected_articles = 3 },
+    (/** @type {import('../helpers/ios-fixture-types.ts').MutableFixture<ReturnType<typeof contextFixture>>} */ value) => { value.github.event_name = 'pull_request_target' }, (/** @type {import('../helpers/ios-fixture-types.ts').MutableFixture<ReturnType<typeof contextFixture>>} */ value) => { value.github.event_name = 'push' },
+    (/** @type {import('../helpers/ios-fixture-types.ts').MutableFixture<ReturnType<typeof contextFixture>>} */ value) => { value.github.run_id = '1;bad' }, (/** @type {import('../helpers/ios-fixture-types.ts').MutableFixture<ReturnType<typeof contextFixture>>} */ value) => { value.destination.owned = false },
+    (/** @type {import('../helpers/ios-fixture-types.ts').MutableFixture<ReturnType<typeof contextFixture>>} */ value) => { value.destination.device_model_name = 'Other' }, (/** @type {import('../helpers/ios-fixture-types.ts').MutableFixture<ReturnType<typeof contextFixture>>} */ value) => { value.application.articles = 3 },
+    (/** @type {import('../helpers/ios-fixture-types.ts').MutableFixture<ReturnType<typeof contextFixture>>} */ value) => { value.application.fixture_audited = false }, (/** @type {import('../helpers/ios-fixture-types.ts').MutableFixture<ReturnType<typeof contextFixture>>} */ value) => { value.source_sha256.extra = 'f'.repeat(64) }
   ]) { const context = contextFixture(); mutate(context); assert.throws(() => verifyMemoryProvenance(context, head)) }
 })
 
@@ -567,7 +584,7 @@ test('actual CLI double accepts only the fixed three metrics joined to one CSV a
     const bytes = readFileSync(path.join(fixture.output, member.path)); assert.equal(bytes.length, member.bytes); assert.equal(hash(bytes), member.sha256)
   }
   const commands = JSON.parse(readFileSync(path.join(fixture.output, 'commands.json'), 'utf8'))
-  assert.equal(commands.length, 6); assert.ok(commands.every(command => command.timeout_ms > 0 && command.timeout_ms <= 60000))
+  assert.equal(commands.length, 6); assert.ok(commands.every((/** @type {{timeout_ms: number}} */ command) => command.timeout_ms > 0 && command.timeout_ms <= 60000))
   assert.equal(fixture.databaseBytes(), 'immutable synthetic result')
 })
 
@@ -604,7 +621,7 @@ test('CLI retains a verbose 700–900KiB synthetic legacy summary verbatim befor
 })
 
 test('CLI refuses over-1MiB legacy summary and over-512KiB other JSON without partial acceptance', posixOnly, t => {
-  for (const [mode, calls] of [['oversized-summary', 5], ['oversized-details', 2], ['oversized-root', 3], ['oversized-plan', 4]]) {
+  for (const [mode, calls] of /** @type {[string, number][]} */ ([['oversized-summary', 5], ['oversized-details', 2], ['oversized-root', 3], ['oversized-plan', 4]])) {
     const fixture = fixtureCLI(t, mode)
     assert.equal(fixture.run.status, 1, mode + ': ' + fixture.run.stderr)
     assert.equal(fixture.summary().accepted_measurements, null); assert.equal(fixture.summary().metric_contract_accepted, false)
@@ -638,7 +655,7 @@ test('CSV export captures bounded verbatim stdout and a complete member inventor
   const inventory = JSON.parse(readFileSync(path.join(fixture.output, 'csv-export-inventory.json'), 'utf8'))
   assert.equal(inventory.status, 'complete'); assert.equal(inventory.traversal_complete, true)
   assert.equal(inventory.captured_csv_files, 1); assert.deepEqual(inventory.issues, [])
-  assert.deepEqual(inventory.entries.map(entry => [entry.relative_path, entry.captured_as]),
+  assert.deepEqual(inventory.entries.map((/** @type {import('../../ios/tests/xcresult-types.ts').CsvInventoryEntry} */ entry) => [entry.relative_path, entry.captured_as]),
     [['synthetic-0.csv', 'csv/candidate-01.csv']])
   assert.equal(fixture.summary().accepted_measurements.length, 3); assert.equal(fixture.calls().length, 6)
 })
@@ -650,7 +667,7 @@ test('unknown CSV export members retain both safe CSVs before and after the reje
     const inventory = JSON.parse(readFileSync(path.join(fixture.output, 'csv-export-inventory.json'), 'utf8'))
     assert.equal(inventory.status, 'rejected'); assert.equal(inventory.traversal_complete, true)
     assert.equal(inventory.captured_csv_files, 2); assert.equal(inventory.entries.length, 3)
-    assert.equal(inventory.entries.filter(entry => entry.rejection !== null).length, 1)
+    assert.equal(inventory.entries.filter((/** @type {import('../../ios/tests/xcresult-types.ts').CsvInventoryEntry} */ entry) => entry.rejection !== null).length, 1)
     assert.equal(readdirSync(path.join(fixture.output, 'csv')).length, 2)
     for (const [index, name] of ['candidate-01.csv', 'candidate-02.csv'].entries()) {
       assert.equal(readFileSync(path.join(fixture.output, 'csv', name), 'utf8'), memoryCSVFixture(summaryFixture(), detailsFixture()))
@@ -675,7 +692,7 @@ test('CSV diagnostic traversal, relative paths and metadata bytes fail closed wi
     ['diagnostic-path-cap', 'relative-path-cap'], ['diagnostic-depth-cap', 'depth-cap']]) {
     const fixture = fixtureCLI(t, mode)
     assert.equal(fixture.run.status, 1, mode + ': ' + fixture.run.stderr)
-    const bytes = readFileSync(path.join(fixture.output, 'csv-export-inventory.json')), inventory = JSON.parse(bytes)
+    const bytes = readFileSync(path.join(fixture.output, 'csv-export-inventory.json')), inventory = JSON.parse(bytes.toString('utf8'))
     assert.ok(bytes.length <= memoryCaps.csvDiagnostic); assert.ok(inventory.entries.length <= memoryCaps.csvInventoryEntries)
     assert.ok(inventory.issues.includes(issue), mode)
     if (mode.includes('inventory-') || mode === 'diagnostic-entry-cap') assert.equal(inventory.traversal_complete, false)
@@ -772,7 +789,9 @@ test('unknown or repeated CLI options and runtime contract overrides are refused
 
 // Deterministic, synchronous boundary doubles. They are local to each test and
 // restored with the builtin ESM bindings; no SDK process or real long wait runs.
+/** @template T @param {import('../helpers/ios-fixture-types.ts').BuiltinOverride[]} overrides @param {() => T} action @returns {T} */
 function withBuiltinOverrides(overrides, action) {
+  /** @type {[object, PropertyKey, PropertyDescriptor|undefined][]} */
   const originals = []
   try {
     for (const [object, key, value] of overrides) {
@@ -783,7 +802,7 @@ function withBuiltinOverrides(overrides, action) {
     return action()
   } finally {
     for (const [object, key, descriptor] of originals.reverse()) {
-      if (descriptor) Object.defineProperty(object, key, descriptor); else delete object[key]
+      if (descriptor) Object.defineProperty(object, key, descriptor); else Reflect.deleteProperty(object, key)
     }
     syncBuiltinESMExports()
   }
@@ -791,8 +810,8 @@ function withBuiltinOverrides(overrides, action) {
 
 test('legacy exact-one counts all metadata, including a foreign case in another branch', () => {
   const plan = planFixture()
-  plan.unrelated = { children: [{ _type: { _name: 'ActionTestMetadata' },
-    identifier: { _value: 'Other/testForeign()' }, summaryRef: { id: { _value: 'foreign-summary-id' } } }] }
+  Object.assign(plan, {unrelated: { children: [{ _type: { _name: 'ActionTestMetadata' },
+    identifier: { _value: 'Other/testForeign()' }, summaryRef: { id: { _value: 'foreign-summary-id' } } }] }} )
   assert.throws(() => selectLegacySummary(rootFixture(), plan, summaryFixture(), id), /one exact legacy/)
 })
 
@@ -801,17 +820,18 @@ test('same-inode growth or timestamp change before open is rejected before alloc
   for (const mode of ['over-cap-growth', 'within-cap-growth', 'same-size-time-change']) {
     const fixture = inputFixture(t); actualWrite(fixture.context, '{}')
     const originalInode = fs.statSync(fixture.context).ino
+    /** @type {number[]} */
     const allocations = []; let injected = false
     withBuiltinOverrides([
-      [fs, 'openSync', (file, ...args) => {
+      [fs, 'openSync', /** @type {typeof fs.openSync} */ ((file, ...args) => {
         if (file === fixture.context && !injected) {
           injected = true
           if (mode === 'same-size-time-change') fs.utimesSync(file, 1, 1)
           else actualWrite(file, mode === 'over-cap-growth' ? 'x'.repeat(memoryCaps.json + 1) : '{} ')
         }
         return actualOpen(file, ...args)
-      }],
-      [Buffer, 'alloc', (bytes, ...args) => { allocations.push(bytes); return actualAlloc(bytes, ...args) }]
+      })],
+      [Buffer, 'alloc', /** @type {typeof Buffer.alloc} */ ((bytes, ...args) => { allocations.push(bytes); return actualAlloc(bytes, ...args) })]
     ], () => assert.throws(() => writeOwnedEvidence(fixture), /identity or bounds changed before read/))
     assert.equal(injected, true, mode)
     assert.equal(fs.statSync(fixture.context).ino, originalInode, 'Race keeps the same inode')
@@ -820,11 +840,15 @@ test('same-inode growth or timestamp change before open is rejected before alloc
   }
 })
 
+/** @param {import('node:test').TestContext} t @param {string} stage */
 function deadlineFixture(t, stage) {
   const fixture = inputFixture(t)
   const actualReadDirectory = fs.readdirSync, actualWrite = fs.writeFileSync, actualParse = JSON.parse
-  let elapsed = 0, triggered = false, commands = 0, finalArmed = false, finalChecks = 0
-  const expire = () => { triggered = true; elapsed = memoryCaps.exportMilliseconds + 1 }
+  let elapsed = 0, triggered = false, commands = 0, finalArmed = false, finalChecks = 0, normalizationReads = 0
+  /** @type {number | null} */
+  let commandsAtExpiration = null
+  const expire = () => { if (!triggered) commandsAtExpiration = commands; triggered = true; elapsed = memoryCaps.exportMilliseconds + 1 }
+  /** @param {string} binary @param {string[]} args */
   const run = (binary, args) => {
     assert.equal(binary, 'xcrun'); assert.equal(args[0], 'xcresulttool'); commands++
     let value
@@ -846,20 +870,25 @@ function deadlineFixture(t, stage) {
       if (stage === 'final-return' && finalArmed && ++finalChecks === 2) expire()
       return elapsed
     }],
-    [fs, 'readdirSync', (directory, ...args) => {
-      const names = actualReadDirectory(directory, ...args)
-      if (stage === 'csv-walk' && path.basename(directory).startsWith('.csv-export-')) expire()
+    [fs, 'readdirSync', /** @param {fs.PathLike} directory @param {...unknown} args */ (directory, ...args) => {
+      const names = /** @type {unknown} */ (Reflect.apply(actualReadDirectory, fs, [directory, ...args]))
+      if (stage === 'csv-walk' && path.basename(String(directory)).startsWith('.csv-export-')) expire()
       return names
     }],
-    [JSON, 'parse', (...args) => {
+    [JSON, 'parse', /** @type {typeof JSON.parse} */ ((...args) => {
       const value = actualParse(...args)
       if (stage === 'normalization' && value?._type?._name === 'ActionTestSummary') {
         const metrics = value.performanceMetrics
-        Object.defineProperty(value, 'performanceMetrics', { get() { expire(); return metrics } })
+        // Structural validation may inspect metrics before CSV export. This stage
+        // injects expiration only when normalization reads the retained summary.
+        Object.defineProperty(value, 'performanceMetrics', { get() {
+          if (commands === 6) { normalizationReads++; expire() }
+          return metrics
+        } })
       }
       return value
-    }],
-    [fs, 'writeFileSync', (file, bytes, ...args) => {
+    })],
+    [fs, 'writeFileSync', /** @type {typeof fs.writeFileSync} */ ((file, bytes, ...args) => {
       const result = actualWrite(file, bytes, ...args)
       if (Buffer.isBuffer(bytes)) {
         const text = bytes.toString('utf8')
@@ -870,10 +899,12 @@ function deadlineFixture(t, stage) {
         }
       }
       return result
-    }]
+    })]
   ], () => assert.throws(() => exportMemory(fixture), /shared deadline exhausted/, stage))
   assert.equal(triggered, true, stage)
   assert.equal(commands, 6, 'No external command is retried after expiration')
+  assert.equal(commands, commandsAtExpiration, 'Expiration forbids every subsequent external command')
+  if (stage === 'normalization') assert.ok(normalizationReads > 0, 'Normalization reaches the metric read after CSV export')
   const summary = JSON.parse(readFileSync(path.join(fixture.output, 'summary.json'), 'utf8'))
   assert.equal(summary.status, 'failed-or-unavailable', stage)
   assert.equal(summary.accepted_measurements, null)
@@ -882,7 +913,7 @@ function deadlineFixture(t, stage) {
   assert.equal(receipts.length, 6)
   const manifestFile = path.join(fixture.output, 'manifest.json')
   const manifest = JSON.parse(readFileSync(manifestFile, 'utf8'))
-  assert.equal(manifest.files.some(member => member.path === 'manifest.json'), false, 'Updated manifest excludes itself')
+  assert.equal(manifest.files.some((/** @type {import('../../ios/tests/xcresult-types.ts').CompactEntry} */ member) => member.path === 'manifest.json'), false, 'Updated manifest excludes itself')
   for (const member of manifest.files) {
     const bytes = readFileSync(path.join(fixture.output, member.path))
     assert.equal(bytes.length, member.bytes); assert.equal(hash(bytes), member.sha256)
@@ -892,8 +923,9 @@ function deadlineFixture(t, stage) {
   assert.equal(readFileSync(path.join(fixture.result, 'database.sqlite3'), 'utf8'), 'immutable synthetic result')
 }
 
-test('shared deadline covers CSV walking, normalization, accepted/manifest writes and final return', posixOnly, t => {
-  for (const stage of ['csv-walk', 'normalization', 'accepted-receipt', 'manifest-receipt', 'final-return']) deadlineFixture(t, stage)
+// All command and clock operations are synchronous in-process doubles, including on Windows.
+test('shared deadline covers CSV walking, normalization, accepted/manifest writes and final return', async t => {
+  for (const stage of ['csv-walk', 'normalization', 'accepted-receipt', 'manifest-receipt', 'final-return']) await t.test(stage, stageTest => deadlineFixture(stageTest, stage))
 })
 
 test('failure receipt downgrade refuses a late replacement, hardlink or symbolic leaf', posixOnly, t => {

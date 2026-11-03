@@ -2919,5 +2919,230 @@
     "new_head_Common_iOS_UI_Release_cleanup_or_main_accepted": false,
     "external_publication": false
   },
-  "expectation_audio_prior_fields_scope": "All prior values, including unadopted Source5 r2 single-commit preparation, remain historical. This appended two-intent Source6 supersedes that plan without claiming new Hosted or main acceptance."
+  "expectation_audio_prior_fields_scope": "All prior values, including unadopted Source5 r2 single-commit preparation, remain historical. This appended two-intent Source6 supersedes that plan without claiming new Hosted or main acceptance.",
+  "source874_controls_and_loop25_owned_full_candidate_20261103": {
+    "state": "SOURCE874_INITIAL_AND_SINGLE_CONTROLS_RETAINED_NEXT_CANDIDATE_UNADOPTED",
+    "source": "874bf651db44b879214267e0c08767e754b51a49",
+    "tree": "0bbcdf2de779d0748d6343696717493f84d2a863",
+    "base_main": "400b2adf66bdf1b953ba89ec57b71f3f4ef2352d",
+    "PR": 327,
+    "initial": {
+      "packetMF": "07824985330449468fc9afecc9441d58166957293c33b460564278ecd65bfa61",
+      "required11_highest_all_success": true,
+      "whole_CI_accepted": false,
+      "Native": {
+        "run_id": 41540290016,
+        "attempt": 1,
+        "UI": {
+          "total": 8,
+          "pass": 6,
+          "fail": 2,
+          "skip": 0,
+          "seconds_sum": 1437.744
+        },
+        "failed_IDs": [
+          "ReadingRecoveryUITests/testConfirmedRecoveryPreservesCurrentPositionAndBookmarkAfterRelaunch()",
+          "ReadingRecoveryUITests/testExportFilePickerCancelKeepsHealthyPositionAndBookmarkAfterRelaunch()"
+        ],
+        "console_units": {
+          "total": 230,
+          "pass": 228,
+          "skip": 2,
+          "fail": 0,
+          "scope": "incomplete console only; retained unchanged"
+        },
+        "artifact_units": {
+          "reviewMF": "677bc18ae03e3e475e863d118fbb901751f58bd6abe9a9f1a33afa68121d925c",
+          "artifact_id": 13188749017,
+          "completed": 278,
+          "pass": 276,
+          "skip": 2,
+          "fail": 0,
+          "known_skip_IDs": [
+            "LearningIndexTests/testExplicitGeneratedIndexMatchesItsManifestAndDoesNotChange()",
+            "LearningIndexTests/testExplicitLegacyPackagesHaveNoSidecar()"
+          ],
+          "scope": "exact initial unit target only"
+        },
+        "cleanup": {
+          "ok": false,
+          "shutdown_ok": false,
+          "delete_ok": true,
+          "absent_after": true
+        },
+        "Release_accepted": false
+      },
+      "FullA": {
+        "run_id": 41540290033,
+        "attempt": 1,
+        "UI": {
+          "total": 18,
+          "pass": 15,
+          "fail": 3,
+          "skip": 0,
+          "seconds_sum": 3017.54
+        },
+        "failed_IDs": [
+          "PublishedReaderUITests/testBodySearchArrivesAtNestedParagraphContainingAllTermsWithoutReaderGestures()",
+          "PublishedReaderUITests/testCancelContentFolderPickerPreservesFiltersAndReadingAndAllowsMoreActions()",
+          "PublishedReaderUITests/testFixtureTallSingleBlockResumesNearItsMeasuredInternalRowAfterRelaunch()"
+        ],
+        "units": {
+          "total": 278,
+          "pass": 276,
+          "skip": 2,
+          "fail": 0
+        }
+      },
+      "FullB": {
+        "run_id": 41540290033,
+        "attempt": 1,
+        "UI": {
+          "total": 8,
+          "pass": 6,
+          "fail": 2,
+          "skip": 0,
+          "seconds_sum": 1161.035
+        },
+        "failed_IDs": [
+          "PublishedReaderUITests/testFixtureBodyLinksShowFragmentFilenameFarAndDuplicateWitnesses()",
+          "PublishedReaderUITests/testFixtureFirstCodeCopyUsesThePublicButton()"
+        ],
+        "copy374_accepted": false,
+        "Release_accepted": false
+      },
+      "other_workflows": {
+        "Common": "success",
+        "SDK26": "official metadata success",
+        "R26": "3 actual UI pass, no skip",
+        "Recovery": "workflow/stages/auditor success; child leaf count unknown"
+      }
+    },
+    "single_Native_control2": {
+      "packetMF": "f75661ade3dde7d870a7326aef80b8139075353054664d4fe682d42b59c9caab",
+      "run_id": 41540290016,
+      "attempt": 2,
+      "job_id": 125635644844,
+      "accepted": false,
+      "UI": {
+        "total": 8,
+        "pass": 6,
+        "fail": 2,
+        "skip": 0,
+        "seconds_sum": 1495.823
+      },
+      "failed_IDs": [
+        "NativeReaderUITests/testHealthyLegacyHeadingPositionAndBookmarkPersistAfterNativeResumeAndRelaunch()",
+        "ReadingRecoveryUITests/testExportFilePickerCancelKeepsHealthyPositionAndBookmarkAfterRelaunch()"
+      ],
+      "console_units": {
+        "total": 233,
+        "pass": 231,
+        "skip": 2,
+        "fail": 0,
+        "scope": "partial console; total278 runtime not confirmed here"
+      },
+      "initial_artifact_278_transferred": false,
+      "cleanup_shutdown_delete_absent_all_true": true,
+      "Release_accepted": false
+    },
+    "single_Full_control2": {
+      "packetMF": "0b521e6b4e9584023cc58b3a5479d2d612260cb23d12abb18619d4b6e1d812e6",
+      "run_id": 41540290033,
+      "attempt": 2,
+      "whole_Full26_accepted": false,
+      "A": {
+        "job_id": 125643311461,
+        "UI_total": 0,
+        "unit_runtime_confirmed": false,
+        "failure": "xcodebuild exit70 before tests; no matching requested destination",
+        "Release_accepted": false
+      },
+      "B": {
+        "job_id": 125643311153,
+        "UI": {
+          "total": 8,
+          "pass": 8,
+          "fail": 0,
+          "skip": 0,
+          "seconds_sum": 1603.181
+        },
+        "copy374_marker_count": 1,
+        "copy374_independent_expected_match": true,
+        "consumer199": true,
+        "Debug_and_Release_Icon_audits": true,
+        "Release199": true,
+        "accepted_in_this_role_scope_only": true
+      }
+    },
+    "compact_initial_resume": {
+      "Root_reported_reviewed_MF": "25f7dcd8b2dbdca5799bdbc8d6aa383c8181d48c0e94442ad4ddc9d19adc4536",
+      "observation": "initial live Resume showed top before recovery confirmation",
+      "root_cause": "unknown; not attributed to the confirmation operation"
+    },
+    "package_identity_scope": "Normal199 receipts differ between roles and runs; no whole-package equality claim. The fixture4 consumer receipt passed and its revision6a0e18e04086c620290d9521b9418090010025976a1507e0fbf6adb53a5de6b8 is retained separately.",
+    "next_candidate": {
+      "code_files": 7,
+      "record_and_index_files": 4,
+      "Loop4_CodeMF": "0a228f314e6546d1287d580a31c5321322c6c2df2b97e395f1672ce94ddf4ca1",
+      "Loop4_IR_MF": "abd8731ec3fa94f6da4860fb27741352a86d0b9b8894aaa5323e6ad5852418a2",
+      "loops": 25,
+      "decls": 34,
+      "Full3_packetMF": "cb0ca60e151978e1112d4896ee947d763205440911f1d294f90d65c57dbf6726",
+      "Full_job_minutes": {
+        "reading-state": 95,
+        "content-copy": 70
+      },
+      "Native_job_minutes_held": 60,
+      "same_N_predicates_false_swipes_final_guards_asserts_rosters": true,
+      "Full26_Native8_held": true,
+      "limited_saved_validation": {
+        "Loop4": "one Swift5 DEBUG syntax parse of4files exit0; static exact inverse/outside25/34decls",
+        "Full3": {
+          "Node": "24.22.1",
+          "first_run": {
+            "tests": 160,
+            "pass": 158,
+            "fail": 2,
+            "original_Native133_pass": true,
+            "cause": "new test fixture output split; not helper/YAML failure"
+          },
+          "limited_changed_test_run": {
+            "tests": 27,
+            "pass": 27,
+            "fail": 0,
+            "original133_rerun": false
+          },
+          "job_envelope_changed_new_test_run": {
+            "tests": 27,
+            "pass": 27,
+            "fail": 0,
+            "original133_rerun": false
+          },
+          "syntax_Node_files": 9,
+          "YAML_Psych_exit0": true,
+          "actual_YAML_clipboard_callers": "stub commands and synthetic result tree only",
+          "Root_cap_delta_IR_SHA256": "f033a6354745c3a32d9ab5692ab11cd39bc833154dc311ca8d17d1f3af7e4f00"
+        },
+        "global_recheck_or_host_SDK_or_UI_repeated_for_composition": false
+      },
+      "new_head_SDK_UI_CI_or_stability_accepted": false,
+      "latency_improvement_measured": null,
+      "root_cause_fix_proven": false,
+      "actual_new_parent_commit": null,
+      "actual_publication": false,
+      "new_Trace8_Storage_Gate_candidates_included": false
+    },
+    "current_state": {
+      "App": "0.2.28(30)",
+      "TODO_total": 32,
+      "TODO_complete": 14,
+      "IOS11_and_IOS18_checkbox_changes": false,
+      "criteria_all_bytes_held": true,
+      "device_VoiceOver_minimumOS_signing_Store": "incomplete, no new operations",
+      "additional_samehead874_retry": 0,
+      "ordinary_next_head_CI_IR_main": "pending Root review and exact new-head evidence"
+    },
+    "old_record_scope": "Every old Markdown byte and existing JSON key/value remains preparation history; this addition reports only its explicit source/attempt scopes."
+  }
 }

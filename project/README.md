@@ -1,5 +1,7 @@
 # project — 計画と実施記録
 
+[iOS検証の874と次の候補](records/2026-11-02/ios-native-owned-simulator.md)は、初回のNative6/8・A15/18・B6/8、独立artifactで確認した初回unit278、Native制御6/8とFull制御B8/8・A試験前停止を別scopeへ保持する。原因未特定・全体未受入のまま、同じ判定/期限を保つ25準備loopのpositive停止と、全記事の所有Simulator・job95/70分をCode7＋記録4へまとめる候補である。旧全文/全JSON値、App0.2.28（30）・TODO32行14完了と原criteriaを保持し、新head CI/通常main・実機等は未受入である。
+
 [151のNative期待値とAudio試験同期](records/2026-11-02/ios-native-owned-simulator.md)は、Linux1488=1469成功1失敗18skipとMac FullA1488=1471成功2失敗15skipを分け、Native期待値1literalのGroup1とAudio試験handshake＋記録4件のGroup2を準備します。固定150msのfalse failure可能性と今回の時系列未収録を区別し、production lock・音声制作・全製品/helper/YAML/UIを保ちます。保存Native184とAudio対象結果、未採択Source5履歴、旧151進行/取消を新成功へ転用しない範囲、60/75/B50・App28・TODO32/14を保持します。
 
 [e8 job予算の追補](records/2026-11-02/ios-native-owned-simulator.md)は、公式Native40m/FullA50m超過の注記を保持し、Native60分/Full reading-state75分（content-copy50分）と既存unit期待値1literalだけを是正するSource7候補です。Native control2はunits276+2skip/UI5pass6starts・期待8未完了/Release skipped/cleanup-incomplete、FullAはUI6pass1failで18未完了・TagSearch25秒失敗166.872秒を別課題として残します。FullB8/copy374/Release等e8成功と新head未受入を分け、旧全文/JSON/索引/provenance/TODO32/14/App28・個別期限/assert/全製品を保持します。Doc16/Storage29は適用しません。

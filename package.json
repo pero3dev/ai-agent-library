@@ -20,7 +20,7 @@
     "audio:doctor": "node scripts/audio-run.mjs --doctor",
     "audio:run": "node scripts/audio-run.mjs --run",
     "audio:publish": "node scripts/audio-publish.mjs",
-    "test": "node --test --test-concurrency=4 tests/unit/*.test.mjs",
+    "test": "node scripts/test-unit.mjs",
     "lint:md": "markdownlint \"**/*.md\" -p .markdownlintignore",
     "validate": "node scripts/validate-docs.mjs --all",
     "links": "node scripts/check-links.mjs",

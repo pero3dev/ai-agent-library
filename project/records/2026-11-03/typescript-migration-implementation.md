@@ -44,17 +44,18 @@ P0の方式確認を完了し、TypeScript 6.0.3とNode22系・React19系の型�
 
 ## 不変の互換例外
 
-既存のiOS性能観測はrunnerのバイトSHAとprofileを固定しているため、以下3本は本文を保持し、明示した型宣言を相互運用境界として置く。実装を型検査済みとは数えず、最終のSHA照合と既存試験で保護する。過去のprofileや観測SHAは移行都合で書き換えない。
+既存のiOS性能観測はrunnerと固定試験のバイトSHAとprofileを固定しているため、以下の実装3本・固定試験1本は本文を保持し、明示した型宣言を相互運用境界として置く。実装を型検査済みとは数えず、最終のSHA照合と既存試験で保護する。固定試験はexportがないため宣言も空のmodule境界のみである。過去のprofileや観測SHAは移行都合で書き換えない。
 
 | ファイル | 保持するSHA-256 |
 | --- | --- |
 | `ios/tests/core-performance-runner.mjs` | `4276643f3c0df1e21d62f020c0ebd5ec32639b536fa6933806e7ad611edcaf5f` |
 | `ios/tests/verify-core-performance.mjs` | `15880ac76ec61af487d888684fa8910a5f74e74a43a717bb839442ce7fa30c51` |
 | `ios/tests/verify-core-performance-notice-20261031.mjs` | `c911db411741ddfa60af310a6d1906f565f3413375a6538655b29053a28d5784` |
+| `tests/unit/ios-core-performance-notice-20261031.test.mjs` | `43126d0daa63ceea3d6d520098b47b6c540c00283f70bd406b45a6d68212e712` |
 
 ## 実装の到達点
 
-最新mainのJS/TSは238ファイルで、過去の証跡6・外部vendor1を除く231ファイルが自前だった。追加・分割を含む現在の348ファイルは、検査する実装257、独立検査する宣言17、固定ASTまたはSHAで保護する互換入口64、凍結実装3、過去証跡6、vendor1に分類した。未分類は0。互換入口と宣言を実装の検査件数へ加算していない。
+最新mainのJS/TSは238ファイルで、過去の証跡6・外部vendor1を除く231ファイルが自前だった。追加・分割を含む現在の351ファイルは、検査する実装258、独立検査する宣言18、固定ASTまたはSHAで保護する互換入口64、凍結4(実装3・固定試験1)、過去証跡6、vendor1に分類した。未分類は0。互換入口と宣言を実装の検査件数へ加算していない。
 
 固定版・分類・ビルドbudget・検証レベルの[集計JSON](typescript-migration-result.json)を併記する。
 
@@ -81,7 +82,7 @@ UIとNodeの相対importは実在する拡張子へ同期し、Nodeの`.mts`に�
 | 対象 | ローカルで確認した結果 |
 | --- | --- |
 | 型検査 | ルート6・サイト5のstrict/noEmit検査で診断0。coverage未分類0、凍結SHA一致 |
-| 共通check | Node24.19で終了0、180.208秒。単体1,536件中1,435成功、101件は理由付きWindows/外部環境skip。後続の境界修正は該当回帰と型検査を再実行し、PR headではCIが全件を取り直す |
+| 共通check | Node24.19、固定試験復元後も終了0。単体1,545件中1,445成功、100件は理由付きWindows/外部環境skip。POSIX専用の固定Notice試験1ファイルは別途not-runを明示、Linux/macOS CIでは原文を実施 |
 | 負荷時の再現 | 並行browser実行中の初回checkはPowerShellと2秒child期限の2件がtimeout。負荷低下後、同じ契約・直列で2/2成功。期限や不変runner本文を緩和していない |
 | サイトunit | hostで99/99成功、skip0。sandboxのsymlink EPERMとは分けた |
 | サイトbrowser | 公開相当出力で677成功、5skip、失敗0。5件は専用音声fixtureビルドでのみ実施する試験で、通常ビルドの成功へ数えない |
@@ -89,8 +90,10 @@ UIとNodeの相対importは実在する拡張子へ同期し、Nodeの`.mts`に�
 | 静的ビルド | baseline/candidate各3回終了0、230/230ルート。初期JSは双方12script・raw962,476B/gzip307,969Bで同じ |
 | 依存・workflow | root/website/ios-tools監査はhigh以上0。low/moderateは残存し、破壊的な自動fixは行っていない。固定actionlint 1.7.12でworkflow検査成功 |
 
-ビルド時間は前節の制約を保って解釈する。別途のルート型検査実測は81.333秒だが、並行負荷があり同条件の最新main check基準はないため、全体checkの増加率や速度向上は主張しない。
+ビルド時間は前節の制約を保って解釈する。先行した一括checkは180.208秒、別途のルート型検査実測は81.333秒だが、並行負荷があり同条件の最新main check基準はないため、全体checkの増加率や速度向上は主張しない。
 
 初回PRのLinux CIは1,547件中1,527成功・19skip・期限注入の1件失敗だった。xcresultの追加構造検証が模擬getterをCSV export前に読んだためで、baseline成功・候補失敗・型除去後の候補も失敗と切り分けた。期限値と期待6コマンドを保持し、期限注入をCSV export後のnormalization読取へ合わせ、期限切れ時のcommand数と最終数の一致も検査した。実装は変更せず、修正した試験はbaseline/候補/型除去後の全経路で6/6成功、memory全体はhost35成功・POSIX skip17だった。純mockの期限5段階はWindowsでも実施する。最終headのLinux CIはPRで取り直す。
+
+続くheadのLinux CIは1,552件中1,533成功・19skip・失敗0。追加のNotice観測CIで固定試験自身のSHA拘束が判明したため、当該試験をbaselineとbyte完全一致へ戻して第4凍結例外へ分類した。Python/profileは変更しない。Windowsでは不変のPOSIX専用1ファイルだけ収集時にnot-runと表示し、Linux/macOSは原文の全試験を維持する。collectorの3OS分岐と不変SHAを独立レビューで確認した。
 
 Windowsで扱えない不変runnerのPOSIX絶対パス、symlink権限、process groupやAppleツールはbaselineでも確認し、対象外を明記した。Linux/macOSの検証はCIの正確なheadと結果を照合する。実Agentでのhook発火、物理iPhone/Safari/AirPods、有料モデル・実音声生成をこの移行の成功と読み替えない。ローカルログ・3回分のビルド出力・baseline checkoutは`.local/typescript-plan/`等の非追跡領域へ保持し、公開する記録は本書と小さな集計JSONに限定する。

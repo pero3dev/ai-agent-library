@@ -14,5 +14,5 @@
     "erasableSyntaxOnly": true
   },
   "include": ["unit/**/*.mjs", "unit/**/*.mts", "helpers/**/*.mjs", "helpers/**/*.mts", "helpers/**/*.ts", "**/*.d.mts"],
-  "exclude": ["../node_modules", "../.local", "fixtures"]
+  "exclude": ["../node_modules", "../.local", "fixtures", "unit/ios-core-performance-notice-20261031.test.mjs"]
 }

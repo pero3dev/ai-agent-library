@@ -65,7 +65,9 @@ mainのマージ前確認は[共通policy](scripts/lib/github-policy.mjs)の11�
 - 公開相当のビルド: `cd website && npm run build:clean`(`sync` → クリーンビルド → Pagefind → ルート網羅チェック)
 - 型検査: ビルド後に`cd website && npm run typecheck`。UI・Node処理・unit/browser試験と自前宣言を検査します。
 
-自前のJS/TSはstrict型検査を必須とし、設定と例外は[harness/typecheck.json](harness/typecheck.json)で追跡します。UIは`.ts`/`.tsx`、NodeはNode.js標準の型除去で実行できる`.mts`、既存CLI・hookは互換`.mjs`入口またはJSDocを使います。型付きソースの相対importには実在する拡張子を指定し、型だけのimportを`import type`で分けます。独自loaderや事前コンパイルをbootstrapへ追加しません。JSON・永続状態・外部結果は`unknown`から検証し、`any`や抑制コメントで診断を回避しません。凍結した性能観測runner3本は本文のSHAと境界宣言を検査し、実装を型検査済みとは数えません。
+自前のJS/TSはstrict型検査を必須とし、設定と例外は[harness/typecheck.json](harness/typecheck.json)で追跡します。UIは`.ts`/`.tsx`、NodeはNode.js標準の型除去で実行できる`.mts`、既存CLI・hookは互換`.mjs`入口またはJSDocを使います。型付きソースの相対importには実在する拡張子を指定し、型だけのimportを`import type`で分けます。独自loaderや事前コンパイルをbootstrapへ追加しません。JSON・永続状態・外部結果は`unknown`から検証し、`any`や抑制コメントで診断を回避しません。凍結した性能観測runner3本と固定試験1本は本文のSHAと境界宣言を検査し、実装を型検査済みとは数えません。
+
+`npm test`は既存の`*.test.mjs`入口を収集します。Windowsではバイト固定されたPOSIX専用Notice試験1ファイルを`not-run`と明示し、Linux/macOSでは原文の全試験を実行します。観測用Python/profileの固定SHAを変更して型付けを通す運用にはしません。
 
 ## iOS試作(ios/)を変更するとき
 

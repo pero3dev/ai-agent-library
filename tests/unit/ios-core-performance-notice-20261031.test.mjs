@@ -1,5 +1,4 @@
 import assert from 'node:assert/strict';
-import { objectFixture, stringFixture } from '../helpers/json-fixtures.mjs';
 import { execFile } from 'node:child_process';
 import { test } from 'node:test';
 import { appendFile, copyFile, mkdir, mkdtemp, realpath, rm, writeFile } from 'node:fs/promises';
@@ -23,10 +22,8 @@ const metadataNames = ['manifest_sha256', 'corpus_sha256', 'files_including_mani
 // A deliberately incomplete observation: real policy checks must run first, then
 // stop at the known invalid manifest digest. This never claims full acceptance,
 // executes saved code, needs production articles, or fabricates 19 measurements.
-/** @param {typeof BYTE_CONTRACT} contract */
 const identity = contract => ({ schema_version: 1, source_revision: revision,
   ...structuredClone(contract), ...Object.fromEntries(metadataNames.map(name => [name, null])) });
-/** @param {import('node:test').TestContext} t */
 async function fixture(t) {
   const root = await mkdtemp(path.join(await realpath(os.tmpdir()), 'notice-verifier-boundary-'));
   t.after(() => rm(root, { recursive: true, force: true }));
@@ -34,7 +31,6 @@ async function fixture(t) {
   await mkdir(observation); await mkdir(corpus);
   const options = { observation, corpus, revision };
   return { root, observation, corpus, options,
-/** @param {unknown} value */
     async save(value) { await writeFile(path.join(observation, 'identity.json'), JSON.stringify(value) + '\n'); },
     args: ['--observation', observation, '--corpus', corpus, '--revision', revision] };
 }
@@ -49,10 +45,10 @@ test('dated policy freezes Notice Source4 while retaining the legacy non-source 
     'ios/AILibrary/Sources/ReadingStore.swift': 'da88bdb3ef99a93ddb842f53e7e92bdba2dfc4e95bff0f78f9d467387e9acfe7'
   });
   for (const key of Object.keys(BYTE_CONTRACT).filter(key => key !== 'production_source_sha256'))
-    assert.deepEqual(Reflect.get(NOTICE_BYTE_CONTRACT, key), Reflect.get(BYTE_CONTRACT, key));
+    assert.deepEqual(NOTICE_BYTE_CONTRACT[key], BYTE_CONTRACT[key]);
   assert(Object.isFrozen(NOTICE_BYTE_CONTRACT) && Object.isFrozen(NOTICE_BYTE_CONTRACT.production_source_sha256));
-  assert.throws(() => { objectFixture(NOTICE_BYTE_CONTRACT).query_count = 1; }, TypeError);
-  assert.throws(() => { objectFixture(NOTICE_BYTE_CONTRACT.production_source_sha256)['ios/AILibrary/Sources/Models.swift'] = '0'.repeat(64); }, TypeError);
+  assert.throws(() => { NOTICE_BYTE_CONTRACT.query_count = 1; }, TypeError);
+  assert.throws(() => { NOTICE_BYTE_CONTRACT.production_source_sha256['ios/AILibrary/Sources/Models.swift'] = '0'.repeat(64); }, TypeError);
   assert.equal(NOTICE_BYTE_CONTRACT.query_count, 16); assert.equal(NOTICE_BYTE_CONTRACT.expected_article_count, 199);
 });
 
@@ -70,7 +66,7 @@ test('every Source4 digest remains mandatory even when saved candidate metadata 
   const f = await fixture(t);
   for (const source of Object.keys(NOTICE_BYTE_CONTRACT.production_source_sha256)) {
     const candidate = identity(NOTICE_BYTE_CONTRACT);
-    objectFixture(candidate.production_source_sha256)[source] = '0'.repeat(64);
+    candidate.production_source_sha256[source] = '0'.repeat(64);
     await f.save(candidate);
     await assert.rejects(verifyNoticeObservation(f.options), byteMismatch);
   }
@@ -102,9 +98,8 @@ test('CLI environment values cannot cause an old observation to select legacy po
   await assert.rejects(execute(process.execPath, [entry, ...f.args], { timeout: 3000, maxBuffer: 128 * 1024,
     env: { PATH: process.env.PATH ?? '', HOME: process.env.HOME ?? '', TMPDIR: os.tmpdir(),
       CORE_PERFORMANCE_CONTRACT: JSON.stringify(BYTE_CONTRACT), AILIBRARY_CORE_PROFILE: 'legacy' } }), error => {
-    const failure = objectFixture(error);
-    assert.equal(failure.code, 1); assert.equal(failure.stdout, '');
-    assert.match(stringFixture(failure.stderr), /Notice Core observation rejected:.*Preregistered byte identity mismatch: production_source_sha256/s);
+    assert.equal(error.code, 1); assert.equal(error.stdout, '');
+    assert.match(error.stderr, /Notice Core observation rejected:.*Preregistered byte identity mismatch: production_source_sha256/s);
     return true;
   });
 });

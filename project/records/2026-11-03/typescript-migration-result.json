@@ -4,26 +4,26 @@
   "status": "implementation-verified-locally",
   "source_snapshot": {
     "algorithm": "sha256 of sorted paths and normalized Git blob IDs",
-    "files": 348,
-    "digest": "732dc35c84fbf145a250b8e78fca69d217ea9559921de213002b30e8937dd2a9"
+    "files": 351,
+    "digest": "5038bd40573ce21a94adaaf2f8e549e5fee622ea265c3ca1842a11be0e8ffe09"
   },
   "coverage": {
     "verified": true,
-    "inventory": 348,
+    "inventory": 351,
     "counts": {
-      "implementations": 257,
-      "declarations": 17,
+      "implementations": 258,
+      "declarations": 18,
       "wrappers": 64,
       "historical": 6,
       "vendor": 1,
-      "frozen": 3,
+      "frozen": 4,
       "unclassified": 0
     },
     "programs": [
       {
         "id": "node",
         "compiler": "6.0.3",
-        "implementations": 65,
+        "implementations": 66,
         "declarations": 7
       },
       {
@@ -35,7 +35,7 @@
       {
         "id": "unit-tests",
         "compiler": "6.0.3",
-        "implementations": 151,
+        "implementations": 152,
         "declarations": 13
       },
       {
@@ -90,6 +90,12 @@
   },
   "frozen": [
     {
+      "path": "tests/unit/ios-core-performance-notice-20261031.test.mjs",
+      "sha256": "43126d0daa63ceea3d6d520098b47b6c540c00283f70bd406b45a6d68212e712",
+      "boundary": "tests/unit/ios-core-performance-notice-20261031.test.d.mts",
+      "reason": "Immutable Notice guard fixture with no exported runtime API; fixed test body is not typechecked"
+    },
+    {
       "path": "ios/tests/core-performance-runner.mjs",
       "sha256": "4276643f3c0df1e21d62f020c0ebd5ec32639b536fa6933806e7ad611edcaf5f",
       "boundary": "ios/tests/core-performance-runner.d.mts",
@@ -112,12 +118,14 @@
     "node": "24.19.0",
     "root_check": {
       "exit_code": 0,
-      "seconds": 180.2076567,
-      "tests": 1536,
-      "passed": 1435,
-      "skipped": 101,
+      "tests": 1545,
+      "passed": 1445,
+      "skipped": 100,
       "failed": 0,
-      "followup": "Changed JSON-boundary suites rechecked separately; CI reruns every test at the PR head"
+      "not_run_files": [
+        "tests/unit/ios-core-performance-notice-20261031.test.mjs"
+      ],
+      "not_run_reason": "Immutable POSIX fixture on Windows; Linux/macOS CI executes the original bytes"
     },
     "minimum_node": {
       "version": "22.22.2",

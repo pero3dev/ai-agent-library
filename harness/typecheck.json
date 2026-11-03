@@ -60,6 +60,13 @@
   ],
   "exceptions": [
     {
+      "path": "tests/unit/ios-core-performance-notice-20261031.test.mjs",
+      "kind": "frozen",
+      "sha256": "43126d0daa63ceea3d6d520098b47b6c540c00283f70bd406b45a6d68212e712",
+      "boundary": "tests/unit/ios-core-performance-notice-20261031.test.d.mts",
+      "reason": "Immutable Notice guard fixture with no exported runtime API; fixed test body is not typechecked"
+    },
+    {
       "path": "ios/tests/core-performance-runner.mjs",
       "kind": "frozen",
       "sha256": "4276643f3c0df1e21d62f020c0ebd5ec32639b536fa6933806e7ad611edcaf5f",

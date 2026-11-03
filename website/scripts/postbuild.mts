@@ -14,6 +14,8 @@ import { addTitleSearchAliases } from '../lib/search-titles.mjs'
 import { addSecurityMeta, initialScriptBudget } from '../lib/export-policy.mjs'
 import { publicUrl } from '../lib/page-metadata.mjs'
 import { assertPagesMetadata, assertSections, assertStringArray } from '../lib/generated-data.mts'
+import { materializeLibraryExport } from '../lib/library-export.mts'
+import { addLibraryDiscoveryLinks, markdownRoute } from '../lib/library-links.mjs'
 
 // Rust 側の辞書と browser Intl の分割が違っても、完全な日本語タイトルを失わない。
 // HTML は読み取り、索引へ渡すコピーにのみ別名を追加する。
@@ -39,12 +41,20 @@ try {
 }
 
 if (existsSync('out')) {
+  const libraryFiles = await materializeLibraryExport('generated/library', 'out')
+  console.log(`postbuild: AI参照用のMarkdown・llms.txt・索引 ${libraryFiles} ファイルを公開出力へ複製しました`)
+  const availableLlmsRoutes = new Set(readdirSync('generated/library', { recursive: true, withFileTypes: true })
+    .filter(entry => entry.isFile() && entry.name === 'llms.txt')
+    .map(entry => `/${relative('generated/library', join(entry.parentPath, entry.name)).replace(/\\/g, '/')}`))
   // Hash the exact emitted inline scripts per document. Put policy before every
   // resource, including Next's hydration scripts, rather than enabling unsafe-inline.
   for (const entry of readdirSync('out', { recursive: true, withFileTypes: true })) {
     if (entry.isFile() && entry.name.endsWith('.html')) {
       const file = join(entry.parentPath, entry.name)
-      writeFileSync(file, addSecurityMeta(readFileSync(file, 'utf8'), { audioFixture: process.env.AUDIO_TEST_CATALOG === 'tests/browser/fixtures/audio-catalog.json' && process.env.NEXT_PUBLIC_BASE_PATH === '/__audio-test' }))
+      const name = relative('out', file).replace(/\\/g, '/').replace(/\.html$/, '').replace(/(?:^|\/)index$/, '')
+      const route = name ? `/${name}` : '/'
+      const document = addLibraryDiscoveryLinks(readFileSync(file, 'utf8'), route, existsSync(join('generated/library', markdownRoute(route).slice(1))), process.env, availableLlmsRoutes)
+      writeFileSync(file, addSecurityMeta(document, { audioFixture: process.env.AUDIO_TEST_CATALOG === 'tests/browser/fixtures/audio-catalog.json' && process.env.NEXT_PUBLIC_BASE_PATH === '/__audio-test' }))
     }
   }
   const segments = materializeExportSegments('out')

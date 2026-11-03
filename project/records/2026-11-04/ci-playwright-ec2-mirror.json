@@ -1,0 +1,63 @@
+{
+  "state": "CREATION_SNAPSHOT_EC2_EXACT_PROFILE_CANDIDATE_NEW_HEAD_UNACCEPTED",
+  "prepared_at_UTC": "2026-11-03T15:06:14.462161+00:00",
+  "record_date_JST": "2026-11-04",
+  "base_main": "cdf2b6e5259f42ff547d8ff804dc62992fd8542a",
+  "base_tree": "44d287ec73b5cb942367e7067dfbc0bbff10ac25",
+  "source_count": 2895,
+  "observed_run": 41656376928,
+  "observed_job": 125987667064,
+  "failure_boundary": "configuration rejection before sudo/APT metadata/download/mirror write",
+  "observed_mirror": {
+    "bytes": 152,
+    "rows": 3,
+    "SHA256": "af9816b59bc904eaf28838ae673ac2b625b6628bebfc67a7cbeae78ba06e226a",
+    "first": "http://us-east-2.ec2.archive.ubuntu.com/ubuntu/",
+    "only_one_exact_profile_adopted": true
+  },
+  "diagnostic_artifact": {
+    "id": 13239586844,
+    "bytes": 616,
+    "SHA256": "ef4eb75a5d7243b56577887bb681a375a5584205feb712e45853036f1f72b8f9",
+    "snapshot_not_installer_identity": true
+  },
+  "CodeMF": "614a45e46dcbe8d32bc3da1758f9bcf8f8a43664412398fc283951207999d844",
+  "targeted_private_unit": {
+    "Node": "24.22.1",
+    "existing": 78,
+    "added": 11,
+    "tests": 89,
+    "pass": 89,
+    "fail": 0,
+    "skip": 0,
+    "runs": 1,
+    "fakeIO": true,
+    "real_sudo_APT_network": 0
+  },
+  "final_common": null,
+  "final_Source_IR": null,
+  "new_head": null,
+  "new_head_CI": null,
+  "ordinary_main": null,
+  "iOS_App": "0.2.29(31)_unchanged",
+  "TODO": [
+    32,
+    14
+  ],
+  "hardware": "incomplete_skipped",
+  "other_PR329": "separate strict migration, same script overlap; do not overwrite or merge its work",
+  "scope": "creation-time candidate only",
+  "private_source6_preparation": {
+    "state": "CREATION_SNAPSHOT_ACTUAL_CDF2_BOUND_CANDIDATE_ONLY",
+    "actual_base": "cdf2b6e5259f42ff547d8ff804dc62992fd8542a",
+    "base_tree": "44d287ec73b5cb942367e7067dfbc0bbff10ac25",
+    "owned": 6,
+    "new": 2,
+    "projected_tracked": 2897,
+    "Code2_IR_MF": "f404f66a2aa4fccda283defeadb0c22466b331486ba89baaba03f3047b2d7b56",
+    "Code2_IR_P1": 0,
+    "Code2_IR_P2": 0,
+    "common_forms_and_final_Source_evidence": "Separate sealed packet; creation-time null fields and every old JSON key/value retained.",
+    "new_Hosted_APT_main_accepted": false
+  }
+}

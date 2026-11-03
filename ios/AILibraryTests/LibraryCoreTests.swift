@@ -3704,6 +3704,114 @@ final class LibraryCoreTests: XCTestCase {
         XCTAssertNil(stale.delayToken)
     }
 
+    func testExhaustedExplicitReachedHeadingStagesOnlyMeasuredPointOnce() throws {
+        var session = NativeReadingProgressSession()
+        let actual = NativeReadingSample(heading: "intro", blockID: "heading", fraction: 0.5, intraBlockFraction: 0.17)
+        let request = NativeReadingPlacementRequest(purpose: .explicitNavigation, userPanEpoch: 7,
+            directHeadingBlockID: "heading")
+        session.beginPlacement(request)
+        let proof = NativeReadingReachedNavigation(generation: request.generation, userPanEpoch: 7, sample: actual)
+        let completion = session.completePlacement(placementAligned: false, request: request, currentUserPanEpoch: 7,
+            isUserInteracting: false, measured: actual, placementExhausted: true, reachedNavigation: proof)
+        XCTAssertEqual(completion.effect, .measuredReachedNavigation)
+        XCTAssertTrue(completion.effect.acceptsMeasurement)
+        XCTAssertTrue(completion.effect.consumesOneShot)
+        XCTAssertFalse(completion.effect.restoresRequestedFocus, "Reach evidence must not pretend to be verified alignment")
+        XCTAssertNil(session.blockedAtUserPanEpoch)
+        let token = try XCTUnwrap(completion.delayToken)
+        XCTAssertNil(session.takeForSaving(expectedToken: token, restoring: true))
+        XCTAssertEqual(session.takeForSaving(expectedToken: token, restoring: false), actual)
+        XCTAssertNil(session.takeForSaving(expectedToken: token, restoring: false))
+        XCTAssertNil(session.stageMeasured(actual, userPanEpoch: 7), "The same actual point is not saved twice")
+    }
+
+    func testReachedHeadingCompletionRejectsMissingStaleOrDifferentProof() {
+        let actual = NativeReadingSample(heading: "intro", blockID: "heading", fraction: 0.5, intraBlockFraction: 0.1)
+        for name in ["not exhausted", "automatic resume", "automatic reflow", "no heading", "other heading",
+                     "missing proof", "old proof", "other epoch", "other sample", "missing sample", "invalid fraction", "invalid intra"] {
+            var session = NativeReadingProgressSession()
+            let purpose: NativeReadingPlacementRequest.Purpose = name == "automatic resume" ? .automaticResume :
+                (name == "automatic reflow" ? .automaticReflow : .explicitNavigation)
+            let request = NativeReadingPlacementRequest(purpose: purpose, userPanEpoch: 7,
+                directHeadingBlockID: name == "no heading" ? nil : (name == "other heading" ? "unreached" : "heading"))
+            session.beginPlacement(request)
+            let sample = NativeReadingSample(heading: "intro", blockID: "heading",
+                fraction: name == "invalid fraction" ? .nan : actual.fraction,
+                intraBlockFraction: name == "invalid intra" ? 1.1 : actual.intraBlockFraction)
+            let proof = name == "missing proof" ? nil : NativeReadingReachedNavigation(
+                generation: name == "old proof" ? UUID() : request.generation,
+                userPanEpoch: name == "other epoch" ? 8 : 7,
+                sample: name == "other sample" ? NativeReadingSample(heading: nil, blockID: "other", fraction: 0.2, intraBlockFraction: 0) : sample)
+            let completion = session.completePlacement(placementAligned: false, request: request, currentUserPanEpoch: 7,
+                isUserInteracting: false, measured: name == "missing sample" ? nil : sample,
+                placementExhausted: name != "not exhausted", reachedNavigation: proof)
+            if name == "automatic resume" || name == "automatic reflow" {
+                XCTAssertEqual(completion.effect, .preserveAutomaticPosition, name)
+            } else { XCTAssertEqual(completion.effect, .preserveUnreachedNavigation, name) }
+            XCTAssertFalse(completion.effect.consumesOneShot, name)
+            XCTAssertFalse(completion.effect.restoresRequestedFocus, name)
+            XCTAssertNil(completion.delayToken, name)
+            XCTAssertNil(session.takeForSaving(restoring: false), name)
+            XCTAssertNil(session.stageMeasured(actual, userPanEpoch: 7), "Late frames remain blocked: " + name)
+        }
+    }
+
+    func testReachedHeadingPanAndSupersessionStillWinWithoutFocus() throws {
+        let point = NativeReadingSample(heading: "intro", blockID: "heading", fraction: 0.5, intraBlockFraction: 0.1)
+        let request = NativeReadingPlacementRequest(purpose: .explicitNavigation, userPanEpoch: 7, directHeadingBlockID: "heading")
+        let proof = NativeReadingReachedNavigation(generation: request.generation, userPanEpoch: 7, sample: point)
+        for (epoch, active) in [(UInt64(8), false), (UInt64(7), true)] {
+            var session = NativeReadingProgressSession(); session.beginPlacement(request)
+            let completion = session.completePlacement(placementAligned: false, request: request, currentUserPanEpoch: epoch,
+                isUserInteracting: active, measured: point, placementExhausted: true, reachedNavigation: proof)
+            XCTAssertEqual(completion.effect, .measuredUserPan)
+            XCTAssertFalse(completion.effect.restoresRequestedFocus)
+        }
+        var session = NativeReadingProgressSession(); session.beginPlacement(request)
+        let newer = NativeReadingPlacementRequest(purpose: .explicitNavigation, userPanEpoch: 7, directHeadingBlockID: "heading")
+        session.beginPlacement(newer)
+        let stale = session.completePlacement(placementAligned: false, request: request, currentUserPanEpoch: 7,
+            isUserInteracting: false, measured: point, placementExhausted: true, reachedNavigation: proof)
+        XCTAssertEqual(stale.effect, .ignoreSuperseded)
+        XCTAssertNil(stale.delayToken)
+        XCTAssertNil(session.takeForSaving(restoring: false))
+    }
+
+    func testReachedHeadingRecoveryKeepsRawUntilExplicitConfirmation() throws {
+        let suite = "reached-heading-recovery-" + UUID().uuidString
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let raw = Data("{unreadable-original".utf8), key = "library.reading.v1"
+        defaults.set(raw, forKey: key)
+        let store = ReadingStore(defaults: defaults)
+        XCTAssertNotNil(store.recoveryIssue)
+        store.toggleBookmark("example")
+        let article = LibraryArticle(id: "example", title: "Example", summary: "", category: "", level: "beginner",
+            last_updated: "2026-10-22", source_path: "docs/example.md", source_sha256: String(repeating: "a", count: 64),
+            document_path: "articles/example.json", search_text: "", headings: [ArticleHeading(id: "intro", title: "Intro", level: 2)], audio_id: nil)
+        let actual = NativeReadingSample(heading: "intro", blockID: "heading", fraction: 0.5, intraBlockFraction: 0.2)
+        var session = NativeReadingProgressSession()
+        let request = NativeReadingPlacementRequest(purpose: .explicitNavigation, userPanEpoch: 0, directHeadingBlockID: "heading")
+        session.beginPlacement(request)
+        let completion = session.completePlacement(placementAligned: false, request: request, currentUserPanEpoch: 0,
+            isUserInteracting: false, measured: actual, placementExhausted: true,
+            reachedNavigation: NativeReadingReachedNavigation(generation: request.generation, userPanEpoch: 0, sample: actual))
+        let saved = try XCTUnwrap(session.takeForSaving(expectedToken: completion.delayToken, restoring: false))
+        let anchor = NativeReadingAnchor(documentDigest: String(repeating: "a", count: 64), blockFingerprint: String(repeating: "b", count: 64),
+            intraBlockFraction: saved.intraBlockFraction)
+        store.record(articleID: "example", heading: saved.heading, fraction: saved.fraction, blockID: saved.blockID, anchor: anchor)
+        XCTAssertEqual(store.position(for: article).blockID, "heading", "Live resume reads the measured point before recovery")
+        XCTAssertEqual(store.position(for: article).anchor?.intraBlockFraction, actual.intraBlockFraction)
+        XCTAssertEqual(defaults.data(forKey: key), raw, "A reached point must not bypass recovery protection")
+        XCTAssertNil(defaults.object(forKey: key + ".recovery.v1"))
+        XCTAssertTrue(store.recoverReadableState())
+        XCTAssertEqual(defaults.data(forKey: key + ".recovery.v1"), raw)
+        let reopened = ReadingStore(defaults: defaults)
+        XCTAssertEqual(reopened.position(for: article).blockID, "heading")
+        XCTAssertEqual(reopened.position(for: article).anchor?.intraBlockFraction, actual.intraBlockFraction)
+        XCTAssertEqual(reopened.bookmarks, ["example"])
+    }
+
     func testMalformedOptionalIntraBlockFieldPreservesFullReadingStateAndOtherArticles() throws {
         let suite = "library-intra-malformed-state-" + UUID().uuidString
         let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))

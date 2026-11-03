@@ -91,6 +91,81 @@ final class NativeReaderPlacementPolicyTests: XCTestCase {
         }
     }
 
+    func testRenderedLayoutReceiptRejectsBodySizeRaceBeforeRestoreTaskRuns() throws {
+        let original = NativeReaderLayoutIdentity(source: "doc", width: 393, height: 754, bodySize: 17)
+        let largerText = NativeReaderLayoutIdentity(source: "doc", width: 393, height: 754, bodySize: 53)
+        var live = NativeReaderRenderedLayoutReceipt()
+        live.report(original)
+        let placement = try XCTUnwrap(live.capture())
+        let capturedLayout = original, trackingLayout = original
+        XCTAssertEqual(capturedLayout, trackingLayout, "The old-to-old comparison alone still passes")
+        live.report(largerText) // updateUIView reports before the restore task runs.
+        XCTAssertFalse(live.matches(placement, expected: capturedLayout))
+        XCTAssertFalse(live.matches(placement, expected: largerText))
+        let replacement = try XCTUnwrap(live.capture())
+        XCTAssertTrue(live.matches(replacement, expected: largerText))
+        live.report(original)
+        XCTAssertFalse(live.matches(placement, expected: original), "A -> B -> A cannot revive the old placement")
+    }
+
+    func testRenderedLayoutReceiptAcceptsRepeatedSameLayoutAndRejectsOtherDimensions() throws {
+        let original = NativeReaderLayoutIdentity(source: "doc", width: 393, height: 754, bodySize: 17)
+        var live = NativeReaderRenderedLayoutReceipt()
+        XCTAssertNil(live.capture())
+        XCTAssertFalse(live.matches(nil, expected: original))
+        live.report(original)
+        let placement = try XCTUnwrap(live.capture())
+        for _ in 0..<8 { live.report(original) }
+        XCTAssertTrue(live.matches(placement, expected: original), "Repeated marker registration is not a new layout")
+        for changed in [NativeReaderLayoutIdentity(source: "other", width: 393, height: 754, bodySize: 17),
+                        NativeReaderLayoutIdentity(source: "doc", width: 754, height: 393, bodySize: 17),
+                        NativeReaderLayoutIdentity(source: "doc", width: 393, height: 700, bodySize: 17)] {
+            XCTAssertFalse(live.matches(placement, expected: changed))
+            live.report(changed)
+            XCTAssertFalse(live.matches(placement, expected: original))
+            live.report(original)
+        }
+    }
+
+    func testRenderedLayoutReceiptRejectsInvalidOrUnreportedRenderedIdentity() throws {
+        let original = NativeReaderLayoutIdentity(source: "doc", width: 393, height: 754, bodySize: 17)
+        for invalid in [NativeReaderLayoutIdentity(source: "", width: 393, height: 754, bodySize: 17),
+                        NativeReaderLayoutIdentity(source: "doc", width: 0, height: 754, bodySize: 17),
+                        NativeReaderLayoutIdentity(source: "doc", width: 393, height: -.infinity, bodySize: 17),
+                        NativeReaderLayoutIdentity(source: "doc", width: 393, height: 754, bodySize: .nan)] {
+            var live = NativeReaderRenderedLayoutReceipt(); live.report(original)
+            let placement = try XCTUnwrap(live.capture())
+            live.report(invalid)
+            XCTAssertNil(live.capture())
+            XCTAssertFalse(live.matches(placement, expected: original))
+            XCTAssertFalse(live.matches(placement, expected: invalid))
+        }
+    }
+
+    func testReachedTargetIntervalRequiresWholeFiniteTargetWithinUsableViewport() {
+        XCTAssertTrue(NativeReaderPlacementPolicy.fullyVisibleTargetInterval(start: 100, end: 130, visibleTop: 100, visibleBottom: 200))
+        XCTAssertTrue(NativeReaderPlacementPolicy.fullyVisibleTargetInterval(start: 170, end: 200, visibleTop: 100, visibleBottom: 200))
+        for interval in [(99.9, 130.0, 100.0, 200.0), (170, 200.1, 100, 200), (100, 100, 100, 200),
+                         (130, 100, 100, 200), (100, 130, 200, 200), (100, 130, 200, 100),
+                         (Double.nan, 130, 100, 200), (100, Double.infinity, 100, 200),
+                         (100, 130, -Double.infinity, 200), (100, 130, 100, Double.nan),
+                         (-Double.greatestFiniteMagnitude, Double.greatestFiniteMagnitude, -Double.greatestFiniteMagnitude, Double.greatestFiniteMagnitude)] {
+            XCTAssertFalse(NativeReaderPlacementPolicy.fullyVisibleTargetInterval(start: interval.0, end: interval.1,
+                visibleTop: interval.2, visibleBottom: interval.3))
+        }
+    }
+
+    func testReachedMeasurementDoesNotTurnExhaustionIntoAlignmentOrExtendBudget() {
+        let generation = UUID()
+        var policy = NativeReaderPlacementPolicy(generation: generation, interactionEpoch: 7, startedAt: 10)
+        XCTAssertEqual(policy.deadline, 11)
+        XCTAssertEqual(policy.next(.needsAlignment, now: 11, generation: generation, interactionEpoch: 7), .finished(.exhausted))
+        XCTAssertTrue(NativeReaderPlacementPolicy.fullyVisibleTargetInterval(start: 100, end: 130, visibleTop: 100, visibleBottom: 200))
+        XCTAssertEqual(policy.next(.aligned, now: 11.1, generation: generation, interactionEpoch: 7), .finished(.exhausted))
+        XCTAssertEqual(policy.outcome, .exhausted)
+        XCTAssertEqual(policy.corrections, 0)
+    }
+
     func testDeferredCorrectionStartsFreshBudgetWithoutRecapturingRequestIdentity() {
         let id = UUID(), replacement = UUID()
         let originalEpoch: UInt64 = 9

@@ -26,6 +26,8 @@ P0の方式確認を完了し、TypeScript 6.0.3とNode22系・React19系の型�
 
 統合後のサイトlockはNext 16.4.3、TypeScript 6.0.3、React型19.3.0である。計画時点のNext 16.3.8との互換性確認を実施したと読み替えない。
 
+2026-11-04、head`460e1a0`の11必須check成功後、mainが`cdf2b6e5259f42ff547d8ff804dc62992fd8542a`へ進んでstrict同期が必要になった。読書位置修正のSwift/PBX/Swift試験とproject記録14ファイルを競合なく取り込んだ。JS/TS・website・policyには上流差分がなく、351ソースの正規化Git blob fingerprintは一致した。自動マージ予約を解除し、統合headでCIを取り直す。既存の他作業の記録・実装を保持する。
+
 ## 中間検証と残件
 
 | 対象 | 確認した結果 | 残件 |

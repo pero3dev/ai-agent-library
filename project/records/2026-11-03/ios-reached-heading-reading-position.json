@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "state": "READER_REACHED_HEADING_PREPARATION_SNAPSHOT",
+  "snapshot_at_UTC": "2026-11-03T10:46:08.240138+00:00",
+  "snapshot_scope": "This is the creation-time record of observed software evidence and a pending product candidate; later publication or acceptance is not asserted by these values.",
+  "scope": "Code6 software change and scoped evidence only; no TODO checkbox changes",
+  "at_snapshot": {
+    "current_app": "0.2.28(30)",
+    "candidate_app": "0.2.29(31)",
+    "product_candidate_adopted": false,
+    "actual_product_parent": null,
+    "normal_product_CI_result": null,
+    "ordinary_product_main_result": null,
+    "separate_main_push3_result": null
+  },
+  "TODO": {
+    "rows": 32,
+    "complete": 14,
+    "criteria_and_checkboxes": "all original rows retained; IOS-11/18/25 remain incomplete"
+  },
+  "source_CodeMF": "968f7df69f2658942c8c389a9884f25ee9ca0036ef42e529ed9a78aec8fb13cb",
+  "scoped_evidence": {
+    "runtime": {
+      "run": 41617244020,
+      "job": 125853656549,
+      "commit": "d0773499db7e48aeec8a8689ff40b420de5fd0dc",
+      "UI": {
+        "total": 2,
+        "passed": 2,
+        "failed": 0,
+        "skipped": 0,
+        "confirmed_seconds": 110.243,
+        "export_seconds": 173.812
+      },
+      "uname": "arm64",
+      "raw_SHA256": "f3f8b838f1a68ec55c53bfd27045ab03460ed12f7c993d09bf8ddc451cbb43fb",
+      "prep_build_Icon_ownedcleanup": "success with same UUID",
+      "new_exhaustion_branch_traversal": "unknown; no Trace8 overlay",
+      "normalUnit_Native8_Full26_Release": "not accepted by this dedicated run"
+    },
+    "runtime_observation_MF": "6055f9a3116b82311c1894cf6fcaa5a37e8ed02969b923925dbc40d4f394bb64",
+    "runtime_suite_seconds": 284.055,
+    "SDK": {
+      "same_Code6_files": 6,
+      "operation": "Debug build-for-testing typecheck; no XCTest execution",
+      "SDK": "iOS18.2",
+      "seconds": 45.744,
+      "exit": 0,
+      "architectures": [
+        "arm64",
+        "x86_64"
+      ]
+    },
+    "added_unit_methods": {
+      "definitions": 9,
+      "new_normal_XCTest_execution_accepted": false
+    },
+    "pre_fix_Dae_unit_UI": "278 unit and Native8 belong to the pre-fix Dae source; not transferred to Code6/product29"
+  },
+  "pending_at_snapshot": [
+    "PR327 ordinary-main acceptance and fresh actual-parent binding",
+    "new product-source independent review",
+    "new normal unit/Native8/Full26/Release and required checks",
+    "ordinary product-main integration and separate main-push observations",
+    "hardware, VoiceOver and minimum supported OS; skipped as incomplete"
+  ],
+  "plan": [
+    "PR327 ordinary main accepted",
+    "bind Code6 + version-only PBX to actual main",
+    "code/tests/version commit",
+    "record/index commit",
+    "independent final review and new-head CI",
+    "ordinary protected squash and separate main push observation"
+  ],
+  "permission": "user requested prioritized autonomous TODO implementation, commits/PRs/main merges; no signing/distribution",
+  "scope_limits": [
+    "The dedicated UI run does not prove the new exhausted-navigation branch was traversed.",
+    "No OS or timer root cause is asserted.",
+    "No source publication, signing, installation or distribution is asserted by this snapshot."
+  ]
+}

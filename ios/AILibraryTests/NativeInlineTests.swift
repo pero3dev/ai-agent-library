@@ -91,7 +91,7 @@ final class NativeInlineTests: XCTestCase {
     }
 
     private func readerScrollFixture(safeAreaTopInset: CGFloat? = nil,
-        _ run: (UIScrollView, UIView, NativeReaderScrollAnchors) throws -> Void) rethrows {
+        _ run: (UIScrollView, UIView, NativeReaderScrollAnchors, NativeReaderLayoutIdentity) throws -> Void) rethrows {
         let window = UIWindow(frame: CGRect(x: 0, y: 0, width: 393, height: 852))
         let scroll: UIScrollView
         if let safeAreaTopInset {
@@ -108,17 +108,20 @@ final class NativeInlineTests: XCTestCase {
         let root = UIView(frame: .zero)
         content.addSubview(root)
         let anchors = NativeReaderScrollAnchors()
-        anchors.registerRoot(root)
-        try withExtendedLifetime(window) { try run(scroll, content, anchors) }
+        // One controlled baseline identity is shared by this fixture's root and all markers.
+        let layout = NativeReaderLayoutIdentity(source: "native-inline-marker-fixture",
+            width: scroll.bounds.width, height: scroll.bounds.height, bodySize: 17)
+        anchors.registerRoot(root, layout: layout)
+        try withExtendedLifetime(window) { try run(scroll, content, anchors, layout) }
     }
 
     func testReaderMarkersAlignAndSaveAtVisibleTopWhenAdjustmentOmitsSafeArea() {
-        readerScrollFixture(safeAreaTopInset: 116) { scroll, content, anchors in
+        readerScrollFixture(safeAreaTopInset: 116) { scroll, content, anchors, layout in
             var selected: UIView!
             for (id, y) in [("previous", CGFloat(1500)), ("selected", 1600), ("next", 1644)] {
                 let marker = UIView(frame: CGRect(x: 0, y: y, width: 1, height: 0))
                 content.addSubview(marker)
-                anchors.registerTarget(marker, id: id)
+                anchors.registerTarget(marker, id: id, layout: layout)
                 if id == "selected" { selected = marker }
             }
             scroll.contentInset.top = 0
@@ -145,11 +148,11 @@ final class NativeInlineTests: XCTestCase {
     }
 
     func testReaderMarkersReobserveAChangedVisibleTop() throws {
-        try readerScrollFixture(safeAreaTopInset: 116) { scroll, content, anchors in
+        try readerScrollFixture(safeAreaTopInset: 116) { scroll, content, anchors, layout in
             let supplied = try XCTUnwrap(scroll as? ReaderSafeAreaScrollView)
             let marker = UIView(frame: CGRect(x: 0, y: 1600, width: 1, height: 0))
             content.addSubview(marker)
-            anchors.registerTarget(marker, id: "selected")
+            anchors.registerTarget(marker, id: "selected", layout: layout)
             scroll.contentInset.top = 0
             XCTAssertEqual(anchors.placeTarget("selected"), .aligned)
             XCTAssertEqual(scroll.contentOffset.y, 1483)
@@ -165,12 +168,12 @@ final class NativeInlineTests: XCTestCase {
     }
 
     func testReaderScrollMarkersConvertNestedTargetsWithoutDoubleCountingOffset() {
-        readerScrollFixture { scroll, content, anchors in
+        readerScrollFixture { scroll, content, anchors, layout in
             let group = UIView(frame: CGRect(x: 0, y: 1200, width: 393, height: 1000))
             content.addSubview(group)
             let marker = UIView(frame: CGRect(x: 0, y: 400, width: 1, height: 0))
             group.addSubview(marker)
-            anchors.registerTarget(marker, id: "nested")
+            anchors.registerTarget(marker, id: "nested", layout: layout)
             for offset in [CGFloat(20), CGFloat(800)] {
                 scroll.contentOffset = CGPoint(x: 0, y: offset)
                 XCTAssertEqual(marker.convert(marker.bounds, to: scroll).minY, 1600)
@@ -184,13 +187,13 @@ final class NativeInlineTests: XCTestCase {
     }
 
     func testReaderProgressUsesTheAlignedRootCoordinatesOnce() {
-        readerScrollFixture { scroll, content, anchors in
+        readerScrollFixture { scroll, content, anchors, layout in
             // Named SwiftUI frames may start below the navigation inset. The
             // actual markers must keep the selected heading, not the next list.
             for (id, y) in [("previous", CGFloat(1300)), ("selected", 1600), ("paragraph", 1644), ("list", 1710)] {
                 let marker = UIView(frame: CGRect(x: 0, y: y, width: 1, height: 0))
                 content.addSubview(marker)
-                anchors.registerTarget(marker, id: id)
+                anchors.registerTarget(marker, id: id, layout: layout)
             }
             let ids = ["previous", "selected", "paragraph", "list"]
             for top in [CGFloat(103), 140] {
@@ -208,7 +211,7 @@ final class NativeInlineTests: XCTestCase {
     }
 
     func testReaderScrollMarkersKeepHorizontalAndDisabledTextViewOffsets() {
-        readerScrollFixture { scroll, content, anchors in
+        readerScrollFixture { scroll, content, anchors, layout in
             let horizontal = UIScrollView(frame: CGRect(x: 0, y: 1200, width: 300, height: 180))
             horizontal.contentInsetAdjustmentBehavior = .never
             horizontal.contentSize = CGSize(width: 2000, height: 180)
@@ -220,7 +223,7 @@ final class NativeInlineTests: XCTestCase {
             horizontal.addSubview(text)
             let marker = UIView(frame: CGRect(x: 0, y: 8, width: 1, height: 0))
             text.addSubview(marker)
-            anchors.registerTarget(marker, id: "inside-text")
+            anchors.registerTarget(marker, id: "inside-text", layout: layout)
             XCTAssertEqual(anchors.placeTarget("inside-text"), .aligned)
             XCTAssertEqual(scroll.contentOffset.y, 1204)
             XCTAssertEqual(horizontal.contentOffset, CGPoint(x: 250, y: 0))
@@ -229,18 +232,18 @@ final class NativeInlineTests: XCTestCase {
     }
 
     func testReaderScrollMarkersRejectForeignViewsAndRetainOnlyWeakTargets() {
-        readerScrollFixture { scroll, content, anchors in
+        readerScrollFixture { scroll, content, anchors, layout in
             scroll.contentOffset = CGPoint(x: 0, y: 500)
             let foreign = UIView(frame: CGRect(x: 0, y: 1600, width: 1, height: 0))
             content.window?.addSubview(foreign)
-            anchors.registerTarget(foreign, id: "foreign")
+            anchors.registerTarget(foreign, id: "foreign", layout: layout)
             XCTAssertEqual(anchors.placeTarget("foreign"), .unavailable)
             XCTAssertEqual(scroll.contentOffset.y, 500)
             weak var probe: UIView?
             autoreleasepool {
                 let detached = UIView(frame: .zero)
                 probe = detached
-                anchors.registerTarget(detached, id: "released")
+                anchors.registerTarget(detached, id: "released", layout: layout)
             }
             XCTAssertNil(probe)
             XCTAssertEqual(anchors.placeTarget("released"), .waitingForLayout)
@@ -617,12 +620,12 @@ final class NativeInlineTests: XCTestCase {
     }
 
     func testIntraBlockUIKitMarkersRestoreSameBlockAndReflowedHeight() throws {
-        try readerScrollFixture { scroll, content, anchors in
+        try readerScrollFixture { scroll, content, anchors, layout in
             let start = UIView(frame: CGRect(x: 0, y: 600, width: 1, height: 0))
             let end = UIView(frame: CGRect(x: 0, y: 2600, width: 1, height: 0))
             content.addSubview(start); content.addSubview(end)
-            anchors.registerTarget(start, id: "tall")
-            anchors.registerTarget(end, id: "tall", isEnd: true)
+            anchors.registerTarget(start, id: "tall", layout: layout)
+            anchors.registerTarget(end, id: "tall", isEnd: true, layout: layout)
             scroll.contentOffset.y = 1097
             XCTAssertEqual(try XCTUnwrap(anchors.intraBlockFraction(for: "tall")), 0.3, accuracy: 0.000001)
             XCTAssertEqual(anchors.placeTarget("tall", intraBlockFraction: 0.6), .aligned)
@@ -638,14 +641,14 @@ final class NativeInlineTests: XCTestCase {
     }
 
     func testIntraBlockClampIsSavedAsActualMeasurementNotRequestedFraction() throws {
-        try readerScrollFixture { scroll, content, anchors in
+        try readerScrollFixture { scroll, content, anchors, layout in
             scroll.contentSize.height = 5000
             content.frame.size.height = 5000
             let start = UIView(frame: CGRect(x: 0, y: 3000, width: 1, height: 0))
             let end = UIView(frame: CGRect(x: 0, y: 5000, width: 1, height: 0))
             content.addSubview(start); content.addSubview(end)
-            anchors.registerTarget(start, id: "last")
-            anchors.registerTarget(end, id: "last", isEnd: true)
+            anchors.registerTarget(start, id: "last", layout: layout)
+            anchors.registerTarget(end, id: "last", isEnd: true, layout: layout)
             XCTAssertEqual(anchors.placeTarget("last", intraBlockFraction: 1), .aligned)
             XCTAssertEqual(scroll.contentOffset.y, 4182)
             XCTAssertEqual(try XCTUnwrap(anchors.intraBlockFraction(for: "last")), 0.6425, accuracy: 0.000001)
@@ -654,15 +657,15 @@ final class NativeInlineTests: XCTestCase {
     }
 
     func testIntraBlockMissingOrForeignEndCannotMasqueradeAsTopOnlySuccess() {
-        readerScrollFixture { scroll, content, anchors in
+        readerScrollFixture { scroll, content, anchors, layout in
             let start = UIView(frame: CGRect(x: 0, y: 600, width: 1, height: 0))
             content.addSubview(start)
-            anchors.registerTarget(start, id: "tall")
+            anchors.registerTarget(start, id: "tall", layout: layout)
             XCTAssertNil(anchors.intraBlockFraction(for: "tall"))
             XCTAssertEqual(anchors.placeTarget("tall", intraBlockFraction: 0.6), .waitingForLayout)
             let end = UIView(frame: start.frame)
             content.addSubview(end)
-            anchors.registerTarget(end, id: "tall", isEnd: true)
+            anchors.registerTarget(end, id: "tall", isEnd: true, layout: layout)
             XCTAssertNil(anchors.intraBlockFraction(for: "tall"))
             XCTAssertEqual(anchors.placeTarget("tall", intraBlockFraction: 0.6), .unavailable)
             end.removeFromSuperview()
@@ -785,14 +788,14 @@ final class NativeInlineTests: XCTestCase {
     }
 
     func testIntraBlockCaptureAndReflowUseVisibleTopWithIndependentLegalClamp() throws {
-        try readerScrollFixture(safeAreaTopInset: 116) { scroll, content, anchors in
+        try readerScrollFixture(safeAreaTopInset: 116) { scroll, content, anchors, layout in
             let supplied = try XCTUnwrap(scroll as? ReaderSafeAreaScrollView)
             scroll.contentInset.top = 0
             let start = UIView(frame: CGRect(x: 0, y: 600, width: 1, height: 0))
             let end = UIView(frame: CGRect(x: 0, y: 2600, width: 1, height: 0))
             content.addSubview(start); content.addSubview(end)
-            anchors.registerTarget(start, id: "tall")
-            anchors.registerTarget(end, id: "tall", isEnd: true)
+            anchors.registerTarget(start, id: "tall", layout: layout)
+            anchors.registerTarget(end, id: "tall", isEnd: true, layout: layout)
             XCTAssertEqual(anchors.placeTarget("tall", intraBlockFraction: 0.6), .aligned)
             XCTAssertEqual(scroll.contentOffset.y, 1684)
             XCTAssertEqual(try XCTUnwrap(anchors.intraBlockFraction(for: "tall")), 0.6, accuracy: 0.000001)
@@ -1105,11 +1108,11 @@ extension NativeInlineTests {
             XCTAssertGreaterThan(delivered.minY, viewport.minY)
             XCTAssertTrue(viewport.contains(delivered), "Both existing tolerance edges must remain fully visible")
         }
-        readerScrollFixture(safeAreaTopInset: visibleTop) { scroll, content, anchors in
+        readerScrollFixture(safeAreaTopInset: visibleTop) { scroll, content, anchors, layout in
             scroll.contentInset.top = 0
             let marker = UIView(frame: CGRect(x: 0, y: contentTop, width: 1, height: 0))
             content.addSubview(marker)
-            anchors.registerTarget(marker, id: "selected")
+            anchors.registerTarget(marker, id: "selected", layout: layout)
             scroll.contentOffset.y = currentOffset
             XCTAssertEqual(anchors.placementObservation(of: "selected"), .needsAlignment)
             XCTAssertEqual(anchors.placeTarget("selected"), .aligned)
@@ -1137,12 +1140,12 @@ extension NativeInlineTests {
         }
         XCTAssertEqual(NativeReaderScrollBounds.readingBlockID(
             frames: ["previous": -10, "selected": 104, "next": 128], viewportHeight: 852, topInset: 103), "selected")
-        readerScrollFixture { scroll, content, anchors in
+        readerScrollFixture { scroll, content, anchors, layout in
             let marker = UIView(frame: CGRect(x: 0, y: 1600, width: 1, height: 0))
             let end = UIView(frame: CGRect(x: 0, y: 1800, width: 1, height: 0))
             content.addSubview(marker); content.addSubview(end)
-            anchors.registerTarget(marker, id: "selected")
-            anchors.registerTarget(end, id: "selected", isEnd: true)
+            anchors.registerTarget(marker, id: "selected", layout: layout)
+            anchors.registerTarget(end, id: "selected", isEnd: true, layout: layout)
             XCTAssertEqual(anchors.placeTarget("selected", intraBlockFraction: 0), .aligned)
             XCTAssertEqual(scroll.contentOffset.y, nilGoal)
             XCTAssertEqual(anchors.intraBlockFraction(for: "selected"), 0)

@@ -1,0 +1,69 @@
+{
+  "state": "CREATION_TIME_SNAPSHOT_EXPORT_PICKER_CANDIDATE_BEFORE_NEW_HEAD",
+  "recorded_UTC": "2026-11-03T12:57:52.519230+00:00",
+  "current_PR": 328,
+  "logical_parent": "1834a4fe9bcaac009974b01709a26755f55e449f",
+  "current_main": "eb0c80a22375db454998246ad30c7e0fbc752423",
+  "current_parent_Main_UI_failure": "first opening observed Move0Cancel1Back0 rejected; initial instant not separately captured",
+  "current_PR_UI_failure": "after Browse-back final rescan deadline-after",
+  "Root_adopted_changes": [
+    "T0 snapshot standard predicate evaluation and T1 scoped live action check",
+    "each opening initial Browse-root proof policy",
+    "Back coverage count from actual tap, not policy permission"
+  ],
+  "budget_seconds": 30,
+  "openings": 2,
+  "limits": {
+    "nodes": 8192,
+    "depth": 64
+  },
+  "rosters": {
+    "Native": 8,
+    "Full": 26,
+    "unit": 287
+  },
+  "pure_host": {
+    "groups": 13,
+    "assertions": 28,
+    "failures": 0,
+    "initial_two_harness_compile_errors": "retained; production pure fragment unchanged"
+  },
+  "new_SDK_UI_currenthead_CI_main_accepted": false,
+  "App_candidate": "0.2.29(31)",
+  "TODO": [
+    32,
+    14
+  ],
+  "hardware_VO_minOS": "incomplete skipped",
+  "ownership": [
+    "ios/AILibraryUITests/ReadingRecoveryUITests.swift",
+    "project/records/2026-11-03/ios-export-picker-snapshot.md",
+    "project/records/2026-11-03/ios-export-picker-snapshot.json",
+    "project/README.md",
+    "project/plans/engineering/ios-app-completion.md"
+  ],
+  "authority": "User authorized prioritized autonomous implementation and ordinary scoped commits/PR/main merges; no signing/distribution/payment",
+  "snapshot_scope": "Creation-time evidence and pending candidate; not a live new-head acceptance state.",
+  "CodeMF": "c873765ce0681a1273f38a0465499d8c46d31906629d35be19ea5284473f0e4d",
+  "code_SHA256": "f998833ee906e14aa8ac0e65c1fe6a00d7fbf282e9e4574d458bb4bf0dd6c560",
+  "verification_at_freeze": {
+    "SDK_adapter_typecheck": {
+      "manifest_SHA256": "cbbb1b5a82a45acf2dbbfc38a7e78b7954d170c021ca1eb9db8cd3ea59968c3b",
+      "result_SHA256": "31d9a11383d1a42bcf78d6b4b37ff388212eb5283bf182ca0d98d0a02f113c5a",
+      "Root_data_IR_SHA256": "c1d7c9e649a7c65f20ca6bdee56b3fef1707ba6db3b212b68e2d96db8e4a3aee",
+      "Xcode": "16.2(16C5032a)",
+      "SDK": "iPhoneSimulator18.2",
+      "seconds": 42.777723375,
+      "exit": 0,
+      "both_arch_Code1_Reader6_inputs_verified": true,
+      "App": "0.2.29(31)",
+      "runtime_or_latency_or_new_CI_accepted": false
+    },
+    "new_UI_Runtime": null,
+    "new_head_CI": null,
+    "ordinary_main": null,
+    "separate_mainpush": null,
+    "final_source_common": null
+  },
+  "freeze_UTC": "2026-11-03T13:17:22.666316+00:00"
+}

@@ -1,5 +1,41 @@
 import Foundation
 
+struct NativeReaderLayoutIdentity: Hashable {
+    let source: String
+    let width: CGFloat
+    let height: CGFloat
+    let bodySize: CGFloat
+}
+
+/// Marker registrations report the live rendered identity, independently of
+/// SwiftUI task/onChange scheduling. A changed identity invalidates old evidence,
+/// including A -> B -> A; it never changes placement deadlines or pan epochs.
+struct NativeReaderRenderedLayoutReceipt {
+    struct Snapshot: Equatable {
+        fileprivate let epoch: UInt64
+        fileprivate let layout: NativeReaderLayoutIdentity
+    }
+    private var layout: NativeReaderLayoutIdentity?
+    private var epoch: UInt64 = 0
+
+    mutating func report(_ next: NativeReaderLayoutIdentity) {
+        guard layout != next else { return }
+        epoch &+= 1
+        layout = next
+    }
+
+    func capture() -> Snapshot? {
+        guard let layout, !layout.source.isEmpty,
+              [layout.width, layout.height, layout.bodySize].allSatisfy({ $0.isFinite && $0 > 0 }) else { return nil }
+        return Snapshot(epoch: epoch, layout: layout)
+    }
+
+    func matches(_ snapshot: Snapshot?, expected: NativeReaderLayoutIdentity) -> Bool {
+        guard let snapshot, let live = capture(), snapshot == live else { return false }
+        return live.layout == expected
+    }
+}
+
 /// One live placement request. Attempts are layout-driven, never a saved intent
 /// that a later marker registration may restart after interruption or expiry.
 struct NativeReaderPlacementPolicy {
@@ -41,6 +77,16 @@ struct NativeReaderPlacementPolicy {
             || maximumMaterializations < 1 || maximumCorrections < 1 {
             outcome = .unavailable
         }
+    }
+
+    /// Read-only reach evidence, not alignment success or an offset command.
+    /// Use content coordinates from the same current root and complete markers.
+    static func fullyVisibleTargetInterval(start: Double, end: Double,
+        visibleTop: Double, visibleBottom: Double) -> Bool {
+        guard [start, end, visibleTop, visibleBottom].allSatisfy(\.isFinite),
+              end > start, visibleBottom > visibleTop,
+              (end - start).isFinite, (visibleBottom - visibleTop).isFinite else { return false }
+        return start >= visibleTop && end <= visibleBottom
     }
 
     /// Preparation has no correction deadline. Its original request identity

@@ -122,22 +122,31 @@ struct NativeReadingPlacementRequest {
     let purpose: Purpose
     let userPanEpoch: UInt64
     let generation: UUID
+    let directHeadingBlockID: String?
 
-    init(purpose: Purpose, userPanEpoch: UInt64, generation: UUID = UUID()) {
+    init(purpose: Purpose, userPanEpoch: UInt64, generation: UUID = UUID(), directHeadingBlockID: String? = nil) {
         self.purpose = purpose
         self.userPanEpoch = userPanEpoch
         self.generation = generation
+        self.directHeadingBlockID = directHeadingBlockID
     }
+}
+
+/// Ephemeral proof from the current root markers, never a requested/saved position.
+struct NativeReadingReachedNavigation: Equatable {
+    let generation: UUID
+    let userPanEpoch: UInt64
+    let sample: NativeReadingSample
 }
 
 struct NativeReadingProgressSession {
     enum CompletionEffect: Equatable {
-        case measuredAlignment, measuredUserPan
+        case measuredAlignment, measuredUserPan, measuredReachedNavigation
         case preserveAutomaticPosition, preserveUnreachedNavigation
         case ignoreSuperseded
 
         var acceptsMeasurement: Bool {
-            self == .measuredAlignment || self == .measuredUserPan
+            self == .measuredAlignment || self == .measuredUserPan || self == .measuredReachedNavigation
         }
         var consumesOneShot: Bool { acceptsMeasurement }
         // A latest user-pan measurement may consume the old intent, but must
@@ -188,11 +197,12 @@ struct NativeReadingProgressSession {
         return buffer.stage(sample)
     }
 
-    // The storage layer needs only the observed alignment result. Keeping this
-    // boundary independent of the UI policy preserves the Foundation CLI inputs.
+    // Alignment and a current, fully visible exhausted explicit heading are
+    // distinct observations. This boundary remains independent of UIKit.
     mutating func completePlacement(placementAligned: Bool,
         request: NativeReadingPlacementRequest, currentUserPanEpoch: UInt64,
-        isUserInteracting: Bool, measured: NativeReadingSample?) -> Completion {
+        isUserInteracting: Bool, measured: NativeReadingSample?,
+        placementExhausted: Bool = false, reachedNavigation: NativeReadingReachedNavigation? = nil) -> Completion {
         guard placementInFlight, activeGeneration == request.generation else {
             return Completion(effect: .ignoreSuperseded, delayToken: nil)
         }
@@ -201,6 +211,15 @@ struct NativeReadingProgressSession {
         let effect: CompletionEffect
         if userMoved { effect = .measuredUserPan }
         else if placementAligned, measured != nil { effect = .measuredAlignment }
+        else if placementExhausted, case .explicitNavigation = request.purpose,
+                let reachedNavigation, let measured, reachedNavigation.sample == measured,
+                reachedNavigation.generation == request.generation,
+                reachedNavigation.userPanEpoch == currentUserPanEpoch,
+                let heading = request.directHeadingBlockID, !heading.isEmpty, measured.blockID == heading,
+                measured.fraction.isFinite, (0...1).contains(measured.fraction),
+                NativeReadingAnchor.validFraction(measured.intraBlockFraction) != nil {
+            effect = .measuredReachedNavigation
+        }
         else {
             switch request.purpose {
             case .automaticResume, .automaticReflow: effect = .preserveAutomaticPosition

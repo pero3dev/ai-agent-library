@@ -1,0 +1,206 @@
+{
+  "schema_version": 1,
+  "state": "SELF_USE_IMPLEMENTATION_AND_MAJOR_AUTOMATED_CHECKS_ACCEPTED",
+  "date_JST": "2026-11-04",
+  "accepted_requirements": [
+    "IOS-11",
+    "IOS-18"
+  ],
+  "acceptance_scope": "Implementation and major automated checks for personal use; additional UI routes and physical acceptance remain open.",
+  "adopted_product": {
+    "main": "0885ae04f11445874738a0cc769bdf86e6d57355",
+    "sole_parent": "518f30523c66a18c8a8ecc60fc6e498b56909109",
+    "tree": "98e9b49efd85f26ea91ff41599205ab553a0dad5",
+    "tracked_files": 3033,
+    "App": "0.2.30(32)",
+    "PR": 331,
+    "PR_url": "https://github.com/pero3dev/ai-agent-library/pull/331",
+    "source_head": "cd22b07cf0b1637567fff8d5de5dc0e831f7c53f",
+    "source_SourceMF": "a58b4a71cc6a50d1bffc923ca9f51bbdfc5cf1f562f91d84f83ecadeb16e47d2",
+    "ordinary_protected_squash": true,
+    "canonical_commit_and_fullmap_verified": true,
+    "main_proof_SHA256": "19120c79af8f24ac83cdaa911d4084781761485e11ff323059d4d676917bcdec"
+  },
+  "TODO": {
+    "rows": 32,
+    "before_done": 14,
+    "after_done": 16,
+    "only_checkbox_changes": [
+      "IOS-11",
+      "IOS-18"
+    ],
+    "other30_states_and_all_criteria_unchanged": true
+  },
+  "requirements": {
+    "IOS-11": {
+      "implementation": "revision/block/semantic anchor and bounded intra-block position; legacy heading/fraction fallback and bookmarks; rendered generation protections",
+      "evidence": "Current native unit and legacy/bookmark/relaunch UI plus one each Dynamic/Rotation/Revision controlled regression passed",
+      "limits": [
+        "not every article/revision",
+        "not natural OS Settings/live font change",
+        "not physical device or VoiceOver"
+      ]
+    },
+    "IOS-18": {
+      "implementation": "unsupported/corrupt validation, error/retry/back UI, last-good snapshot, previous revalidation and bundled fallback",
+      "evidence": "Current unit rejection/repair/retry/rollback checks plus missing-bundle F1 and separate normal-reinstall R1 actual UI passed",
+      "limits": [
+        "not every error route",
+        "not same-process repaired retry success UI",
+        "not whole learning records or power-loss assurance"
+      ]
+    }
+  },
+  "source_CI": {
+    "head": "cd22b07cf0b1637567fff8d5de5dc0e831f7c53f",
+    "all9_latest_attempt1_success": true,
+    "required11_success": true,
+    "Ready_after_final_metadata": true,
+    "fresh_policy_count": 2,
+    "fresh_runIDs": [
+      41711846291,
+      41711846488
+    ],
+    "source_CI_packet_SHA256": "5972ec753f597c4746fa986c160cace86d975e69a7918584b62a48776849ae5e"
+  },
+  "Native": {
+    "run": 41702593895,
+    "attempt": 1,
+    "units": 297,
+    "passed": 295,
+    "known_skipped": 2,
+    "Storage10_passed_inside_units": 10,
+    "UI_passed": 8
+  },
+  "Full": {
+    "run": 41702593878,
+    "attempt": 1,
+    "A_UI_passed": 18,
+    "B_UI_passed": 8,
+    "disjoint_UI_total": 26,
+    "code_copy_canary_bytes": 374,
+    "Release_articles": 199,
+    "Release_files_excluding_manifest": 625,
+    "A_Release_guard_skipped": true,
+    "B_Release_audited": true,
+    "Native_UI_overlap_is_not_added_to_26": true
+  },
+  "reader3": {
+    "independent_IR_SHA256": "b7db7e6e841732ac1281217569476ba009dd46bfc8ba076cbbc70440b2df8d8f",
+    "P1": 0,
+    "P2": 0,
+    "raw_child_cases_received": true,
+    "same_owned_UUID_and_cleanup_per_scope": true,
+    "cases": [
+      {
+        "scope": "Rotation",
+        "run": 41702593866,
+        "case": "ReaderReflowUITests/testFixtureMeasuredRowAndBookmarkSurviveRotatedRelaunchAndLiveReturn()",
+        "result": "Passed",
+        "seconds": 186.61104500293732,
+        "independent_geometry_JSON": false,
+        "artifact": 13266250356,
+        "ZIP_SHA256": "ebbd1fcd2afbc9248ef30b3690a596d0502f42fdf38a37106da1ea11051303cc"
+      },
+      {
+        "scope": "Revision",
+        "run": 41702593861,
+        "case": "ReaderReflowUITests/testValidPackageRevisionAndParagraphReflowPreserveReadingAndBookmark()",
+        "result": "Passed",
+        "seconds": 139.65969097614288,
+        "controlled_phases": 5,
+        "artifact": 13265873186,
+        "ZIP_SHA256": "67b0a15c95c83e2bf88419e39bf53fc2cfa9fcefeb3d6012a26091b27883424b"
+      },
+      {
+        "scope": "Dynamic",
+        "run": 41702594030,
+        "case": "ReaderReflowUITests/testFixtureMeasuredRowAndBookmarkSurviveDynamicTypeRelaunches()",
+        "result": "Passed",
+        "seconds": 236.83157193660736,
+        "controlled_phases": 3,
+        "artifact": 13266342529,
+        "ZIP_SHA256": "e6e9a1302bba35934848867f7dbc91ab45a7faffcc0d4e7cd1c9254749ca1db4"
+      }
+    ],
+    "limits": "App-local sequential observations; no all-revisions, natural OS settings, independent Rotation geometry or physical-device generalization."
+  },
+  "Recovery": {
+    "run": 41702593867,
+    "attempt": 1,
+    "F_actual_case_passed": 1,
+    "R_actual_case_passed": 1,
+    "F_seconds": 21.61530303955078,
+    "R_seconds": 76.02636897563934,
+    "same_owned_Simulator_and_cleanup": true,
+    "separate_reinstall_stages": true,
+    "sentinel_bytes": 52,
+    "sentinel_preserved": true,
+    "sentinel_SHA256": "59e4f9cb20c5c7928b7edcaa47e3a601edcd7efe61c107f83d128187c7785ad4",
+    "artifact": 13264443284,
+    "ZIP_SHA256": "38defba174bf56eed46d4abc259bb1b2a3a990dd7960f47aa0bfff5a2fde028f",
+    "selection_proof_SHA256": "080bba224e4f23b647c9b22d7b9db25f4fce6fc709c56eaa16f4b085907378f0",
+    "whole_learning_records_same_process_repaired_retry_acceptance": false
+  },
+  "compatibility": {
+    "SDK26_unsigned_Archive_run": 41702593884,
+    "R26_UI_run": 41702593921,
+    "R26_UI_passed": 3,
+    "Archive_is_not_distribution_or_device_acceptance": true
+  },
+  "separate_main_push_snapshot": {
+    "head": "0885ae04f11445874738a0cc769bdf86e6d57355",
+    "status_at_record_creation": "Full B preparation failed; other checks unfinished; not accepted from PR results",
+    "runs": {
+      "Common": 41712695292,
+      "Native": 41712695302,
+      "Full": 41712695195
+    },
+    "FullB_initial": {
+      "job": 126184576007,
+      "attempt": 1,
+      "conclusion": "failure",
+      "boundary": "Prepare one fresh owned published Simulator / runtimes-timeout-retry-1",
+      "UI_Debug_Release": "official steps skipped; no result borrowed from PR",
+      "raw_SHA256": "87c28755e80554b5248ea72a543f74489252d0adaaa16aab740c3231dc89eece",
+      "OS_cause_actual_timeout_count": "unknown",
+      "retry_issued_at_record_creation": false
+    }
+  },
+  "remaining": {
+    "IOS-23": [
+      "App30 physical device",
+      "VoiceOver",
+      "small/minimum/current OS devices",
+      "natural maximum font and live settings",
+      "signing update retention",
+      "audio call/provider interruption"
+    ],
+    "IOS-25": [
+      "individual failure routes",
+      "same-process repaired retry success UI",
+      "additional interaction coverage"
+    ],
+    "other": [
+      "IOS-15 performance budgets and measurements",
+      "audio rights/catalog",
+      "IOS-21 cleanup lifecycle and capacity policy",
+      "real ENOSPC/partial-write/power-loss and whole-learning-record preservation"
+    ]
+  },
+  "document_milestone": "Record2+indices2 form one docs commit/PR after local common and independent review; its new CI/main acceptance is separate from PR331.",
+  "history_policy": "Prior conditional/unreceived records remain frozen histories; later passes are not inserted into their creation snapshots.",
+  "evidence_links": {
+    "iOS SDK 26 unsigned archive preflight": "https://github.com/pero3dev/ai-agent-library/actions/runs/41702593884",
+    "iOS missing package and restored install UI": "https://github.com/pero3dev/ai-agent-library/actions/runs/41702593867",
+    "CI": "https://github.com/pero3dev/ai-agent-library/actions/runs/41702593925",
+    "iOS reader rotation regression": "https://github.com/pero3dev/ai-agent-library/actions/runs/41702593866",
+    "iOS 26.5 representative UI smoke": "https://github.com/pero3dev/ai-agent-library/actions/runs/41702593921",
+    "iOS native regression": "https://github.com/pero3dev/ai-agent-library/actions/runs/41702593895",
+    "iOS published app candidate": "https://github.com/pero3dev/ai-agent-library/actions/runs/41702593878",
+    "iOS valid reader revision regression": "https://github.com/pero3dev/ai-agent-library/actions/runs/41702593861",
+    "iOS reader Dynamic Type relaunch regression": "https://github.com/pero3dev/ai-agent-library/actions/runs/41702594030"
+  },
+  "source_data_not_executed": true,
+  "product_PBX_App_or_other_criteria_changed": false
+}

@@ -484,6 +484,10 @@ struct NativeReaderView: View {
     var initialSearchHit: NativeSearchHit? = nil
     var searchStartsAtBeginning = false
     var openLearningLink: ((URL) -> Bool)? = nil
+    #if DEBUG
+    var onPlacementRecordTrace: (@MainActor (ReaderPlacementRecordTraceEvent) -> Void)? = nil
+    var placementRecordTraceValue: (@MainActor () -> String)? = nil
+    #endif
     @ScaledMetric(relativeTo: .body) private var bodySize: CGFloat = 17
     @Environment(\.scenePhase) private var scenePhase
     @State private var restoring = true
@@ -533,6 +537,7 @@ struct NativeReaderView: View {
                 #if DEBUG
                 .modifier(UITestDynamicTypeProbeValue(stage: "reader", bodySize: bodySize,
                                                       fontScale: min(4, max(0.8, bodySize / 17))))
+                .modifier(ReaderPlacementRecordTraceProbeValue(readLatest: placementRecordTraceValue))
                 #endif
                 .task(id: layout) { await restore(using: proxy, layout: layout) }
                 .onChange(of: headingRequestID) { _, _ in
@@ -604,6 +609,20 @@ struct NativeReaderView: View {
             (previousProgress == nil ? .automaticResume : .automaticReflow), userPanEpoch: userCancelledEpoch ?? currentPanEpoch,
             generation: generation)
         progressSession.beginPlacement(request)
+        #if DEBUG
+        if let trace = onPlacementRecordTrace {
+            trace(ReaderPlacementRecordTraceEvent(kind: .destination,
+                requestFP: ReaderPlacementRecordTrace.fingerprint(request.generation.uuidString),
+                targetFP: ReaderPlacementRecordTrace.fingerprint(destination.scrollBlockID),
+                containerFP: ReaderPlacementRecordTrace.fingerprint(destination.blockID),
+                sampleFP: ReaderPlacementRecordTrace.point(block: position.blockID,
+                    fraction: position.fraction, intra: position.anchor?.intraBlockFraction),
+                purpose: ReaderPlacementRecordTraceEvent.purpose(request.purpose),
+                blockedEpoch: progressSession.blockedAtUserPanEpoch, userPanEpoch: currentPanEpoch,
+                fraction: ReaderPlacementRecordTrace.unit(position.fraction),
+                intra: ReaderPlacementRecordTrace.unit(destination.intraBlockFraction)))
+        }
+        #endif
         var outcome = NativeReaderPlacementPolicy.Outcome.cancelled
         defer {
             completePlacement(outcome, target: destination.blockID, focus: destination.focusBlockID,
@@ -758,6 +777,25 @@ struct NativeReaderView: View {
         let completion = progressSession.completePlacement(placementAligned: outcome == .aligned, request: request,
             currentUserPanEpoch: userPanEpoch, isUserInteracting: isUserInteracting,
             measured: measured)
+        #if DEBUG
+        if let trace = onPlacementRecordTrace {
+            trace(ReaderPlacementRecordTraceEvent(kind: .placementComplete,
+                requestFP: ReaderPlacementRecordTrace.fingerprint(request.generation.uuidString),
+                targetFP: ReaderPlacementRecordTrace.fingerprint(focus ?? target),
+                containerFP: ReaderPlacementRecordTrace.fingerprint(target),
+                sampleFP: measured.flatMap {
+                    ReaderPlacementRecordTrace.point(block: $0.blockID, fraction: $0.fraction,
+                        intra: $0.intraBlockFraction)
+                },
+                purpose: ReaderPlacementRecordTraceEvent.purpose(request.purpose),
+                outcome: ReaderPlacementRecordTraceEvent.outcome(outcome),
+                effect: ReaderPlacementRecordTraceEvent.effect(completion.effect),
+                measured: measured != nil, blockedEpoch: progressSession.blockedAtUserPanEpoch,
+                userPanEpoch: userPanEpoch,
+                fraction: measured.flatMap { ReaderPlacementRecordTrace.unit($0.fraction) },
+                intra: measured.flatMap { ReaderPlacementRecordTrace.unit($0.intraBlockFraction) }))
+        }
+        #endif
         guard completion.effect != .ignoreSuperseded else { return }
         if completion.effect.consumesOneShot { navigationState.consume(headingRequestID: headingRequestID) }
         // Failed automatic placement keeps both its saved point and cache. A
@@ -1252,3 +1290,21 @@ private struct NativeImageDetail: View {
         }
     }
 }
+#if DEBUG
+extension NativeReaderView {
+    @MainActor func readerPlacementRecordTrace(store: LibraryStore, articleID: String, readerID: String) -> Self {
+        var reader = self
+        guard store.readerPlacementRecordTraceEnabled else { return reader }
+        reader.onPlacementRecordTrace = { [weak store] event in
+            var contextual = event
+            contextual.articleFP = ReaderPlacementRecordTrace.fingerprint(articleID)
+            contextual.readerFP = ReaderPlacementRecordTrace.fingerprint(readerID)
+            store?.appendReaderPlacementRecordTrace(contextual)
+        }
+        reader.placementRecordTraceValue = { [weak store] in
+            store?.readerPlacementRecordTraceJSON ?? ReaderPlacementRecordTrace.unavailable
+        }
+        return reader
+    }
+}
+#endif

@@ -1,6 +1,9 @@
 import Foundation
 import SwiftUI
 import Darwin
+#if DEBUG
+import CryptoKit
+#endif
 
 /// The provider URL is coordinated and scoped only for this bounded read. The
 /// returned bytes still require the restore engine's strict backup validation.
@@ -85,6 +88,43 @@ final class LibraryStore: ObservableObject {
     private let snapshotLoader: (() throws -> ContentSnapshot)?
     private var loadGeneration: UUID?
     private var importing = false
+    #if DEBUG
+    // Neither property is Published; diagnostics cannot invalidate a SwiftUI body.
+    private var readerPlacementRecordTrace = ReaderPlacementRecordTraceBuffer()
+    var readerPlacementRecordTraceEnabled: Bool { !isTestLibrary && ReaderPlacementRecordTrace.requested }
+    var readerPlacementRecordTraceJSON: String {
+        readerPlacementRecordTraceEnabled ? readerPlacementRecordTrace.json : ReaderPlacementRecordTrace.unavailable
+    }
+    func appendReaderPlacementRecordTrace(_ event: ReaderPlacementRecordTraceEvent) {
+        guard readerPlacementRecordTraceEnabled else { return }
+        readerPlacementRecordTrace.append(event)
+    }
+    func traceReaderRecordReturn(article: LibraryArticle, document: NativeDocument?,
+        documentDigest: String?, readerID: String, blockID: String?, fraction: Double, intra: Double?) {
+        guard readerPlacementRecordTraceEnabled else { return }
+        // Live memory resolution only, after the existing synchronous record call. Never read defaults raw.
+        let resolved = document.map { reading.position(for: article, document: $0, documentDigest: documentDigest) }
+        let sample = ReaderPlacementRecordTrace.point(block: blockID, fraction: fraction, intra: intra)
+        let resolvedSample = resolved.flatMap {
+            ReaderPlacementRecordTrace.point(block: $0.blockID, fraction: $0.fraction, intra: $0.anchor?.intraBlockFraction)
+        }
+        let matches: Bool?
+        if let resolved, let blockID, ReaderPlacementRecordTrace.unit(fraction) != nil,
+           intra == nil || ReaderPlacementRecordTrace.unit(intra) != nil {
+            matches = resolved.blockID == blockID && resolved.fraction == fraction &&
+                resolved.anchor?.intraBlockFraction == intra
+        } else { matches = nil }
+        appendReaderPlacementRecordTrace(ReaderPlacementRecordTraceEvent(kind: .recordReturned,
+            articleFP: ReaderPlacementRecordTrace.fingerprint(article.id),
+            readerFP: ReaderPlacementRecordTrace.fingerprint(readerID),
+            sampleFP: sample, resolvedFP: resolvedSample,
+            fraction: ReaderPlacementRecordTrace.unit(fraction), intra: ReaderPlacementRecordTrace.unit(intra),
+            resolvedFraction: resolved.flatMap { ReaderPlacementRecordTrace.unit($0.fraction) },
+            resolvedIntra: resolved.flatMap { ReaderPlacementRecordTrace.unit($0.anchor?.intraBlockFraction) },
+            matches: matches,
+            recoveryIssue: reading.recoveryIssue != nil, saveSuspended: reading.readingSaveSuspended))
+    }
+    #endif
 
     var snapshot: ContentSnapshot? { loadedContent?.snapshot }
     var searchIndex: LibrarySearchIndex? { loadedContent?.searchIndex }
@@ -380,3 +420,131 @@ private struct LibraryLoadedContent: Sendable {
         }
     }
 }
+#if DEBUG
+/// Explicit isolated-suite diagnostics only. No body, query, URL, defaults raw or ID string is retained.
+enum ReaderPlacementRecordTrace {
+    static let maximumEvents = 32
+    static let maximumBytes = 8_192
+    static let unavailable = #"{"schemaVersion":1,"kind":"reader-placement-record","status":"unavailable","events":[],"dropCount":null}"#
+
+    static var requested: Bool {
+        let environment = ProcessInfo.processInfo.environment
+        guard environment["AILIBRARY_UI_TEST_READING_PLACEMENT_TRACE"] == "1",
+              let suite = environment["AILIBRARY_UI_TEST_SUITE"],
+              suite.hasPrefix("ailibrary-uitest-"), suite.count < 100 else { return false }
+        let suffix = String(suite.dropFirst("ailibrary-uitest-".count))
+        // Same canonical UUID validation as the existing isolated reading/font profiles.
+        return UUID(uuidString: suffix)?.uuidString == suffix
+    }
+
+    static func fingerprint(_ identifier: String?) -> String? {
+        guard let identifier else { return nil }
+        let bytes = Array(identifier.utf8.prefix(257))
+        guard !bytes.isEmpty, bytes.count <= 256 else { return nil }
+        return SHA256.hash(data: Data(bytes)).prefix(16).map { String(format: "%02x", $0) }.joined()
+    }
+
+    static func unit(_ value: Double?) -> Double? {
+        guard let value, value.isFinite, (0...1).contains(value) else { return nil }
+        return value == 0 ? 0 : value
+    }
+
+    static func point(block: String?, fraction: Double?, intra: Double?) -> String? {
+        guard let block = fingerprint(block), let fraction = unit(fraction),
+              intra == nil || unit(intra) != nil else { return nil }
+        return fingerprint(block + ":" + String(fraction.bitPattern) + ":" + (intra.map { String($0.bitPattern) } ?? "nil"))
+    }
+}
+
+struct ReaderPlacementRecordTraceEvent: Encodable {
+    enum Kind: String, Encodable { case resumeLoad, destination, placementComplete, recordReturned }
+    enum Purpose: String, Encodable { case automaticResume, automaticReflow, explicitNavigation }
+    enum Outcome: String, Encodable { case aligned, interrupted, exhausted, cancelled, superseded, unavailable }
+    enum Effect: String, Encodable {
+        case measuredAlignment, measuredUserPan, preserveAutomaticPosition, preserveUnreachedNavigation, ignoreSuperseded
+    }
+    let kind: Kind
+    var articleFP: String? = nil
+    var readerFP: String? = nil
+    var requestFP: String? = nil
+    var targetFP: String? = nil
+    var containerFP: String? = nil
+    var sampleFP: String? = nil
+    var resolvedFP: String? = nil
+    var purpose: Purpose? = nil
+    var outcome: Outcome? = nil
+    var effect: Effect? = nil
+    var measured: Bool? = nil
+    var blockedEpoch: UInt64? = nil
+    var userPanEpoch: UInt64? = nil
+    var fraction: Double? = nil
+    var intra: Double? = nil
+    var resolvedFraction: Double? = nil
+    var resolvedIntra: Double? = nil
+    var matches: Bool? = nil
+    var recoveryIssue: Bool? = nil
+    var saveSuspended: Bool? = nil
+    var initialHeading: Bool? = nil
+    var searchRequested: Bool? = nil
+
+    static func purpose(_ value: NativeReadingPlacementRequest.Purpose) -> Purpose {
+        switch value {
+        case .automaticResume: return .automaticResume
+        case .automaticReflow: return .automaticReflow
+        case .explicitNavigation: return .explicitNavigation
+        }
+    }
+    static func outcome(_ value: NativeReaderPlacementPolicy.Outcome) -> Outcome {
+        switch value {
+        case .aligned: return .aligned
+        case .interrupted: return .interrupted
+        case .exhausted: return .exhausted
+        case .cancelled: return .cancelled
+        case .superseded: return .superseded
+        case .unavailable: return .unavailable
+        }
+    }
+    static func effect(_ value: NativeReadingProgressSession.CompletionEffect) -> Effect {
+        switch value {
+        case .measuredAlignment: return .measuredAlignment
+        case .measuredUserPan: return .measuredUserPan
+        case .preserveAutomaticPosition: return .preserveAutomaticPosition
+        case .preserveUnreachedNavigation: return .preserveUnreachedNavigation
+        case .ignoreSuperseded: return .ignoreSuperseded
+        }
+    }
+}
+
+struct ReaderPlacementRecordTraceBuffer {
+    private var events: [ReaderPlacementRecordTraceEvent] = []
+    private var dropCount = 0
+    private struct Envelope: Encodable {
+        let schemaVersion = 1
+        let kind = "reader-placement-record"
+        let status = "observed"
+        let events: [ReaderPlacementRecordTraceEvent]
+        let dropCount: Int
+    }
+    private func encoded(_ events: [ReaderPlacementRecordTraceEvent]) -> Data? {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.sortedKeys]
+        return try? encoder.encode(Envelope(events: events, dropCount: dropCount))
+    }
+    mutating func append(_ event: ReaderPlacementRecordTraceEvent) {
+        // Keep a bounded latest window across navigation. Drop only complete events and count every omission.
+        events.append(event)
+        while !events.isEmpty {
+            if events.count <= ReaderPlacementRecordTrace.maximumEvents,
+               let data = encoded(events), data.count <= ReaderPlacementRecordTrace.maximumBytes - 64 { break }
+            events.removeFirst()
+            if dropCount < Int.max { dropCount += 1 }
+        }
+    }
+    var json: String {
+        guard let data = encoded(events), data.count <= ReaderPlacementRecordTrace.maximumBytes else {
+            return #"{"schemaVersion":1,"kind":"reader-placement-record","status":"unavailable","events":[],"dropCount":\#(dropCount)}"#
+        }
+        return String(decoding: data, as: UTF8.self)
+    }
+}
+#endif

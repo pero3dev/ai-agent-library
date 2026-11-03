@@ -86,6 +86,9 @@ struct ArticleReaderView: View {
                                 onPosition: recordPosition, navigate: navigate,
                                 initialSearchHit: searchHit, searchStartsAtBeginning: activeSearchQuery != nil,
                                 openLearningLink: openLearningLink)
+            #if DEBUG
+            .readerPlacementRecordTrace(store: store, articleID: article.id, readerID: readerID)
+            #endif
             .id(readerID)
     }
 
@@ -96,6 +99,11 @@ struct ArticleReaderView: View {
         }
         store.record(articleID: article.id, heading: heading, fraction: fraction, blockID: blockID,
                      anchor: anchor)
+        #if DEBUG
+        store.traceReaderRecordReturn(article: article, document: document,
+            documentDigest: documentDigest, readerID: readerID, blockID: blockID,
+            fraction: fraction, intra: intraBlockFraction)
+        #endif
     }
 
     private func loadFailure(_ message: String) -> some View {
@@ -210,6 +218,21 @@ struct ArticleReaderView: View {
             guard !Task.isCancelled else { return }
             savedPosition = store.reading.position(for: article, document: loaded.0,
                                                   documentDigest: documentDigest)
+            #if DEBUG
+            if store.readerPlacementRecordTraceEnabled {
+                store.appendReaderPlacementRecordTrace(ReaderPlacementRecordTraceEvent(kind: .resumeLoad,
+                    articleFP: ReaderPlacementRecordTrace.fingerprint(article.id),
+                    readerFP: ReaderPlacementRecordTrace.fingerprint(readerID),
+                    targetFP: ReaderPlacementRecordTrace.fingerprint(savedPosition.blockID),
+                    sampleFP: ReaderPlacementRecordTrace.point(block: savedPosition.blockID,
+                        fraction: savedPosition.fraction, intra: savedPosition.anchor?.intraBlockFraction),
+                    fraction: ReaderPlacementRecordTrace.unit(savedPosition.fraction),
+                    intra: ReaderPlacementRecordTrace.unit(savedPosition.anchor?.intraBlockFraction),
+                    recoveryIssue: store.reading.recoveryIssue != nil,
+                    saveSuspended: store.reading.readingSaveSuspended,
+                    initialHeading: initialHeading != nil, searchRequested: activeSearchQuery != nil))
+            }
+            #endif
             searchHit = loaded.1
             document = loaded.0
             loadedContentID = readerID

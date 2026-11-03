@@ -33,7 +33,9 @@ const textNames = Object.freeze({ public: [
 ], restore: [['Reading-restore-picker-context', 'context.txt', LIMITS.context]],
 export: [['Reading-export-cancel-context', 'context.txt', LIMITS.context]],
 confirmation: [['Reading-recovery-confirmation-context', 'context.txt', LIMITS.context]] });
-const optionalTextNames = Object.freeze({ export: [
+const optionalTextNames = Object.freeze({ public: [
+  ['Reading-placement-record-context', 'context.txt', LIMITS.context],
+], export: [
   ['Reading-export-cancel-hierarchy', 'hierarchy.txt', LIMITS.hierarchy],
 ], confirmation: [
   ['Reading-recovery-confirmation-hierarchy', 'hierarchy.txt', LIMITS.hierarchy],

@@ -1,4 +1,7 @@
 import SwiftUI
+#if DEBUG
+import UIKit
+#endif
 
 @main
 struct AILibraryApp: App {
@@ -153,6 +156,45 @@ struct UITestDynamicTypeProbeValue: ViewModifier {
         } else {
             content
         }
+    }
+}
+#endif
+#if DEBUG
+/// Dedicated on-demand AX getter. It reads the current non-Published buffer, never a body-cached Text.
+private final class ReaderPlacementRecordTraceAXView: UIView {
+    var readLatest: (@MainActor () -> String)?
+    override var accessibilityValue: String? {
+        get { readLatest?() ?? ReaderPlacementRecordTrace.unavailable }
+        set { }
+    }
+}
+
+private struct ReaderPlacementRecordTraceAXProbe: UIViewRepresentable {
+    let readLatest: @MainActor () -> String
+    func makeUIView(context: Context) -> ReaderPlacementRecordTraceAXView {
+        let view = ReaderPlacementRecordTraceAXView()
+        view.backgroundColor = .clear
+        view.isAccessibilityElement = true
+        view.accessibilityIdentifier = "reader-placement-record-trace"
+        view.accessibilityLabel = "Reader placement record trace"
+        view.isUserInteractionEnabled = false
+        view.readLatest = readLatest
+        return view
+    }
+    func updateUIView(_ view: ReaderPlacementRecordTraceAXView, context: Context) {
+        view.readLatest = readLatest
+    }
+}
+
+struct ReaderPlacementRecordTraceProbeValue: ViewModifier {
+    let readLatest: (@MainActor () -> String)?
+    @ViewBuilder func body(content: Content) -> some View {
+        if let readLatest {
+            content.background(alignment: .topLeading) {
+                ReaderPlacementRecordTraceAXProbe(readLatest: readLatest)
+                    .frame(width: 1, height: 1).allowsHitTesting(false)
+            }
+        } else { content }
     }
 }
 #endif

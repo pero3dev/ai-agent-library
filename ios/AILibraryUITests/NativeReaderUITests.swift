@@ -381,6 +381,63 @@ class NativeReaderUITestCase: XCTestCase {
     var seedsPartialReadingRecovery: Bool { false }
     var recordsRuntime26WaitBoundaries: Bool { false }
     var recordsReadingRecoveryOpenBoundaries: Bool { false }
+    var recordsReaderPlacementRecordTrace: Bool { false }
+
+    override func tearDownWithError() throws {
+        // Failure-only, before superclass/runner cleanup. One count getter and at most one value getter.
+        if recordsReaderPlacementRecordTrace, let testRun, testRun.failureCount > 0, app != nil {
+            let probes = app.descendants(matching: .any).matching(identifier: "reader-placement-record-trace")
+            let count = probes.count
+            var context = #"{"schemaVersion":1,"kind":"reader-placement-record","status":"unavailable","events":[],"bufferDropCount":null,"contextDropCount":0,"dropCount":null}"#
+            if count == 1, let value = probes.firstMatch.value as? String,
+               value.utf8.count <= 8_192, let data = value.data(using: .utf8),
+               var object = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+               object["schemaVersion"] as? Int == 1,
+               object["kind"] as? String == "reader-placement-record",
+               let events = object["events"] as? [[String: Any]], events.count <= 32,
+               let bufferDrops = object["dropCount"] as? Int, bufferDrops >= 0 {
+                let resume = events.lastIndex { $0["kind"] as? String == "resumeLoad" }
+                func latest(_ kind: String, before limit: Int? = nil, purpose: String? = nil) -> Int? {
+                    events.indices.reversed().first { index in
+                        (limit == nil || index < limit!) && events[index]["kind"] as? String == kind &&
+                        (purpose == nil || events[index]["purpose"] as? String == purpose)
+                    }
+                }
+                // Keep each latest boundary, rather than repeated geometry-task samples.
+                // Priority: TOC completion, record before Resume, Resume load/completion/destination, late record.
+                let automaticCompletion = events.indices.reversed().first { index in
+                    events[index]["kind"] as? String == "placementComplete" &&
+                    ["automaticResume", "automaticReflow"].contains(events[index]["purpose"] as? String ?? "")
+                }
+                let candidates = [latest("placementComplete", before: resume, purpose: "explicitNavigation"),
+                                  latest("recordReturned", before: resume), resume,
+                                  automaticCompletion, latest("destination"), latest("recordReturned")].compactMap { $0 }
+                var selected: [Int] = []
+                for index in candidates where !selected.contains(index) { selected.append(index) }
+                while true {
+                    let contextDrops = events.count - selected.count
+                    object["events"] = selected.sorted().map { events[$0] }
+                    object["bufferDropCount"] = bufferDrops
+                    object["contextDropCount"] = contextDrops
+                    object["dropCount"] = bufferDrops > Int.max - contextDrops ? Int.max : bufferDrops + contextDrops
+                    object["selection"] = "latest-placement-record-resume-boundaries"
+                    if let compact = try? JSONSerialization.data(withJSONObject: object, options: [.sortedKeys]),
+                       compact.count <= 2_048 {
+                        context = String(decoding: compact, as: UTF8.self)
+                        break
+                    }
+                    guard !selected.isEmpty else { break }
+                    selected.removeLast() // A complete lowest-priority event, never a JSON prefix.
+                }
+            }
+            let attachment = XCTAttachment(string: context)
+            attachment.name = "Reading-placement-record-context"
+            attachment.lifetime = .keepAlways
+            add(attachment)
+            print("AILibraryReadingPlacementRecord " + context)
+        }
+        try super.tearDownWithError()
+    }
 
     override func setUpWithError() throws {
         continueAfterFailure = false
@@ -389,6 +446,9 @@ class NativeReaderUITestCase: XCTestCase {
         app.launchArguments = ["-AppleLanguages", "(ja)", "-AppleLocale", "ja_JP"]
         if seedsPartialReadingRecovery {
             app.launchEnvironment["AILIBRARY_UI_TEST_READING_RECOVERY"] = "partial-v1"
+        }
+        if recordsReaderPlacementRecordTrace {
+            app.launchEnvironment["AILIBRARY_UI_TEST_READING_PLACEMENT_TRACE"] = "1"
         }
         app.launch()
     }
@@ -790,6 +850,7 @@ class NativeReaderUITestCase: XCTestCase {
 }
 
 final class NativeReaderUITests: NativeReaderUITestCase {
+    override var recordsReaderPlacementRecordTrace: Bool { true }
     override var recordsRuntime26WaitBoundaries: Bool { true }
     func testThreeArticlesHaveNativeBodyText() throws {
         // Chapters 01 and 11 remain covered in both the baseline and full-catalog jobs.

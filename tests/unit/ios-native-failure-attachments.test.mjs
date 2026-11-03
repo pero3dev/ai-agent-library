@@ -537,3 +537,75 @@ test('confirmation export still requires a fresh permit within the unchanged who
   assert.equal(result.actual_UI_success, false); assert.equal(f.retained.size, 0);
   assert.equal(f.calls.filter(x => x.kind === 'export' && x.started).length, 0);
 });
+
+function publicPlacementTraceFixture(traceSize = LIMITS.context) {
+  const f = fixture();
+  const body = bytes({ schemaVersion: 1, kind: 'reader-placement-record', status: 'observed',
+    events: [{ kind: 'recordReturned', sampleFP: 'a'.repeat(32), resolvedFP: 'a'.repeat(32), matches: true }],
+    bufferDropCount: 0, contextDropCount: 0, dropCount: 0 });
+  assert.ok(body.length < traceSize);
+  const trace = Buffer.concat([body, Buffer.alloc(traceSize - body.length, 0x20)]);
+  const geometry = Buffer.from('{}'), hierarchy = Buffer.from('controlled hierarchy');
+  const value = { _type: { _name: 'ActionTestSummary' }, identifier: scalar(caseID),
+    testStatus: scalar('Failure'), activitySummaries: array([
+      { attachments: array([
+        attachment('Public-UI-target-not-visible', '0~public-image', image.length, 'public.png'),
+        attachment('Public-UI-target-not-visible-geometry', '0~public-geometry', geometry.length, 'public.plain-text'),
+        attachment('Public-UI-target-not-visible-hierarchy', '0~public-hierarchy', hierarchy.length, 'public.plain-text'),
+      ]) },
+      // Teardown is a different activity from the assertion's original failure image.
+      { subactivities: array([{ attachments: array([
+        attachment('Reading-placement-record-context', '0~placement-context', trace.length, 'public.plain-text'),
+      ]) }]) },
+    ]) };
+  f.objects['0~summary'] = bytes(value);
+  Object.assign(f.payloads, { '0~public-image': image, '0~public-geometry': geometry,
+    '0~public-hierarchy': hierarchy, '0~placement-context': trace });
+  return { ...f, value, trace };
+}
+
+test('public placement context at 2048 bytes keeps existing payload shape and fits the unchanged seven-call cap', async () => {
+  const f = publicPlacementTraceFixture();
+  assert.equal(LIMITS.context, 2048); assert.equal(LIMITS.maxCalls, 7);
+  const result = await collectNativeFailure({ binding: binding(), io: f.io, now: f.now });
+  assert.equal(result.status, 'collected'); assert.equal(result.actual_UI_success, false);
+  assert.equal(result.original_UI_outcome, 'failure');
+  assert.equal(result.coverage, 'one_selected_failed_case_and_known_attachments_only');
+  assert.deepEqual([...f.retained.keys()], ['failure.png', 'geometry.json', 'hierarchy.txt', 'context.txt']);
+  assert.deepEqual(f.retained.get('context.txt'), f.trace);
+  assert.equal(f.retained.get('context.txt').length, 2048);
+  assert.equal(f.calls.length, LIMITS.maxCalls);
+  assert.equal(f.calls.filter(call => call.kind === 'export').length, 4);
+  assert.ok(f.calls.every(call => call.started && call.timeout <= LIMITS.perChildMs));
+});
+
+test('public placement context rejects 2049 bytes, wrong type or duplicate fixed names before any export', async () => {
+  for (const change of ['oversized', 'wrong-UTI', 'duplicate']) {
+    const f = publicPlacementTraceFixture(change === 'oversized' ? LIMITS.context + 1 : LIMITS.context);
+    const entries = f.value.activitySummaries._values[1].subactivities._values[0].attachments._values;
+    if (change === 'wrong-UTI') entries[0].uniformTypeIdentifier = scalar('public.png');
+    if (change === 'duplicate') entries.push(structuredClone(entries[0]));
+    f.objects['0~summary'] = bytes(f.value);
+    const result = await collectNativeFailure({ binding: binding(), io: f.io, now: f.now });
+    assert.equal(result.status, 'incomplete');
+    assert.ok(['text_type_or_size', 'duplicate_optional_attachment'].includes(result.incomplete_reason));
+    assert.equal(f.calls.filter(call => call.kind === 'export').length, 0);
+    assert.equal(f.retained.size, 0);
+  }
+});
+
+test('only the fixed placement context name in the public role can select context.txt', () => {
+  const f = publicPlacementTraceFixture();
+  const entries = f.value.activitySummaries._values[1].subactivities._values[0].attachments._values;
+  entries[0].name = scalar('Reading-placement-record-context-other');
+  assert.deepEqual(attachmentPlan(f.value).map(row => row.filename), ['failure.png', 'geometry.json', 'hierarchy.txt']);
+  const otherRole = summary();
+  otherRole.activitySummaries._values[0].subactivities._values[0].attachments._values.push(
+    attachment('Reading-placement-record-context', '0~not-this-role', LIMITS.context, 'public.plain-text'));
+  const plan = attachmentPlan(otherRole);
+  assert.deepEqual(plan.map(row => row.name), ['Reading-export-cancel-0-failed', 'Reading-export-cancel-context']);
+  assert.ok(plan.every(row => row.id !== '0~not-this-role'));
+  assert.throws(() => attachmentPlan({ attachments: array([
+    attachment('Reading-placement-record-failed', '0~unapproved-role', 8, 'public.png'),
+  ]) }), /known_failure_image_not_unique/);
+});

@@ -54,7 +54,7 @@ Node 22.22.2でCIドライバーの構文検査、旧新の選別・cleanup比�
 
 | 検証 | 結果・範囲 |
 | --- | --- |
-| 共通check | Node24.22.1で終了0。型検査6系統、単体1,574件中1,474成功・失敗0・既存skip100、icon・Markdown・文書・リンク・難易度・TODO形式・harness・配置・Git設定検査が成功 |
+| 共通check | Node24.22.1で終了0。型検査6系統、単体1,575件中1,475成功・失敗0・既存skip100、icon・Markdown・文書・リンク・難易度・TODO形式・harness・配置・Git設定検査が成功 |
 | 分類 | 521件すべて分類、TS実装302・実装JS0・互換入口190・未分類0・workflow内Node実装0。semantic診断と分類証拠を分けて確認 |
 | サイト | unit99/99、型検査5系統、230/230ルート生成。browserの結果と性能1件の同基準再検証は前節のとおり |
 | 最低Node | 22.22.2でCI構文・記事集計、23子関数の24.22.1とのbyte一致、子process回帰22成功、audio/eval回帰67成功、Notice entry回帰5成功を確認 |
@@ -63,5 +63,7 @@ Node 22.22.2でCIドライバーの構文検査、旧新の選別・cleanup比�
 | 提出差分 | 新MTSの型宣言末尾・EOF空白27件を正規化し、前後のparser token・AST一致を検証。stage済み全差分の空白検査が成功 |
 
 Windowsでは、既存の不変POSIX専用Notice試験1ファイルをcollectorが明示的にnot-runとする。100skipとは別であり、Linux/macOS CIでは原文を実行する。実機iPhone、VoiceOver、物理Safari/AirPods、有料音声生成・実Agentは今回のローカル検証へ含めない。
+
+初回head `55c5c9a`の実CIは、Linux単体1,582件中1,563成功・19skip・失敗0だった。Windowsではhookの実体照合が7件失敗した。Hostedの一時フォルダーではimport.meta.urlに8.3短縮名が残り、native realpathで得た期待位置との文字列比較が同一ファイルを拒否していた。実モジュールURLもnative realpathで正規化し、期待位置のnative==lexical、marker、symlink・別root実装の拒否は維持した。実短縮名からの起動で旧版exit2・修正版exit0を両クライアント/Node22・24で再現し、全hooksは各25/25成功。short entryの正負と別rootの実MTS拒否を恒久試験に加え、独立レビューを取り直した。修正後の共通checkは上表の1,575件で終了0。新headのHosted検証はPRの最終証跡へ記録する。
 
 PRの最終head、必須11check、実merge SHA・tree、main CI・Pages deploymentと公開4URLのHTTP/本文確認は、commit後に得る外部証跡として対応PRの最終コメントで管理する。旧PR #329の公開証拠を今回の完了証拠へ流用しない。詳細ログ・比較・snapshotは非追跡の`.local/ts-complete/`に保持する。

@@ -6,7 +6,7 @@ import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, realpathSync,
 import os from 'node:os'
 import path from 'node:path'
 import test from 'node:test'
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 import { editedPaths, generatedPath, lexicalPath, normalizeEditEvent, relativeInside } from '../../scripts/lib/hook-core.mjs'
 import { codexWindowsHookCommand, hookCommand } from '../../scripts/lib/hook-command.mjs'
 import { windowsShortPath } from '../helpers/windows-test-path.mjs'
@@ -260,7 +260,7 @@ test('adapters anchor legacy events and permit foreign cwd while guarding owned 
   }
 })
 
-test('Windows 8.3 event cwd names preserve source checks, generated guards and foreign boundaries', (t) => {
+test('Windows 8.3 entry and event cwd names preserve source checks, generated guards and foreign boundaries', (t) => {
   const fixture = fixtureRoot(t)
   const repo = path.join(fixture, 'repository & literal % path')
   const foreign = path.join(fixture, 'foreign repository')
@@ -275,6 +275,11 @@ test('Windows 8.3 event cwd names preserve source checks, generated guards and f
   const shortForeign = windowsShortPath(foreign)
   assert.ok(shortForeign.path, shortForeign.reason ?? 'Windows 8.3 name unavailable')
   for (const client of ['codex', 'claude']) {
+    const shortEntrySource = invokeAdapter(client, 'guard-generated.mjs', { cwd: repo, tool_input: { file_path: 'website/content-src/page.mdx' } }, short.path, repo)
+    assert.equal(shortEntrySource.status, 0, shortEntrySource.stderr)
+    const shortEntryGenerated = invokeAdapter(client, 'guard-generated.mjs', { cwd: repo, tool_input: { file_path: 'website/out/page.html' } }, short.path, repo)
+    assert.equal(shortEntryGenerated.status, 2)
+    assert.match(shortEntryGenerated.stderr, /生成物/)
     const source = invokeAdapter(client, 'guard-generated.mjs', { cwd: short.path, tool_input: { file_path: 'website/content-src/page.mdx' } }, repo)
     assert.equal(source.status, 0, source.stderr)
     const generated = invokeAdapter(client, 'guard-generated.mjs', { cwd: path.join(short.path, 'website'), tool_input: { file_path: 'out/page.html' } }, repo)
@@ -298,6 +303,18 @@ test('Windows 8.3 event cwd names preserve source checks, generated guards and f
     assert.equal(externalArticle.stderr, '', 'an external symlink must not turn into an owned article')
     const outside = invokeAdapter(client, 'guard-generated.mjs', { cwd: shortForeign.path, tool_input: { file_path: 'source.md' } }, repo)
     assert.equal(outside.status, 0, outside.stderr)
+  }
+})
+
+test('adapters reject an actual TypeScript hook implementation imported from another root', (t) => {
+  const repo = fixtureRoot(t)
+  copyHooks(repo)
+  const foreignImplementation = pathToFileURL(path.join(root, 'scripts/lib/hook-core.mts')).href
+  writeFileSync(path.join(repo, 'scripts/lib/hook-core.mjs'), '// ai-agent-library:hook-core-v1\nexport * from ' + JSON.stringify(foreignImplementation) + '\n')
+  for (const client of ['codex', 'claude']) {
+    const result = invokeAdapter(client, 'guard-generated.mjs', { cwd: repo, tool_input: { file_path: 'website/content-src/page.mdx' } }, repo)
+    assert.equal(result.status, 2, result.stderr)
+    assert.match(result.stderr, /Hook implementation resolves outside its expected location/)
   }
 })
 

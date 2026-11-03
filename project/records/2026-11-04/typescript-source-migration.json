@@ -100,7 +100,7 @@
   },
   "verification": {
     "dependencies": "Three npm ci --ignore-scripts installations succeeded; lockfiles unchanged.",
-    "root_check": "exit 0; six strict programs; 1574 tests: 1474 passed, 0 failed, 100 existing skipped; one immutable POSIX-only test file separately not-run on Windows",
+    "root_check": "exit 0 after Windows native-path fix; six strict programs; 1575 tests: 1475 passed, 0 failed, 100 existing skipped; one immutable POSIX-only test file separately not-run on Windows",
     "website_unit": "99 passed; 0 failed; 0 skipped",
     "website_build": "230/230 routes; 12 initial scripts; 962476 raw bytes; 307969 gzip bytes",
     "website_typecheck": "All five strict/noEmit programs passed",
@@ -115,5 +115,16 @@
     "Browser smoke: 34/35 passed initially; the same performance threshold passed on isolated recheck."
   ],
   "immutable_policy": "Four SHA-fixed files, six historical evidence files, and one vendor file are retained.",
-  "integrated_main": "4a70ea5df998d03349bcecb4bf57b2a9a32ac367"
+  "integrated_main": "4a70ea5df998d03349bcecb4bf57b2a9a32ac367",
+  "hosted_windows_regression": {
+    "initial_head": "55c5c9a4f34edd806ee5ef46f41fc64e1142a9b7",
+    "initial_windows": "271 tests: 263 passed, 7 failed, 1 skipped; all failures from module path binding",
+    "initial_linux": "1582 tests: 1563 passed, 0 failed, 19 skipped",
+    "cause": "8.3 import.meta.url and native canonical expected location differed lexically",
+    "fix": "Canonicalize actual module URL with native realpath while preserving expected path, marker, symlink and foreign-implementation refusals",
+    "reproduction": "Both clients on Node22.22.2 and24.22.1: actual short alias old exit2, new exit0",
+    "hooks": "Node22 and24: 25/25 passed each, 0 skipped",
+    "independent_review": "approved; unresolved0",
+    "new_head_ci": "See corresponding PR final evidence comment"
+  }
 }

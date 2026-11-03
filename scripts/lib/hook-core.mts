@@ -196,7 +196,7 @@ export async function runEditHook(mode: string, adapterUrl: string | URL, normal
   try {
     const root = rootFromAdapter(adapterUrl)
     const implementation = path.join(root, 'scripts/lib/hook-core.mts')
-    if (realpathSync.native(implementation) !== implementation || fileURLToPath(import.meta.url) !== implementation) {
+    if (realpathSync.native(implementation) !== implementation || realpathSync.native(fileURLToPath(import.meta.url)) !== implementation) {
       throw new Error('Hook implementation resolves outside its expected location')
     }
     let input = ''

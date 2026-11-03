@@ -157,7 +157,7 @@ for (const [ending, code] of [['SIGINT', 130], ['SIGTERM', 143], ['exit', 7]]) {
   test(`actual Node parent ${ending} cleans owned temp and child while unrelated paths/processes survive`, { timeout: 10000 }, async () => {
     await fixture(async root => {
       const owner = path.join(root, 'owner'); await mkdir(owner); const marker = path.join(root, 'child.json'), sentinel = path.join(root, 'sentinel'); await writeFile(sentinel, 'keep');
-      const childCode = `const fs=require('node:fs'),os=require('node:os'),path=require('node:path');fs.writeFileSync(path.join(os.tmpdir(),'signal-payload'),'fixture');fs.writeFileSync(process.argv[1],JSON.stringify({pid:process.pid,tmp:os.tmpdir()}));setInterval(()=>{},1000);`;
+      const childCode = `const fs=require('node:fs'),os=require('node:os'),path=require('node:path');fs.writeFileSync(path.join(os.tmpdir(),'signal-payload'),'fixture');fs.writeFileSync(process.argv[1]+'.pending',JSON.stringify({pid:process.pid,tmp:os.tmpdir()}));fs.renameSync(process.argv[1]+'.pending',process.argv[1]);setInterval(()=>{},1000);`;
       const parentCode = `import {createPrivateTempRoot,runBounded,installProcessCleanup} from ${JSON.stringify(runnerURL)};import{existsSync}from'node:fs';installProcessCleanup();const context=createPrivateTempRoot(process.argv[1]);${ending === 'exit' ? 'setInterval(()=>{if(existsSync(process.argv[2]))process.exit(7);},20);' : ''}await runBounded(process.execPath,['-e',${JSON.stringify(childCode)},process.argv[2]],{timeoutMs:20000,privateTempRoot:context});`;
       const control = spawn(process.execPath, ['-e', 'setInterval(()=>{},1000)'], { stdio: 'ignore' });
       const controlClosed = new Promise(resolve => control.once('close', resolve));

@@ -109,11 +109,29 @@ export function inspectCompiledAppIconCatalog(rows, { requiredScales = [2, 3], p
   const keyFormat = ['kCRThemeAppearanceName', 'kCRThemeLocalizationName', 'kCRThemeScaleName',
     'kCRThemeIdiomName', 'kCRThemeSubtypeName', 'kCRThemeDimension2Name',
     'kCRThemeDimension1Name', 'kCRThemeIdentifierName', 'kCRThemeElementName', 'kCRThemePartName'];
-  assert.ok(Array.isArray(header['Key Format']) && header['Key Format'].length === keyFormat.length
-    && header['Key Format'].every((key, index) => key === keyFormat[index]), 'Unknown catalog key format');
+  const stateKeyFormat = ['kCRThemeScaleName', 'kCRThemeIdiomName', 'kCRThemeSubtypeName',
+    'kCRThemeDimension2Name', 'kCRThemeDimension1Name', 'kCRThemeIdentifierName',
+    'kCRThemeElementName', 'kCRThemePartName', 'kCRThemeStateName'];
+  const format = header['Key Format'];
+  const matchesFormat = known => Array.isArray(format) && format.length === known.length
+    && known.every((key, index) => has(format, index) && typeof format[index] === 'string' && format[index] === key);
+  const observedStateFormat = matchesFormat(stateKeyFormat);
+  assert.ok(matchesFormat(keyFormat) || observedStateFormat, 'Unknown catalog key format');
+  if (observedStateFormat) {
+    // Only the captured state-key variant is known. This is not an Intel or
+    // general CoreUI format rule; future tool/appearance/state variants fail.
+    assert.equal(header.CoreUIVersion, 918, 'Unobserved state-key CoreUI version');
+    assert.equal(header.DumpToolVersion, 918.8, 'Unobserved state-key dump tool version');
+    assert.equal(header.AssetStorageVersion, 'Xcode 16.4 (16F6) via AssetCatalogSimulatorAgent', 'Unobserved state-key storage tool');
+    assert.equal(header.PlatformVersion, '17.0', 'Unobserved state-key platform version');
+    assert.ok(object(header.Appearances) && Reflect.ownKeys(header.Appearances).length === 1
+      && has(header.Appearances, 'UIAppearanceAny') && header.Appearances.UIAppearanceAny === 0,
+    'Unobserved state-key appearances');
+  }
   const mappings = [], icons = [];
   for (const row of rows.slice(1)) {
     assert.ok(object(row) && Object.keys(row).length <= 128, 'Unknown asset catalog row');
+    if (observedStateFormat) assert.equal(row.State, 'Normal', 'Unobserved state-key catalog row state');
     assert.ok(['Icon Image', 'MultiSized Image', 'PackedImage'].includes(row.AssetType), 'Unknown asset catalog asset type');
     assert.ok(text(row.Name) && ['phone', 'marketing'].includes(row.Idiom), 'Invalid catalog name or idiom');
     assert.ok(Number.isSafeInteger(row.Scale) && row.Scale >= 1 && row.Scale <= 3, 'Invalid catalog scale');

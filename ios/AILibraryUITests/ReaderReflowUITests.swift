@@ -245,7 +245,9 @@ final class ReaderReflowUITests: NativeReaderUITestCase {
         let blockID = String(tables.element(boundBy: 0).identifier.dropFirst("native-table-".count))
         XCTAssertFalse(blockID.isEmpty)
         let middle = soleCell(blockID: blockID, row: 25)
-        for _ in 0..<18 where !isHittableOnScreen(middle, inside: reader, fullyVisible: true) {
+        for _ in 0..<18 {
+            let ready = isHittableOnScreen(middle, inside: reader, fullyVisible: true)
+            if ready { break }
             reader.swipeUp(velocity: .slow)
         }
         requireHittable(middle, inside: reader, fullyVisible: true)
@@ -408,7 +410,9 @@ final class ReaderReflowUITests: NativeReaderUITestCase {
         let blockID = String(tables.element(boundBy: 0).identifier.dropFirst("native-table-".count))
         XCTAssertFalse(blockID.isEmpty)
         let middle = soleCell(blockID: blockID, row: 25)
-        for _ in 0..<18 where !isHittableOnScreen(middle, inside: reader, fullyVisible: true) {
+        for _ in 0..<18 {
+            let ready = isHittableOnScreen(middle, inside: reader, fullyVisible: true)
+            if ready { break }
             reader.swipeUp(velocity: .slow)
         }
         requireHittable(middle, inside: reader, fullyVisible: true)
@@ -573,7 +577,9 @@ final class ReaderReflowUITests: NativeReaderUITestCase {
         goToContents("保存段落（改訂前）", headingID: "revision-section-A")
         let reader = app.scrollViews["native-reader"]
         let target = reader.staticTexts["native-text-revision-anchor-A"]
-        for _ in 0..<8 where !isHittableOnScreen(target, inside: reader, fullyVisible: true) {
+        for _ in 0..<8 {
+            let ready = isHittableOnScreen(target, inside: reader, fullyVisible: true)
+            if ready { break }
             reader.swipeUp(velocity: .slow)
         }
         requireHittable(target, inside: reader, fullyVisible: true)
@@ -620,7 +626,11 @@ final class ReaderReflowUITests: NativeReaderUITestCase {
         XCTAssertEqual(app.staticTexts["bundled-content-current-count"].label, "記事数: 1記事")
         XCTAssertEqual(app.staticTexts["bundled-content-bundled-count"].label, "記事数: 1記事")
         let confirm = app.buttons["bundled-content-confirm"]
-        for _ in 0..<5 where !isHittableOnScreen(confirm) { app.swipeUp(velocity: .slow) }
+        for _ in 0..<5 {
+            let ready = isHittableOnScreen(confirm)
+            if ready { break }
+            app.swipeUp(velocity: .slow)
+        }
         requireHittable(confirm)
         confirm.tap()
         let notice = app.alerts["コンテンツ"]

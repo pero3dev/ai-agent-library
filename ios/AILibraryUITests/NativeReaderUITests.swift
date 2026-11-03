@@ -680,7 +680,11 @@ class NativeReaderUITestCase: XCTestCase {
         XCTAssertTrue(libraryCountAppeared)
         openTrace?.emit(.queryInputStarted)
         let search = app.searchFields.firstMatch
-        for _ in 0..<8 where !isHittableOnScreen(search) { app.swipeDown(velocity: .slow) }
+        for _ in 0..<8 {
+            let ready = isHittableOnScreen(search)
+            if ready { break }
+            app.swipeDown(velocity: .slow)
+        }
         requireHittable(search)
         search.tap()
         if let value = search.value as? String, !value.isEmpty, value != search.placeholderValue {
@@ -777,7 +781,11 @@ class NativeReaderUITestCase: XCTestCase {
         XCTAssertTrue(app.searchFields.firstMatch.waitForExistence(timeout: 10))
         let count = app.staticTexts["library-article-count"]
         // A long filtered list may restore below its unmaterialized section header.
-        for _ in 0..<8 where !isHittableOnScreen(count) { app.swipeDown(velocity: .slow) }
+        for _ in 0..<8 {
+            let ready = isHittableOnScreen(count)
+            if ready { break }
+            app.swipeDown(velocity: .slow)
+        }
         requireHittable(count)
     }
 

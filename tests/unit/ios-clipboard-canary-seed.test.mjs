@@ -212,7 +212,14 @@ function preparation({ slice = 'content-copy', seedResults = ['pass'], mutateFir
       clock += intentDelays[label] ?? 0;
     }
   };
-  const context = vm.createContext({ assert, Buffer, UUID, canary: input, put, json, createHash,
+  // This partial VM fixture begins after the real ready-receipt check. The
+  // owner below is synthetic handoff input, never evidence of a real device.
+  // Full CLI/receipt ownership checks run in ios-published-simulator-prepare.
+  const owned = { context: { repository: 'pero3dev/ai-agent-library', job: 'ios-published-candidate',
+    profile: 'published', ui_slice: slice, run_id: '9001', run_attempt: '1',
+    source_head: 'a'.repeat(40), checkout_sha: 'c'.repeat(40), source_tree: 'd'.repeat(40) },
+    token: 'dddddddd-dddd-4ddd-8ddd-dddddddddddd', UUID };
+  const context = vm.createContext({ assert, Buffer, UUID, owned, canary: input, put, json, createHash,
     selection: { slice, source_head: 'a'.repeat(40), expected_case_IDs: ['fixed-fixture-id'],
       source_case_files: {}, contract_SHA256: 'b'.repeat(64) },
     runtimeID: 'com.apple.CoreSimulator.SimRuntime.iOS-18-5',
@@ -258,7 +265,7 @@ function preparation({ slice = 'content-copy', seedResults = ['pass'], mutateFir
         stdout: pasteMismatch ? Buffer.from('wrong pasteboard bytes') : Buffer.from(clipboard), stderr: Buffer.alloc(0) };
     } });
   vm.runInContext(runner, context);
-  return { files, spawns, printed, input, moduleCalls: () => moduleCalls,
+  return { files, spawns, printed, input, owned, moduleCalls: () => moduleCalls,
     seed: () => vm.runInContext(branch, context), postSeed: () => vm.runInContext(postSeed, context),
     runCanary: () => vm.runInContext("run('canary', ['simctl', 'pbpaste', UUID], undefined, 1024 * 1024, 90000)", context) };
 }
@@ -272,6 +279,8 @@ test('actual B seed branch records input identity and still needs the unchanged 
   assert.equal(binding.input_SHA256, hash(canary())); assert.equal(binding.UUID, UUID);
   assert.ok(!fixture.files.get('copy-seed-input.json').includes(canaryText.trim()));
   assert.equal(JSON.parse(fixture.files.get('copy-device.json')).status, 'unique-device-canary-roundtrip-verified');
+  const device = JSON.parse(fixture.files.get('copy-device.json'));
+  assert.equal(device.UUID, fixture.owned.UUID); assert.deepEqual(device.owned_simulator, fixture.owned);
 });
 
 test('actual B timeout recovery retains both receipts and uses identical UUID and bytes', () => {

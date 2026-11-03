@@ -15,6 +15,7 @@ const helper = fileURLToPath(new URL('../../ios/tests/check-built-app-icon.mjs',
 const derived = name => new URL('../fixtures/ios-built-app-icon/' + name, import.meta.url);
 const archiveCatalog = JSON.parse(await readFile(derived('archive-car.derived.json'), 'utf8'));
 const debugCatalog = JSON.parse(await readFile(derived('debug-car.derived.json'), 'utf8'));
+const stateCatalog = JSON.parse(await readFile(derived('debug-state9-car.derived.json'), 'utf8'));
 const observations = JSON.parse(await readFile(derived('observations.derived.json'), 'utf8'));
 const clone = value => JSON.parse(JSON.stringify(value));
 const primaryMap = rows => rows.find(row => row.AssetType === 'MultiSized Image' && row.Name === 'AppIcon' && row.Idiom === 'phone' && !Object.hasOwn(row, 'Subtype'));
@@ -313,4 +314,126 @@ test('macOS production plist adapter reads XML and binary Info with injected der
 test('CLI rejects an unspecified or unsupported scale policy', () => {
   const result = spawnSync(process.execPath, [helper, 'unused.app', '--required-scales', 'any'], { encoding: 'utf8' });
   assert.equal(result.status, 1); assert.match(result.stderr, /Usage:/);
+});
+
+// Controlled state9 rows derive from a verified capture. They omit timestamps,
+// absolute paths and nonbinding diagnostics; they are not raw CAR/pixel data.
+test('observed state9 metadata binds the required phone60@3x without changing its derived input', () => {
+  const rows = clone(stateCatalog), before = JSON.stringify(rows);
+  const result = inspectCompiledAppIconCatalog(rows, { requiredScales: [3] });
+  assert.equal(result.mapping.name_identifier, 6849); assert.equal(result.mapping.index, 4);
+  assert.equal(result.mapping.points, 60); assert.equal(result.mapping.idiom, 'phone');
+  assert.equal(result.mapping.subtype, null);
+  assert.deepEqual(result.images.map(image => [image.scale, image.width, image.height]), [[3, 180, 180]]);
+  assert.equal(JSON.stringify(rows), before);
+  assert.throws(() => inspectCompiledAppIconCatalog(rows), /required CAR iPhone60@2x/);
+  assert.equal(observations.debug_state9.reader_stdout_SHA256, '676744fc671b3e2a9fe617484f12ac87a8e0d64b49746e012906a555e60a474f');
+  assert.equal(Object.hasOwn(rows[0], 'Timestamp'), false);
+  assert.equal(Object.hasOwn(rows[0], 'ThinningParameters'), false);
+});
+
+test('state9 uses named mapping joins rather than row order or fixed identifier/index values', () => {
+  const rows = clone(stateCatalog), image = primaryImage(rows);
+  primaryMap(rows).Sizes = primaryMap(rows).Sizes.map(value => value.replace('60x60 index:4 ', '60x60 index:9 '));
+  image['Icon Index'] = 9;
+  for (const row of rows.slice(1).filter(row => row.Name === 'AppIcon')) row.NameIdentifier = 321;
+  const reordered = [rows[0], ...rows.slice(1).reverse()];
+  const result = inspectCompiledAppIconCatalog(reordered, { requiredScales: [3] });
+  assert.equal(result.mapping.name_identifier, 321); assert.equal(result.mapping.index, 9);
+  assert.deepEqual(result.images.map(value => [value.scale, value.width]), [[3, 180]]);
+});
+
+test('state9 bundle still binds real synthetic file hashes while CAR3x is separate from loose2x', async t => {
+  const value = await fixture(t, { scales: [2], catalog: stateCatalog }), before = await snapshots(value.app);
+  const result = await value.verify({ requiredScales: [3] });
+  assert.equal(result.Assets_car.stable_across_reader, true);
+  assert.deepEqual(result.PNGs.map(row => row.scale), [2]);
+  assert.deepEqual(result.CAR.images.map(row => [row.scale, row.width, row.height]), [[3, 180, 180]]);
+  assert.deepEqual(await snapshots(value.app), before);
+  await assert.rejects(value.verify(), /required CAR iPhone60@2x/);
+});
+
+test('only complete own string columns in either exact known Key Format order are accepted', () => {
+  const changes = [
+    ['missing', rows => { delete rows[0]['Key Format']; }],
+    ['null', rows => { rows[0]['Key Format'] = null; }],
+    ['string', rows => { rows[0]['Key Format'] = rows[0]['Key Format'].join(','); }],
+    ['empty', rows => { rows[0]['Key Format'] = []; }],
+    ['short', rows => { rows[0]['Key Format'].pop(); }],
+    ['extra', rows => { rows[0]['Key Format'].push('kCRThemeUnobservedName'); }],
+    ['unknown', rows => { rows[0]['Key Format'][0] = 'kCRThemeUnobservedName'; }],
+    ['duplicate', rows => { rows[0]['Key Format'][1] = rows[0]['Key Format'][0]; }],
+    ['order', rows => { [rows[0]['Key Format'][0], rows[0]['Key Format'][1]] = [rows[0]['Key Format'][1], rows[0]['Key Format'][0]]; }],
+    ['numeric', rows => { rows[0]['Key Format'][0] = 0; }],
+    ['sparse', rows => { delete rows[0]['Key Format'][0]; }],
+    ['inherited sparse', rows => {
+      const value = rows[0]['Key Format'][0], proto = Object.create(Array.prototype);
+      proto[0] = value; delete rows[0]['Key Format'][0]; Object.setPrototypeOf(rows[0]['Key Format'], proto);
+    }]
+  ];
+  for (const catalog of [debugCatalog, stateCatalog]) for (const [name, change] of changes) {
+    const rows = clone(catalog); change(rows);
+    assert.throws(() => inspectCompiledAppIconCatalog(rows, { requiredScales: [3] }), /Unknown catalog key format/, name);
+  }
+});
+
+test('state9 requires its observed full tool/platform/appearance/normal-state combination', () => {
+  const changes = [
+    ['schema', rows => { rows[0].SchemaVersion = 3; }],
+    ['storage', rows => { rows[0].StorageVersion = 18; }],
+    ['platform', rows => { rows[0].Platform = 'macos'; }],
+    ['CoreUI future', rows => { rows[0].CoreUIVersion = 919; }],
+    ['CoreUI type', rows => { rows[0].CoreUIVersion = '918'; }],
+    ['dump future', rows => { rows[0].DumpToolVersion = 918.9; }],
+    ['dump nonfinite', rows => { rows[0].DumpToolVersion = Infinity; }],
+    ['storage tool', rows => { rows[0].AssetStorageVersion = 'Xcode unknown'; }],
+    ['platform version', rows => { rows[0].PlatformVersion = '18.5'; }],
+    ['appearance absent', rows => { delete rows[0].Appearances; }],
+    ['appearance null', rows => { rows[0].Appearances = null; }],
+    ['appearance array', rows => { rows[0].Appearances = []; }],
+    ['appearance empty', rows => { rows[0].Appearances = {}; }],
+    ['appearance bool', rows => { rows[0].Appearances.UIAppearanceAny = false; }],
+    ['appearance string', rows => { rows[0].Appearances.UIAppearanceAny = '0'; }],
+    ['appearance value', rows => { rows[0].Appearances.UIAppearanceAny = 1; }],
+    ['appearance extra', rows => { rows[0].Appearances.UIAppearanceDark = 1; }],
+    ['appearance nonenumerable extra', rows => { Object.defineProperty(rows[0].Appearances, 'UIAppearanceDark', { value: 1 }); }],
+    ['appearance inherited any', rows => { rows[0].Appearances = Object.create({ UIAppearanceAny: 0 }); }],
+    ['appearance other key', rows => { rows[0].Appearances = { UIAppearanceLight: 0 }; }],
+    ['icon State missing', rows => { delete primaryImage(rows).State; }],
+    ['icon State selected', rows => { primaryImage(rows).State = 'Selected'; }],
+    ['mapping State', rows => { primaryMap(rows).State = 'Highlighted'; }],
+    ['packed State', rows => { rows.find(row => row.AssetType === 'PackedImage').State = false; }]
+  ];
+  for (const [name, change] of changes) {
+    const rows = clone(stateCatalog); change(rows);
+    assert.throws(() => inspectCompiledAppIconCatalog(rows, { requiredScales: [3] }), undefined, name);
+  }
+});
+
+test('state9 preserves namespace/id/idiom/subtype/index/scale/dimension/opaqueRGB8 rendition checks', () => {
+  const changes = [
+    ['namespace', rows => { primaryImage(rows).Name = 'OtherIcon'; }],
+    ['identifier', rows => { primaryImage(rows).NameIdentifier = 999; }],
+    ['index', rows => { primaryImage(rows)['Icon Index'] = 9; }],
+    ['idiom', rows => { primaryImage(rows).Idiom = 'marketing'; }],
+    ['subtype', rows => { primaryImage(rows).Subtype = 1792; }],
+    ['map idiom', rows => { primaryMap(rows).Sizes[3] = '60x60 index:4 idiom:marketing'; }],
+    ['duplicate map', rows => { primaryMap(rows).Sizes.push(primaryMap(rows).Sizes[3]); }],
+    ['duplicate rendition', rows => { rows.push(clone(primaryImage(rows))); }],
+    ['width', rows => { primaryImage(rows).PixelWidth = 179; }],
+    ['height', rows => { primaryImage(rows).PixelHeight = 179; }],
+    ['scale type', rows => { primaryImage(rows).Scale = '3'; }],
+    ['scale dimension', rows => { primaryImage(rows).Scale = 2; }],
+    ['opaque', rows => { primaryImage(rows).Opaque = false; }],
+    ['RGB', rows => { primaryImage(rows).ColorModel = 'Gray'; }],
+    ['bitdepth', rows => { primaryImage(rows).BitsPerComponent = 16; }],
+    ['encoding', rows => { primaryImage(rows).Encoding = 'RGBA'; }],
+    ['rendition missing', rows => { delete primaryImage(rows).RenditionName; }],
+    ['no required3x', rows => { rows.splice(rows.indexOf(primaryImage(rows)), 1); }],
+    ['PackedImage substitute', rows => { primaryImage(rows).AssetType = 'PackedImage'; }]
+  ];
+  for (const [name, change] of changes) {
+    const rows = clone(stateCatalog); change(rows);
+    assert.throws(() => inspectCompiledAppIconCatalog(rows, { requiredScales: [3] }), undefined, name);
+  }
 });

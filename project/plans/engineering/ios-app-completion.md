@@ -1,5 +1,29 @@
 # iOS完成版に向けたTODO
 
+[b05後の標準macos-15候補と別ARM459診断](../../records/2026-11-02/ios-native-owned-simulator.md)では、実arm64/Xcode16.4で元2ケース成功とcleanupを別診断の範囲に限り保存し、OS原因や通常8/278/26の成功へ転用しない。Root採択のNative/Full標準runner2行と単体期待値1箇所だけをCode3-r2へまとめ、訂正後Published29件は28成功1skip。b05 docsの公式successは件数未受領、他CIはpendingとし、Native60/Full95-70・全caps/所有/roster/wait/assert・App28/TODO32行14完了を保持する私有Source7である。新commit/head・CI/main・実機等は未受入。
+
+[f7de初回CIとcheckout fixture修正](../../records/2026-11-02/ios-native-owned-simulator.md)では、9workflow/19job終端・必須10成功とdocs失敗を保存する。Common/Full Aのテストfixture2原因だけをCode2-r2で修正する私有Source6で、Mac専用194件=193成功1skipと実Linux/Node22未検証を分ける。Native cancelled・unit278不明、Full B3/8とcopy/Release未受入、strict3のguard推論・SDK26 unsigned範囲を保持し、新head CI/通常main/実機等は未受入のままとする。旧全文/JSON値・TODO32行14完了と原criteriaを保つ。
+
+[公開874と制御再試行の保存](../../records/2026-11-02/ios-native-owned-simulator.md)では、初回Native6/8・全記事A15/18/B6/8、初回artifactで確認したunit278=276成功2既知skipを別に保持する。Native制御は6/8で別の2失敗、Full制御Bは8/8＋実374B/Release199成功、Aは宛先なし・試験前停止だった。原因未特定・全体未受入のためIOS11/18は変更せず、現行32行14完了とcriteriaを保つ。次は25箇所の同一positive probeの停止と全記事の所有Simulator・job95/70の限定候補で、個別wait/assert/全rosterを維持する。新head/実機/通常main等は未受入である。
+
+[151のNative期待値とAudio試験同期](../../records/2026-11-02/ios-native-owned-simulator.md)は、Linux1488=1469成功1失敗18skipとMac FullA1488=1471成功2失敗15skipを分け、Native期待値1literalのGroup1とAudio試験handshake＋記録4件のGroup2を準備します。固定150msのfalse failure可能性と今回の時系列未収録を区別し、production lock・音声制作・全製品/helper/YAML/UIを保ちます。保存Native184とAudio対象結果、未採択Source5履歴、旧151進行/取消を新成功へ転用しない範囲、60/75/B50・App28・TODO32/14を保持します。
+
+[e8 job予算の追補](../../records/2026-11-02/ios-native-owned-simulator.md)は、公式Native40m/FullA50m超過の注記を保持し、Native60分/Full reading-state75分（content-copy50分）と既存unit期待値1literalだけを是正するSource7候補です。Native control2はunits276+2skip/UI5pass6starts・期待8未完了/Release skipped/cleanup-incomplete、FullAはUI6pass1failで18未完了・TagSearch25秒失敗166.872秒を別課題として残します。FullB8/copy374/Release等e8成功と新head未受入を分け、旧全文/JSON/索引/provenance/TODO32/14/App28・個別期限/assert/全製品を保持します。Doc16/Storage29は適用しません。
+
+[Intelの起動・後処理・共通検査の追補](../../records/2026-11-02/ios-native-owned-simulator.md)は、a812の実boot120秒timeout（共有clip無し）とcleanup本体前Git検証失敗、FullA common3分timeout/最初JSON失敗＋後ENOENT17/CLIassert1（cancelled0）を保持します。Native boot300/shared480/prepare9・Git1call30秒4KiB/cleanup本体90秒step3とCommon6分/既存readiness原子公開を2意図に分ける候補です。新head実起動/後処理/全検査/UIは未受入で、旧全文/JSON/索引/TODO32行14完了/App0.2.28（30）と全品質を保ちます。CIは観測2026-11-02T20:29:34.639Zのsnapshotで、進行中を成功にしません。
+
+[Native準備予算とAppIcon形式の追補](../../records/2026-11-02/ios-native-owned-simulator.md)は、公開40fのbootstatus共有210秒残り88205msでの失敗と、取得済みSchema2/Storage17・Key Format9の診断を保持します。共有360秒/step7分のCode3（専用Darwin100成功）と実データに限るIcon互換対応を2意図へ分け、per-command120/60秒・所有/cleanup/全品質、旧全文/JSON値/TODO32行14完了/App0.2.28（30）を保ちます。40f初回のCommon9/required11/SDK26/Recovery成功とNative/Full失敗・R261成功2失敗、別retry2取消unknownは別履歴です。最終IR・新headCI/実UI・通常mainと実機等は未受入です。
+
+[Native/Fullの標準Intel runner](../../records/2026-11-02/ios-native-owned-simulator.md)は、70ca Native初回と通常retry2の取消、Hosted未取得/arm64容量注記を保持し、Native＋Full A/Bのruns-onだけをmacos-15-intelへ移すSource6候補です。固定公式4da230のXcode16.4/SDK18.5と実simulator掲載を根拠に標準public無料labelへ限定し、SDK26/R26/Recovery arm64・全品質/期限・512KiB/1MiB/16MiB/unit97を保ちます。旧FullB/SDK26取消unknown、R263成功/Recovery工程成功とleaf未受領、Common9/LinuxNode1446=1428+18skip、FullA live UI pendingのsnapshotを分離します。Intel実capacity/newHosted/typedproofと最終IR/通常mainは後続で、旧arm64 scalar/perfを転用せず、全旧履歴/TODO32行14完了/App0.2.28（30）を保持します。
+
+[Native一覧読取の出力上限](../../records/2026-11-02/ios-native-owned-simulator.md)は、PR327 d151初回のruntimes60000ms読取がstdout133117Bで旧128KiBを2045B超えENOBUFSとなった事実を保持し、厳密なreadonly inventory3 argvだけ512KiB、他command128KiBへ分けるSource6候補です。receipt read/write1MiBと証跡16MiB/64entryを揃え、全期限・所有/SHA・非timeout再読拒否を保ちます。保存新unit97（旧80＋新17）全成功を記録し、診断ZIP全SHA/選択CRC/SHAとownchild回収を実OS成功へ転用しません。親d151のFull26/必須11等成功、Native失敗とR26初回不明/別retry2を分離し、新head Hosted/最終IR/通常mainは未受入です。旧全文/JSON全key/TODO32行14完了・App0.2.28（30）を保持します。
+
+[Native所有Simulatorの実main400結合](../../records/2026-11-02/ios-native-owned-simulator.md)は、PR326の通常統合後の実main400/tree1630・追跡2885件へCode4を結び、実差分8・新規4のSource8を私有準備した記録です。workflow/helper/unit3とguard診断/記録/索引5を分け、コード全byteとr1/r2・実索引全文、App0.2.28（30）/TODO32行14完了を保持します。b8d6成功3失敗と別retry2、f13部分停止、e6の9系統と制御1記事130.456秒の成功を別sourceの履歴として追補し、固定時点で進行中だったmain400 pushや新Native/OS効果へ転用しません。最終Source8 IR・共通/形式・必要SDK/CI・通常PR/mainと実機等は未完了です。
+
+以下のr2索引文は未結合準備時点の履歴です。
+
+[Native所有Simulatorの未結合Code4 r2](../../records/2026-11-02/ios-native-owned-simulator.md)は、helper/unitをcold Code2へ更新し、WF c16bとguard診断0114をbyte保持する。prepare5固定readonlyの各60秒残量clip/厳密timeout1回retryと採用precreate label・raw/canonical SHAのcleanup結合を加え、共有210秒/cleanup90秒/read15秒retry0/mutatorretry0/step4分2分を保つ。保存fake80（旧34再実行＋新46）全成功と旧34歴史を分け、2MiB/64entryはinjected拒否で実diskStore未実行と明示する。main057 Native2失敗、efb3失敗/2bc2失敗/374 Revision1失敗とb8d CI9進行snapshotを分離し、通常Menu/restore AXや新実OS/SDK/Hosted効果は未受入。actualparent・Source8 owned/newfiles/tree/countはROOT_REQUIREDで、Root実main後にfresh結合する。App0.2.28（30）/TODO32行14完了・Original110/Content626を保持する。
+
 [改訂回帰のcontainer再取得監査](../../records/2026-11-02/ios-reader-valid-revision-ui.md)は、PR326 b8dの実UI1件87.796秒・全5phase成功と、その後のdata container絶対パス比較失敗を分けて保持する。postfilegate/strict1は未実行でworkflow未受入。現在canonical root・同一owner/seed SHA・同じA世代全内容と正確なB選択を検証するSource7を準備し、Node24境界14件と構文を確認した。旧失敗/初回試験記述失敗と通常Menu AX未解決、Reader/製品/既存期限/全assert/Full26・旧全文/全key/index・App0.2.28（30）/TODO32行14完了を保つ。新CI・postfilegate/strict1・通常mainと実機等は未受入である。
 
 [改訂回帰のfiltered Listセットアップ](../../records/2026-11-02/ios-reader-valid-revision-ui.md)は、PR326 374の実UI1失敗55.789秒とA-before-save一値を保持する。scoped root Moreも既存15秒でusable0のため、同じ記事の公開タイトル検索・exact summaryを持つ一意collection内More・actions sheetから同じ同梱切替へ進む候補を準備する。通常toolbar Menu AXは未解決TODOのままで修復/coverageを受入せず、切替後のfilter解除とnormal Resumeを確認する。firstResume以降の5phase/原全assert/許容差、旧2case53assert/15getter/期限・製品・旧全文/全key/index・App0.2.28（30）/TODO32行14完了を保つ。新UI/CIは未受入である。

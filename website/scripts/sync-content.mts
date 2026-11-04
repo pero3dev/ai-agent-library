@@ -217,6 +217,7 @@ async function collectFiles() {
     'evaluation-harness',
     'rag-basics',
     'mcp-server',
+    'library-mcp-server',
     'multi-agent'
   ]
   for (const name of EXAMPLE_DIRS) {

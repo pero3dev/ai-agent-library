@@ -1,6 +1,6 @@
 # examples — サンプルコード
 
-docs から参照される、自己完結のサンプルコードを置くディレクトリです。Python の 6 サンプルと横断試験を収録しています。TypeScript は将来の追加予定で、実サンプルを作るときにディレクトリを追加します。
+docs から参照される、自己完結のサンプルコードを置くディレクトリです。Python の 7 サンプルと横断試験を収録しています。TypeScript は将来の追加予定で、実サンプルを作るときにディレクトリを追加します。
 
 ## ルール(詳細は [サンプル規約](../harness/writing-rules.md#サンプルコードのルール))
 
@@ -16,13 +16,13 @@ docs から参照される、自己完結のサンプルコードを置くディ
 
 ```text
 examples/
-├── python/       # Python サンプル 6 件。各 README に実行方法・確認条件
+├── python/       # Python サンプル 7 件。各 README に実行方法・確認条件
 └── tests/        # Python 横断試験・固定依存
 ```
 
 ## APIキーなしで始める
 
-6サンプルは [ツール使用](python/tool-use/README.md)・[構造化出力](python/structured-output/README.md)・[RAG](python/rag-basics/README.md)・[MCPサーバー](python/mcp-server/README.md)・[マルチエージェント](python/multi-agent/README.md)・[評価ハーネス](python/evaluation-harness/README.md) です。各READMEの `--mock` 条件に従い、確認方式と依存を区別してください。構造化出力と評価ハーネスのmockはPython 3.11以降、追加依存なしで動きます。
+7サンプルは [ツール使用](python/tool-use/README.md)・[構造化出力](python/structured-output/README.md)・[RAG](python/rag-basics/README.md)・[MCPサーバー](python/mcp-server/README.md)・[ライブラリ検索MCP](python/library-mcp-server/README.md)・[マルチエージェント](python/multi-agent/README.md)・[評価ハーネス](python/evaluation-harness/README.md) です。各READMEの `--mock` 条件に従い、確認方式と依存を区別してください。構造化出力と評価ハーネスのmockはPython 3.11以降、追加依存なしで動きます。
 
 [学習ロードマップのA/B/C小課題](../docs/00-overview/learning-roadmap.md#abcの最初の小課題と到達確認)は、構成メモ→設計メモ→実行記録という入口です。[スキルマップ](../docs/00-overview/skill-map.md)の実務到達の自己評価とは分けて使います。
 

@@ -118,6 +118,7 @@ SDK v2 への更新は新仕様の全機能への対応を意味しません。2
 
 ## 参考資料
 
+- [ライブラリ検索MCPサーバー](../../examples/python/library-mcp-server/README.md) — 記事検索・チェックリスト・節・用語を返す読み取り専用サンプル
 - [Model Context Protocol 2026-07-28](https://modelcontextprotocol.io/specification/2026-07-28) — 対象とする仕様版(アクセス日: 2026-09-10)
 - [The 2026-07-28 Specification](https://blog.modelcontextprotocol.io/posts/2026-07-28/) — 要求単位の設計と MRTR(アクセス日: 2026-09-10)
 - [MCP Python SDK: Migration Guide](https://py.sdk.modelcontextprotocol.io/migration/) — v1 から v2 の API・通信・認可変更(アクセス日: 2026-09-10)

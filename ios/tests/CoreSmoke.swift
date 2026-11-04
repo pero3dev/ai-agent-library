@@ -23,6 +23,7 @@ enum CoreSmoke {
         try nativeDocuments(scratch)
         try failedUpdates(scratch)
         try mutationCoordination(scratch)
+        try storageBookkeepingScopes(scratch)
         try legacyPackageFallback(scratch)
         try futurePackageSchemas(scratch)
         try testFixtureIsolation(scratch)
@@ -825,5 +826,115 @@ private extension CoreSmoke {
         try expect(try ContentMutationCoordinator.activeStagingAttemptIDs(at: storage).isEmpty,
                    "Successful retry did not release its attempt registration")
         print("PASS shared-root import coordination, active staging lifetime, ENOSPC rollback and retry")
+    }
+}
+
+private extension CoreSmoke {
+    static func storageBookkeepingScopes(_ scratch: URL) throws {
+        let parent = scratch.appendingPathComponent("scope-smoke-parent")
+        let storage = parent.appendingPathComponent("LibraryContent")
+        let other = scratch.appendingPathComponent("scope-smoke-other")
+        for root in [storage, other] { try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true) }
+        let alias = scratch.appendingPathComponent("scope-smoke-alias")
+        let parentAlias = scratch.appendingPathComponent("scope-smoke-parent-alias")
+        try FileManager.default.createSymbolicLink(at: alias, withDestinationURL: storage)
+        try FileManager.default.createSymbolicLink(at: parentAlias, withDestinationURL: parent)
+        let throughParent = parentAlias.appendingPathComponent("LibraryContent"), generation = UUID()
+        var direct = ContentSnapshotLease.acquire(storageRoot: storage, generation: generation)
+        var aliased = ContentSnapshotLease.acquire(storageRoot: alias, generation: generation)
+        var parentPath = ContentSnapshotLease.acquire(storageRoot: throughParent, generation: generation)
+        var independentLease = ContentSnapshotLease.acquire(storageRoot: other, generation: generation)
+        try expect(direct != nil && aliased != nil && parentPath != nil && independentLease != nil,
+                   "An ordinary existing or aliased root failed admission")
+        let attempt = UUID(), otherAttempt = UUID()
+        try withExtendedLifetime((direct, aliased, parentPath, independentLease)) {
+            for root in [storage, alias, throughParent] {
+                try expect(ContentSnapshotLease.advisoryAcquisitions(in: root) == [generation: 3],
+                           "Existing alias paths did not share acquisitions")
+            }
+            try expect(ContentSnapshotLease.advisoryAcquisitions(in: other) == [generation: 1],
+                       "Distinct roots incorrectly shared acquisitions")
+            try ContentMutationCoordinator.withMutation(at: storage) { mutation in
+                try mutation.registerStagingAttempt(attempt)
+                try expect(try ContentMutationCoordinator.activeStagingAttemptIDs(at: alias) == [attempt],
+                           "Mutation and lease scopes did not align")
+                try expectMutationBusy("scope alias reentrant rejection") {
+                    try ContentMutationCoordinator.withMutation(at: alias) { _ in }
+                }
+                try ContentMutationCoordinator.withMutation(at: other) { independent in
+                    try independent.registerStagingAttempt(otherAttempt)
+                    try expect(try ContentMutationCoordinator.activeStagingAttemptIDs(at: other) == [otherAttempt],
+                               "Distinct mutation roots did not remain isolated")
+                }
+                var during = ContentSnapshotLease.acquire(storageRoot: alias, generation: generation)
+                try expect(during != nil, "Scope alignment unexpectedly blocked an advisory reader")
+                try withExtendedLifetime(during) {
+                    try expect(ContentSnapshotLease.advisoryAcquisitions(in: storage) == [generation: 4],
+                               "A read during mutation used the wrong bookkeeping scope")
+                }
+                during = nil
+            }
+        }
+        aliased = nil; parentPath = nil
+        let manifest = try ContentValidator.validate(root: fixture(scratch, "scope-smoke-manifest")).manifest
+        var original: ContentSnapshot? = direct.map {
+            ContentSnapshot(root: storage.appendingPathComponent("versions").appendingPathComponent(generation.uuidString),
+                            manifest: manifest).retainingGenerationLease($0)
+        }
+        direct = nil
+        var copy = original
+        original = nil
+        try withExtendedLifetime(copy) {
+            try expect(ContentSnapshotLease.advisoryAcquisitions(in: alias) == [generation: 1],
+                       "Snapshot copies did not retain the shared acquisition")
+        }
+        copy = nil
+        independentLease = nil
+        try expect(ContentSnapshotLease.advisoryAcquisitions(in: storage).isEmpty
+            && ContentSnapshotLease.advisoryAcquisitions(in: other).isEmpty,
+                   "Released snapshot copies or distinct-root tokens leaked ledger entries")
+        let missing = scratch.appendingPathComponent("scope-smoke-not-created")
+        let trailing = URL(fileURLWithPath: missing.path + "/", isDirectory: true)
+        var missingLease = ContentSnapshotLease.acquire(storageRoot: missing, generation: generation)
+        try expect(missingLease != nil, "A missing ordinary root lost its bookkeeping scope")
+        try withExtendedLifetime(missingLease) {
+            try expect(ContentSnapshotLease.advisoryAcquisitions(in: trailing) == [generation: 1],
+                       "Trailing slash changed a missing root's lease scope")
+            try ContentMutationCoordinator.withMutation(at: trailing) { mutation in
+                try mutation.registerStagingAttempt(attempt)
+                try expect(try ContentMutationCoordinator.activeStagingAttemptIDs(at: missing) == [attempt],
+                           "Missing root differed between mutation and lease")
+            }
+        }
+        missingLease = nil
+        try expect(ContentSnapshotLease.advisoryAcquisitions(in: missing).isEmpty
+            && !FileManager.default.fileExists(atPath: missing.path), "Scope bookkeeping created files or retained a token")
+        let rootAlias = scratch.appendingPathComponent("scope-smoke-root-alias")
+        try FileManager.default.createSymbolicLink(at: rootAlias, withDestinationURL: URL(fileURLWithPath: "/", isDirectory: true))
+        let unsupported = ["https://example.invalid/storage", "file:///",
+            "file://remote/tmp/scope-storage", "file:///tmp/scope-storage?query=1",
+            "file:///tmp/scope-storage#fragment", "file:relative-scope-storage",
+            "file://scope-user:scope-pass@localhost/tmp/scope-storage",
+            "file://localhost:123/tmp/scope-storage", "file:///tmp/scoped/./storage",
+            "file:///tmp/scoped/../storage", "file:///tmp/scoped//storage", "file:///tmp/scoped/%2E%2E/storage"]
+        let invalid = try unsupported.map { raw -> URL in
+            guard let root = URL(string: raw) else {
+                throw SmokeFailure(message: "The unsupported-URL fixture is not representable: " + raw)
+            }
+            return root
+        } + [rootAlias]
+        for root in invalid {
+            try expect(ContentSnapshotLease.acquire(storageRoot: root, generation: generation) == nil
+                && ContentSnapshotLease.advisoryAcquisitions(in: root).isEmpty, "Invalid root reached the lease ledger")
+            var entered = false
+            try expectThrows("unsupported mutation root") {
+                try ContentMutationCoordinator.withMutation(at: root) { _ in entered = true }
+            }
+            try expectThrows("unsupported staging query root") { _ = try ContentMutationCoordinator.activeStagingAttemptIDs(at: root) }
+            try expect(!entered, "An unsupported root entered mutation")
+        }
+        try expect(try ContentMutationCoordinator.activeStagingAttemptIDs(at: storage).isEmpty,
+                   "Root scope scenario left a mutation registration")
+        print("PASS shared canonical scopes, alias lease lifetime and distinct-root coordination")
     }
 }

@@ -5293,3 +5293,139 @@ extension LibraryCoreTests {
         }
     }
 }
+
+extension LibraryCoreTests {
+    func testSharedStorageScopeJoinsExistingFinalAndParentAliasesForAcquisitions() throws {
+        let parent = directory.appendingPathComponent("scope-alias-parent")
+        let storage = parent.appendingPathComponent("LibraryContent")
+        try FileManager.default.createDirectory(at: storage, withIntermediateDirectories: true)
+        let alias = directory.appendingPathComponent("scope-final-alias")
+        let parentAlias = directory.appendingPathComponent("scope-parent-alias")
+        try FileManager.default.createSymbolicLink(at: alias, withDestinationURL: storage)
+        try FileManager.default.createSymbolicLink(at: parentAlias, withDestinationURL: parent)
+        let throughParent = parentAlias.appendingPathComponent("LibraryContent"), generation = UUID()
+        var first = ContentSnapshotLease.acquire(storageRoot: storage, generation: generation)
+        var second = ContentSnapshotLease.acquire(storageRoot: alias, generation: generation)
+        var third = ContentSnapshotLease.acquire(storageRoot: throughParent, generation: generation)
+        XCTAssertNotNil(first); XCTAssertNotNil(second); XCTAssertNotNil(third)
+        let before = try retentionInventory(storage)
+        withExtendedLifetime((first, second, third)) {
+            for root in [storage, alias, throughParent] {
+                XCTAssertEqual(ContentSnapshotLease.advisoryAcquisitions(in: root), [generation: 3])
+            }
+        }
+        second = nil; third = nil
+        withExtendedLifetime(first) {
+            XCTAssertEqual(ContentSnapshotLease.advisoryAcquisitions(in: throughParent), [generation: 1])
+        }
+        first = nil
+        XCTAssertTrue(ContentSnapshotLease.advisoryAcquisitions(in: alias).isEmpty)
+        XCTAssertEqual(try retentionInventory(storage), before)
+    }
+
+    func testSharedStorageScopeSeparatesRootsAndKeepsReadsAvailableDuringMutation() throws {
+        let first = directory.appendingPathComponent("scope-first-root")
+        let second = directory.appendingPathComponent("scope-second-root")
+        for root in [first, second] { try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true) }
+        let alias = directory.appendingPathComponent("scope-first-root-alias")
+        try FileManager.default.createSymbolicLink(at: alias, withDestinationURL: first)
+        let generation = UUID(), attempt = UUID(), otherAttempt = UUID()
+        let a = try XCTUnwrap(ContentSnapshotLease.acquire(storageRoot: first, generation: generation))
+        let b = try XCTUnwrap(ContentSnapshotLease.acquire(storageRoot: second, generation: generation))
+        try withExtendedLifetime((a, b)) {
+            XCTAssertEqual(ContentSnapshotLease.advisoryAcquisitions(in: alias), [generation: 1])
+            XCTAssertEqual(ContentSnapshotLease.advisoryAcquisitions(in: second), [generation: 1])
+            try ContentMutationCoordinator.withMutation(at: first) { mutation in
+                try mutation.registerStagingAttempt(attempt)
+                XCTAssertEqual(try ContentMutationCoordinator.activeStagingAttemptIDs(at: alias), [attempt])
+                XCTAssertThrowsError(try ContentMutationCoordinator.withMutation(at: alias) { _ in
+                    XCTFail("An alias must not acquire a second mutation permit")
+                }) { error in XCTAssertTrue(error.localizedDescription.contains("取り込み処理が進行中")) }
+                try ContentMutationCoordinator.withMutation(at: second) { other in
+                    try other.registerStagingAttempt(otherAttempt)
+                    XCTAssertEqual(try ContentMutationCoordinator.activeStagingAttemptIDs(at: second), [otherAttempt])
+                    XCTAssertEqual(try ContentMutationCoordinator.activeStagingAttemptIDs(at: first), [attempt])
+                }
+                // Key alignment preserves advisory reads; it adds no reader-admission barrier.
+                var during = ContentSnapshotLease.acquire(storageRoot: alias, generation: generation)
+                XCTAssertNotNil(during)
+                withExtendedLifetime(during) {
+                    XCTAssertEqual(ContentSnapshotLease.advisoryAcquisitions(in: first), [generation: 2])
+                    XCTAssertEqual(ContentSnapshotLease.advisoryAcquisitions(in: second), [generation: 1])
+                }
+                during = nil
+                XCTAssertEqual(ContentSnapshotLease.advisoryAcquisitions(in: alias), [generation: 1])
+            }
+            XCTAssertTrue(try ContentMutationCoordinator.activeStagingAttemptIDs(at: first).isEmpty)
+            XCTAssertTrue(try ContentMutationCoordinator.activeStagingAttemptIDs(at: second).isEmpty)
+        }
+    }
+
+    func testSharedStorageScopePreservesMissingAndTrailingSlashRootsWithoutCreatingFiles() throws {
+        let storage = directory.appendingPathComponent("scope-not-created")
+        let trailing = URL(fileURLWithPath: storage.path + "/", isDirectory: true)
+        let generation = UUID(), attempt = UUID()
+        XCTAssertFalse(FileManager.default.fileExists(atPath: storage.path))
+        var lease = ContentSnapshotLease.acquire(storageRoot: storage, generation: generation)
+        XCTAssertNotNil(lease)
+        try withExtendedLifetime(lease) {
+            XCTAssertEqual(ContentSnapshotLease.advisoryAcquisitions(in: trailing), [generation: 1])
+            try ContentMutationCoordinator.withMutation(at: trailing) { mutation in
+                try mutation.registerStagingAttempt(attempt)
+                XCTAssertEqual(try ContentMutationCoordinator.activeStagingAttemptIDs(at: storage), [attempt])
+                XCTAssertThrowsError(try ContentMutationCoordinator.withMutation(at: storage) { _ in
+                    XCTFail("Trailing slash must not make an independent permit")
+                })
+            }
+        }
+        lease = nil
+        XCTAssertTrue(ContentSnapshotLease.advisoryAcquisitions(in: trailing).isEmpty)
+        XCTAssertFalse(FileManager.default.fileExists(atPath: storage.path))
+    }
+
+    func testSharedStorageScopeAliasQueryKeepsSnapshotCopiesUntilLastRelease() throws {
+        let bundled = try fixture("scope-copy-bundle"), source = try fixture("scope-copy-source")
+        let storage = directory.appendingPathComponent("scope-copy-storage")
+        let repository = ContentRepository(bundledRoot: bundled, storageRoot: storage)
+        var original: ContentSnapshot? = try repository.install(from: source)
+        let root = try XCTUnwrap(original?.root), generation = try XCTUnwrap(UUID(uuidString: root.lastPathComponent))
+        let alias = directory.appendingPathComponent("scope-copy-alias")
+        try FileManager.default.createSymbolicLink(at: alias, withDestinationURL: storage)
+        let before = try retentionInventory(storage)
+        var copy = original
+        original = nil
+        XCTAssertEqual(try XCTUnwrap(copy).document(for: article()).article_id, "example")
+        withExtendedLifetime(copy) {
+            XCTAssertEqual(ContentSnapshotLease.advisoryAcquisitions(in: alias), [generation: 1])
+            XCTAssertEqual(repository.advisorySnapshotAcquisitions, [generation: 1])
+        }
+        copy = nil
+        XCTAssertTrue(ContentSnapshotLease.advisoryAcquisitions(in: alias).isEmpty)
+        XCTAssertTrue(repository.advisorySnapshotAcquisitions.isEmpty)
+        XCTAssertEqual(try retentionInventory(storage), before)
+        XCTAssertEqual(try Data(contentsOf: root.appendingPathComponent("assets/pixel.png")), pixel)
+    }
+
+    func testSharedStorageScopeRejectsUnsupportedLexicalRootsBeforeBookkeeping() throws {
+        let rootAlias = directory.appendingPathComponent("scope-filesystem-root-alias")
+        try FileManager.default.createSymbolicLink(at: rootAlias, withDestinationURL: URL(fileURLWithPath: "/", isDirectory: true))
+        let unsupported = ["https://example.invalid/storage", "file:///",
+            "file://remote/tmp/scope-storage", "file:///tmp/scope-storage?query=1",
+            "file:///tmp/scope-storage#fragment", "file:relative-scope-storage",
+            "file://scope-user:scope-pass@localhost/tmp/scope-storage",
+            "file://localhost:123/tmp/scope-storage", "file:///tmp/scoped/./storage",
+            "file:///tmp/scoped/../storage", "file:///tmp/scoped//storage", "file:///tmp/scoped/%2E%2E/storage"]
+        let roots = try unsupported.map { raw in
+            try XCTUnwrap(URL(string: raw), "The unsupported-URL fixture must be representable: \(raw)")
+        } + [rootAlias]
+        for root in roots {
+            XCTAssertNil(ContentSnapshotLease.acquire(storageRoot: root, generation: UUID()))
+            XCTAssertTrue(ContentSnapshotLease.advisoryAcquisitions(in: root).isEmpty)
+            var entered = false
+            XCTAssertThrowsError(try ContentMutationCoordinator.withMutation(at: root) { _ in entered = true })
+            XCTAssertThrowsError(try ContentMutationCoordinator.activeStagingAttemptIDs(at: root))
+            XCTAssertFalse(entered)
+        }
+        XCTAssertTrue(FileManager.default.fileExists(atPath: rootAlias.path))
+    }
+}

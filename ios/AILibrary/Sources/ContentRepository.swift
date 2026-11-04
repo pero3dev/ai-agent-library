@@ -249,14 +249,7 @@ enum ContentMutationCoordinator {
     }
 
     private static func canonicalScope(_ root: URL) throws -> String {
-        guard root.isFileURL, root.host == nil || root.host == "" || root.host == "localhost",
-              root.user == nil, root.password == nil, root.port == nil,
-              root.query == nil, root.fragment == nil, root.path.hasPrefix("/") else {
-            throw ContentError.invalid("保存先のフォルダ参照が無効です。")
-        }
-        var path = root.resolvingSymlinksInPath().standardizedFileURL.path
-        while path.count > 1, path.hasSuffix("/") { path.removeLast() }
-        guard path.hasPrefix("/"), path != "/" else {
+        guard let path = ContentStorageBookkeepingScope.canonicalPath(for: root) else {
             throw ContentError.invalid("保存先のフォルダ参照が無効です。")
         }
         return path

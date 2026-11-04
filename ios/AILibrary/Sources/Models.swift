@@ -239,9 +239,31 @@ enum LibraryArticleOrder {
     }
 }
 
+/// Shared path bookkeeping for live acquisitions and cooperating mutations.
+/// Admit the supplied URL/path before canonicalizing. Missing roots stay valid.
+/// Existing aliases may join at this instant; this is not inode identity,
+/// reader admission, cross-process exclusion or cleanup authority.
+enum ContentStorageBookkeepingScope {
+    static func canonicalPath(for root: URL) -> String? {
+        guard root.isFileURL, root.host == nil || root.host == "" || root.host == "localhost",
+              root.user == nil, root.password == nil, root.port == nil,
+              root.query == nil, root.fragment == nil else { return nil }
+        var suppliedPath = root.path
+        while suppliedPath.count > 1, suppliedPath.hasSuffix("/") { suppliedPath.removeLast() }
+        let components = suppliedPath.split(separator: "/", omittingEmptySubsequences: false)
+        guard suppliedPath.hasPrefix("/"), suppliedPath != "/",
+              !components.contains("."), !components.contains(".."),
+              !components.dropFirst().contains("") else { return nil }
+        var canonicalPath = root.resolvingSymlinksInPath().standardizedFileURL.path
+        while canonicalPath.count > 1, canonicalPath.hasSuffix("/") { canonicalPath.removeLast() }
+        guard canonicalPath.hasPrefix("/"), canonicalPath != "/" else { return nil }
+        return canonicalPath
+    }
+}
+
 /// One owned-generation acquisition, shared by every copy of its snapshot. This
 /// process-local ledger is advisory: zero is not permission to remove a package.
-/// Storage URLs are lexical scopes, not filesystem identities or alias checks.
+/// Scope paths share canonical bookkeeping with mutations, not filesystem identity.
 final class ContentSnapshotLease: @unchecked Sendable {
     private struct Key: Hashable, Sendable {
         let scope: String
@@ -299,13 +321,6 @@ final class ContentSnapshotLease: @unchecked Sendable {
     }
 
     private static func scope(_ root: URL) -> String? {
-        guard root.isFileURL, root.host == nil || root.host == "" || root.host == "localhost",
-              root.user == nil, root.password == nil, root.port == nil, root.query == nil, root.fragment == nil else { return nil }
-        var path = root.path
-        while path.count > 1, path.hasSuffix("/") { path.removeLast() }
-        let components = path.split(separator: "/", omittingEmptySubsequences: false)
-        guard path.hasPrefix("/"), !components.contains("."), !components.contains(".."),
-              !components.dropFirst().contains("") else { return nil }
-        return path
+        ContentStorageBookkeepingScope.canonicalPath(for: root)
     }
 }

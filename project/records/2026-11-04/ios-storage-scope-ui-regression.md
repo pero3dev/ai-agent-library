@@ -1,0 +1,39 @@
+# 保存先の共有scope・読書中参照と容量画面の回帰候補
+
+2026-11-04時点の通常モード統合preview。実397（treea0e605、3264files、known main82）を観測baseとし、ordinary mainへの採用は未完了である。診断flagfalseの2pathを先に重ね、Consol14の保存先scope・reader admission・容量UIと版番号を私有合成する。15path／新規2、App候補0.2.32（34）、actual candidateは未作成。PR339へまとめるか別PRにするかは診断結果後のRoot判断で、公開・commit・API・mergeの許可は未解除である。
+
+同じ時点の有効な保存先aliasをcanonical bookkeeping scopeへ揃える。保存記事のloadはpointer読取・検証からlease公開までreader admissionを保持し、leaseも同じ捕捉scopeで公開する。通常writerとreaderは共存し、bookkeeping上の整理ゲートは両者がない時だけ始まり、新規reader／writerを拒否する。保存先URLが無効なら、そのURLのstored pathを読まず同梱版だけを検証するfallbackを保つ。
+
+容量画面の公開操作から再確認後のusableな表示とfilter保持を確認する回帰1caseを加える。shared rootのゼロ、一瞬のloading、新scan完了・generation／atomicityは仮定しない。
+
+## 確認済みの範囲
+
+既存UI5とReaderR2四pathのafter bytesを参照し、PBXだけ4 scalarを0.2.32（34）へ進める。README／計画の追記は旧全文inverseを保ち、TODO32行16完了と全criteriaを変更しない。
+
+保存Foundationの新しい1回のcompile＋runで17 PASS labelを確認し、Rootが同じ7Swift入力のcomponentとして受理した。これはiOSアプリ／XCTestの実行結果ではない。 実Nodeは35件中34成功・明示non-Darwin skip1・失敗0で、同じ16inputのmock実行とroster契約だけをRoot受理した。device／Git／Xcode／SDK／pasteboardはNode試験内でstubbed executorへ置き換わる。Root受理と入力の結合は[対応JSON](ios-storage-scope-ui-regression.json)に記録する。
+
+ReaderR2の独立静的レビューはP1/P2とも0であり、今回の15path全体の新しいレビューとは分ける。R1は無効なstorageRoot時のfallbackを変えていたため公開前に不採用とし、R2でbundle-only fallbackを保持した。静的R2準備の4GiB preflight停止を残し、追加0.5MiB以内／owner3MiB以内のdata作成だけRootがfloor3.75GiBへ限定変更した。実行・SDKのguardを解除した結果ではない。
+
+## 未受入と後続
+
+新しいiOS単体320（追加scope5＋reader9）、UI27（A19＋B8）、SDK、15path全体のcommon、実機・VoiceOverと新head CIは未受入である。Host15はReaderR2前の旧component履歴に限り、新しい成功へ転用しない。旧Host SIGTRAPは[Coordinator記録](ios-storage-mutation-coordinator.md)、scopeHost r3／594 commonのfree-floor／strict wrapper STOPPEDは既存の検証履歴に保持する。
+
+捕捉canonical pathはinode identityではない。別process、root／alias置換、未協調consumer、raw advisory ledger互換経路、別stored rootからのsource importには別の保護が必要である。整理ゲートやlease数0を削除許可にせず、削除API/UIは追加しない。IOS-21全体を未完了に保ち、実parent397の存在と、候補の公開／main採用は別である。Rootが診断結果後に提出先を判断し、新whole15／mode retarget IR、公式形式、actual candidateと新CIを確認するまで公開しない。
+
+
+## 通常モードと合成の境界
+
+通常off2のfalse propertyと、tap前／failure時の追加boundary AXを行わないfalse guardを保持する。Publishedのcapacity追加はUI5の単一hunkだけをcontext完全一致で重ね、逆hunkで通常off2のafter全文へ戻る。既存26ケースに容量1ケースを足したFull27（A19＋B8）、Native8・Core320は新actual headで未実行である。flagfalseでもLibraryViewのDEBUG State／wrapper／callbackは残り、pre-diagnostic構造や通常UXを復元・検証済みとはしない。
+
+Consol14と通常off2の旧独立IRは各componentのままで、新しい15path全体やretargetの受入に転用しない。README／計画では397のplugin82・Coordinator・診断を保ち、Consol14のprogress追記も作成時点の履歴としてexact保持し、現在previewの短い説明を別に加えた。双方全文のinverseを確認し、旧freezeを変更していない。
+
+Host17は同じ7Swift、Node35は同じ16inputに限るcomponent受入で、新iOS320／Full27やmain82全体のcommon成功にはしない。397のinstrumented観測は未完了であり、仮にpassしても原因解明や製品修正、通常mainの受入とは扱わない。後続の通常flagfalse actual headで旧26を保ったFull27とNative8、freshな全required／relevant CIを確認し、merge前に最新mainを再確認する。新しいNode／common／コンパイラ／SDK／UIはこの準備では実行していない。
+
+
+## guard16通常検証の追補
+
+Rootが確認した397instrumentedの全11workflowは10成功・Runtime26失敗1である。Native8とFull26は全件成功し、両単体306は304成功・既知skip2、追加9／Storage10も成功、Releaseの3記事140filesと199記事625filesも各componentで確認した。397全体成功や通常flagfalseの受入にはしない。Runtime26の失敗は保持し、自己retryは行っていない。
+
+同失敗では初回FindTargetApplication lookupとXCTest内部retryに約14.25秒を消費し、次のcontainer非存在でunknownへ戻った。1pollの15秒待機は失敗で、約27.704秒の別sequential snapshotがpositiveでも救済しない。今回のCode1は同じ非存在guardをapp.frame前へ移し、不在時の未使用root queryを避けるだけである。条件・reason・15秒・getter各1回・trace／tapを保ち、Rootの単一構文確認は成功したが、exists自体のstallと根本原因は未証明で、新Hosted効果は未受入である。
+
+Rootは通常候補を同PR339へ6責務（normal2→guard1→canonicalScope4→ReaderR2四path→UI5＋PBX32→records4）でまとめて再検証する案を選択した。これはactual適用／新commit／公開の許可ではなく、現candidateと6actual commitsは未作成である。旧preview15のpayload・挿入/framingを履歴として保持し、新CodeはNative1のdisjoint追加に限る。Core320／Native8／Full27とnormalfalseの追加AXoffの意味は変えず、privateな別324候補を取り込まない。新normal actualheadでRuntime26を含むfresh全required／relevantを確認し、merge前に最新mainを確認する。新whole16 IR・通常UX・iOS／CI／mainは未受入である。

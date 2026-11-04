@@ -1,5 +1,11 @@
 # project — 計画と実施記録
 
+[通常検証とguard順序のpreview16](records/2026-11-04/ios-storage-scope-ui-regression.md)は、前段preview15のCodeを保持し、container不在guardをapp.frame前へ移す1pathだけ追加する。397instrumentedは10/11workflow成功・Runtime26失敗で、Native8／Full26成功と通常flagfalseの受入を混同しない。約14.25秒FindTarget lookup・1poll失敗と後刻positive救済0を保持し、構文確認のみで効果は未検証。Rootは同PR339の6責務を通常条件で再検証する案を選び、actual適用／新head／Core320・Full27・Runtime26等のfresh CIとmainは未受入。以下のpreview15／Consol14案内は前段作成時点の履歴である。
+
+[通常モードと保存保護の統合preview](records/2026-11-04/ios-storage-scope-ui-regression.md)は、未採用の実397／known82を観測baseに、診断flagfalseの候補と保存先scope・reader admission・容量UIを私有合成する。15path／新規2、App候補0.2.32（34）で、Core320／Native8／Full27と新whole IR・actual CIは未受入。PR339へ追加するか別PRにするかは診断結果後のRoot判断とし、公開許可は未解除。直後のConsol14案内は元候補作成時点の履歴として保持する。
+
+[保存先の共有scope・読書中参照と容量画面回帰](records/2026-11-04/ios-storage-scope-ui-regression.md)では、同じ保存先の表記を揃え、保存記事の検証からlease公開までreader admissionを保持する。通常writerとreaderは共存し、整理ゲートは協調する新規処理だけを排他する。PR339採用mainを将来親とする14path／新規2、4責務commitの候補で、App0.2.32（34）。同じ7SwiftのHost17と同じ16inputのNode35はcomponent成功、新iOS320／UI27／SDK／common／実機・VoiceOverは未受入。TODO32行16完了とcriteria・IOS-21未完了を保ち、削除処理は追加しない。
+
 [読者向けAgent Skillsとプラグイン](records/2026-11-04/reader-agent-skills.md)はIssue #335の作業契約と実施結果です。参照生成・同梱MCP・導入・発火評価を、検証方式ごとに記録します。
 
 [モーダル提示境界の診断](records/2026-11-04/ios-native-modal-presentation-boundaries.md)は、PR #339のcfeaで単体306・追加9・容量10の成功とNative7/8・Full25/26の提示失敗を分けて残す。検索原因を断定せず、DEBUGの明示UI-test時だけ最大112Bの固定状態をMoreへ付け、公開操作の受信・提示・dispatchを観測するCode4とする。既存poll・tap・期限、Release token、Native8／Full26／Core306を保つ。観測はtimingへ影響し得て、passも原因解明や製品修正の証明にしない。新headの全required／relevant CI・Ready／mainと実機等は未受入、TODO16/32・全criteria・既存Coordinator／索引全文を保つ。

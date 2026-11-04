@@ -1,5 +1,11 @@
 # iOS完成版に向けたTODO
 
+IOS-21／25の[guard16通常preview](../../records/2026-11-04/ios-storage-scope-ui-regression.md)は、normal2／guard1／scope4／reader4／UI5＋PBX／記録4の6責務で同PR339を通常再検証する選択案である。397instrumentedの10成功／Runtime26失敗1を保持し、後刻positiveで15秒失敗を救済しない。unused app.frame取得を避けるguardfirstはsyntax-only確認で新Hosted効果未受入。Core320／Native8／Full27（旧26保持）とRuntime26を含むfresh全required／relevant・最新main確認前にmergeしない。実適用／commitsはNULL、App32／TODO16/32／criteriaと直後のpreview15履歴を維持する。
+
+IOS-21／25の[通常モード統合preview](../../records/2026-11-04/ios-storage-scope-ui-regression.md)は、ordinary main未採用のactual397（known82）へ通常flagfalseを先に重ね、Consol14の保存保護と容量UIを統合する私有15path／新規2のrecipeである。Core320／Native8／Full27、new whole IR／actual CIは未受入、同PRか別PRかも後続判断で公開／merge権限は解除しない。TODO16/32・全criteriaと旧記録を維持する。直後のConsol14案内は元候補の作成時点履歴である。
+
+IOS-21の[保存先・reader参照・容量画面の回帰候補](../../records/2026-11-04/ios-storage-scope-ui-regression.md)は、scope4→ReaderR2四path→UI5＋PBX→記録の4責務を1つの後続PRへまとめる。検証開始からlease公開まで同じ捕捉scopeを保持し、既存writerとreaderを両立する。PR339採用main treee87aを将来親にした14path／新規2、App候補0.2.32（34）で、Host17／Node35はexact inputのcomponent成功に限る。R1のfallback差分と静的4GiB停止は訂正履歴として保持する。新common／SDK／iOS320／UI27／実機・VoiceOver、root identity／別process／source importと削除は未受入。全32行16完了とcriteriaを保ち、actual親・最終IR・新CI・通常mainを後続に残す。
+
 IOS-25の[モーダル提示境界診断](../../records/2026-11-04/ios-native-modal-presentation-boundaries.md)は、cfeaの単体306・追加9・容量10の成功とNative7/8・Full25/26の提示失敗を保持する。Moreと次のpublic actionを最大112BのDEBUG opt-in状態で観測し、検索語は記録しない。poll／tap／期限／Release tokenとNative8・Full26・Core306を保ち、原因未証明とtiming影響を明示する。Code4と記録4の通常2コミット候補で、新headの全required／relevant CI・Ready／mainは未受入。PBX31（33）・全32行16完了／全criteriaと旧全文、IOS-21・実機等の未完了を維持する。
 
 IOS-21の[保存処理Coordinator候補](../../records/2026-11-04/ios-storage-mutation-coordinator.md)は、process内のroot単位permitとactive staging登録寿命だけを加えるCode3を、将来Perf tree6b3bへ私有結合するSource8である。3payloadを保持し、PBX候補0.2.31（33）と記録／索引を静的準備する。既存Foundation compile＋run10.532秒／14PASSとCode2のSDK型検査だけを保存し、旧SIGTRAPのsite未確定・新9 XCTestとSource8共通／CI／通常main・実機の未完了を保つ。cross-process／inode安全・整理API／削除UI・IOS-21完了を導入せず、全32行16完了とcriteria・旧索引全文を変更しない。

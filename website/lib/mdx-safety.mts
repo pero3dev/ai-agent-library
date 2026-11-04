@@ -11,7 +11,7 @@ const parser = unified().use(remarkParse).use(remarkGfm).use(remarkMath)
 
 const attributes: Record<string, Record<string, (value: string) => boolean>> = {
   StaticMermaid: { diagram: value => /^[a-f0-9]{24}$/.test(value), label: value => value.length > 0 && value.length < 300 },
-  TodoCallout: {},
+  TodoCallout: { id: value => /^article-todo-[1-9]\d*$/.test(value) },
   PracticeSection: { kind: value => ['antipattern', 'checklist'].includes(value) },
   ChecklistBox: { defaultChecked: value => ['true', 'false'].includes(value) },
   GlossaryTerm: {

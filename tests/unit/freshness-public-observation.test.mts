@@ -49,3 +49,16 @@ test('a listed system cannot imply coverage without a real observation', () => {
   const checkpoint = fixture(); checkpoint.systems.push('coding-agents')
   assert.throws(() => publicObservation(checkpoint), /実観測/)
 })
+
+test('article completion exports independently of unfinished systems, with claims and sources required', () => {
+  const checkpoint = fixture()
+  const doc = checkpoint.public_observations[0].affected_docs[0]
+  const article = { system_id: 'models-prompting', scope: 'declared-article', status: 'verified', verified_on: '2026-10-03', description: 'この記事の宣言範囲', doc, claims: ['提供条件'], sources: checkpoint.public_observations[0].sources }
+  const result = publicObservation({ ...checkpoint, completed_systems: [], public_coverage: [article] })
+  assert.equal(result.coverage[0].doc, doc)
+  for (const key of ['doc', 'claims', 'sources']) {
+    const invalid: Record<string, unknown> = { ...article }
+    delete invalid[key]
+    assert.throws(() => publicObservation({ ...checkpoint, public_coverage: [invalid] }), /oneOf/)
+  }
+})

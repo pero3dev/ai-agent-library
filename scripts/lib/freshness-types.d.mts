@@ -33,12 +33,16 @@ export interface CoverageRow {
   status: string
   verified_on?: string
   description?: string
+  doc?: string
+  claims?: string[]
+  sources?: Array<{ url: string; accessed_at: string }>
 }
 export interface ObservationRecord {
   completed_at?: string
   started_at?: string
   observations?: ObservationRow[]
   coverage?: CoverageRow[]
+  vendor_checks?: Array<{ vendor: string; release_notes: string; deprecations: string; pricing: string }>
 }
 export interface ObservationRun {
   file: string

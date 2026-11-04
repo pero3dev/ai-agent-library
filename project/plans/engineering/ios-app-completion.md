@@ -1,5 +1,7 @@
 # iOS完成版に向けたTODO
 
+IOS-21の[保存処理Coordinator候補](../../records/2026-11-04/ios-storage-mutation-coordinator.md)は、process内のroot単位permitとactive staging登録寿命だけを加えるCode3を、将来Perf tree6b3bへ私有結合するSource8である。3payloadを保持し、PBX候補0.2.31（33）と記録／索引を静的準備する。既存Foundation compile＋run10.532秒／14PASSとCode2のSDK型検査だけを保存し、旧SIGTRAPのsite未確定・新9 XCTestとSource8共通／CI／通常main・実機の未完了を保つ。cross-process／inode安全・整理API／削除UI・IOS-21完了を導入せず、全32行16完了とcriteria・旧索引全文を変更しない。
+
 IOS-15の[自PR長文Clock選択候補](../../records/2026-11-04/ios-own-pr-long-scroll-selection.md)では、既存workflowの自リポジトリPRで長文、fork PR／main pushで起動、手動で既存3ケースを選ぶ。quoted ENVを受ける本番シェルをNode62件で確認し、3path filter・runner／40分・Clock4 invocations／3標本とCSV・hash結合・全assertを保つ。共通検査前の作成時点を保存し、新head Hosted／通常main・性能予算／閾値・IOS-15・実機は未完了。TODO32行16完了と全criteriaを変更しない。
 
 [2026-11-04の自用受入](../../records/2026-11-04/ios-personal-reading-recovery-acceptance.md)により、実main0885／App0.2.30（32）のIOS-11・IOS-18を「実装と主要な自動確認」の範囲で完了とする。現行TODOは**32行・16完了**。旧14/32と未受領時点の記録を履歴として保ち、他30状態・全完了条件は変更しない。実機・VoiceOver・追加のfailure回帰はIOS-23・IOS-25等へ残し、mainpush別CIの成功をPR結果から補わない。

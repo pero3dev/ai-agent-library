@@ -1,5 +1,7 @@
 # project — 計画と実施記録
 
+[保存処理のprocess内協調候補](records/2026-11-04/ios-storage-mutation-coordinator.md)は、IOS-21の非破壊な整理に先行し、同じrootのnonblocking permitとactive stagingの処理寿命をCode3へ追加する。採択済み3payloadをbyte保持し、PBXの候補版だけ0.2.31（33）へ進めるSource8の静的準備で、実親は将来のPerf tree6b3bへの結合待ち。既存Foundation14PASSとCode2の両arch SDK型検査を各範囲に限り再利用し、旧SIGTRAP・失敗site未確定と新9 XCTest未実行を残す。共通・新CI／通常main・実機、整理／削除とIOS-21全体は未完了。TODO16/32・全criteria・Doc4／Perf索引と旧全文を保つ。
+
 [自分のPRで長文Clockを選ぶCI候補](records/2026-11-04/ios-own-pr-long-scroll-selection.md)は、Rootが今回採用した選択計画として、既存workflowの自リポジトリPRだけを固定長文ケースへ結ぶ。fork PRとmain pushは起動、手動3選択・3path filter・既存のrunner／40分／protocolと全assertを保つ。本番YAMLのシェルを直接使う対象Node62件は成功した。これは共通検査前の作成時点の記録で、新head Hosted・通常main・性能閾値とIOS-15全体・実機は未完了。Doc4の受入とTODO16/32・全criteria・旧履歴を保つ。
 
 [AI向けサイト出力](records/2026-11-04/llms-markdown-index.md)はIssue #333の作業契約と実施結果です。published記事のMarkdown、階層llms.txt、索引JSONの生成・検証と公開結果を記録します。

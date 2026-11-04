@@ -1,5 +1,7 @@
 # project — 計画と実施記録
 
+[AppMemoryの手動起動候補](records/2026-11-04/ios-app-memory-manual-dispatch.md)は、source／workflow SHA双方をexpectedへ固定するCode4を全文保持し、Windows修正PR #350の仮head45441584（treeff8b）へ静的再結合する。直後のWindows索引prefixを含め親全文を保ち、Code4→記録4の2責務で3270files／8差分・新規2を準備する。旧Source8のIR／形式と同10入力Node54は各旧componentの成功に限る。actualmain親・公開・新strict TS／CI・実manual Hosted・IOS-15全体と製品budgetは未受入で、通常squash後の同tree確認を待つ。
+
 [Windowsの音声ロック取得の限定再試行](records/2026-11-04/windows-audio-mutex-acquire.md)は、main e617の並行試験1失敗を保持し、排他的mkdirのWindows EPERMだけを既存の短い再試行へ加える候補です。action／cleanupの再実行とownership判定は保ち、新headの実Windows・strictTS・通常main再検査は未完了です。
 
 [通常検証とguard順序のpreview16](records/2026-11-04/ios-storage-scope-ui-regression.md)は、前段preview15のCodeを保持し、container不在guardをapp.frame前へ移す1pathだけ追加する。397instrumentedは10/11workflow成功・Runtime26失敗で、Native8／Full26成功と通常flagfalseの受入を混同しない。約14.25秒FindTarget lookup・1poll失敗と後刻positive救済0を保持し、構文確認のみで効果は未検証。Rootは同PR339の6責務を通常条件で再検証する案を選び、actual適用／新head／Core320・Full27・Runtime26等のfresh CIとmainは未受入。以下のpreview15／Consol14案内は前段作成時点の履歴である。

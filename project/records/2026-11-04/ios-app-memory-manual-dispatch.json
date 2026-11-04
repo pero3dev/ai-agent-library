@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-04",
+  "state": "future PR submission prepared; not PR339/main accepted",
+  "codeAuthor": {
+    "base": "fb442c31cb3854061420c349ed272a98f3aa1ee4",
+    "SourceMF": "94b8f2eedf802d8d545ce564b697319b777517ce9719f302a23bbf12ecf69865",
+    "packetMF": "d2be5e86a8e4fb7868c9aa1b27c8171a74d43dd77b86989d88eb296d583a7131",
+    "changed": false
+  },
+  "retarget": {
+    "current_parent": "c2dc6da4f2384936b6304bebcc382ee1556b1abd",
+    "parent_tree": "2ac6ada6baff5af88129f7b9baa9d0e10b0bdc82",
+    "parent_files": 3266,
+    "owned4_before_allbytes_exact": true,
+    "Code4_after_exact": true,
+    "CoreTests_try2_and_other_nonowned_preserved": true,
+    "normalmain_parent_binding": "pending after PR339 integration",
+    "actual_candidate_SHA": null
+  },
+  "manualPolicy": {
+    "allowed_new_event": "workflow_dispatch",
+    "source_SHA_equals_expected": true,
+    "workflow_SHA_equals_expected": true,
+    "guard": "driver rejects before budget write; exporter same provenance binding",
+    "platform_always_equal_claim": false,
+    "official_docs_checked": "2026-11-04",
+    "docs": [
+      "https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#workflow_dispatch",
+      "https://docs.github.com/en/actions/reference/workflows-and-actions/contexts#github-context"
+    ],
+    "GITHUB_SHA_definition": "last commit on selected ref",
+    "workflow_sha_definition": "commit for workflowfile",
+    "old_manual0e_actual_values": "not printed in received raw; unverified",
+    "Hosted_under_new_policy": "unverified"
+  },
+  "NodeComponent": {
+    "Root_accepted": true,
+    "definitions": 49,
+    "child_tests": 5,
+    "actual_total": 54,
+    "passed": 54,
+    "failed": 0,
+    "skipped": 0,
+    "Node_exit": 0,
+    "seconds": 18.093007916,
+    "same_inputs": 10,
+    "input_bytes": 195329,
+    "stdout_bytes": 5504,
+    "stdout_SHA256": "0f4b701f108e0eab305075ce1552f1d5bf738ecef9fc882e1c698da0481e40d0",
+    "receipt_SHA256": "4bd91993830dd3a3f34c913aa2e869579161dad47173d80cfcd225228a487a41",
+    "scope": "synthetic JSON/CSV, Node child and generated fake xcrun/prepare only; no real SDK/Git",
+    "R1": "wrapper resource walk/tmp cleanup FileNotFoundError and sandbox PG-probe EPERM; unaccepted",
+    "R2_original_wrapper_verdict": "FAILED_OR_STOPPED retained because parser expected TAP while output was spec reporter",
+    "R2_Root_supplement": "same output exit0/all54pass/held inputs/guards accepted by separate static readback; no rerun",
+    "product_SDK_App_Hosted_main_acceptance": false
+  },
+  "D1": {
+    "correction": "js-yaml actual require is in content stage, not dependencies; prepare does not require it",
+    "note_SHA256": "d8d3798f6bb856fe73559c437dd56454d75e1d1b1705aa097806c31bb122b0b3",
+    "Source4_and_10input_closure_unchanged": true
+  },
+  "invariants": {
+    "App": "0.2.32(34) unchanged",
+    "TODO_rows": 32,
+    "TODO_done": 16,
+    "allcriteria_preserved": true,
+    "permissions": "contents read",
+    "runner_job_minutes": 40,
+    "warmups": 1,
+    "records_per_metric": 3,
+    "metrics": 3,
+    "method_protocol_raw_typed_CSV_caps_cleanup_unchanged": true,
+    "productbudget_threshold_adopted": false
+  },
+  "pending": [
+    "strict TypeScript checks",
+    "new common and actual-head CI",
+    "normalmain retarget after PR339",
+    "official forms and Source8 final IR",
+    "actual workflow_dispatch Hosted",
+    "normal main integration",
+    "IOS15 full acceptance"
+  ],
+  "worker_executions": {
+    "API_Node_SDK_compiler_Gitwrite_network_largecopy_delete": 0
+  },
+  "prospective_after_PR350": {
+    "state": "PROSPECTIVE_ONLY_PR350_NOT_MAIN_NO_PUBLICATION",
+    "known_prospective_parent": "45441584ebe1198527a3c4b55a19cf483a478169",
+    "known_prospective_parent_tree": "ff8b266f97807da1d16811d5c7d9193e618da62f",
+    "known_prospective_parent_files": 3268,
+    "actual_main_parent": null,
+    "actual_candidate_SHA": null,
+    "Code4_author_base_preserved": "fb442c31cb3854061420c349ed272a98f3aa1ee4",
+    "prior_c2_Source8_record_is_history": true,
+    "Code4_before_and_after_allbytes_exact": true,
+    "Windows_prefix_and_all_parent_nonowned_preserved": true,
+    "old_Source8_IR_Markdown_formats_accepted_for_old_frozen8_only": true,
+    "Node54_scope": "Same exact10 inputs,195329B,synthetic/fake component; no new Node execution, IR or Hosted claim",
+    "requires_before_actual_binding": [
+      "Root ordinary PR350 squash raw/fullmap and exact known3268 map/tree",
+      "fresh actualmain/source/CI/permission review",
+      "new composition IR and Markdown/forms for changed Records4"
+    ],
+    "new_Hosted_strictTS_common_CI_main_IOS15_accepted": false
+  }
+}

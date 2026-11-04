@@ -1,5 +1,7 @@
 # iOS完成版に向けたTODO
 
+IOS-15の[AppMemory手動起動候補](../../records/2026-11-04/ios-app-memory-manual-dispatch.md)を、Windows修正PR #350仮head45441584／treeff8bへCode4全文保持で静的再結合する。作者basefb／旧c2準備とNode54・D1・旧IR／形式の範囲を履歴として保つ。Code4→記録4の2責務、App32／TODO32行16完了と全criteria・計測method／capsは不変で、actualmain親・公開・strict TS／新CI／実Hosted／通常main／IOS-15全体・製品budgetは未受入。PR350の通常squashと同tree／全tuple確認後に親を結び直す。
+
 IOS-21／25の[guard16通常preview](../../records/2026-11-04/ios-storage-scope-ui-regression.md)は、normal2／guard1／scope4／reader4／UI5＋PBX／記録4の6責務で同PR339を通常再検証する選択案である。397instrumentedの10成功／Runtime26失敗1を保持し、後刻positiveで15秒失敗を救済しない。unused app.frame取得を避けるguardfirstはsyntax-only確認で新Hosted効果未受入。Core320／Native8／Full27（旧26保持）とRuntime26を含むfresh全required／relevant・最新main確認前にmergeしない。実適用／commitsはNULL、App32／TODO16/32／criteriaと直後のpreview15履歴を維持する。
 
 IOS-21／25の[通常モード統合preview](../../records/2026-11-04/ios-storage-scope-ui-regression.md)は、ordinary main未採用のactual397（known82）へ通常flagfalseを先に重ね、Consol14の保存保護と容量UIを統合する私有15path／新規2のrecipeである。Core320／Native8／Full27、new whole IR／actual CIは未受入、同PRか別PRかも後続判断で公開／merge権限は解除しない。TODO16/32・全criteriaと旧記録を維持する。直後のConsol14案内は元候補の作成時点履歴である。

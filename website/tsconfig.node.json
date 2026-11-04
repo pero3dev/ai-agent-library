@@ -16,6 +16,6 @@
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["lib/**/*.mjs", "lib/**/*.mts", "lib/**/*.ts", "scripts/**/*.mjs", "scripts/**/*.mts", "scripts/**/*.cjs", "next.config.mjs", "playwright.config.mjs"],
+  "include": ["lib/**/*.mjs", "lib/**/*.mts", "lib/**/*.ts", "scripts/**/*.mjs", "scripts/**/*.mts", "scripts/**/*.cjs", "scripts/**/*.cts", "next.config.mjs", "next.config.mts", "playwright.config.mjs", "playwright.config.mts"],
   "exclude": ["node_modules", "generated", "vendor", "out"]
 }

@@ -1,6 +1,7 @@
 {
   "schema_version": 1,
   "typescript": "6.0.3",
+  "implementation_language": "typescript",
   "projects": [
     {
       "id": "node",
@@ -132,19 +133,41 @@
   ],
   "wrappers": [
     {
-      "path": "website/lib/library-links.mjs",
-      "target": "website/lib/library-links.mts",
+      "path": ".claude/hooks/guard-generated.mjs",
+      "target": ".claude/hooks/guard-generated.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": ".claude/hooks/validate-doc.mjs",
+      "target": ".claude/hooks/validate-doc.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": ".codex/hooks/guard-generated.mjs",
+      "target": ".codex/hooks/guard-generated.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": ".codex/hooks/validate-doc.mjs",
+      "target": ".codex/hooks/validate-doc.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": ".github/scripts/prepare-playwright-linux-deps.mjs",
+      "target": ".github/scripts/prepare-playwright-linux-deps.mts",
+      "kind": "cli",
+      "sha256": "a9b919ada4d5e8c8b8d77e7791e083daf138cfbbf6aa1f2ab83dc117341b5dcc"
+    },
+    {
+      "path": "ios/tests/archive-signing-settings.mjs",
+      "target": "ios/tests/archive-signing-settings.mts",
       "kind": "reexport"
     },
     {
-      "path": "website/tests/unit/library-links.test.mjs",
-      "target": "website/tests/unit/library-links.test.mts",
-      "kind": "side-effect"
-    },
-    {
-      "path": "website/tests/unit/library-export.test.mjs",
-      "target": "website/tests/unit/library-export.test.mts",
-      "kind": "side-effect"
+      "path": "ios/tests/capture-built-app-icon.mjs",
+      "target": "ios/tests/capture-built-app-icon.mts",
+      "kind": "cli",
+      "sha256": "dd76c9c70d998ff1b558ec00898850ce4b56f1602fa0d5f6331b1a3a4baa3703"
     },
     {
       "path": "ios/tests/capture-reader-failure-diagnostics.mjs",
@@ -153,10 +176,230 @@
       "sha256": "db6538d687286b2f4235dd402cadd7db125f218ba0723424f199691ba6e9a9a9"
     },
     {
+      "path": "ios/tests/capture-simulator-unit-failure.mjs",
+      "target": "ios/tests/capture-simulator-unit-failure.mts",
+      "kind": "cli",
+      "sha256": "e81d6ef138bf5cd47bdb2d495ed70cea7d524ed6e7cd3a72db386618f1b14799"
+    },
+    {
+      "path": "ios/tests/check-built-app-icon.mjs",
+      "target": "ios/tests/check-built-app-icon.mts",
+      "kind": "cli",
+      "sha256": "938002918e88425cdf4a39c67d100ea9c554c3f25389449a106c8db905f191c4"
+    },
+    {
+      "path": "ios/tests/check-release-package.mjs",
+      "target": "ios/tests/check-release-package.mts",
+      "kind": "cli",
+      "sha256": "859c904a7fe56d3271708b3f73dbad08dacc6d528f4756c263916f43c4b0f667"
+    },
+    {
+      "path": "ios/tests/clipboard-canary-seed.mjs",
+      "target": "ios/tests/clipboard-canary-seed.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "ios/tests/create-reader-revision-fixtures.mjs",
+      "target": "ios/tests/create-reader-revision-fixtures.mts",
+      "kind": "cli",
+      "sha256": "b39239d635cfc732b2075bbefbfe171a2ec6ea8947406a5d34979615d0ba5df8"
+    },
+    {
+      "path": "ios/tests/export-memory.mjs",
+      "target": "ios/tests/export-memory.mts",
+      "kind": "cli",
+      "sha256": "2b087033ce3629696ea58d5c4496f0ae03a0e63e0bdc991cc77829f19c222c9e"
+    },
+    {
+      "path": "ios/tests/export-performance.mjs",
+      "target": "ios/tests/export-performance.mts",
+      "kind": "cli",
+      "sha256": "278dc4f788b3a763a09184accdc8a37af370926627742e9ecf2acb2327f5fe23"
+    },
+    {
+      "path": "ios/tests/installed-inventory.mjs",
+      "target": "ios/tests/installed-inventory.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "ios/tests/learning-content-audit.mjs",
+      "target": "ios/tests/learning-content-audit.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "ios/tests/native-content-audit.mjs",
+      "target": "ios/tests/native-content-audit.mts",
+      "kind": "cli",
+      "sha256": "9aed7b9252770da70a58255b401bdf696df06afb2128cb18b6c02a9841e0a087"
+    },
+    {
+      "path": "ios/tests/native-failure-attachments.mjs",
+      "target": "ios/tests/native-failure-attachments.mts",
+      "kind": "cli",
+      "sha256": "271853be622704c85749942239773df7ea825da21ccec5058de7fa44b0417f1b"
+    },
+    {
+      "path": "ios/tests/native-simulator-prepare.mjs",
+      "target": "ios/tests/native-simulator-prepare.mts",
+      "kind": "cli",
+      "sha256": "d3515592b51a05d7f8e23fb98ea239483130751530d22dab00a4d7693e8b3170"
+    },
+    {
+      "path": "ios/tests/reader-check.mjs",
+      "target": "ios/tests/reader-check.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "ios/tests/simctl-inventory-read.mjs",
+      "target": "ios/tests/simctl-inventory-read.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "ios/tests/xcresult-json.mjs",
+      "target": "ios/tests/xcresult-json.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "ios/tests/xctestrun-metadata.mjs",
+      "target": "ios/tests/xctestrun-metadata.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "ios/tools/app-icon.mjs",
+      "target": "ios/tools/app-icon.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "scripts/audio-publish.mjs",
+      "target": "scripts/audio-publish.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "scripts/audio-run.mjs",
+      "target": "scripts/audio-run.mts",
+      "kind": "cli",
+      "sha256": "6c8cd784d8cdcd377125c05b7eb5ae2d6c9425e7b79703766b5e752e8b1e0b93"
+    },
+    {
+      "path": "scripts/audio/authorship.mjs",
+      "target": "scripts/audio/authorship.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "scripts/audio/cache-contracts.mjs",
+      "target": "scripts/audio/cache-contracts.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "scripts/audio/claude.mjs",
+      "target": "scripts/audio/claude.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "scripts/audio/config-contract.mjs",
+      "target": "scripts/audio/config-contract.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "scripts/audio/core.mjs",
+      "target": "scripts/audio/core.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "scripts/audio/errors.mjs",
+      "target": "scripts/audio/errors.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "scripts/audio/lock.mjs",
+      "target": "scripts/audio/lock.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "scripts/audio/pipeline.mjs",
+      "target": "scripts/audio/pipeline.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "scripts/audio/publication.mjs",
+      "target": "scripts/audio/publication.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "scripts/audio/synthesis.mjs",
+      "target": "scripts/audio/synthesis.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "scripts/build-ios-content.mjs",
+      "target": "scripts/build-ios-content.mts",
+      "kind": "cli",
+      "sha256": "f809837b0dd02bb0be0de8f5d0aacbe46dc463563cfa7ca59b2ed58d188e51bb"
+    },
+    {
+      "path": "scripts/build-ios-native-content.mjs",
+      "target": "scripts/build-ios-native-content.mts",
+      "kind": "cli",
+      "sha256": "da8ad3a885353d07d12d0dcd7513350c400dae2ca6606c888ce0856c3d777191"
+    },
+    {
+      "path": "scripts/check-ci.mjs",
+      "target": "scripts/check-ci.mts",
+      "kind": "cli",
+      "sha256": "f920ec02ec3e232bcbd71edaf1dae38099799a04a19c226df3ba83b46fa0b4f7"
+    },
+    {
+      "path": "scripts/check-git-conventions.mjs",
+      "target": "scripts/check-git-conventions.mts",
+      "kind": "cli",
+      "sha256": "f6b62a8f732c3349171d405cc60f38cde1182157b743610915ed71d1d0eceafd"
+    },
+    {
+      "path": "scripts/check-harness.mjs",
+      "target": "scripts/check-harness.mts",
+      "kind": "cli",
+      "sha256": "21cc2e24ed03b4e0efe234b31f487888bd68c4870496f288f5363565f337677d"
+    },
+    {
+      "path": "scripts/check-links.mjs",
+      "target": "scripts/check-links.mts",
+      "kind": "cli",
+      "sha256": "a728a8917a2217e4bf83650d8afa7de8e2c295e8d1678393cf6072dcf83cad6d"
+    },
+    {
+      "path": "scripts/check-prerequisite-levels.mjs",
+      "target": "scripts/check-prerequisite-levels.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "scripts/check-structure.mjs",
+      "target": "scripts/check-structure.mts",
+      "kind": "cli",
+      "sha256": "71204ba68b1fcd1d13a78d18b86db7d703c98593138507b0f4c8e5f5915798f9"
+    },
+    {
       "path": "scripts/check-type-coverage.mjs",
       "target": "scripts/check-type-coverage.mts",
       "kind": "cli",
       "sha256": "23feda5deae2e5448149dea827fb5cc888636c42314d994b40424ba51b81d623"
+    },
+    {
+      "path": "scripts/deadline-report.mjs",
+      "target": "scripts/deadline-report.mts",
+      "kind": "cli",
+      "sha256": "764e052f6ad909ad9fda003a91b8691c1229ca37edfbbd689181ad7e727d5611"
+    },
+    {
+      "path": "scripts/eval-harness.mjs",
+      "target": "scripts/eval-harness.mts",
+      "kind": "cli",
+      "sha256": "fa319e5ff63bac3fdd75c588d6863b877b111021b47a6f787a3d4047b834fb19"
+    },
+    {
+      "path": "scripts/freshness-observation-report.mjs",
+      "target": "scripts/freshness-observation-report.mts",
+      "kind": "cli",
+      "sha256": "9b8fcce905e9ba1ba7d6cd620166adfeee54be8dd5898a4d84decdc4c0d71b73"
     },
     {
       "path": "scripts/freshness-policy.mjs",
@@ -165,10 +408,40 @@
       "sha256": "c8d4901c3bc22627af686597457e59c5f2099858f7198c30b7de468118efb6e1"
     },
     {
+      "path": "scripts/freshness-public-observation.mjs",
+      "target": "scripts/freshness-public-observation.mts",
+      "kind": "cli",
+      "sha256": "e3b213a0ff62614cb43ef6564dbff40bc7e6f6e7f0327c71700138881c0c0ee3"
+    },
+    {
+      "path": "scripts/freshness-registry.mjs",
+      "target": "scripts/freshness-registry.mts",
+      "kind": "cli",
+      "sha256": "7e44560cce8c57956a7e9c12c78f8e0036a42930326dcbfd52c17339e450b0a3"
+    },
+    {
       "path": "scripts/freshness-run.mjs",
       "target": "scripts/freshness-run.mts",
       "kind": "cli",
       "sha256": "a61683ec67131e71a0ed2101e76dd6e5c6da4b58d7826ea5e3cb7fb1a09ebb7c"
+    },
+    {
+      "path": "scripts/harness-context.mjs",
+      "target": "scripts/harness-context.mts",
+      "kind": "cli",
+      "sha256": "3d3e7cff4bc476d13980ac8aaafb9be661ce09954b67e48d9c7616ee0ead0ff4"
+    },
+    {
+      "path": "scripts/harness-doctor.mjs",
+      "target": "scripts/harness-doctor.mts",
+      "kind": "cli",
+      "sha256": "f5c30565ac5ecccc6914ca25af06f82e39735fc0f16b5559cf92b31d2e6801ee"
+    },
+    {
+      "path": "scripts/harness-health.mjs",
+      "target": "scripts/harness-health.mts",
+      "kind": "cli",
+      "sha256": "07136dee0552ab0357b4d709bdfbd69f6226d854710d780b9ff1c1383d010ed9"
     },
     {
       "path": "scripts/harness-policy.mjs",
@@ -183,13 +456,162 @@
       "sha256": "61c943e32b6a03a5a81ce5bec6acd09e672cd495c45a8cd7d2c52a1b5b25d94a"
     },
     {
+      "path": "scripts/lib/comparison-base.mjs",
+      "target": "scripts/lib/comparison-base.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "scripts/lib/git-conventions.mjs",
+      "target": "scripts/lib/git-conventions.mts",
+      "kind": "reexport"
+    },
+    {
       "path": "scripts/lib/github-evidence.mjs",
       "target": "scripts/lib/github-evidence.mts",
       "kind": "reexport"
     },
     {
+      "path": "scripts/lib/github-policy.mjs",
+      "target": "scripts/lib/github-policy.mts",
+      "kind": "reexport"
+    },
+    {
       "path": "scripts/lib/harness-state.mjs",
       "target": "scripts/lib/harness-state.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "scripts/lib/hook-command.mjs",
+      "target": "scripts/lib/hook-command.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "scripts/lib/hook-core.mjs",
+      "target": "scripts/lib/hook-core.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "scripts/lib/ios-audio-identity.mjs",
+      "target": "scripts/lib/ios-audio-identity.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "scripts/lib/ios-content.mjs",
+      "target": "scripts/lib/ios-content.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "scripts/lib/ios-learning-content.mjs",
+      "target": "scripts/lib/ios-learning-content.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "scripts/lib/ios-native-assets.mjs",
+      "target": "scripts/lib/ios-native-assets.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "scripts/lib/ios-native-content.mjs",
+      "target": "scripts/lib/ios-native-content.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "scripts/lib/json-guards.mjs",
+      "target": "scripts/lib/json-guards.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "scripts/lib/markdown-links.mjs",
+      "target": "scripts/lib/markdown-links.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "scripts/lib/md-utils.mjs",
+      "target": "scripts/lib/md-utils.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "scripts/lib/prerequisite-levels.mjs",
+      "target": "scripts/lib/prerequisite-levels.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "scripts/lib/public-records.mjs",
+      "target": "scripts/lib/public-records.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "scripts/lib/reference-comparison.mjs",
+      "target": "scripts/lib/reference-comparison.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "scripts/lib/roadmap-source.mjs",
+      "target": "scripts/lib/roadmap-source.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "scripts/lib/tooling-common.mjs",
+      "target": "scripts/lib/tooling-common.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "scripts/lib/validate-core.mjs",
+      "target": "scripts/lib/validate-core.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "scripts/reviewer-command-guard.mjs",
+      "target": "scripts/reviewer-command-guard.mts",
+      "kind": "cli",
+      "sha256": "8462d92e39ba5e08758d12c9001337c71e4218139af5f8f4c9a441f6221999e1"
+    },
+    {
+      "path": "scripts/structure-inventory.mjs",
+      "target": "scripts/structure-inventory.mts",
+      "kind": "cli",
+      "sha256": "1a33525b226b706d5156d22414ccbeaa388d1fd11f85dcf97054076a83bcb1ea"
+    },
+    {
+      "path": "scripts/sync-harness.mjs",
+      "target": "scripts/sync-harness.mts",
+      "kind": "cli",
+      "sha256": "7bacb30ef67428b075b470b4d8b1184696a9e2680459dd68e7fbdd7bb8838930"
+    },
+    {
+      "path": "scripts/test-unit.mjs",
+      "target": "scripts/test-unit.mts",
+      "kind": "cli",
+      "sha256": "a17eb75ebfe6fe14e38ce9040d396611d1a72aeab33cc479cf7445bb48798674"
+    },
+    {
+      "path": "scripts/todo-report.mjs",
+      "target": "scripts/todo-report.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "scripts/validate-docs.mjs",
+      "target": "scripts/validate-docs.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/helpers/ios-fixtures.mjs",
+      "target": "tests/helpers/ios-fixtures.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "tests/helpers/isolated-git.mjs",
+      "target": "tests/helpers/isolated-git.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "tests/helpers/json-fixtures.mjs",
+      "target": "tests/helpers/json-fixtures.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "tests/helpers/windows-test-path.mjs",
+      "target": "tests/helpers/windows-test-path.mts",
       "kind": "reexport"
     },
     {
@@ -200,6 +622,11 @@
     {
       "path": "tests/unit/audio-production.test.mjs",
       "target": "tests/unit/audio-production.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/audio-publication-json.test.mjs",
+      "target": "tests/unit/audio-publication-json.test.mts",
       "kind": "side-effect"
     },
     {
@@ -228,6 +655,21 @@
       "kind": "side-effect"
     },
     {
+      "path": "tests/unit/deadline-report.test.mjs",
+      "target": "tests/unit/deadline-report.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/eval-harness.test.mjs",
+      "target": "tests/unit/eval-harness.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/freshness-observation-report.test.mjs",
+      "target": "tests/unit/freshness-observation-report.test.mts",
+      "kind": "side-effect"
+    },
+    {
       "path": "tests/unit/freshness-policy.test.mjs",
       "target": "tests/unit/freshness-policy.test.mts",
       "kind": "side-effect"
@@ -238,8 +680,18 @@
       "kind": "side-effect"
     },
     {
+      "path": "tests/unit/freshness-registry.test.mjs",
+      "target": "tests/unit/freshness-registry.test.mts",
+      "kind": "side-effect"
+    },
+    {
       "path": "tests/unit/freshness-run.test.mjs",
       "target": "tests/unit/freshness-run.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/git-conventions.test.mjs",
+      "target": "tests/unit/git-conventions.test.mts",
       "kind": "side-effect"
     },
     {
@@ -253,8 +705,118 @@
       "kind": "side-effect"
     },
     {
+      "path": "tests/unit/harness-run.test.mjs",
+      "target": "tests/unit/harness-run.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/harness-tooling.test.mjs",
+      "target": "tests/unit/harness-tooling.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/hooks.test.mjs",
+      "target": "tests/unit/hooks.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/ios-archive-signing-settings.test.mjs",
+      "target": "tests/unit/ios-archive-signing-settings.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/ios-audio-identity.test.mjs",
+      "target": "tests/unit/ios-audio-identity.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/ios-built-app-icon.test.mjs",
+      "target": "tests/unit/ios-built-app-icon.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/ios-clipboard-canary-seed.test.mjs",
+      "target": "tests/unit/ios-clipboard-canary-seed.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/ios-content.test.mjs",
+      "target": "tests/unit/ios-content.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/ios-core-notice-hosted-entries.test.mjs",
+      "target": "tests/unit/ios-core-notice-hosted-entries.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/ios-core-performance-acceptance.test.mjs",
+      "target": "tests/unit/ios-core-performance-acceptance.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/ios-core-performance-private-temp.test.mjs",
+      "target": "tests/unit/ios-core-performance-private-temp.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/ios-core-performance-runner.test.mjs",
+      "target": "tests/unit/ios-core-performance-runner.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/ios-core-performance-toolchain.test.mjs",
+      "target": "tests/unit/ios-core-performance-toolchain.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/ios-installed-inventory.test.mjs",
+      "target": "tests/unit/ios-installed-inventory.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/ios-learning-audit.test.mjs",
+      "target": "tests/unit/ios-learning-audit.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/ios-learning-content.test.mjs",
+      "target": "tests/unit/ios-learning-content.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/ios-memory-export.test.mjs",
+      "target": "tests/unit/ios-memory-export.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/ios-native-audit.test.mjs",
+      "target": "tests/unit/ios-native-audit.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/ios-native-content.test.mjs",
+      "target": "tests/unit/ios-native-content.test.mts",
+      "kind": "side-effect"
+    },
+    {
       "path": "tests/unit/ios-native-failure-attachments.test.mjs",
       "target": "tests/unit/ios-native-failure-attachments.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/ios-native-simulator-prepare.test.mjs",
+      "target": "tests/unit/ios-native-simulator-prepare.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/ios-performance-export.test.mjs",
+      "target": "tests/unit/ios-performance-export.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/ios-published-simulator-prepare.test.mjs",
+      "target": "tests/unit/ios-published-simulator-prepare.test.mts",
       "kind": "side-effect"
     },
     {
@@ -263,13 +825,83 @@
       "kind": "side-effect"
     },
     {
+      "path": "tests/unit/ios-reader-revision-fixtures.test.mjs",
+      "target": "tests/unit/ios-reader-revision-fixtures.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/ios-release-package.test.mjs",
+      "target": "tests/unit/ios-release-package.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/ios-simctl-inventory-read.test.mjs",
+      "target": "tests/unit/ios-simctl-inventory-read.test.mts",
+      "kind": "side-effect"
+    },
+    {
       "path": "tests/unit/ios-simulator-unit-failure.test.mjs",
       "target": "tests/unit/ios-simulator-unit-failure.test.mts",
       "kind": "side-effect"
     },
     {
+      "path": "tests/unit/ios-xctestrun-metadata.test.mjs",
+      "target": "tests/unit/ios-xctestrun-metadata.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/isolated-git.test.mjs",
+      "target": "tests/unit/isolated-git.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/markdown-validation.test.mjs",
+      "target": "tests/unit/markdown-validation.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/prerequisite-levels.test.mjs",
+      "target": "tests/unit/prerequisite-levels.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/public-records.test.mjs",
+      "target": "tests/unit/public-records.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/reviewer-command-guard.test.mjs",
+      "target": "tests/unit/reviewer-command-guard.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/roadmap-history.test.mjs",
+      "target": "tests/unit/roadmap-history.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/structure.test.mjs",
+      "target": "tests/unit/structure.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/sync-harness.test.mjs",
+      "target": "tests/unit/sync-harness.test.mts",
+      "kind": "side-effect"
+    },
+    {
       "path": "tests/unit/type-coverage.test.mjs",
       "target": "tests/unit/type-coverage.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/unit-test-plan.test.mjs",
+      "target": "tests/unit/unit-test-plan.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/validate-docs-cli.test.mjs",
+      "target": "tests/unit/validate-docs-cli.test.mts",
       "kind": "side-effect"
     },
     {
@@ -310,6 +942,11 @@
     {
       "path": "website/lib/export-segments.mjs",
       "target": "website/lib/export-segments.mts",
+      "kind": "reexport"
+    },
+    {
+      "path": "website/lib/library-links.mjs",
+      "target": "website/lib/library-links.mts",
       "kind": "reexport"
     },
     {
@@ -358,6 +995,16 @@
       "kind": "reexport"
     },
     {
+      "path": "website/next.config.mjs",
+      "target": "website/next.config.mts",
+      "kind": "default-reexport"
+    },
+    {
+      "path": "website/playwright.config.mjs",
+      "target": "website/playwright.config.mts",
+      "kind": "default-reexport"
+    },
+    {
       "path": "website/scripts/capture-theme-evidence.mjs",
       "target": "website/scripts/capture-theme-evidence.mts",
       "kind": "side-effect"
@@ -366,6 +1013,11 @@
       "path": "website/scripts/clean.mjs",
       "target": "website/scripts/clean.mts",
       "kind": "side-effect"
+    },
+    {
+      "path": "website/scripts/nextra-loader.cjs",
+      "target": "website/scripts/nextra-loader.cts",
+      "kind": "commonjs"
     },
     {
       "path": "website/scripts/postbuild.mjs",
@@ -426,6 +1078,16 @@
     {
       "path": "website/tests/unit/issue-forms.test.mjs",
       "target": "website/tests/unit/issue-forms.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "website/tests/unit/library-export.test.mjs",
+      "target": "website/tests/unit/library-export.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "website/tests/unit/library-links.test.mjs",
+      "target": "website/tests/unit/library-links.test.mts",
       "kind": "side-effect"
     },
     {

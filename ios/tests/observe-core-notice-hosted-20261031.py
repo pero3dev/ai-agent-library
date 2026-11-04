@@ -13,6 +13,7 @@ SWIFTC = str(DEVELOPER/'Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc')
 PROBE_OUTER_DEADLINE = None
 PROBE_RECEIPT_MAX = 1048576
 FIXTURE_ROOT = WORKSPACE / '.local/ios-core-notice-fixtures-20261031'
+TS_HELPERS = WORKSPACE / 'ios/tests/notice-hosted-20261031'
 BOUNDARY_TEST_SHA256 = '43126d0daa63ceea3d6d520098b47b6c540c00283f70bd406b45a6d68212e712'
 FIXTURE_LIMITS = {'seconds':30,'combined_bytes':1048576,'private_bytes':33554432,'floor_free':734003200}
 FIXTURE_CASES = ['success-combined-exact-cap', 'empty-success', 'stdout-plus-one-refuses', 'stderr-plus-one-refuses', 'combined-overcap-refuses', 'nonzero-refuses', 'pipe-deadline-kill-reap', 'EOF-live-child-deadline-kill-reap', 'spawn-error-no-child', 'read-error-kill-reap', 'select-error-kill-reap', 'unreaped-refuses', 'probe-intent-result-success', 'probe-intent-result-refusal', 'outer-deadline-refuses-before-spawn', 'argv-bound-before-spawn', 'same-literal-env-and-selection-drift-visible', 'production-order-cap-removal-and-limited-trust-static', 'catalog-row8192-success', 'catalog-row8193-pre-open-refusal', 'catalog-1MiB-exact-reserved-boundary', 'catalog-reserve-plus1-pre-spawn-refusal', 'catalog-partial-write-refusal-close', 'catalog-nonregular-refusal-close', 'catalog-write-exception-close', 'catalog-close-exception-refusal']
@@ -709,7 +710,8 @@ def fixture_inputs():
     return {'guard':fingerprint(Path(__file__)),'fixture':fingerprint(fixture),
         'workflow':fingerprint(WORKSPACE/'.github/workflows/ios-core-notice-observation.yml'),
         'entry':fingerprint(WORKSPACE/'ios/tests/verify-core-performance-notice-20261031.mjs'),
-        'boundary_test':fingerprint(WORKSPACE/'tests/unit/ios-core-performance-notice-20261031.test.mjs')}
+        'boundary_test':fingerprint(WORKSPACE/'tests/unit/ios-core-performance-notice-20261031.test.mjs'),
+        **{name:fingerprint(TS_HELPERS/name) for name in ['workflow-schema.mts','producer-entry.mts','verifier-entry.mts']}}
 
 
 def require_fixture_passage(revision):
@@ -750,25 +752,12 @@ def fixture_gate():
     require(inputs['entry']['sha256']==INSTALLATION['verify-core-performance-notice-20261031.mjs']
         and inputs['boundary_test']['sha256']==BOUNDARY_TEST_SHA256,'Unchanged fixed Notice Source2 required')
     env={'PATH':str(NODE.parent)+':/usr/bin:/bin','LANG':'C','LC_ALL':'C','HOME':str(FIXTURE_ROOT/'home'),'TMPDIR':str(FIXTURE_ROOT/'tmp')+'/'}
-    schema="""import assert from 'node:assert/strict';import fs from 'node:fs';import {createRequire} from 'node:module';import {pathToFileURL} from 'node:url';const {load,JSON_SCHEMA}=await import(pathToFileURL(createRequire(process.cwd()+'/package.json').resolve('js-yaml')).href);
-const w=load(fs.readFileSync('.github/workflows/ios-core-notice-observation.yml','utf8'),{schema:JSON_SCHEMA});
-assert.deepEqual(Object.keys(w.on).sort(),['pull_request','workflow_dispatch']);
-assert.deepEqual([...w.on.pull_request.paths].sort(),['.github/workflows/ios-core-notice-observation.yml','ios/tests/observe-core-notice-hosted-20261031.py','ios/tests/hosted-core-notice-pure-fixtures-20261031.py','ios/tests/verify-core-performance-notice-20261031.mjs','tests/unit/ios-core-performance-notice-20261031.test.mjs'].sort());
-assert.deepEqual(w.permissions,{contents:'read'});assert.equal(w.concurrency['cancel-in-progress'],false);
-const j=w.jobs.observe;assert.equal(j['runs-on'],'macos-15');assert.equal(j['timeout-minutes'],35);
-const steps=j.steps;const find=flag=>steps.findIndex(s=>s.run?.includes('observe-core-notice-hosted-20261031.py '+flag));
-assert(find('--fixtures')>=0&&find('--fixtures')<find('--prepare')&&find('--prepare')<find('--run'));
-assert.equal(steps[find('--fixtures')]['timeout-minutes'],1);assert(!steps.some(s=>s['continue-on-error']));
-assert(!steps[find('--prepare')].if&&!steps[find('--run')].if);assert.equal(steps.at(-1).if,'always()');
-assert(steps.filter(s=>s.uses).every(s=>/@[a-f0-9]{40}$/.test(s.uses)));
-console.log(JSON.stringify({state:'workflow-schema-accepted',Node_version:process.version,paths:5}));"""
-    commands=[('node22-version',[str(NODE),'--version']),('workflow-schema',[str(NODE),'--input-type=module','-e',schema]),
+    schema_path=FIXTURE_ROOT/'workflow-schema.mjs'
+    with (FIXTURE_ROOT/'workflow-schema.mts').open('xb') as handle:handle.write(read(TS_HELPERS/'workflow-schema.mts'))
+    with schema_path.open('x') as handle:handle.write("import './workflow-schema.mts';\n")
+    commands=[('node22-version',[str(NODE),'--version']),('workflow-schema',[str(NODE),str(schema_path)]),
         ('entry-syntax',[str(NODE),'--check',inputs['entry']['path']]),
         ('boundary-test-syntax',[str(NODE),'--check',inputs['boundary_test']['path']])]
-    # Keep the fixed schema source in an owned file rather than an oversized -e argument.
-    schema_path=FIXTURE_ROOT/'workflow-schema.mjs'
-    with schema_path.open('x') as handle:handle.write(schema)
-    commands[1]=('workflow-schema',[str(NODE),str(schema_path)])
     python_argv=[sys.executable,'-I','-B',inputs['fixture']['path']]
     save(FIXTURE_ROOT/'intent.json',{'source_head':revision,'Node_preflight':commands,'Python_argv':python_argv,
         'environment':env,'limits':FIXTURE_LIMITS,'input_files':inputs,'saved_before_Popen':True,
@@ -870,6 +859,9 @@ def prepare():
     for name,digest in INSTALLATION.items():
         rel='ios/tests/'+name;data=git_object(WORKSPACE,tuples[rel][2],'blob',env);require(sha(data)==digest,'Fixed producer/verifier installation differs');(installation/name).write_bytes(data)
     require(git_object(WORKSPACE,tuples['ios/tests/observe-core-notice-hosted-20261031.py'][2],'blob',env)==read(Path(__file__)),'Executed guard differs from source head')
+    for name in ['workflow-schema.mts','producer-entry.mts','verifier-entry.mts']:
+        rel='ios/tests/notice-hosted-20261031/'+name
+        require(git_object(WORKSPACE,tuples[rel][2],'blob',env)==read(TS_HELPERS/name),'Executed TS helper differs from source head')
     freeze={'actual_notice_commit':revision,'actual_root_tree':root_tree,'full_tree_tuple_count':len(tuples),'required_blob_paths':sorted(required)};closure=validate_partial_git(revision,freeze)
     bare_audit=git_audit(store,env,True,selection);corpus_inventory=ordinary_copy(WORKSPACE/'ios/AILibrary/Content',ROOT/'prepared/Content')
     save(ROOT/'source-freeze-receipt.json',{'source_head':revision,'root_tree':root_tree,'all_tuples':tuples,'partial_git':freeze,'closure':closure,'origin':'reviewed CI source head, not normal-main/signature provenance'})
@@ -877,10 +869,15 @@ def prepare():
     save(ROOT/'git-execution-audit.json',{'source_checkout':source_audit,'owned_store':bare_audit,'version':version,'exec_path':str(exec_path),'backend':str(backend),'child_env':env,'selection':selection,'trust_premise':GIT_TRUST,'no_outer_GIT_overrides_assumed':True,'backend_scope':'exec-path location and matching --version are observed; not a syscall/exec trace'})
     (ROOT/'run').mkdir(mode=0o700)
     argv=['--run','--repo',str(store),'--revision',revision,'--corpus',str(ROOT/'prepared/Content'),'--output',str(ROOT/'run/observation'),'--swiftc',SWIFTC,'--sdk',str(sdk),'--target',target,'--swift-version','5']
-    producer="import {main,installProcessCleanup} from './installation/core-performance-runner.mjs';\nconst remove=installProcessCleanup();try{await main("+json.dumps(argv)+");}finally{remove();}\n"
-    verifier="import {main} from './installation/verify-core-performance-notice-20261031.mjs';\nawait main("+json.dumps(['--observation',str(ROOT/'run/observation'),'--corpus',str(ROOT/'prepared/Content'),'--revision',revision])+");\n"
-    (ROOT/'producer-entry.mjs').write_text(producer);(ROOT/'verifier-entry.mjs').write_text(verifier)
-    files={str(f):fingerprint(f)for f in required_tools+[Path(__file__),Path(fixture_receipt['input_files']['fixture']['path']),FIXTURE_ROOT/'receipt.json',FIXTURE_ROOT/'intent.json',*[FIXTURE_ROOT/row['file'] for row in fixture_receipt['raw_files']],FIXTURE_ROOT/'workflow-schema.mjs',ROOT/'producer-entry.mjs',ROOT/'verifier-entry.mjs']+[installation/n for n in INSTALLATION]}
+    verifier_argv=['--observation',str(ROOT/'run/observation'),'--corpus',str(ROOT/'prepared/Content'),'--revision',revision]
+    entry_inputs=[]
+    for stage,arguments in [('producer',argv),('verifier',verifier_argv)]:
+        name=stage+'-entry.mts';rel='ios/tests/notice-hosted-20261031/'+name;data=read(TS_HELPERS/name)
+        require(git_object(WORKSPACE,tuples[rel][2],'blob',env)==data,'Executed TS helper differs from source head')
+        (ROOT/name).write_bytes(data);(ROOT/(stage+'-entry.mjs')).write_text("import './"+name+"';\n")
+        save(ROOT/(stage+'-argv.json'),arguments)
+        entry_inputs += [TS_HELPERS/name,ROOT/name,ROOT/(stage+'-entry.mjs'),ROOT/(stage+'-argv.json')]
+    files={str(f):fingerprint(f)for f in required_tools+[Path(__file__),Path(fixture_receipt['input_files']['fixture']['path']),FIXTURE_ROOT/'receipt.json',FIXTURE_ROOT/'intent.json',*[FIXTURE_ROOT/row['file'] for row in fixture_receipt['raw_files']],TS_HELPERS/'workflow-schema.mts',FIXTURE_ROOT/'workflow-schema.mjs',FIXTURE_ROOT/'workflow-schema.mts']+entry_inputs+[installation/n for n in INSTALLATION]}
     controls=['source-freeze-receipt.json','corpus-inventory.json','git-execution-audit.json','fixture-gate-receipt.json'];control_hashes={n:sha(read(ROOT/n,16*1024*1024))for n in controls}
     inputs={'files':list(files.values()),'aliases':aliases,'prepared_inventory':private_inventory(ROOT/'prepared')};save(ROOT/'immutable-inputs.json',inputs)
     spec={'source_head':revision,'limits':LIMITS,'node':str(NODE),'toolchain':{'swiftc':SWIFTC,'sdk':str(sdk),'target':target,'swift_version':'5'},'control_hashes':control_hashes,'immutable_inputs_sha256':sha(read(ROOT/'immutable-inputs.json',16*1024*1024)),'measurement_admission':'Source/guard review and this workflow must be separately adopted; generated pins are consistency, not authentication'}

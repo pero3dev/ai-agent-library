@@ -16,13 +16,21 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/ios-performance.yml'
+      - '.github/scripts/ios-performance/**/*.mts'
       - 'ios/AILibraryUITests/PublishedPerformanceUITests.swift'
       - 'ios/tests/export-performance.mjs'
+      - 'ios/tests/export-performance.mts'
+      - 'tests/unit/ios-performance-export.test.mjs'
+      - 'tests/unit/ios-performance-export.test.mts'
   pull_request:
     paths:
       - '.github/workflows/ios-performance.yml'
+      - '.github/scripts/ios-performance/**/*.mts'
       - 'ios/AILibraryUITests/PublishedPerformanceUITests.swift'
       - 'ios/tests/export-performance.mjs'
+      - 'ios/tests/export-performance.mts'
+      - 'tests/unit/ios-performance-export.test.mjs'
+      - 'tests/unit/ios-performance-export.test.mts'
 
 permissions:
   contents: read
@@ -101,7 +109,7 @@ jobs:
             "$scenario" "$method" "$artifact" >> "$GITHUB_ENV"
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: 22
+          node-version: 22.22.2
           cache: npm
           cache-dependency-path: |
             package-lock.json
@@ -139,25 +147,7 @@ jobs:
       - name: Count tracked published source articles independently
         run: |
           set -euo pipefail
-          expected_articles="$(node --input-type=module <<'NODE'
-          import { execFileSync } from 'node:child_process';
-          import { readFileSync, writeFileSync } from 'node:fs';
-          import { load, JSON_SCHEMA } from 'js-yaml';
-          const files = execFileSync('git', ['ls-files', '-z', 'docs'], { encoding: 'utf8' })
-            .split('\0').filter(file => /^docs\/\d{2}-[a-z0-9-]+\/[a-z0-9-]+\.md$/.test(file));
-          const articles = files.filter(file => {
-            const match = /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/.exec(readFileSync(file, 'utf8'));
-            if (!match) throw new Error('Missing source front matter: ' + file);
-            const fields = load(match[1], { schema: JSON_SCHEMA });
-            if (!fields || !['published', 'draft'].includes(fields.status)) throw new Error('Invalid source status: ' + file);
-            return fields.status === 'published';
-          }).sort();
-          if (articles.length < 4 || articles.length > 2000) throw new Error('Invalid full published article count');
-          writeFileSync('.local/ios-performance/evidence/published-sources.json',
-            JSON.stringify({ articles: articles.length, source_paths: articles }, null, 2) + '\n');
-          console.log(articles.length);
-          NODE
-          )"
+          expected_articles="$(node .github/scripts/ios-performance/count-published.mts)"
           [[ "$expected_articles" =~ ^[1-9][0-9]*$ ]]
           printf 'PUBLISHED_ARTICLE_COUNT=%s\n' "$expected_articles" >> "$GITHUB_ENV"
       - name: Generate and audit the standard published and fixture packages
@@ -197,47 +187,7 @@ jobs:
           cmp ios/AILibrary/TestContent/manifest.json "$debug_app/TestContent/manifest.json"
           bash ios/tests/check-package.sh "$debug_app/TestContent" 4 \
             2>&1 | tee .local/ios-performance/evidence/debug-fixture-package.json
-          node --input-type=module <<'NODE'
-          import { createHash } from 'node:crypto';
-          import { execFileSync } from 'node:child_process';
-          import { readFileSync, writeFileSync } from 'node:fs';
-          import { performanceScenario, bindLongScrollInput } from './ios/tests/export-performance.mjs';
-          const selected = performanceScenario(process.env.PERFORMANCE_SCENARIO);
-          if (selected.method !== process.env.PERFORMANCE_TEST_METHOD) throw new Error('Selected scenario and test method differ');
-          const read = (binary, args) => execFileSync(binary, args, { encoding: 'utf8' }).trim();
-          const expected = Number(process.env.PUBLISHED_ARTICLE_COUNT);
-          const app = '.local/ios-performance/DebugDerivedData/Build/Products/Debug-iphonesimulator/AILibrary.app';
-          const packageAudit = JSON.parse(readFileSync('.local/ios-performance/evidence/debug-app-package.json', 'utf8'));
-          if (!Number.isInteger(expected) || expected < 4 || packageAudit.status !== 'passed' || packageAudit.articles !== expected) {
-            throw new Error('The actual Debug package must match the independently counted full source set');
-          }
-          const context = {
-            source_head: read('git', ['rev-parse', 'HEAD']),
-            source_tree: read('git', ['rev-parse', 'HEAD^{tree}']),
-            configuration: 'Debug', expected_articles: expected, actual_app_package: packageAudit,
-            app_version: read('/usr/bin/plutil', ['-extract', 'CFBundleShortVersionString', 'raw', '-o', '-', app + '/Info.plist']),
-            app_build: read('/usr/bin/plutil', ['-extract', 'CFBundleVersion', 'raw', '-o', '-', app + '/Info.plist']),
-            Xcode: read('xcodebuild', ['-version']),
-            host_architecture: read('uname', ['-m']),
-            host_model: read('/usr/sbin/sysctl', ['-n', 'hw.model']),
-            host_memory_bytes: read('/usr/sbin/sysctl', ['-n', 'hw.memsize']),
-            locale: 'ja_JP', text_size: 'fresh Simulator default, not overridden',
-            appearance: 'fresh Simulator default, not overridden',
-            scenario: selected.name, test_method: selected.method, search_witness: selected.search_witness ?? null,
-            declared_recorded_iterations: 3,
-            discarded_warmup_invocations: 1,
-            test_source_sha256: createHash('sha256').update(readFileSync('ios/AILibraryUITests/PublishedPerformanceUITests.swift')).digest('hex'),
-            limits: 'The package audit warmed file caches before launches. No disk-cold, first-install, Release, physical-device or product-target claim.'
-          };
-          if (selected.name === 'long-article-bounded-scroll') {
-            context.scroll_witness = selected.scroll_witness;
-            context.scroll_input_binding = bindLongScrollInput(
-              readFileSync(selected.scroll_witness.source_path),
-              readFileSync(app + '/Content/manifest.json'),
-              readFileSync(app + '/Content/' + selected.scroll_witness.document_path), packageAudit);
-          }
-          writeFileSync('.local/ios-performance/evidence/context.json', JSON.stringify(context, null, 2) + '\n');
-          NODE
+          node .github/scripts/ios-performance/bind-context.mts
       - name: Measure only the selected dedicated UI case
         env:
           TEST_RUNNER_AILIBRARY_EXPECTED_PUBLISHED_COUNT: ${{ env.PUBLISHED_ARTICLE_COUNT }}

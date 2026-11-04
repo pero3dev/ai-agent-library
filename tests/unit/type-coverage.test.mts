@@ -18,7 +18,7 @@ function fixture(t: TestContext) {
   const configure = (overrides: Record<string,unknown> = {}) => write('tsconfig.json',JSON.stringify({compilerOptions:{...compilerOptions,...overrides},include:['checked/**/*']}))
   configure()
   write('checked/entry.mts','export const value: number = 1\n')
-  const contract: Contract = {schema_version:1,typescript:ts.version,projects:[{id:'fixture',cwd:'.',config:'tsconfig.json'}],exceptions:[],wrappers:[]}
+  const contract: Contract = {schema_version:1,typescript:ts.version,implementation_language:'typescript',projects:[{id:'fixture',cwd:'.',config:'tsconfig.json'}],exceptions:[],wrappers:[]}
   return {root,write,configure,contract,check:()=>checkTypeCoverage(root,{contract,compilerForProject:()=>ts})}
 }
 
@@ -53,4 +53,38 @@ test('JavaScript with checkJs disabled and relaxed strict options cannot claim c
   const f=fixture(t);f.write('checked/javascript.mjs','export const value = 1\n');f.configure({checkJs:false});assert(f.check().problems.includes('Unclassified source: checked/javascript.mjs'))
   f.configure({strictNullChecks:false});assert(f.check().problems.some(value=>value.includes('strict/noEmit')))
   f.configure({noCheck:true});assert(f.check().problems.some(value=>value.includes('without noCheck')))
+})
+
+test('strict checkJs cannot stand in for a TypeScript implementation',t=>{
+  const f=fixture(t);f.write('checked/still-javascript.mjs','/** @type {number} */\nexport const value = 1\n')
+  const result=f.check();assert.equal(result.verified,false);assert.equal(result.implementation_languages.javascript,1)
+  assert(result.problems.includes('JavaScript implementation must be migrated to TypeScript: checked/still-javascript.mjs'))
+})
+
+test('default ESM and CommonJS adapters only delegate to the checked TypeScript body',t=>{
+  const f=fixture(t)
+  f.write('checked/config.mts','export default { enabled: true }\n')
+  f.write('checked/config.mjs',"export { default } from './config.mts'\n")
+  f.contract.wrappers.push({path:'checked/config.mjs',target:'checked/config.mts',kind:'default-reexport'})
+  f.write('checked/loader.cts','module.exports = (value: string) => value\n')
+  f.write('checked/loader.cjs',"module.exports = require('./loader.cts')\n")
+  f.contract.wrappers.push({path:'checked/loader.cjs',target:'checked/loader.cts',kind:'commonjs'})
+  const result=f.check();assert.equal(result.verified,true);assert.equal(result.implementation_languages.javascript,0);assert.equal(result.counts.wrappers,2)
+  f.write('checked/loader.cjs',"module.exports = require('./loader.cts')\nprocess.exit(1)\n")
+  assert(f.check().problems.some(value=>value.includes('fixed AST')))
+})
+
+test('workflow heredoc and generated Node drivers cannot escape the TypeScript inventory',t=>{
+  const f=fixture(t)
+  const workflow=(command: string)=>'jobs:\n  sample:\n    steps:\n      - run: |\n'+command.split('\n').map(line=>'          '+line).join('\n')+'\n'
+  f.write('.github/workflows/probe.yml',workflow("node --input-type=module <<'NODE'\nconsole.log(1)\nNODE"))
+  assert.equal(f.check().workflow_scripts.inline_node_implementations,1)
+  f.write('.github/workflows/probe.yml',workflow("cat > \"$DRIVER_PATH\" <<'DRIVER'\nconsole.log(1)\nDRIVER"))
+  assert(f.check().problems.some(value=>value.includes('Inline Node implementation')))
+  for(const command of ["node -e'console.log(1)'", "node -p '1+1'", "node --print='1+1'", "node --input-type=module "+String.fromCharCode(92,10)+" <<'NODE'\nconsole.log(1)\nNODE"]){
+    f.write('.github/workflows/probe.yml',workflow(command))
+    assert.equal(f.check().workflow_scripts.inline_node_implementations,1,command)
+  }
+  f.write('.github/workflows/probe.yml',workflow('node checked/entry.mts'))
+  assert.equal(f.check().verified,true)
 })

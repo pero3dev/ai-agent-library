@@ -603,10 +603,14 @@ test('bounded healthy fake child closes successfully and live export monitor sto
 test('workflow places cached PNG diagnostics after primary results without gating on Passed audit success', () => {
   const text = readFileSync(new URL('../../.github/workflows/ios-sdk27-compatibility.yml', import.meta.url), 'utf8');
   const runtime = text.slice(text.indexOf('  ios-runtime27-smoke:'));
+  const drivers = [...runtime.matchAll(/node (\.github\/scripts\/ios-sdk27-compatibility\/[\w-]+\.mts)/g)].map(match => match[1]);
+  assert.equal(drivers.length, 7);
+  assert.deepEqual(drivers.map(file => file.split('/').at(-1)?.slice(0, 2)), ['06', '07', '08', '09', '10', '11', '12']);
+  const implementation = drivers.map(file => readFileSync(new URL('../../' + file, import.meta.url), 'utf8')).join('\n');
   assert.match(runtime, /timeout-minutes: 40/);
   assert.match(runtime, /name: Run exactly the three native UI smoke cases\n        timeout-minutes: 12/);
   assert.match(runtime, /name: Create and boot this job's dedicated Simulator\n        timeout-minutes: 6/);
-  assert.match(runtime, /\['bootstatus', uuid, '-b'\], 240000/);
+  assert.match(implementation, /\['bootstatus', uuid, '-b'\], 240000/);
   assert.ok(runtime.indexOf('id: ui') < runtime.indexOf('id: cleanup'));
   assert.ok(runtime.indexOf('id: cleanup') < runtime.indexOf('id: app'));
   assert.ok(runtime.indexOf('id: app') < runtime.indexOf('id: results'));
@@ -616,10 +620,10 @@ test('workflow places cached PNG diagnostics after primary results without gatin
   assert.match(diagnostic, /id: reader_diagnostics\n        timeout-minutes: 2\n        continue-on-error: true/);
   assert.match(diagnostic, /if: always\(\) && !cancelled\(\) && steps\.ui\.outcome != 'skipped' && steps\.evidence\.outcome == 'success'/);
   assert.ok(!diagnostic.includes('steps.results.outcome'));
-  assert.match(runtime, /Failed or skipped parents are not acceptance/);
-  assert.match(runtime, /assert\.equal\(tests\.length, 3,/);
-  assert.match(runtime, /const budget = 16 \* 1024 \* 1024, reserved = 128 \* 1024, rawCap = 256 \* 1024, metadataCap = 1024 \* 1024/);
-  assert.match(runtime, /const diagnosticCap = 4 \* 1024 \* 1024/);
-  assert.match(runtime, /omitted-binary-result-directory/);
-  assert.match(runtime, /assert\.deepEqual\(rejected, \[\]/);
+  assert.match(implementation, /Failed or skipped parents are not acceptance/);
+  assert.match(implementation, /assert\.equal\(tests\.length, 3,/);
+  assert.match(implementation, /const budget = 16 \* 1024 \* 1024, reserved = 128 \* 1024, rawCap = 256 \* 1024, metadataCap = 1024 \* 1024/);
+  assert.match(implementation, /const diagnosticCap = 4 \* 1024 \* 1024/);
+  assert.match(implementation, /omitted-binary-result-directory/);
+  assert.match(implementation, /assert\.deepEqual\(rejected, \[\]/);
 });

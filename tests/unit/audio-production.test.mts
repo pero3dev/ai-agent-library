@@ -1,5 +1,6 @@
 import test, { type TestContext } from 'node:test'
 import { readReadyFixture, readQueueFixture, readSupplementalFixture } from '../helpers/audio-fixtures.mts'
+import { audioLockChildSource, utf8ChunkChildSource } from '../helpers/audio-fixture-children.mts'
 import { requiredFixture, objectFixture } from '../helpers/json-fixtures.mjs'
 import type { AudioScript, AudioEngine, Generate, Execute, ExecuteOptions, ProducedPart } from '../../scripts/audio/contracts.ts'
 import assert from 'node:assert/strict'
@@ -64,7 +65,7 @@ test('script validation rejects missing source sections, wrong roles and repeate
   assert.match(issues, /未対応/); assert.match(issues, /話者/); assert.match(issues, /同一発話/)
 })
 test('process output preserves UTF-8 characters split across stdout and stderr pipe chunks', async () => {
-  const childCode = "const bytes = Buffer.from('日本語'); process.stdout.write(bytes.subarray(0, 1)); process.stderr.write(bytes.subarray(0, 2)); setTimeout(() => { process.stdout.write(bytes.subarray(1)); process.stderr.write(bytes.subarray(2)); }, 40)"
+  const childCode = utf8ChunkChildSource()
   const result = await execute(process.execPath, ['-e', childCode], { timeout: 5000 })
   assert.equal(result.code, 0); assert.equal(result.stdout, '日本語'); assert.equal(result.stderr, '日本語')
 })
@@ -481,30 +482,7 @@ test('parallel same-process stale recovery never runs more than one producer', a
 test('two independent child processes contend on each audio namespace without overlap', { timeout: 30000 }, async t => {
   const paths = await fixture(t)
   const moduleUrl = new URL('../../scripts/audio/lock.mjs', import.meta.url).href
-  const code = `
-    import { openSync, closeSync, unlinkSync } from 'node:fs';
-    import { createInterface } from 'node:readline';
-    import path from 'node:path';
-    const { acquireAudioLock } = await import(${JSON.stringify(moduleUrl)});
-    const reader = createInterface({ input: process.stdin }), commands = [];
-    let waiting, inputClosed = false;
-    reader.on('line', command => { if (waiting) { const next = waiting; waiting = null; next.resolve(command); } else commands.push(command); });
-    reader.on('close', () => { inputClosed = true; if (waiting) waiting.reject(Error('Command input closed')); });
-    const nextCommand = () => commands.length ? Promise.resolve(commands.shift()) : inputClosed ? Promise.reject(Error('Command input closed')) : new Promise((resolve, reject) => { waiting = { resolve, reject }; });
-    process.stdout.write('READY\\n');
-    if (await nextCommand() !== 'GO') throw Error('Expected GO');
-    let lock;
-    try { lock = acquireAudioLock(process.argv[1], process.argv[2]); }
-    catch (error) { if (!/already running|Lock recovery/.test(error.message)) throw error; process.stdout.write('BLOCKED\\n'); reader.close(); process.exit(0); }
-    const active = path.join(process.argv[1], 'active');
-    const handle = openSync(active, 'wx'); closeSync(handle);
-    const release = nextCommand();
-    process.stdout.write('OWNER\\n');
-    if (await release !== 'RELEASE') throw Error('Expected RELEASE');
-    unlinkSync(active);
-    if (!lock.release()) throw Error('Lost ownership');
-    process.stdout.write('RELEASED\\n'); reader.close(); process.exit(0);
-  `
+  const code = audioLockChildSource(moduleUrl)
   for (const namespace of ['run', 'publication']) for (let round = 0; round < 5; round++) {
     await writeJson(path.join(paths.stateDir, `${namespace}.lock`), { pid: 2147483647, started_at: '2026-09-13T00:00:00Z' })
     const contenders = [0, 1].map(() => {

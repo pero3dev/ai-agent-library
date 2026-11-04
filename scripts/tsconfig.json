@@ -14,6 +14,6 @@
     "erasableSyntaxOnly": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["**/*.mjs", "**/*.mts", "**/*.ts", "../.codex/hooks/*.mjs", "../.claude/hooks/*.mjs"],
-  "exclude": ["../node_modules", "../.local", "lib/ios-*.mjs", "build-ios-*.mjs"]
+  "include": ["**/*.mjs", "**/*.mts", "**/*.ts", "../.codex/hooks/*.mjs", "../.codex/hooks/*.mts", "../.claude/hooks/*.mjs", "../.claude/hooks/*.mts"],
+  "exclude": ["../node_modules", "../.local", "lib/ios-*.mjs", "lib/ios-*.mts", "build-ios-*.mjs", "build-ios-*.mts"]
 }

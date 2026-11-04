@@ -1,0 +1,154 @@
+{
+  "schema_version": 1,
+  "task": "typescript-source-migration",
+  "started_on": "2026-11-04",
+  "base_sha": "518f30523c66a18c8a8ecc60fc6e498b56909109",
+  "state": "implementation-and-local-verification-complete",
+  "coverage": {
+    "schema_version": 1,
+    "verified": true,
+    "evidence": "strict-program-source-coverage",
+    "semantic_diagnostics": "separate-typecheck-commands",
+    "wrapper_verification": "fixed-ast-and-cli-hash",
+    "inventory": 529,
+    "counts": {
+      "implementations": 307,
+      "declarations": 18,
+      "wrappers": 193,
+      "historical": 6,
+      "vendor": 1,
+      "frozen": 4,
+      "unclassified": 0
+    },
+    "implementation_languages": {
+      "typescript": 307,
+      "javascript": 0
+    },
+    "workflow_scripts": {
+      "files": 17,
+      "inline_node_implementations": 0
+    },
+    "programs": [
+      {
+        "id": "node",
+        "compiler": "6.0.3",
+        "implementations": 66,
+        "declarations": 6
+      },
+      {
+        "id": "node-browser",
+        "compiler": "6.0.3",
+        "implementations": 10,
+        "declarations": 2
+      },
+      {
+        "id": "unit-tests",
+        "compiler": "6.0.3",
+        "implementations": 155,
+        "declarations": 13
+      },
+      {
+        "id": "ios-node",
+        "compiler": "6.0.3",
+        "implementations": 30,
+        "declarations": 10
+      },
+      {
+        "id": "ios-reader",
+        "compiler": "6.0.3",
+        "implementations": 1,
+        "declarations": 1
+      },
+      {
+        "id": "ci-node",
+        "compiler": "6.0.3",
+        "implementations": 51,
+        "declarations": 2
+      },
+      {
+        "id": "website-ui",
+        "compiler": "6.0.3",
+        "implementations": 60,
+        "declarations": 0
+      },
+      {
+        "id": "website-node",
+        "compiler": "6.0.3",
+        "implementations": 36,
+        "declarations": 0
+      },
+      {
+        "id": "website-browser-tests",
+        "compiler": "6.0.3",
+        "implementations": 16,
+        "declarations": 0
+      },
+      {
+        "id": "website-unit-tests",
+        "compiler": "6.0.3",
+        "implementations": 43,
+        "declarations": 0
+      },
+      {
+        "id": "website-contracts",
+        "compiler": "6.0.3",
+        "implementations": 0,
+        "declarations": 1
+      }
+    ],
+    "problems": []
+  },
+  "verification": {
+    "dependencies": "Three npm ci --ignore-scripts installations succeeded; lockfiles unchanged.",
+    "root_check": "exit 0 after native-path fix and main-758 integration; six strict programs; 1579 tests: 1475 passed, 0 failed, 104 skipped including four upstream POSIX-only selection cases; one immutable POSIX-only test file separately not-run on Windows",
+    "website_unit": "110 passed; 0 failed; 0 skipped after main integration",
+    "website_build": "230/230 routes and 219 AI reference outputs; 12 initial scripts; 962476 raw bytes; 307969 gzip bytes",
+    "website_typecheck": "All five strict/noEmit programs passed",
+    "independent_review": "All component, embedded-source and integration reviews approved; unresolved findings 0",
+    "github": "Exact-head CI, merge, main CI and Pages/HTTP proof are recorded in the corresponding pull request final evidence comment after this record is committed."
+  },
+  "limitations": [
+    "Windows does not prove macOS/Xcode/Simulator or physical-device execution.",
+    "One immutable POSIX-only test file is separately not-run by the Windows collector; Linux/macOS run the original source.",
+    "Notice pure fixtures pass 26/26 for old and new sources in an isolated SIGKILL=9 POSIX model; native Windows lacks SIGKILL and both fail identically.",
+    "The baseline PR 329 publication probe verifies the HTTP child only; final task publication is bound to the corresponding PR final evidence.",
+    "Browser smoke: 34/35 passed initially; the same performance threshold passed on isolated recheck."
+  ],
+  "immutable_policy": "Four SHA-fixed files, six historical evidence files, and one vendor file are retained.",
+  "integrated_main": "758ef6aac4acc3aabd895a2e1b2f84a6298c32d5",
+  "hosted_windows_regression": {
+    "initial_head": "55c5c9a4f34edd806ee5ef46f41fc64e1142a9b7",
+    "initial_windows": "271 tests: 263 passed, 7 failed, 1 skipped; all failures from module path binding",
+    "initial_linux": "1582 tests: 1563 passed, 0 failed, 19 skipped",
+    "cause": "8.3 import.meta.url and native canonical expected location differed lexically",
+    "fix": "Canonicalize actual module URL with native realpath while preserving expected path, marker, symlink and foreign-implementation refusals",
+    "reproduction": "Both clients on Node22.22.2 and24.22.1: actual short alias old exit2, new exit0",
+    "hooks": "Node22 and24: 25/25 passed each, 0 skipped",
+    "independent_review": "approved; unresolved0",
+    "new_head_ci": "See corresponding PR final evidence comment"
+  },
+  "main_integration": {
+    "previous_head": "d568fa9166ffb0c46ac21af9f516a546eacbb7f1",
+    "main": "a5f99d8086de4c653ee2bcab5df32c3c2a7801d8",
+    "scope": "16 upstream files: website AI reference output feature, typecheck wrappers and records",
+    "added_typescript": 5,
+    "added_wrappers": 3,
+    "contract_merge": "Preserve all current non-wrapper fields and 190 entries; add the three upstream entries",
+    "website_browser": "7 new-output cases and 2 CSP/JavaScript-disabled safety cases passed",
+    "ios_input_equivalence": "735 files / about 8.18MB: git blob and mode unchanged, no runtime raw-byte differences; provenance head/tree values differ",
+    "evidence_rule": "Existing Mac receipts remain bound to d568 and are cited as identical runtime source evidence, never relabeled as final-head executions",
+    "independent_review": "Platform and type-contract merge approved; unresolved0"
+  },
+  "second_main_integration": {
+    "previous_head": "d709cc34a7a484fc7a4e2dac565352ee88f0634f",
+    "main": "758ef6aac4acc3aabd895a2e1b2f84a6298c32d5",
+    "scope": "Six upstream files: own-PR performance scenario selection, four selection tests, and records",
+    "conflict_resolution": "Keep the exact MJS wrapper; migrate the upstream 99-line test addition into the existing strict MTS body",
+    "workflow": "Preserve upstream shell/concurrency and existing typed drivers; no new files or classification changes",
+    "evidence_rule": "The performance scenario now changes to long article bounded scroll for own PRs. Old launch receipts cannot prove the new scenario. Other same-input receipts retain their original head/tree.",
+    "website_source": "No website, dependency, Swift or PBX changes from the previous integrated main",
+    "minimum_node": "22.22.2: related 62 tests, 39 passed, 0 failed, 23 POSIX-only skips; both entry syntax checks passed",
+    "independent_review": "Runtime AST equal; prior MTS body and MJS wrapper bytes preserved; workflow upstream patch exact; approved with unresolved0",
+    "new_head_ci": "See corresponding PR final evidence comment"
+  }
+}

@@ -14,6 +14,18 @@ import { FAILURE_INVENTORY, shouldCaptureUnitFailure, createInventoryDirectory, 
 const sha = (bytes: import('node:crypto').BinaryLike) => createHash('sha256').update(bytes).digest('hex')
 function started(value: ProbeReceipt): StartedProbeReceipt { assert.equal(value.spawn_attempted,true); assert(value.spawn_attempted); return value; }
 const fixtureLimits = { ...FAILURE_INVENTORY, commandMs: 2000, sharedMs: 10000 }
+function childScript<Args extends unknown[]>(implementation: (...args: Args) => unknown, ...args: Args): string {
+  return `(${implementation.toString()})(${args.map(value => JSON.stringify(value)).join(',')})`
+}
+function stdoutChild(value: string): void { process.stdout.write(value) }
+function failedChild(): void { process.stdout.write('partial evidence'); process.stderr.write('fixture warning'); process.exitCode = 23 }
+function binaryChild(payload: string): void { process.stdout.write(Buffer.from(payload, 'base64')) }
+function stderrChild(payload: string): void { process.stdout.write('{"runtimes":[]}'); process.stderr.write(Buffer.from(payload, 'base64')) }
+function cappedChild(): void { process.stdout.write(Buffer.alloc(100, 65)); process.stderr.write(Buffer.alloc(1048576, 66)); setInterval(() => {}, 1000) }
+function idleChild(): void { setInterval(() => {}, 1000) }
+function devicesChild(): void { process.stdout.write(JSON.stringify({ devices: {} })) }
+function partialChild(): void { process.stdout.write('partial'); setInterval(() => {}, 1000) }
+function unitChild(code: number): void { process.stdout.write('fixture\n'); process.exit(code) }
 function fixture(t: TestContext, scripts: Array<string | ((options:SpawnOptions,index:number)=>ReturnType<SpawnProbe>)> = []) {
   const workspace = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'full-unit-inventory-')))
   t.after(() => fs.rmSync(workspace, { recursive: true, force: true }))
@@ -24,7 +36,7 @@ function fixture(t: TestContext, scripts: Array<string | ((options:SpawnOptions,
     assert.equal(binary, 'xcrun')
     assert.deepEqual(args, calls.length === 0 ? ['simctl', 'list', 'runtimes', '--json'] : ['simctl', 'list', 'devices', '--json'])
     const index = calls.length; calls.push({ binary, args, options })
-    const code = scripts[index] ?? `process.stdout.write(${JSON.stringify(index === 0 ? '{"runtimes":[]}' : '{"devices":{} }')})`
+    const code = scripts[index] ?? childScript(stdoutChild, index === 0 ? '{"runtimes":[]}' : '{"devices":{} }')
     return typeof code === 'function' ? code(options, index) : spawn(process.execPath, ['-e', code], {...options, stdio:['ignore','pipe','pipe']})
   }
   const options = { workspace, unitOutcome: 'failure', jobStatus: 'failure', spawnProcess, limits: fixtureLimits,
@@ -66,7 +78,7 @@ test('failure captures exactly two read-only snapshots with bounded source/toolc
 })
 
 test('a nonzero diagnostic command stays distinct from valid output and does not prevent the second read', async t => {
-  const h = fixture(t, ['process.stdout.write("partial evidence"); process.stderr.write("fixture warning"); process.exitCode=23'])
+  const h = fixture(t, [childScript(failedChild)])
   const result = await collectUnitFailureInventory(h.options), first = started(result.probes[0])
   assert.equal(result.status, 'diagnostic-incomplete'); assert.equal(result.unit_outcome, 'failure'); assert.equal(h.calls.length, 2)
   assert.equal(first.code, 23); assert.equal(first.stop, null); assert.equal(first.captured_output_complete, true)
@@ -76,7 +88,7 @@ test('a nonzero diagnostic command stays distinct from valid output and does not
 
 test('invalid JSON or unknown top-level shape is retained without pretending the command itself failed', async t => {
   for (const payload of [Buffer.from('{broken'), Buffer.from('null'), Buffer.from('{"runtimes":{}}'), Buffer.from('7b2272756e74696d6573223a5b22ff225d7d', 'hex')]) {
-    const h = fixture(t, [`process.stdout.write(Buffer.from('${payload.toString('base64')}','base64'))`]), result = await collectUnitFailureInventory(h.options)
+    const h = fixture(t, [childScript(binaryChild, payload.toString('base64'))]), result = await collectUnitFailureInventory(h.options)
     assert.equal(result.status, 'diagnostic-incomplete'); assert.equal(started(result.probes[0]).code, 0)
     assert.equal(started(result.probes[0]).json.expected_top_level_shape, false); assert.deepEqual(h.bytes('runtimes.stdout.bin'), payload)
     assert.equal(h.calls.length, 2)
@@ -86,7 +98,7 @@ test('invalid JSON or unknown top-level shape is retained without pretending the
 test('unknown stderr, invalid UTF8 and unterminated binary bytes are preserved with independent hashes', async t => {
   const unknown = Buffer.from([0xff, 0xfe, 0xc3, 0x28, 0, 65, 13]), text = Buffer.from('警告: authentication required\n')
   const stderr = Buffer.concat([unknown, text])
-  const code = `process.stdout.write('{"runtimes":[]}');process.stderr.write(Buffer.from('${stderr.toString('base64')}','base64'))`
+  const code = childScript(stderrChild, stderr.toString('base64'))
   const h = fixture(t, [code]), result = await collectUnitFailureInventory(h.options), r = started(result.probes[0])
   assert.equal(result.status, 'captured'); assert.deepEqual(h.bytes('runtimes.stderr.bin'), stderr)
   assert.equal(r.raw_stderr_SHA256, sha(stderr)); assert.equal(r.captured_stderr_SHA256, sha(stderr)); assert.equal(r.raw_stderr_bytes, stderr.length)
@@ -94,7 +106,7 @@ test('unknown stderr, invalid UTF8 and unterminated binary bytes are preserved w
 })
 
 test('per-probe combined1MiB cap kills the fixture while preserving all in-budget binary stdout and stderr', async t => {
-  const h = fixture(t, ['process.stdout.write(Buffer.alloc(100,65));process.stderr.write(Buffer.alloc(1048576,66));setInterval(()=>{},1000)'])
+  const h = fixture(t, [childScript(cappedChild)])
   const result = await collectUnitFailureInventory(h.options), r = started(result.probes[0])
   assert.equal(r.stop, 'output-cap'); assert.equal(r.signal, 'SIGKILL'); assert.equal(r.captured_output_complete, false)
   assert.ok(r.observed_stream_bytes > FAILURE_INVENTORY.outputBytes)
@@ -131,10 +143,10 @@ test('command timeout is distinct from command exit and its child closes before 
     })
     return child
   }
-  const h = fixture(t, [options => start(options, 'setInterval(()=>{},1000)', 'first'), options => {
+  const h = fixture(t, [options => start(options, childScript(idleChild), 'first'), options => {
     assert.deepEqual(events, ['first-close'], 'The timed-out child must close before the second spawn')
     events.push('second-spawn')
-    return start(options, 'process.stdout.write(JSON.stringify({ devices: {} }))', 'second')
+    return start(options, childScript(devicesChild), 'second')
   }]), limits = { ...fixtureLimits, commandMs: 30 }
   // Keep the real30ms timer; fixture receipt/path I/O must not consume its injected command clock.
   const result = await collectUnitFailureInventory({ ...h.options, now: () => 0, limits }), r = started(result.probes[0])
@@ -149,7 +161,7 @@ test('command timeout is distinct from command exit and its child closes before 
 })
 
 test('shared deadline clips a probe timeout and never grants an extra full command budget', async t => {
-  const h = fixture(t, ['setInterval(()=>{},1000)', 'setInterval(()=>{},1000)'])
+  const h = fixture(t, [childScript(idleChild), childScript(idleChild)])
   const result = await collectUnitFailureInventory({ ...h.options, limits: { ...fixtureLimits, commandMs: 500, sharedMs: 25 } })
   assert.ok(result.probes.length >= 1 && result.probes.length <= 2)
   assert.equal(started(result.probes[0]).stop, 'shared-deadline'); assert.equal(started(result.probes[0]).timeout_scope, 'shared')
@@ -158,7 +170,7 @@ test('shared deadline clips a probe timeout and never grants an extra full comma
 
 test('an exhausted shared budget after the first fixture prevents the second spawn', async t => {
   let offset = 0
-  const h = fixture(t, [options => { const child = spawn(process.execPath, ['-e', 'process.stdout.write("{\\"runtimes\\":[]}")'], {...options, stdio:['ignore','pipe','pipe']})
+  const h = fixture(t, [options => { const child = spawn(process.execPath, ['-e', childScript(stdoutChild, '{"runtimes":[]}')], {...options, stdio:['ignore','pipe','pipe']})
     child.on('close', () => { offset += 20000 }); return child }])
   const result = await collectUnitFailureInventory({ ...h.options, now: () => performance.now() + offset })
   assert.equal(h.calls.length, 1); assert.equal(result.shared_deadline_reached, true); assert.deepEqual(result.not_started, ['devices'])
@@ -167,7 +179,7 @@ test('an exhausted shared budget after the first fixture prevents the second spa
 
 test('normal cancellation stops the owned fixture, retains its partial bytes and blocks another command', async t => {
   const signals = new EventEmitter(), h = fixture(t, [options => {
-    const child = spawn(process.execPath, ['-e', 'process.stdout.write("partial");setInterval(()=>{},1000)'], {...options, stdio:['ignore','pipe','pipe']})
+    const child = spawn(process.execPath, ['-e', childScript(partialChild)], {...options, stdio:['ignore','pipe','pipe']})
     child.stdout.once('data', () => signals.emit('SIGTERM')); return child }])
   const result = await collectUnitFailureInventory({ ...h.options, signals })
   assert.equal(result.status, 'cancelled'); assert.equal(result.cancelled_signal, 'SIGTERM'); assert.equal(h.calls.length, 1)
@@ -211,10 +223,10 @@ test('owned evidence filenames reject traversal and existing files remain byte-i
 })
 
 test('original pipefail unit and tee failures stay nonzero while a healthy pipeline performs no diagnostic', { skip: process.platform === 'win32' }, async t => {
-  for (const [code, teeFailure] of [[0, false], [70, false], [0, true]]) {
+  for (const [code, teeFailure] of [[0, false], [70, false], [0, true]] as const) {
     const h = fixture(t), target = path.join(h.workspace, teeFailure ? 'missing/unit.log' : 'unit.log')
     const unit = spawnSync('/bin/bash', ['-c', 'set -euo pipefail; "$UNIT_NODE" -e "$UNIT_FIXTURE" 2>&1 | tee "$TEE_TARGET"'],
-      { env: { PATH: '/usr/bin:/bin', UNIT_NODE: process.execPath, UNIT_FIXTURE: `process.stdout.write("fixture\\n");process.exit(${code})`, TEE_TARGET: target } })
+      { env: { PATH: '/usr/bin:/bin', UNIT_NODE: process.execPath, UNIT_FIXTURE: childScript(unitChild, code), TEE_TARGET: target } })
     const original = unit.status, failed = code !== 0 || teeFailure
     assert.equal(original === 0, !failed); if (code === 70) assert.equal(original, 70)
     const result = await collectUnitFailureInventory({ ...h.options, unitOutcome: failed ? 'failure' : 'success', jobStatus: failed ? 'failure' : 'success' })

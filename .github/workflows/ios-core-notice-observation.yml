@@ -7,6 +7,7 @@ on:
       - '.github/workflows/ios-core-notice-observation.yml'
       - 'ios/tests/observe-core-notice-hosted-20261031.py'
       - 'ios/tests/hosted-core-notice-pure-fixtures-20261031.py'
+      - 'ios/tests/notice-hosted-20261031/*.mts'
       - 'ios/tests/verify-core-performance-notice-20261031.mjs'
       - 'tests/unit/ios-core-performance-notice-20261031.test.mjs'
 

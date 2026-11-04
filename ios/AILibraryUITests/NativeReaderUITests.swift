@@ -381,6 +381,7 @@ class NativeReaderUITestCase: XCTestCase {
     var seedsPartialReadingRecovery: Bool { false }
     var recordsRuntime26WaitBoundaries: Bool { false }
     var recordsReadingRecoveryOpenBoundaries: Bool { false }
+    var recordsModalPresentationBoundaries: Bool { false }
 
     override func setUpWithError() throws {
         continueAfterFailure = false
@@ -389,6 +390,9 @@ class NativeReaderUITestCase: XCTestCase {
         app.launchArguments = ["-AppleLanguages", "(ja)", "-AppleLocale", "ja_JP"]
         if seedsPartialReadingRecovery {
             app.launchEnvironment["AILIBRARY_UI_TEST_READING_RECOVERY"] = "partial-v1"
+        }
+        if recordsModalPresentationBoundaries {
+            app.launchEnvironment["AILIBRARY_UI_TEST_MODAL_BOUNDARIES"] = "1"
         }
         app.launch()
     }

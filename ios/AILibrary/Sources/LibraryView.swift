@@ -44,12 +44,64 @@ struct LibraryView: View {
     @Environment(\.openURL) private var openURL
     #if DEBUG
     @State private var readerTestPresented = false
+    @State private var modalBoundaryTrace = ModalBoundaryTrace()
+
+    // Opt-in test observation only; neither the search binding nor presentation is controlled here.
+    private var recordsModalBoundaries: Bool {
+        let environment = ProcessInfo.processInfo.environment
+        let prefix = "ailibrary-uitest-"
+        guard environment["AILIBRARY_UI_TEST_MODAL_BOUNDARIES"] == "1",
+              let suite = environment["AILIBRARY_UI_TEST_SUITE"], suite.hasPrefix(prefix),
+              UUID(uuidString: String(suite.dropFirst(prefix.count))) != nil else { return false }
+        return true
+    }
+
+    private struct ModalBoundaryTrace {
+        let instance = String(UUID().uuidString.prefix(8))
+        var requests = 0, appeared = 0, disappeared = 0, dismissed = 0
+        var selections = 0, dispatches = 0, importRequests = 0, backupRequests = 0
+        var selected = "none", dispatched = "none", searchSession = "u"
+        var searchObservations = 0
+        static func next(_ count: Int) -> Int { min(count + 1, 999) }
+
+        // Fixed ASCII schema; no query, title, path, error or provider data. Worst case < 256 UTF-8 bytes.
+        func status(more: Bool, importing: Bool, backup: Bool) -> String {
+            "v=1;i=\(instance);r=\(requests);m=\(more ? 1 : 0);a=\(appeared);x=\(disappeared);o=\(dismissed);sc=\(selections);s=\(selected);dc=\(dispatches);d=\(dispatched);ir=\(importRequests);ip=\(importing ? 1 : 0);br=\(backupRequests);bp=\(backup ? 1 : 0);ss=\(searchSession);so=\(searchObservations)"
+        }
+    }
+
+    private var modalBoundaryStatus: String? {
+        recordsModalBoundaries ? modalBoundaryTrace.status(more: moreActionsPresented,
+            importing: importPresented, backup: readingBackupPresented) : nil
+    }
+
+    private func observeSearchSession(_ active: Bool) {
+        guard recordsModalBoundaries else { return }
+        let value = active ? "1" : "0"
+        guard modalBoundaryTrace.searchSession != value else { return }
+        modalBoundaryTrace.searchSession = value
+        modalBoundaryTrace.searchObservations = ModalBoundaryTrace.next(modalBoundaryTrace.searchObservations)
+    }
     #endif
 
     private enum MoreAction {
         case importContent, bundledContent, exportReadingBackup, restoreReadingBackup, about, storageUsage
         #if DEBUG
         case readerTest
+        #endif
+
+        #if DEBUG
+        var modalBoundaryCode: String {
+            switch self {
+            case .importContent: "import"
+            case .bundledContent: "bundle"
+            case .exportReadingBackup: "export"
+            case .restoreReadingBackup: "restore"
+            case .about: "about"
+            case .storageUsage: "storage"
+            case .readerTest: "test"
+            }
+        }
         #endif
     }
 
@@ -172,9 +224,27 @@ struct LibraryView: View {
                     }
                 }
         }
+        #if DEBUG
+        .onAppear {
+            if recordsModalBoundaries {
+                modalBoundaryTrace.appeared = ModalBoundaryTrace.next(modalBoundaryTrace.appeared)
+            }
+        }
+        .onDisappear {
+            if recordsModalBoundaries {
+                modalBoundaryTrace.disappeared = ModalBoundaryTrace.next(modalBoundaryTrace.disappeared)
+            }
+        }
+        #endif
     }
 
     private func selectMoreAction(_ action: MoreAction, inSheet: Bool) {
+        #if DEBUG
+        if recordsModalBoundaries {
+            modalBoundaryTrace.selections = ModalBoundaryTrace.next(modalBoundaryTrace.selections)
+            modalBoundaryTrace.selected = action.modalBoundaryCode
+        }
+        #endif
         if inSheet {
             pendingMoreAction = action
             moreActionsPresented = false
@@ -184,20 +254,42 @@ struct LibraryView: View {
     }
 
     private func dispatchMoreAction() {
+        #if DEBUG
+        if recordsModalBoundaries {
+            modalBoundaryTrace.dismissed = ModalBoundaryTrace.next(modalBoundaryTrace.dismissed)
+        }
+        #endif
         guard let action = pendingMoreAction else { return }
         pendingMoreAction = nil
         performMoreAction(action)
     }
 
     private func performMoreAction(_ action: MoreAction) {
+        #if DEBUG
+        if recordsModalBoundaries {
+            modalBoundaryTrace.dispatches = ModalBoundaryTrace.next(modalBoundaryTrace.dispatches)
+            modalBoundaryTrace.dispatched = action.modalBoundaryCode
+        }
+        #endif
         switch action {
-        case .importContent: importPresented = true
+        case .importContent:
+            #if DEBUG
+            if recordsModalBoundaries {
+                modalBoundaryTrace.importRequests = ModalBoundaryTrace.next(modalBoundaryTrace.importRequests)
+            }
+            #endif
+            importPresented = true
         case .bundledContent: previewBundledContent()
         case .exportReadingBackup:
             do {
                 let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "unknown"
                 readingBackupFile = ReadingBackupFile(data: try store.exportReadingBackup(createdAt: Date(), appVersion: version))
                 readingBackupPresented = true
+                #if DEBUG
+                if recordsModalBoundaries {
+                    modalBoundaryTrace.backupRequests = ModalBoundaryTrace.next(modalBoundaryTrace.backupRequests)
+                }
+                #endif
             } catch { readingBackupMessage = error.localizedDescription }
         case .restoreReadingBackup:
             guard path.isEmpty, store.allowsReadingRestore else { return }
@@ -270,6 +362,11 @@ struct LibraryView: View {
                         Button("絞り込みをすべて解除") { clearFilters() }
                             .accessibilityIdentifier("library-clear-filters")
                         Button {
+                            #if DEBUG
+                            if recordsModalBoundaries {
+                                modalBoundaryTrace.requests = ModalBoundaryTrace.next(modalBoundaryTrace.requests)
+                            }
+                            #endif
                             pendingMoreAction = nil
                             moreActionsPresented = true
                         } label: {
@@ -278,6 +375,9 @@ struct LibraryView: View {
                                 .contentShape(Rectangle())
                         }
                             .accessibilityLabel("その他の操作")
+                            #if DEBUG
+                            .modifier(ModalBoundaryAccessibilityValue(value: modalBoundaryStatus))
+                            #endif
                             .disabled(isBusy)
                     }
                 }
@@ -362,6 +462,13 @@ struct LibraryView: View {
             }
             .disabled(isBusy)
             .navigationTitle(store.isTestLibrary ? "本文表示テスト" : "AI Agent Library")
+            #if DEBUG
+            .background {
+                if recordsModalBoundaries {
+                    ModalSearchSessionProbe(observe: observeSearchSession)
+                }
+            }
+            #endif
             .searchable(text: $filter.query, prompt: "記事の本文を検索")
             .toolbar {
                 if store.isTestLibrary {
@@ -387,6 +494,9 @@ struct LibraryView: View {
                     ToolbarItem(placement: .topBarTrailing) {
                         Menu { moreActions() } label: { Image(systemName: "ellipsis.circle") }
                             .accessibilityLabel("その他の操作")
+                            #if DEBUG
+                            .modifier(ModalBoundaryAccessibilityValue(value: modalBoundaryStatus))
+                            #endif
                             .disabled(isBusy)
                     }
                 }
@@ -992,3 +1102,28 @@ private struct ReadingRestoreCenter: View {
         return value.domain == NSCocoaErrorDomain && value.code == NSUserCancelledError
     }
 }
+
+#if DEBUG
+/// This probe observes the ancestor searchable session; it cannot dismiss or activate search.
+private struct ModalSearchSessionProbe: View {
+    @Environment(\.isSearching) private var isSearching
+    let observe: (Bool) -> Void
+    var body: some View {
+        Color.clear.frame(width: 0, height: 0)
+            .allowsHitTesting(false).accessibilityHidden(true)
+            .onAppear { observe(isSearching) }
+            .onChange(of: isSearching) { _, active in observe(active) }
+    }
+}
+
+private struct ModalBoundaryAccessibilityValue: ViewModifier {
+    let value: String?
+    @ViewBuilder func body(content: Content) -> some View {
+        if let value {
+            content.accessibilityValue(value).accessibilityIdentifier("library-modal-boundary-trace")
+        } else {
+            content
+        }
+    }
+}
+#endif

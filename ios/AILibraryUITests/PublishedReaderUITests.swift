@@ -4,6 +4,28 @@ import XCTest
 /// CI passes the independently counted published total to the runner, never to app routing.
 final class PublishedReaderUITests: NativeReaderUITestCase {
     private var expectedPublishedCount = 0
+    override var recordsModalPresentationBoundaries: Bool { true }
+
+    private var modalBoundaryBeforeMore = "not_sampled"
+
+    // One value read immediately before each existing More tap, outside every readiness predicate.
+    private func rememberModalBoundaryBeforeMore(_ more: XCUIElement) {
+        modalBoundaryBeforeMore = boundedModalBoundaryValue(more.value as? String)
+    }
+
+    private func boundedModalBoundaryValue(_ value: String?) -> String {
+        guard let value, value.utf8.count <= 256, value.hasPrefix("v=1;i="),
+              value.utf8.allSatisfy({ (48...57).contains($0) || (65...90).contains($0) ||
+                  (97...122).contains($0) || $0 == 59 || $0 == 61 }) else { return "unavailable_or_invalid" }
+        return value
+    }
+
+    // Failure-only, sequential to the earlier sample and existing hierarchy; not an atomic snapshot.
+    private func modalBoundaryAtFailure() -> String {
+        let controls = app.buttons.matching(identifier: "library-modal-boundary-trace")
+        guard controls.count == 1 else { return "unavailable_or_ambiguous" }
+        return boundedModalBoundaryValue(controls.element(boundBy: 0).value as? String)
+    }
 
     override func setUpWithError() throws {
         guard let raw = ProcessInfo.processInfo.environment["AILIBRARY_EXPECTED_PUBLISHED_COUNT"],
@@ -580,6 +602,7 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
     private func openFilteredMoreActionsSheet() throws {
         let more = try singleHittableControl(app.buttons.matching(
             NSPredicate(format: "label == %@", "その他の操作")), name: "More Actions button")
+        rememberModalBoundaryBeforeMore(more)
         more.tap()
         XCTAssertTrue(app.navigationBars["その他の操作"].waitForExistence(timeout: 10))
         requireHittable(app.buttons["このアプリについて"])
@@ -945,6 +968,9 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
             if let lastRejection = predicate["rejection"] as? String {
                 predicate["rejection"] = publicText(lastRejection)
             }
+            let modalBoundary: [String: Any] = ["before_more": modalBoundaryBeforeMore,
+                "at_failure": modalBoundaryAtFailure(), "same_instant": false,
+                "probe_may_affect_timing": true]
             let snapshot: [String: Any] = ["phase": "diagnose_after_failure_sequential_AX",
                 "same_instant_as_predicate": false, "counts": counts,
                 "app_state": publicText(String(describing: app.state)),
@@ -957,12 +983,14 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
                 "readiness_wait_result": readinessWaitResult,
                 "last_candidate_rejection_at_diagnose": publicText(rejection),
                 "last_predicate_observation": predicate, "failure_snapshot": snapshot,
+                "modal_boundaries": modalBoundary,
                 "bounds": bounds, "truncated_to_counts": false]
             let fallback: [String: Any] = ["schema_version": 1,
                 "phase": "diagnose_counts_and_rejection_fallback",
                 "readiness_wait_result": readinessWaitResult,
                 "reason": publicText(reason), "last_candidate_rejection_at_diagnose": publicText(rejection),
                 "last_predicate_observation": predicate, "failure_snapshot_counts": counts,
+                "modal_boundaries": modalBoundary,
                 "same_instant_as_predicate": false, "bounds": bounds, "truncated_to_counts": true]
             func encoded(_ value: [String: Any]) -> Data? {
                 guard JSONSerialization.isValidJSONObject(value) else { return nil }

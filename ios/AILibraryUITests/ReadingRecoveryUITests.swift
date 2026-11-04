@@ -3,6 +3,28 @@ import XCTest
 final class ReadingRecoveryUITests: NativeReaderUITestCase {
     override var seedsPartialReadingRecovery: Bool { true }
     override var recordsReadingRecoveryOpenBoundaries: Bool { true }
+    override var recordsModalPresentationBoundaries: Bool { true }
+
+    private var modalBoundaryBeforeMore = "not_sampled"
+
+    // One value read immediately before each existing More tap, outside every readiness predicate.
+    private func rememberModalBoundaryBeforeMore(_ more: XCUIElement) {
+        modalBoundaryBeforeMore = boundedModalBoundaryValue(more.value as? String)
+    }
+
+    private func boundedModalBoundaryValue(_ value: String?) -> String {
+        guard let value, value.utf8.count <= 256, value.hasPrefix("v=1;i="),
+              value.utf8.allSatisfy({ (48...57).contains($0) || (65...90).contains($0) ||
+                  (97...122).contains($0) || $0 == 59 || $0 == 61 }) else { return "unavailable_or_invalid" }
+        return value
+    }
+
+    // Failure-only, sequential to the earlier sample and existing hierarchy; not an atomic snapshot.
+    private func modalBoundaryAtFailure() -> String {
+        let controls = app.buttons.matching(identifier: "library-modal-boundary-trace")
+        guard controls.count == 1 else { return "unavailable_or_ambiguous" }
+        return boundedModalBoundaryValue(controls.element(boundBy: 0).value as? String)
+    }
 
     private let partialMessage = "保存した読書記録の一部を読み取れません。読み取れるしおりと読書位置を表示しています。"
     private let recoveryNoticeMessage = "復旧するまで、今回のしおりや読書位置の変更はアプリ終了後に残りません。"
@@ -72,6 +94,7 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
 
         let more = app.buttons.matching(NSPredicate(format: "label == %@", "その他の操作")).firstMatch
         requireHittable(more)
+        rememberModalBoundaryBeforeMore(more)
         more.tap()
         let restore = app.buttons["library-restore-reading"]
         XCTAssertTrue(restore.waitForExistence(timeout: 10))
@@ -600,6 +623,7 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
         guard more.exists, more.isEnabled, isHittableOnScreen(more, inside: library) else {
             throw readingExportFailure("The unique filtered-list More button was no longer usable", attempt: attempt)
         }
+        rememberModalBoundaryBeforeMore(more)
         more.tap()
         let title = "その他の操作"
         let bars = app.navigationBars.matching(NSPredicate(format: "identifier == %@ OR label == %@", title, title))
@@ -674,7 +698,9 @@ final class ReadingRecoveryUITests: NativeReaderUITestCase {
         // A throwing failure ends this case. Keep the screenshot and bounded fixed context.
         // Capture one failure-only hierarchy separately, never from a readiness predicate.
         capture("Reading-export-cancel-\(attempt)-failed")
-        let context = String(decoding: ("attempt=\(attempt)\n" + reason + "\n" + readingExportLastContext)
+        let modalContext = "modalBeforeMore=" + modalBoundaryBeforeMore +
+            "\nmodalAtFailure=" + modalBoundaryAtFailure() + "\n"
+        let context = String(decoding: ("attempt=\(attempt)\n" + modalContext + reason + "\n" + readingExportLastContext)
             .utf8.prefix(1024), as: UTF8.self)
         let attachment = XCTAttachment(string: context)
         attachment.name = "Reading-export-cancel-context"

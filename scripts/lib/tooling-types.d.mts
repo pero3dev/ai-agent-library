@@ -13,6 +13,7 @@ export interface VerificationManifest {
   checks: VerificationCheck[]
   external_evidence: string[]
   excluded_actions: string[]
+  scheduled_checks?: { id: string; workflow: string; command: string; evidence: string; prerequisites: string[] }[]
 }
 export interface PythonOptions {
   root?: string

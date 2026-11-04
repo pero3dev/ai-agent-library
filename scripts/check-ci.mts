@@ -5,7 +5,7 @@ import path from 'node:path'
 import { cli, parseOptions, resolvePython, ROOT, verificationManifest } from './lib/tooling-common.mjs'
 export function describeChecks(root = ROOT, platform = process.platform) {
   const manifest = verificationManifest(root)
-  return { schema_version: 1, mode: 'inventory-only', platform, checks: manifest.checks.map((row) => ({ ...row, availability: row.os.some((os) => os === platform) ? 'requires-prerequisites' : 'other-os', result: 'not-run' })), external_evidence: manifest.external_evidence, excluded_actions: manifest.excluded_actions }
+  return { schema_version: 1, mode: 'inventory-only', platform, checks: manifest.checks.map((row) => ({ ...row, availability: row.os.some((os) => os === platform) ? 'requires-prerequisites' : 'other-os', result: 'not-run' })), scheduled_checks: (manifest.scheduled_checks ?? []).map(row => ({ ...row, result: 'not-run', execution: 'trusted-main-schedule-or-authorized-dispatch' })), external_evidence: manifest.external_evidence, excluded_actions: manifest.excluded_actions }
 }
 /** @param {string} command @param {import('./types/diagnostics.d.mts').CheckCommandOptions} [options] @returns {import('./types/diagnostics.d.mts').ExecutableCheck} */
 export function checkCommand(command: string, { root, python, platform = process.platform, node = process.execPath, npmEntry = process.env.npm_execpath }: import('./types/diagnostics.d.mts').CheckCommandOptions = {}): import('./types/diagnostics.d.mts').ExecutableCheck {

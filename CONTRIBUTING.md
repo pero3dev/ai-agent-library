@@ -86,6 +86,10 @@ mainのマージ前確認は[共通policy](scripts/lib/github-policy.mjs)の11�
 
 ## ハーネスを変更するとき
 
+記事の外部参照は[週次monitor](.github/workflows/external-link-monitor.yml)がtrusted mainから確認します。`npm run check:ci`の`scheduled_checks`は実行せず`not-run`で案内し、PRの必須チェックにはしません。手元で読む場合は`node scripts/external-link-monitor.mts --out .local/external-link-monitor`を使い、前回の`report.json`を`--previous`で渡します。認証不要の外部HTTP取得を行い、結果は1 MiB以下のJSONに保存します。`--update-issue`は許可された実施セッションでのみ使い、`GH_REPO`・`GH_TOKEN`で同じ追跡Issueを更新します。実行権限とモックHTTP試験、実ネットワークの結果は区別します。
+
+404/410をリンク切れ候補、301等の到達先変更を移転候補とします。401/403/429・タイムアウト・取得障害・本文上限は取得未確認で、bot拒否をリンク切れと断定しません。HTMLからscript/style等と空白を除いた本文ハッシュの変化も記事×URLの再確認候補です。内容の正誤・記事確認日・coverageは自動更新しません。完全な取得結果は90日間のActions artifactで保持し、初回は本文比較の基線を作ります。
+
 共通契約は `AGENTS.md`、詳細執筆規約は `harness/writing-rules.md`、共通スキルは `.agents/skills/` が正本です。`CLAUDE.md` と対応する `.claude/skills/` の 4 スキルは決定生成します。Codex 専用の定期最新化スキルは複製しません。
 
 ```bash

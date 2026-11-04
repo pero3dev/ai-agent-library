@@ -46,6 +46,18 @@ Codex CLI 0.156.1の新規consumer `.agents/skills/` に4ディレクトリを�
 
 Claude Codeは未認証（hostでauthMethod noneを確認）のため、実モデルの発火評価はしていない。Claudeの静的validate・隔離導入、Codexの実読込、SDKの実stdioを区別する。Claude固有userConfigのCodex互換を仮定せず、Codexには共通Agent SkillsのコピーとMCP別接続を案内する。
 
+## 公開導入とWindows手順の補足
+
+PR [#341](https://github.com/pero3dev/ai-agent-library/pull/341) は11必須チェックに成功し、mainの `82c23cff4f2440be2d3a6de94c8086f2bdcb0f81` へ反映された。実マージのtreeは独立レビュー済み候補と一致し、メッセージも共通formatterの内容と一致した。
+
+新しい隔離設定で、公開GitHubのmarketplace add→install→detailsが成功した。marketplace checkoutとplugin cacheの取得元SHAは上記マージcommit、配布19ファイルは正本と全byte一致し、4スキル・MCP 1件とPython設定値を確認した。通常設定4ファイルの前後ハッシュも変わっていない。証拠はローカル成果物 `issue335-public-install-v3/` に保持する。
+
+最初の補助スクリプトのGit候補選択ミスを補正した後、深い隔離パスではGit checkoutの `Filename too long` を観測した。Gitの子プロセスだけへ `core.longpaths=true` を渡したrunで公開導入が成功した。通常のWindows既定パスでの失敗を再現したという意味ではない。
+
+この条件に当たる利用者向けに、短い所有パスへの `git -c core.longpaths=true clone` と、ローカルmarketplaceからの導入をREADMEへ補足する。補足の所有範囲はREADMEと本記録だけで、`docs/reader-skills-windows-install` を上記main SHAから分けた。実行手順の検証・独立レビュー・PR・main反映まで同じIssueの許可範囲で進め、公開確認後に証拠をIssueへ記録する。
+
+補足手順は、短い所有ディレクトリへ3,260ファイルをcloneした後、新しい隔離設定でlocal marketplace add→install→detailsを実行して確認した。導入時にGitの長いパス設定は追加していない。取得元は上記マージSHAで、19ファイル全byte一致、4スキル・MCP 1件、Python設定値、通常設定4ファイルのハッシュ不変を確認した。証拠は `issue335-windows-local-install-v3/` に保持する。Claudeモデルの発火はこの検証にも含まない。
+
 ## 一次情報
 
 2026-11-04 02:54〜03:07 UTCに公式資料とローカルCLI helpを照合した。

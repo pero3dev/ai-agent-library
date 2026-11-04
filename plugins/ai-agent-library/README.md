@@ -38,6 +38,19 @@ claude plugin install ai-agent-library@ai-agent-library --config python_path=/ab
 claude plugin details ai-agent-library
 ```
 
+Windowsでmarketplaceの取得が `Filename too long` で失敗する場合は、未使用の短い所有パスへリポジトリを取得して、ローカルmarketplaceとして追加します。次のGit設定はcloneのプロセスに適用されます。`C:/src/ai-agent-library` は自分の短い作業パスに置き換えられます。
+
+```powershell
+git -c core.longpaths=true clone https://github.com/pero3dev/ai-agent-library.git C:/src/ai-agent-library
+```
+
+Claude Codeで、そのディレクトリを追加して同じプラグインをインストールします。`python_path` には、先ほど作ったvenvのPythonを指定します。
+
+```text
+/plugin marketplace add C:/src/ai-agent-library
+/plugin install ai-agent-library@ai-agent-library
+```
+
 新しいセッションで、対象の設計書を示して上表のように依頼します。明示的に呼ぶ場合は `/ai-agent-library:agent-design-review` などを使います。`/mcp` で `search_articles`・`get_checklist`・`get_section`・`lookup_glossary` の4ツールを確認できます。
 
 このプラグインはローカルstdio専用です。Python実行ファイルは設定値から、スクリプトはインストール先の `${CLAUDE_PLUGIN_ROOT}` から解決します。ホストの作業ディレクトリやPATHにPythonを追加する設定には依存しません。接続できないときも参照資料によるレビューは可能ですが、取得失敗を最新情報の確認成功とは扱いません。
@@ -101,6 +114,8 @@ MCPは固定HTTPSの公開索引と必要な記事だけを取得し、24時間�
 2026-11-04、Codex CLI 0.156.1の自然依頼20例は、正例10件で期待するスキル本文を実読込し、対象外10件では読込みませんでした（TP10/TN10/FP0/FN0、実行エラー0）。各ケース1回、MCPなしの同梱参照による結果です。[全ケースの要約](https://github.com/pero3dev/ai-agent-library/blob/main/project/records/2026-11-04/reader-skills-evaluation.json)を保存しています。
 
 Claude Code 2.1.310では、隔離設定領域でmarketplace add→install→4スキルとMCP 1件の認識を確認しました。Claudeのモデル認証がないため、Claudeによる自然依頼からの発火は未実施です。同梱MCPはインストール済みコピーをSDKで起動し、新旧stdioの4ツールとisErrorを確認しました。これらをClaudeのモデル実行と混同しません。
+
+Windowsの短いパスを使う代替手順も、新しい隔離設定でclone→ローカルmarketplace add→installを確認しました。導入時に長いパスのGit設定を追加せず、4スキル・MCP 1件と配布19ファイルの一致を確認しています。
 
 開発者がCodexで評価を再実行する場合は、次の形でCLIのnpm版JS入口と、新しい所有出力先を指定します。実モデルを利用するコマンドなので、利用者の実行環境と利用枠を確認してから実行します。CIの `--check` はモデルを呼び出しません。
 

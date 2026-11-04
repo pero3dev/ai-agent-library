@@ -1,0 +1,394 @@
+{
+  "schema_version": 1,
+  "dataset_id": "reader-skills-routing-v1",
+  "dataset_sha256": "c2c9874b8f5719be1147a964690255707c43035e7bdd335f9d7473e6633005d3",
+  "skills_sha256": "8a7e0dcbc17087584feb5c33681d8c059b99eceaecc09d386f5622b376eb976c",
+  "observed_at": "2026-11-04T03:17:30.436Z",
+  "cli_version": "codex-cli 0.156.1",
+  "requested_model": "CLI default (not overridden)",
+  "backend_model_observation": "JSONLにmodelフィールドがある場合だけ記録する。モデルの自己申告からは補わない。",
+  "observer_definition": "成功したファイル読込ツールの出力にSKILL.md本文全体が現れたことを、暗黙選択の観測代理として数える。ファイル名列挙・grep・モデルの自己申告だけは数えない。",
+  "execution": {
+    "host": "Codex CLI",
+    "mode": "consumer .agents/skills copy",
+    "sandbox": "workspace-write (owned fixture only)",
+    "automatic_review": true,
+    "ignore_user_config": true,
+    "ephemeral": true,
+    "runs_per_case": 1,
+    "timeout_ms": 120000,
+    "mcp_configured": false,
+    "model_override": false,
+    "replayed_at": "2026-11-04T03:31:11.526Z",
+    "concurrency_ceiling": 2
+  },
+  "complete": true,
+  "metrics": {
+    "cases_attempted": 20,
+    "executed": 20,
+    "execution_errors": 0,
+    "true_positive": 10,
+    "false_positive": 0,
+    "true_negative": 10,
+    "false_negative": 0,
+    "expected_skill_hits": 10,
+    "exact_routes": 20,
+    "activation_accuracy": 1,
+    "exact_route_accuracy": 1
+  },
+  "limitations": [
+    "設計者が作った10正例・10負例で、実利用分布を代表しない。",
+    "SKILL.mdの実読込を暗黙選択の観測代理として測る。内部の全発火状態やレビュー品質全体を直接測らない。",
+    "MCPなし・同梱参照で評価する。Claude Codeのモデル実行とプラグイン自動選択の結果ではない。",
+    "各ケース1回であり、確率的な選択の再現率や小差の有意性を立証しない。"
+  ],
+  "raw_report_sha256": "b0f350e7a1b21a3dec96e6d51b84f6ad0c28dd7361aff6951996a6f8b12cc84b",
+  "raw_storage": "Local evaluation artifacts, issue335-evaluation/run-v2; raw logs are not distributed with the plugin.",
+  "excluded_environment_diagnostics": {
+    "cases_attempted": 2,
+    "read_only_policy_denials": 2,
+    "included_in_metrics": false
+  },
+  "results": [
+    {
+      "id": "positive-design-01",
+      "expected_skill": "agent-design-review",
+      "observed_skills": [
+        "agent-design-review"
+      ],
+      "reads": [
+        {
+          "skill": "agent-design-review",
+          "tool": "command_execution",
+          "full_text_matched": true,
+          "output_sha256": "6fc50ac68b8a3965a950d1cf1e031106a747b7ee0fc83378d2858fbb2fb1225e",
+          "command_exit_code": 1
+        }
+      ],
+      "completed": true,
+      "exit_code": 0,
+      "timed_out": false,
+      "execution_error": null,
+      "duration_ms": 70987,
+      "observed_model": null
+    },
+    {
+      "id": "positive-design-02",
+      "expected_skill": "agent-design-review",
+      "observed_skills": [
+        "agent-design-review"
+      ],
+      "reads": [
+        {
+          "skill": "agent-design-review",
+          "tool": "command_execution",
+          "full_text_matched": true,
+          "output_sha256": "0ad733513117afdbc70df54b2e6b438377bd8e28378d82bddde460240d127296",
+          "command_exit_code": 0
+        }
+      ],
+      "completed": true,
+      "exit_code": 0,
+      "timed_out": false,
+      "execution_error": null,
+      "duration_ms": 66222,
+      "observed_model": null
+    },
+    {
+      "id": "positive-design-03",
+      "expected_skill": "agent-design-review",
+      "observed_skills": [
+        "agent-design-review"
+      ],
+      "reads": [
+        {
+          "skill": "agent-design-review",
+          "tool": "command_execution",
+          "full_text_matched": true,
+          "output_sha256": "e4f6be080e3b6508e5a023c51b2fdc1553969feb3e7093746ec2d041cd2a2d9f",
+          "command_exit_code": 1
+        }
+      ],
+      "completed": true,
+      "exit_code": 0,
+      "timed_out": false,
+      "execution_error": null,
+      "duration_ms": 62661,
+      "observed_model": null
+    },
+    {
+      "id": "positive-choice-01",
+      "expected_skill": "agent-architecture-choice",
+      "observed_skills": [
+        "agent-architecture-choice"
+      ],
+      "reads": [
+        {
+          "skill": "agent-architecture-choice",
+          "tool": "command_execution",
+          "full_text_matched": true,
+          "output_sha256": "1888d1dff636cf34211c6bef8149c38ede84a68e27fba763529f5e6abf2b36a5",
+          "command_exit_code": 0
+        }
+      ],
+      "completed": true,
+      "exit_code": 0,
+      "timed_out": false,
+      "execution_error": null,
+      "duration_ms": 47442,
+      "observed_model": null
+    },
+    {
+      "id": "positive-choice-02",
+      "expected_skill": "agent-architecture-choice",
+      "observed_skills": [
+        "agent-architecture-choice"
+      ],
+      "reads": [
+        {
+          "skill": "agent-architecture-choice",
+          "tool": "command_execution",
+          "full_text_matched": true,
+          "output_sha256": "50b6e346d8f1306432353809f1da9a6104609ce9daaebe064300d4035803dd46",
+          "command_exit_code": 0
+        }
+      ],
+      "completed": true,
+      "exit_code": 0,
+      "timed_out": false,
+      "execution_error": null,
+      "duration_ms": 61740,
+      "observed_model": null
+    },
+    {
+      "id": "positive-choice-03",
+      "expected_skill": "agent-architecture-choice",
+      "observed_skills": [
+        "agent-architecture-choice"
+      ],
+      "reads": [
+        {
+          "skill": "agent-architecture-choice",
+          "tool": "command_execution",
+          "full_text_matched": true,
+          "output_sha256": "50b6e346d8f1306432353809f1da9a6104609ce9daaebe064300d4035803dd46",
+          "command_exit_code": 0
+        }
+      ],
+      "completed": true,
+      "exit_code": 0,
+      "timed_out": false,
+      "execution_error": null,
+      "duration_ms": 51935,
+      "observed_model": null
+    },
+    {
+      "id": "positive-security-01",
+      "expected_skill": "agent-security-review",
+      "observed_skills": [
+        "agent-security-review"
+      ],
+      "reads": [
+        {
+          "skill": "agent-security-review",
+          "tool": "command_execution",
+          "full_text_matched": true,
+          "output_sha256": "49bdadd438fc62c706ae509f260f8faacaa17c7e4fbbca0bb691f153af533c23",
+          "command_exit_code": 0
+        }
+      ],
+      "completed": true,
+      "exit_code": 0,
+      "timed_out": false,
+      "execution_error": null,
+      "duration_ms": 54896,
+      "observed_model": null
+    },
+    {
+      "id": "positive-security-02",
+      "expected_skill": "agent-security-review",
+      "observed_skills": [
+        "agent-security-review"
+      ],
+      "reads": [
+        {
+          "skill": "agent-security-review",
+          "tool": "command_execution",
+          "full_text_matched": true,
+          "output_sha256": "63eab18bddf2aca3083747fd4b5ed93c252e972a01faa67231abef9c884d3bd5",
+          "command_exit_code": 1
+        }
+      ],
+      "completed": true,
+      "exit_code": 0,
+      "timed_out": false,
+      "execution_error": null,
+      "duration_ms": 44233,
+      "observed_model": null
+    },
+    {
+      "id": "positive-eval-01",
+      "expected_skill": "agent-eval-plan",
+      "observed_skills": [
+        "agent-eval-plan"
+      ],
+      "reads": [
+        {
+          "skill": "agent-eval-plan",
+          "tool": "command_execution",
+          "full_text_matched": true,
+          "output_sha256": "e36af54df9d153d0b484d78d1408b240de1830bf3de49e8d1992def04381fb6c",
+          "command_exit_code": 0
+        }
+      ],
+      "completed": true,
+      "exit_code": 0,
+      "timed_out": false,
+      "execution_error": null,
+      "duration_ms": 115695,
+      "observed_model": null
+    },
+    {
+      "id": "positive-eval-02",
+      "expected_skill": "agent-eval-plan",
+      "observed_skills": [
+        "agent-eval-plan"
+      ],
+      "reads": [
+        {
+          "skill": "agent-eval-plan",
+          "tool": "command_execution",
+          "full_text_matched": true,
+          "output_sha256": "ea3144e4d3e68959ea8f293d58ca0d805eeb2cc527145197bb51f91adf7ecdf0",
+          "command_exit_code": 0
+        }
+      ],
+      "completed": true,
+      "exit_code": 0,
+      "timed_out": false,
+      "execution_error": null,
+      "duration_ms": 101999,
+      "observed_model": null
+    },
+    {
+      "id": "negative-code-review-01",
+      "expected_skill": null,
+      "observed_skills": [],
+      "reads": [],
+      "completed": true,
+      "exit_code": 0,
+      "timed_out": false,
+      "execution_error": null,
+      "duration_ms": 19670,
+      "observed_model": null
+    },
+    {
+      "id": "negative-translation-02",
+      "expected_skill": null,
+      "observed_skills": [],
+      "reads": [],
+      "completed": true,
+      "exit_code": 0,
+      "timed_out": false,
+      "execution_error": null,
+      "duration_ms": 11508,
+      "observed_model": null
+    },
+    {
+      "id": "negative-definition-03",
+      "expected_skill": null,
+      "observed_skills": [],
+      "reads": [],
+      "completed": true,
+      "exit_code": 0,
+      "timed_out": false,
+      "execution_error": null,
+      "duration_ms": 5500,
+      "observed_model": null
+    },
+    {
+      "id": "negative-sql-04",
+      "expected_skill": null,
+      "observed_skills": [],
+      "reads": [],
+      "completed": true,
+      "exit_code": 0,
+      "timed_out": false,
+      "execution_error": null,
+      "duration_ms": 13337,
+      "observed_model": null
+    },
+    {
+      "id": "negative-writing-05",
+      "expected_skill": null,
+      "observed_skills": [],
+      "reads": [],
+      "completed": true,
+      "exit_code": 0,
+      "timed_out": false,
+      "execution_error": null,
+      "duration_ms": 9123,
+      "observed_model": null
+    },
+    {
+      "id": "negative-framework-06",
+      "expected_skill": null,
+      "observed_skills": [],
+      "reads": [],
+      "completed": true,
+      "exit_code": 0,
+      "timed_out": false,
+      "execution_error": null,
+      "duration_ms": 23952,
+      "observed_model": null
+    },
+    {
+      "id": "negative-unit-test-07",
+      "expected_skill": null,
+      "observed_skills": [],
+      "reads": [],
+      "completed": true,
+      "exit_code": 0,
+      "timed_out": false,
+      "execution_error": null,
+      "duration_ms": 13395,
+      "observed_model": null
+    },
+    {
+      "id": "negative-markdown-08",
+      "expected_skill": null,
+      "observed_skills": [],
+      "reads": [],
+      "completed": true,
+      "exit_code": 0,
+      "timed_out": false,
+      "execution_error": null,
+      "duration_ms": 11694,
+      "observed_model": null
+    },
+    {
+      "id": "negative-arithmetic-09",
+      "expected_skill": null,
+      "observed_skills": [],
+      "reads": [],
+      "completed": true,
+      "exit_code": 0,
+      "timed_out": false,
+      "execution_error": null,
+      "duration_ms": 11183,
+      "observed_model": null
+    },
+    {
+      "id": "negative-web-security-10",
+      "expected_skill": null,
+      "observed_skills": [],
+      "reads": [],
+      "completed": true,
+      "exit_code": 0,
+      "timed_out": false,
+      "execution_error": null,
+      "duration_ms": 16522,
+      "observed_model": null
+    }
+  ]
+}

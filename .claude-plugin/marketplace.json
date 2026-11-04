@@ -1,0 +1,11 @@
+{
+  "name": "ai-agent-library",
+  "owner": { "name": "AI Agent Library contributors" },
+  "metadata": { "description": "AI Agent Libraryの読者向けレビュー手順と読み取り専用MCP" },
+  "plugins": [{
+    "name": "ai-agent-library",
+    "source": "./plugins/ai-agent-library",
+    "description": "Agent設計・方式選択・安全性・評価計画を出典付きで検討する4スキル",
+    "version": "0.1.0"
+  }]
+}

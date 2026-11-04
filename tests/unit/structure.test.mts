@@ -4,6 +4,7 @@ import os from 'node:os'
 import path from 'node:path'
 import test from 'node:test'
 import { checkStructure, loadStructure } from '../../scripts/check-structure.mjs'
+import { collectLinkTargets } from '../../scripts/check-links.mjs'
 import { inventoryRoots, measureInventory, parseInventoryOptions, structureInventory } from '../../scripts/structure-inventory.mjs'
 import { ROOT } from '../../scripts/lib/tooling-common.mjs'
 import { requiredFixture } from '../helpers/json-fixtures.mjs'
@@ -83,6 +84,19 @@ test('iOS source documentation is checked while generated content stays excluded
   write('ios/AILibrary/Content/generated.md', '# Generated\n\n[not a source](missing.md)\n')
   write('ios/AILibrary/TestContent/generated.md', '# Generated fixture\n\n[not a source](missing.md)\n')
   assert.equal(checkStructure(root, { trackedFiles: files }).verified, true)
+})
+
+test('reader plugin skills and references participate in Markdown coverage', (t) => {
+  const { root, files, write } = fixture(t)
+  const skill = 'plugins/ai-agent-library/skills/agent-design-review/SKILL.md'
+  const reference = 'plugins/ai-agent-library/skills/agent-design-review/references/architecture-checklists.md'
+  write(skill, '# Skill\n\n[reference](references/architecture-checklists.md)\n')
+  write(reference, '# Reference\n')
+  write('.claude-plugin/marketplace.json', '{}\n')
+  const tracked = [...files, skill, reference, '.claude-plugin/marketplace.json']
+  assert.equal(checkStructure(root, { trackedFiles: tracked }).verified, true)
+  const withoutReference = (directory = root) => collectLinkTargets(directory).filter(target => target.repoRel !== reference)
+  assert.ok(checkStructure(root, { trackedFiles: tracked, linkCollector: withoutReference }).problems.some(problem => problem.includes(reference) && problem.includes('リンク検査から脱落')))
 })
 
 test('Windows helper is allowed only at the relocated test helper path', (t) => {

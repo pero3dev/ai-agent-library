@@ -95,6 +95,15 @@ python -X utf8 examples/python/structured-output/structured_output.py --mock
 
 ほかにも [ツール使用](examples/python/tool-use/README.md)・[RAG](examples/python/rag-basics/README.md)・[MCP サーバー](examples/python/mcp-server/README.md)・[ライブラリ検索MCP](examples/python/library-mcp-server/README.md)・[マルチエージェント](examples/python/multi-agent/README.md)・[評価ハーネス](examples/python/evaluation-harness/README.md)を収録しています。7 件とも API キー不要の `--mock` に対応し、必要な依存と確認範囲は各 README に記載しています。
 
+## 設計レビューに使う
+
+読者向けの[4つのAgent Skillsと読み取り専用MCP](plugins/ai-agent-library/README.md)を配布しています。Claude Codeでは次のコマンドで追加し、MCP用のPythonを設定します。Codexで同じスキルを使う手順と確認範囲も導入ガイドに記載しています。
+
+```text
+/plugin marketplace add pero3dev/ai-agent-library
+/plugin install ai-agent-library@ai-agent-library
+```
+
 ## 更新と品質管理
 
 記事には目的・前提知識・設計判断・実務上の注意点・参考資料を共通の構成で記載しています。変わりやすい仕様は一次情報と確認日をたどれるようにし、未確認事項は `TODO(要確認)` として残しています。

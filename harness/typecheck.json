@@ -133,6 +133,28 @@
   ],
   "wrappers": [
     {
+      "path": "scripts/sync-reader-skills.mjs",
+      "target": "scripts/sync-reader-skills.mts",
+      "kind": "cli",
+      "sha256": "d34aa5225b6970d795e8744556b129183824be8f23fdfa6d2464778eae6ed8d9"
+    },
+    {
+      "path": "scripts/evaluate-reader-skills.mjs",
+      "target": "scripts/evaluate-reader-skills.mts",
+      "kind": "cli",
+      "sha256": "51b6c5d2e13efd678bdfda30a35b761ee7a4b00b2a88829a1218de0594c11797"
+    },
+    {
+      "path": "tests/unit/reader-skills.test.mjs",
+      "target": "tests/unit/reader-skills.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/reader-skills-eval.test.mjs",
+      "target": "tests/unit/reader-skills-eval.test.mts",
+      "kind": "side-effect"
+    },
+    {
       "path": ".claude/hooks/guard-generated.mjs",
       "target": ".claude/hooks/guard-generated.mts",
       "kind": "side-effect"

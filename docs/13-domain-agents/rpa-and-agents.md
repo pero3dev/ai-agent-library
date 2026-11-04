@@ -3,7 +3,7 @@ title: "RPA と Agent の使い分け・移行戦略"
 category: "domain-agents"
 level: "intermediate"
 status: "published"
-last_updated: "2026-10-04"
+last_updated: "2026-11-05"
 tags: ["rpa", "workflow-vs-agent", "migration", "computer-use"]
 ---
 
@@ -95,15 +95,15 @@ flowchart TB
 
 本記事の共存パターンは設計案です。製品のデモを見た後も、自社のデータ経路・結果の整合性・統制要件を満たすかを PoC で評価します。
 
-2026-09-10 時点では、製品名だけでなく **機能・実行基盤・版・期限**を次のように分けて確認します。
+製品名だけでなく **機能・実行基盤・版・期限**を次のように分けて確認します。2026-11-05 の再確認範囲と、従来の確認日は参考資料・調査メモに記録しています。
 
 | 判断軸 | 一次資料から確認できる例 | 移行時に残す判断 |
 | --- | --- | --- |
-| 提供開始と保守期限 | WorkHQ の Agentic Workflows は 2026-03-27 GA。Next Generation / Blue Prism Cloud / Enterprise 7.4.1 以降が対象。Design Studio 3.20.0〜3.21.0 と Digital Worker 2.38.0〜2.39.0 は 告知されたサポート終了期日 2026-09-30 を経過。2026-10-03 の告知表に同日が残るが、実施・延期は確認不能 | 2026-04-29 の名称発表と GA を分け、実行部品の版を棚卸しする。サポート終了を一律の実行停止と読み替えない |
+| 提供開始と保守期限 | WorkHQ の Agentic Workflows は 2026-03-27 GA。Next Generation / Blue Prism Cloud / Enterprise 7.4.1 以降が対象。2026-11-05 に確認した個別版表では、Design Studio 3.20.0 / 3.21.0 と Digital Worker 2.38.0 / 2.39.0 は Unsupported versions に分類され、サポート終了日は 2026-09-30 | 2026-04-29 の名称発表と GA を分け、実行部品の版を棚卸しする。サポート対象外の記載を一律の実行停止と読み替えない |
 | 自己ホストと外部通信 | Maestro は Automation Suite 2.2510.2(2026-04-15)から EKS / AKS / OpenShift で自己ホスト可能。ワークフロー実行サービス TaaS(Temporal as a Service)はクラスタ内の Kubernetes deployment | 自己ホストでも利用モデル・全機能の通信経路を別に確認する。名称の「as a Service」だけで外部 SaaS と判定しない |
-| 機能とモデルの GA | Copilot Studio computer use の公式資料では OpenAI CUA / Sonnet 4.5 は GA、Sonnet 4.6 / Opus 4.6 は Experimental | 「GA が必要だから RPA のみ」とは決めず、選択モデルと地域の状態、自社の成功率で比較する |
-| 同名に見える実行基盤 | Copilot Studio は GitHub Copilot / standard / Copilot chat の各 harness を区別。agent flows は standard(classic)に属し、新 workflows は別の仕組み | Power Automate から agent flow への変換は一方向。新 workflows にそのまま変換できると想定せず、容量枯渇による新規実行停止も監視する |
-| AI 支援の利用条件 | WinActor 7.7 は AI ヘルプ・VBScript から Python への移行支援を案内。2025-09-04 告知では AI 支援の無制限期間は 2026-09 末までで、10 月から上限・追加パックへ移行 | 上限数量・価格を契約で確認する。AI 連携の NTT-AT / Azure OpenAI への外部通信を、RPA 実行機の配置と分ける |
+| 機能とモデルの GA | Copilot Studio computer use の公式資料では GPT-6 Sol / OpenAI CUA / Sonnet 4.5 は GA、Sonnet 4.6 / Opus 4.6 は Experimental | 「GA が必要だから RPA のみ」とは決めず、選択モデルと機能別・地域別の状態、自社の成功率で比較する |
+| 同名に見える実行基盤 | Copilot Studio は GitHub Copilot / Customer Conversation / standard の各 harness を区別。agent flows は standard(classic)に属し、新 workflows は別の仕組み | Power Automate から agent flow への変換は一方向。新 workflows にそのまま変換できると想定せず、容量枯渇による新規実行停止も監視する。公式資料に示される実行中の処理・対象の Microsoft 365 Copilot ライセンス利用者の対話から開始する処理・テスト実行の例外も確認する |
+| AI 支援の利用条件 | WinActor 7.7 は AI ヘルプ・VBScript から Python への移行支援を案内。2025-09-04 告知では AI 支援の無制限期間は 2026-09 末までで、10 月から上限・追加パックへ移行。説明書はトークン数ではなく問い合わせ回数を計数すると明記 | 具体的な上限回数・追加パック価格は未確認のため契約で確認する。AI 連携の NTT-AT / Azure OpenAI への外部通信を、RPA 実行機の配置と分ける |
 | 製品群の一部だけ GA | Automation Anywhere の Mozart と関連機能は、2026-05-19 発表時点で AI Evaluations が GA、Enterprise Claw / AAI Code が public preview、Context Intelligence Graph が preview | Q3 GA 予定の経過から提供完了を推論しない。各機能の提供状態と評価条件を照合する |
 
 これらは選定時に確認する差分の例です。WorkHQ の 2025.25 以前の同梱部品は既にサポート対象外と公式告知に記載されており、9 月末の対象版以外なら保守されるとは判断できません。
@@ -138,8 +138,6 @@ RPA には長年かけて作られた**運用統制**(誰が・いつ・何を�
 - [ ] RPA の監査証跡・承認フロー・変更管理を Agent の統制として引き継いだか
 - [ ] ベンダーのエージェント機能を、自社のデータ経路・確実性・統制要件で PoC 検証したか
 
-> **TODO(要確認):** WorkHQ Announcements と各部品のサポート表で Design Studio 3.20.0〜3.21.0 / Digital Worker 2.38.0〜2.39.0 のサポート終了実施・延期を確認する。実行停止とは分ける(最終確認: 2026-10)
-
 ## 関連トピック
 
 - [Workflow 型 vs Agent 型の使い分け](../02-architecture/workflow-vs-agent.md) — 決定的な手順と適応的な判断の使い分け(本記事の基盤)
@@ -154,9 +152,10 @@ RPA には長年かけて作られた**運用統制**(誰が・いつ・何を�
 
 - [UiPath Maestro, Overview](https://docs.uipath.com/maestro/automation-cloud/latest/user-guide/overview) — Agent、ロボット、人を統合するオーケストレーションの公式実装例。製品横断の普及率や精度の根拠にはしません(アクセス日: 2026-09-10)
 
-- [WorkHQ Announcements](https://documentation.blueprism.com/workhq/en-us/announcements/announcements.htm) — GA と部品別保守期限(アクセス日: 2026-09-10)
+- [WorkHQ Announcements](https://documentation.blueprism.com/workhq/en-us/announcements/announcements.htm) / [Design Studio・Digital Worker 版別サポート表](https://documentation.blueprism.com/workhq/en-us/release-notes/ds-dw-version.htm) — GA とサポート対象外の版(アクセス日: 2026-11-05)
 - [Maestro 2.2510.2](https://docs.uipath.com/maestro/automation-suite/2.2510/release-notes/2-2510-2) / [クラスタ構成](https://docs.uipath.com/automation-suite/automation-suite/2.2510/installation-guide-eks-aks/kubernetes-cluster-and-nodes) — 自己ホストと TaaS の配置(アクセス日: 2026-09-10)
-- [Copilot Studio computer use](https://learn.microsoft.com/en-us/microsoft-copilot-studio/computer-use) / [harnesses](https://learn.microsoft.com/en-us/microsoft-copilot-studio/harnesses-overview) / [agent flows](https://learn.microsoft.com/en-us/microsoft-copilot-studio/flows-overview) — モデル別の提供状態とフローの違い(アクセス日: 2026-09-10)
+- [Copilot Studio computer use](https://learn.microsoft.com/en-us/microsoft-copilot-studio/computer-use) / [harnesses](https://learn.microsoft.com/en-us/microsoft-copilot-studio/harnesses-overview) / [agent flows](https://learn.microsoft.com/en-us/microsoft-copilot-studio/flows-overview) — モデル別の提供状態とフローの違い、容量制限の例外(アクセス日: 2026-11-05)
+- [WinActor AI 連携ライセンス説明書](https://winactor.biz/docs/AI_Collaboration_License_Description_Docum.pdf) — 問い合わせ回数の計数と利用条件。具体的な上限・追加パック価格は未確認(アクセス日: 2026-11-05)
 - [NTT-AT 2025-09-04 告知](https://www.ntt-at.co.jp/news/2025/detail/release250904.html) / [WinActor V7](https://winactor.biz/product/winactor_v7.html) — AI 連携条件と現行機能(アクセス日: 2026-09-10)
 - [Automation Anywhere 2026-05-19 発表](https://www.automationanywhere.com/company/press-room/automation-anywhere-unveils-2026-platform-enhancements-run-ai-driven-processes) — 機能別 GA / preview / 予定(アクセス日: 2026-09-10)
 

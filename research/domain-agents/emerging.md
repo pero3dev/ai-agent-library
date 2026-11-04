@@ -1,5 +1,20 @@
 # 先端応用の概観(科学研究支援・シミュレーション/NPC・エージェント経済)執筆前調査メモ(DA-R2)
 
+## 2026-11-05 の部分観測
+
+対象は [先端応用の概観](../../docs/13-domain-agents/emerging-agent-domains.md)の科学研究・シミュレーション・プロトコル統治です。記事全体の確認完了にはしません。全 URL・実取得 UTC・確認不能の分類は [実行記録](../freshness-runs/20261104t191109163z-4a12249e.json)に保存します。以下より後の旧日付の記述は当時の観測履歴です。
+
+| 分類 | 確認した事実・範囲 | 一次資料・実取得 UTC |
+| --- | --- | --- |
+| changed | PUBG 公式パッチ 42.1 の Ally Duo beta は 2026-06-17 メンテナンス後〜2026-07-01 07:00 UTC。NVIDIA の 6 月 30 日までという案内と比較するときは時区を確認します | [PUBG 公式パッチ](https://www.pubg.com/en/news/10179)、2026-11-04T19:12:27Z。[NVIDIA 告知](https://www.nvidia.com/en-us/geforce/news/pubg-ally-ai-teammate-beta-available-now/)、2026-11-04T19:13:02Z |
+| changed | 2026-09-25 の著者報告 v2 は、2 週間の PC live beta での実プレイヤー調査を報告。著者自己報告・自己選択の回答者調査であり、恒常提供や全プレイヤーへの一般化を示しません | [著者報告 v2 本文](https://arxiv.org/html/2609.29837v2)、2026-11-04T19:13:02Z |
+| changed | A2A は 2026-08-27 に AAIF Growth Stage project への参加を発表。AAIF 一覧は MCP / A2A を掲載。AP2 は別途 FIDO の Payments Technical Working Group で発展させる取組です。旧メモの 2025-06 の Linux Foundation 寄贈は履歴として保持します | [A2A 発表](https://a2a-protocol.org/latest/blog/2026/08/27/a-new-chapter-for-a2a-joining-the-agentic-ai-foundation/)・[AAIF 一覧](https://aaif.io/projects)、2026-11-04T19:13:28Z。[FIDO 発表](https://fidoalliance.org/fido-alliance-to-develop-standards-for-trusted-ai-agent-interactions/)、2026-11-04T19:12:38Z |
+| unchanged | Robin の出版日と人が実験する分担、AI co-scientist の専門家関与・3 領域・初期検証の限界、A-Lab 訂正の新規性・同定数、1,052 人研究 v3 の版と本人再回答比率、AP2 v0.2 の Mandate / 検証責務は既存記述と一致 | 原研究・訂正文・仕様の URL と実取得時刻は実行記録を参照 |
+
+Robin の Nature 正規 URL と A-Lab 訂正の Nature URL は認証先へのリダイレクトで取得に失敗し、前者は著者機関ページ、後者は著者機関の訂正 PDF で内容を確認しました。代替取得は独立追試の確認ではありません。Robin / AI co-scientist の独立追試と A-Lab 訂正後の独立再評価、1,052 人研究の査読誌掲載、PUBG の恒常提供、Agent 決済の全地域 GA・継続取引量は今回の一次資料から特定できませんでした。不在を断定せず、後続原論文・出版社書誌・公式サービス告知・期間と分母のある運用実績を再確認します。
+
+## 初回調査と以前の観測履歴
+
 - **調査 ID**: DA-R2
 - **調査日 / 確認日**: 2026-07-09(初回)、2026-09-10(EM01〜EM08 の更新)。旧記録の確認日を一律更新していません
 - **用途**: DOMAIN-AGENTS 計画の**鮮度管理型**記事「先端応用の概観(科学研究支援・シミュレーション/NPC・エージェント経済)」の裏取り。記事本文は各領域の「**何が実証済みで何が構想か**」を読者が見分けられることを主目的とするため、このメモでも**実証/構想の区別**を最重視します

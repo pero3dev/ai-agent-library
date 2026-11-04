@@ -3,13 +3,13 @@ title: "先端応用の概観(科学研究・シミュレーション・エー�
 category: "domain-agents"
 level: "basic"
 status: "published"
-last_updated: "2026-09-21"
+last_updated: "2026-11-05"
 tags: ["emerging", "agent-economy", "generative-agents", "science"]
 ---
 
 # 先端応用の概観(科学研究・シミュレーション・エージェント経済)
 
-> **確認日: 2026-09-10。** 科学研究支援・シミュレーション・エージェント経済の一次資料を例に、実験結果・仕様・運用実績の違いを読む記事です。網羅的な最新動向一覧ではありません。継続調査の候補は `research/domain-agents/emerging.md` にあり、個別の採用判断では原論文・公式仕様を改めて確認します。
+> **初回確認日: 2026-09-10。** 科学研究支援・シミュレーション・エージェント経済の一次資料を例に、実験結果・仕様・運用実績の違いを読む記事です。2026-11-05 に PUBG の期間・後続報告とプロトコルの統治を追補しました。網羅的な最新動向一覧ではありません。継続調査の候補は `research/domain-agents/emerging.md` にあり、個別の採用判断では原論文・公式仕様を改めて確認します。
 
 ## この記事の目的
 
@@ -66,7 +66,7 @@ tags: ["emerging", "agent-economy", "generative-agents", "science"]
 
 具体例として、1,052 人を扱う研究の 2026-06-28 の v3 は「LLM Agents Grounded in Self-Reports Enable General-Purpose Simulation of Individuals」です。General Social Survey に対する本人の 2 週間後の再回答一致度を基準にした比率は、面接のみ 83%、質問のみ 82%、併用 86%、人口統計のみ 74% でした。初期版の 85% と版を混ぜず、一般的な人間行動の予測正答率とも表現しません。
 
-ゲームでは、PUBG Ally は 2026-06-17〜30 の 2 週間の public beta が公式に確認できます。即応する行動木(behavior tree)と、ローカルの小型言語モデル(SLM)による認知・対話を組み合わせた構成です。表情アニメーションだけの例でも、2025 年に恒常提供を開始した例でもありません。期間限定ベータと、2026-09-10 の継続提供・普及率は区別します。
+ゲームでは、PUBG Ally の public beta は、PUBG 公式パッチノートでは **2026-06-17 のメンテナンス後〜2026-07-01 07:00 UTC**です。NVIDIA の告知は 6 月 30 日までと案内しているため、期間を比べるときは時区も確認します。即応する行動木(behavior tree)と、ローカルの小型言語モデル(SLM)による認知・対話を組み合わせた構成です。2026-09-25 の著者技術報告 v2 は、2 週間の PC live beta での実プレイヤー調査を報告しています。期間限定の利用実績と自己選択の回答者による調査を、恒常提供や全プレイヤーへの一般化とは区別します。
 
 ### エージェント経済: 決済仕様と実取引を区別する
 
@@ -85,7 +85,7 @@ tags: ["emerging", "agent-economy", "generative-agents", "science"]
 
 販売側の導線も変わります。OpenAI の 2026-03-24 の発表は、ChatGPT での商品発見に重点を移し、加盟店独自の checkout 体験と ACP feeds を支援する方針を示しました。2025 年の米国 Etsy 単品 Instant Checkout だけを現行の全体像にせず、かといって ChatGPT 内の購入がすべて廃止されたとも読みません。
 
-通信やツール接続の標準は[ツール接続標準](../03-implementation/mcp-and-tool-protocols.md)を参照してください。通信できることと、売買の権限・契約・決済が成立することは別々の確認対象です。
+通信やツール接続の標準は[ツール接続標準](../03-implementation/mcp-and-tool-protocols.md)を参照してください。MCP と A2A は Agentic AI Foundation(AAIF)のプロジェクト一覧に掲載され、A2A は 2026-08-27 に Growth Stage project への参加を発表しました。AP2 は別途 FIDO Alliance の Payments Technical Working Group で発展させる取組です。仕様の統治主体を確認したことと、売買の権限・契約・決済が成立することは別々の確認対象です。
 
 ## 実務での注意点
 
@@ -125,7 +125,9 @@ tags: ["emerging", "agent-economy", "generative-agents", "science"]
 - [AI co-scientist, Nature](https://www.nature.com/articles/s41586-026-10644-y) — Nature 655, 487–496。専門家が関与する 3 領域の初期検証。本文確認と独立追試は別(アクセス日: 2026-09-21)
 - [A-Lab Author Correction](https://www.nature.com/articles/s41586-025-09992-y) / [著者機関の全文](https://repositories.cdlib.org/uc/item/4kb4s6pg) — 新規性・同定結果の訂正(アクセス日: 2026-09-10)
 - [1,052 人のシミュレーション研究 v3](https://arxiv.org/abs/2411.10109v3) — 版と本人再回答比率の評価(アクセス日: 2026-09-10)
-- [PUBG Ally ベータ告知](https://www.nvidia.com/en-us/geforce/news/pubg-ally-ai-teammate-beta-available-now/) / [技術構成](https://developer.nvidia.com/blog/how-krafton-built-pubg-ally-a-co-playable-character-powered-by-nvidia-ace/) — 期間限定提供と行動木・SLM(アクセス日: 2026-09-10)
+- [PUBG 公式パッチノート 42.1](https://www.pubg.com/en/news/10179) / [NVIDIA ベータ告知](https://www.nvidia.com/en-us/geforce/news/pubg-ally-ai-teammate-beta-available-now/) / [技術構成](https://developer.nvidia.com/blog/how-krafton-built-pubg-ally-a-co-playable-character-powered-by-nvidia-ace/) — UTC のサービス期間と行動木・SLM(アクセス日: 2026-11-05)
+- [PUBG Ally 著者技術報告 v2](https://arxiv.org/html/2609.29837v2) — 期間限定 PC live beta の実プレイヤー調査。恒常提供の証明ではありません(アクセス日: 2026-11-05)
+- [A2A の AAIF 参加発表](https://a2a-protocol.org/latest/blog/2026/08/27/a-new-chapter-for-a2a-joining-the-agentic-ai-foundation/) / [AAIF projects](https://aaif.io/projects) / [FIDO の Agent 決済標準化](https://fidoalliance.org/fido-alliance-to-develop-standards-for-trusted-ai-agent-interactions/) — MCP / A2A と AP2 の統治を区別(アクセス日: 2026-11-05)
 - [AP2 の FIDO 寄贈](https://blog.google/products-and-platforms/platforms/google-pay/agent-payments-protocol-fido-alliance/) — 2026-04-28 の v0.2 公開(アクセス日: 2026-09-10)
 - [Worldline / ING / Mastercard の実決済 pilot](https://www.mastercard.com/news/europe/en/newsroom/press-releases/en/2026/worldline-ing-and-mastercard-complete-a-live-end-to-end-european-agentic-payment-in-production/) / [Visa Connect 発表](https://investor.visa.com/news/news-details/2026/Visa-Opens-the-Door-to-AI-Driven-Shopping-for-Businesses-Worldwide/) — 取引実績と提供範囲の区別(アクセス日: 2026-09-10)
 - [OpenAI — Powering Product Discovery in ChatGPT](https://openai.com/index/powering-product-discovery-in-chatgpt/) — 商品発見・加盟店 checkout・ACP feeds の方針(アクセス日: 2026-09-10)

@@ -1,4 +1,18 @@
-## 2026-09-10 鮮度更新
+## 2026-11-05 の部分観測
+
+対象は [フレームワーク選定](../../docs/03-implementation/framework-selection.md)、[OSS エコシステム](../../docs/03-implementation/open-source-ai-ecosystem.md)、[知財資料マップ](../../docs/09-business/ai-copyright-and-ip-map.md)の限定された事実記述です。系統全体・記事全体の確認完了や法的適用判断ではありません。全 URL・実取得 UTC・分類は [実行記録](../freshness-runs/20261104t191109163z-4a12249e.json)に保存します。以下より後の旧日付の節・メンテナンスモードの記述は当時の履歴として保持し、保守状況は今回の観測を参照します。
+
+| 分類 | 確認した事実・範囲 | 一次資料・実取得 UTC |
+| --- | --- | --- |
+| changed | AutoGen の公式 README は保守終了と、不具合修正・セキュリティ修正・新機能・サポートを提供しない方針を案内。同時に取得した GitHub API の `archived` 属性は false。README の表現とリポジトリの読み取り専用属性を同一視しません | [README](https://github.com/microsoft/autogen/blob/main/README.md)・[repository API](https://api.github.com/repos/microsoft/autogen)、2026-11-04T19:13:30Z |
+| changed | 知財本部プリンシプル・コードの公式案内と届出事業者一覧を HTTP 200 で取得。一覧に 2026-10-26 の届出を掲載し、一覧の更新日は 2026-10-30。資料公開・届出受付・一覧掲載は分けます | [公式案内](https://www.cas.go.jp/jp/seisakukaigi/titeki2/ai_principle_code/index.html)、2026-11-04T19:13:54Z。[届出事業者一覧](https://www.cas.go.jp/jp/seisakukaigi/titeki2/ai_principle_code/jigyousha_ichiran.html)、2026-11-04T19:14:04Z |
+| unchanged | Agent Framework 1.0 の .NET / Python の production-ready 発表は既存記述と一致。後続リリース一覧も取得しましたが、記事に特定の最新番号は追加しません | [1.0 発表](https://devblogs.microsoft.com/agent-framework/microsoft-agent-framework-version-1-0/)、2026-11-04T19:12:42Z。[releases](https://github.com/microsoft/agent-framework/releases)、2026-11-04T19:13:20Z |
+| unchanged | Gemma 4 の Apache-2.0 と旧世代 Terms の区別、OSAID 1.0 の定義、Hugging Face の ToS と別紙ポリシー・モデルカード・移管時リダイレクトは取得本文と一致。ライセンスの個別適用は判断しません | 各公式 URL・実取得時刻は実行記録を参照 |
+| unverifiable | コードの正式採択日・コード公開日は取得した案内・一覧から特定できません。届出日・一覧更新日や会合日で補完しません | 上記知財本部資料、同実取得時刻 |
+
+政府 2 ページは Web ツールで 404 となりましたが、読み取り専用 HTTP 再取得では 200 と本文を確認しました。途中の取得失敗と最終的な本文確認を区別します。次回は知財本部の決定文書・会合資料・公開告知から正式採択日とコード公開日を確認します。主要フレームワークの 8 軸の機能比較は採用時確認として留保し、今回の保守・提供段階の確認から各機能の適合を推定しません。
+
+## 2026-09-10 鮮度更新(当時の記録)
 
 Gemma 4 は Apache-2.0、旧世代は対象を限定した Gemma Terms です。公式 Terms の冒頭が Gemma 4 の別ライセンスへ案内しています。2026-04-01 は Terms の版の日付で、Gemma 4 の適用開始日とは推測しません。重みの許諾と OSAID の要件を満たすかどうかも別の判断です。Qwen3.8・Kimi K3・Mistral Medium 3.5 の独自条件は [モデルカタログ](../../docs/03-implementation/llm-landscape.md) の配布物別の表を参照してください。
 

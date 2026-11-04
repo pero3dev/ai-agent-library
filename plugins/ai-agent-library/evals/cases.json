@@ -1,0 +1,148 @@
+{
+  "schema_version": 1,
+  "dataset_id": "reader-skills-routing-v1",
+  "purpose": "自然依頼からのCodex実スキル読込を観測する。設計者が作った20例で、実利用分布やレビュー品質全体の成績ではない。",
+  "observation": "成功したファイル読込ツールの出力にSKILL.md本文全体が現れたことを、暗黙選択の観測代理として数える。ファイル名列挙・grep・モデルの自己申告だけは数えない。",
+  "cases": [
+    {
+      "id": "positive-design-01",
+      "expected_skill": "agent-design-review",
+      "prompt": "input.mdのメール対応Agent設計をレビューしてください。成立条件と重大な不足を、優先度と根拠付きで指摘してください。実装変更は不要です。",
+      "rationale": "方式だけに限らず、状態・副作用・評価を含む横断的なAgent設計レビュー。",
+      "fixture": "# メール対応Agent設計\n目的: 社内の問い合わせメールを分類し、回答して案件を閉じる。\n入力: メール本文、添付PDF、過去の回答。\nモデル: 分類後に必要な処理を自由に計画する。\nツール: 社内検索、メール送信、案件の終了操作。送信前には別のLLMに文面を確認させる。\n状態: 同じ会話履歴へ全ツール結果を追加する。長くなったら先頭から削除する。\n失敗: 成功するまで再試行。\n投入判断: 担当者が5件の回答を眺めて決める。\n"
+    },
+    {
+      "id": "positive-design-02",
+      "expected_skill": "agent-design-review",
+      "prompt": "input.mdは社内RAG Agentの構成案です。モデル、状態管理、失敗時の挙動、投入判断が整合しているか設計レビューをお願いします。",
+      "rationale": "RAGの実装説明ではなく、複数観点の成立条件をレビューする依頼。",
+      "fixture": "# 社内RAG Agent構成案\n社内資料を検索して回答する。利用者IDを検索条件へ渡す。権限チェックは検索API側で行う。\n会話の履歴は利用者単位で保存するが、引用した資料の版は保存しない。\n検索に失敗したときはモデルが一般知識で補って回答する。引用が付けられなくても成功扱いとする。\n回答の正確性はLLM採点だけで測る。モデル更新後に代表20件を実行する予定だが、採点条件は未定。\n"
+    },
+    {
+      "id": "positive-design-03",
+      "expected_skill": "agent-design-review",
+      "prompt": "input.mdのPR設計メモを、AI Agent全体の設計変更としてレビューしてください。観測できる問題と未提示の情報を区別してください。",
+      "rationale": "単なるコード差分ではなく、自律性・権限・運用をまたぐAgent設計変更。",
+      "fixture": "# 顧客サポートAgentのPR設計メモ\n変更: 単なる回答生成から、返金額を判断して返金APIまで実行する構成にする。\n返金APIは顧客IDと金額を受け取り、モデルの申請をそのまま実行する。\n人の確認は金額によらず後日一括とする。APIの認可仕様はこのメモには記載がない。\n処理結果は会話履歴だけへ保存し、再送信時の同一性判定は後で追加する。\n既存の回答品質テストは変更しない。\n"
+    },
+    {
+      "id": "positive-choice-01",
+      "expected_skill": "agent-architecture-choice",
+      "prompt": "input.mdの経費処理をAgentにするべきか、固定Workflowで足りるか判断してください。選定理由と判断を変える条件を示してください。",
+      "rationale": "既知の分岐を持つ業務についてWorkflowとAgentの方式選定を求める。",
+      "fixture": "# 経費処理の要件\n領収書から日付、金額、費目を抽出する。\n費目は10種類、申請者の所属と金額に応じた承認経路は表で定義済み。\n抽出不明・重複・規定外は人に返す。毎月約1,000件。\n監査ログと再実行時の同一結果が必要。新しい承認経路は担当者が設定を変更する。\n候補は、LLM抽出後に固定手順で検証する方式と、モデルが承認経路を計画するAgent方式。\n"
+    },
+    {
+      "id": "positive-choice-02",
+      "expected_skill": "agent-architecture-choice",
+      "prompt": "input.mdの調査業務について、Workflow、Agent、ハイブリッドを比較して自律性の範囲を提案してください。実APIの実行は不要です。",
+      "rationale": "探索部分と定型部分を分けて方式を比較する依頼。",
+      "fixture": "# 技術調査業務\n新しい技術テーマを受け、一次資料を探して相互の不一致を整理する。必要な資料や探索回数は事前には列挙できない。\n最後のレポートは決まった見出しに整形し、URLの存在と引用位置を機械検査する。\n検索と文書の読み取りだけを許し、外部への投稿はしない。\n調査時間は最大15分。根拠が足りなければ未確認として人へ返す。\n"
+    },
+    {
+      "id": "positive-choice-03",
+      "expected_skill": "agent-architecture-choice",
+      "prompt": "input.mdの複数Agent案が過剰でないか見直してください。方式選定に絞って、より単純な候補との比較をお願いします。",
+      "rationale": "複数Agent採用の前提を見直す方式選定であり、横断レビューへの拡大を求めない。",
+      "fixture": "# 週次レポート生成案\n入力は固定スキーマの集計JSONだけ。\n手順は、期間の検証、前週との差分計算、決められた5見出しの文章化。\n設計案では計画Agent、計算Agent、執筆Agent、監督Agentの4つが自由に会話して完成を判断する。\n数値の正しさと、入力が同じなら再現できることを重視する。\n"
+    },
+    {
+      "id": "positive-security-01",
+      "expected_skill": "agent-security-review",
+      "prompt": "input.mdのAgentとMCP連携を安全性に絞ってレビューしてください。インジェクションからツール権限の行使までの経路を確認したいです。攻撃の実行は不要です。",
+      "rationale": "未信頼入力とツールの権限を扱うAgent固有のセキュリティレビュー。",
+      "fixture": "# MCP連携設計\nAgentは公開Web文書を読み、社内の顧客情報も検索できる。\nMCPサーバーには文書取得、顧客検索、任意宛先へのメール送信を登録する。\n取得文書中の操作手順も会話の指示と同じメッセージへ入れる。\n送信時には『秘密情報を送らないこと』とプロンプトへ記載する。送信先や添付内容の実装側検査は未定。\n"
+    },
+    {
+      "id": "positive-security-02",
+      "expected_skill": "agent-security-review",
+      "prompt": "input.mdのAI Agentの認証・認可とデータ流出対策だけを確認してください。記載がないものを脆弱性と断定せず、確認事項も整理してください。",
+      "rationale": "利用者権限と実行主体を結び付けるAgent設計の安全性確認。",
+      "fixture": "# テナント別業務Agent\nログイン済み利用者がAgentに文書の要約とメール下書きを依頼する。\nAgentのツール接続には組織共有のトークンを使用する。検索引数にはモデルが選んだtenant_idを含める。\n接続先APIが利用者別の権限を確認するかは、この資料からは分からない。\nログへはツール引数と結果を全文保存する。保持期間と閲覧権限は未提示。\n"
+    },
+    {
+      "id": "positive-eval-01",
+      "expected_skill": "agent-eval-plan",
+      "prompt": "input.mdのサポートAgentを本番投入するための評価計画を作ってください。成果、軌跡、部品、採点方法と投入判断をつなげてください。評価の実行は不要です。",
+      "rationale": "Agentの評価ケース・採点・判断の設計を求める。",
+      "fixture": "# サポートAgentの評価対象\n顧客の問い合わせを検索し、根拠を示して回答し、不明な場合は人へ引き継ぐ。\n主な利用者は日本語話者。誤回答と、不要な個人情報を回答に含めることを避けたい。\n開発者が作った正常10件では回答が出たが、失敗や曖昧な依頼はまだ評価していない。\n使用モデルと検索APIの更新後も回帰を回したい。\n"
+    },
+    {
+      "id": "positive-eval-02",
+      "expected_skill": "agent-eval-plan",
+      "prompt": "input.mdの評価案を見直してください。AI Agentのコンテキスト圧縮の変更前後を比較するため、ケース分割、採点、反復と費用の計画を具体化したいです。",
+      "rationale": "Agent構成変更の比較評価計画に限定された依頼。",
+      "fixture": "# コンテキスト圧縮の評価案\n長い会話を要約に置き換え、費用を下げたい。\n現在の案は、旧方式で短い質問20件、新方式で長い質問20件を実行し、平均LLM採点が上なら採用する。\n失われてはいけない制約、引用の維持、ツール結果との整合はまだ採点していない。\n改善に使うケースと最終判断に使うケースは同じにする予定。\n"
+    },
+    {
+      "id": "negative-code-review-01",
+      "expected_skill": null,
+      "prompt": "input.mdのPython関数だけを通常のコードレビューとして確認してください。Agent設計のレビューは求めていません。",
+      "rationale": "一般コードレビューは読者向けAgent設計スキルの対象外。",
+      "fixture": "```python\ndef average(values):\n    return sum(values) / len(values)\n```\n呼び出し元から空配列が来る場合があります。\n"
+    },
+    {
+      "id": "negative-translation-02",
+      "expected_skill": null,
+      "prompt": "input.mdの日本語を英訳してください。内容へのレビューや改善提案は不要です。",
+      "rationale": "Agentに言及しても、翻訳だけの依頼は設計レビューではない。",
+      "fixture": "このAI Agentは問い合わせを分類し、権限のあるツールだけを使います。判断できない場合は停止し、人へ確認します。\n"
+    },
+    {
+      "id": "negative-definition-03",
+      "expected_skill": null,
+      "prompt": "AI Agentとは何か、初心者向けに日本語の一文で説明してください。設計判断やレビューは不要です。",
+      "rationale": "短い概念説明を設計選定へ広げない。",
+      "fixture": ""
+    },
+    {
+      "id": "negative-sql-04",
+      "expected_skill": null,
+      "prompt": "input.mdの表定義で、部署ごとの人数を数えるSQLを一つ示してください。実行は不要です。",
+      "rationale": "通常のSQL作成で、Agentワークフローに関係しない。",
+      "fixture": "employees(id integer, department text, name text)\n"
+    },
+    {
+      "id": "negative-writing-05",
+      "expected_skill": null,
+      "prompt": "MCPの入門記事を書くための見出し案を5つ示してください。設計書のレビューや評価計画は不要です。",
+      "rationale": "記事の構成案は読者向け設計レビューの対象外。",
+      "fixture": "読者は、MCPという用語を初めて聞くソフトウェアエンジニアです。\n"
+    },
+    {
+      "id": "negative-framework-06",
+      "expected_skill": null,
+      "prompt": "LangChainとSDKを直接使う場合の一般的な違いを、依存関係と学習コストの観点で簡潔に説明してください。WorkflowとAgentの方式選定は不要です。",
+      "rationale": "フレームワーク一般比較だけでは方式選定スキルを発火させない。",
+      "fixture": ""
+    },
+    {
+      "id": "negative-unit-test-07",
+      "expected_skill": null,
+      "prompt": "input.mdの純粋関数に必要な単体テストケースを3つ挙げてください。AI Agentの評価計画は求めていません。",
+      "rationale": "一般の関数テストをAgent評価へ拡大しない。",
+      "fixture": "```python\ndef clamp(value, minimum, maximum):\n    return max(minimum, min(value, maximum))\n```\nminimum <= maximum が呼び出し条件です。\n"
+    },
+    {
+      "id": "negative-markdown-08",
+      "expected_skill": null,
+      "prompt": "input.mdのMarkdownリンクの書式を直した文字列だけ返してください。ファイル編集は不要です。",
+      "rationale": "ドキュメントの単純修正は設計レビューでない。",
+      "fixture": "[AI Agent Library](https://example.invalid/library\n"
+    },
+    {
+      "id": "negative-arithmetic-09",
+      "expected_skill": null,
+      "prompt": "input.mdの売上の合計を計算し、数値だけ答えてください。",
+      "rationale": "表計算はAgent設計・安全性・評価の依頼ではない。",
+      "fixture": "商品,売上\nA,120\nB,230\nC,50\n"
+    },
+    {
+      "id": "negative-web-security-10",
+      "expected_skill": null,
+      "prompt": "input.mdの通常のWeb画面コードをXSSの観点だけでレビューしてください。このシステムにAI AgentやMCPはありません。攻撃の実行は不要です。",
+      "rationale": "一般Webの脆弱性診断をAgent固有セキュリティレビューへ誤ルーティングしない。",
+      "fixture": "```javascript\nfunction showMessage(message) {\n  document.querySelector('#message').innerHTML = message;\n}\n```\nmessageには利用者が投稿した文字列が入ります。\n"
+    }
+  ]
+}

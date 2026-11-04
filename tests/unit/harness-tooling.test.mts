@@ -317,6 +317,20 @@ test('existing review roles must keep their read-only sandbox even with valid me
   assert.match((await checkHarness(root, options)).problems.join('\n'), /tools が共通 contract と不一致/)
 })
 
+test('reader plugin metadata and references are audited without maintainer skill synchronization', async (t) => {
+  const { root, write, options } = configuredFixture(t)
+  const skill = 'plugins/demo/skills/reader-demo/SKILL.md'
+  write(skill, '---\nname: wrong\ndescription: Reader workflow\n---\n# Reader\n')
+  assert.ok((await checkHarness(root, options)).problems.some(problem => problem.includes(skill) && problem.includes('name / description')))
+  write(skill, '---\nname: reader-demo\ndescription: Reader workflow\n---\n# Reader\n\n[reference](references/checklist.md)\n')
+  assert.ok((await checkHarness(root, options)).problems.some(problem => problem.includes(skill) && problem.includes('不正な参照')))
+  write('plugins/demo/skills/reader-demo/references/checklist.md', '# Checklist\n')
+  write('.claude-plugin/marketplace.json', '{invalid')
+  assert.ok((await checkHarness(root, options)).problems.some(problem => problem.startsWith('.claude-plugin/marketplace.json:')))
+  write('.claude-plugin/marketplace.json', { name: 'fixture', owner: { name: 'Fixture' }, plugins: [] })
+  assert.deepEqual((await checkHarness(root, options)).problems, [])
+})
+
 test('teaching inventory examines files in old and relocated tests areas, including hidden settings', async (t) => {
   const { root, write, options } = configuredFixture(t)
   const active = ['tests/harness/old/AGENTS.md', 'tests/unit/fixture/CLAUDE.md', 'tests/helpers/sample/SKILL.md', 'tests/fixtures/harness/new/.codex/config.toml']

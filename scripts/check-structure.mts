@@ -59,7 +59,7 @@ export function checkStructure(root: string = ROOT, { trackedFiles, linkCollecto
   const tracked = new Set(files)
   for (const file of [...contract.root_files, ...contract.required_files]) if (!tracked.has(file)) problems.push(`必須の追跡ファイルがありません: ${file}`)
   // collectLinkTargets の入口自体がリンクの場合も、外部の本文を読みに行かない。
-  for (const dir of ['docs', 'examples', 'project', 'harness', 'scripts', 'ios', '.agents', '.codex', '.claude', 'research']) {
+  for (const dir of ['docs', 'examples', 'project', 'harness', 'scripts', 'ios', 'plugins', '.agents', '.codex', '.claude', '.claude-plugin', 'research']) {
     try { if (lstatSync(path.join(root, dir)).isSymbolicLink()) { problems.push(`リンク検査の入口をリンクにはできません: ${dir}`); unsafe = true } } catch (error) { if (!(error instanceof Error) || !('code' in error) || error.code !== 'ENOENT') { problems.push(`${dir}: ${error instanceof Error && 'code' in error ? error.code : 'unknown'}`); unsafe = true } }
   }
   if (!unsafe) {

@@ -21,6 +21,7 @@
   "top_directories": [
     ".agents",
     ".claude",
+    ".claude-plugin",
     ".codex",
     ".github",
     "assets",
@@ -29,6 +30,7 @@
     "examples",
     "harness",
     "ios",
+    "plugins",
     "project",
     "research",
     "scripts",
@@ -42,7 +44,8 @@
   ],
   "markdown_coverage_roots": [
     "project",
-    "ios"
+    "ios",
+    "plugins"
   ],
   "retired_paths": [
     ".codex/hooks/edited-paths.mjs",

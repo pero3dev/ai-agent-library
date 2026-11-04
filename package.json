@@ -29,7 +29,7 @@
     "freshness:observations": "node scripts/freshness-observation-report.mjs",
     "check:levels": "node scripts/check-prerequisite-levels.mjs",
     "check": "npm run typecheck && npm run typecheck:coverage && npm test && npm run ios:test:icon && npm run lint:md && npm run validate && npm run links && npm run check:levels && npm run todos && npm run check:harness",
-    "check:harness": "node scripts/check-harness.mjs && node scripts/check-structure.mjs && node scripts/check-git-conventions.mjs --check-config",
+    "check:harness": "node scripts/sync-reader-skills.mjs --check && node scripts/evaluate-reader-skills.mjs --check && node scripts/check-harness.mjs && node scripts/check-structure.mjs && node scripts/check-git-conventions.mjs --check-config",
     "check:git": "node scripts/check-git-conventions.mjs",
     "check:structure": "node scripts/check-structure.mjs",
     "structure:inventory": "node scripts/structure-inventory.mjs",

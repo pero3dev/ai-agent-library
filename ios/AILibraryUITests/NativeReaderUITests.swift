@@ -381,6 +381,7 @@ class NativeReaderUITestCase: XCTestCase {
     var seedsPartialReadingRecovery: Bool { false }
     var recordsRuntime26WaitBoundaries: Bool { false }
     var recordsReadingRecoveryOpenBoundaries: Bool { false }
+    var recordsModalPresentationBoundaries: Bool { false }
 
     override func setUpWithError() throws {
         continueAfterFailure = false
@@ -389,6 +390,9 @@ class NativeReaderUITestCase: XCTestCase {
         app.launchArguments = ["-AppleLanguages", "(ja)", "-AppleLocale", "ja_JP"]
         if seedsPartialReadingRecovery {
             app.launchEnvironment["AILIBRARY_UI_TEST_READING_RECOVERY"] = "partial-v1"
+        }
+        if recordsModalPresentationBoundaries {
+            app.launchEnvironment["AILIBRARY_UI_TEST_MODAL_BOUNDARIES"] = "1"
         }
         app.launch()
     }
@@ -419,8 +423,8 @@ class NativeReaderUITestCase: XCTestCase {
 
     private func frameVisibility(_ element: XCUIElement, inside container: XCUIElement?,
                                  fullyVisible: Bool) -> ReaderFrameVisibility {
-        let appFrame = app.frame
         if let container, !container.exists { return .unknown("Container is not present") }
+        let appFrame = app.frame
         let bars = container == nil ? [] : navigationBarFrames(appFrame: appFrame)
         return ReaderViewportGeometry.visibility(target: element.exists ? element.frame : nil,
             app: appFrame, container: container?.frame, bars: bars, fullyVisible: fullyVisible)

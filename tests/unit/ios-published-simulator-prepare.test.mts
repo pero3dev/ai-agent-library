@@ -196,7 +196,7 @@ for (const slice of ['reading-state', 'content-copy']) {
     const expected = fs.readFileSync(path.join(base, 'ios/fixtures/first-code-copy-expected.txt')); assert.equal(expected.length, 374)
     fs.mkdirSync(path.join(h.root, 'ios/fixtures'), { recursive: true }); fs.writeFileSync(path.join(h.root, 'ios/fixtures/first-code-copy-expected.txt'), expected)
     h.clipboard(expected); await import('data:text/javascript;base64,' + Buffer.from(callerModule(uiBlocks[1], contract)).toString('base64') + '#after')
-    assert.equal(objectFixture(JSON.parse(fs.readFileSync(path.join(evidence, 'ui-slice-summary.json'), 'utf8'))).selected_UI_passed, slice === 'reading-state' ? 18 : 8)
+    assert.equal(objectFixture(JSON.parse(fs.readFileSync(path.join(evidence, 'ui-slice-summary.json'), 'utf8'))).selected_UI_passed, slice === 'reading-state' ? 19 : 8)
     if (slice === 'content-copy') { const copy = objectFixture(JSON.parse(fs.readFileSync(path.join(evidence, 'code-copy-summary.json'), 'utf8'))); assert.equal(copy.status, 'exact-first-code-copy-passed'); assert.equal(copy.actual_bytes, 374) }
     assert.equal(h.cleanup().ok, true)
   }))
@@ -262,7 +262,7 @@ test('YAML binds exactly three xcode destinations and preserves fixed roster/can
   assert.equal(workflow.includes('name=iPhone 16'), false); assert.equal(workflow.includes("device.name === 'iPhone 16'"), false)
   assert.ok(workflow.includes('[[ "$AILIBRARY_PUBLISHED_DESTINATION" == "platform=iOS Simulator,id=$COPY_SIMULATOR_ID" ]]'))
   // The checkout contains the current contract, not a private previous-workflow
-  // snapshot. Keep the independently fixed 26-case roster explicit here.
+  // snapshot. Keep the independently fixed 27-case roster explicit here.
   const expectedSlices = {
     "reading-state": [
       "NativeReaderUITests/testContentsBookmarkAndResumeAfterRelaunch()",
@@ -277,6 +277,7 @@ test('YAML binds exactly three xcode destinations and preserves fixed roster/can
       "PublishedReaderUITests/testFixtureCrossArticleBodyLinkReturnsToMeasuredSourcePositionAndBookmark()",
       "PublishedReaderUITests/testFixtureTallSingleBlockResumesNearItsMeasuredInternalRowAfterRelaunch()",
       "PublishedReaderUITests/testResumeUsesLaterReadingPositionInsteadOfReplayingThePreviousBodyQuery()",
+      "PublishedReaderUITests/testStorageUsageRecheckAndClosePreserveFilteredLibrary()",
       "ReaderViewportGeometryTests/testCopiedFramesSelectLowestFullyVisibleParagraph()",
       "ReaderViewportGeometryTests/testEqualTopFramesPreserveCollectionOrder()",
       "ReaderViewportGeometryTests/testForegroundOcclusionAndPartialFrameRemainExcluded()",

@@ -1,0 +1,119 @@
+{
+  "date": "2026-11-04",
+  "state": "creation-time-static-Code3-Source8-preparation",
+  "task": "IOS-21",
+  "actual_parent": null,
+  "base": {
+    "future_Perf_tree": "6b3be98f4edcb13eebc18aa67212a4026422a4a1",
+    "tracked": 3037,
+    "actual_main_adopted": false
+  },
+  "scope": {
+    "paths": 8,
+    "new_records": 2,
+    "after_tracked": 3039,
+    "product": "in-process nonblocking root permit and active-staging lifetime only",
+    "PBX": "0.2.30(32) to candidate0.2.31(33), version fields only in Debug/Release",
+    "TODO": "32/16 rows and criteria exact; IOS21 remains unchecked"
+  },
+  "Code3": {
+    "Code2_MF": "1a5f436a755f3187b48a78cab1244efef644b9ba011f3b88dc90e215b8a20dde",
+    "Code2_SourceMF": "64c7a7dfb01ae69d5b368c53b67bc235a60f23762b4bab158eb19ec7998068b8",
+    "Code2_Root_accepted_IR_MF": "717d475a1b6a739f75815485d2d74a0fec436caf677be84cef5e195c632260ca",
+    "corrected_host_SourceMF": "d92dbd138a59f3c82b57c6d9b7d3a4b93705026c86f1dcb87c2494c8abaf2551",
+    "payloads": [
+      {
+        "path": "ios/AILibrary/Sources/ContentRepository.swift",
+        "bytes": 12640,
+        "SHA256": "fb4b680c93f3066b1efd96a50b23f3b938439faf2e3011d4d13f8b95dc21ddb3"
+      },
+      {
+        "path": "ios/AILibraryTests/LibraryCoreTests.swift",
+        "bytes": 349781,
+        "SHA256": "cbfbf6f8a9a7fb2cde26e7e2843ccc2574fe0ab20096b4d1c92b6adfe36d739e"
+      },
+      {
+        "path": "ios/tests/CoreSmoke.swift",
+        "bytes": 63288,
+        "SHA256": "71f9aef0b3f12a3515465009a5f4de6f5a89074c678e069b73c0b1259e5f5c17"
+      }
+    ],
+    "all_three_byte_exact": true,
+    "old_LibraryCoreTests_prefix_exact": true,
+    "new_XCTest9": "definitions, compiled previously, not executed",
+    "canonical_retry_only": "final retry receiver peer alias to existing canonical reader"
+  },
+  "historical_Foundation": {
+    "state": "Root-adopted fixed synthetic compile-plus-run PASS",
+    "seconds_total": 10.532058666,
+    "PASS_lines": 14,
+    "run_log_bytes": 1101,
+    "run_log_SHA256": "8e7e87255291af418e789d24a76989caa2e632ad7f5754b9ece985393048232e",
+    "execution_result_SHA256": "c0b13e3cfc998fa43182cefec3208d6f99b5a2aa83442faacc00112c7f0aca88",
+    "iOS_XCTest_or_device": false
+  },
+  "historical_failure": {
+    "state": "initial Foundation SIGTRAP retained; runtime site unconfirmed",
+    "diagnosis_SHA256": "147304b0b3746fdea0d99e7c3356b16d6aab4c7ad441af5e9780e5168b5038bf",
+    "failure_result_SHA256": "8490052f77af57d0191198a77186df75ec58c5d517760c2e1cf760b305810a41",
+    "failure_packet_MF": "cbe3a11fc19b8f1b4611f0b6c426658613928a68429828b180113878c980c0b3",
+    "alias_success_import_site_proven": false,
+    "product_or_validator_fix_claimed": false
+  },
+  "historical_SDK": {
+    "state": "Code2 typecheck only",
+    "result_SHA256": "f5e52f21f7aa1a5fb30ada499fa9ef70383b34e0cfdbf86d43ead201b803b28e",
+    "seconds": 44.380835958,
+    "exit": 0,
+    "Xcode": "16.2(16C5032a)",
+    "SDK": "iPhoneSimulator18.2",
+    "architecture": [
+      "arm64",
+      "x86_64"
+    ],
+    "per_arch_actual_files": {
+      "App": 19,
+      "generated": 1,
+      "Unit": 8,
+      "UI": 6
+    },
+    "CoreSmoke_in_target": false,
+    "new9_XCTest_runtime": false,
+    "Runtime306_or_Source8_runtime_accepted": false
+  },
+  "preserved": [
+    "load",
+    "preview",
+    "lease",
+    "validator",
+    "rollback-pointer",
+    "existing two production remove calls",
+    "stored generation/previous/reading policies",
+    "all Doc4 and Perf index text",
+    "all TODO criteria"
+  ],
+  "not_introduced": [
+    "cross-process lock",
+    "inode identity safety",
+    "root replacement safety",
+    "all-alias-or-case normalization proof",
+    "cleanup API",
+    "deletion UI",
+    "active-IDs-empty-as-deletion-permission",
+    "IOS21 completion"
+  ],
+  "not_executed_for_Source8": [
+    "common",
+    "Node",
+    "Foundation",
+    "SDK",
+    "Git",
+    "network",
+    "install",
+    "Source apply",
+    "publication",
+    "CI",
+    "main",
+    "device"
+  ]
+}

@@ -4,6 +4,33 @@ import XCTest
 /// CI passes the independently counted published total to the runner, never to app routing.
 final class PublishedReaderUITests: NativeReaderUITestCase {
     private var expectedPublishedCount = 0
+    override var recordsModalPresentationBoundaries: Bool { false }
+
+    private var modalBoundaryBeforeMore = "not_sampled"
+
+    // One value read immediately before each existing More tap, outside every readiness predicate.
+    private func rememberModalBoundaryBeforeMore(_ more: XCUIElement) {
+        guard recordsModalPresentationBoundaries else {
+            modalBoundaryBeforeMore = "disabled"
+            return
+        }
+        modalBoundaryBeforeMore = boundedModalBoundaryValue(more.value as? String)
+    }
+
+    private func boundedModalBoundaryValue(_ value: String?) -> String {
+        guard let value, value.utf8.count <= 256, value.hasPrefix("v=1;i="),
+              value.utf8.allSatisfy({ (48...57).contains($0) || (65...90).contains($0) ||
+                  (97...122).contains($0) || $0 == 59 || $0 == 61 }) else { return "unavailable_or_invalid" }
+        return value
+    }
+
+    // Failure-only, sequential to the earlier sample and existing hierarchy; not an atomic snapshot.
+    private func modalBoundaryAtFailure() -> String {
+        guard recordsModalPresentationBoundaries else { return "disabled" }
+        let controls = app.buttons.matching(identifier: "library-modal-boundary-trace")
+        guard controls.count == 1 else { return "unavailable_or_ambiguous" }
+        return boundedModalBoundaryValue(controls.element(boundBy: 0).value as? String)
+    }
 
     override func setUpWithError() throws {
         guard let raw = ProcessInfo.processInfo.environment["AILIBRARY_EXPECTED_PUBLISHED_COUNT"],
@@ -580,6 +607,7 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
     private func openFilteredMoreActionsSheet() throws {
         let more = try singleHittableControl(app.buttons.matching(
             NSPredicate(format: "label == %@", "その他の操作")), name: "More Actions button")
+        rememberModalBoundaryBeforeMore(more)
         more.tap()
         XCTAssertTrue(app.navigationBars["その他の操作"].waitForExistence(timeout: 10))
         requireHittable(app.buttons["このアプリについて"])
@@ -614,6 +642,74 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         XCTAssertEqual(app.buttons["library-tag-filter"].value as? String, "agent-loop")
         XCTAssertTrue(article.exists)
         capture("Filtered-more-actions-about-return")
+    }
+
+    func testStorageUsageRecheckAndClosePreserveFilteredLibrary() throws {
+        try setLearningTagAndArticleQuery(tag: "agent-loop", query: "Agent ループ")
+        let summary = app.staticTexts["library-filter-summary"]
+        let originalSummary = summary.label
+        let originalQuery = try XCTUnwrap(try foregroundArticleSearch().value as? String)
+        let originalTag = try XCTUnwrap(app.buttons["library-tag-filter"].value as? String)
+        let article = element("library-article-01-concepts/agent-loop")
+        XCTAssertTrue(article.waitForExistence(timeout: 10))
+        let originalArticle = article.label
+
+        try openFilteredMoreActionsSheet()
+        let storage = app.buttons["library-storage-usage"]
+        requireHittable(storage)
+        storage.tap()
+        let bar = app.navigationBars["保存コンテンツの容量"]
+        XCTAssertTrue(bar.waitForExistence(timeout: 10))
+        XCTAssertFalse(app.navigationBars["その他の操作"].exists)
+        let list = element("storage-usage-list")
+        let total = element("storage-usage-total")
+        let result = app.staticTexts.matching(NSPredicate(format: "label == %@ OR label == %@",
+            "確認したファイルサイズ", "確認できた範囲のファイルサイズ")).firstMatch
+        let refresh = app.buttons["storage-usage-refresh"]
+        XCTAssertTrue(list.waitForExistence(timeout: 10))
+        XCTAssertTrue(total.waitForExistence(timeout: 15))
+        XCTAssertTrue(result.waitForExistence(timeout: 10))
+        requireHittable(total, inside: list)
+        XCTAssertTrue(total.label.contains("合計"))
+        for _ in 0..<8 {
+            if isHittableOnScreen(refresh, inside: list) { break }
+            list.swipeUp(velocity: .slow)
+        }
+        let waitForEnabledRefresh = {
+            let enabled = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+                refresh.exists && refresh.isEnabled
+            }, object: nil)
+            XCTAssertEqual(XCTWaiter.wait(for: [enabled], timeout: 15), .completed)
+        }
+        waitForEnabledRefresh()
+        requireHittable(refresh, inside: list)
+        refresh.tap()
+        // A fast observation can finish between AX reads. Test usable results
+        // after the public request, not a loading edge or a new scan generation.
+        for _ in 0..<8 {
+            if isHittableOnScreen(refresh, inside: list) { break }
+            list.swipeUp(velocity: .slow)
+        }
+        waitForEnabledRefresh()
+        for _ in 0..<8 {
+            if isHittableOnScreen(total, inside: list) { break }
+            list.swipeDown(velocity: .slow)
+        }
+        XCTAssertTrue(total.waitForExistence(timeout: 15))
+        XCTAssertTrue(result.waitForExistence(timeout: 10))
+        requireHittable(total, inside: list)
+        XCTAssertTrue(total.label.contains("合計"))
+        XCTAssertTrue(bar.buttons["storage-usage-close"].exists)
+        capture("Storage-usage-recheck-results")
+        closePublicSheet("保存コンテンツの容量")
+
+        XCTAssertTrue(summary.waitForExistence(timeout: 10))
+        XCTAssertEqual(summary.label, originalSummary)
+        XCTAssertEqual(try foregroundArticleSearch().value as? String, originalQuery)
+        XCTAssertEqual(app.buttons["library-tag-filter"].value as? String, originalTag)
+        XCTAssertTrue(article.waitForExistence(timeout: 10))
+        XCTAssertEqual(article.label, originalArticle)
+        capture("Storage-usage-filtered-library-return")
     }
 
     func testFilteredFixtureActionsAndReadingChangesRemainIsolatedFromNormalLibrary() throws {
@@ -945,6 +1041,9 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
             if let lastRejection = predicate["rejection"] as? String {
                 predicate["rejection"] = publicText(lastRejection)
             }
+            let modalBoundary: [String: Any] = ["before_more": modalBoundaryBeforeMore,
+                "at_failure": modalBoundaryAtFailure(), "same_instant": false,
+                "probe_may_affect_timing": true]
             let snapshot: [String: Any] = ["phase": "diagnose_after_failure_sequential_AX",
                 "same_instant_as_predicate": false, "counts": counts,
                 "app_state": publicText(String(describing: app.state)),
@@ -957,12 +1056,14 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
                 "readiness_wait_result": readinessWaitResult,
                 "last_candidate_rejection_at_diagnose": publicText(rejection),
                 "last_predicate_observation": predicate, "failure_snapshot": snapshot,
+                "modal_boundaries": modalBoundary,
                 "bounds": bounds, "truncated_to_counts": false]
             let fallback: [String: Any] = ["schema_version": 1,
                 "phase": "diagnose_counts_and_rejection_fallback",
                 "readiness_wait_result": readinessWaitResult,
                 "reason": publicText(reason), "last_candidate_rejection_at_diagnose": publicText(rejection),
                 "last_predicate_observation": predicate, "failure_snapshot_counts": counts,
+                "modal_boundaries": modalBoundary,
                 "same_instant_as_predicate": false, "bounds": bounds, "truncated_to_counts": true]
             func encoded(_ value: [String: Any]) -> Data? {
                 guard JSONSerialization.isValidJSONObject(value) else { return nil }

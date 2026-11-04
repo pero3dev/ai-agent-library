@@ -1,8 +1,18 @@
 # project — 計画と実施記録
 
+[通常検証とguard順序のpreview16](records/2026-11-04/ios-storage-scope-ui-regression.md)は、前段preview15のCodeを保持し、container不在guardをapp.frame前へ移す1pathだけ追加する。397instrumentedは10/11workflow成功・Runtime26失敗で、Native8／Full26成功と通常flagfalseの受入を混同しない。約14.25秒FindTarget lookup・1poll失敗と後刻positive救済0を保持し、構文確認のみで効果は未検証。Rootは同PR339の6責務を通常条件で再検証する案を選び、actual適用／新head／Core320・Full27・Runtime26等のfresh CIとmainは未受入。以下のpreview15／Consol14案内は前段作成時点の履歴である。
+
+[通常モードと保存保護の統合preview](records/2026-11-04/ios-storage-scope-ui-regression.md)は、未採用の実397／known82を観測baseに、診断flagfalseの候補と保存先scope・reader admission・容量UIを私有合成する。15path／新規2、App候補0.2.32（34）で、Core320／Native8／Full27と新whole IR・actual CIは未受入。PR339へ追加するか別PRにするかは診断結果後のRoot判断とし、公開許可は未解除。直後のConsol14案内は元候補作成時点の履歴として保持する。
+
+[保存先の共有scope・読書中参照と容量画面回帰](records/2026-11-04/ios-storage-scope-ui-regression.md)では、同じ保存先の表記を揃え、保存記事の検証からlease公開までreader admissionを保持する。通常writerとreaderは共存し、整理ゲートは協調する新規処理だけを排他する。PR339採用mainを将来親とする14path／新規2、4責務commitの候補で、App0.2.32（34）。同じ7SwiftのHost17と同じ16inputのNode35はcomponent成功、新iOS320／UI27／SDK／common／実機・VoiceOverは未受入。TODO32行16完了とcriteria・IOS-21未完了を保ち、削除処理は追加しない。
+
 [読者向けAgent Skillsとプラグイン](records/2026-11-04/reader-agent-skills.md)はIssue #335の作業契約と実施結果です。参照生成・同梱MCP・導入・発火評価を、検証方式ごとに記録します。
 
+[モーダル提示境界の診断](records/2026-11-04/ios-native-modal-presentation-boundaries.md)は、PR #339のcfeaで単体306・追加9・容量10の成功とNative7/8・Full25/26の提示失敗を分けて残す。検索原因を断定せず、DEBUGの明示UI-test時だけ最大112Bの固定状態をMoreへ付け、公開操作の受信・提示・dispatchを観測するCode4とする。既存poll・tap・期限、Release token、Native8／Full26／Core306を保つ。観測はtimingへ影響し得て、passも原因解明や製品修正の証明にしない。新headの全required／relevant CI・Ready／mainと実機等は未受入、TODO16/32・全criteria・既存Coordinator／索引全文を保つ。
+
 [ライブラリ検索MCPサーバー](records/2026-11-04/library-mcp-server.md)はIssue #334の作業契約と実施結果です。4つの読み取り専用ツール、キャッシュ、検索評価、新旧stdio回帰の確認範囲を記録します。
+
+[保存処理のprocess内協調候補](records/2026-11-04/ios-storage-mutation-coordinator.md)は、IOS-21の非破壊な整理に先行し、同じrootのnonblocking permitとactive stagingの処理寿命をCode3へ追加する。採択済み3payloadをbyte保持し、PBXの候補版だけ0.2.31（33）へ進めるSource8の静的準備で、実親は将来のPerf tree6b3bへの結合待ち。既存Foundation14PASSとCode2の両arch SDK型検査を各範囲に限り再利用し、旧SIGTRAP・失敗site未確定と新9 XCTest未実行を残す。共通・新CI／通常main・実機、整理／削除とIOS-21全体は未完了。TODO16/32・全criteria・Doc4／Perf索引と旧全文を保つ。
 
 [自分のPRで長文Clockを選ぶCI候補](records/2026-11-04/ios-own-pr-long-scroll-selection.md)は、Rootが今回採用した選択計画として、既存workflowの自リポジトリPRだけを固定長文ケースへ結ぶ。fork PRとmain pushは起動、手動3選択・3path filter・既存のrunner／40分／protocolと全assertを保つ。本番YAMLのシェルを直接使う対象Node62件は成功した。これは共通検査前の作成時点の記録で、新head Hosted・通常main・性能閾値とIOS-15全体・実機は未完了。Doc4の受入とTODO16/32・全criteria・旧履歴を保つ。
 

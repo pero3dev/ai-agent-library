@@ -1,0 +1,163 @@
+{
+  "state": "PRIVATE_NORMAL_SCOPE_READER_UI_PREVIEW_AFTER397_NOT_PUBLISHED",
+  "date": "2026-11-04",
+  "App": "0.2.32(34) candidate",
+  "actual_parent": "397c4c501695ee91ad079d1170a7d24f8b74f064",
+  "future_parent_tree": "a0e605d4c5d5041d6876cddf3ada9a498d6f8eef",
+  "changed_paths": 15,
+  "new_records": 2,
+  "code_paths": 10,
+  "responsibilities": [
+    "normal mode off2 before storage changes",
+    "canonical scope",
+    "captured-scope reader admission",
+    "public capacity UI regression and version",
+    "records/index/progress"
+  ],
+  "components": {
+    "Host17": {
+      "Root_accepted": true,
+      "compile_run_count": 1,
+      "PASS_labels": 17,
+      "same7SwiftInputs": true,
+      "Root_receipt_SHA256": "69e55d525e1e22ecc5ea5ca9f22678b287866313a9ff701e26ffd89930882101",
+      "scope": "Foundation host only; not iOS SDK/XCTest/UI"
+    },
+    "Node35": {
+      "Root_accepted": true,
+      "tests": 35,
+      "pass": 34,
+      "skip": 1,
+      "fail": 0,
+      "same16Inputs": true,
+      "scope": "mock executors; not SDK/device/Git/pasteboard execution"
+    },
+    "ReaderR2StaticIR": {
+      "P1": 0,
+      "P2": 0,
+      "manifest_SHA256": "24388aba7730865da76d04bf83a5e0daef073a5c2e66c9095d18f65944c1526e",
+      "whole14_final_IR": false
+    }
+  },
+  "planned_unrun": {
+    "iOSCore": 320,
+    "FullUI": 27,
+    "FullA": 19,
+    "FullB": 8,
+    "NativeUI": 8
+  },
+  "history": [
+    "ReaderR1 superseded before publication; unsupported-root bundle-only fallback preserved in R2",
+    "StaticR2 4GiB preflight stop retained; Root released only <=0.5MiB static data under3MiB owner to3.75GiB",
+    "Old Host15 is pre-Reader component only; do not relabel",
+    "Older Host SIGTRAP/r3 wrapper failure/594 free-floor and strict-wrapper STOPPED remain separate histories",
+    "Consol14 Source8b7938 accepted static IR95fd remains a component; its futuree87 parent text is creation-time history and is not overwritten"
+  ],
+  "limits": [
+    "No deletion/cleanup filesystem action or UI",
+    "Captured canonical path is not inode identity",
+    "Cross-process/root replacement/raw advisory consumers/source import are separate obligations",
+    "UI recheck asserts usable result, not a new completed scan generation"
+  ],
+  "TODO": {
+    "rows": 32,
+    "done": 16,
+    "criteria_SHA256": "714339ea0e72703d9e6c048fc4070fa72868298f13165672494ec4e2f69c2491",
+    "IOS21_complete": false
+  },
+  "Root_authorization": {
+    "official_forms": false,
+    "new_whole15_IR": false,
+    "mode_retarget_IR": false,
+    "actual_candidate_head": false,
+    "publication": false,
+    "merge": false
+  },
+  "pending": [
+    "newwhole15 and mode-retarget IR",
+    "new common/SDK/Core320/Native8/Full27/actual CI",
+    "diagnostic-result publication decision",
+    "physical device/VoiceOver",
+    "identity/cross-process/source import/delete"
+  ],
+  "known_main_snapshot": "82c23cff4f2440be2d3a6de94c8086f2bdcb0f81",
+  "actual_candidate_SHA": null,
+  "observed_parent_is_adopted_main": false,
+  "normal_mode": {
+    "SourceMF": "2417e4f6d2e1ef95b37011936c6b2832e7e0e61653c61a2a5aef2c339b10b867",
+    "property_false_and_boundary_AX_false_guards": true,
+    "normal_CI_UX": "unaccepted",
+    "pre_diagnostic_Debug_structure_restored": false,
+    "new_state_wrappers_still_present": true
+  },
+  "publication_choice": "same PR339 or separate PR only after diagnostic results and Root decision",
+  "397_instrumented_observation": "Root stated started at metadata epoch2026-11-04T04:24:31Z; incomplete, not accepted here",
+  "normal_merge_gate": "instrumented success not sufficient; later normalflagfalse actualhead must pass all original26 plus capacity case and all fresh required/relevant CI; latest main recheck before merge",
+  "guard16_supplement": {
+  "state": "guard16 private preview after instrumented397 terminal outcome",
+  "Root_selected_submission_plan": "same PR339, six responsibility commits; final actual apply/head still unapproved",
+  "instrumented397": {
+    "Root_reported": true,
+    "selected_workflows": 11,
+    "success": 10,
+    "failure": 1,
+    "failure_workflow": "Runtime26",
+    "NativeUI": {
+      "total": 8,
+      "passed": 8
+    },
+    "FullUI": {
+      "total": 26,
+      "passed": 26
+    },
+    "Native_units": {
+      "total": 306,
+      "passed": 304,
+      "skipped": 2,
+      "new9_passed": 9,
+      "Storage10_passed": 10
+    },
+    "FullA_units": {
+      "total": 306,
+      "passed": 304,
+      "skipped": 2,
+      "new9_passed": 9,
+      "Storage10_passed": 10
+    },
+    "Release_components": [
+      {
+        "articles": 3,
+        "files": 140
+      },
+      {
+        "articles": 199,
+        "files": 625
+      }
+    ],
+    "normal_flagfalse_acceptance": false,
+    "Runtime26_failure_retained": true,
+    "self_retry": 0,
+    "does_not_mean_397_allpass": true
+  },
+  "guardCode1": {
+    "SourceMF": "fb3ed8b8343fbdff0dc76372b921680ce96721fc263da1700e581afaf9c0dc13",
+    "packetMF": "981338484f3d78c27568eb3d61b5ed937ae23404d903a4e7100a417f6ad8d4e1",
+    "operation": "move the same container nonexistence guard before app.frame; no new getter/wait/retry/tap",
+    "raw_boundary": "about14.25s initial FindTargetApplication lookup/internal retry, then container absent; one15s poll fails",
+    "later_positive_no_rescue": true,
+    "old_failure_cause": "unproven",
+    "avoids_unused_root_query_when_container_absent": true,
+    "exists_can_also_stall": true,
+    "Root_parse": "one syntax-only exit0; no typecheck/build/UI/runtime/effect acceptance",
+    "parse_receipt_SHA256": "ab577e69b946b7364235e9fdf96fb1bad4187212b63479426bada7bf8791e61d",
+    "Code1_independent_IR": "pending separate receipt binding"
+  },
+  "new_candidate_SHA": null,
+  "new_normal_runtime": "Core320/Native8/Full27 plus Runtime26 and fresh required/relevant are unrun",
+  "normal_Mode_AXoff_App32_roster_meaning": "unchanged from frozen preview15",
+  "new_whole16_IR": false,
+  "actual_apply_or_commits": false,
+  "publication": false,
+  "merge": false
+}
+}

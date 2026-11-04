@@ -16,6 +16,7 @@ struct ContentStoragePreviewView: View {
                 } else if let preview {
                     Section(preview.isComplete ? "確認したファイルサイズ" : "確認できた範囲のファイルサイズ") {
                         LabeledContent("合計", value: ByteCountFormatter.string(fromByteCount: preview.observedLogicalBytes, countStyle: .file))
+                            .accessibilityIdentifier("storage-usage-total")
                         Text("ファイルの大きさを集計した目安です。端末の空き容量や、整理で増える容量を示すものではありません。")
                             .font(.footnote).foregroundStyle(.secondary)
                         Text("本文が正常に読めるかどうかは、この確認では判定していません。")
@@ -51,11 +52,13 @@ struct ContentStoragePreviewView: View {
                 }
                 Section {
                     Button("再確認", systemImage: "arrow.clockwise") { request = UUID() }
+                        .accessibilityIdentifier("storage-usage-refresh")
                         .disabled(loading)
                 }
             }
+            .accessibilityIdentifier("storage-usage-list")
             .navigationTitle("保存コンテンツの容量")
-            .toolbar { ToolbarItem(placement: .confirmationAction) { Button("閉じる") { dismiss() } } }
+            .toolbar { ToolbarItem(placement: .confirmationAction) { Button("閉じる") { dismiss() }.accessibilityIdentifier("storage-usage-close") } }
         }
         .task(id: request) {
             loading = true

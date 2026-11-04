@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 1,
+  "recordedOn": "2026-11-04",
+  "state": "private diagnostic submission before new-head CI",
+  "purpose": "Observe modal boundaries without asserting a product correction or an old root cause",
+  "actualPriorHead": "cfea1e868589be5daa0a37cd94ffcdc9a891733d",
+  "actualPriorTree": "e87a0f52cdd0cd36af8ba753b044469659389e45",
+  "actualPriorFiles": 3232,
+  "coordinatorFeature": {
+    "scope": "same-process root-wide nonblocking writer permit and active staging attempt lifetime",
+    "preserved": true,
+    "App": "0.2.31(33)",
+    "newCleanupOrDeletion": false
+  },
+  "priorCI": {
+    "units": {
+      "Native": {
+        "total": 306,
+        "passed": 304,
+        "skipped": 2,
+        "new9Passed": 9,
+        "storagePassed": 10
+      },
+      "FullA": {
+        "total": 306,
+        "passed": 304,
+        "skipped": 2,
+        "new9Passed": 9,
+        "storagePassed": 10
+      }
+    },
+    "NativeUI": {
+      "passed": 7,
+      "failed": 1,
+      "failedCase": "ReadingRecoveryUITests/testExportFilePickerCancelKeepsHealthyPositionAndBookmarkAfterRelaunch()",
+      "boundary": "More tap followed by no exact usable More sheet/export action",
+      "job": "https://github.com/pero3dev/ai-agent-library/actions/runs/41761135702/job/126348866888"
+    },
+    "FullUI": {
+      "passed": 25,
+      "failed": 1,
+      "A": {
+        "passed": 17,
+        "failed": 1
+      },
+      "B": {
+        "passed": 8,
+        "failed": 0
+      },
+      "failedCase": "PublishedReaderUITests/testCancelContentFolderPickerPreservesFiltersAndReadingAndAllowsMoreActions()",
+      "boundary": "More dismissed and import tapped; no exact known picker within existing 15 seconds",
+      "job": "https://github.com/pero3dev/ai-agent-library/actions/runs/41761135646/job/126348867040"
+    },
+    "required11": "all success at cfea; relevant modal failures still block main acceptance",
+    "missingPackageAttempt1": {
+      "preserved": true,
+      "F_timeout_ms": 180000,
+      "F_case_leaves": 0,
+      "post_app_container_timeout_ms": 20000,
+      "R_separate_seconds": 67.113,
+      "whole": "not-completed"
+    },
+    "missingPackageAttempt2": {
+      "Root_limited_diagnostic_job_rerun": 1,
+      "F_pass_seconds": 19.041,
+      "R_pass_seconds": 72.926,
+      "does_not_replace_attempt1": true
+    },
+    "FullBComponent": {
+      "cases_passed": 8,
+      "copy_bytes": 374,
+      "copy_SHA256": "e29cb525957fb4bd72350927aa1cf47659da4aef9964ecbf0d43edb4dfe2cee8",
+      "copy_verification": "Root verified current-cfea exact bytes, one BEGIN marker, tab and final LF",
+      "artifact_id": 13292767116,
+      "artifact_bytes": 42959,
+      "artifact_SHA256": "f618e2e347908bec1baa519bda7d1926a2ce61306558ea36a8f6f466fadf0462",
+      "Release_articles": 199,
+      "Release_files": 625,
+      "representative_Native_release": "skipped after Native UI failure"
+    },
+    "oldRootCause": "unproven"
+  },
+  "diagnostic": {
+    "SourceMF": "83902e1e6aa0aab12dc5827c919bd6032d8a8fe190ed69f8ed857d8b5fe79526",
+    "changedSwiftFiles": 4,
+    "explicitDebugUITestOnly": true,
+    "fixed_status_max_bytes": 112,
+    "status_limit_bytes": 256,
+    "query_strings_collected": false,
+    "new_predicate_AX_tap_launch_retry_skip_timeout_changes": 0,
+    "Release_nonwhitespace_tokens_same": true,
+    "Debug_false_UX_runtime_verified": false,
+    "observational_timing_effect_possible": true,
+    "success_does_not_establish_cause_or_product_fix": true
+  },
+  "separateGates": {
+    "Code4_static_IR": "pending separate Root receipt",
+    "Root_five_parse_checks": "pending separate Root receipt",
+    "new_full_common": "not run in this private task",
+    "actual_new_head_required_and_relevant_CI": "must all succeed before protected merge",
+    "instrumented_true_UI_pass": "observation only; insufficient for main acceptance",
+    "later_normal_false_actualhead_Native8_Full26": "must pass before protected merge",
+    "Ready": "not accepted",
+    "main": "not accepted",
+    "device_VoiceOver": "uncompleted and skipped"
+  },
+  "notIncluded": [
+    "private Reader Admission",
+    "future Scope/UI candidate",
+    "iOS320",
+    "UI27",
+    "cleanup or deletion"
+  ],
+  "TODO": {
+    "rows": 32,
+    "completed": 16,
+    "all_criteria_preserved": true,
+    "IOS21": "uncompleted"
+  },
+  "executionHere": {
+    "candidate_helpers_Node_Swift_SDK_tests_API_Gitwrite_network": 0,
+    "shared_workspace_or_old_owner_mutation": 0
+  }
+}

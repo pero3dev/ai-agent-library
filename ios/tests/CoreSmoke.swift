@@ -24,6 +24,8 @@ enum CoreSmoke {
         try failedUpdates(scratch)
         try mutationCoordination(scratch)
         try storageBookkeepingScopes(scratch)
+        try storedReaderAdmission(scratch)
+        try admissionBookkeeping(scratch)
         try legacyPackageFallback(scratch)
         try futurePackageSchemas(scratch)
         try testFixtureIsolation(scratch)
@@ -936,5 +938,131 @@ private extension CoreSmoke {
         try expect(try ContentMutationCoordinator.activeStagingAttemptIDs(at: storage).isEmpty,
                    "Root scope scenario left a mutation registration")
         print("PASS shared canonical scopes, alias lease lifetime and distinct-root coordination")
+    }
+
+
+    static func storedReaderAdmission(_ scratch: URL) throws {
+        let source = try fixture(scratch, "admission-source")
+        let storage = scratch.appendingPathComponent("admission-storage")
+        let writer = ContentRepository(bundledRoot: source, storageRoot: storage)
+        var installed: ContentSnapshot? = try writer.install(from: source)
+        let root = installed!.root
+        guard let generation = UUID(uuidString: root.lastPathComponent) else {
+            throw SmokeFailure(message: "Stored admission fixture did not receive a UUID generation")
+        }
+        installed = nil
+        try expect(writer.advisorySnapshotAcquisitions.isEmpty, "Install fixture retained an unexpected lease")
+        var handoffs = 0
+        let reader = ContentRepository(bundledRoot: source, storageRoot: storage,
+            beforeStoredLeasePublication: {
+                handoffs += 1
+                try expect(ContentSnapshotLease.advisoryAcquisitions(in: storage).isEmpty,
+                           "A handoff callback observed an already published lease")
+                try expectThrows("cleanup before stored lease publication") {
+                    try ContentMutationCoordinator.withCleanupGate(at: storage) { _ in }
+                }
+            })
+        var snapshot: ContentSnapshot? = try reader.load()
+        try expect(snapshot?.root == root && handoffs == 1, "Actual load did not use the stored handoff")
+        try withExtendedLifetime(snapshot) {
+            try expect(reader.advisorySnapshotAcquisitions == [generation: 1], "Load did not publish its lease")
+            // Gate acquisition never means a live lease can be removed.
+            try ContentMutationCoordinator.withCleanupGate(at: storage) { _ in
+                try expect(reader.advisorySnapshotAcquisitions == [generation: 1], "A gate changed live lease accounting")
+                try expectThrows("load during bookkeeping cleanup gate") { _ = try reader.load() }
+                try expectThrows("writer during bookkeeping cleanup gate") { _ = try writer.install(from: source) }
+            }
+        }
+        snapshot = nil
+        let failing = ContentRepository(bundledRoot: source, storageRoot: storage,
+            beforeStoredLeasePublication: { throw SmokeFailure(message: "Synthetic handoff failure") })
+        try expectThrows("stored handoff failure") { _ = try failing.load() }
+        try expect(failing.advisorySnapshotAcquisitions.isEmpty, "Failed handoff retained a lease")
+        try ContentMutationCoordinator.withCleanupGate(at: storage) { _ in }
+        let empty = scratch.appendingPathComponent("admission-empty-storage")
+        try expectThrows("bundle validation failure") {
+            _ = try ContentRepository(bundledRoot: scratch.appendingPathComponent("admission-missing-bundle"), storageRoot: empty).load()
+        }
+        try ContentMutationCoordinator.withCleanupGate(at: empty) { _ in }
+        try expect(try ContentRepository(bundledRoot: source, storageRoot: empty).load().root == source,
+                   "Normal bundle fallback was not restored after admission release")
+        try expect(!FileManager.default.fileExists(atPath: empty.path), "Bookkeeping created an empty storage root")
+        print("PASS stored reader admission, lease handoff and validation-failure release")
+    }
+
+    static func admissionBookkeeping(_ scratch: URL) throws {
+        let storage = scratch.appendingPathComponent("admission-bookkeeping")
+        let other = scratch.appendingPathComponent("admission-bookkeeping-other")
+        let generation = UUID(), attempt = UUID()
+        try ContentMutationCoordinator.withReaderAdmission(at: storage) { reader in
+            try ContentMutationCoordinator.withMutation(at: storage) { writer in
+                try writer.registerStagingAttempt(attempt)
+                try ContentMutationCoordinator.withReaderAdmission(at: storage) { second in
+                    let a = try reader.acquireLease(generation: generation)
+                    let b = try second.acquireLease(generation: generation)
+                    try withExtendedLifetime((a, b)) {
+                        try expect(ContentSnapshotLease.advisoryAcquisitions(in: storage) == [generation: 2],
+                                   "Writer/reader coexistence lost a lease")
+                        try expectThrows("cleanup while readers and writer coexist") {
+                            try ContentMutationCoordinator.withCleanupGate(at: storage) { _ in }
+                        }
+                        try ContentMutationCoordinator.withCleanupGate(at: other) { _ in }
+                    }
+                }
+                try expect(try ContentMutationCoordinator.activeStagingAttemptIDs(at: storage) == [attempt],
+                           "Reader finish released the live writer")
+            }
+            try expectThrows("cleanup while outer reader survives writer") {
+                try ContentMutationCoordinator.withCleanupGate(at: storage) { _ in }
+            }
+        }
+        var stale: ContentMutationCoordinator.ReaderAdmission?
+        try ContentMutationCoordinator.withReaderAdmission(at: storage) { stale = $0 }
+        var copy = stale
+        try expectThrows("escaped reader lease publication") { _ = try stale!.acquireLease(generation: generation) }
+        try ContentMutationCoordinator.withReaderAdmission(at: storage) { _ in
+            stale = nil; copy = nil
+            try expectThrows("stale reader copies must not release a newer admission") {
+                try ContentMutationCoordinator.withCleanupGate(at: storage) { _ in }
+            }
+        }
+        try expect(copy == nil, "Escaped reader copy was not released")
+        var oldGate: ContentMutationCoordinator.CleanupGate?
+        try ContentMutationCoordinator.withCleanupGate(at: storage) { oldGate = $0 }
+        try expectThrows("throwing cleanup body") {
+            try ContentMutationCoordinator.withCleanupGate(at: storage) { _ in
+                oldGate = nil
+                try expectThrows("stale cleanup must not release the live gate") {
+                    try ContentMutationCoordinator.withReaderAdmission(at: storage) { _ in }
+                }
+                try expectThrows("cleanup blocks a new mutation") {
+                    try ContentMutationCoordinator.withMutation(at: storage) { _ in }
+                }
+                try ContentMutationCoordinator.withMutation(at: other) { _ in }
+                throw SmokeFailure(message: "Synthetic gate failure")
+            }
+        }
+        try ContentMutationCoordinator.withCleanupGate(at: storage) { _ in }
+        try expect(ContentSnapshotLease.advisoryAcquisitions(in: storage).isEmpty,
+                   "Admission scenario retained a lease")
+        let first = scratch.appendingPathComponent("admission-capture-first")
+        let second = scratch.appendingPathComponent("admission-capture-second")
+        let alias = scratch.appendingPathComponent("admission-capture-alias")
+        try FileManager.default.createDirectory(at: first, withIntermediateDirectories: false)
+        try FileManager.default.createDirectory(at: second, withIntermediateDirectories: false)
+        try FileManager.default.createSymbolicLink(at: alias, withDestinationURL: first)
+        try ContentMutationCoordinator.withReaderAdmission(at: alias) { reader in
+            try FileManager.default.removeItem(at: alias)
+            try FileManager.default.createSymbolicLink(at: alias, withDestinationURL: second)
+            let lease = try reader.acquireLease(generation: generation)
+            try withExtendedLifetime(lease) {
+                try expect(ContentSnapshotLease.advisoryAcquisitions(in: first) == [generation: 1],
+                           "Reader handoff re-resolved its captured scope")
+                try expect(ContentSnapshotLease.advisoryAcquisitions(in: second).isEmpty,
+                           "Reader handoff published to the replacement alias target")
+            }
+        }
+        try expect(ContentSnapshotLease.advisoryAcquisitions(in: first).isEmpty, "Captured-scope lease was not released")
+        print("PASS admission/writer coexistence, cleanup-gate exclusion and captured scopes")
     }
 }

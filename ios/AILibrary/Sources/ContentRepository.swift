@@ -34,20 +34,39 @@ final class ContentRepository {
     private let fileManager: FileManager
     private let writePointer: (Data, URL) throws -> Void
     private let allowsTestFixtures: Bool
+    private let beforeStoredLeasePublication: (() throws -> Void)?
 
     init(bundledRoot: URL, storageRoot: URL, fileManager: FileManager = .default,
          allowsTestFixtures: Bool = false,
+         beforeStoredLeasePublication: (() throws -> Void)? = nil,
          writePointer: @escaping (Data, URL) throws -> Void = { try $0.write(to: $1, options: .atomic) }) {
         self.bundledRoot = bundledRoot
         self.storageRoot = storageRoot
         self.fileManager = fileManager
         self.writePointer = writePointer
         self.allowsTestFixtures = allowsTestFixtures
+        self.beforeStoredLeasePublication = beforeStoredLeasePublication
     }
 
     func load() throws -> ContentSnapshot {
+        // An unsupported storage URL cannot participate in stored selection.
+        // Preserve the trusted bundle fallback without reading that URL at all.
+        guard let scope = ContentStorageBookkeepingScope.capture(for: storageRoot) else {
+            return try validate(root: bundledRoot)
+        }
+        return try ContentMutationCoordinator.withReaderAdmission(in: scope) { admission in
+            try load(acquiringLease: { try admission.acquireLease(generation: $0) })
+        }
+    }
+
+    /// Admission starts before pointer/asset validation and ends only after the
+    /// selected stored snapshot has its lease. The default handoff dependency is
+    /// nil; an internal initializer dependency permits deterministic failure tests.
+    private func load(acquiringLease: (UUID) throws -> ContentSnapshotLease) throws -> ContentSnapshot {
         if let selected = revalidatedStoredSelection() {
-            return retainingGenerationLease(selected.snapshot, directory: selected.directory)
+            try beforeStoredLeasePublication?()
+            return try retainingGenerationLease(selected.snapshot, directory: selected.directory,
+                                                acquiringLease: acquiringLease)
         }
         return try validate(root: bundledRoot)
     }
@@ -93,7 +112,8 @@ final class ContentRepository {
     func activateBundledContent() throws -> (snapshot: ContentSnapshot, alreadyActive: Bool) {
         try ContentMutationCoordinator.withMutation(at: storageRoot) { mutation in
             let bundled = try validate(root: bundledRoot)
-            if let current = try? load(), try hasSameManifest(current, bundled) {
+            if let current = try? load(acquiringLease: { try mutation.acquireLease(generation: $0) }),
+               try hasSameManifest(current, bundled) {
                 return (current, true)
             }
             return (try install(from: bundledRoot, remembersPreviousStoredVersion: false, mutation: mutation), false)
@@ -139,7 +159,8 @@ final class ContentRepository {
         try writePointer(pointer, storageRoot.appendingPathComponent("current.json"))
         activated = true
         // Keep earlier versions for this prototype; an open reader may still reference one.
-        return retainingGenerationLease(snapshot, directory: id)
+        return try retainingGenerationLease(snapshot, directory: id,
+                                            acquiringLease: { try mutation.acquireLease(generation: $0) })
     }
 
     /// Live acquisitions only; persistent current, staging, path identity and
@@ -148,10 +169,12 @@ final class ContentRepository {
         ContentSnapshotLease.advisoryAcquisitions(in: storageRoot)
     }
 
-    private func retainingGenerationLease(_ snapshot: ContentSnapshot, directory: String) -> ContentSnapshot {
-        guard let generation = UUID(uuidString: directory),
-              let lease = ContentSnapshotLease.acquire(storageRoot: storageRoot, generation: generation) else { return snapshot }
-        return snapshot.retainingGenerationLease(lease)
+    private func retainingGenerationLease(_ snapshot: ContentSnapshot, directory: String,
+                                          acquiringLease: (UUID) throws -> ContentSnapshotLease) throws -> ContentSnapshot {
+        guard let generation = UUID(uuidString: directory) else {
+            throw ContentError.invalid("保存記事版の参照を確認できません。")
+        }
+        return snapshot.retainingGenerationLease(try acquiringLease(generation))
     }
 
     private func validate(root: URL) throws -> ContentSnapshot {
@@ -163,66 +186,167 @@ final class ContentRepository {
     }
 }
 
-/// Cooperation between mutations in this process only. Canonicalized paths join
-/// existing symlink aliases; they are not stable filesystem identities or locks
-/// against another process, directory replacement or an uncooperative writer.
-/// Neither an empty registration snapshot nor a released permit allows deletion.
+/// Process-local cooperation only. Captured canonical paths are not stable
+/// filesystem identities or locks against replacement/another process. Source
+/// imports and uncooperative readers need separate protection. CleanupGate only
+/// excludes cooperating admissions; it never authorizes filesystem removal.
 enum ContentMutationCoordinator {
     final class Mutation {
+        private let scope: ContentStorageBookkeepingScope.Captured
+        private let owner: UUID
+        private let registry: Registry
+
+        fileprivate init(scope: ContentStorageBookkeepingScope.Captured, owner: UUID, registry: Registry) {
+            self.scope = scope; self.owner = owner; self.registry = registry
+        }
+
+        /// Reserved before copying through pointer publication/deferred cleanup.
+        func registerStagingAttempt(_ id: UUID) throws {
+            try registry.register(id, in: scope.path, owner: owner)
+        }
+
+        func acquireLease(generation: UUID) throws -> ContentSnapshotLease {
+            try registry.acquireLease(in: scope, owner: owner, reader: false, generation: generation)
+        }
+
+        fileprivate func finish() { registry.releaseMutation(scope: scope.path, owner: owner) }
+        deinit { finish() }
+    }
+
+    final class ReaderAdmission {
+        private let scope: ContentStorageBookkeepingScope.Captured
+        private let owner: UUID
+        private let registry: Registry
+
+        fileprivate init(scope: ContentStorageBookkeepingScope.Captured, owner: UUID, registry: Registry) {
+            self.scope = scope; self.owner = owner; self.registry = registry
+        }
+
+        /// Publish in the admitted scope before the admission is released. No
+        /// URL resolution or filesystem I/O occurs inside either ledger lock.
+        func acquireLease(generation: UUID) throws -> ContentSnapshotLease {
+            try registry.acquireLease(in: scope, owner: owner, reader: true, generation: generation)
+        }
+
+        fileprivate func finish() { registry.releaseReader(scope: scope.path, owner: owner) }
+        deinit { finish() }
+    }
+
+    final class CleanupGate {
         private let scope: String
         private let owner: UUID
         private let registry: Registry
 
         fileprivate init(scope: String, owner: UUID, registry: Registry) {
-            self.scope = scope
-            self.owner = owner
-            self.registry = registry
+            self.scope = scope; self.owner = owner; self.registry = registry
         }
 
-        /// The name is reserved before copying and stays active through rename,
-        /// pointer publication and the import's own deferred attempt cleanup.
-        func registerStagingAttempt(_ id: UUID) throws {
-            try registry.register(id, in: scope, owner: owner)
-        }
-
-        fileprivate func finish() { registry.release(scope: scope, owner: owner) }
+        fileprivate func finish() { registry.releaseCleanup(scope: scope, owner: owner) }
         deinit { finish() }
     }
 
     fileprivate final class Registry: @unchecked Sendable {
         private struct Entry {
-            let owner: UUID
-            var stagingAttempt: UUID?
+            var mutationOwner: UUID? = nil
+            var stagingAttempt: UUID? = nil
+            var readers = Set<UUID>()
+            var cleanupOwner: UUID? = nil
+            var isEmpty: Bool { mutationOwner == nil && readers.isEmpty && cleanupOwner == nil }
         }
 
         private let lock = NSLock()
         private var entries: [String: Entry] = [:]
 
-        func acquire(scope: String) throws -> Mutation {
+        func acquireMutation(scope: ContentStorageBookkeepingScope.Captured) throws -> Mutation {
             lock.lock()
             defer { lock.unlock() }
-            guard entries[scope] == nil else {
+            var entry = entries[scope.path] ?? Entry()
+            guard entry.mutationOwner == nil else {
                 throw ContentError.invalid("コンテンツの取り込み処理が進行中です。完了後にもう一度お試しください。")
             }
+            guard entry.cleanupOwner == nil else { throw busy() }
             let owner = UUID()
-            entries[scope] = Entry(owner: owner, stagingAttempt: nil)
+            entry.mutationOwner = owner
+            entries[scope.path] = entry
             return Mutation(scope: scope, owner: owner, registry: self)
+        }
+
+        func acquireReader(scope: ContentStorageBookkeepingScope.Captured) throws -> ReaderAdmission {
+            lock.lock()
+            defer { lock.unlock() }
+            var entry = entries[scope.path] ?? Entry()
+            guard entry.cleanupOwner == nil else { throw busy() }
+            let owner = UUID()
+            entry.readers.insert(owner)
+            entries[scope.path] = entry
+            return ReaderAdmission(scope: scope, owner: owner, registry: self)
+        }
+
+        func acquireCleanup(scope: String) throws -> CleanupGate {
+            lock.lock()
+            defer { lock.unlock() }
+            var entry = entries[scope] ?? Entry()
+            guard entry.mutationOwner == nil, entry.readers.isEmpty, entry.cleanupOwner == nil else { throw busy() }
+            let owner = UUID()
+            entry.cleanupOwner = owner
+            entries[scope] = entry
+            return CleanupGate(scope: scope, owner: owner, registry: self)
+        }
+
+        func acquireLease(in scope: ContentStorageBookkeepingScope.Captured, owner: UUID,
+                          reader: Bool, generation: UUID) throws -> ContentSnapshotLease {
+            lock.lock()
+            defer { lock.unlock() }
+            guard let entry = entries[scope.path], entry.cleanupOwner == nil,
+                  (reader ? entry.readers.contains(owner) : entry.mutationOwner == owner) else {
+                throw ContentError.invalid("保存記事版の参照保持を公開できません。")
+            }
+            // Fixed lock order: coordinator -> lease ledger. Ledger release never
+            // enters the coordinator, and no filesystem I/O occurs under a lock.
+            return ContentSnapshotLease.acquire(capturedScope: scope, generation: generation)
         }
 
         func register(_ id: UUID, in scope: String, owner: UUID) throws {
             lock.lock()
             defer { lock.unlock() }
-            guard var entry = entries[scope], entry.owner == owner, entry.stagingAttempt == nil else {
+            guard var entry = entries[scope], entry.mutationOwner == owner, entry.stagingAttempt == nil else {
                 throw ContentError.invalid("取り込み作業領域の登録状態を確認できません。")
             }
             entry.stagingAttempt = id
             entries[scope] = entry
         }
 
-        func release(scope: String, owner: UUID) {
+        func releaseMutation(scope: String, owner: UUID) {
             lock.lock()
             defer { lock.unlock() }
-            if entries[scope]?.owner == owner { entries.removeValue(forKey: scope) }
+            guard var entry = entries[scope], entry.mutationOwner == owner else { return }
+            entry.mutationOwner = nil; entry.stagingAttempt = nil
+            store(entry, in: scope)
+        }
+
+        func releaseReader(scope: String, owner: UUID) {
+            lock.lock()
+            defer { lock.unlock() }
+            guard var entry = entries[scope] else { return }
+            entry.readers.remove(owner)
+            store(entry, in: scope)
+        }
+
+        func releaseCleanup(scope: String, owner: UUID) {
+            lock.lock()
+            defer { lock.unlock() }
+            guard var entry = entries[scope], entry.cleanupOwner == owner else { return }
+            entry.cleanupOwner = nil
+            store(entry, in: scope)
+        }
+
+        private func store(_ entry: Entry, in scope: String) {
+            if entry.isEmpty { entries.removeValue(forKey: scope) }
+            else { entries[scope] = entry }
+        }
+
+        private func busy() -> ContentError {
+            ContentError.invalid("コンテンツの保存処理が進行中です。完了後にもう一度お試しください。")
         }
 
         func stagingAttempts(in scope: String) -> Set<UUID> {
@@ -234,24 +358,41 @@ enum ContentMutationCoordinator {
 
     private static let registry = Registry()
 
-    /// Nonblocking: a competing mutation can retry after the owner completes.
-    /// Registry locks protect bookkeeping only and are never held across I/O.
+    /// Nonblocking. The registry lock is never held across the caller's I/O.
     static func withMutation<Value>(at root: URL, _ body: (Mutation) throws -> Value) throws -> Value {
-        let mutation = try registry.acquire(scope: canonicalScope(root))
+        let mutation = try registry.acquireMutation(scope: canonicalScope(root))
         defer { mutation.finish() }
         return try body(mutation)
     }
 
-    /// An instantaneous, conservative set of this process's reserved attempts.
-    /// A future maintenance operation needs its own permit and filesystem checks.
-    static func activeStagingAttemptIDs(at root: URL) throws -> Set<UUID> {
-        registry.stagingAttempts(in: try canonicalScope(root))
+    static func withReaderAdmission<Value>(at root: URL, _ body: (ReaderAdmission) throws -> Value) throws -> Value {
+        try withReaderAdmission(in: canonicalScope(root), body)
     }
 
-    private static func canonicalScope(_ root: URL) throws -> String {
-        guard let path = ContentStorageBookkeepingScope.canonicalPath(for: root) else {
+    static func withReaderAdmission<Value>(in scope: ContentStorageBookkeepingScope.Captured,
+                                           _ body: (ReaderAdmission) throws -> Value) throws -> Value {
+        let admission = try registry.acquireReader(scope: scope)
+        defer { admission.finish() }
+        return try body(admission)
+    }
+
+    /// Bookkeeping gate only. Live leases, pointer/staging/identity checks and
+    /// source readers remain separate obligations before any future removal.
+    static func withCleanupGate<Value>(at root: URL, _ body: (CleanupGate) throws -> Value) throws -> Value {
+        let gate = try registry.acquireCleanup(scope: canonicalScope(root).path)
+        defer { gate.finish() }
+        return try body(gate)
+    }
+
+    /// An instantaneous set, not a future maintenance authorization.
+    static func activeStagingAttemptIDs(at root: URL) throws -> Set<UUID> {
+        registry.stagingAttempts(in: try canonicalScope(root).path)
+    }
+
+    private static func canonicalScope(_ root: URL) throws -> ContentStorageBookkeepingScope.Captured {
+        guard let scope = ContentStorageBookkeepingScope.capture(for: root) else {
             throw ContentError.invalid("保存先のフォルダ参照が無効です。")
         }
-        return path
+        return scope
     }
 }

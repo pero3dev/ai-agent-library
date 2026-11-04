@@ -244,6 +244,18 @@ enum LibraryArticleOrder {
 /// Existing aliases may join at this instant; this is not inode identity,
 /// reader admission, cross-process exclusion or cleanup authority.
 enum ContentStorageBookkeepingScope {
+    /// An admitted path value. Reuse it across coordination/lease publication;
+    /// resolving the URL again could select a different alias target.
+    struct Captured: Hashable, Sendable {
+        let path: String
+        fileprivate init(path: String) { self.path = path }
+    }
+
+    static func capture(for root: URL) -> Captured? {
+        guard let path = canonicalPath(for: root) else { return nil }
+        return Captured(path: path)
+    }
+
     static func canonicalPath(for root: URL) -> String? {
         guard root.isFileURL, root.host == nil || root.host == "" || root.host == "localhost",
               root.user == nil, root.password == nil, root.port == nil,
@@ -311,8 +323,15 @@ final class ContentSnapshotLease: @unchecked Sendable {
     deinit { ledger.release(key) }
 
     static func acquire(storageRoot: URL, generation: UUID) -> ContentSnapshotLease? {
-        guard let scope = scope(storageRoot) else { return nil }
-        return ContentSnapshotLease(key: Key(scope: scope, generation: generation), ledger: sharedLedger)
+        guard let scope = ContentStorageBookkeepingScope.capture(for: storageRoot) else { return nil }
+        return acquire(capturedScope: scope, generation: generation)
+    }
+
+    /// Repository callers publish through a live admission/writer token. This
+    /// low-level ledger operation preserves an already admitted path verbatim.
+    static func acquire(capturedScope: ContentStorageBookkeepingScope.Captured,
+                        generation: UUID) -> ContentSnapshotLease {
+        ContentSnapshotLease(key: Key(scope: capturedScope.path, generation: generation), ledger: sharedLedger)
     }
 
     static func advisoryAcquisitions(in storageRoot: URL) -> [UUID: Int] {

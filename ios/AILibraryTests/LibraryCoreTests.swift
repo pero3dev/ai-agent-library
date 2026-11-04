@@ -5429,3 +5429,205 @@ extension LibraryCoreTests {
         XCTAssertTrue(FileManager.default.fileExists(atPath: rootAlias.path))
     }
 }
+
+
+extension LibraryCoreTests {
+    func testStoredLoadAdmissionCoversHandoffBeforePublishingItsLease() throws {
+        let source = try fixture("admission-handoff-source")
+        let storage = directory.appendingPathComponent("admission-handoff-storage")
+        let writer = ContentRepository(bundledRoot: source, storageRoot: storage)
+        var installed: ContentSnapshot? = try writer.install(from: source)
+        let root = try XCTUnwrap(installed?.root)
+        let generation = try XCTUnwrap(UUID(uuidString: root.lastPathComponent))
+        installed = nil
+        XCTAssertTrue(writer.advisorySnapshotAcquisitions.isEmpty)
+        let before = try retentionInventory(storage)
+        var handoffs = 0
+        let reader = ContentRepository(bundledRoot: source, storageRoot: storage,
+            beforeStoredLeasePublication: {
+                handoffs += 1
+                XCTAssertTrue(ContentSnapshotLease.advisoryAcquisitions(in: storage).isEmpty)
+                XCTAssertThrowsError(try ContentMutationCoordinator.withCleanupGate(at: storage) { _ in
+                    XCTFail("Validation must hand off to a lease before admission ends")
+                })
+            })
+        var loaded: ContentSnapshot? = try reader.load()
+        XCTAssertEqual(handoffs, 1)
+        XCTAssertEqual(loaded?.root, root)
+        withExtendedLifetime(loaded) {
+            XCTAssertEqual(reader.advisorySnapshotAcquisitions, [generation: 1])
+            // Gate admission is bookkeeping, not permission to remove a live lease.
+            XCTAssertNoThrow(try ContentMutationCoordinator.withCleanupGate(at: storage) { _ in
+                XCTAssertEqual(reader.advisorySnapshotAcquisitions, [generation: 1])
+            })
+        }
+        loaded = nil
+        XCTAssertTrue(reader.advisorySnapshotAcquisitions.isEmpty)
+        XCTAssertEqual(try retentionInventory(storage), before)
+    }
+
+    func testReaderAdmissionsCoexistWithOrdinaryWriterAndReleaseIndependently() throws {
+        let storage = directory.appendingPathComponent("admission-coexist")
+        let attempt = UUID(), generation = UUID()
+        try ContentMutationCoordinator.withReaderAdmission(at: storage) { reader in
+            try ContentMutationCoordinator.withMutation(at: storage) { writer in
+                try writer.registerStagingAttempt(attempt)
+                try ContentMutationCoordinator.withReaderAdmission(at: storage) { second in
+                    let firstLease = try reader.acquireLease(generation: generation)
+                    let secondLease = try second.acquireLease(generation: generation)
+                    withExtendedLifetime((firstLease, secondLease)) {
+                        XCTAssertEqual(ContentSnapshotLease.advisoryAcquisitions(in: storage), [generation: 2])
+                        XCTAssertThrowsError(try ContentMutationCoordinator.withCleanupGate(at: storage) { _ in XCTFail() })
+                    }
+                }
+                XCTAssertEqual(try ContentMutationCoordinator.activeStagingAttemptIDs(at: storage), [attempt])
+            }
+            XCTAssertTrue(try ContentMutationCoordinator.activeStagingAttemptIDs(at: storage).isEmpty)
+            XCTAssertThrowsError(try ContentMutationCoordinator.withCleanupGate(at: storage) { _ in XCTFail() })
+        }
+        XCTAssertNoThrow(try ContentMutationCoordinator.withCleanupGate(at: storage) { _ in })
+        XCTAssertTrue(ContentSnapshotLease.advisoryAcquisitions(in: storage).isEmpty)
+    }
+
+    func testCleanupGateRejectsSameRootReaderWriterAndRepositoryButAllowsOtherRoot() throws {
+        let source = try fixture("admission-cleanup-source")
+        let storage = directory.appendingPathComponent("admission-cleanup-storage")
+        let other = directory.appendingPathComponent("admission-cleanup-other")
+        let repository = ContentRepository(bundledRoot: source, storageRoot: storage)
+        try ContentMutationCoordinator.withCleanupGate(at: storage) { _ in
+            XCTAssertThrowsError(try ContentMutationCoordinator.withReaderAdmission(at: storage) { _ in XCTFail() })
+            XCTAssertThrowsError(try ContentMutationCoordinator.withMutation(at: storage) { _ in XCTFail() })
+            XCTAssertThrowsError(try repository.load())
+            XCTAssertThrowsError(try repository.install(from: source))
+            XCTAssertThrowsError(try repository.activateBundledContent())
+            XCTAssertEqual(try ContentRepository(bundledRoot: source, storageRoot: other).load().root, source)
+            XCTAssertNoThrow(try ContentMutationCoordinator.withMutation(at: other) { _ in })
+        }
+        XCTAssertEqual(try repository.load().root, source, "A normal bundle fallback remains available after release")
+        XCTAssertFalse(FileManager.default.fileExists(atPath: storage.path))
+    }
+
+    func testEscapedReaderCopiesCannotPublishOrReleaseANewerAdmission() throws {
+        let storage = directory.appendingPathComponent("admission-stale-reader")
+        var stale: ContentMutationCoordinator.ReaderAdmission?
+        try ContentMutationCoordinator.withReaderAdmission(at: storage) { stale = $0 }
+        var copy = stale
+        XCTAssertThrowsError(try XCTUnwrap(stale).acquireLease(generation: UUID()))
+        try ContentMutationCoordinator.withReaderAdmission(at: storage) { live in
+            stale = nil
+            copy = nil
+            XCTAssertThrowsError(try ContentMutationCoordinator.withCleanupGate(at: storage) { _ in XCTFail() })
+            let generation = UUID()
+            let lease = try live.acquireLease(generation: generation)
+            withExtendedLifetime(lease) {
+                XCTAssertEqual(ContentSnapshotLease.advisoryAcquisitions(in: storage), [generation: 1])
+            }
+        }
+        XCTAssertNil(copy)
+        XCTAssertNoThrow(try ContentMutationCoordinator.withCleanupGate(at: storage) { _ in })
+        XCTAssertTrue(ContentSnapshotLease.advisoryAcquisitions(in: storage).isEmpty)
+    }
+
+    func testReaderAndWriterPublishInCapturedScopeWithoutResolvingAliasAgain() throws {
+        let first = directory.appendingPathComponent("admission-capture-first")
+        let second = directory.appendingPathComponent("admission-capture-second")
+        let alias = directory.appendingPathComponent("admission-capture-alias")
+        try FileManager.default.createDirectory(at: first, withIntermediateDirectories: false)
+        try FileManager.default.createDirectory(at: second, withIntermediateDirectories: false)
+        try FileManager.default.createSymbolicLink(at: alias, withDestinationURL: first)
+        let generation = UUID()
+        try ContentMutationCoordinator.withReaderAdmission(at: alias) { admission in
+            try FileManager.default.removeItem(at: alias)
+            try FileManager.default.createSymbolicLink(at: alias, withDestinationURL: second)
+            let lease = try admission.acquireLease(generation: generation)
+            try withExtendedLifetime(lease) {
+                XCTAssertEqual(ContentSnapshotLease.advisoryAcquisitions(in: first), [generation: 1])
+                XCTAssertTrue(ContentSnapshotLease.advisoryAcquisitions(in: second).isEmpty)
+                XCTAssertThrowsError(try ContentMutationCoordinator.withCleanupGate(at: first) { _ in XCTFail() })
+                try ContentMutationCoordinator.withCleanupGate(at: second) { _ in }
+            }
+        }
+        try FileManager.default.removeItem(at: alias)
+        try FileManager.default.createSymbolicLink(at: alias, withDestinationURL: first)
+        try ContentMutationCoordinator.withMutation(at: alias) { mutation in
+            try FileManager.default.removeItem(at: alias)
+            try FileManager.default.createSymbolicLink(at: alias, withDestinationURL: second)
+            let lease = try mutation.acquireLease(generation: generation)
+            withExtendedLifetime(lease) {
+                XCTAssertEqual(ContentSnapshotLease.advisoryAcquisitions(in: first), [generation: 1])
+                XCTAssertTrue(ContentSnapshotLease.advisoryAcquisitions(in: second).isEmpty)
+            }
+        }
+        XCTAssertTrue(ContentSnapshotLease.advisoryAcquisitions(in: first).isEmpty)
+    }
+
+    func testLoadHandoffAndBundleValidationFailuresReleaseReaderAdmission() throws {
+        let source = try fixture("admission-failure-source")
+        let storage = directory.appendingPathComponent("admission-failure-storage")
+        var setup: ContentSnapshot? = try ContentRepository(bundledRoot: source, storageRoot: storage).install(from: source)
+        XCTAssertNotNil(setup)
+        setup = nil
+        var observed = false
+        let failing = ContentRepository(bundledRoot: source, storageRoot: storage,
+            beforeStoredLeasePublication: {
+                observed = true
+                throw CocoaError(.fileReadUnknown)
+            })
+        XCTAssertThrowsError(try failing.load())
+        XCTAssertTrue(observed)
+        XCTAssertTrue(failing.advisorySnapshotAcquisitions.isEmpty)
+        XCTAssertNoThrow(try ContentMutationCoordinator.withCleanupGate(at: storage) { _ in })
+        let empty = directory.appendingPathComponent("admission-invalid-bundle-storage")
+        let invalid = directory.appendingPathComponent("admission-invalid-bundle")
+        XCTAssertThrowsError(try ContentRepository(bundledRoot: invalid, storageRoot: empty).load())
+        XCTAssertNoThrow(try ContentMutationCoordinator.withCleanupGate(at: empty) { _ in })
+        XCTAssertEqual(try ContentRepository(bundledRoot: source, storageRoot: empty).load().root, source)
+    }
+
+    func testEscapedWriterCannotPublishAndStaleCleanupCopiesCannotReleaseNewOwner() throws {
+        let storage = directory.appendingPathComponent("admission-stale-owners")
+        var writer: ContentMutationCoordinator.Mutation?
+        try ContentMutationCoordinator.withMutation(at: storage) { writer = $0 }
+        XCTAssertThrowsError(try XCTUnwrap(writer).acquireLease(generation: UUID()))
+        writer = nil
+        var stale: ContentMutationCoordinator.CleanupGate?
+        try ContentMutationCoordinator.withCleanupGate(at: storage) { stale = $0 }
+        var copy = stale
+        XCTAssertThrowsError(try ContentMutationCoordinator.withCleanupGate(at: storage) { _ in
+            stale = nil
+            copy = nil
+            XCTAssertThrowsError(try ContentMutationCoordinator.withCleanupGate(at: storage) { _ in XCTFail() })
+            XCTAssertThrowsError(try ContentMutationCoordinator.withReaderAdmission(at: storage) { _ in XCTFail() })
+            throw CocoaError(.userCancelled)
+        })
+        XCTAssertNil(copy)
+        XCTAssertNoThrow(try ContentMutationCoordinator.withReaderAdmission(at: storage) { _ in })
+        XCTAssertNoThrow(try ContentMutationCoordinator.withMutation(at: storage) { _ in })
+        XCTAssertNoThrow(try ContentMutationCoordinator.withCleanupGate(at: storage) { _ in })
+    }
+
+    func testReaderAndCleanupAdmissionsRejectUnsupportedRootsBeforeEnteringBodies() throws {
+        let roots = [URL(string: "https://example.invalid/storage")!, URL(fileURLWithPath: "/"),
+                     URL(string: "file:///tmp/admission/../storage")!]
+        for root in roots {
+            var entered = false
+            XCTAssertThrowsError(try ContentMutationCoordinator.withReaderAdmission(at: root) { _ in entered = true })
+            XCTAssertThrowsError(try ContentMutationCoordinator.withCleanupGate(at: root) { _ in entered = true })
+            XCTAssertFalse(entered)
+        }
+    }
+}
+
+
+extension LibraryCoreTests {
+    func testUnsupportedStorageRootsStillLoadTrustedBundleWithoutStoredAdmission() throws {
+        let source = try fixture("admission-unsupported-root-bundle")
+        let invalidBundle = directory.appendingPathComponent("admission-unsupported-root-missing-bundle")
+        let roots = [URL(string: "https://example.invalid/storage")!, URL(fileURLWithPath: "/"),
+                     URL(string: "file:///tmp/admission/../storage")!]
+        for root in roots {
+            XCTAssertEqual(try ContentRepository(bundledRoot: source, storageRoot: root).load().root, source)
+            XCTAssertThrowsError(try ContentRepository(bundledRoot: invalidBundle, storageRoot: root).load())
+        }
+    }
+}

@@ -8,8 +8,9 @@
     "strict": true,
     "allowJs": true,
     "checkJs": true,
-    "noEmit": true
+    "noEmit": true,
+    "erasableSyntaxOnly": true
   },
-  "include": ["renderer/reader.js", "renderer/**/*.d.ts"],
+  "include": ["renderer/reader.ts", "renderer/**/*.d.ts"],
   "exclude": ["node_modules", "DerivedData", "build"]
 }

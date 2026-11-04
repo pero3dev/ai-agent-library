@@ -1,0 +1,57 @@
+import nextra from 'nextra'
+import { fileURLToPath } from 'node:url'
+
+// Nextra's remark plugin imports this package directly, bypassing mdx-components.
+// Keep both bundlers on the project-owned renderer, including next dev.
+const mermaidImport = '@theguild/remark-mermaid/mermaid'
+const mermaidRenderer = './components/mdx/mermaid.tsx'
+
+// 注: 記事の自動装飾(TODO・アンチパターン・チェックリスト・用語リンク)は
+// scripts/sync-content.mjs + lib/doc-decorations.mjs で sync 時に行う。
+// Turbopack はローダーオプションの直列化を要求するため、mdxOptions に関数プラグインは渡せない。
+const withNextra = nextra({
+  // ドキュメント(content/)は /docs 配下で配信する(トップページ等のカスタムページと分離)
+  contentDirBasePath: '/docs',
+  // コードブロックは検索インデックスから除外(サンプルコードのノイズを避ける)
+  search: { codeblocks: false },
+  // 数式(KaTeX)を有効化する(11-llm-internals の学術記事用。remark-math + rehype-katex が有効になる)
+  latex: true
+})
+
+// 公開ビルド用の環境変数(project/plans/engineering/website.md §8 W5):
+//   STATIC_EXPORT=1            → 静的エクスポート(out/ を生成。GitHub Pages 等の静的ホスティング用)
+//   NEXT_PUBLIC_BASE_PATH      → サブパス配信時のベースパス(例: /ai-agent-library)。未設定ならルート配信
+// ローカル開発(next dev / 通常の next build)ではどちらも未設定のままでよい。
+const isExport = process.env.STATIC_EXPORT === '1'
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
+
+const config = withNextra({
+  reactStrictMode: true,
+  turbopack: {
+    root: fileURLToPath(new URL('../', import.meta.url)),
+    resolveAlias: { [mermaidImport]: mermaidRenderer }
+  },
+  webpack(config) {
+    config.resolve.alias[`${mermaidImport}$`] = fileURLToPath(new URL(mermaidRenderer, import.meta.url))
+    return config
+  },
+  ...(basePath ? { basePath } : {}),
+  ...(isExport ? { output: 'export', images: { unoptimized: true } } : {})
+})
+
+const loaderAdapter = fileURLToPath(new URL('./scripts/nextra-loader.cjs', import.meta.url))
+function adaptLoaders(value: unknown) {
+  if (!value || typeof value !== 'object') return
+  if ('loader' in value && typeof value.loader === 'string' && /[/\\]nextra[/\\]loader\.cjs$/.test(value.loader)) value.loader = loaderAdapter
+  for (const child of Object.values(value)) adaptLoaders(child)
+}
+adaptLoaders(config.turbopack)
+const webpack = config.webpack
+if (typeof webpack !== 'function') throw new Error('Nextra webpack adapter is unavailable')
+const wrappedWebpack: NonNullable<import('next').NextConfig['webpack']> = (webpackConfig, options) => {
+  const result = webpack(webpackConfig, options)
+  adaptLoaders(result.module?.rules)
+  return result
+}
+config.webpack = wrappedWebpack
+export default config

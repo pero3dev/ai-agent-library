@@ -3,6 +3,6 @@
   "compilerOptions": {
     "lib": ["ES2022", "DOM", "DOM.Iterable"]
   },
-  "include": ["lib/ios-*.mjs", "build-ios-*.mjs"],
+  "include": ["lib/ios-*.mjs", "lib/ios-*.mts", "build-ios-*.mjs", "build-ios-*.mts"],
   "exclude": ["../node_modules", "../.local"]
 }

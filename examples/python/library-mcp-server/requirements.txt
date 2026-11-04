@@ -1,0 +1,2 @@
+# Keep the same SDK as examples/python/mcp-server; real stdio only.
+mcp==2.2.0

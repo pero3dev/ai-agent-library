@@ -1,5 +1,7 @@
 # project — 計画と実施記録
 
+[ライブラリ検索MCPサーバー](records/2026-11-04/library-mcp-server.md)はIssue #334の作業契約と実施結果です。4つの読み取り専用ツール、キャッシュ、検索評価、新旧stdio回帰の確認範囲を記録します。
+
 [保存処理のprocess内協調候補](records/2026-11-04/ios-storage-mutation-coordinator.md)は、IOS-21の非破壊な整理に先行し、同じrootのnonblocking permitとactive stagingの処理寿命をCode3へ追加する。採択済み3payloadをbyte保持し、PBXの候補版だけ0.2.31（33）へ進めるSource8の静的準備で、実親は将来のPerf tree6b3bへの結合待ち。既存Foundation14PASSとCode2の両arch SDK型検査を各範囲に限り再利用し、旧SIGTRAP・失敗site未確定と新9 XCTest未実行を残す。共通・新CI／通常main・実機、整理／削除とIOS-21全体は未完了。TODO16/32・全criteria・Doc4／Perf索引と旧全文を保つ。
 
 [自分のPRで長文Clockを選ぶCI候補](records/2026-11-04/ios-own-pr-long-scroll-selection.md)は、Rootが今回採用した選択計画として、既存workflowの自リポジトリPRだけを固定長文ケースへ結ぶ。fork PRとmain pushは起動、手動3選択・3path filter・既存のrunner／40分／protocolと全assertを保つ。本番YAMLのシェルを直接使う対象Node62件は成功した。これは共通検査前の作成時点の記録で、新head Hosted・通常main・性能閾値とIOS-15全体・実機は未完了。Doc4の受入とTODO16/32・全criteria・旧履歴を保つ。
@@ -272,6 +274,7 @@ E1〜F2の[旧検証計画](records/2026-09-30/p1-kit-preparation/README.md)と[
 
 | 計画 | 状態・適用時点 | 実施記録・現行の入口 |
 | --- | --- | --- |
+| TypeScriptソースへの全面移行 | 2026-11-04、自前JS実装と埋め込みNode実装をTSへ移行。実装・ローカル検証完了、提出後のCI・公開確認は対応PRの最終証跡で照合 | [実施記録](records/2026-11-04/typescript-source-migration.md)、[分類・検証結果](records/2026-11-04/typescript-source-migration.json) |
 | [TypeScript 段階移行](plans/engineering/typescript-migration.md) | 2026-11-03計画採択、P0〜P6の型検査と互換入口を実装。計画本文は作成時点の提案を保持、外部確認は対応PRの最終証跡で照合 | [実施記録](records/2026-11-03/typescript-migration-implementation.md)、[計画作成記録](records/2026-11-03/typescript-migration-plan.md)、[棚卸しJSON](records/2026-11-03/typescript-migration-inventory.json)、[一次資料](../research/typescript-migration-2026-11-03.md) |
 | R1-01 本文を主役にする三列 | 2026-10-03、main `d990973`へ反映。対応deployment `6823843847`のsuccessと公開先URLを実APIで確認 | [サンプル・公開の実施記録](records/2026-10-03/r1-01-layout-preview.md) |
 | [動的図解のバックアップと機能削除](plans/engineering/dynamic-diagram-removal-and-recovery.md) | 2026-10-03、復元確認後にmain `42dcee2`へ反映。対応deployment `6822376321`のsuccessを実APIで確認 | [実施記録](records/2026-10-03/dynamic-diagram-removal.md) |

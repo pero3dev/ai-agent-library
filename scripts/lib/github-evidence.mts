@@ -263,11 +263,19 @@ export function isWithinPages(value: unknown, baseUrl: unknown) {
   } catch { return false }
 }
 
+/** Typed source is serialized after Node's native type erasure for the child. */
+async function probePublishedPage(url: string, includes: string): Promise<void> {
+  const response = await fetch(url, { signal: AbortSignal.timeout(20000) })
+  if (!response.ok) throw Error('HTTP ' + response.status)
+  const text = await response.text()
+  console.log(JSON.stringify({ status: response.status, url: response.url, matches: includes === '' || text.includes(includes) }))
+}
+
 function verifyUrl(url: string, includes: string | undefined, baseUrl: string | undefined) {
   const target = new URL(url)
   assert(isWithinPages(target.href, baseUrl), '公開 URL はこのリポジトリの Pages 配下である必要があります')
   assert(includes === undefined || (typeof includes === 'string' && includes.length > 0 && includes.length <= 2000), '本文確認文字列が不正です')
-  const code = `const r=await fetch(process.argv[1],{signal:AbortSignal.timeout(20000)});if(!r.ok)throw Error('HTTP '+r.status);const text=await r.text();console.log(JSON.stringify({status:r.status,url:r.url,matches:process.argv[2]===''||text.includes(process.argv[2])}))`
+  const code = `await (${probePublishedPage.toString()})(process.argv[1],process.argv[2])`
   let raw: unknown
   try { raw = JSON.parse(execFileSync(process.execPath, ['--input-type=module', '-e', code, target.href, includes ?? ''], { encoding: 'utf8', timeout: 25000, maxBuffer: 1024 * 1024, stdio: ['ignore', 'pipe', 'pipe'] })) } catch { throw new Error(`公開 URL を取得できません: ${target.href}`) }
   const response = githubResponseDecoders.publicResponse(raw)

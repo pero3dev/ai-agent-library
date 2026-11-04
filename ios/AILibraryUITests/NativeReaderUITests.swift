@@ -423,8 +423,8 @@ class NativeReaderUITestCase: XCTestCase {
 
     private func frameVisibility(_ element: XCUIElement, inside container: XCUIElement?,
                                  fullyVisible: Bool) -> ReaderFrameVisibility {
-        let appFrame = app.frame
         if let container, !container.exists { return .unknown("Container is not present") }
+        let appFrame = app.frame
         let bars = container == nil ? [] : navigationBarFrames(appFrame: appFrame)
         return ReaderViewportGeometry.visibility(target: element.exists ? element.frame : nil,
             app: appFrame, container: container?.frame, bars: bars, fullyVisible: fullyVisible)

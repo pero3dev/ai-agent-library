@@ -59,7 +59,7 @@ AGENTS.md、harness/writing-rules.mdとtemplates/doc-template.mdに従い、
 
 ### 公開観測の状況
 
-部分観測と宣言範囲の完了を区別します。2026-10-08（日本時間）時点のコミット対象を集計しています。集計方法と停止検知は[freshness-automation](freshness-automation.md#公開観測の台帳)を参照してください。
+部分観測と宣言範囲の完了を区別します。2026-11-05（日本時間）時点のコミット対象を集計しています。集計方法と停止検知は[freshness-automation](freshness-automation.md#公開観測の台帳)を参照してください。
 
 <!-- freshness-observation-summary:start -->
 | 系統 | 宣言範囲の最終完了日 | 周期内の記事確認 | 最新の部分観測 | 次回目標 |
@@ -75,10 +75,10 @@ AGENTS.md、harness/writing-rules.mdとtemplates/doc-template.mdに従い、
 | `serving-gateways` | 記録なし | 0/34 記事 | 記録なし | 未確定(完了範囲の記録が必要) |
 | `multimodal-generation` | 記録なし | 0/15 記事 | 記録なし | 未確定(完了範囲の記録が必要) |
 | `trust-ip` | 記録なし | 0/16 記事 | 記録なし | 未確定(完了範囲の記録が必要) |
-| `rpa-automation` | 記録なし | 0/3 記事 | 記録なし | 未確定(完了範囲の記録が必要) |
-| `emerging-domains` | 記録なし | 0/20 記事 | 2026-09-21 | 未確定(完了範囲の記録が必要) |
+| `rpa-automation` | 記録なし | 2/3 記事 | 2026-11-05 | 未確定(完了範囲の記録が必要) |
+| `emerging-domains` | 記録なし | 2/20 記事 | 2026-11-05 | 未確定(完了範囲の記録が必要) |
 | `geopolitics-green-ai` | 記録なし | 0/2 記事 | 2026-09-21 | 未確定(完了範囲の記録が必要) |
-| `industry-oss` | 記録なし | 0/25 記事 | 記録なし | 未確定(完了範囲の記録が必要) |
+| `industry-oss` | 記録なし | 0/25 記事 | 2026-11-05 | 未確定(完了範囲の記録が必要) |
 | `standards` | 記録なし | 0/2 記事 | 記録なし | 未確定(完了範囲の記録が必要) |
 <!-- freshness-observation-summary:end -->
 

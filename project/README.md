@@ -1,5 +1,7 @@
 # project — 計画と実施記録
 
+[自分のPRで長文Clockを選ぶCI候補](records/2026-11-04/ios-own-pr-long-scroll-selection.md)は、Rootが今回採用した選択計画として、既存workflowの自リポジトリPRだけを固定長文ケースへ結ぶ。fork PRとmain pushは起動、手動3選択・3path filter・既存のrunner／40分／protocolと全assertを保つ。本番YAMLのシェルを直接使う対象Node62件は成功した。これは共通検査前の作成時点の記録で、新head Hosted・通常main・性能閾値とIOS-15全体・実機は未完了。Doc4の受入とTODO16/32・全criteria・旧履歴を保つ。
+
 [AI向けサイト出力](records/2026-11-04/llms-markdown-index.md)はIssue #333の作業契約と実施結果です。published記事のMarkdown、階層llms.txt、索引JSONの生成・検証と公開結果を記録します。
 
 [自用の読書位置・復旧機能の受入](records/2026-11-04/ios-personal-reading-recovery-acceptance.md)で、通常main0885／App0.2.30（32）へ反映されたIOS-11・IOS-18の実装と主要な自動確認を採択した。Source cd22の全9workflow・必須11とReady後2検査、Native297・UI8・Full26、読書3専用UIの実child、復旧F/Rと52B検証ファイルを各範囲で照合し、TODOを16/32へ更新する。実機・VoiceOver・追加failure UI・性能、mainpush別CIは未完了として分け、他30状態・全criteria・過去14/32の記録を保つ。

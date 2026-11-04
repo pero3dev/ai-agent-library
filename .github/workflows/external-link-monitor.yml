@@ -1,0 +1,65 @@
+# Trusted main only. Network findings never block pull requests or edit articles.
+name: External reference monitor
+on:
+  schedule:
+    - cron: '17 21 * * 1'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Fetch references and save evidence without updating the tracking issue'
+        type: boolean
+        default: false
+permissions:
+  contents: read
+concurrency:
+  group: external-reference-monitor
+  cancel-in-progress: false
+jobs:
+  external-link-monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    permissions:
+      contents: read
+      actions: read
+      issues: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+      - name: Audit trusted parser lockfile before installation
+        run: npm audit --package-lock-only --audit-level=high
+      - name: Install trusted parsers without lifecycle scripts
+        run: npm ci --ignore-scripts
+      - name: Restore the previous trusted-main baseline
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/reference-baseline" "$RUNNER_TEMP/reference-current"
+          artifact="$(node scripts/external-link-monitor.mts --baseline-artifact)"
+          if [[ -n "$artifact" ]]; then
+            gh api "repos/$GH_REPO/actions/artifacts/$artifact/zip" > "$RUNNER_TEMP/reference-baseline.zip"
+            unzip -p "$RUNNER_TEMP/reference-baseline.zip" report.json > "$RUNNER_TEMP/reference-baseline/report.json"
+          fi
+      - name: Fetch references and compare normalized bodies
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || false }}
+        run: |
+          set -euo pipefail
+          args=(--previous "$RUNNER_TEMP/reference-baseline/report.json" --out "$RUNNER_TEMP/reference-current")
+          if [[ "$DRY_RUN" != 'true' ]]; then args+=(--update-issue); fi
+          node scripts/external-link-monitor.mts "${args[@]}"
+      - name: Keep the next comparison baseline and complete evidence
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: external-link-monitor-baseline
+          path: ${{ runner.temp }}/reference-current/*
+          if-no-files-found: error
+          retention-days: 90

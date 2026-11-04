@@ -298,6 +298,15 @@
       ]
     }
   ],
+  "scheduled_checks": [
+    {
+      "id": "external-link-monitor",
+      "workflow": ".github/workflows/external-link-monitor.yml",
+      "command": "node scripts/external-link-monitor.mts",
+      "evidence": "real-network-and-github-issue",
+      "prerequisites": ["trusted main checkout", "root npm ci", "public HTTP network", "authorized issues write for issue update"]
+    }
+  ],
   "external_evidence": [
     "independent-review",
     "actual-agent",

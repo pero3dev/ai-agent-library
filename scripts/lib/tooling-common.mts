@@ -58,7 +58,14 @@ export function verificationManifest(root: string = ROOT): import('./tooling-typ
     ids.add(row.id)
     checks.push({ ...row, id: row.id, command: row.command, job: row.job, cwd: row.cwd, os: supportedOS, prerequisites: row.prerequisites, evidence: row.evidence })
   }
-  return { ...manifest, schema_version: 1, checks, external_evidence: manifest.external_evidence, excluded_actions: manifest.excluded_actions }
+  const scheduled = manifest.scheduled_checks ?? []
+  if (!Array.isArray(scheduled)) throw new Error('scheduled_checks は配列で指定してください')
+  const scheduledChecks = scheduled.map((row: unknown) => {
+    if (!isRecord(row) || typeof row.id !== 'string' || !/^[a-z][a-z0-9-]*$/.test(row.id) || ids.has(row.id) || typeof row.workflow !== 'string' || !/^\.github\/workflows\/[a-z0-9-]+\.yml$/.test(row.workflow) || typeof row.command !== 'string' || !row.command || typeof row.evidence !== 'string' || !row.evidence || !Array.isArray(row.prerequisites) || !row.prerequisites.every(value => typeof value === 'string')) throw new Error('scheduled_checks の項目が不正です')
+    ids.add(row.id)
+    return { id: row.id, workflow: row.workflow, command: row.command, evidence: row.evidence, prerequisites: row.prerequisites as string[] }
+  })
+  return { ...manifest, schema_version: 1, checks, external_evidence: manifest.external_evidence, excluded_actions: manifest.excluded_actions, scheduled_checks: scheduledChecks }
 }
 
 export const NODE_REQUIREMENT = '^22.22.2 || ^24.15.0 || >=26.0.0'

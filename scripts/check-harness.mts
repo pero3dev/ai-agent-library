@@ -118,6 +118,12 @@ export async function checkHarness(root: string = ROOT, { trackedFiles, hooks }:
     const manifest = verificationManifest(root)
     const workflow = parseConfiguration('ci.yml', readFileSync(path.join(root, '.github/workflows/ci.yml'), 'utf8'))
     problems.push(...verificationDrift(manifest, workflow))
+    for (const row of manifest.scheduled_checks ?? []) {
+      const scheduled = parseConfiguration(row.workflow, readFileSync(path.join(root, row.workflow), 'utf8'))
+      if (!elements(nested(scheduled, ['on', 'schedule'])).length || !Object.hasOwn(properties(properties(scheduled).on), 'workflow_dispatch') || Object.hasOwn(properties(properties(scheduled).on), 'pull_request')) problems.push(`${row.workflow}: 定期検査は schedule / workflow_dispatch のみで実行します`)
+      const steps = Object.values(properties(properties(scheduled).jobs)).flatMap(job => elements(properties(job).steps).map(properties))
+      if (!steps.some(step => typeof step.run === 'string' && step.run.includes(row.command))) problems.push(`${row.workflow}: 台帳の定期検査コマンドがありません`)
+    }
     for (const name of ['lint', 'actionlint', 'docs', 'examples', 'build', 'harness', 'harness-windows']) if (!nested(workflow, ['jobs', name])) problems.push(`ci.yml: 必須 job がありません: ${name}`)
     for (const name of ['dependency-audit', 'freshness-monitor']) {
       const file = `.github/workflows/${name}.yml`

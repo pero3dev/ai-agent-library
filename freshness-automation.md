@@ -148,6 +148,10 @@ models-prompting の毎回、Anthropic・OpenAI・Google のrelease notes、depr
 
 宣言した系統範囲を完了した回だけ `coverage` (checkpointでは `public_coverage`) にsystem_id、scope: declared-system、status: verified、verified_on: JST完了日、description:実際の確認範囲を記録します。全記事の全主張や実API動作を確認した意味ではありません。部分確認は observations と affected_docs だけを残し、完了日を進めません。modelsの完了には3社のvendor_checksで未確認がないことを必要とします。過去記録は変更せず、coverageがない既存5runは部分観測として表示します。2026-09-10の初回16系統観測も[当時の範囲](project/records/2026-09-10/freshness-update.md)と区別し、完了範囲不明の日付を補完しません。
 
+2026-11-04以降は記事単位でも積み上げられます。記事で宣言した確認範囲を完了したときだけ、同じ `coverage` 配列に `scope: declared-article`、`system_id`、`doc`、`status: verified`、`verified_on` (観測完了のJST日付)、`description`、確認した主張の `claims`、一次資料の `sources` (URLと実取得UTC時刻)を記録します。`doc` はROADMAP台帳に所属する実在記事で、該当記事の changed/unchanged 観測を必要とします。別記事に未確認が残っていても記事記録は公開できますが、同じ記事の failed/unverifiable と併存させません。checkpointの `completed_systems` へ部分完了の系統を追加しません。根拠のない過去観測を記事完了へ書き換えません。
+
+集計は台帳から解決した全記事を分母とし、系統ごとに記事の最新確認を選び、周期内の `n/m 記事` を出します。全記事の確認日が1周期内に揃った場合だけ系統の完了へ集計し、最も古い記事の確認日を系統日・次回期日の基準にします。modelsは従来の3社vendor_checksも同じ周期内に完了していることが必要で、その確認がさらに古ければそちらを期日の基準にします。新しい1記事の確認で古い記事の期日を延ばしません。重複記事、台帳外、未来日・不正日付、根拠なしは件数を増やしません。従来の declared-system 記録は独立して維持し、記事別の証拠がなければ記事の確認件数へ換算しません。記事ヘッダーは各所属系統へのリンクと確認日を表示し、記事別の確認日があれば優先します。「更新」は本文改訂日、「一次情報の確認記録」は宣言範囲の観測日です。
+
 毎週の最初の実行で、未公開の軽量記録と `node scripts/freshness-observation-report.mjs --table` の出力をまとめ、ROADMAPの `freshness-observation-summary:start/end` 区画だけを更新する通常PRを作ります。記事を変更しない場合は通常manifestを作らず、Git規約のtitle/body・CIを検査します。記事の変更・独立レビューを伴う自動最新化PRへ無理に混ぜません。公開ページは同じ集計関数を使い、宣言範囲の完了日・部分観測日・対象記事・次回目標を表示します。観測結果がなくても、リポジトリとサイトで『記録なし』を確認できます。
 
 ## 停止・遅延の検知と復旧

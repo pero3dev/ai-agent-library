@@ -81,7 +81,7 @@ export async function checkHarness(root: string = ROOT, { trackedFiles, hooks }:
   for (const file of ['harness/profiles.json', '.agents/skills/freshness-maintenance/SKILL.md', '.codex/agents/doc-reviewer.toml', '.codex/agents/freshness-checker.toml', '.claude/agents/doc-reviewer.md', '.claude/agents/freshness-checker.md']) if (!existsSync(path.join(root, file))) problems.push(`必要なハーネス定義がありません: ${file}`)
   const sync = capture('sync-harness', () => syncHarness(root))
   if (sync) for (const file of [...sync.mismatches, ...sync.unexpected]) problems.push(`共通正本との同期が必要です: ${file}`)
-  const files = capture('configuration inventory', () => ['.agents', '.codex', '.claude', '.github', 'harness', 'scripts/schemas'].flatMap((dir) => filesUnder(root, dir))) ?? []
+  const files = capture('configuration inventory', () => ['.agents', '.codex', '.claude', '.claude-plugin', '.github', 'harness', 'plugins', 'scripts/schemas'].flatMap((dir) => filesUnder(root, dir))) ?? []
   for (const file of files) {
     if (file.endsWith('.example')) continue
     const isSkill = /\/SKILL\.md$/.test(file)

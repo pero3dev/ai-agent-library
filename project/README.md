@@ -1,5 +1,7 @@
 # project — 計画と実施記録
 
+[読者向けAgent Skillsとプラグイン](records/2026-11-04/reader-agent-skills.md)はIssue #335の作業契約と実施結果です。参照生成・同梱MCP・導入・発火評価を、検証方式ごとに記録します。
+
 [モーダル提示境界の診断](records/2026-11-04/ios-native-modal-presentation-boundaries.md)は、PR #339のcfeaで単体306・追加9・容量10の成功とNative7/8・Full25/26の提示失敗を分けて残す。検索原因を断定せず、DEBUGの明示UI-test時だけ最大112Bの固定状態をMoreへ付け、公開操作の受信・提示・dispatchを観測するCode4とする。既存poll・tap・期限、Release token、Native8／Full26／Core306を保つ。観測はtimingへ影響し得て、passも原因解明や製品修正の証明にしない。新headの全required／relevant CI・Ready／mainと実機等は未受入、TODO16/32・全criteria・既存Coordinator／索引全文を保つ。
 
 [ライブラリ検索MCPサーバー](records/2026-11-04/library-mcp-server.md)はIssue #334の作業契約と実施結果です。4つの読み取り専用ツール、キャッシュ、検索評価、新旧stdio回帰の確認範囲を記録します。

@@ -29,7 +29,7 @@ export function collectLinkTargets(repoRoot: string = REPO_ROOT, { additionalFil
       } else if (entry.isFile() && entry.name.endsWith('.md')) add(abs)
     }
   }
-  for (const dir of ['docs', 'examples', 'project', 'harness', 'scripts', 'ios', '.agents', '.codex', '.claude']) walk(path.join(repoRoot, dir))
+  for (const dir of ['docs', 'examples', 'project', 'harness', 'scripts', 'ios', 'plugins', '.agents', '.codex', '.claude']) walk(path.join(repoRoot, dir))
   for (const entry of readdirSync(repoRoot, { withFileTypes: true })) {
     if (entry.isFile() && entry.name.endsWith('.md')) add(path.join(repoRoot, entry.name))
   }

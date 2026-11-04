@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "ai-agent-library": {
+      "type": "stdio",
+      "command": "${user_config.python_path}",
+      "args": ["-X", "utf8", "-B", "${CLAUDE_PLUGIN_ROOT}/mcp/mcp_server.py"],
+      "env": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      }
+    }
+  }
+}

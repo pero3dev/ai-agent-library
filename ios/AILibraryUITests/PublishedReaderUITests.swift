@@ -4,12 +4,16 @@ import XCTest
 /// CI passes the independently counted published total to the runner, never to app routing.
 final class PublishedReaderUITests: NativeReaderUITestCase {
     private var expectedPublishedCount = 0
-    override var recordsModalPresentationBoundaries: Bool { true }
+    override var recordsModalPresentationBoundaries: Bool { false }
 
     private var modalBoundaryBeforeMore = "not_sampled"
 
     // One value read immediately before each existing More tap, outside every readiness predicate.
     private func rememberModalBoundaryBeforeMore(_ more: XCUIElement) {
+        guard recordsModalPresentationBoundaries else {
+            modalBoundaryBeforeMore = "disabled"
+            return
+        }
         modalBoundaryBeforeMore = boundedModalBoundaryValue(more.value as? String)
     }
 
@@ -22,6 +26,7 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
 
     // Failure-only, sequential to the earlier sample and existing hierarchy; not an atomic snapshot.
     private func modalBoundaryAtFailure() -> String {
+        guard recordsModalPresentationBoundaries else { return "disabled" }
         let controls = app.buttons.matching(identifier: "library-modal-boundary-trace")
         guard controls.count == 1 else { return "unavailable_or_ambiguous" }
         return boundedModalBoundaryValue(controls.element(boundBy: 0).value as? String)

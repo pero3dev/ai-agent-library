@@ -4,6 +4,7 @@ import { audioLockChildSource, utf8ChunkChildSource } from '../helpers/audio-fix
 import { requiredFixture, objectFixture } from '../helpers/json-fixtures.mjs'
 import type { AudioScript, AudioEngine, Generate, Execute, ExecuteOptions, ProducedPart } from '../../scripts/audio/contracts.ts'
 import assert from 'node:assert/strict'
+import fs from 'node:fs'
 import { mkdtemp, mkdir, readFile, readdir, rename, rm, writeFile } from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
@@ -15,6 +16,7 @@ import { checkEngine, engineBase, evaluateSignal, probeAudio, synthesizeScript }
 import { parseArguments } from '../../scripts/audio-run.mjs'
 import { AuthorshipError, readScriptAuthorship, recordScriptAuthorship } from '../../scripts/audio/authorship.mjs'
 import { acquireAudioLock } from '../../scripts/audio/lock.mjs'
+import { isLockMutexAcquireError } from '../../scripts/lib/harness-state.mjs'
 
 const configPath = path.resolve('automation/audio/config.json')
 const config = await loadConfig(configPath, {})
@@ -477,6 +479,149 @@ test('parallel same-process stale recovery never runs more than one producer', a
     const reason: unknown = rejected.reason; assert(reason instanceof Error); assert.match(reason.message, /already running/)
   }
   assert.equal(maximum, 1)
+})
+
+// These tests replace only acquisition/cleanup syscalls and restore every global.
+function mockPlatform(t: TestContext, platform: NodeJS.Platform) {
+  const descriptor = Object.getOwnPropertyDescriptor(process, 'platform')
+  assert.ok(descriptor)
+  Object.defineProperty(process, 'platform', { ...descriptor, value: platform })
+  t.after(() => Object.defineProperty(process, 'platform', descriptor))
+}
+function mockMutexMkdir(t: TestContext, mutex: string, beforeCreate: () => void) {
+  const original = fs.mkdirSync
+  return t.mock.method(fs, 'mkdirSync', (...args: Parameters<typeof fs.mkdirSync>) => {
+    if (args[0] === mutex) beforeCreate()
+    return Reflect.apply(original, fs, args)
+  })
+}
+const mutexDenied = (mutex: string) => Object.assign(new Error('mkdir denied'), { code: 'EPERM', syscall: 'mkdir', path: mutex })
+
+test('audio mutex retries only Windows exclusive mkdir denials before performing one owner mutation', async t => {
+  const { stateDir } = await fixture(t)
+  const file = path.join(stateDir, 'run.lock'), mutex = path.join(stateDir, '.run-lock-guard', 'lock-mutex')
+  const previous = { pid: 2147483647, created_at: '2026-09-13T00:00:00Z' }
+  await writeJson(file, previous)
+  mockPlatform(t, 'win32')
+  const waits = t.mock.method(Atomics, 'wait', () => 'timed-out' as const)
+  let attempts = 0, actions = 0
+  mockMutexMkdir(t, mutex, () => { if (++attempts < 3) throw mutexDenied(mutex) })
+  t.mock.method(process, 'kill', (pid: number) => { assert.equal(pid, previous.pid); actions++; throw Object.assign(new Error('gone'), { code: 'ESRCH' }) })
+  const lock = acquireAudioLock(stateDir, 'run')
+  assert.equal(attempts, 3); assert.equal(actions, 1)
+  assert.deepEqual(waits.mock.calls.map(call => call.arguments[3]), [10, 10])
+  assert.deepEqual(await readJson(file), lock.owner)
+  const archived = (await readdir(stateDir)).filter(name => name.startsWith('expired-run.lock-'))
+  assert.equal(archived.length, 1); assert.deepEqual(await readJson(path.join(stateDir, archived[0])), previous)
+  assert.equal(fs.existsSync(mutex), false)
+  assert.equal(lock.release(), true)
+})
+
+test('persistent Windows mutex mkdir denial exhausts the existing bound without touching an owner or another mutex', async t => {
+  const { stateDir } = await fixture(t)
+  const file = path.join(stateDir, 'run.lock'), mutex = path.join(stateDir, '.run-lock-guard', 'lock-mutex')
+  const previous = { pid: 2147483647, created_at: '2026-09-13T00:00:00Z' }
+  await writeJson(file, previous)
+  await mkdir(mutex, { recursive: true }); await writeFile(path.join(mutex, 'retained'), 'other mutex')
+  const before = await readFile(file, 'utf8'), denied = mutexDenied(mutex)
+  mockPlatform(t, 'win32')
+  const waits = t.mock.method(Atomics, 'wait', () => 'timed-out' as const)
+  let attempts = 0
+  mockMutexMkdir(t, mutex, () => { attempts++; throw denied })
+  const actions = t.mock.method(process, 'kill', () => { throw new Error('owner action must not run') })
+  assert.throws(() => acquireAudioLock(stateDir, 'run'), error => {
+    assert.ok(error instanceof Error); assert.ok(isLockMutexAcquireError(error)); assert.equal(error.cause, denied)
+    return true
+  })
+  assert.equal(attempts, 51); assert.equal(actions.mock.callCount(), 0)
+  assert.deepEqual(waits.mock.calls.map(call => call.arguments[3]), Array(50).fill(10))
+  assert.equal(await readFile(file, 'utf8'), before)
+  assert.deepEqual(await readdir(mutex), ['retained']); assert.equal(await readFile(path.join(mutex, 'retained'), 'utf8'), 'other mutex')
+  assert.deepEqual((await readdir(stateDir)).sort(), ['.run-lock-guard', 'account-confirmation.json', 'run.lock'])
+})
+
+test('audio owner-action EPERM escapes immediately without replaying the action', async t => {
+  const { stateDir } = await fixture(t)
+  const file = path.join(stateDir, 'run.lock'), mutex = path.join(stateDir, '.run-lock-guard', 'lock-mutex')
+  await writeJson(file, { pid: 2147483647, created_at: '2026-09-13T00:00:00Z' })
+  const before = await readFile(file, 'utf8'), denied = mutexDenied(mutex)
+  mockPlatform(t, 'win32')
+  const waits = t.mock.method(Atomics, 'wait', () => 'timed-out' as const)
+  let attempts = 0
+  mockMutexMkdir(t, mutex, () => { attempts++ })
+  const actions = t.mock.method(process, 'kill', () => { throw denied })
+  assert.throws(() => acquireAudioLock(stateDir, 'run'), error => error === denied && !isLockMutexAcquireError(error))
+  assert.equal(attempts, 1); assert.equal(actions.mock.callCount(), 1); assert.equal(waits.mock.callCount(), 0)
+  assert.equal(await readFile(file, 'utf8'), before); assert.equal(fs.existsSync(mutex), false)
+})
+
+test('audio mutex cleanup EPERM cannot replay an owner mutation that has completed', async t => {
+  const { stateDir } = await fixture(t)
+  const file = path.join(stateDir, 'run.lock'), mutex = path.join(stateDir, '.run-lock-guard', 'lock-mutex')
+  await writeJson(file, { pid: 2147483647, created_at: '2026-09-13T00:00:00Z' })
+  const denied = mutexDenied(mutex)
+  mockPlatform(t, 'win32')
+  const waits = t.mock.method(Atomics, 'wait', () => 'timed-out' as const)
+  let attempts = 0
+  mockMutexMkdir(t, mutex, () => { attempts++ })
+  const actions = t.mock.method(process, 'kill', () => { throw Object.assign(new Error('gone'), { code: 'ESRCH' }) })
+  const original = fs.rmdirSync
+  const cleanup = t.mock.method(fs, 'rmdirSync', (target: fs.PathLike) => { if (target === mutex) throw denied; return original(target) })
+  assert.throws(() => acquireAudioLock(stateDir, 'run'), error => error === denied && !isLockMutexAcquireError(error))
+  assert.equal(attempts, 1); assert.equal(actions.mock.callCount(), 1); assert.equal(cleanup.mock.callCount(), 1); assert.equal(waits.mock.callCount(), 0)
+  const owner = objectFixture(await readJson(file))
+  assert.equal(owner.pid, process.pid); assert.match(String(owner.attempt_id), /^[a-f0-9-]{36}$/)
+  assert.equal((await readdir(stateDir)).filter(name => name.startsWith('expired-run.lock-')).length, 1)
+  assert.deepEqual(await readdir(mutex), [])
+})
+
+test('non-Windows and unrelated mkdir errors do not enter the audio retry loop', async t => {
+  const { stateDir } = await fixture(t)
+  const mutex = path.join(stateDir, '.run-lock-guard', 'lock-mutex')
+  const cases: Array<{ platform: NodeJS.Platform; error: Error }> = [
+    { platform: 'linux', error: mutexDenied(mutex) },
+    { platform: 'win32', error: Object.assign(mutexDenied(mutex), { path: path.join(stateDir, 'elsewhere') }) },
+    { platform: 'win32', error: Object.assign(mutexDenied(mutex), { syscall: 'rmdir' }) },
+    { platform: 'win32', error: Object.assign(mutexDenied(mutex), { code: 'EACCES' }) },
+    { platform: 'win32', error: Object.assign(new Error('missing syscall/path'), { code: 'EPERM' }) },
+  ]
+  for (const { platform, error } of cases) await t.test(`${platform}: ${error.message} ${JSON.stringify(error)}`, sub => {
+    mockPlatform(sub, platform)
+    const waits = sub.mock.method(Atomics, 'wait', () => 'timed-out' as const)
+    let attempts = 0
+    mockMutexMkdir(sub, mutex, () => { attempts++; throw error })
+    assert.throws(() => acquireAudioLock(stateDir, 'run'), caught => caught === error && !isLockMutexAcquireError(caught))
+    assert.equal(attempts, 1); assert.equal(waits.mock.callCount(), 0)
+    assert.equal(fs.existsSync(path.join(stateDir, 'run.lock')), false); assert.equal(fs.existsSync(mutex), false)
+  })
+})
+
+test('Windows EPERM while preparing the guard is not classified as exclusive mutex acquisition', async t => {
+  const { stateDir } = await fixture(t)
+  const guard = path.join(stateDir, '.run-lock-guard'), denied = mutexDenied(guard)
+  mockPlatform(t, 'win32')
+  const waits = t.mock.method(Atomics, 'wait', () => 'timed-out' as const)
+  const original = fs.mkdirSync
+  let attempts = 0
+  t.mock.method(fs, 'mkdirSync', (...args: Parameters<typeof fs.mkdirSync>) => {
+    if (args[0] === guard) { attempts++; throw denied }
+    return Reflect.apply(original, fs, args)
+  })
+  assert.throws(() => acquireAudioLock(stateDir, 'run'), error => error === denied && !isLockMutexAcquireError(error))
+  assert.equal(attempts, 1); assert.equal(waits.mock.callCount(), 0)
+  assert.equal(fs.existsSync(path.join(stateDir, 'run.lock')), false); assert.equal(fs.existsSync(guard), false)
+})
+
+test('audio namespaces and linked mutex paths still fail before acquisition', async t => {
+  const { root, stateDir } = await fixture(t)
+  const outside = path.join(root, 'outside'), guard = path.join(stateDir, '.run-lock-guard')
+  await mkdir(outside); await mkdir(guard)
+  fs.symlinkSync(outside, path.join(guard, 'lock-mutex'), process.platform === 'win32' ? 'junction' : 'dir')
+  const create = t.mock.method(fs, 'mkdirSync')
+  for (const namespace of ['', '../run', 'RUN', 'run/..']) assert.throws(() => acquireAudioLock(stateDir, namespace), /Invalid audio lock namespace/)
+  assert.throws(() => acquireAudioLock(stateDir, 'run'), /symlink/)
+  assert.equal(create.mock.callCount(), 0)
+  assert.deepEqual(await readdir(outside), []); assert.equal(fs.existsSync(path.join(stateDir, 'run.lock')), false)
 })
 
 test('two independent child processes contend on each audio namespace without overlap', { timeout: 30000 }, async t => {

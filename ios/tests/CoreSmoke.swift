@@ -22,6 +22,7 @@ enum CoreSmoke {
         try readAccessDirectory(scratch)
         try nativeDocuments(scratch)
         try failedUpdates(scratch)
+        try mutationCoordination(scratch)
         try legacyPackageFallback(scratch)
         try futurePackageSchemas(scratch)
         try testFixtureIsolation(scratch)
@@ -616,5 +617,213 @@ enum CoreSmoke {
             try expect((updated["positions"] as? [String: Any])?["other"] != nil, "Rewriting invalid anchor erased another position")
         }
         print("PASS revision-aware reading anchors, semantic disambiguation, fallback and backward-compatible storage")
+    }
+}
+
+/// Test-only gate: ordering comes from explicit signals, not a scheduling delay.
+/// The deadline bounds a broken scenario and is not a performance assertion.
+private final class SmokeMutationPointerGate: @unchecked Sendable {
+    let entered = DispatchSemaphore(value: 0)
+    let resume = DispatchSemaphore(value: 0)
+    private let lock = NSLock()
+    private var pointer: Data?
+
+    func rejectPointer(_ data: Data) throws {
+        lock.lock(); pointer = data; lock.unlock()
+        entered.signal()
+        guard resume.wait(timeout: .now() + 10) == .success else {
+            throw SmokeFailure(message: "Mutation pointer gate was not released")
+        }
+        throw CocoaError(.fileWriteOutOfSpace)
+    }
+
+    func pendingPointer() -> Data? {
+        lock.lock()
+        defer { lock.unlock() }
+        return pointer
+    }
+}
+
+/// One background repository operation; only the locked result crosses back.
+private final class SmokeMutationRequest: @unchecked Sendable {
+    let finished = DispatchSemaphore(value: 0)
+    private let repository: ContentRepository
+    private let source: URL
+    private let lock = NSLock()
+    private var result: Result<ContentSnapshot, Error>?
+
+    init(repository: ContentRepository, source: URL) { self.repository = repository; self.source = source }
+
+    func run() {
+        let value = Result { try repository.install(from: source) }
+        lock.lock(); result = value; lock.unlock()
+        finished.signal()
+    }
+
+    func outcome() throws -> Result<ContentSnapshot, Error> {
+        lock.lock()
+        defer { lock.unlock() }
+        guard let result else { throw SmokeFailure(message: "Mutation request has no terminal result") }
+        return result
+    }
+}
+
+private final class SmokeMutationFileManager: FileManager, @unchecked Sendable {
+    enum Point: Equatable { case beforeCopy, afterCopy, afterMove, beforeRemove, afterRemove }
+    let observe: (Point, URL) -> Void
+    init(observe: @escaping (Point, URL) -> Void) { self.observe = observe; super.init() }
+
+    override func copyItem(at srcURL: URL, to dstURL: URL) throws {
+        observe(.beforeCopy, dstURL)
+        try super.copyItem(at: srcURL, to: dstURL)
+        observe(.afterCopy, dstURL)
+    }
+
+    override func moveItem(at srcURL: URL, to dstURL: URL) throws {
+        try super.moveItem(at: srcURL, to: dstURL)
+        observe(.afterMove, dstURL)
+    }
+
+    override func removeItem(at url: URL) throws {
+        observe(.beforeRemove, url)
+        defer { observe(.afterRemove, url) }
+        try super.removeItem(at: url)
+    }
+}
+
+/// Cleanup deliberately ignores remove errors in production. Keep probe failures
+/// independently so a swallowed callback error cannot become a successful smoke.
+private final class SmokeMutationEvidence: @unchecked Sendable {
+    private let lock = NSLock()
+    private var points: [SmokeMutationFileManager.Point] = []
+    private var firstFailure: String?
+
+    func record(_ point: SmokeMutationFileManager.Point, error: Error?) {
+        lock.lock()
+        defer { lock.unlock() }
+        points.append(point)
+        if firstFailure == nil, let error { firstFailure = error.localizedDescription }
+    }
+
+    func value() -> (points: [SmokeMutationFileManager.Point], firstFailure: String?) {
+        lock.lock()
+        defer { lock.unlock() }
+        return (points, firstFailure)
+    }
+}
+
+private extension CoreSmoke {
+    static func mutationInventory(_ root: URL) throws -> [String: Data] {
+        let prefix = root.standardizedFileURL.path + "/"
+        guard let entries = FileManager.default.enumerator(at: root, includingPropertiesForKeys: [.isRegularFileKey]) else {
+            throw SmokeFailure(message: "Could not enumerate synthetic mutation storage")
+        }
+        var values: [String: Data] = [:]
+        for case let url as URL in entries {
+            if try url.resourceValues(forKeys: [.isRegularFileKey]).isRegularFile == true {
+                let path = url.standardizedFileURL.path
+                try expect(path.hasPrefix(prefix), "Mutation inventory escaped its synthetic root")
+                values[String(path.dropFirst(prefix.count))] = try Data(contentsOf: url)
+            }
+        }
+        return values
+    }
+
+    static func expectMutationBusy(_ label: String, _ operation: () throws -> Void) throws {
+        var rejection: Error?
+        try expectThrows(label) {
+            do { try operation() } catch { rejection = error; throw error }
+        }
+        try expect(rejection?.localizedDescription.contains("取り込み処理が進行中") == true,
+                   "A competing repository failed for a reason other than the shared busy permit")
+    }
+
+    static func mutationCoordination(_ scratch: URL) throws {
+        let bundled = try fixture(scratch, "mutation-bundle", revision: "bundle")
+        let first = try fixture(scratch, "mutation-first", revision: "first")
+        let incoming = try fixture(scratch, "mutation-incoming", revision: "incoming")
+        let storage = scratch.appendingPathComponent("mutation-storage")
+        let reader = ContentRepository(bundledRoot: bundled, storageRoot: storage)
+        let old = try reader.install(from: first)
+        let alias = scratch.appendingPathComponent("mutation-storage-alias")
+        try FileManager.default.createSymbolicLink(at: alias, withDestinationURL: storage)
+        let orphan = storage.appendingPathComponent("versions/.staging-" + UUID().uuidString)
+        try FileManager.default.createDirectory(at: orphan, withIntermediateDirectories: false)
+        try Data("retained earlier orphan".utf8).write(to: orphan.appendingPathComponent("partial.bin"))
+        try Data("unrelated retained bytes".utf8).write(to: storage.appendingPathComponent("retained-marker.bin"))
+        let before = try mutationInventory(storage)
+        let oldAsset = try Data(contentsOf: old.root.appendingPathComponent("assets/pixel.png"))
+        let peer = ContentRepository(bundledRoot: bundled, storageRoot: alias)
+        let gate = SmokeMutationPointerGate()
+        let evidence = SmokeMutationEvidence()
+        let manager = SmokeMutationFileManager { point, url in
+            var failure: Error?
+            do {
+                let name = url.lastPathComponent
+                let value = name.hasPrefix(".staging-") ? String(name.dropFirst(".staging-".count)) : name
+                guard let id = UUID(uuidString: value) else { throw SmokeFailure(message: "Invalid synthetic attempt name") }
+                try expect(try ContentMutationCoordinator.activeStagingAttemptIDs(at: storage) == [id],
+                           "The attempt registration did not cover copy, rename or cleanup")
+                if point == .beforeRemove || point == .afterRemove {
+                    try expectMutationBusy("peer during owner cleanup") { _ = try peer.install(from: incoming) }
+                }
+            } catch { failure = error }
+            evidence.record(point, error: failure)
+        }
+        let request = SmokeMutationRequest(repository: ContentRepository(bundledRoot: bundled, storageRoot: storage,
+            fileManager: manager, writePointer: { data, _ in try gate.rejectPointer(data) }), source: incoming)
+        DispatchQueue.global(qos: .userInitiated).async { request.run() }
+        var observationError: Error?
+        if gate.entered.wait(timeout: .now() + 10) == .success {
+            do {
+                guard let data = gate.pendingPointer() else { throw SmokeFailure(message: "Missing pending pointer") }
+                let pointer = try JSONDecoder().decode([String: String].self, from: data)
+                guard let value = pointer["directory"], let id = UUID(uuidString: value) else {
+                    throw SmokeFailure(message: "Missing synthetic attempt identity")
+                }
+                try expect(try ContentMutationCoordinator.activeStagingAttemptIDs(at: alias) == [id],
+                           "Existing symlink aliases did not observe the same registered attempt")
+                let held = try mutationInventory(storage)
+                try expectMutationBusy("overlapping alias import") { _ = try peer.install(from: incoming) }
+                try expectMutationBusy("overlapping bundled activation") { _ = try peer.activateBundledContent() }
+                try expect(try mutationInventory(storage) == held, "A rejected peer changed stored bytes")
+                try expect(try reader.load().root == old.root, "Read-only load lost the healthy selection while import was pending")
+                let independent = scratch.appendingPathComponent("mutation-independent-storage")
+                let selected = try ContentRepository(bundledRoot: bundled, storageRoot: independent).install(from: incoming)
+                try expect(selected.manifest.revision == "incoming", "Independent roots incorrectly shared the busy state")
+            } catch { observationError = error }
+        } else { observationError = SmokeFailure(message: "Mutation import never reached the controlled pointer gate") }
+        gate.resume.signal()
+        guard request.finished.wait(timeout: .now() + 10) == .success else {
+            throw SmokeFailure(message: "Mutation import did not complete after gate release")
+        }
+        if let observationError { throw observationError }
+        let outcome = try request.outcome()
+        try expectThrows("controlled mutation ENOSPC") { _ = try outcome.get() }
+        if case .failure(let error) = outcome {
+            try expect((error as NSError).domain == NSCocoaErrorDomain
+                && (error as NSError).code == CocoaError.Code.fileWriteOutOfSpace.rawValue,
+                       "The owner failed outside the intended pointer ENOSPC boundary")
+        }
+        let observed = evidence.value()
+        try expect(observed.firstFailure == nil, observed.firstFailure ?? "Unexpected mutation observation failure")
+        try expect(observed.points == [.beforeCopy, .afterCopy, .afterMove, .beforeRemove, .afterRemove, .beforeRemove, .afterRemove],
+                   "The expected copy/rename/two-cleanup boundaries did not all execute")
+        try expect(try ContentMutationCoordinator.activeStagingAttemptIDs(at: storage).isEmpty,
+                   "A failed import left the root busy or its attempt registered")
+        try expect(try mutationInventory(storage) == before, "Failed import changed current/old/orphan/unrelated bytes")
+        try expect(try reader.load().root == old.root, "Pointer failure lost the old healthy selection")
+        let retried = try reader.install(from: incoming)
+        try expect(retried.manifest.revision == "incoming", "Import was not retryable after owner cleanup")
+        try expect(try reader.load().manifest.revision == "incoming", "Retry did not publish its healthy selection")
+        let after = try mutationInventory(storage)
+        for (path, bytes) in before where path != "current.json" {
+            try expect(after[path] == bytes, "Retry changed a retained old, orphan or unrelated file")
+        }
+        try expect(try Data(contentsOf: old.root.appendingPathComponent("assets/pixel.png")) == oldAsset,
+                   "Old snapshots lost their delayed asset read after retry")
+        try expect(try ContentMutationCoordinator.activeStagingAttemptIDs(at: storage).isEmpty,
+                   "Successful retry did not release its attempt registration")
+        print("PASS shared-root import coordination, active staging lifetime, ENOSPC rollback and retry")
     }
 }

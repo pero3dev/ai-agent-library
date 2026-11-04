@@ -91,11 +91,13 @@ final class ContentRepository {
     /// Equal revisions alone are not identities: metadata and every listed asset digest
     /// must agree after both complete packages have passed validation.
     func activateBundledContent() throws -> (snapshot: ContentSnapshot, alreadyActive: Bool) {
-        let bundled = try validate(root: bundledRoot)
-        if let current = try? load(), try hasSameManifest(current, bundled) {
-            return (current, true)
+        try ContentMutationCoordinator.withMutation(at: storageRoot) { mutation in
+            let bundled = try validate(root: bundledRoot)
+            if let current = try? load(), try hasSameManifest(current, bundled) {
+                return (current, true)
+            }
+            return (try install(from: bundledRoot, remembersPreviousStoredVersion: false, mutation: mutation), false)
         }
-        return (try install(from: bundledRoot, remembersPreviousStoredVersion: false), false)
     }
 
     private func hasSameManifest(_ lhs: ContentSnapshot, _ rhs: ContentSnapshot) throws -> Bool {
@@ -105,17 +107,22 @@ final class ContentRepository {
     }
 
     func install(from source: URL) throws -> ContentSnapshot {
-        return try install(from: source, remembersPreviousStoredVersion: true)
+        try ContentMutationCoordinator.withMutation(at: storageRoot) { mutation in
+            try install(from: source, remembersPreviousStoredVersion: true, mutation: mutation)
+        }
     }
 
-    private func install(from source: URL, remembersPreviousStoredVersion: Bool) throws -> ContentSnapshot {
+    private func install(from source: URL, remembersPreviousStoredVersion: Bool,
+                         mutation: ContentMutationCoordinator.Mutation) throws -> ContentSnapshot {
         // Validate the provider's folder before copying; validate again to detect changes during copy.
         _ = try validate(root: source)
         let versions = storageRoot.appendingPathComponent("versions", isDirectory: true)
         try fileManager.createDirectory(at: versions, withIntermediateDirectories: true)
-        let id = UUID().uuidString
+        let attemptID = UUID()
+        let id = attemptID.uuidString
         let staging = versions.appendingPathComponent(".staging-" + id, isDirectory: true)
         let destination = versions.appendingPathComponent(id, isDirectory: true)
+        try mutation.registerStagingAttempt(attemptID)
         var activated = false
         defer {
             try? fileManager.removeItem(at: staging)
@@ -153,5 +160,105 @@ final class ContentRepository {
             throw ContentError.invalid("本文表示テストの記事は通常のライブラリへ取り込めません。")
         }
         return snapshot
+    }
+}
+
+/// Cooperation between mutations in this process only. Canonicalized paths join
+/// existing symlink aliases; they are not stable filesystem identities or locks
+/// against another process, directory replacement or an uncooperative writer.
+/// Neither an empty registration snapshot nor a released permit allows deletion.
+enum ContentMutationCoordinator {
+    final class Mutation {
+        private let scope: String
+        private let owner: UUID
+        private let registry: Registry
+
+        fileprivate init(scope: String, owner: UUID, registry: Registry) {
+            self.scope = scope
+            self.owner = owner
+            self.registry = registry
+        }
+
+        /// The name is reserved before copying and stays active through rename,
+        /// pointer publication and the import's own deferred attempt cleanup.
+        func registerStagingAttempt(_ id: UUID) throws {
+            try registry.register(id, in: scope, owner: owner)
+        }
+
+        fileprivate func finish() { registry.release(scope: scope, owner: owner) }
+        deinit { finish() }
+    }
+
+    fileprivate final class Registry: @unchecked Sendable {
+        private struct Entry {
+            let owner: UUID
+            var stagingAttempt: UUID?
+        }
+
+        private let lock = NSLock()
+        private var entries: [String: Entry] = [:]
+
+        func acquire(scope: String) throws -> Mutation {
+            lock.lock()
+            defer { lock.unlock() }
+            guard entries[scope] == nil else {
+                throw ContentError.invalid("コンテンツの取り込み処理が進行中です。完了後にもう一度お試しください。")
+            }
+            let owner = UUID()
+            entries[scope] = Entry(owner: owner, stagingAttempt: nil)
+            return Mutation(scope: scope, owner: owner, registry: self)
+        }
+
+        func register(_ id: UUID, in scope: String, owner: UUID) throws {
+            lock.lock()
+            defer { lock.unlock() }
+            guard var entry = entries[scope], entry.owner == owner, entry.stagingAttempt == nil else {
+                throw ContentError.invalid("取り込み作業領域の登録状態を確認できません。")
+            }
+            entry.stagingAttempt = id
+            entries[scope] = entry
+        }
+
+        func release(scope: String, owner: UUID) {
+            lock.lock()
+            defer { lock.unlock() }
+            if entries[scope]?.owner == owner { entries.removeValue(forKey: scope) }
+        }
+
+        func stagingAttempts(in scope: String) -> Set<UUID> {
+            lock.lock()
+            defer { lock.unlock() }
+            return Set(entries[scope]?.stagingAttempt.map { [$0] } ?? [])
+        }
+    }
+
+    private static let registry = Registry()
+
+    /// Nonblocking: a competing mutation can retry after the owner completes.
+    /// Registry locks protect bookkeeping only and are never held across I/O.
+    static func withMutation<Value>(at root: URL, _ body: (Mutation) throws -> Value) throws -> Value {
+        let mutation = try registry.acquire(scope: canonicalScope(root))
+        defer { mutation.finish() }
+        return try body(mutation)
+    }
+
+    /// An instantaneous, conservative set of this process's reserved attempts.
+    /// A future maintenance operation needs its own permit and filesystem checks.
+    static func activeStagingAttemptIDs(at root: URL) throws -> Set<UUID> {
+        registry.stagingAttempts(in: try canonicalScope(root))
+    }
+
+    private static func canonicalScope(_ root: URL) throws -> String {
+        guard root.isFileURL, root.host == nil || root.host == "" || root.host == "localhost",
+              root.user == nil, root.password == nil, root.port == nil,
+              root.query == nil, root.fragment == nil, root.path.hasPrefix("/") else {
+            throw ContentError.invalid("保存先のフォルダ参照が無効です。")
+        }
+        var path = root.resolvingSymlinksInPath().standardizedFileURL.path
+        while path.count > 1, path.hasSuffix("/") { path.removeLast() }
+        guard path.hasPrefix("/"), path != "/" else {
+            throw ContentError.invalid("保存先のフォルダ参照が無効です。")
+        }
+        return path
     }
 }

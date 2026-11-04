@@ -4965,3 +4965,331 @@ extension LibraryCoreTests {
         assertPreviousStoredReadingBytes(records)
     }
 }
+
+/// The gate establishes overlap without a scheduling delay. Its timeout only
+/// bounds a broken test; no assertion derives behavior from elapsed time.
+private final class MutationPointerGate: @unchecked Sendable {
+    let entered = XCTestExpectation(description: "Import reached pointer publication")
+    let release = DispatchSemaphore(value: 0)
+    private let lock = NSLock()
+    private var pending: Data?
+
+    func write(_ data: Data, to url: URL) throws {
+        lock.lock(); pending = data; lock.unlock()
+        entered.fulfill()
+        guard release.wait(timeout: .now() + 10) == .success else {
+            throw ContentError.invalid("Test pointer gate was not released")
+        }
+        try data.write(to: url, options: .atomic)
+    }
+
+    func pointerData() -> Data? {
+        lock.lock()
+        defer { lock.unlock() }
+        return pending
+    }
+}
+
+/// Only this request owns the repository sent to the background queue. Test
+/// observations cross back through the lock and XCTest's completion signal.
+private final class MutationImportRequest: @unchecked Sendable {
+    let finished = XCTestExpectation(description: "Background import completed")
+    private let repository: ContentRepository
+    private let source: URL
+    private let lock = NSLock()
+    private var result: Result<ContentSnapshot, Error>?
+
+    init(repository: ContentRepository, source: URL) {
+        self.repository = repository
+        self.source = source
+    }
+
+    func run() {
+        let value = Result { try repository.install(from: source) }
+        lock.lock(); result = value; lock.unlock()
+        finished.fulfill()
+    }
+
+    func outcome() -> Result<ContentSnapshot, Error>? {
+        lock.lock()
+        defer { lock.unlock() }
+        return result
+    }
+}
+
+/// Every probe is synchronous and touches only a fresh synthetic package root.
+private final class MutationProbeFileManager: FileManager, @unchecked Sendable {
+    enum Point: Equatable { case beforeCopy, afterCopy, afterMove, beforeRemove, afterRemove }
+    let probe: (Point, URL) throws -> Void
+
+    init(probe: @escaping (Point, URL) throws -> Void) { self.probe = probe; super.init() }
+
+    override func copyItem(at srcURL: URL, to dstURL: URL) throws {
+        try probe(.beforeCopy, dstURL)
+        try super.copyItem(at: srcURL, to: dstURL)
+        try probe(.afterCopy, dstURL)
+    }
+
+    override func moveItem(at srcURL: URL, to dstURL: URL) throws {
+        try super.moveItem(at: srcURL, to: dstURL)
+        try probe(.afterMove, dstURL)
+    }
+
+    override func removeItem(at url: URL) throws {
+        try probe(.beforeRemove, url)
+        defer { try? probe(.afterRemove, url) }
+        try super.removeItem(at: url)
+    }
+}
+
+extension LibraryCoreTests {
+    private func mutationAttemptID(_ url: URL) throws -> UUID {
+        let name = url.lastPathComponent
+        let raw = name.hasPrefix(".staging-") ? String(name.dropFirst(".staging-".count)) : name
+        return try XCTUnwrap(UUID(uuidString: raw))
+    }
+
+    func testMutationCoordinatorBlocksAliasRepositoryUntilCommitAndAllowsIndependentRoot() async throws {
+        let bundled = try fixture("mutation-overlap-bundle", revision: "bundle")
+        let firstSource = try retentionPackage("mutation-overlap-first", revision: "first")
+        let incoming = try retentionPackage("mutation-overlap-incoming", revision: "incoming")
+        let storage = directory.appendingPathComponent("mutation-overlap-storage")
+        let reader = ContentRepository(bundledRoot: bundled, storageRoot: storage)
+        let old = try reader.install(from: firstSource)
+        let oldPointer = try Data(contentsOf: storage.appendingPathComponent("current.json"))
+        let alias = directory.appendingPathComponent("mutation-overlap-alias")
+        try FileManager.default.createSymbolicLink(at: alias, withDestinationURL: storage)
+        let gate = MutationPointerGate()
+        let request = MutationImportRequest(repository: ContentRepository(bundledRoot: bundled, storageRoot: storage,
+            writePointer: { try gate.write($0, to: $1) }), source: incoming)
+        DispatchQueue.global(qos: .userInitiated).async { request.run() }
+        await fulfillment(of: [gate.entered], timeout: 10)
+        var observationError: Error?
+        do {
+            let pending = try JSONDecoder().decode([String: String].self, from: XCTUnwrap(gate.pointerData()))
+            let attempt = try XCTUnwrap(UUID(uuidString: XCTUnwrap(pending["directory"])))
+            XCTAssertEqual(try ContentMutationCoordinator.activeStagingAttemptIDs(at: storage), [attempt])
+            XCTAssertEqual(try ContentMutationCoordinator.activeStagingAttemptIDs(at: alias), [attempt])
+            let beforeBusy = try retentionInventory(storage)
+            let peer = ContentRepository(bundledRoot: bundled, storageRoot: alias)
+            XCTAssertThrowsError(try peer.install(from: incoming)) { error in
+                XCTAssertTrue(error.localizedDescription.contains("取り込み処理が進行中"))
+            }
+            XCTAssertThrowsError(try peer.activateBundledContent())
+            XCTAssertEqual(try retentionInventory(storage), beforeBusy)
+            XCTAssertEqual(try Data(contentsOf: storage.appendingPathComponent("current.json")), oldPointer)
+            XCTAssertEqual(try reader.load().root, old.root, "Read-only load stays available during import")
+            let independent = directory.appendingPathComponent("mutation-independent-storage")
+            let other = try ContentRepository(bundledRoot: bundled, storageRoot: independent).install(from: incoming)
+            XCTAssertEqual(other.manifest.revision, "incoming", "Unrelated roots do not share the busy state")
+        } catch { observationError = error }
+        gate.release.signal()
+        await fulfillment(of: [request.finished], timeout: 10)
+        let selected = try XCTUnwrap(request.outcome()).get()
+        if let observationError { throw observationError }
+        XCTAssertEqual(try reader.load().root, selected.root)
+        XCTAssertTrue(try ContentMutationCoordinator.activeStagingAttemptIDs(at: storage).isEmpty)
+        XCTAssertEqual(try Data(contentsOf: old.root.appendingPathComponent("assets/late-first.png")), pixel)
+    }
+
+    func testMutationRegistrationCoversCopyRenamePointerAndSuccessfulCleanup() throws {
+        let source = try fixture("mutation-phases-source")
+        let storage = directory.appendingPathComponent("mutation-phases-storage")
+        var attempt: UUID?
+        var points: [MutationProbeFileManager.Point] = []
+        let manager = MutationProbeFileManager { point, url in
+            let id = try self.mutationAttemptID(url)
+            if let attempt { XCTAssertEqual(id, attempt) } else { attempt = id }
+            XCTAssertEqual(try ContentMutationCoordinator.activeStagingAttemptIDs(at: storage), [id])
+            points.append(point)
+        }
+        let repository = ContentRepository(bundledRoot: source, storageRoot: storage, fileManager: manager,
+            writePointer: { data, url in
+                let value = try JSONDecoder().decode([String: String].self, from: data)
+                let id = try XCTUnwrap(UUID(uuidString: XCTUnwrap(value["directory"])))
+                XCTAssertEqual(id, attempt)
+                XCTAssertEqual(try ContentMutationCoordinator.activeStagingAttemptIDs(at: storage), [id])
+                try data.write(to: url, options: .atomic)
+            })
+        let selected = try repository.install(from: source)
+        XCTAssertEqual(attempt, UUID(uuidString: selected.root.lastPathComponent))
+        XCTAssertEqual(points, [.beforeCopy, .afterCopy, .afterMove, .beforeRemove, .afterRemove])
+        XCTAssertTrue(try ContentMutationCoordinator.activeStagingAttemptIDs(at: storage).isEmpty)
+        XCTAssertEqual(try repository.load().root, selected.root)
+    }
+
+    @MainActor
+    func testMutationPointerFailureKeepsRegistrationThroughCleanupAndReleasesForRetry() throws {
+        let bundled = try fixture("mutation-failure-bundle", revision: "bundle")
+        let firstSource = try retentionPackage("mutation-failure-first", revision: "first")
+        let currentSource = try retentionPackage("mutation-failure-current", revision: "current")
+        let incoming = try retentionPackage("mutation-failure-incoming", revision: "incoming")
+        let storage = directory.appendingPathComponent("mutation-failure-storage")
+        let repository = ContentRepository(bundledRoot: bundled, storageRoot: storage)
+        let first = try repository.install(from: firstSource)
+        let current = try repository.install(from: currentSource)
+        let orphan = storage.appendingPathComponent("versions/.staging-" + UUID().uuidString)
+        try FileManager.default.createDirectory(at: orphan, withIntermediateDirectories: false)
+        try Data("retained orphan bytes".utf8).write(to: orphan.appendingPathComponent("partial.txt"))
+        let records = try previousStoredReadingRecords()
+        let before = try retentionInventory(storage)
+        var attemptedID: UUID?
+        var cleanupPoints: [MutationProbeFileManager.Point] = []
+        let manager = MutationProbeFileManager { point, url in
+            guard point == .beforeRemove || point == .afterRemove else { return }
+            let id = try self.mutationAttemptID(url)
+            XCTAssertEqual(id, attemptedID)
+            XCTAssertEqual(try ContentMutationCoordinator.activeStagingAttemptIDs(at: storage), [id])
+            XCTAssertThrowsError(try ContentMutationCoordinator.withMutation(at: storage) { _ in
+                XCTFail("The permit must remain held until the import's own cleanup finishes")
+            })
+            cleanupPoints.append(point)
+        }
+        let failing = ContentRepository(bundledRoot: bundled, storageRoot: storage, fileManager: manager,
+            writePointer: { data, _ in
+                let value = try JSONDecoder().decode([String: String].self, from: data)
+                let id = try XCTUnwrap(UUID(uuidString: XCTUnwrap(value["directory"])))
+                attemptedID = id
+                XCTAssertEqual(try ContentMutationCoordinator.activeStagingAttemptIDs(at: storage), [id])
+                throw CocoaError(.fileWriteOutOfSpace)
+            })
+        XCTAssertThrowsError(try failing.install(from: incoming)) { error in
+            XCTAssertEqual((error as NSError).code, CocoaError.Code.fileWriteOutOfSpace.rawValue)
+        }
+        XCTAssertNotNil(attemptedID)
+        XCTAssertEqual(cleanupPoints, [.beforeRemove, .afterRemove, .beforeRemove, .afterRemove])
+        XCTAssertTrue(try ContentMutationCoordinator.activeStagingAttemptIDs(at: storage).isEmpty)
+        XCTAssertEqual(try retentionInventory(storage), before)
+        XCTAssertEqual(try repository.load().root, current.root)
+        XCTAssertEqual(try Data(contentsOf: first.root.appendingPathComponent("assets/late-first.png")), pixel)
+        assertPreviousStoredReadingBytes(records)
+        let retried = try repository.install(from: incoming)
+        XCTAssertEqual(try repository.load().root, retried.root)
+        XCTAssertEqual(try previousStoredPointer(storage)["previousDirectory"], current.root.lastPathComponent)
+        XCTAssertTrue(try ContentMutationCoordinator.activeStagingAttemptIDs(at: storage).isEmpty)
+        assertPreviousStoredReadingBytes(records)
+    }
+
+    func testMutationCopyFailureRemovesOnlyAttemptBeforeReleasingPermit() throws {
+        let source = try fixture("mutation-copy-source")
+        let storage = directory.appendingPathComponent("mutation-copy-storage")
+        let repository = ContentRepository(bundledRoot: source, storageRoot: storage)
+        let current = try repository.install(from: source)
+        let before = try retentionInventory(storage)
+        var attempt: UUID?
+        var cleanupCount = 0
+        let manager = MutationProbeFileManager { point, url in
+            let id = try self.mutationAttemptID(url)
+            XCTAssertEqual(try ContentMutationCoordinator.activeStagingAttemptIDs(at: storage), [id])
+            if point == .afterCopy {
+                attempt = id
+                throw ContentError.invalid("Controlled post-copy failure")
+            }
+            if point == .beforeRemove {
+                cleanupCount += 1
+                XCTAssertThrowsError(try ContentMutationCoordinator.withMutation(at: storage) { _ in
+                    XCTFail("Cleanup must finish before another mutation is admitted")
+                })
+            }
+        }
+        XCTAssertThrowsError(try ContentRepository(bundledRoot: source, storageRoot: storage,
+            fileManager: manager).install(from: source))
+        XCTAssertNotNil(attempt)
+        XCTAssertEqual(cleanupCount, 2)
+        XCTAssertEqual(try retentionInventory(storage), before)
+        XCTAssertTrue(try ContentMutationCoordinator.activeStagingAttemptIDs(at: storage).isEmpty)
+        XCTAssertEqual(try repository.load().root, current.root)
+        XCTAssertNoThrow(try repository.install(from: source))
+    }
+
+    func testMutationInvalidSourceReleasesPermitWithoutCreatingStorage() throws {
+        let source = try fixture("mutation-invalid-source-bundle")
+        let storage = directory.appendingPathComponent("mutation-invalid-source-storage")
+        let repository = ContentRepository(bundledRoot: source, storageRoot: storage)
+        XCTAssertThrowsError(try repository.install(from: directory.appendingPathComponent("missing-source")))
+        XCTAssertFalse(FileManager.default.fileExists(atPath: storage.path))
+        XCTAssertTrue(try ContentMutationCoordinator.activeStagingAttemptIDs(at: storage).isEmpty)
+        XCTAssertNoThrow(try repository.install(from: source))
+    }
+
+    func testMutationBundledActivationUsesOnePermitAndNoopDoesNotWrite() throws {
+        let bundled = try fixture("mutation-activation-bundle", revision: "bundle")
+        let source = try fixture("mutation-activation-import", revision: "import")
+        let storage = directory.appendingPathComponent("mutation-activation-storage")
+        let repository = ContentRepository(bundledRoot: bundled, storageRoot: storage)
+        let old = try repository.install(from: source)
+        var writes = 0
+        let activating = ContentRepository(bundledRoot: bundled, storageRoot: storage, writePointer: { data, url in
+            let value = try JSONDecoder().decode([String: String].self, from: data)
+            let id = try XCTUnwrap(UUID(uuidString: XCTUnwrap(value["directory"])))
+            XCTAssertEqual(try ContentMutationCoordinator.activeStagingAttemptIDs(at: storage), [id])
+            XCTAssertNil(value["previousDirectory"])
+            writes += 1
+            try data.write(to: url, options: .atomic)
+        })
+        let selected = try activating.activateBundledContent()
+        XCTAssertFalse(selected.alreadyActive)
+        XCTAssertEqual(writes, 1)
+        XCTAssertTrue(try ContentMutationCoordinator.activeStagingAttemptIDs(at: storage).isEmpty)
+        let beforeNoop = try retentionInventory(storage)
+        let noop = try activating.activateBundledContent()
+        XCTAssertTrue(noop.alreadyActive)
+        XCTAssertEqual(noop.snapshot.root, selected.snapshot.root)
+        XCTAssertEqual(writes, 1)
+        XCTAssertEqual(try retentionInventory(storage), beforeNoop)
+        XCTAssertTrue(FileManager.default.fileExists(atPath: old.root.path))
+        XCTAssertTrue(try ContentMutationCoordinator.activeStagingAttemptIDs(at: storage).isEmpty)
+    }
+
+    func testMutationPermitFailureAndRepeatedScopesDoNotRemainBusy() throws {
+        let storage = directory.appendingPathComponent("mutation-permit-no-files")
+        let id = UUID()
+        XCTAssertThrowsError(try ContentMutationCoordinator.withMutation(at: storage) { mutation in
+            try mutation.registerStagingAttempt(id)
+            XCTAssertEqual(try ContentMutationCoordinator.activeStagingAttemptIDs(at: storage), [id])
+            throw ContentError.invalid("Controlled body failure")
+        })
+        XCTAssertTrue(try ContentMutationCoordinator.activeStagingAttemptIDs(at: storage).isEmpty)
+        for _ in 0..<3 {
+            try ContentMutationCoordinator.withMutation(at: storage) { _ in
+                XCTAssertTrue(try ContentMutationCoordinator.activeStagingAttemptIDs(at: storage).isEmpty)
+            }
+        }
+        XCTAssertFalse(FileManager.default.fileExists(atPath: storage.path))
+    }
+
+    func testMutationStalePermitCannotReleaseNextOwnerOrRegisterAgain() throws {
+        let storage = directory.appendingPathComponent("mutation-stale-permit")
+        var stale: ContentMutationCoordinator.Mutation?
+        try ContentMutationCoordinator.withMutation(at: storage) { stale = $0 }
+        XCTAssertNotNil(stale)
+        weak var staleWitness = stale
+        let id = UUID()
+        try ContentMutationCoordinator.withMutation(at: storage) { current in
+            try current.registerStagingAttempt(id)
+            XCTAssertThrowsError(try XCTUnwrap(stale).registerStagingAttempt(UUID())) { error in
+                XCTAssertTrue(error.localizedDescription.contains("取り込み作業領域の登録状態"))
+            }
+            stale = nil
+            XCTAssertNil(staleWitness, "The stale token must actually deinitialize before checking the newer owner")
+            XCTAssertEqual(try ContentMutationCoordinator.activeStagingAttemptIDs(at: storage), [id])
+            XCTAssertThrowsError(try current.registerStagingAttempt(UUID()))
+            XCTAssertEqual(try ContentMutationCoordinator.activeStagingAttemptIDs(at: storage), [id])
+            XCTAssertThrowsError(try ContentMutationCoordinator.withMutation(at: storage) { _ in
+                XCTFail("Destroying a stale token must not release the newer owner")
+            })
+        }
+        XCTAssertTrue(try ContentMutationCoordinator.activeStagingAttemptIDs(at: storage).isEmpty)
+    }
+
+    func testMutationCoordinatorRejectsNonFileAndUnsupportedRootURLsWithoutMutation() throws {
+        let roots = [URL(string: "https://example.com/storage")!, URL(string: "file:///")!,
+                     URL(string: "file:///tmp/example-storage?query=1")!, URL(string: "file://remote/tmp/storage")!]
+        for root in roots {
+            var entered = false
+            XCTAssertThrowsError(try ContentMutationCoordinator.withMutation(at: root) { _ in entered = true })
+            XCTAssertThrowsError(try ContentMutationCoordinator.activeStagingAttemptIDs(at: root))
+            XCTAssertFalse(entered)
+        }
+    }
+}

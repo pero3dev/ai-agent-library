@@ -1,7 +1,10 @@
 /** Static counterparts of scripts/schemas/freshness-result.schema.json. */
 export interface SourceReference { url: string; accessed_at: string; published_at?: string; effective_at?: string }
 export interface FreshnessObservation { system_id: string; status: 'changed' | 'unchanged' | 'unverifiable' | 'failed'; summary: string; sources: SourceReference[]; affected_docs: string[] }
-export interface FreshnessCoverage { system_id: string; scope: 'declared-system'; status: 'verified'; verified_on: string; description: string }
+export interface FreshnessCoverage {
+  system_id: string; scope: 'declared-system' | 'declared-article'; status: 'verified'; verified_on: string; description: string
+  doc?: string; claims?: string[]; sources?: SourceReference[]
+}
 export interface VendorCheck {
   vendor: 'anthropic' | 'openai' | 'google'
   release_notes: 'changed' | 'unchanged' | 'not_checked'

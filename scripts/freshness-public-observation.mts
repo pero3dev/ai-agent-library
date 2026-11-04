@@ -49,14 +49,18 @@ export function publicObservation(checkpoint: unknown): PublicObservation {
     if ([vendor.release_notes, vendor.deprecations, vendor.pricing].some((status) => status !== 'not_checked') && !vendor.sources.length) throw new Error('確認済みvendorには根拠が必要です')
     vendor.sources.forEach(validateSource)
   }
-  for (const row of value.coverage) if (!value.systems.includes(row.system_id) || value.observations.some((observation) => observation.system_id === row.system_id && ['failed', 'unverifiable'].includes(observation.status))) throw new Error('対象外または未完了系統の coverage を公開できません')
+  for (const row of value.coverage) if (!value.systems.includes(row.system_id) || value.observations.some((observation) => observation.system_id === row.system_id && ['failed', 'unverifiable'].includes(observation.status) && (row.scope === 'declared-system' || observation.affected_docs.includes(row.doc ?? '')))) throw new Error('対象外または未完了確認範囲の coverage を公開できません')
   for (const row of value.coverage) {
     const completedSystems = checkpoint.completed_systems ?? []
     const pending = checkpoint.pending ?? []
-    if (!Array.isArray(completedSystems) || !Array.isArray(pending) || !completedSystems.includes(row.system_id) || pending.some((/** @type {unknown} */ item: unknown) => !record(item) || item.system_id === row.system_id)) throw new Error('checkpoint の未完了系統を完了coverageにできません')
+    if (row.scope === 'declared-system' && (!Array.isArray(completedSystems) || !Array.isArray(pending) || !completedSystems.includes(row.system_id) || pending.some((/** @type {unknown} */ item: unknown) => !record(item) || item.system_id === row.system_id))) throw new Error('checkpoint の未完了系統を完了coverageにできません')
+    if (row.scope === 'declared-article') {
+      if (!value.observations.some(item => item.system_id === row.system_id && item.affected_docs.includes(row.doc ?? '') && ['changed', 'unchanged'].includes(item.status))) throw new Error('記事coverageには該当記事の実観測が必要です')
+      row.sources?.forEach(validateSource)
+    }
     const completedDate = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(completed))
     if (row.verified_on !== completedDate) throw new Error('coverage完了日は観測完了のJST日付が必要です')
-    if (row.system_id === 'models-prompting' && (value.vendor_checks.length !== 3 || new Set(value.vendor_checks.map((vendor) => vendor.vendor)).size !== 3 || value.vendor_checks.some((vendor) => [vendor.release_notes, vendor.deprecations, vendor.pricing].some((status) => status === 'not_checked')))) throw new Error('models完了には3社のvendor_checks完了が必要です')
+    if (row.scope === 'declared-system' && row.system_id === 'models-prompting' && (value.vendor_checks.length !== 3 || new Set(value.vendor_checks.map((vendor) => vendor.vendor)).size !== 3 || value.vendor_checks.some((vendor) => [vendor.release_notes, vendor.deprecations, vendor.pricing].some((status) => status === 'not_checked')))) throw new Error('models完了には3社のvendor_checks完了が必要です')
   }
   return value
 }

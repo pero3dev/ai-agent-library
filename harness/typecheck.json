@@ -1156,6 +1156,16 @@
       "path": "website/tests/unit/search-titles.test.mjs",
       "target": "website/tests/unit/search-titles.test.mts",
       "kind": "side-effect"
+    },
+    {
+      "path": "tests/unit/external-link-monitor.test.mjs",
+      "target": "tests/unit/external-link-monitor.test.mts",
+      "kind": "side-effect"
+    },
+    {
+      "path": "website/tests/unit/article-freshness.test.mjs",
+      "target": "website/tests/unit/article-freshness.test.mts",
+      "kind": "side-effect"
     }
   ]
 }

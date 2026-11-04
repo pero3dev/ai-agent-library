@@ -29,7 +29,7 @@ def _register(mcp, library: Library) -> None:
 
     @mcp.tool(name="search_articles", annotations=annotations)
     def search_articles(query: StrictStr, limit: StrictInt = 5) -> str:
-        """日本語・英語で記事のメタデータを検索。本文は返さない。limitは1〜10。出典・日付・CC BY 4.0付き。"""
+        """日本語・英語で記事のメタデータと索引内の本文を検索。返すのはメタデータのみ。limitは1〜10。出典・日付・CC BY 4.0付き。"""
         return run(library.search_articles, query, limit)
 
     @mcp.tool(name="get_checklist", annotations=annotations)

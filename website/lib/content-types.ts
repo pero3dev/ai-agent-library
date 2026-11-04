@@ -4,6 +4,9 @@ export interface PageMetadata {
   description: string
   last_updated: string | null
   source_path: string
+  freshness_systems?: ArticleFreshness[]
+  todo_count?: number
+  first_todo_id?: string | null
 }
 export type PagesMetadata = Record<string, PageMetadata>
 export interface Section {
@@ -81,5 +84,14 @@ export interface FreshnessSystem {
   evidence: string | null
   last_partial_observation_on: string | null
   partial_observations: PartialObservation[]
+  article_progress: { verified: number; total: number }
+  articles: Array<{ doc: string; last_verified_at: string | null; next_due_on: string | null; status: string; evidence: string | null; claims: string[] }>
 }
 export interface FreshnessReport { checked_on: string; systems: FreshnessSystem[] }
+export interface ArticleFreshness {
+  id: string
+  title: string
+  last_verified_at: string | null
+  /** JSON imports widen string literals; the producer emits article or system. */
+  scope: string
+}

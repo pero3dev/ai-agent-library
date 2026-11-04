@@ -107,6 +107,44 @@ class LibraryToolsTest(unittest.TestCase):
     def test_japanese_short_search(self) -> None:
         self.assertEqual(SLUG, self.library.search_articles("ツール", 1)["articles"][0]["slug"])
 
+    def test_body_only_query_works_without_returning_body_and_updates_invalidate_features(self) -> None:
+        data = fixture()
+        data["articles"][0]["search_sections"] = ["本文だけの検索語 quasarwatch と、その説明。"]
+        library = Library.from_data(data)
+        found = library.search_articles("quasarwatch")
+        self.assertEqual([SLUG], [a["slug"] for a in found["articles"]])
+        self.assertNotIn("quasarwatch", serialize(found))
+        self.assertNotIn("search_sections", serialize(found))
+        self.assert_envelope(found)
+        data["articles"][0]["search_sections"] = ["変更後の検索語 nebularoute"]
+        self.assertEqual([], library.search_articles("quasarwatch")["articles"])
+        self.assertEqual(SLUG, library.search_articles("nebularoute")["articles"][0]["slug"])
+
+    def test_old_index_and_empty_optional_passages_keep_metadata_fallback(self) -> None:
+        before = self.library.search_articles("Function Calling")
+        data = fixture()
+        data["articles"][0]["search_sections"] = []
+        self.assertEqual(before, Library.from_data(data).search_articles("Function Calling"))
+
+    def test_body_search_still_truncates_large_metadata_responses(self) -> None:
+        data = fixture()
+        template = deepcopy(data["articles"][0])
+        data["articles"] = []
+        for number in range(10):
+            article = deepcopy(template)
+            article["slug"] = f"concepts/article-{number}"
+            article["url"] = f"{BASE}/docs/{article['slug']}"
+            article["md_url"] = article["url"] + ".md"
+            article["description"] = "長" * 7000
+            article["search_sections"] = ["uniqueonlybody の説明"]
+            data["articles"].append(article)
+        found = Library.from_data(data).search_articles("uniqueonlybody", 10)
+        self.assert_envelope(found)
+        self.assertTrue(found["truncated"])
+        self.assertTrue(found["continuation"])
+        self.assertLess(len(found["articles"]), 10)
+        self.assertNotIn("uniqueonlybody", serialize(found))
+
     def test_empty_search_and_invalid_limit_are_errors(self) -> None:
         for query, limit in (("", 5), ("  ", 5), ("ツール", 0), ("ツール", 11), ("ツール", True), ("ツール", 2.5)):
             with self.subTest(query=query, limit=limit), self.assertRaises(LibraryError):
@@ -255,6 +293,13 @@ class LibraryToolsTest(unittest.TestCase):
 
 
 class IndexAndNetworkTest(unittest.TestCase):
+    def test_optional_search_passages_are_validated_when_present(self) -> None:
+        for sections in (None, "text", [42], [""], ["bad\x01"], ["x"] * 1001, ["大" * 400000]):
+            data = fixture()
+            data["articles"][0]["search_sections"] = sections
+            with self.subTest(sections_type=type(sections).__name__), self.assertRaises(ValueError):
+                Library.from_data(data)
+
     def test_incompatible_schema_and_duplicate_slug_are_rejected(self) -> None:
         for change in ("version", "duplicate", "status", "foreign_url", "foreign_markdown", "bool_version"):
             data = fixture()
@@ -408,6 +453,12 @@ class CacheTest(unittest.TestCase):
 
 
 class EvaluationTest(unittest.TestCase):
+    def test_new_unseen_dataset_preserves_thirty_holdouts_and_independent_contribution(self) -> None:
+        dataset = validate_dataset(json.loads(DATASET_PATH.with_name("evaluation-unseen.json").read_text(encoding="utf-8")))
+        self.assertEqual(30, len(dataset["cases"]))
+        self.assertTrue(all(c["split"] == "holdout" for c in dataset["cases"]))
+        self.assertEqual(10, sum(c["stratum"].startswith("independent-") for c in dataset["cases"]))
+
     def test_fixed_dataset_is_stratified_and_does_not_repeat_ids(self) -> None:
         dataset = validate_dataset(json.loads(DATASET_PATH.read_text(encoding="utf-8")))
         self.assertEqual(30, len(dataset["cases"]))

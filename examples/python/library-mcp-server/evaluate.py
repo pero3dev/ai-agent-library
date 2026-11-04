@@ -1,4 +1,4 @@
-"""固定30問によるメタデータ検索評価。MCP SDK・LLM・有料APIは使わない。"""
+"""固定セットによる記事検索評価。MCP SDK・LLM・有料APIは使わない。"""
 
 import argparse
 from datetime import datetime, timezone
@@ -93,7 +93,7 @@ def evaluate(library: Library, dataset: dict) -> dict:
         "missed_ids": [row["id"] for row in rows if row["rank"] is None],
         "results": rows,
         "limitations": [
-            "設計者が作った想定シナリオ30件。本番利用者の分布や実Agentのツール選択を測らない。",
+            f"設計者が作った想定シナリオ{len(rows)}件。本番利用者の分布や実Agentのツール選択を測らない。",
             "developmentを検索改善に使う。holdoutも初回測定後は既知になる。",
             "記事検索の包含率であり、本文の正確性・引用の妥当性・回答品質の指標ではない。",
             "検索が決定的なので反復実行を独立ケース数として数えない。",

@@ -104,5 +104,18 @@
       "new composition IR and Markdown/forms for changed Records4"
     ],
     "new_Hosted_strictTS_common_CI_main_IOS15_accepted": false
+  },
+  "main_sync_2026_11_04": {
+    "status": "prepared-normal-sync-new-head-CI-pending",
+    "incoming_main": "496fd542d9ac2e1c3cad30b917d46c03213186b7",
+    "prior_PR_head": "44cd1a1306941391b65421fbf75accfe1e32ec0a",
+    "incoming_paths_preserved": 61,
+    "Code4_after_bytes_held": true,
+    "prior_head_required11_and_automatic9": "success only on44cd",
+    "index": "one entry in incoming iOS section; full incoming index inverse",
+    "new_head_CI": "not-run",
+    "App": "0.2.32(34)",
+    "TODO": "16/32 criteria unchanged",
+    "actual_sync_commit": null
   }
 }

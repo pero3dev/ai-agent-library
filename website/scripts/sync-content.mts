@@ -33,6 +33,7 @@ import { copyFileForRoute } from '../lib/article-copy.mjs'
 import { writeLibraryExport } from '../lib/library-export.mts'
 import type { LibraryArticleSource } from '../lib/library-export.mts'
 import { observationReport } from '../../scripts/freshness-observation-report.mjs'
+import { articleFreshness } from '../lib/article-freshness.mts'
 import { generatedContentLoaderSource } from '../lib/nextra-generated-loader.mjs'
 import { generatedLayoutSource } from '../lib/nextra-generated-layout.mjs'
 import { readmeArticleOrder, rewriteMarkdownRoutes } from '../lib/markdown-routes.mjs'
@@ -316,6 +317,7 @@ async function main() {
   const articleMeta: ArticleMetadata[] = []
   const libraryArticles: LibraryArticleSource[] = []
   const pagesMeta: PagesMetadata = {}
+  const freshness = observationReport(REPO_ROOT)
   const charts = new Map<string, string>()
   let count = 0
   for (const file of activeFiles) {
@@ -352,7 +354,12 @@ async function main() {
         description: pagesMeta[route].description, tags: getFrontMatterTags(text),
         last_updated: getFrontMatterField(text, 'last_updated'), status: getFrontMatterField(text, 'status'), markdown })
     }
-    applyDecorations(tree, { route, glossary: glossaryForLinks })
+    const todos = applyDecorations(tree, { route, glossary: glossaryForLinks })
+    Object.assign(pagesMeta[route], todos)
+    if (file.repoRel.startsWith('docs/') && file.slug !== 'index') {
+      pagesMeta[route].freshness_systems = articleFreshness(file.repoRel, freshness)
+      if (!pagesMeta[route].freshness_systems?.length) throw new Error(`確認状況の所属系統がありません: ${file.repoRel}`)
+    }
     replaceMermaid(tree, getTitle(text), charts)
     out = String(mdxWriter.stringify(tree))
     assertSafeMdx(out, file.repoRel) // C3: 許可外の JSX / ESM / {式} / 生 HTML を拒否
@@ -389,7 +396,7 @@ async function main() {
   // generated/sections.json(トップページのセクショングリッド用)
   await writeFile(path.join(GEN_DIR, 'pages.json'), JSON.stringify(pagesMeta, null, 2), 'utf8')
   await writeFile(path.join(GEN_DIR, 'mermaid-charts.json'), JSON.stringify(Object.fromEntries(charts), null, 2), 'utf8')
-  await writeFile(path.join(GEN_DIR, 'freshness.json'), JSON.stringify(observationReport(REPO_ROOT, { today: new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Tokyo' }).format(new Date()) }), null, 2), 'utf8')
+  await writeFile(path.join(GEN_DIR, 'freshness.json'), JSON.stringify(freshness, null, 2), 'utf8')
   await writeFile(path.join(GEN_DIR, 'nextra-loader.mjs'), generatedContentLoaderSource(), 'utf8')
   await writeFile(path.join(GEN_DIR, 'nextra-layout.mjs'), generatedLayoutSource(), 'utf8')
   const sectionsJson: Section[] = sections.map(s => ({

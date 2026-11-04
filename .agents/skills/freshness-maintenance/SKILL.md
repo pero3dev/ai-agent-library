@@ -33,6 +33,7 @@ description: Codex の定期タスクから既存記事の鮮度を確認し、�
 - 各項目を `changed / unchanged / unverifiable / failed` に分類します。取得失敗や裏付け不足を unchanged にしません。将来の終了予定は、日付が過ぎただけでは実停止と断定しません。
 - 根拠が揃う内容を既存記事へ反映します。記事の実質変更時だけ `last_updated` を実行日の日本時間の日付へ更新し、status は維持します。参考資料・research・用語集・比較表を必要な範囲で同期します。
 - 調査結果の JSON は [結果スキーマ](../../../scripts/schemas/freshness-result.schema.json) の `schema_version: 2` に従います。`writer_run_id` に現在の実行 ID、`observations` に根拠、`changes` に evidence 自身を除く変更ファイルを過不足なく記録します。`sources.accessed_at` は実際の確認時刻を UTC の ISO 8601 形式で記録し、レビュー以前の取得であることを確認します。実取得時刻を得られない場合は再取得し、日付から時刻を補完しません。
+- 記事で宣言した確認範囲が完了した場合は `coverage` (変更なしのcheckpointでは `public_coverage`) に `scope: declared-article`、`system_id`、`doc`、`status: verified`、`verified_on`、`description`、確認した `claims` と一次情報の `sources` を残します。記事の failed/unverifiable を完了へ換算しません。台帳の全記事が周期内に揃うまで `completed_systems` を進めず、部分観測は従来どおり observations に残します。公開台帳の n/m は記事の最新確認から集計され、最古の確認日が次回期日の基準です。
 - 独立レビューへ渡す本文は目安 5 記事までに分けます。同期が不可欠な変更は同じ一群として扱います。対象範囲を広げるために検証スクリプトを書き換えません。
 
 確認不能は checkpoint の `pending` に `{id, system_id, reason, next_retry_at}` を保存します。ID は再実行でも維持します。完了した未解決項目の ID だけを `resolved_pending_ids` に入れます。対象外系統の残件を削除しません。

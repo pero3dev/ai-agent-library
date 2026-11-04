@@ -38,16 +38,18 @@ function todoChildren(node: Nodes) {
   return [paragraph, ...restBlocks]
 }
 
-function replaceTodos(node: Nodes) {
-  if (!('children' in node)) return
+function replaceTodos(node: Nodes, state = { count: 0 }) {
+  if (!('children' in node)) return state
   const children: Nodes[] = node.children
   for (let index = 0; index < children.length; index++) {
     const child = children[index]
     const inner = todoChildren(child)
     if (inner) {
-      children[index] = { type: 'mdxJsxFlowElement', name: 'TodoCallout', attributes: [], children: inner }
-    } else replaceTodos(child)
+      state.count++
+      children[index] = { type: 'mdxJsxFlowElement', name: 'TodoCallout', attributes: [jsxAttr('id', `article-todo-${state.count}`)], children: inner }
+    } else replaceTodos(child, state)
   }
+  return state
 }
 
 /* ---------- 2. アンチパターン / チェックリストの装飾コンテナ ---------- */
@@ -163,10 +165,11 @@ function autolinkGlossary(node: Nodes, seen: Set<string>, currentRoute: string, 
  * @param options.glossary generated/glossary.json 相当の配列(名前の長い順にソート済みであること)
  */
 export function applyDecorations(tree: Root, { route, glossary = [] }: { route: string; glossary?: readonly LinkedGlossaryEntry[] }) {
-  replaceTodos(tree)
+  const todos = replaceTodos(tree)
   wrapPracticeSections(tree)
   if (glossary.length > 0 && route !== '/docs/glossary') {
     autolinkGlossary(tree, new Set(), route, false, glossary)
   }
   labelChecklistItems(tree)
+  return { todo_count: todos.count, first_todo_id: todos.count ? 'article-todo-1' : null }
 }

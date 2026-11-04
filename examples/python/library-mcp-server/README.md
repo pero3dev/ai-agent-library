@@ -44,6 +44,8 @@ python -m unittest discover -s . -p test_library.py -v
 
 ツールが返すJSONテキスト全体を12,000 Unicode文字以内に制限し、切り詰めた結果には `truncated` と `continuation` が付きます。`get_section` のoffsetは節内のUnicode文字数、`get_checklist` は項目番号で、返されたoffsetで続きを取得します。単一項目自体が大きい場合や用語定義の全文は出典URLで確認します。検索結果が省略された場合は条件を絞ってください。
 
+検索はタイトル・タグ・slug・説明・見出しの得点と、任意の`search_sections`に含まれる見出し単位の本文BM25（日本語bigram・英語語単位）を組み合わせます。各得点を最大値で正規化して同じ重みで加え、本文は最も合う節の得点を使います。検索結果に返すのは記事メタデータだけです。旧索引で`search_sections`がなければ従来の方式に戻ります。索引は引き続き`schema_version: 1`で、既存フィールドの意味は変わりません。
+
 ## Claude Codeへの接続
 
 依存を入れたPythonとスクリプトの絶対パスを指定します。次は手元で実行する設定例です。
@@ -92,12 +94,22 @@ python evaluate.py --index /absolute/path/to/library-index.json --min-hit-rate 0
 
 30問は設計者が作ったシナリオで、実利用者の分布・本文の事実精度・実Agentのツール選択や回答品質の評価ではありません。holdoutも初回の結果確認後は既知になるため、その後の改善には新しい未見ケースが必要です。
 
+Issue #349では、別担当の10件を含む`evaluation-unseen.json`の新30件を比較前のcommitで固定しました。既存development20件で選んだ本文BM25併用方式は、新30件のTop1が7/30→8/30、Top5が14/30→16/30、MRR@5が0.31667→0.36167となり採用しました。14件はなおTop5外です。新セットも測定後は既知で、質問・ラベル・方式をその結果で調整していません。[比較記録と全順位](https://github.com/pero3dev/ai-agent-library/blob/main/project/records/2026-11-04/library-search-evaluation.md)に精度・索引増分・初回と継続検索の時間を記載しています。
+
+`compare_search.py`は現行変更前の方式を固定した実験用baselineと、見出し重みの別案・本文BM25を比較します。まずdevelopmentだけで選択を保存し、続いて固定した未見セットを一度測ります。再現は通信なしで、同じ保存索引と記事正本を使ってください。実施済みの出力は上書きしません。再現の結果は追加の独立質問として数えません。
+
+```bash
+python compare_search.py --phase development --repo /path/to/repo --index /path/to/baseline-library-index.json --output /tmp/development.json
+python compare_search.py --phase holdout --repo /path/to/repo --index /path/to/baseline-library-index.json --selection /tmp/development.json --output /tmp/holdout.json
+```
+
 ## 動作確認日と制約
 
 - 2026-11-04、Windows・Python 3.12.14: `python -S mcp_server.py --mock` が成功（追加依存・通信なし）。標準ライブラリの単体31試験が成功。
 - 同日、`mcp==2.2.0` の実stdioで2026-07-28と2025-11-25の両方式を確認。4ツールの列挙・正常呼び出し・業務エラー・型不正と必須引数欠落の `isError`、出典付き応答、返却上限が成功。プロトコル自体が壊れた要求へのJSON-RPCエラーは、ツール結果の前置き・出典表示の対象外です。
 - 同日、固定HTTPSの公開索引と記事で4ツールの直接呼び出しが成功し、取得済みキャッシュでの完全オフライン結果が一致。これはツール本体の実通信で、MCPホストでの呼び出しではありません。
 - Claude Code・Claude Desktopでの実接続とLLMによるツール選択は未実施。上記のstdio回帰と区別します。
+- 同日の検索改善後、標準ライブラリ単体36件、横断回帰全57件が成功。2026-07-28・2025-11-25の両stdioで本文だけの語から検索でき、本文を返さないことも確認しました。旧索引fallback、不正な本文配列、検索情報の更新、12,000文字上限の回帰を含みます。
 
 横断試験の手順は [回帰試験README](../../tests/README.md)、設計判断と評価結果は [実施記録](https://github.com/pero3dev/ai-agent-library/blob/main/project/records/2026-11-04/library-mcp-server.md)にまとめます。
 

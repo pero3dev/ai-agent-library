@@ -6,7 +6,7 @@ import path from 'node:path'
 import { unified } from 'unified'
 import remarkParse from 'remark-parse'
 import remarkGfm from 'remark-gfm'
-import { articleStructure, assertLibraryIndex, buildLibraryExport, LLMS_MAX_BYTES, materializeLibraryExport, writeLibraryExport } from '../../lib/library-export.mts'
+import { articleStructure, assertLibraryIndex, buildLibraryExport, LLMS_MAX_BYTES, materializeLibraryExport, searchSections, writeLibraryExport } from '../../lib/library-export.mts'
 import { plainSummary } from '../../lib/page-metadata.mjs'
 import { parseFrontMatter, parseTagsArray, toLines, unquote } from '../../../scripts/lib/md-utils.mjs'
 import type { LibraryArticleSource, LibraryExportInput } from '../../lib/library-export.mts'
@@ -74,6 +74,16 @@ test('generation is byte-for-byte deterministic across input enumeration and has
 test('AST extraction ignores fenced examples, checkboxes outside the checklist and handles nested lists', () => {
   const parser = unified().use(remarkParse).use(remarkGfm)
   assert.deepEqual(articleStructure(parser.parse(markdown)).checklist.map(item => item.text), ['未確認を調べる', '確認済み', '子項目'])
+})
+
+test('search passages omit front matter, code and reference sections while preserving section boundaries', () => {
+  assert.deepEqual(searchSections('---\ntitle: 秘密メタデータ\n---\n# 検索\n\n## 本文\n[リンク文](https://example.org)\n```js\n機密のコード\n```\n## 参考資料\n検索に含めない\n## 別の節\n本文を含める\n'), ['検索', '本文 リンク文', '別の節 本文を含める'])
+  const { index } = buildLibraryExport(fixture(), env)
+  assert.ok(index.articles.every(article => article.search_sections?.length))
+  assert.ok(index.articles.every(article => !article.search_sections?.join(' ').includes('Fake')))
+  const { search_sections: _ignored, ...legacy } = index.articles[0]
+  assert.doesNotThrow(() => assertLibraryIndex({ ...index, articles: [legacy] }))
+  assert.throws(() => assertLibraryIndex({ ...index, articles: [{ ...legacy, search_sections: [42] }] }), /スキーマ/)
 })
 
 test('materialization verifies every llms link and article Markdown, and regeneration removes stale files', async () => {

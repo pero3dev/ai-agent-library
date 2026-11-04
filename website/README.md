@@ -71,6 +71,8 @@ Mermaid は安全性を検査した静的 SVG 画像で表示します。「図�
 
 フィールドの削除・改名・型の変更、slugや配列順の意味の変更、必須フィールドの追加など、既存consumerの解釈を変える変更では`schema_version`を上げます。既存の意味を変えない任意フィールドの追加や通常の記事更新は同じ版とします。consumerは未対応の版を拒否し、既知の版の未知フィールドを無視してください。スキーマ・生成処理・試験・この説明は同じ変更で更新します。
 
+記事の任意フィールド`search_sections`は、見出しごとの検索用本文（文字列の配列）です。front matter・コードブロック・参考資料と関連ドキュメントの節を除外し、リンク先URLと装飾を落として生成します。既存フィールドの意味を変えない追加なので版は1のままです。旧consumerはこのフィールドを無視でき、新MCPは存在しない旧索引でも従来のメタデータ検索へ戻ります。生成時に索引全体が4 MiB以下であることを検査します。MCP検索の返却値には本文を含めず、12,000文字の応答上限も維持します。
+
 生成とpostbuildはスキーマ、目次内のリンク先、公開Markdownの対応を検査します。回帰試験では構造・順序・draft除外・上限・2回生成の一致を固定します。MCPサーバーと配布用スキルは別Issueで実装します。
 
 Zodの脆弱性修正版に合わせ、Nextraテーマ4.6.1のLayoutを[生成helper](lib/nextra-generated-layout.mjs)で互換化しています。[上流修正](https://github.com/shuding/nextra/pull/4990)と同じく、childrenを含むprops全体を検証し、childrenをテーマ設定から除外します。`node_modules`を直接変更せず、sync時に`generated/nextra-layout.mjs`を作ります。対象版と期待するソースが変わった場合は生成を停止するため、依存更新時にhelperと[実ソース回帰試験](tests/unit/nextra-generated-layout.test.mjs)を見直してください。

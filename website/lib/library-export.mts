@@ -26,6 +26,7 @@ export interface LibraryArticle {
   slug: string; title: string; chapter: string; description: string; tags: string[]
   last_updated: string | null; status: 'published'; url: string; md_url: string; source_path: string
   headings: LibraryHeading[]; checklist: LibraryChecklistItem[]
+  search_sections?: string[]
 }
 export interface LibraryIndex {
   schema_version: 1
@@ -103,6 +104,35 @@ export function articleStructure(tree: Root) {
   return { headings, checklist }
 }
 
+/** Search passages for the frozen BM25 comparison; never include code or reference-only sections. */
+export function searchSections(markdown: string): string[] {
+  markdown = markdown.replace(/^---\r?\n.*?\r?\n---\r?\n/s, '')
+  const sections: string[] = []
+  let lines: string[] = []
+  let fence: { marker: string; length: number } | undefined
+  let omit = false
+  for (const source of markdown.split(/\r?\n/)) {
+    const match = /^ {0,3}(`{3,}|~{3,})(.*)$/.exec(source)
+    if (fence) {
+      if (match && match[1][0] === fence.marker && match[1].length >= fence.length && !match[2].trim()) fence = undefined
+      continue
+    }
+    if (match) { fence = { marker: match[1][0], length: match[1].length }; continue }
+    const heading = /^ {0,3}#{1,6}\s+(.+)/.exec(source)
+    if (heading) {
+      if (lines.length) { sections.push(lines.join(' ')); lines = [] }
+      omit = ['参考資料', '関連ドキュメント'].includes(heading[1].trim())
+    }
+    if (!omit) {
+      const line = source.replace(/!?\[([^\]]+)\]\([^)]*\)/g, '$1').replace(/https?:\/\/\S+|<[^>]+>/g, ' ')
+        .replace(/[#*`_|>\[\]{}]/g, ' ').replace(/\s+/g, ' ').trim()
+      if (line) lines.push(line)
+    }
+  }
+  if (lines.length) sections.push(lines.join(' '))
+  return sections
+}
+
 /** Pure, ordered generation shared by sync and tests. No clock or build-path data is emitted. */
 export function buildLibraryExport(input: LibraryExportInput, env: Environment = process.env) {
   const files = new Map<string, string>()
@@ -132,7 +162,7 @@ export function buildLibraryExport(input: LibraryExportInput, env: Environment =
     return { slug: article.route.slice('/docs/'.length), title: article.title, chapter: article.chapter,
       description: article.description, tags: [...article.tags], last_updated: article.last_updated, status: 'published',
       url: publicUrl(article.route, env), md_url: publicUrl(mdRoute, env), source_path: article.source_path,
-      ...articleStructure(parser.parse(article.markdown)) }
+      ...articleStructure(parser.parse(article.markdown)), search_sections: searchSections(article.markdown) }
   })
   const glossary = input.glossary.map(entry => ({ term: entry.name, english: entry.english, definition: entry.summary,
     url: publicUrl(entry.href && seen.has(entry.href) ? entry.href : '/glossary', env) }))
@@ -160,6 +190,7 @@ export function buildLibraryExport(input: LibraryExportInput, env: Environment =
     ...glossary.flatMap(entry => [`## ${label(entry.term)}${entry.english ? ` (${label(entry.english)})` : ''}`, '',
       label(entry.definition), '', `[詳しい解説](${entry.url})`, ''])].join('\n'))
   files.set('library-index.json', json(index))
+  if (Buffer.byteLength(files.get('library-index.json')!) > 4 * 1024 * 1024) throw new Error('library export: 索引が4 MiBのサイズ上限を超えました')
   for (const [name, text] of files) {
     if (!name.endsWith('llms.txt')) continue
     const limit = name === 'llms.txt' ? LLMS_MAX_BYTES.root : LLMS_MAX_BYTES.chapter

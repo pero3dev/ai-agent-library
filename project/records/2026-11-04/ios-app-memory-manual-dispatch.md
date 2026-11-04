@@ -23,3 +23,9 @@ RootのNode24実行は49定義＋子5件の54成功・失敗0・skip0、exit0、
 AppSwift、PBX0.2.32（34）、全TODO32行16完了とcriteria、計測method/protocol、1warm-up＋3records、既存3指標、raw/typed/CSV、全resource capsと専用UUID cleanupを保持する。job40分はCI資源上限であり、製品budgetやthresholdは採択しない。計測の境界は[既存AppMemory記録](../2026-10-28/ios-app-memory-observation.md)を継承する。
 
 提出候補はCode4→Records4の2責務、8files（新規2）、3268filesの静的準備である。strict TS・新common・新head CI、Source8最終IRと公式形式、339main後のretarget、実manual Hostedと通常main、IOS-15全体は未完了。過去のNode/計測成功を新条件へ移さず、実機・製品性能受入も行っていない。
+
+## 2026-11-04のmain同期
+
+PR352のhead44cdでは、必須11と自動9workflowが初回成功した。PRイベントのMemory専用caseと3指標×3標本、CSVの整合を確認した範囲であり、実manual・性能目標・実機の受入とは分ける。
+
+並行するmain496の61pathを保持して通常merge commitで同期する。Code4のbefore/after全byteを保ち、索引は新しいiOS区分への1項目に合わせる。旧headの成功を同期後headの成功には数えず、新しい共通検査・必要CI・独立レビューを確認してからmainへ進める。App0.2.32（34）・TODO16/32と全完了条件を維持する。

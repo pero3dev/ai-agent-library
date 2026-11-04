@@ -186,6 +186,11 @@ article .katex-display:focus-visible {
   color: var(--site-text-secondary);
 }
 
+.doc-meta-freshness > a {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
 /* ---------- TODO(要確認) コールアウト ---------- */
 
 .todo-callout {

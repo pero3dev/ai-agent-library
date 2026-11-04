@@ -17,6 +17,7 @@ export interface JsonSchema {
   minLength?: number; maxLength?: number; pattern?: string; minimum?: number; maximum?: number
   minItems?: number; maxItems?: number; uniqueItems?: boolean; items?: JsonSchema
   required?: string[]; additionalProperties?: boolean; properties?: Record<string, JsonSchema>
+  oneOf?: JsonSchema[]
 }
 export interface PolicyRange { cwd?: string; base: string; head: string }
 interface PolicyOptions extends PolicyRange { branch: string; now?: number }
@@ -32,6 +33,10 @@ const show = (cwd: string, revision: string, file: string) => toLines(git(cwd, [
 
 /** schema が使用する JSON Schema のサブセットだけを検査する(依存ゼロ)。 */
 export function validateResultShape(value: unknown, rule: JsonSchema = schema, location = '$', root: JsonSchema = rule): void {
+  if (rule.oneOf) {
+    const matches = rule.oneOf.filter(branch => { try { validateResultShape(value, branch, location, root); return true } catch { return false } })
+    assert(matches.length === 1, `${location}: oneOf のいずれか1種類に一致する必要があります`)
+  }
   if (rule.$ref) {
     const target = root.$defs?.[rule.$ref.split('/').at(-1) ?? '']
     assert(target, `${location}: schema reference がありません`)
@@ -51,7 +56,7 @@ export function validateResultShape(value: unknown, rule: JsonSchema = schema, l
   if (Array.isArray(value)) {
     assert(value.length >= (rule.minItems ?? 0) && value.length <= (rule.maxItems ?? Infinity), `${location}: 件数が不正`)
     if (rule.uniqueItems) assert(new Set(value.map(item => JSON.stringify(item))).size === value.length, `${location}: 重複`)
-    value.forEach((item, index) => validateResultShape(item, rule.items, `${location}[${index}]`, root))
+    if (rule.items) value.forEach((item, index) => validateResultShape(item, rule.items, `${location}[${index}]`, root))
   } else if (value && typeof value === 'object') {
     for (const key of rule.required ?? []) assert(Object.hasOwn(value, key), `${location}.${key}: 必須`)
     for (const [key, item] of Object.entries(value)) {
@@ -185,8 +190,19 @@ export function checkFreshnessPolicy({ cwd = process.cwd(), base, head, branch, 
     assert(manifest.systems.includes(coverage.system_id), 'coverage に対象外系統があります')
     const date = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(completed))
     assert(coverage.verified_on === date, 'coverage の完了日は実行完了の JST 日付が必要です')
-    assert(!manifest.observations.some(row => row.system_id === coverage.system_id && ['unverifiable', 'failed'].includes(row.status)), '未確認・失敗がある系統を coverage 完了にできません')
-    if (coverage.system_id === 'models-prompting') assert(manifest.vendor_checks?.length === 3 && manifest.vendor_checks.every(row => [row.release_notes, row.deprecations, row.pricing].every(status => status !== 'not_checked')), 'models-prompting の完了には主要ベンダー確認が必要です')
+    assert(!manifest.observations.some(row => row.system_id === coverage.system_id && ['unverifiable', 'failed'].includes(row.status) && (coverage.scope === 'declared-system' || row.affected_docs.includes(coverage.doc ?? ''))), '未確認・失敗がある確認範囲を coverage 完了にできません')
+    if (coverage.scope === 'declared-article') {
+      const system = registry.find(row => row.id === coverage.system_id)
+      assert(coverage.doc && system?.docPatterns.some(pattern => matchesPattern(coverage.doc ?? '', pattern)), '記事coverageのdocは系統の宣言範囲内が必要です')
+      assert(manifest.observations.some(row => row.system_id === coverage.system_id && row.affected_docs.includes(coverage.doc ?? '') && ['changed', 'unchanged'].includes(row.status)), '記事coverageには該当記事の実観測が必要です')
+      for (const source of coverage.sources ?? []) {
+        const url = new URL(source.url)
+        assert(url.protocol === 'https:' && !url.username && !url.password, '記事coverage根拠は認証情報のないHTTPSが必要です')
+        const accessed = timestamp(source.accessed_at, 'coverage.accessed_at')
+        assert(accessed >= started && accessed <= reviewed, '記事coverage根拠は実行開始後かつレビュー以前の取得が必要です')
+      }
+    }
+    if (coverage.scope === 'declared-system' && coverage.system_id === 'models-prompting') assert(manifest.vendor_checks?.length === 3 && manifest.vendor_checks.every(row => [row.release_notes, row.deprecations, row.pricing].every(status => status !== 'not_checked')), 'models-prompting の完了には主要ベンダー確認が必要です')
   }
   const systems = manifest.systems.map(id => {
     const system = registry.find(entry => entry.id === id)

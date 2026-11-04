@@ -43,6 +43,17 @@ test('article decorations keep literal attributes and escaping', () => {
   assert.deepEqual(findUnsafeMdx(writer.stringify(tree)), [])
 })
 
+test('TODO counts use rendered callouts, exclude code and give each callout a stable anchor', () => {
+  const tree = parser.parse('> **TODO(要確認):** 最初の根拠。\n\n```md\n> **TODO(要確認):** サンプル内。\n```\n\n> **TODO(要確認):** 次の根拠。\n')
+  const summary = applyDecorations(tree, { route: '/docs/test' })
+  assert.deepEqual(summary, { todo_count: 2, first_todo_id: 'article-todo-1' })
+  const generated = writer.stringify(tree)
+  assert.match(generated, /<TodoCallout id="article-todo-1">/)
+  assert.match(generated, /<TodoCallout id="article-todo-2">/)
+  assert.deepEqual(findUnsafeMdx(generated), [])
+  assert(findUnsafeMdx('<TodoCallout id="arbitrary">本文</TodoCallout>').length)
+})
+
 test('removed diagram components cannot re-enter generated MDX', () => {
   for (const source of ['<AttentionWalkthrough>本文</AttentionWalkthrough>',
     '<ReadingStep step="0">本文</ReadingStep>',

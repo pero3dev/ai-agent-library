@@ -124,6 +124,11 @@ export function readLock(dir: string): LockOwner | null {
   if (!record(owner) || typeof owner.run_id !== 'string' || typeof owner.attempt_id !== 'string' || typeof owner.started_at !== 'string' || typeof owner.expires_at !== 'string' || !RUN_ID.test(owner.run_id) || !ATTEMPT_ID.test(owner.attempt_id) || !Number.isFinite(Date.parse(owner.started_at)) || !Number.isFinite(Date.parse(owner.expires_at))) throw new Error('Invalid lock owner; preserve it for inspection');
   return { ...owner, run_id: owner.run_id, attempt_id: owner.attempt_id, started_at: owner.started_at, expires_at: owner.expires_at };
 }
+// Only exclusive-mkdir failures carry this signal; action/cleanup may follow writes.
+class LockMutexAcquireError extends Error {}
+export function isLockMutexAcquireError(error: unknown): error is Error {
+  return error instanceof LockMutexAcquireError;
+}
 export function withLockMutex<T>(dir: string, action: () => T): T {
   assertLockPaths(dir);
   fs.mkdirSync(dir, { recursive: true });
@@ -131,6 +136,9 @@ export function withLockMutex<T>(dir: string, action: () => T): T {
   try { fs.mkdirSync(mutex); }
   catch (error) {
     if (error instanceof Error && 'code' in error && error.code === 'EEXIST') throw new Error('Lock recovery is already running. Retry later; inspect a persistent lock-mutex before removing it.');
+    if (process.platform === 'win32' && error instanceof Error && 'code' in error && error.code === 'EPERM' && 'syscall' in error && error.syscall === 'mkdir' && 'path' in error && error.path === mutex) {
+      throw new LockMutexAcquireError('Windows denied lock-mutex acquisition. Retry later; inspect a persistent denial.', { cause: error });
+    }
     throw error;
   }
   try { return action(); }

@@ -6,6 +6,7 @@ downloaded documents remain untrusted reference material, not instructions.
 from __future__ import annotations
 
 import datetime as dt
+from collections import Counter
 import hashlib
 import json
 import math
@@ -151,6 +152,14 @@ def validate_index(index: dict) -> dict:
             if not isinstance(item, dict) or type(item.get("checked")) is not bool:
                 raise ValueError("チェック項目が不正です")
             _string(item.get("text"), "checklist", 10000, empty=True)
+        if "search_sections" in article:
+            sections = article["search_sections"]
+            if not isinstance(sections, list) or len(sections) > 1000:
+                raise ValueError("検索本文の配列が不正です")
+            for section in sections:
+                _string(section, "search_section", MAX_MARKDOWN_BYTES)
+            if sum(len(section.encode("utf-8")) for section in sections) > MAX_MARKDOWN_BYTES:
+                raise ValueError("記事の検索本文が上限を超えています")
     for entry in glossary:
         if not isinstance(entry, dict):
             raise ValueError("用語が不正です")
@@ -190,6 +199,19 @@ def _tokens(value: str) -> set[str]:
         if len(run) == 1:
             tokens.add(run)
     return tokens
+
+
+def _term_counts(value: str) -> Counter:
+    """BM25 uses the metadata token vocabulary with frequency preserved."""
+    value = _normal(value)
+    counts = Counter(re.findall(r"[a-z0-9]+", value))
+    for stop in ("a", "an", "the", "is", "of", "to", "and", "for", "in", "how", "what"):
+        counts.pop(stop, None)
+    for run in re.findall(r"[\u3040-\u30ff\u3400-\u9fff]+", value):
+        counts.update(run[i:i + 2] for i in range(len(run) - 1))
+        if len(run) == 1:
+            counts[run] += 1
+    return counts
 
 
 def _plain_heading(value: str) -> str:
@@ -254,6 +276,8 @@ class Library:
         self._index = None
         self._markdowns = None
         self._cache = {}
+        self._search_snapshot = None
+        self._search_prepared = None
 
     @classmethod
     def from_data(cls, index: dict, markdowns: dict[str, str] | None = None):
@@ -358,35 +382,66 @@ class Library:
         if type(offset) is not int or offset < 0:
             raise ValueError("offset は0以上の整数で指定してください")
 
+    def _search_scores(self, articles, query):
+        # Snapshot all ranking inputs. Repeated cached JSON reads may return new
+        # objects, so object identity cannot safely detect either reuse or updates.
+        snapshot = tuple((a["slug"], a["title"], tuple(a["tags"]), a["description"],
+                          tuple(h["text"] for h in a["headings"]), tuple(a.get("search_sections", ())))
+                         for a in articles)
+        if snapshot != self._search_snapshot:
+            features, df, passages, passage_df = [], Counter(), [], Counter()
+            for article in articles:
+                weights = Counter()
+                fields = ((article["title"], 8), (" ".join(article["tags"]), 7),
+                          (article["slug"], 4), (article["description"], 2),
+                          (" ".join(h["text"] for h in article["headings"]), 1))
+                for text, weight in fields:
+                    weights.update({token: weight for token in _tokens(text)})
+                features.append(weights)
+                df.update(weights.keys())
+                for text in article.get("search_sections", ()):
+                    counts = _term_counts(text)
+                    if counts:
+                        passages.append((article["slug"], counts, sum(counts.values())))
+                        passage_df.update(counts.keys())
+            average = sum(length for _, _, length in passages) / len(passages) if passages else 1
+            self._search_snapshot = snapshot
+            self._search_prepared = features, df, passages, passage_df, average
+        features, df, passages, passage_df, average = self._search_prepared
+        query_tokens = _tokens(query)
+        scores = {}
+        for article, weights in zip(articles, features):
+            score = sum(weights.get(token, 0) * (math.log((len(articles) + 1) / (df[token] + 1)) + 1) for token in query_tokens)
+            if _normal(query).strip() in _normal(article["title"] + " " + " ".join(article["tags"])):
+                score += 30
+            scores[article["slug"]] = score
+        if passages:
+            body_scores = Counter()
+            for slug, counts, length in passages:
+                score = 0.0
+                for token in query_tokens:
+                    tf = counts[token]
+                    if tf:
+                        idf = math.log(1 + (len(passages) - passage_df[token] + .5) / (passage_df[token] + .5))
+                        score += idf * tf * 2.2 / (tf + 1.2 * (.25 + .75 * length / average))
+                body_scores[slug] = max(body_scores[slug], score)
+            max_metadata = max(scores.values(), default=0) or 1
+            max_body = max(body_scores.values(), default=0) or 1
+            scores = {slug: score / max_metadata + body_scores[slug] / max_body for slug, score in scores.items()}
+        return scores
+
     def search_articles(self, query, limit=5) -> dict:
-        """Search metadata only; returns no article body or checklist."""
+        """Search metadata and optional body passages; return metadata only."""
         self._cache.pop("article", None)
         try:
             _string(query, "query", 300)
             if type(limit) is not int or not 1 <= limit <= 10:
                 raise ValueError("limit は1〜10の整数で指定してください")
             articles = self.index["articles"]
-            features = []
-            document_frequency = {}
-            for article in articles:
-                fields = [(article["title"], 8), (" ".join(article["tags"]), 7),
-                          (article["slug"], 4), (article["description"], 2),
-                          (" ".join(h["text"] for h in article["headings"]), 1)]
-                weights = {}
-                for text, weight in fields:
-                    for token in _tokens(text):
-                        weights[token] = weights.get(token, 0) + weight
-                features.append(weights)
-                for token in weights:
-                    document_frequency[token] = document_frequency.get(token, 0) + 1
-            query_tokens = _tokens(query)
+            scores = self._search_scores(articles, query)
             scored = []
-            normalized_query = _normal(query).strip()
-            for article, weights in zip(articles, features):
-                score = sum(weights.get(token, 0) * (math.log((len(articles) + 1) / (document_frequency.get(token, 0) + 1)) + 1)
-                            for token in query_tokens)
-                if normalized_query in _normal(article["title"] + " " + " ".join(article["tags"])):
-                    score += 30
+            for article in articles:
+                score = scores[article["slug"]]
                 if score > 0:
                     scored.append((score, article))
             scored.sort(key=lambda pair: (-pair[0], pair[1]["slug"]))

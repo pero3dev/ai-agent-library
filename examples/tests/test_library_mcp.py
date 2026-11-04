@@ -34,6 +34,7 @@ INDEX = {
         "md_url": MARKDOWN_URL, "source_path": "docs/01-concepts/tool-use.md",
         "headings": [{"depth": 1, "text": "ツール使用"}, {"depth": 2, "text": "権限と上限"}],
         "checklist": [{"text": "ツールの権限を制限したか", "checked": False}],
+        "search_sections": ["本文だけの検索語 xyznarrative の説明。"],
     }],
     "glossary": [{"term": "MCP", "english": "Model Context Protocol",
                   "definition": "ツール接続のプロトコル。", "url": BASE_URL + "/glossary#mcp"}],
@@ -99,6 +100,7 @@ class LibraryMcpTests(unittest.TestCase):
 
                     valid_calls = (
                         ("search_articles", {"query": "ツール", "limit": 5}, "ツール使用"),
+                        ("search_articles", {"query": "xyznarrative", "limit": 5}, "ツール使用"),
                         ("get_checklist", {"slug": SLUG}, "ツールの権限を制限したか"),
                         ("get_section", {"slug": SLUG, "heading": "権限と上限"}, "安全な権限を確認する。"),
                         ("lookup_glossary", {"term": "MCP"}, "ツール接続のプロトコル。"),
@@ -119,6 +121,8 @@ class LibraryMcpTests(unittest.TestCase):
                             if name == "lookup_glossary":
                                 self.assertIsNone(payload["last_updated"])
                             if name == "search_articles":
+                                self.assertNotIn("xyznarrative", text)
+                                self.assertNotIn("search_sections", text)
                                 self.assertNotIn("安全な権限", text)
                                 self.assertNotIn("ツールの権限を制限したか", text)
                             if name == "get_section":

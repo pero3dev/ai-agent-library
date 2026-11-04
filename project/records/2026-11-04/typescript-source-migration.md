@@ -54,7 +54,7 @@ Node 22.22.2でCIドライバーの構文検査、旧新の選別・cleanup比�
 
 | 検証 | 結果・範囲 |
 | --- | --- |
-| 共通check | Node24.22.1で終了0。型検査6系統、単体1,575件中1,475成功・失敗0・既存skip100、icon・Markdown・文書・リンク・難易度・TODO形式・harness・配置・Git設定検査が成功 |
+| 共通check | Node24.22.1で終了0。型検査6系統、単体1,579件中1,475成功・失敗0・skip104、icon・Markdown・文書・リンク・難易度・TODO形式・harness・配置・Git設定検査が成功 |
 | 分類 | main統合後529件すべて分類、TS実装307・実装JS0・互換入口193・未分類0・workflow内Node実装0。semantic診断と分類証拠を分けて確認 |
 | サイト | main統合後unit110/110、型検査5系統、230/230ルート生成。新規出力のbrowser7件とCSP/JS無効時2件も成功。移行単独のbrowser結果と性能1件の同基準再検証は前節のとおり |
 | 最低Node | 22.22.2でCI構文・記事集計、23子関数の24.22.1とのbyte一致、子process回帰22成功、audio/eval回帰67成功、Notice entry回帰5成功を確認 |
@@ -62,9 +62,9 @@ Node 22.22.2でCIドライバーの構文検査、旧新の選別・cleanup比�
 | 最終レビュー | 実装担当を交代した独立レビュー、埋め込みJSの再監査、設定・依存順の統合レビューを承認。未解消指摘0。ソース・入口・例外・設定等560件と追加監査44件のSHAをローカルへ保存 |
 | 提出差分 | 新MTSの型宣言末尾・EOF空白27件を正規化し、前後のparser token・AST一致を検証。stage済み全差分の空白検査が成功 |
 
-Windowsでは、既存の不変POSIX専用Notice試験1ファイルをcollectorが明示的にnot-runとする。100skipとは別であり、Linux/macOS CIでは原文を実行する。実機iPhone、VoiceOver、物理Safari/AirPods、有料音声生成・実Agentは今回のローカル検証へ含めない。
+Windowsでは、既存の不変POSIX専用Notice試験1ファイルをcollectorが明示的にnot-runとする。104skipとは別であり、Linux/macOS CIでは原文を実行する。104件には後述の上流Bash試験4件を含み、移行でskip条件を増やしていない。実機iPhone、VoiceOver、物理Safari/AirPods、有料音声生成・実Agentは今回のローカル検証へ含めない。
 
-初回head `55c5c9a`の実CIは、Linux単体1,582件中1,563成功・19skip・失敗0だった。Windowsではhookの実体照合が7件失敗した。Hostedの一時フォルダーではimport.meta.urlに8.3短縮名が残り、native realpathで得た期待位置との文字列比較が同一ファイルを拒否していた。実モジュールURLもnative realpathで正規化し、期待位置のnative==lexical、marker、symlink・別root実装の拒否は維持した。実短縮名からの起動で旧版exit2・修正版exit0を両クライアント/Node22・24で再現し、全hooksは各25/25成功。short entryの正負と別rootの実MTS拒否を恒久試験に加え、独立レビューを取り直した。修正後の共通checkは上表の1,575件で終了0。新headのHosted検証はPRの最終証跡へ記録する。
+初回head `55c5c9a`の実CIは、Linux単体1,582件中1,563成功・19skip・失敗0だった。Windowsではhookの実体照合が7件失敗した。Hostedの一時フォルダーではimport.meta.urlに8.3短縮名が残り、native realpathで得た期待位置との文字列比較が同一ファイルを拒否していた。実モジュールURLもnative realpathで正規化し、期待位置のnative==lexical、marker、symlink・別root実装の拒否は維持した。実短縮名からの起動で旧版exit2・修正版exit0を両クライアント/Node22・24で再現し、全hooksは各25/25成功。short entryの正負と別rootの実MTS拒否を恒久試験に加え、独立レビューを取り直した。修正直後の共通checkは1,575件で終了0。新headのHosted検証はPRの最終証跡へ記録する。
 
 PRの最終head、必須11check、実merge SHA・tree、main CI・Pages deploymentと公開4URLのHTTP/本文確認は、commit後に得る外部証跡として対応PRの最終コメントで管理する。旧PR #329の公開証拠を今回の完了証拠へ流用しない。詳細ログ・比較・snapshotは非追跡の`.local/ts-complete/`に保持する。
 
@@ -75,3 +75,11 @@ CI待機中にmain `a5f99d8086de4c653ee2bcab5df32c3c2a7801d8`へ[llms.txt・Mark
 統合後はunit110件、5系統の型検査、静的230ルートと新規参照用出力219ファイルの生成、新規出力browser7件・CSP/JavaScript無効時2件が成功した。初期JSの12script・raw962,476B/gzip307,969Bは変わらない。追加3入口とTS必須契約、既存設定・loaderとの相互依存は別担当が独立レビューし、未解消0。
 
 iOSの直接・間接実行入力を広域735ファイル/約8.18MBで比較し、`d568fa9`から統合indexへblob・mode差分、追加・削除は0、実runtimeのraw byte差も0と独立確認した。既存Macの証跡は同じruntimeソースの実証として保持するが、receiptのhead/treeを統合後へ読み替えず、最終headで実行したとは扱わない。変更したWeb/契約と共通検証は統合後に取り直し、必須CIも最終headで確認する。
+
+## 長文スクロール観測の選択を追加したmainの統合
+
+さらにmain `758ef6aac4acc3aabd895a2e1b2f84a6298c32d5`へ、自リポジトリのPRでは長文スクロール観測を選ぶCI変更が入った。上流のworkflow・concurrency・環境変数による入力検証を保持し、既存の型付きdriverを引き続き呼び出す。追加されたJSテスト99行は同じテストのMTS本体へ型付きで移し、MJSは従来の薄い入口のまま競合を解消する。新しいTS実装ファイルや入口の増減はない。
+
+この統合では性能workflowの入力が変わるため、先行headのlaunch観測を長文スクロールの実行証拠に転用しない。新headの選択試験・共通check・必須CIを確認し、実際の長文観測は終了状態とexport・cleanupを分けてPR証跡へ記録する。Web実装・出力・依存・Swift/PBXはこのmain差分では変わらない。先行したWeb検証と、同じ入力で実行したMacの証跡は元head/treeのまま保持する。
+
+統合後の共通checkは上表の1,579件で終了0、分類529件と11系統のstrict契約は維持した。最低Node22.22.2の関連試験は62件中39成功・失敗0・POSIX対象外23skip。上流追加4件の実Bash試験はこの23skipに含み、Hosted Linuxの結果と分ける。型除去後の追加AST一致、既存MTS全文・MJS入口のbyte保持、workflowの上流差分一致を別担当が独立確認し、未解消0で承認した。

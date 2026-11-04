@@ -1,5 +1,7 @@
 # iOS完成版に向けたTODO
 
+IOS-15の[自PR長文Clock選択候補](../../records/2026-11-04/ios-own-pr-long-scroll-selection.md)では、既存workflowの自リポジトリPRで長文、fork PR／main pushで起動、手動で既存3ケースを選ぶ。quoted ENVを受ける本番シェルをNode62件で確認し、3path filter・runner／40分・Clock4 invocations／3標本とCSV・hash結合・全assertを保つ。共通検査前の作成時点を保存し、新head Hosted／通常main・性能予算／閾値・IOS-15・実機は未完了。TODO32行16完了と全criteriaを変更しない。
+
 [2026-11-04の自用受入](../../records/2026-11-04/ios-personal-reading-recovery-acceptance.md)により、実main0885／App0.2.30（32）のIOS-11・IOS-18を「実装と主要な自動確認」の範囲で完了とする。現行TODOは**32行・16完了**。旧14/32と未受領時点の記録を履歴として保ち、他30状態・全完了条件は変更しない。実機・VoiceOver・追加のfailure回帰はIOS-23・IOS-25等へ残し、mainpush別CIの成功をPR結果から補わない。
 
 [保存コンテンツの容量表示候補](../../records/2026-11-02/ios-storage-usage-preview.md)は、実main1f75／tree7429の2897tupleへStorage Code8をbyte保持して結ぶSource12の準備である。App候補30（32）、metadataの論理bytesを参考表示し、再確認／閉じるだけを扱う。削除／Gate／IOS21全体完了を含めない。cdf2 mainのNative287／UI8とFull26成功・CommonのEC2guard拒否、PR330の必要11／Common Linux成功を分け、実APTはAzure144、新EC2152はfakeIOのみとする。最新の678入力合成SDK型検査1回は成功したがRuntime297／Storage新head CI／mainは未受入。Reader6／UI f998、TODO全32行14完了とcriteriaを保ち、Source12の共通1回・4形式・最終IRを待つ。

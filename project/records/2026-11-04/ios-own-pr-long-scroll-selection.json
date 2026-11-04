@@ -1,0 +1,117 @@
+{
+  "date": "2026-11-04",
+  "state": "creation-time-code2-targeted-test-freeze",
+  "task": "IOS-15",
+  "authority": {
+    "user": "TODO優先順の自律実装・通常CI・通常main統合。実機は未完了でスキップ可",
+    "Root": "今回の自リポジトリPR長文選択計画を新たに採用。旧提出時点のlaunch-only範囲は履歴として保持",
+    "worker": "私有Code2と既存Node試験1ファイル1回のみ。実Source・Git・API操作は行わない"
+  },
+  "targeted_base": {
+    "main": "0885ae04f11445874738a0cc769bdf86e6d57355",
+    "tree": "98e9b49efd85f26ea91ff41599205ab553a0dad5",
+    "tracked": 3033
+  },
+  "selection": {
+    "own_repository_pull_request": "long-article-bounded-scroll",
+    "fork_pull_request": "launch-to-published-readiness",
+    "main_push": "launch-to-published-readiness",
+    "workflow_dispatch": [
+      "launch-to-published-readiness",
+      "search-query-to-visible-witness",
+      "long-article-bounded-scroll"
+    ],
+    "unknown_event_or_manual_choice_or_required_metadata": "fail-before-GITHUB_ENV-append",
+    "event_metadata_channel": "quoted-environment-values",
+    "automatic_manual_input": "ignored"
+  },
+  "code": [
+    {
+      "path": ".github/workflows/ios-performance.yml",
+      "before_bytes": 14408,
+      "before_SHA256": "10483ac828f90b1436667ce49d432cad9daec2cd45e2c8e9f1fbd4fcecbfa8b7",
+      "after_bytes": 15756,
+      "after_SHA256": "f5484a1ae4e3ae8f11347d11ecc06cbd5b393664fc79a03c028a40b2666bda5e",
+      "exact_replacements": 5,
+      "all_other_bytes_preserved": true
+    },
+    {
+      "path": "tests/unit/ios-performance-export.test.mjs",
+      "before_bytes": 52786,
+      "before_SHA256": "dddcfed014077930d41ba05c8a839cd9c1c507666de72d881da90600bd11f27d",
+      "after_bytes": 59493,
+      "after_SHA256": "004412235dec1888ef4d1128df6985729f92653c3c477e89d2434e53c883f8d0",
+      "old_bytes_exact_prefix": true,
+      "new_tests": 4,
+      "test_subject": "actual-production-YAML-selection-run-shell"
+    }
+  ],
+  "preserved": {
+    "existing_events": [
+      "workflow_dispatch",
+      "pull_request",
+      "push-main"
+    ],
+    "path_filters": 3,
+    "permissions": "contents-read",
+    "runner": "macos-15",
+    "Xcode": "16.4",
+    "job_minutes": 40,
+    "Clock_warmup": 1,
+    "Clock_retained": 3,
+    "protocol_invocations": 4,
+    "Clock_CSV_samples": 3,
+    "maximum_vertical_drags": 16,
+    "Swift_exporter_protocol_article_hash_bindings_assertions": true,
+    "new_workflow_event_connection_runner_permission_cap": false,
+    "named_Simulator_destination": "existing; no owned UUID/create/cleanup claim"
+  },
+  "targeted_test": {
+    "file": "tests/unit/ios-performance-export.test.mjs",
+    "Node": "24.22.1",
+    "Node_SHA256": "7d2b4ed360d609a4de6485b0cbea57370eee4dba157877799e83104db570cbdd",
+    "attempts": 1,
+    "tests": 62,
+    "pass": 62,
+    "fail": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "exit": 0,
+    "seconds": 14.47493,
+    "log_bytes": 6349,
+    "log_SHA256": "7ad8ab8db3d85d191ff8c11ceb0bd3a3abaf17d859ff04bf526e3b8b226f71a4",
+    "synthetic_mock_not_measurement": true,
+    "input3033_and_protected_data_held": true,
+    "owned_group_reaped_and_absent": true,
+    "TERM_or_KILL": false,
+    "caps": {
+      "seconds": 120,
+      "log_bytes": 2097152,
+      "whole_bytes": 536870912,
+      "free_floor_bytes": 4294967296,
+      "TERM_seconds": 3,
+      "postKILL_drain_seconds": 2,
+      "reap_seconds": 3
+    },
+    "measured_minimum_free_bytes": 9996152832,
+    "measured_maximum_owned_bytes": 186028572
+  },
+  "not_executed": [
+    "latest-main-payload-binding",
+    "final-independent-review",
+    "common-check",
+    "normal-PR-and-required-CI-and-main-merge",
+    "new-head-Hosted-long-scroll",
+    "real-four-invocations-and-Clock3-CSV",
+    "SDK",
+    "physical-device"
+  ],
+  "not_adopted": [
+    "product-threshold",
+    "performance-budget",
+    "improvement",
+    "stability",
+    "IOS-15-completion"
+  ],
+  "record_scope": "2026-11-04 common-check前の作成時点。後続のPR/CI/main採択へ自動更新しない"
+}

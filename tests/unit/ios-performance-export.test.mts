@@ -802,3 +802,102 @@ test('the actual workflow export shell forwards exact arguments under nounset fo
     assert.deepEqual(run.stdout.slice(0, -1).split('\0'), expected, scenario);
   }
 });
+
+// Exercise the production YAML shell with event metadata as data. No exporter,
+// Xcode, Simulator, browser, GitHub API or measurement is invoked here.
+/** @param {import('node:test').TestContext} t @param {Record<string, string>} [values] */
+function runWorkflowSelection(t: import('node:test').TestContext, values: Record<string, string> = {}) {
+  const workflow = loadYaml(readFileSync(new URL('../../.github/workflows/ios-performance.yml', import.meta.url), 'utf8'));
+  resultObject(workflow); resultObject(workflow.jobs);
+  const job = workflow.jobs['ios-published-readiness']; resultObject(job); assert.ok(Array.isArray(job.steps));
+  const selected = (job.steps as unknown[]).map((step) => { resultObject(step); return step })
+    .filter((step) => step.name === 'Select one literal observation scenario');
+  assert.equal(selected.length, 1);
+  const step = selected[0]; resultObject(step.env); assert.ok(typeof step.run === 'string');
+  const root = temporary(t), output = path.join(root, 'environment');
+  const before = 'PREEXISTING=kept\n'; writeFileSync(output, before);
+  const run = spawnSync('/bin/bash', ['--noprofile', '--norc', '-e', '-u', '-o', 'pipefail', '-c', step.run], {
+    cwd: root, encoding: 'utf8', timeout: 5000, maxBuffer: 8192,
+    env: { PATH: '/usr/bin:/bin', LC_ALL: 'C', GITHUB_ENV: output,
+      OBSERVATION_EVENT_NAME: 'pull_request', OBSERVATION_REPOSITORY: 'pero3dev/ai-agent-library',
+      OBSERVATION_HEAD_REPOSITORY: 'pero3dev/ai-agent-library', REQUESTED_PERFORMANCE_SCENARIO: '', ...values },
+  });
+  assert.equal(run.error, undefined); assert.equal(run.signal, null);
+  return { root, output: readFileSync(output, 'utf8'), before, run, workflow, step };
+}
+
+const selectionPosix = {
+  skip: process.platform === 'win32' ? 'The actual hosted Bash selection block requires /bin/bash; no measurement runs' : false,
+};
+
+test('the production scenario shell selects own PR long scroll while fork PR and push retain launch', selectionPosix, (t) => {
+  const expectedLong = 'PERFORMANCE_SCENARIO=long-article-bounded-scroll\nPERFORMANCE_TEST_METHOD=testLongArticleBoundedScroll\nPERFORMANCE_ARTIFACT_PREFIX=ios-published-long-scroll-evidence\n';
+  const expectedLaunch = 'PERFORMANCE_SCENARIO=launch-to-published-readiness\nPERFORMANCE_TEST_METHOD=testLaunchToPublishedReadiness\nPERFORMANCE_ARTIFACT_PREFIX=ios-published-readiness-evidence\n';
+  for (const [values, expected] of ([
+    [{ REQUESTED_PERFORMANCE_SCENARIO: 'launch-to-published-readiness' }, expectedLong],
+    [{ OBSERVATION_HEAD_REPOSITORY: 'contributor/ai-agent-library', REQUESTED_PERFORMANCE_SCENARIO: 'long-article-bounded-scroll' }, expectedLaunch],
+    [{ OBSERVATION_EVENT_NAME: 'push', OBSERVATION_HEAD_REPOSITORY: '', REQUESTED_PERFORMANCE_SCENARIO: 'long-article-bounded-scroll' }, expectedLaunch],
+  ] as [Record<string, string>, string][])) {
+    const value = runWorkflowSelection(t, values);
+    assert.equal(value.run.status, 0, value.run.stderr);
+    assert.equal(value.run.stdout, ''); assert.equal(value.run.stderr, '');
+    assert.equal(value.output, value.before + expected);
+  }
+});
+
+test('the production scenario shell preserves all three exact manual choices', selectionPosix, (t) => {
+  for (const [scenario, method, artifact] of [
+    ['launch-to-published-readiness', 'testLaunchToPublishedReadiness', 'ios-published-readiness-evidence'],
+    ['search-query-to-visible-witness', 'testSearchQueryToVisibleWitness', 'ios-published-search-evidence'],
+    ['long-article-bounded-scroll', 'testLongArticleBoundedScroll', 'ios-published-long-scroll-evidence'],
+  ]) {
+    const value = runWorkflowSelection(t, { OBSERVATION_EVENT_NAME: 'workflow_dispatch',
+      OBSERVATION_HEAD_REPOSITORY: '', REQUESTED_PERFORMANCE_SCENARIO: scenario });
+    assert.equal(value.run.status, 0, value.run.stderr);
+    assert.equal(value.output, value.before + 'PERFORMANCE_SCENARIO=' + scenario + '\nPERFORMANCE_TEST_METHOD=' + method
+      + '\nPERFORMANCE_ARTIFACT_PREFIX=' + artifact + '\n');
+    assert.equal(value.run.stdout, ''); assert.equal(value.run.stderr, '');
+  }
+});
+
+test('the production scenario shell rejects unknown events, manual choices and malformed metadata before output', selectionPosix, (t) => {
+  for (const values of ([
+    { OBSERVATION_EVENT_NAME: 'workflow_call' },
+    { OBSERVATION_EVENT_NAME: '' },
+    { OBSERVATION_EVENT_NAME: 'workflow_dispatch', REQUESTED_PERFORMANCE_SCENARIO: 'unknown' },
+    { OBSERVATION_EVENT_NAME: 'workflow_dispatch', REQUESTED_PERFORMANCE_SCENARIO: '' },
+    { OBSERVATION_REPOSITORY: '' },
+    { OBSERVATION_REPOSITORY: 'repo-without-owner' },
+    { OBSERVATION_HEAD_REPOSITORY: '' },
+    { OBSERVATION_HEAD_REPOSITORY: 'repo-without-owner' },
+    { OBSERVATION_EVENT_NAME: 'workflow_dispatch', REQUESTED_PERFORMANCE_SCENARIO: '$(touch injected)' },
+    { OBSERVATION_REPOSITORY: '$(touch injected)/repo' },
+    { OBSERVATION_HEAD_REPOSITORY: 'owner/repo\n$(touch injected)' },
+  ] as Record<string, string>[])) {
+    const value = runWorkflowSelection(t, values);
+    assert.notEqual(value.run.status, 0);
+    assert.equal(value.output, value.before);
+    assert.equal(existsSync(path.join(value.root, 'injected')), false);
+    assert.equal(value.run.stdout, ''); assert.ok(value.run.stderr.length > 0);
+  }
+  const ignored = runWorkflowSelection(t, { OBSERVATION_EVENT_NAME: 'push',
+    OBSERVATION_HEAD_REPOSITORY: '', REQUESTED_PERFORMANCE_SCENARIO: '$(touch injected)' });
+  assert.equal(ignored.run.status, 0, ignored.run.stderr);
+  assert.equal(existsSync(path.join(ignored.root, 'injected')), false);
+  assert.ok(ignored.output.includes('PERFORMANCE_SCENARIO=launch-to-published-readiness\n'));
+});
+
+test('scenario metadata remains environment data and concurrency uses the same fixed own PR choice', selectionPosix, (t) => {
+  const { workflow, step } = runWorkflowSelection(t);
+  resultObject(step.env); const start = '$' + '{{ ', end = ' }}';
+  assert.deepEqual(step.env, {
+    OBSERVATION_EVENT_NAME: start + 'github.event_name' + end,
+    OBSERVATION_REPOSITORY: start + 'github.repository' + end,
+    OBSERVATION_HEAD_REPOSITORY: start + 'github.event.pull_request.head.repo.full_name' + end,
+    REQUESTED_PERFORMANCE_SCENARIO: start + 'inputs.scenario' + end,
+  });
+  assert.ok(typeof step.run === 'string' && !step.run.includes('$' + '{{'));
+  resultObject(workflow.concurrency);
+  assert.equal(workflow.concurrency.group, 'ios-published-readiness-' + start + 'github.ref' + end + '-'
+    + start + "github.event_name == 'workflow_dispatch' && inputs.scenario || github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && 'long-article-bounded-scroll' || 'launch-to-published-readiness'" + end);
+});

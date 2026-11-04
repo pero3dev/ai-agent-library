@@ -3,7 +3,7 @@ title: "フレームワーク選定ガイド"
 category: "implementation"
 level: "intermediate"
 status: "published"
-last_updated: "2026-09-10"
+last_updated: "2026-11-05"
 tags: ["framework-selection"]
 ---
 
@@ -70,7 +70,7 @@ Agent 開発のフレームワークを「名前」ではなく「選定軸」�
 
 ### 統合後の提供段階を確認する例
 
-Microsoft Agent Framework 1.0 は 2026-04-03 に .NET / Python の production-ready 版として発表され、安定 API と長期サポート方針を示しています。AutoGen の maintenance 方針と後継フレームワークの提供段階を別に記録します。既存コードを単に改名せず、状態・ツール・監査・再開の契約を代表タスクで比較し、採用機能の安定性を確認します。
+Microsoft Agent Framework 1.0 は 2026-04-03 に .NET / Python の production-ready 版として発表され、安定 API と長期サポート方針を示しています。2026-11-05 に確認した AutoGen の公式 README は保守終了を案内し、不具合修正・セキュリティ修正・新機能・サポートを提供しないと明記しています。同日の GitHub リポジトリ属性は `archived: false` であり、保守方針とリポジトリの読み取り専用化は分けて確認します。後継の提供段階も別に記録し、既存コードを単に改名せず、状態・ツール・監査・再開の契約を代表タスクで比較します。
 
 ## 実務での注意点
 
@@ -100,8 +100,8 @@ Microsoft Agent Framework 1.0 は 2026-04-03 に .NET / Python の production-re
 
 ## 参考資料
 
-- [Microsoft Agent Framework version 1.0](https://devblogs.microsoft.com/agent-framework/microsoft-agent-framework-version-1-0/) — Agent Framework の GA と提供範囲(アクセス日: 2026-09-10)
-- [AutoGen repository](https://github.com/microsoft/autogen) — プロジェクトの保守・移行方針(アクセス日: 2026-09-10)
+- [Microsoft Agent Framework version 1.0](https://devblogs.microsoft.com/agent-framework/microsoft-agent-framework-version-1-0/) — Agent Framework の GA と提供範囲(アクセス日: 2026-11-05)
+- [AutoGen repository](https://github.com/microsoft/autogen) / [リポジトリ属性](https://api.github.com/repos/microsoft/autogen) — README の保守終了案内と GitHub の archived 属性は別に確認(アクセス日: 2026-11-05)
 
 - [Building Effective Agents(Anthropic)](https://www.anthropic.com/research/building-effective-agents) — 「まずシンプルに、フレームワークは理解してから」という本記事の土台となる原則(アクセス日: 2026-07-05)
 

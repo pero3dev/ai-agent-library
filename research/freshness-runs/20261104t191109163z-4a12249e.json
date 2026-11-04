@@ -1,0 +1,737 @@
+{
+  "schema_version": 2,
+  "run_id": "20261104t191109163z-4a12249e",
+  "base_sha": "496fd542d9ac2e1c3cad30b917d46c03213186b7",
+  "writer_run_id": "20261104t191109163z-4a12249e",
+  "started_at": "2026-11-04T19:11:09.163Z",
+  "completed_at": "2026-11-04T19:25:32.300Z",
+  "systems": [
+    "emerging-domains",
+    "industry-oss",
+    "rpa-automation"
+  ],
+  "observations": [
+    {
+      "system_id": "rpa-automation",
+      "status": "changed",
+      "summary": "WorkHQの個別版表はDesign Studio3.20.0/3.21.0とDigital Worker2.38.0/2.39.0をUnsupported versionsに分類し終了日2026-09-30を掲載。GA2026-03-27と対象経路は一致。保守対象外と実行停止を区別する。",
+      "sources": [
+        {
+          "url": "https://documentation.blueprism.com/workhq/en-us/announcements/announcements.htm",
+          "accessed_at": "2026-11-04T19:12:12Z"
+        },
+        {
+          "url": "https://documentation.blueprism.com/workhq/en-us/release-notes/ds-dw-version.htm",
+          "accessed_at": "2026-11-04T19:12:20Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/13-domain-agents/rpa-and-agents.md"
+      ]
+    },
+    {
+      "system_id": "rpa-automation",
+      "status": "unchanged",
+      "summary": "Maestro2.2510.2の自己ホスト対応とTaaSのクラスタ内Kubernetes deploymentは既存記述に一致。全機能の閉域完結を確認した意味ではない。",
+      "sources": [
+        {
+          "url": "https://docs.uipath.com/maestro/automation-suite/2.2510/release-notes/2-2510-2",
+          "accessed_at": "2026-11-04T19:12:04Z"
+        },
+        {
+          "url": "https://docs.uipath.com/automation-suite/automation-suite/2.2510/installation-guide-eks-aks/kubernetes-cluster-and-nodes",
+          "accessed_at": "2026-11-04T19:12:48Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/13-domain-agents/rpa-and-agents.md"
+      ]
+    },
+    {
+      "system_id": "rpa-automation",
+      "status": "changed",
+      "summary": "computer use表にGPT-6 Sol GAを確認。CUA/Sonnet4.5 GAとSonnet4.6/Opus4.6 Experimentalは一致。harness名称はCustomer Conversation。agent flow容量制限は実行中処理・対象M365 Copilot利用者の対話開始run・test runの例外を持つ。Power Automate変換の一方向性は今回独立再検証していない。",
+      "sources": [
+        {
+          "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/computer-use",
+          "accessed_at": "2026-11-04T19:12:12Z"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/harnesses-overview",
+          "accessed_at": "2026-11-04T19:13:10Z"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/flows-overview",
+          "accessed_at": "2026-11-04T19:13:10Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/13-domain-agents/rpa-and-agents.md"
+      ]
+    },
+    {
+      "system_id": "rpa-automation",
+      "status": "changed",
+      "summary": "WinActor AI連携説明書はトークン数ではなく問い合わせ回数を計数すると明記。具体的な上限・追加パック価格は別の未確認観測に残す。",
+      "sources": [
+        {
+          "url": "https://winactor.biz/docs/AI_Collaboration_License_Description_Docum.pdf",
+          "accessed_at": "2026-11-04T19:13:04Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/13-domain-agents/rpa-and-agents.md"
+      ]
+    },
+    {
+      "system_id": "rpa-automation",
+      "status": "unchanged",
+      "summary": "Automation Anywhere5月19日資料の機能別GA/preview/予定は一致。EnterpriseClawの別告知もpreview。全機能GA完了の根拠とはしない。",
+      "sources": [
+        {
+          "url": "https://www.automationanywhere.com/company/press-room/automation-anywhere-unveils-2026-platform-enhancements-run-ai-driven-processes",
+          "accessed_at": "2026-11-04T19:12:41Z"
+        },
+        {
+          "url": "https://www.automationanywhere.com/company/press-room/automation-anywhere-collaborates-cisco-nvidia-okta-and-openai-launching",
+          "accessed_at": "2026-11-04T19:13:04Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/13-domain-agents/rpa-and-agents.md"
+      ]
+    },
+    {
+      "system_id": "rpa-automation",
+      "status": "unverifiable",
+      "summary": "Maestro自己ホストとTaaS配置は確認したが、全機能・全利用モデルの閉域対応は未確認。版ごとの通信要件と自社試験で再確認する。",
+      "sources": [
+        {
+          "url": "https://docs.uipath.com/maestro/automation-suite/2.2510/release-notes/2-2510-2",
+          "accessed_at": "2026-11-04T19:12:04Z"
+        },
+        {
+          "url": "https://docs.uipath.com/automation-suite/automation-suite/2.2510/installation-guide-eks-aks/kubernetes-cluster-and-nodes",
+          "accessed_at": "2026-11-04T19:12:48Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/13-domain-agents/rpa-and-agents.md"
+      ]
+    },
+    {
+      "system_id": "rpa-automation",
+      "status": "unverifiable",
+      "summary": "Copilot standalone computer useはpreview・地域展開中。機能別・全地域の展開完了は立証できず、モデルGAから機能全体GAを推定しない。",
+      "sources": [
+        {
+          "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/computer-use-standalone",
+          "accessed_at": "2026-11-04T19:13:04Z"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/computer-use",
+          "accessed_at": "2026-11-04T19:12:12Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/13-domain-agents/rpa-and-agents.md"
+      ]
+    },
+    {
+      "system_id": "rpa-automation",
+      "status": "unverifiable",
+      "summary": "WinActor説明書とサービス条件から2026-10以降の具体的な上限回数・追加パック価格を特定できず。計数単位の確認と区別する。",
+      "sources": [
+        {
+          "url": "https://winactor.biz/docs/AI_Collaboration_License_Description_Docum.pdf",
+          "accessed_at": "2026-11-04T19:13:04Z"
+        },
+        {
+          "url": "https://winactor.biz/rpa/winactor-license.html",
+          "accessed_at": "2026-11-04T19:13:10Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/13-domain-agents/rpa-and-agents.md"
+      ]
+    },
+    {
+      "system_id": "rpa-automation",
+      "status": "unverifiable",
+      "summary": "AAI Code・Context Intelligence Graph等のGA実施日・版・提供条件は未特定。Q3予定の経過を完了としない。",
+      "sources": [
+        {
+          "url": "https://www.automationanywhere.com/company/press-room/automation-anywhere-unveils-2026-platform-enhancements-run-ai-driven-processes",
+          "accessed_at": "2026-11-04T19:12:41Z"
+        },
+        {
+          "url": "https://www.automationanywhere.com/company/press-room/automation-anywhere-collaborates-cisco-nvidia-okta-and-openai-launching",
+          "accessed_at": "2026-11-04T19:13:04Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/13-domain-agents/rpa-and-agents.md"
+      ]
+    },
+    {
+      "system_id": "rpa-automation",
+      "status": "unchanged",
+      "summary": "表計算記事の外部技術に依存する確認範囲: Excelの自動/手動計算モード・依存関係ツリー/計算チェーン、openpyxlが数式を評価しない点は公式文書に一致。実Excel・ブック操作試験は未実施。",
+      "sources": [
+        {
+          "url": "https://learn.microsoft.com/ja-jp/office/client-developer/excel/excel-recalculation",
+          "accessed_at": "2026-11-04T19:12:41Z"
+        },
+        {
+          "url": "https://openpyxl.readthedocs.io/en/stable/simple_formulae.html",
+          "accessed_at": "2026-11-04T19:12:41Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/13-domain-agents/spreadsheet-agents.md"
+      ]
+    },
+    {
+      "system_id": "rpa-automation",
+      "status": "unchanged",
+      "summary": "架空経費ケースの設計原典: 固定Workflowと動的Agentの区別、最も単純な構成から必要に応じ複雑化する原則はAnthropic原典に一致。架空数値の実測検証や実装保証ではない。",
+      "sources": [
+        {
+          "url": "https://www.anthropic.com/research/building-effective-agents",
+          "accessed_at": "2026-11-04T19:12:41Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/07-case-studies/case-study-expense-agent.md"
+      ]
+    },
+    {
+      "system_id": "emerging-domains",
+      "status": "unchanged",
+      "summary": "Robinの2026-05-19出版と、人が実験しAgentが仮説生成・解析を担う分担を著者機関資料で再確認。Nature正規ページの認証リダイレクトは著者資料で代替し、独立追試の確認とは扱わない。",
+      "sources": [
+        {
+          "url": "https://www.futurehouse.org/research-announcements/demonstrating-end-to-end-scientific-discovery-with-robin-a-multi-agent-system",
+          "accessed_at": "2026-11-04T19:13:11Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/13-domain-agents/emerging-agent-domains.md"
+      ]
+    },
+    {
+      "system_id": "emerging-domains",
+      "status": "unchanged",
+      "summary": "AI co-scientist原論文の3領域の検証、scientist-in-the-loop構成と初期検証の限界は既存記述に一致。独立追試ではない。",
+      "sources": [
+        {
+          "url": "https://www.nature.com/articles/s41586-026-10644-y",
+          "accessed_at": "2026-11-04T19:12:27Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/13-domain-agents/emerging-agent-domains.md"
+      ]
+    },
+    {
+      "system_id": "emerging-domains",
+      "status": "unchanged",
+      "summary": "A-Lab訂正PDFの新規性の限定、36件再確認・4件不確定・学習混入1件除外は一致。Nature認証リダイレクトを著者機関PDFで代替。再解析と独立再実験を区別する。",
+      "sources": [
+        {
+          "url": "https://escholarship.org/content/qt4kb4s6pg/qt4kb4s6pg_noSplash_e2c3d812b2171874cfeca482fc6c214c.pdf",
+          "accessed_at": "2026-11-04T19:13:02Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/13-domain-agents/emerging-agent-domains.md"
+      ]
+    },
+    {
+      "system_id": "emerging-domains",
+      "status": "unchanged",
+      "summary": "1052人研究はarXiv v3・2026-06-28改訂で、GSS本人再回答を基準にした83/82/86/74%は一致。査読誌掲載確認ではない。",
+      "sources": [
+        {
+          "url": "https://arxiv.org/abs/2411.10109",
+          "accessed_at": "2026-11-04T19:12:27Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/13-domain-agents/emerging-agent-domains.md"
+      ]
+    },
+    {
+      "system_id": "emerging-domains",
+      "status": "changed",
+      "summary": "PUBG公式patchがbeta期間を6月17日メンテ後〜7月1日07:00 UTCと明記。NVIDIAは6月30日までと案内するため時区を記す。9月25日著者報告v2は2週間PC live betaの実プレイヤー調査を報告。恒常提供や全プレイヤーへの一般化と区別。",
+      "sources": [
+        {
+          "url": "https://www.pubg.com/en/news/10179",
+          "accessed_at": "2026-11-04T19:12:27Z"
+        },
+        {
+          "url": "https://www.nvidia.com/en-us/geforce/news/pubg-ally-ai-teammate-beta-available-now/",
+          "accessed_at": "2026-11-04T19:13:02Z"
+        },
+        {
+          "url": "https://developer.nvidia.com/blog/how-krafton-built-pubg-ally-a-co-playable-character-powered-by-nvidia-ace/",
+          "accessed_at": "2026-11-04T19:13:02Z"
+        },
+        {
+          "url": "https://arxiv.org/html/2609.29837v2",
+          "accessed_at": "2026-11-04T19:13:02Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/13-domain-agents/emerging-agent-domains.md"
+      ]
+    },
+    {
+      "system_id": "emerging-domains",
+      "status": "unchanged",
+      "summary": "AP2はv0.2/release v0.2.0。Checkout/Payment Mandate、Human Present/Not Present、決定的コードの検証責務と4月28日FIDO寄贈は既存記述に一致。",
+      "sources": [
+        {
+          "url": "https://ap2-protocol.org/ap2/specification/",
+          "accessed_at": "2026-11-04T19:12:27Z"
+        },
+        {
+          "url": "https://github.com/google-agentic-commerce/AP2/releases",
+          "accessed_at": "2026-11-04T19:12:38Z"
+        },
+        {
+          "url": "https://blog.google/products-and-platforms/platforms/google-pay/agent-payments-protocol-fido-alliance/",
+          "accessed_at": "2026-11-04T19:12:38Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/13-domain-agents/emerging-agent-domains.md"
+      ]
+    },
+    {
+      "system_id": "emerging-domains",
+      "status": "changed",
+      "summary": "A2Aは2026-08-27にAAIF Growth Stage projectへの参加を発表。AAIF一覧にMCP/A2Aを確認。AP2は別途FIDO Payments Technical Working Groupで発展させる取組。研究メモの2025-06寄贈履歴と後続事実を区別する。",
+      "sources": [
+        {
+          "url": "https://a2a-protocol.org/latest/blog/2026/08/27/a-new-chapter-for-a2a-joining-the-agentic-ai-foundation/",
+          "accessed_at": "2026-11-04T19:13:28Z"
+        },
+        {
+          "url": "https://aaif.io/projects",
+          "accessed_at": "2026-11-04T19:13:28Z"
+        },
+        {
+          "url": "https://fidoalliance.org/fido-alliance-to-develop-standards-for-trusted-ai-agent-interactions/",
+          "accessed_at": "2026-11-04T19:12:38Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/13-domain-agents/emerging-agent-domains.md"
+      ]
+    },
+    {
+      "system_id": "emerging-domains",
+      "status": "unverifiable",
+      "summary": "Robin/Co-Scientistの独立追試とA-Lab訂正後の独立再評価は今回の検索範囲で一次資料を特定できず。原研究・訂正文の一致から追試の実施や不在を推定しない。",
+      "sources": [
+        {
+          "url": "https://www.futurehouse.org/research-announcements/demonstrating-end-to-end-scientific-discovery-with-robin-a-multi-agent-system",
+          "accessed_at": "2026-11-04T19:13:11Z"
+        },
+        {
+          "url": "https://www.nature.com/articles/s41586-026-10644-y",
+          "accessed_at": "2026-11-04T19:12:27Z"
+        },
+        {
+          "url": "https://escholarship.org/content/qt4kb4s6pg/qt4kb4s6pg_noSplash_e2c3d812b2171874cfeca482fc6c214c.pdf",
+          "accessed_at": "2026-11-04T19:13:02Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/13-domain-agents/emerging-agent-domains.md"
+      ]
+    },
+    {
+      "system_id": "emerging-domains",
+      "status": "unverifiable",
+      "summary": "1052人研究の査読誌掲載はarXiv最新ページと題名検索から特定できず。v3のままであることだけで未掲載と断定しない。",
+      "sources": [
+        {
+          "url": "https://arxiv.org/abs/2411.10109",
+          "accessed_at": "2026-11-04T19:12:27Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/13-domain-agents/emerging-agent-domains.md"
+      ]
+    },
+    {
+      "system_id": "emerging-domains",
+      "status": "unverifiable",
+      "summary": "PUBG恒常提供とAgent決済の全地域GA・継続取引量・取消返金不正率は未確認。著者報告は限定beta、AP2資料は仕様と統治の確認に留まる。",
+      "sources": [
+        {
+          "url": "https://arxiv.org/html/2609.29837v2",
+          "accessed_at": "2026-11-04T19:13:02Z"
+        },
+        {
+          "url": "https://ap2-protocol.org/ap2/specification/",
+          "accessed_at": "2026-11-04T19:12:27Z"
+        },
+        {
+          "url": "https://fidoalliance.org/fido-alliance-to-develop-standards-for-trusted-ai-agent-interactions/",
+          "accessed_at": "2026-11-04T19:12:38Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/13-domain-agents/emerging-agent-domains.md"
+      ]
+    },
+    {
+      "system_id": "industry-oss",
+      "status": "changed",
+      "summary": "AutoGen公式READMEは保守終了と不具合/セキュリティ修正・新機能・サポートを提供しない方針を明記。一方GitHub repository APIのarchivedはfalse。READMEの方針とread-only属性を区別し、独立したセキュリティ推奨変更は行わない。",
+      "sources": [
+        {
+          "url": "https://github.com/microsoft/autogen/blob/main/README.md",
+          "accessed_at": "2026-11-04T19:13:30Z"
+        },
+        {
+          "url": "https://api.github.com/repos/microsoft/autogen",
+          "accessed_at": "2026-11-04T19:13:30Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/03-implementation/framework-selection.md"
+      ]
+    },
+    {
+      "system_id": "industry-oss",
+      "status": "unchanged",
+      "summary": "Agent Framework1.0の2026-04-03・.NET/Python production-ready・安定API/長期サポート方針は一致。後続release一覧も取得したが最新番号を本文へ追加せず。8軸の全製品機能比較は未実施。",
+      "sources": [
+        {
+          "url": "https://devblogs.microsoft.com/agent-framework/microsoft-agent-framework-version-1-0/",
+          "accessed_at": "2026-11-04T19:12:42Z"
+        },
+        {
+          "url": "https://github.com/microsoft/agent-framework/releases",
+          "accessed_at": "2026-11-04T19:13:20Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/03-implementation/framework-selection.md"
+      ]
+    },
+    {
+      "system_id": "industry-oss",
+      "status": "unchanged",
+      "summary": "Gemma Terms冒頭のGemma4別ライセンス案内とApache2本文は世代別の既存記述に一致。個別のライセンス適用判断を追加しない。",
+      "sources": [
+        {
+          "url": "https://ai.google.dev/gemma/terms",
+          "accessed_at": "2026-11-04T19:13:03Z"
+        },
+        {
+          "url": "https://ai.google.dev/gemma/apache_2",
+          "accessed_at": "2026-11-04T19:13:03Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/03-implementation/open-source-ai-ecosystem.md"
+      ]
+    },
+    {
+      "system_id": "industry-oss",
+      "status": "unchanged",
+      "summary": "OSAID1.0の4自由とdata information/code/parametersの要件は既存記述に一致。個別モデルの適合認定ではない。",
+      "sources": [
+        {
+          "url": "https://opensource.org/ai/open-source-ai-definition",
+          "accessed_at": "2026-11-04T19:13:03Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/03-implementation/open-source-ai-ecosystem.md"
+      ]
+    },
+    {
+      "system_id": "industry-oss",
+      "status": "unchanged",
+      "summary": "HF ToSとContent Policyの参照構造、README/YAMLのモデルカードとrepo移管時の旧URLリダイレクトを公式文書で確認。記事の全ライセンス条文・OSS代表例の全面監査ではない。",
+      "sources": [
+        {
+          "url": "https://huggingface.co/terms-of-service",
+          "accessed_at": "2026-11-04T19:13:03Z"
+        },
+        {
+          "url": "https://huggingface.co/content-policy",
+          "accessed_at": "2026-11-04T19:13:20Z"
+        },
+        {
+          "url": "https://huggingface.co/docs/hub/model-cards",
+          "accessed_at": "2026-11-04T19:13:20Z"
+        },
+        {
+          "url": "https://huggingface.co/docs/hub/repositories-settings",
+          "accessed_at": "2026-11-04T19:13:20Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/03-implementation/open-source-ai-ecosystem.md"
+      ]
+    },
+    {
+      "system_id": "industry-oss",
+      "status": "changed",
+      "summary": "知財コード公式案内と届出事業者一覧をHTTP200取得。一覧に2026-10-26の届出と2026-10-30更新日を確認。Web取得は404だったがInvoke-WebRequest再取得で本文を確認。受付・掲載とコード採択日を分け、法的適用判断は変更しない。",
+      "sources": [
+        {
+          "url": "https://www.cas.go.jp/jp/seisakukaigi/titeki2/ai_principle_code/index.html",
+          "accessed_at": "2026-11-04T19:13:54Z"
+        },
+        {
+          "url": "https://www.cas.go.jp/jp/seisakukaigi/titeki2/ai_principle_code/jigyousha_ichiran.html",
+          "accessed_at": "2026-11-04T19:14:04Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/09-business/ai-copyright-and-ip-map.md"
+      ]
+    },
+    {
+      "system_id": "industry-oss",
+      "status": "unverifiable",
+      "summary": "知財コードの正式採択日・コード公開日は今回の公式案内・一覧から特定できず。届出日・一覧更新日と同一視せず公的決定/公開告知で再確認する。",
+      "sources": [
+        {
+          "url": "https://www.cas.go.jp/jp/seisakukaigi/titeki2/ai_principle_code/index.html",
+          "accessed_at": "2026-11-04T19:13:54Z"
+        },
+        {
+          "url": "https://www.cas.go.jp/jp/seisakukaigi/titeki2/ai_principle_code/jigyousha_ichiran.html",
+          "accessed_at": "2026-11-04T19:14:04Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/09-business/ai-copyright-and-ip-map.md"
+      ]
+    },
+    {
+      "system_id": "emerging-domains",
+      "status": "unchanged",
+      "summary": "表計算記事の外部技術に依存する確認範囲: Excelの自動/手動計算モード・依存関係ツリー/計算チェーン、openpyxlが数式を評価しない点は公式文書に一致。実Excel・ブック操作試験は未実施。",
+      "sources": [
+        {
+          "url": "https://learn.microsoft.com/ja-jp/office/client-developer/excel/excel-recalculation",
+          "accessed_at": "2026-11-04T19:12:41Z"
+        },
+        {
+          "url": "https://openpyxl.readthedocs.io/en/stable/simple_formulae.html",
+          "accessed_at": "2026-11-04T19:12:41Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/13-domain-agents/spreadsheet-agents.md"
+      ]
+    },
+    {
+      "system_id": "emerging-domains",
+      "status": "unchanged",
+      "summary": "架空経費ケースの設計原典: 固定Workflowと動的Agentの区別、最も単純な構成から必要に応じ複雑化する原則はAnthropic原典に一致。架空数値の実測検証や実装保証ではない。",
+      "sources": [
+        {
+          "url": "https://www.anthropic.com/research/building-effective-agents",
+          "accessed_at": "2026-11-04T19:12:41Z"
+        }
+      ],
+      "affected_docs": [
+        "docs/07-case-studies/case-study-expense-agent.md"
+      ]
+    }
+  ],
+  "changes": [
+    {
+      "path": "docs/13-domain-agents/rpa-and-agents.md",
+      "kind": "substantive",
+      "observation_indices": [
+        0,
+        2,
+        3
+      ],
+      "summary": "WorkHQ保守状態、Copilotモデル/harness/容量例外、WinActor計数単位を訂正"
+    },
+    {
+      "path": "docs/13-domain-agents/emerging-agent-domains.md",
+      "kind": "substantive",
+      "observation_indices": [
+        15,
+        17
+      ],
+      "summary": "PUBGのUTC期間と後続著者報告、AAIF/FIDOの統治を追補"
+    },
+    {
+      "path": "docs/03-implementation/framework-selection.md",
+      "kind": "substantive",
+      "observation_indices": [
+        21,
+        22
+      ],
+      "summary": "AutoGenの保守終了案内とarchived属性を分離"
+    },
+    {
+      "path": "docs/09-business/ai-copyright-and-ip-map.md",
+      "kind": "substantive",
+      "observation_indices": [
+        26
+      ],
+      "summary": "知財コードの実際の届出掲載を反映し採択日は未確認を維持"
+    },
+    {
+      "path": "research/domain-agents/rpa.md",
+      "kind": "supporting",
+      "observation_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        9,
+        10
+      ],
+      "summary": "3記事の限定観測と未確認範囲、一次資料/時刻を追記"
+    },
+    {
+      "path": "research/domain-agents/emerging.md",
+      "kind": "supporting",
+      "observation_indices": [
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "summary": "原研究の一致確認とPUBG/統治の限定訂正、残件を追記"
+    },
+    {
+      "path": "research/ecosystem/industry-oss.md",
+      "kind": "supporting",
+      "observation_indices": [
+        21,
+        22,
+        23,
+        24,
+        25,
+        26
+      ],
+      "summary": "保守状態・コード実届出とライセンス/ハブの限定一致確認を記録"
+    },
+    {
+      "path": "ROADMAP.md",
+      "kind": "supporting",
+      "observation_indices": [
+        0,
+        2,
+        15,
+        17,
+        21,
+        26
+      ],
+      "summary": "watchlistの解消済み項目と次回確認事項を同期"
+    }
+  ],
+  "coverage": [
+    {
+      "system_id": "rpa-automation",
+      "scope": "declared-article",
+      "doc": "docs/13-domain-agents/spreadsheet-agents.md",
+      "status": "verified",
+      "verified_on": "2026-11-05",
+      "description": "記事の外部技術に依存する鮮度確認範囲。Excel計算モード・依存関係とopenpyxl数式評価制約を一次文書で確認。実Excel実行・ブック破壊試験は未実施。",
+      "claims": [
+        "Excelには自動・手動再計算モードがあり、依存関係ツリーと計算チェーンに基づいて再計算する",
+        "openpyxlは数式を書き込み・保持できるが、数式を評価しない"
+      ],
+      "sources": [
+        {
+          "url": "https://learn.microsoft.com/ja-jp/office/client-developer/excel/excel-recalculation",
+          "accessed_at": "2026-11-04T19:12:41Z"
+        },
+        {
+          "url": "https://openpyxl.readthedocs.io/en/stable/simple_formulae.html",
+          "accessed_at": "2026-11-04T19:12:41Z"
+        }
+      ]
+    },
+    {
+      "system_id": "rpa-automation",
+      "scope": "declared-article",
+      "doc": "docs/07-case-studies/case-study-expense-agent.md",
+      "status": "verified",
+      "verified_on": "2026-11-05",
+      "description": "構成事例の鮮度確認範囲。固定Workflowと動的Agentの区別、必要性を計測して複雑化する設計原典との一致。架空組織・数値の実測と実装動作保証は対象外。",
+      "claims": [
+        "Workflowは事前定義コード経路でLLMとツールを実行し、Agentはモデルが過程とツール利用を動的に選ぶ",
+        "単純な構成から始め、必要なときに複雑化し、性能とレイテンシ・費用の交換条件を評価する"
+      ],
+      "sources": [
+        {
+          "url": "https://www.anthropic.com/research/building-effective-agents",
+          "accessed_at": "2026-11-04T19:12:41Z"
+        }
+      ]
+    },
+    {
+      "system_id": "emerging-domains",
+      "scope": "declared-article",
+      "doc": "docs/13-domain-agents/spreadsheet-agents.md",
+      "status": "verified",
+      "verified_on": "2026-11-05",
+      "description": "記事の外部技術に依存する鮮度確認範囲。Excel計算モード・依存関係とopenpyxl数式評価制約を一次文書で確認。実Excel実行・ブック破壊試験は未実施。",
+      "claims": [
+        "Excelには自動・手動再計算モードがあり、依存関係ツリーと計算チェーンに基づいて再計算する",
+        "openpyxlは数式を書き込み・保持できるが、数式を評価しない"
+      ],
+      "sources": [
+        {
+          "url": "https://learn.microsoft.com/ja-jp/office/client-developer/excel/excel-recalculation",
+          "accessed_at": "2026-11-04T19:12:41Z"
+        },
+        {
+          "url": "https://openpyxl.readthedocs.io/en/stable/simple_formulae.html",
+          "accessed_at": "2026-11-04T19:12:41Z"
+        }
+      ]
+    },
+    {
+      "system_id": "emerging-domains",
+      "scope": "declared-article",
+      "doc": "docs/07-case-studies/case-study-expense-agent.md",
+      "status": "verified",
+      "verified_on": "2026-11-05",
+      "description": "構成事例の鮮度確認範囲。固定Workflowと動的Agentの区別、必要性を計測して複雑化する設計原典との一致。架空組織・数値の実測と実装動作保証は対象外。",
+      "claims": [
+        "Workflowは事前定義コード経路でLLMとツールを実行し、Agentはモデルが過程とツール利用を動的に選ぶ",
+        "単純な構成から始め、必要なときに複雑化し、性能とレイテンシ・費用の交換条件を評価する"
+      ],
+      "sources": [
+        {
+          "url": "https://www.anthropic.com/research/building-effective-agents",
+          "accessed_at": "2026-11-04T19:12:41Z"
+        }
+      ]
+    }
+  ],
+  "review": {
+    "verdict": "approved",
+    "risk": "low",
+    "independent": true,
+    "reviewer_run_id": "/root/review_final",
+    "reviewed_at": "2026-11-04T19:24:53Z",
+    "content_digest": "6be8899c992d446e3f7928d6515f598bd8f1a9d775f540d2ec43cbd4baa41981"
+  }
+}

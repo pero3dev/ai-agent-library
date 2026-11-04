@@ -98,11 +98,11 @@ AGENTS.md、harness/writing-rules.mdとtemplates/doc-template.mdに従い、
 - **フィジカル AI** — 起点: `research/supplementary/physical-ai.md`。次の確認: π0.5 / π0.6、GR00T N1.7、Gemini Robotics ER の提供・移行、DreamZero の追試、LIBERO / Isaac Lab-Arena の再現条件、AISI Robotics Initiative。公開評価基盤の存在と、異なる身体構成の実機能力を横並びに比較できるかを分ける
 - **サービング・ゲートウェイ OSS** — 起点: `research/llmops/serving.md`。次の確認: Kong AI Gateway 2.0 と従来の 3.x plugin の提供条件、AI Proxy の Free / OSS 範囲、TensorRT-LLM の構成物別ライセンス、LM Studio の App Terms と有料機能、TGI のアーカイブ後の代替、Ollama API 対応・GPT4All の保守状態
 - **生成 AI・リアルタイム/TTS API** — 起点: `research/multimodal/generation.md`・`realtime-tts.md`。次の確認: Videos API / Sora 2 の 2026-09-24、Nova Canvas / Reel と旧 Gemini Omni preview の 2026-09-30 終了。新規採用は後継の適合評価を行う。能動的な動画読解の対象・課金、Eleven v3 の TTD WebSocket と単一音声 TTS の別経路、来歴・同意要件を確認
-- **来歴・フロンティア安全・なりすまし・知財** — 起点: `research/trust/`。次の確認: ISO/CD 22144 の進捗、RSP と Risk Report の対象範囲・版、Preparedness / FSF、各国安全機関、知財プリンシプル・コードの 2026-10-26 届出開始、米著作権局 Part 3 最終版、公的な詐欺対策の更新
-- **RPA/自動化ベンダーの Agent 統合** — 起点: `research/domain-agents/rpa.md`。次の確認: WorkHQ の公開条件と旧部品のサポート終了、UiPath のオンプレ / air-gapped 機能別制限、Copilot Studio computer use の地域別 GA、Automation Anywhere の提供境界、WinActor の 2026-10 以降の上限・価格
-- **先端応用** — 起点: `research/domain-agents/emerging.md`。次の確認: Robin / AI co-scientist の独立追試、A-Lab 訂正後の評価、1,052 人研究 v3 の査読誌掲載、PUBG Ally ベータ後の継続提供、AP2 の実取引と Mandate 検証、MCP / A2A の AAIF と AP2 の FIDO における仕様統治
+- **来歴・フロンティア安全・なりすまし・知財** — 起点: `research/trust/`。次の確認: ISO/CD 22144 の進捗、RSP と Risk Report の対象範囲・版、Preparedness / FSF、各国安全機関、知財プリンシプル・コードの届出一覧の継続更新と正式採択日・公開日(2026-10-26 の実届出掲載は 2026-11-05 に再確認)、米著作権局 Part 3 最終版、公的な詐欺対策の更新
+- **RPA/自動化ベンダーの Agent 統合** — 起点: `research/domain-agents/rpa.md`。次の確認: WorkHQ の後続版の保守期限(2026-09-30 対象版の Unsupported 分類は再確認済み)、UiPath のオンプレ / air-gapped 機能別制限、Copilot Studio computer use の機能別・地域別展開、Automation Anywhere の preview 機能別 GA 実施、WinActor の 2026-10 以降の具体的な上限回数・追加パック価格
+- **先端応用** — 起点: `research/domain-agents/emerging.md`。次の確認: Robin / AI co-scientist の独立追試、A-Lab 訂正後の独立評価、1,052 人研究 v3 の査読誌掲載、PUBG Ally の限定ベータ後の恒常提供(公式 UTC 期間と著者の実プレイヤー報告は再確認済み)、AP2 の全地域 GA・継続取引量、MCP / A2A の AAIF と AP2 の FIDO における後続改版
 - **輸出規制・環境開示** — 起点: `research/strategy/geopolitics.md`・`green-ai.md`。次の確認: BIS の管理品目と個別輸出要件、EU Annex I の 2026-09-14 採択分の官報掲載・発効、CAC の越境データ経路、インド DPDP、AWS Sustainability の Marketplace 算定範囲と CCFT 非推奨化後の実画面移行、SCI for AI と基本 SCI の規格上の違い、CSRD / EED の適用範囲。統計は推計年・公表年・算定境界を揃える
-- **AI 業界マップ・OSS エコシステム** — 起点: `research/ecosystem/industry-oss.md`。次の確認: Microsoft Agent Framework 1.0 の後続と AutoGen maintenance、Gemma 4 の Apache 2.0 と旧世代規約、OSAID 改定、Hugging Face 規約・組織移管
+- **AI 業界マップ・OSS エコシステム** — 起点: `research/ecosystem/industry-oss.md`。次の確認: Microsoft Agent Framework の機能別適合と AutoGen の後続移行案内(README の保守終了と GitHub archived 属性 false は再確認済み)、Gemma の世代別ライセンス変更、OSAID 1.0 以後の改定、Hugging Face 規約・組織移管、知財プリンシプル・コードの正式採択日・コード公開日
 - **AI 規格・認証** — 起点: `research/ecosystem/standards.md`。次の確認: ISO / JIS 42001 と認定機関、NIST AI RMF の改訂、JTC 21 の整合規格と OJ 引用。発行・認証・認定・EU の適合推定を別々に追跡
 - `examples/` の全 7 件を実行確認し README の動作確認日・確認方式を更新する。依存更新時はモックだけでなく SDK の transport と MCP stdio を検査する
 

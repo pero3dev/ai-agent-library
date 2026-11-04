@@ -1,5 +1,21 @@
 # RPA と Agent の使い分け・移行戦略 執筆前調査メモ(DA-R1)
 
+## 2026-11-05 の部分観測
+
+対象は [RPA と Agent](../../docs/13-domain-agents/rpa-and-agents.md)の製品別条件、[表計算エージェント](../../docs/13-domain-agents/spreadsheet-agents.md)の再計算制約、[架空の経費事例](../../docs/07-case-studies/case-study-expense-agent.md)の設計原典です。系統全体の完了や実製品の動作確認ではありません。全観測の一次資料 URL・実取得 UTC・分類は [実行記録](../freshness-runs/20261104t191109163z-4a12249e.json)に保存します。以下より後の旧確認日・旧サマリは当時の記録として保持します。
+
+| 分類 | 確認した事実・範囲 | 一次資料・実取得 UTC |
+| --- | --- | --- |
+| changed | WorkHQ の Design Studio 3.20.0 / 3.21.0、Digital Worker 2.38.0 / 2.39.0 は Unsupported versions に分類され、終了日は 2026-09-30。サポート対象外の記載を実行停止とは扱いません | [版別表](https://documentation.blueprism.com/workhq/en-us/release-notes/ds-dw-version.htm)、2026-11-04T19:12:20Z |
+| changed | Copilot Studio computer use は GPT-6 Sol も GA。harness 名は GitHub Copilot / Customer Conversation / standard。agent flow の容量枯渇時の新規実行制限には、実行中・対象の Microsoft 365 Copilot ライセンス利用者の対話から開始する処理・テスト実行の例外があります | [computer use](https://learn.microsoft.com/en-us/microsoft-copilot-studio/computer-use)、2026-11-04T19:12:12Z。[harnesses](https://learn.microsoft.com/en-us/microsoft-copilot-studio/harnesses-overview)・[agent flows](https://learn.microsoft.com/en-us/microsoft-copilot-studio/flows-overview)、2026-11-04T19:13:10Z |
+| changed / unverifiable | WinActor AI 連携説明書はトークン数ではなく問い合わせ回数を計数すると明記。2026-10 以降の具体的な上限・追加パック価格は取得資料から確認できません | [説明書](https://winactor.biz/docs/AI_Collaboration_License_Description_Docum.pdf)、2026-11-04T19:13:04Z。[サービス条件](https://winactor.biz/rpa/winactor-license.html)、2026-11-04T19:13:10Z |
+| unchanged | WorkHQ の GA 日・対象経路、UiPath Maestro の自己ホスト開始版と TaaS のクラスタ内配置、Automation Anywhere の 2026-05-19 時点の機能別 GA / preview は既存記述と一致。全機能の後続提供まで確認した意味ではありません | 各 URL・取得時刻は実行記録を参照 |
+| unchanged | Excel の自動・手動再計算、依存関係ツリー・計算チェーンと、openpyxl が数式を評価しない制約を再確認。架空経費事例の固定 workflow / 動的 agent と段階的な複雑化は設計原典に一致 | [Excel](https://learn.microsoft.com/ja-jp/office/client-developer/excel/excel-recalculation)・[openpyxl](https://openpyxl.readthedocs.io/en/stable/simple_formulae.html)・[設計原典](https://www.anthropic.com/research/building-effective-agents)、2026-11-04T19:12:41Z |
+
+未確認は WinActor の上限・価格、Copilot Studio の機能別・地域別展開完了、Automation Anywhere の各 preview 機能の GA 実施、UiPath の全機能・利用モデルの閉域対応です。予定日経過や自己ホスト対応から完了を推定せず、各社の追加告知・構成仕様・契約条件を次回確認先にします。Power Automate 変換の一方向性は今回独立再検証していません。
+
+## 初回調査と以前の観測履歴
+
 - **調査 ID**: DA-R1
 - **調査日 / 確認日**: 2026-07-09(初回)、2026-09-10(RPA01〜RPA06)
 - **用途**: DOMAIN-AGENTS 計画「RPA と Agent の使い分け・移行戦略」記事の裏取り。記事本文は類型・判断軸を主とし、期限・配置・互換性の判断に役立つ具体例を併記します。主目的は冒頭の「## 調査サマリ(類型と判断軸)」です

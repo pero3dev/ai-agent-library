@@ -1,5 +1,7 @@
 # project — 計画と実施記録
 
+[Windowsの音声ロック取得の限定再試行](records/2026-11-04/windows-audio-mutex-acquire.md)は、main e617の並行試験1失敗を保持し、排他的mkdirのWindows EPERMだけを既存の短い再試行へ加える候補です。action／cleanupの再実行とownership判定は保ち、新headの実Windows・strictTS・通常main再検査は未完了です。
+
 [通常検証とguard順序のpreview16](records/2026-11-04/ios-storage-scope-ui-regression.md)は、前段preview15のCodeを保持し、container不在guardをapp.frame前へ移す1pathだけ追加する。397instrumentedは10/11workflow成功・Runtime26失敗で、Native8／Full26成功と通常flagfalseの受入を混同しない。約14.25秒FindTarget lookup・1poll失敗と後刻positive救済0を保持し、構文確認のみで効果は未検証。Rootは同PR339の6責務を通常条件で再検証する案を選び、actual適用／新head／Core320・Full27・Runtime26等のfresh CIとmainは未受入。以下のpreview15／Consol14案内は前段作成時点の履歴である。
 
 [通常モードと保存保護の統合preview](records/2026-11-04/ios-storage-scope-ui-regression.md)は、未採用の実397／known82を観測baseに、診断flagfalseの候補と保存先scope・reader admission・容量UIを私有合成する。15path／新規2、App候補0.2.32（34）で、Core320／Native8／Full27と新whole IR・actual CIは未受入。PR339へ追加するか別PRにするかは診断結果後のRoot判断とし、公開許可は未解除。直後のConsol14案内は元候補作成時点の履歴として保持する。

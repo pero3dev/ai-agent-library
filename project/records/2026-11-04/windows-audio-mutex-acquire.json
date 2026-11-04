@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-04",
+  "status": "prepared-not-runtime-verified",
+  "base_main": "e617bcac093681aebdf935fe60ef586bb56f0e9b",
+  "base_tree": "2ac6ada6baff5af88129f7b9baa9d0e10b0bdc82",
+  "code3_tree": "1f1a9c84b383f9fd91ecb39faa79388b0b2fcd06",
+  "owned_code": [
+    "scripts/lib/harness-state.mts",
+    "scripts/audio/lock.mts",
+    "tests/unit/audio-production.test.mts"
+  ],
+  "failure": {
+    "job": 126440305905,
+    "Node": "22.23.4",
+    "OS": "Windows",
+    "tests": 273,
+    "passed": 271,
+    "failed": 1,
+    "skipped": 1,
+    "phase": "after READY and GO at exclusive mutex mkdir",
+    "error": "EPERM",
+    "cause_or_actor": "not-proven",
+    "sameHeadRetry": false
+  },
+  "policy": {
+    "acquisition_only": true,
+    "Windows_only": true,
+    "exact_syscall_path": true,
+    "cause_preserved": true,
+    "max_attempts": 51,
+    "max_waits": 50,
+    "wait_ms": 10,
+    "action_cleanup_retry": false,
+    "delete_other_mutex": false,
+    "ownership_guards_held": true
+  },
+  "source_candidate_manifest_SHA256": "f83f679af74a244e3430b95d84a0a474aced593bcc290a8363a9b38c70c1a0be",
+  "static_IR": "00dd4e222498beece0054dfd265825115222b6724a8604a9fbd08da824fd71f0",
+  "new_test_definitions": 7,
+  "matrix_children": 5,
+  "local_runtime": "not-run disk-free-about1.1GB",
+  "new_head_CI": "pending",
+  "main_reacceptance": false,
+  "ios_App_PBX_docs_TODO_changed": false,
+  "sources": [
+    {
+      "url": "https://nodejs.org/docs/latest-v22.x/api/errors.html",
+      "checked": "2026-11-04"
+    }
+  ]
+}

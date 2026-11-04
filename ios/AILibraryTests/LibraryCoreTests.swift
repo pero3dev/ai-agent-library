@@ -5454,7 +5454,7 @@ extension LibraryCoreTests {
         var loaded: ContentSnapshot? = try reader.load()
         XCTAssertEqual(handoffs, 1)
         XCTAssertEqual(loaded?.root, root)
-        withExtendedLifetime(loaded) {
+        try withExtendedLifetime(loaded) {
             XCTAssertEqual(reader.advisorySnapshotAcquisitions, [generation: 1])
             // Gate admission is bookkeeping, not permission to remove a live lease.
             XCTAssertNoThrow(try ContentMutationCoordinator.withCleanupGate(at: storage) { _ in
@@ -5475,7 +5475,7 @@ extension LibraryCoreTests {
                 try ContentMutationCoordinator.withReaderAdmission(at: storage) { second in
                     let firstLease = try reader.acquireLease(generation: generation)
                     let secondLease = try second.acquireLease(generation: generation)
-                    withExtendedLifetime((firstLease, secondLease)) {
+                    try withExtendedLifetime((firstLease, secondLease)) {
                         XCTAssertEqual(ContentSnapshotLease.advisoryAcquisitions(in: storage), [generation: 2])
                         XCTAssertThrowsError(try ContentMutationCoordinator.withCleanupGate(at: storage) { _ in XCTFail() })
                     }

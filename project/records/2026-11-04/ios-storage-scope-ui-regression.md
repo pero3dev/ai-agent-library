@@ -20,7 +20,6 @@ ReaderR2の独立静的レビューはP1/P2とも0であり、今回の15path全
 
 捕捉canonical pathはinode identityではない。別process、root／alias置換、未協調consumer、raw advisory ledger互換経路、別stored rootからのsource importには別の保護が必要である。整理ゲートやlease数0を削除許可にせず、削除API/UIは追加しない。IOS-21全体を未完了に保ち、実parent397の存在と、候補の公開／main採用は別である。Rootが診断結果後に提出先を判断し、新whole15／mode retarget IR、公式形式、actual candidateと新CIを確認するまで公開しない。
 
-
 ## 通常モードと合成の境界
 
 通常off2のfalse propertyと、tap前／failure時の追加boundary AXを行わないfalse guardを保持する。Publishedのcapacity追加はUI5の単一hunkだけをcontext完全一致で重ね、逆hunkで通常off2のafter全文へ戻る。既存26ケースに容量1ケースを足したFull27（A19＋B8）、Native8・Core320は新actual headで未実行である。flagfalseでもLibraryViewのDEBUG State／wrapper／callbackは残り、pre-diagnostic構造や通常UXを復元・検証済みとはしない。
@@ -28,7 +27,6 @@ ReaderR2の独立静的レビューはP1/P2とも0であり、今回の15path全
 Consol14と通常off2の旧独立IRは各componentのままで、新しい15path全体やretargetの受入に転用しない。README／計画では397のplugin82・Coordinator・診断を保ち、Consol14のprogress追記も作成時点の履歴としてexact保持し、現在previewの短い説明を別に加えた。双方全文のinverseを確認し、旧freezeを変更していない。
 
 Host17は同じ7Swift、Node35は同じ16inputに限るcomponent受入で、新iOS320／Full27やmain82全体のcommon成功にはしない。397のinstrumented観測は未完了であり、仮にpassしても原因解明や製品修正、通常mainの受入とは扱わない。後続の通常flagfalse actual headで旧26を保ったFull27とNative8、freshな全required／relevant CIを確認し、merge前に最新mainを再確認する。新しいNode／common／コンパイラ／SDK／UIはこの準備では実行していない。
-
 
 ## guard16通常検証の追補
 

@@ -644,6 +644,74 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         capture("Filtered-more-actions-about-return")
     }
 
+    func testStorageUsageRecheckAndClosePreserveFilteredLibrary() throws {
+        try setLearningTagAndArticleQuery(tag: "agent-loop", query: "Agent ループ")
+        let summary = app.staticTexts["library-filter-summary"]
+        let originalSummary = summary.label
+        let originalQuery = try XCTUnwrap(try foregroundArticleSearch().value as? String)
+        let originalTag = try XCTUnwrap(app.buttons["library-tag-filter"].value as? String)
+        let article = element("library-article-01-concepts/agent-loop")
+        XCTAssertTrue(article.waitForExistence(timeout: 10))
+        let originalArticle = article.label
+
+        try openFilteredMoreActionsSheet()
+        let storage = app.buttons["library-storage-usage"]
+        requireHittable(storage)
+        storage.tap()
+        let bar = app.navigationBars["保存コンテンツの容量"]
+        XCTAssertTrue(bar.waitForExistence(timeout: 10))
+        XCTAssertFalse(app.navigationBars["その他の操作"].exists)
+        let list = element("storage-usage-list")
+        let total = element("storage-usage-total")
+        let result = app.staticTexts.matching(NSPredicate(format: "label == %@ OR label == %@",
+            "確認したファイルサイズ", "確認できた範囲のファイルサイズ")).firstMatch
+        let refresh = app.buttons["storage-usage-refresh"]
+        XCTAssertTrue(list.waitForExistence(timeout: 10))
+        XCTAssertTrue(total.waitForExistence(timeout: 15))
+        XCTAssertTrue(result.waitForExistence(timeout: 10))
+        requireHittable(total, inside: list)
+        XCTAssertTrue(total.label.contains("合計"))
+        for _ in 0..<8 {
+            if isHittableOnScreen(refresh, inside: list) { break }
+            list.swipeUp(velocity: .slow)
+        }
+        let waitForEnabledRefresh = {
+            let enabled = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+                refresh.exists && refresh.isEnabled
+            }, object: nil)
+            XCTAssertEqual(XCTWaiter.wait(for: [enabled], timeout: 15), .completed)
+        }
+        waitForEnabledRefresh()
+        requireHittable(refresh, inside: list)
+        refresh.tap()
+        // A fast observation can finish between AX reads. Test usable results
+        // after the public request, not a loading edge or a new scan generation.
+        for _ in 0..<8 {
+            if isHittableOnScreen(refresh, inside: list) { break }
+            list.swipeUp(velocity: .slow)
+        }
+        waitForEnabledRefresh()
+        for _ in 0..<8 {
+            if isHittableOnScreen(total, inside: list) { break }
+            list.swipeDown(velocity: .slow)
+        }
+        XCTAssertTrue(total.waitForExistence(timeout: 15))
+        XCTAssertTrue(result.waitForExistence(timeout: 10))
+        requireHittable(total, inside: list)
+        XCTAssertTrue(total.label.contains("合計"))
+        XCTAssertTrue(bar.buttons["storage-usage-close"].exists)
+        capture("Storage-usage-recheck-results")
+        closePublicSheet("保存コンテンツの容量")
+
+        XCTAssertTrue(summary.waitForExistence(timeout: 10))
+        XCTAssertEqual(summary.label, originalSummary)
+        XCTAssertEqual(try foregroundArticleSearch().value as? String, originalQuery)
+        XCTAssertEqual(app.buttons["library-tag-filter"].value as? String, originalTag)
+        XCTAssertTrue(article.waitForExistence(timeout: 10))
+        XCTAssertEqual(article.label, originalArticle)
+        capture("Storage-usage-filtered-library-return")
+    }
+
     func testFilteredFixtureActionsAndReadingChangesRemainIsolatedFromNormalLibrary() throws {
         open("Transformer アーキテクチャ詳解", articleID: "11-llm-internals/transformer-architecture")
         goToContents("自己注意の数式", headingID: "自己注意の数式")

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 
-// Fixed original26 functional cases. Data never comes from a result or caller.
+// Fixed full27 functional cases. Data never comes from a result or caller.
 export const ORIGINAL_CASE_IDS = Object.freeze([
   "NativeReaderUITests/testContentsBookmarkAndResumeAfterRelaunch()",
   "NativeReaderUITests/testHealthyLegacyHeadingPositionAndBookmarkPersistAfterNativeResumeAndRelaunch()",
@@ -22,6 +22,7 @@ export const ORIGINAL_CASE_IDS = Object.freeze([
   "PublishedReaderUITests/testLearningTagSearchCombinesWithArticleSearchAndClearsZeroResults()",
   "PublishedReaderUITests/testRelatedChapterLinkClosesInPlaceAndOpensAnArticleWithoutLosingTheReader()",
   "PublishedReaderUITests/testResumeUsesLaterReadingPositionInsteadOfReplayingThePreviousBodyQuery()",
+  "PublishedReaderUITests/testStorageUsageRecheckAndClosePreserveFilteredLibrary()",
   "ReaderViewportGeometryTests/testCopiedFramesSelectLowestFullyVisibleParagraph()",
   "ReaderViewportGeometryTests/testEqualTopFramesPreserveCollectionOrder()",
   "ReaderViewportGeometryTests/testForegroundOcclusionAndPartialFrameRemainExcluded()",
@@ -43,6 +44,7 @@ export const SLICE_CASE_IDS = Object.freeze({
   "PublishedReaderUITests/testFixtureCrossArticleBodyLinkReturnsToMeasuredSourcePositionAndBookmark()",
   "PublishedReaderUITests/testFixtureTallSingleBlockResumesNearItsMeasuredInternalRowAfterRelaunch()",
   "PublishedReaderUITests/testResumeUsesLaterReadingPositionInsteadOfReplayingThePreviousBodyQuery()",
+  "PublishedReaderUITests/testStorageUsageRecheckAndClosePreserveFilteredLibrary()",
   "ReaderViewportGeometryTests/testCopiedFramesSelectLowestFullyVisibleParagraph()",
   "ReaderViewportGeometryTests/testEqualTopFramesPreserveCollectionOrder()",
   "ReaderViewportGeometryTests/testForegroundOcclusionAndPartialFrameRemainExcluded()",
@@ -117,25 +119,25 @@ export function validateSwiftCaseSources(sources: Record<string, string>, otherS
   }
   assert.equal(new Set(ids).size, ids.length, 'Duplicate source test method');
   assert.deepEqual(ids.sort(), [...ORIGINAL_CASE_IDS], 'Update the fixed full UI roster and slices for every source test change');
-  return { status: 'exact-source26-method-roster-verified', case_IDs: ids, classes };
+  return { status: 'exact-source27-method-roster-verified', case_IDs: ids, classes };
 }
 
 
 export function validatePartitions(partitions: Record<string, readonly string[]> = SLICE_CASE_IDS) {
   assert.ok(partitions && typeof partitions === 'object' && !Array.isArray(partitions));
   assert.deepEqual(Object.keys(partitions).sort(), ['content-copy', 'reading-state']);
-  assert.equal(ORIGINAL_CASE_IDS.length, 26); assert.equal(new Set(ORIGINAL_CASE_IDS).size, 26);
+  assert.equal(ORIGINAL_CASE_IDS.length, 27); assert.equal(new Set(ORIGINAL_CASE_IDS).size, 27);
   const flattened = [];
   for (const slice of ['reading-state', 'content-copy']) {
     const cases = partitions[slice];
     assert.ok(Array.isArray(cases));
-    assert.equal(cases.length, slice === 'reading-state' ? 18 : 8);
+    assert.equal(cases.length, slice === 'reading-state' ? 19 : 8);
     assert.equal(new Set(cases).size, cases.length);
     assert.ok(cases.every(id => typeof id === 'string' && ORIGINAL_CASE_IDS.includes(id)));
     flattened.push(...cases);
   }
-  assert.equal(flattened.length, 26); assert.equal(new Set(flattened).size, 26, 'Slices must be disjoint');
-  assert.deepEqual(flattened.sort(), [...ORIGINAL_CASE_IDS], 'Both fixed slices must exactly cover the original26');
+  assert.equal(flattened.length, 27); assert.equal(new Set(flattened).size, 27, 'Slices must be disjoint');
+  assert.deepEqual(flattened.sort(), [...ORIGINAL_CASE_IDS], 'Both fixed slices must exactly cover the fixed27');
   return true;
 }
 

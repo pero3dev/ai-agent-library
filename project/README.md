@@ -27,7 +27,6 @@
 
 ### サイト
 
-
 - [記事単位の確認進捗と記事ヘッダー](records/2026-11-04/article-freshness-progress.md) — 確認日と更新日の区別、所属系統、未確認事項への静的リンク。
 - [AI向けサイト出力](records/2026-11-04/llms-markdown-index.md) — 2026-11-04の実施・検証記録。
 - [遅延する図の寸法予約と見出し位置の安定化](records/2026-10-25/website-mermaid-layout-stability.md) — 2026-10-25の実施・検証記録。

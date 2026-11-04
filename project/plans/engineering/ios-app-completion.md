@@ -1,5 +1,7 @@
 # iOS完成版に向けたTODO
 
+IOS-25の[モーダル提示境界診断](../../records/2026-11-04/ios-native-modal-presentation-boundaries.md)は、cfeaの単体306・追加9・容量10の成功とNative7/8・Full25/26の提示失敗を保持する。Moreと次のpublic actionを最大112BのDEBUG opt-in状態で観測し、検索語は記録しない。poll／tap／期限／Release tokenとNative8・Full26・Core306を保ち、原因未証明とtiming影響を明示する。Code4と記録4の通常2コミット候補で、新headの全required／relevant CI・Ready／mainは未受入。PBX31（33）・全32行16完了／全criteriaと旧全文、IOS-21・実機等の未完了を維持する。
+
 IOS-21の[保存処理Coordinator候補](../../records/2026-11-04/ios-storage-mutation-coordinator.md)は、process内のroot単位permitとactive staging登録寿命だけを加えるCode3を、将来Perf tree6b3bへ私有結合するSource8である。3payloadを保持し、PBX候補0.2.31（33）と記録／索引を静的準備する。既存Foundation compile＋run10.532秒／14PASSとCode2のSDK型検査だけを保存し、旧SIGTRAPのsite未確定・新9 XCTestとSource8共通／CI／通常main・実機の未完了を保つ。cross-process／inode安全・整理API／削除UI・IOS-21完了を導入せず、全32行16完了とcriteria・旧索引全文を変更しない。
 
 IOS-15の[自PR長文Clock選択候補](../../records/2026-11-04/ios-own-pr-long-scroll-selection.md)では、既存workflowの自リポジトリPRで長文、fork PR／main pushで起動、手動で既存3ケースを選ぶ。quoted ENVを受ける本番シェルをNode62件で確認し、3path filter・runner／40分・Clock4 invocations／3標本とCSV・hash結合・全assertを保つ。共通検査前の作成時点を保存し、新head Hosted／通常main・性能予算／閾値・IOS-15・実機は未完了。TODO32行16完了と全criteriaを変更しない。

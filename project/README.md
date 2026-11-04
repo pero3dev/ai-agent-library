@@ -1,5 +1,7 @@
 # project — 計画と実施記録
 
+[モーダル提示境界の診断](records/2026-11-04/ios-native-modal-presentation-boundaries.md)は、PR #339のcfeaで単体306・追加9・容量10の成功とNative7/8・Full25/26の提示失敗を分けて残す。検索原因を断定せず、DEBUGの明示UI-test時だけ最大112Bの固定状態をMoreへ付け、公開操作の受信・提示・dispatchを観測するCode4とする。既存poll・tap・期限、Release token、Native8／Full26／Core306を保つ。観測はtimingへ影響し得て、passも原因解明や製品修正の証明にしない。新headの全required／relevant CI・Ready／mainと実機等は未受入、TODO16/32・全criteria・既存Coordinator／索引全文を保つ。
+
 [ライブラリ検索MCPサーバー](records/2026-11-04/library-mcp-server.md)はIssue #334の作業契約と実施結果です。4つの読み取り専用ツール、キャッシュ、検索評価、新旧stdio回帰の確認範囲を記録します。
 
 [保存処理のprocess内協調候補](records/2026-11-04/ios-storage-mutation-coordinator.md)は、IOS-21の非破壊な整理に先行し、同じrootのnonblocking permitとactive stagingの処理寿命をCode3へ追加する。採択済み3payloadをbyte保持し、PBXの候補版だけ0.2.31（33）へ進めるSource8の静的準備で、実親は将来のPerf tree6b3bへの結合待ち。既存Foundation14PASSとCode2の両arch SDK型検査を各範囲に限り再利用し、旧SIGTRAP・失敗site未確定と新9 XCTest未実行を残す。共通・新CI／通常main・実機、整理／削除とIOS-21全体は未完了。TODO16/32・全criteria・Doc4／Perf索引と旧全文を保つ。

@@ -1,0 +1,25 @@
+# モーダル提示境界の診断
+
+2026-11-04時点。対象はPR #339の実head `cfea1e868589be5daa0a37cd94ffcdc9a891733d`（tree `e87a0f52cdd0cd36af8ba753b044469659389e45`）と、その失敗を調べる追加候補である。作成時点では新head・Ready・mainの受入は未完了である。
+
+## 起きたこと
+
+保存先ごとのwriter permitとactive stagingの寿命を加えたcfeaでは、NativeとFull Aの単体306件がそれぞれ304成功・既知skip2で、追加9件と容量表示10件も成功した。一方、[Native UI](https://github.com/pero3dev/ai-agent-library/actions/runs/41761135702/job/126348866888)は8件中7成功・1失敗で、Moreタップ後に正確な操作sheetとexport操作を確認できなかった。[Full A](https://github.com/pero3dev/ai-agent-library/actions/runs/41761135646/job/126348867040)は18件中17成功・1失敗で、Moreを閉じてimportをタップした後、既存15秒の条件内で既知pickerを確認できなかった。Full Bの8件を合わせたFullは25成功・1失敗のまま受け入れない。検索・keyboard・SwiftUIの提示順序が原因とは確定していない。
+
+同headの必須11チェックは成功したが、上記の関連iOS失敗があるためmain受入を保留した。missing-package初回はFの180秒timeoutとcase leafなし、その後のcontainer lookup20秒timeoutを保持し、別Rの67.113秒成功で置き換えない。Rootが限定した同jobの診断再実行1回はF19.041秒・R72.926秒で成功した。Full Bの8件、Rootが別途全byteを照合した374Bコピーとmarker1回、199記事・625ファイルのReleaseはそれぞれのcomponent結果であり、Nativeの代表3記事ReleaseやFull全体成功に広げない。
+
+## 追加する観測
+
+LibraryViewは既にpendingMoreActionを使い、Moreのsheet onDismissから次の操作をdispatchしている。この順序とsearchable bindingは保ち、DEBUGかつ有効な隔離UI-test suiteと明示flagがそろう場合だけ固定schemaの状態を観測する。More Buttonのaction受信回数、現在の提示binding、Moreのappear・disappear・onDismiss、選択とdispatchの公開action種別、import/export要求、検索sessionの有効・無効を記録する。検索語そのものは収集しない。
+
+値は飽和counterと短いinstanceを含め最大112BのASCIIで、上限256B以内。filtered Buttonの受信回数とtoolbar Menuの開閉を混同しない。More controlのaccessibilityValueへ診断時だけ付け、既に特定したcontrolから各既存tap直前に1回読む。失敗時だけ追加の値を読み、既存1024BのNative contextと8192BのAILibraryFolderPicker診断へ収める。poll内の追加AX読取、tap・relaunch・retry・skip・timeout延長・selector緩和は加えない。
+
+共通UI-test baseにはdefault falseのhookを追加し、ReadingRecoveryとPublishedの両classが既存app.launch前に明示flagを渡す。suite、seed、他のflagと再起動回数を保つ。Releaseの非空白tokenは元と同じであり、通常DEBUGのflag falseでは診断stateを更新しない。透明child probeやstate更新、追加AX scalar取得は観測タイミングへ影響し得る。新実行が成功しても、旧原因の解明や通常動作の製品修正が済んだとは扱わない。
+
+## 確認範囲と残件
+
+今回の私有準備ではactual cfeaの4つの元blob、Code4 after、逆変換、Native8・Full26・Core306の集合、既存predicateとtap・launch・期限・assertの列を静的に照合した。Code4の独立レビューとRootの5構文検査は別receiptを受け取るgateとして扱い、未受領結果を成功にしない。新しい共通検査・SDK・runtimeはこの作業では実行していない。Releaseのtoken同一と、DEBUG flag falseの実UX確認は区別し、後者は未実施である。
+
+提出は診断Code4と記録4を責務別の2コミットで通常追加する計画で、実commitはRootが作成後に親・tree・全tupleを確認する。診断flag trueでのUI成功は観測phaseに限り、そのままmainへ受け入れない。診断後に通常flag falseでNative8・Full26を再検証したactual headと、同headの全requiredおよびrelevant CI成功をprotected mergeの条件とし、それまではDraftを続ける。PBX 0.2.31（33）、TODO32行16完了と全criteria、既存Coordinator機能・旧記録を保つ。Reader Admission、後続Scope/UI候補、iOS320/UI27、整理・削除機能を含めず、IOS-21・実機・VoiceOverと新head/Ready/mainは未完了である。
+
+小さな機械可読の範囲と結果は[JSON記録](ios-native-modal-presentation-boundaries.json)に残す。旧CIのartifactと小規模失敗添付は元の取得証跡を参照し、巨大ログや画面を追跡ファイルへ複写しない。

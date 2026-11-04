@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto'
 import { closeSync, lstatSync, openSync, readFileSync, renameSync, unlinkSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
-import { withLockMutex } from '../lib/harness-state.mjs'
+import { isLockMutexAcquireError, withLockMutex } from '../lib/harness-state.mjs'
 import { PrerequisiteError } from './core.mjs'
 import { errorCode, errorMessage } from './errors.mjs'
 import { record } from './cache-contracts.mjs'
@@ -14,7 +14,7 @@ const pause = new Int32Array(new SharedArrayBuffer(4))
 function withAudioMutex<T>(guard: string, action: () => T): T {
   for (let attempt = 0; ; attempt++) {
     try { return withLockMutex(guard, action) } catch (error) {
-      if (!errorMessage(error).startsWith('Lock recovery is already running.') || attempt >= 50) throw error
+      if ((!isLockMutexAcquireError(error) && !errorMessage(error).startsWith('Lock recovery is already running.')) || attempt >= 50) throw error
       // A different process may be finishing its short metadata mutation. Never
       // remove its mutex; a crashed/persistent mutex still fails after the wait.
       Atomics.wait(pause, 0, 0, 10)

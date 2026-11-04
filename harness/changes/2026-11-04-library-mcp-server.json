@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "run_id": "2026-11-04-library-mcp-server",
+  "base_sha": "59411bdd24be38abada80f0a8b569d4f6d7bc993",
+  "writer_run_id": "/root",
+  "completed_at": "2026-11-04T01:41:28Z",
+  "changes": [{
+    "path": "docs/03-implementation/mcp-and-tool-protocols.md",
+    "kind": "reference-only",
+    "summary": "読み取り専用ライブラリMCPサンプルへの相互リンクを参考資料に追加する。本文・公開状態・更新日は維持する。"
+  }],
+  "tasks": [{"id": "4-3", "artifacts": ["docs/03-implementation/mcp-and-tool-protocols.md"]}],
+  "sources": [],
+  "review": {
+    "verdict": "approved",
+    "independent": true,
+    "reviewer_run_id": "/root/mcp_doc_review",
+    "reviewed_at": "2026-11-04T01:40:53Z",
+    "content_digest": "71d988e1ce091bbea6a5070c2c392d7385df7bff6d7df2ac405976fa4b2d3551"
+  }
+}

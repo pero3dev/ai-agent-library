@@ -1,0 +1,545 @@
+{
+  "schema_version": 1,
+  "dataset_id": "library-search-v1",
+  "dataset_sha256": "38ac219dafe0c1a86ef09b0390a9a4a8b46c2e7a272cb869c8006aa3a28aec71",
+  "index_sha256": "bc8b419be7b640ab9e3646738f78880c118709f3dfe816425bbbc326e71c1008",
+  "article_count": 199,
+  "k": 5,
+  "metrics": {
+    "cases": 30,
+    "top1_hits": 24,
+    "top5_hits": 29,
+    "top1_hit_rate": 0.8,
+    "top5_hit_rate": 0.9666666666666667,
+    "mrr_at_5": 0.8722222222222222
+  },
+  "by_split": {
+    "development": {
+      "cases": 20,
+      "top1_hits": 17,
+      "top5_hits": 20,
+      "top1_hit_rate": 0.85,
+      "top5_hit_rate": 1.0,
+      "mrr_at_5": 0.9166666666666666
+    },
+    "holdout": {
+      "cases": 10,
+      "top1_hits": 7,
+      "top5_hits": 9,
+      "top1_hit_rate": 0.7,
+      "top5_hit_rate": 0.9,
+      "mrr_at_5": 0.7833333333333333
+    }
+  },
+  "by_stratum": {
+    "english": {
+      "cases": 5,
+      "top1_hits": 5,
+      "top5_hits": 5,
+      "top1_hit_rate": 1.0,
+      "top5_hit_rate": 1.0,
+      "mrr_at_5": 1.0
+    },
+    "japanese-question": {
+      "cases": 9,
+      "top1_hits": 5,
+      "top5_hits": 9,
+      "top1_hit_rate": 0.5555555555555556,
+      "top5_hit_rate": 1.0,
+      "mrr_at_5": 0.7592592592592592
+    },
+    "mixed-language": {
+      "cases": 3,
+      "top1_hits": 3,
+      "top5_hits": 3,
+      "top1_hit_rate": 1.0,
+      "top5_hit_rate": 1.0,
+      "mrr_at_5": 1.0
+    },
+    "nearby-concepts": {
+      "cases": 6,
+      "top1_hits": 5,
+      "top5_hits": 6,
+      "top1_hit_rate": 0.8333333333333334,
+      "top5_hit_rate": 1.0,
+      "mrr_at_5": 0.8888888888888888
+    },
+    "paraphrase": {
+      "cases": 4,
+      "top1_hits": 3,
+      "top5_hits": 3,
+      "top1_hit_rate": 0.75,
+      "top5_hit_rate": 0.75,
+      "mrr_at_5": 0.75
+    },
+    "short-term": {
+      "cases": 3,
+      "top1_hits": 3,
+      "top5_hits": 3,
+      "top1_hit_rate": 1.0,
+      "top5_hit_rate": 1.0,
+      "mrr_at_5": 1.0
+    }
+  },
+  "missed_ids": [
+    "search-27"
+  ],
+  "results": [
+    {
+      "id": "search-01",
+      "query": "AI Agentとは何ですか",
+      "split": "development",
+      "stratum": "japanese-question",
+      "expected_slug": "concepts/what-is-an-ai-agent",
+      "result_slugs": [
+        "concepts/what-is-an-ai-agent",
+        "concepts/physical-ai-overview",
+        "overview/learning-roadmap",
+        "evaluation/agent-evaluation-basics",
+        "human-ai/ai-career-strategy"
+      ],
+      "rank": 1
+    },
+    {
+      "id": "search-02",
+      "query": "Agent ループ",
+      "split": "development",
+      "stratum": "short-term",
+      "expected_slug": "concepts/agent-loop",
+      "result_slugs": [
+        "concepts/agent-loop",
+        "architecture/loop-engineering",
+        "implementation/loop-feedback-and-verification",
+        "operations/feedback-loops",
+        "coding-agents/coding-agent-rules-and-config"
+      ],
+      "rank": 1
+    },
+    {
+      "id": "search-03",
+      "query": "Function Calling tool use",
+      "split": "development",
+      "stratum": "english",
+      "expected_slug": "concepts/tool-use",
+      "result_slugs": [
+        "concepts/tool-use",
+        "implementation/tool-definition-design",
+        "implementation/structured-output",
+        "implementation/computer-use-implementation",
+        "implementation/mcp-and-tool-protocols"
+      ],
+      "rank": 1
+    },
+    {
+      "id": "search-04",
+      "query": "WorkflowとAgentの使い分けを知りたい",
+      "split": "development",
+      "stratum": "nearby-concepts",
+      "expected_slug": "architecture/workflow-vs-agent",
+      "result_slugs": [
+        "architecture/workflow-vs-agent",
+        "domain-agents/rpa-and-agents",
+        "concepts/rag-vs-agent",
+        "coding-agents/coding-agent-selection",
+        "case-studies/case-study-expense-agent"
+      ],
+      "rank": 1
+    },
+    {
+      "id": "search-05",
+      "query": "人間の承認をAgentに組み込む設計",
+      "split": "development",
+      "stratum": "japanese-question",
+      "expected_slug": "architecture/human-in-the-loop",
+      "result_slugs": [
+        "evaluation/regression-testing",
+        "multimodal/image-generation-integration",
+        "architecture/human-in-the-loop",
+        "coding-agents/se-enterprise-constraints",
+        "case-studies/case-study-it-helpdesk-agent"
+      ],
+      "rank": 3
+    },
+    {
+      "id": "search-06",
+      "query": "MCPのツール接続を実装したい",
+      "split": "development",
+      "stratum": "mixed-language",
+      "expected_slug": "implementation/mcp-and-tool-protocols",
+      "result_slugs": [
+        "implementation/mcp-and-tool-protocols",
+        "concepts/tool-use",
+        "implementation/agent-interop-protocols",
+        "security/tool-permissions-and-sandboxing",
+        "implementation/voice-agents"
+      ],
+      "rank": 1
+    },
+    {
+      "id": "search-07",
+      "query": "RAGのチャンキングと検索を実装する",
+      "split": "development",
+      "stratum": "nearby-concepts",
+      "expected_slug": "implementation/rag-implementation-patterns",
+      "result_slugs": [
+        "implementation/rag-implementation-patterns",
+        "concepts/rag-vs-agent",
+        "implementation/streaming-and-agent-ux",
+        "domain-agents/search-experience-redesign",
+        "implementation/data-preprocessing-for-llm"
+      ],
+      "rank": 1
+    },
+    {
+      "id": "search-08",
+      "query": "structured output JSON Schema",
+      "split": "development",
+      "stratum": "english",
+      "expected_slug": "implementation/structured-output",
+      "result_slugs": [
+        "implementation/structured-output",
+        "evaluation/llm-as-a-judge",
+        "llm-foundations/how-llms-generate-text",
+        "multimodal/document-ai",
+        "domain-agents/spreadsheet-agents"
+      ],
+      "rank": 1
+    },
+    {
+      "id": "search-09",
+      "query": "Agentの評価は何を測ればよいですか",
+      "split": "development",
+      "stratum": "japanese-question",
+      "expected_slug": "evaluation/agent-evaluation-basics",
+      "result_slugs": [
+        "evaluation/agent-evaluation-basics",
+        "concepts/what-is-an-ai-agent",
+        "evaluation/japanese-quality-evaluation",
+        "coding-agents/coding-agent-evaluation",
+        "evaluation/fairness-and-bias-evaluation"
+      ],
+      "rank": 1
+    },
+    {
+      "id": "search-10",
+      "query": "LLM-as-a-Judgeの採点を検証する",
+      "split": "development",
+      "stratum": "mixed-language",
+      "expected_slug": "evaluation/llm-as-a-judge",
+      "result_slugs": [
+        "evaluation/llm-as-a-judge",
+        "llm-foundations/how-llms-generate-text",
+        "operations/llm-gateway",
+        "implementation/local-and-on-device-llm",
+        "llm-foundations/llm-training-pipeline"
+      ],
+      "rank": 1
+    },
+    {
+      "id": "search-11",
+      "query": "評価データセットの正解ラベルを保守したい",
+      "split": "development",
+      "stratum": "japanese-question",
+      "expected_slug": "evaluation/evaluation-datasets",
+      "result_slugs": [
+        "evaluation/evaluation-datasets",
+        "domain-agents/data-analysis-agents",
+        "evaluation/agent-evaluation-basics",
+        "coding-agents/se-maintenance-and-operations",
+        "evaluation/online-evaluation-and-ab-testing"
+      ],
+      "rank": 1
+    },
+    {
+      "id": "search-12",
+      "query": "回帰テストをCIに組み込む",
+      "split": "development",
+      "stratum": "mixed-language",
+      "expected_slug": "evaluation/regression-testing",
+      "result_slugs": [
+        "evaluation/regression-testing",
+        "multimodal/image-generation-integration",
+        "coding-agents/se-test-process",
+        "evaluation/online-evaluation-and-ab-testing",
+        "llm-foundations/how-llms-generate-text"
+      ],
+      "rank": 1
+    },
+    {
+      "id": "search-13",
+      "query": "プロンプトインジェクション",
+      "split": "development",
+      "stratum": "short-term",
+      "expected_slug": "security/prompt-injection",
+      "result_slugs": [
+        "security/prompt-injection",
+        "business/ai-asset-sharing",
+        "implementation/agent-prompt-design",
+        "implementation/prompt-engineering-fundamentals",
+        "implementation/prompt-engineering-patterns"
+      ],
+      "rank": 1
+    },
+    {
+      "id": "search-14",
+      "query": "ツール権限とサンドボックスの設計",
+      "split": "development",
+      "stratum": "nearby-concepts",
+      "expected_slug": "security/tool-permissions-and-sandboxing",
+      "result_slugs": [
+        "security/tool-permissions-and-sandboxing",
+        "implementation/code-execution-sandboxes",
+        "coding-agents/coding-agent-security",
+        "implementation/tool-definition-design",
+        "domain-agents/personal-assistant-design"
+      ],
+      "rank": 1
+    },
+    {
+      "id": "search-15",
+      "query": "Agentから機密データが漏れるのを防ぐ",
+      "split": "development",
+      "stratum": "japanese-question",
+      "expected_slug": "security/data-exfiltration",
+      "result_slugs": [
+        "case-studies/case-study-data-analysis-agent",
+        "security/data-exfiltration",
+        "domain-agents/data-analysis-agents",
+        "evaluation/agent-evaluation-basics",
+        "implementation/synthetic-data-for-training"
+      ],
+      "rank": 2
+    },
+    {
+      "id": "search-16",
+      "query": "observability tracing",
+      "split": "development",
+      "stratum": "english",
+      "expected_slug": "operations/observability-and-tracing",
+      "result_slugs": [
+        "operations/observability-and-tracing",
+        "evaluation/online-evaluation-and-ab-testing",
+        "operations/ai-slo-design",
+        "operations/conversation-data-management",
+        "operations/feedback-loops"
+      ],
+      "rank": 1
+    },
+    {
+      "id": "search-17",
+      "query": "LLMのコストを管理したい",
+      "split": "development",
+      "stratum": "japanese-question",
+      "expected_slug": "operations/cost-management",
+      "result_slugs": [
+        "llm-foundations/how-llms-generate-text",
+        "operations/cost-management",
+        "case-studies/case-study-failed-poc",
+        "operations/llm-gateway",
+        "coding-agents/coding-agent-cost-optimization"
+      ],
+      "rank": 2
+    },
+    {
+      "id": "search-18",
+      "query": "コーディングAgentの評価方法",
+      "split": "development",
+      "stratum": "nearby-concepts",
+      "expected_slug": "coding-agents/coding-agent-evaluation",
+      "result_slugs": [
+        "coding-agents/coding-agent-evaluation",
+        "coding-agents/coding-agent-selection",
+        "coding-agents/coding-agents-overview",
+        "coding-agents/coding-agent-cost-optimization",
+        "coding-agents/coding-agent-prompting"
+      ],
+      "rank": 1
+    },
+    {
+      "id": "search-19",
+      "query": "PoCから本番に進む判断基準",
+      "split": "development",
+      "stratum": "japanese-question",
+      "expected_slug": "business/poc-to-production",
+      "result_slugs": [
+        "business/poc-to-production",
+        "case-studies/case-study-failed-poc",
+        "coding-agents/coding-agent-selection",
+        "implementation/rag-implementation-patterns",
+        "case-studies/case-study-customer-support-agent"
+      ],
+      "rank": 1
+    },
+    {
+      "id": "search-20",
+      "query": "トークナイザ",
+      "split": "development",
+      "stratum": "short-term",
+      "expected_slug": "llm-foundations/tokenization",
+      "result_slugs": [
+        "llm-foundations/tokenization",
+        "ux-and-product/conversation-design",
+        "domain-agents/writing-and-translation-workflows",
+        "evaluation/agent-benchmarks-landscape",
+        "implementation/framework-selection"
+      ],
+      "rank": 1
+    },
+    {
+      "id": "search-21",
+      "query": "長い会話を圧縮してコンテキストを分離する",
+      "split": "holdout",
+      "stratum": "paraphrase",
+      "expected_slug": "architecture/context-compaction-and-isolation",
+      "result_slugs": [
+        "architecture/context-compaction-and-isolation",
+        "architecture/context-engineering-patterns",
+        "llm-foundations/attention-and-context",
+        "architecture/context-engineering",
+        "llm-internals/attention-variants-and-long-context"
+      ],
+      "rank": 1
+    },
+    {
+      "id": "search-22",
+      "query": "embeddings similarity dimensions",
+      "split": "holdout",
+      "stratum": "english",
+      "expected_slug": "implementation/embeddings",
+      "result_slugs": [
+        "implementation/embeddings"
+      ],
+      "rank": 1
+    },
+    {
+      "id": "search-23",
+      "query": "生成AIでPDF文書を読み取る",
+      "split": "holdout",
+      "stratum": "paraphrase",
+      "expected_slug": "multimodal/document-ai",
+      "result_slugs": [
+        "multimodal/document-ai",
+        "multimodal/video-ai-overview",
+        "operations/green-ai",
+        "business/ai-usage-policy",
+        "concepts/physical-ai-overview"
+      ],
+      "rank": 1
+    },
+    {
+      "id": "search-24",
+      "query": "リアルタイムの音声対話Agentを実装したい",
+      "split": "holdout",
+      "stratum": "japanese-question",
+      "expected_slug": "implementation/voice-agents",
+      "result_slugs": [
+        "multimodal/realtime-multimodal-agents",
+        "implementation/voice-agents",
+        "multimodal/speech-synthesis-and-voice-design",
+        "operations/batch-processing",
+        "implementation/streaming-and-agent-ux"
+      ],
+      "rank": 2
+    },
+    {
+      "id": "search-25",
+      "query": "Agentの失敗経路を軌跡で評価する",
+      "split": "holdout",
+      "stratum": "nearby-concepts",
+      "expected_slug": "evaluation/trajectory-evaluation",
+      "result_slugs": [
+        "evaluation/trajectory-evaluation",
+        "evaluation/agent-evaluation-basics",
+        "concepts/agent-loop",
+        "architecture/workflow-vs-agent",
+        "case-studies/case-study-customer-support-agent"
+      ],
+      "rank": 1
+    },
+    {
+      "id": "search-26",
+      "query": "Agentに渡すツールの説明文と入力スキーマを設計する",
+      "split": "holdout",
+      "stratum": "japanese-question",
+      "expected_slug": "implementation/tool-definition-design",
+      "result_slugs": [
+        "implementation/tool-definition-design",
+        "overview/skill-map",
+        "security/tool-permissions-and-sandboxing",
+        "business/agent-liability-and-accountability",
+        "concepts/tool-use"
+      ],
+      "rank": 1
+    },
+    {
+      "id": "search-27",
+      "query": "AIの答えを鵜呑みにせず裏付けを確認する",
+      "split": "holdout",
+      "stratum": "paraphrase",
+      "expected_slug": "human-ai/verifying-ai-outputs",
+      "result_slugs": [
+        "human-ai/ai-career-strategy",
+        "business/ai-copyright-and-ip-map",
+        "business/ai-geopolitics-map",
+        "ux-and-product/ai-ux-patterns",
+        "human-ai/ai-literacy-training-design"
+      ],
+      "rank": null
+    },
+    {
+      "id": "search-28",
+      "query": "Agentの会話UIを設計する",
+      "split": "holdout",
+      "stratum": "nearby-concepts",
+      "expected_slug": "ux-and-product/conversation-design",
+      "result_slugs": [
+        "ux-and-product/beyond-chat-ui",
+        "operations/conversation-data-management",
+        "ux-and-product/conversation-design",
+        "case-studies/case-study-data-analysis-agent",
+        "evaluation/agent-evaluation-basics"
+      ],
+      "rank": 3
+    },
+    {
+      "id": "search-29",
+      "query": "multi tenancy isolation",
+      "split": "holdout",
+      "stratum": "english",
+      "expected_slug": "architecture/multi-tenancy-and-isolation",
+      "result_slugs": [
+        "architecture/multi-tenancy-and-isolation",
+        "architecture/context-compaction-and-isolation",
+        "concepts/single-vs-multi-agent",
+        "implementation/code-execution-sandboxes",
+        "architecture/orchestration-patterns"
+      ],
+      "rank": 1
+    },
+    {
+      "id": "search-30",
+      "query": "表計算のデータをAgentで処理する",
+      "split": "holdout",
+      "stratum": "paraphrase",
+      "expected_slug": "domain-agents/spreadsheet-agents",
+      "result_slugs": [
+        "domain-agents/spreadsheet-agents",
+        "operations/data-governance-for-ai",
+        "case-studies/case-study-data-analysis-agent",
+        "implementation/data-preprocessing-for-llm",
+        "operations/conversation-data-management"
+      ],
+      "rank": 1
+    }
+  ],
+  "limitations": [
+    "設計者が作った想定シナリオ30件。本番利用者の分布や実Agentのツール選択を測らない。",
+    "developmentを検索改善に使う。holdoutも初回測定後は既知になる。",
+    "記事検索の包含率であり、本文の正確性・引用の妥当性・回答品質の指標ではない。",
+    "検索が決定的なので反復実行を独立ケース数として数えない。"
+  ],
+  "measured_at": "2026-11-04T01:18:15.302646+00:00",
+  "source": "published-index-with-cache",
+  "min_hit_rate": null,
+  "threshold_passed": null
+}

@@ -104,6 +104,6 @@ AGENTS.md、harness/writing-rules.mdとtemplates/doc-template.mdに従い、
 - **輸出規制・環境開示** — 起点: `research/strategy/geopolitics.md`・`green-ai.md`。次の確認: BIS の管理品目と個別輸出要件、EU Annex I の 2026-09-14 採択分の官報掲載・発効、CAC の越境データ経路、インド DPDP、AWS Sustainability の Marketplace 算定範囲と CCFT 非推奨化後の実画面移行、SCI for AI と基本 SCI の規格上の違い、CSRD / EED の適用範囲。統計は推計年・公表年・算定境界を揃える
 - **AI 業界マップ・OSS エコシステム** — 起点: `research/ecosystem/industry-oss.md`。次の確認: Microsoft Agent Framework 1.0 の後続と AutoGen maintenance、Gemma 4 の Apache 2.0 と旧世代規約、OSAID 改定、Hugging Face 規約・組織移管
 - **AI 規格・認証** — 起点: `research/ecosystem/standards.md`。次の確認: ISO / JIS 42001 と認定機関、NIST AI RMF の改訂、JTC 21 の整合規格と OJ 引用。発行・認証・認定・EU の適合推定を別々に追跡
-- `examples/` の全 6 件を実行確認し README の動作確認日・確認方式を更新する。依存更新時はモックだけでなく SDK の transport と MCP stdio を検査する
+- `examples/` の全 7 件を実行確認し README の動作確認日・確認方式を更新する。依存更新時はモックだけでなく SDK の transport と MCP stdio を検査する
 
 <!-- freshness-watchlist:end -->

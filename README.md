@@ -6,7 +6,7 @@
 
 日本語で学ぶ、エンジニアのための実践ライブラリ。設計判断の基準・アンチパターン・チェックリスト・実装例を通して、「どう作るか」「なぜその構成を選ぶか」を学べます。
 
-**16 章・199 記事** ｜ **Python サンプル 6 件** ｜ 8 つの学習ルート ｜ 検索・依存マップ・音声学習
+**16 章・199 記事** ｜ **Python サンプル 7 件** ｜ 8 つの学習ルート ｜ 検索・依存マップ・音声学習
 
 [![CI](https://github.com/pero3dev/ai-agent-library/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/pero3dev/ai-agent-library/actions/workflows/ci.yml)
 [![Docs: CC BY 4.0](https://img.shields.io/badge/docs-CC_BY_4.0-238636)](LICENSE)
@@ -93,7 +93,7 @@ python -X utf8 examples/python/structured-output/structured_output.py --mock
 
 最初の不正な応答を検証で拒否し、2 回目の応答を受け入れます。モックは固定した応答を返し、検証と再試行のコードを実行します。実モデルの生成品質を測るものではありません。[解説記事](docs/03-implementation/structured-output.md)と[ソース・実 API の実行手順](examples/python/structured-output/README.md)をあわせて確認できます。
 
-ほかにも [ツール使用](examples/python/tool-use/README.md)・[RAG](examples/python/rag-basics/README.md)・[MCP サーバー](examples/python/mcp-server/README.md)・[マルチエージェント](examples/python/multi-agent/README.md)・[評価ハーネス](examples/python/evaluation-harness/README.md)を収録しています。6 件とも API キー不要の `--mock` に対応し、必要な依存と確認範囲は各 README に記載しています。
+ほかにも [ツール使用](examples/python/tool-use/README.md)・[RAG](examples/python/rag-basics/README.md)・[MCP サーバー](examples/python/mcp-server/README.md)・[ライブラリ検索MCP](examples/python/library-mcp-server/README.md)・[マルチエージェント](examples/python/multi-agent/README.md)・[評価ハーネス](examples/python/evaluation-harness/README.md)を収録しています。7 件とも API キー不要の `--mock` に対応し、必要な依存と確認範囲は各 README に記載しています。
 
 ## 更新と品質管理
 

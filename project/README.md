@@ -1,5 +1,7 @@
 # project — 計画と実施記録
 
+[ライブラリ検索MCPサーバー](records/2026-11-04/library-mcp-server.md)はIssue #334の作業契約と実施結果です。4つの読み取り専用ツール、キャッシュ、検索評価、新旧stdio回帰の確認範囲を記録します。
+
 [自分のPRで長文Clockを選ぶCI候補](records/2026-11-04/ios-own-pr-long-scroll-selection.md)は、Rootが今回採用した選択計画として、既存workflowの自リポジトリPRだけを固定長文ケースへ結ぶ。fork PRとmain pushは起動、手動3選択・3path filter・既存のrunner／40分／protocolと全assertを保つ。本番YAMLのシェルを直接使う対象Node62件は成功した。これは共通検査前の作成時点の記録で、新head Hosted・通常main・性能閾値とIOS-15全体・実機は未完了。Doc4の受入とTODO16/32・全criteria・旧履歴を保つ。
 
 [AI向けサイト出力](records/2026-11-04/llms-markdown-index.md)はIssue #333の作業契約と実施結果です。published記事のMarkdown、階層llms.txt、索引JSONの生成・検証と公開結果を記録します。

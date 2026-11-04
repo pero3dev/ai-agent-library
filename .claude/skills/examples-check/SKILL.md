@@ -9,7 +9,7 @@ description: examples/python の全サンプルを実行確認し、各 README �
 
 引数はサンプル名です(例: `rag-basics`)。省略時は全件を対象にします。
 
-## 実行方式の対応表(2026-09-10 時点)
+## 実行方式の対応表
 
 各サンプルの README の記載が正本。乖離があれば README に従い、この表を更新する。
 
@@ -20,6 +20,7 @@ description: examples/python の全サンプルを実行確認し、各 README �
 | rag-basics | `python rag.py --mock "経費の申請締切はいつですか?"` | 引数つき |
 | multi-agent | `python multi_agent.py --mock` | 同上 |
 | mcp-server | `python mcp_server.py --mock` | mcp パッケージなしの自己テスト |
+| library-mcp-server | `python mcp_server.py --mock` | ネットワーク・mcp パッケージなしの自己テスト |
 | tool-use | `python main.py --mock` | API キー不要。ツール呼び出し・結果の再入力まで確認 |
 
 ## 手順

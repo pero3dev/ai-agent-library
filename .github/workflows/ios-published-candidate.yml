@@ -82,7 +82,7 @@ jobs:
             npm --version
             echo 'Simulator: iPhone 16 / iOS 18.5'
             echo "Slice: $UI_SLICE"
-            echo 'Scope: the fixed disjoint full27 functional UI partition; units only reading-state, independent copy and Release integrity only content-copy.' 
+            echo 'Scope: the fixed disjoint full27 functional UI partition; units only reading-state, independent copy and Release integrity only content-copy.'
             echo 'This job verifies the default published development bundle; physical-device, VoiceOver and performance acceptance remain separate.'
           } | tee .local/ios-published-candidate/evidence/environment.log
       - name: Run the full common checks on the reading-state slice

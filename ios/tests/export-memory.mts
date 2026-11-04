@@ -161,12 +161,15 @@ export function verifyMemoryProvenance(context: unknown, expectedHead: unknown) 
       sourcePaths.some((name) => !hex64(hashes[name]))) throw new Error('Controlled source hashes required')
   const github = context.github
   if (!plain(github) || github.repository !== 'pero3dev/ai-agent-library' ||
-      (github.event_name !== 'pull_request' && github.event_name !== 'push') || !positiveInteger(github.run_id) ||
+      (github.event_name !== 'pull_request' && github.event_name !== 'push' && github.event_name !== 'workflow_dispatch') || !positiveInteger(github.run_id) ||
       !positiveInteger(github.run_attempt) || !hex40(github.sha) || !hex40(github.workflow_sha) ||
       typeof github.workflow_ref !== 'string' || github.workflow_ref.length > 1000 ||
       !github.workflow_ref.startsWith('pero3dev/ai-agent-library/.github/workflows/ios-memory.yml@') ||
       /[\0\r\n]/.test(github.workflow_ref)) throw new Error('Invalid memory workflow context')
   if (github.event_name === 'push' && github.sha !== expectedHead) throw new Error('Push SHA must equal expected source')
+  if (github.event_name === 'workflow_dispatch' && (github.sha !== expectedHead || github.workflow_sha !== expectedHead)) {
+    throw new Error('Dispatch source and workflow SHA must equal expected source')
+  }
   const device = context.destination
   if (!plain(device) || typeof device.uuid !== 'string' ||
       !/^[A-Fa-f0-9]{8}(?:-[A-Fa-f0-9]{4}){3}-[A-Fa-f0-9]{12}$/.test(device.uuid) ||

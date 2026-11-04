@@ -1,6 +1,7 @@
 name: iOS published app memory observations
 
 on:
+  workflow_dispatch: {}
   pull_request:
     paths:
       - '.github/workflows/ios-memory.yml'

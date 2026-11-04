@@ -3,7 +3,22 @@ name: iOS native regression
 on:
   push:
     branches: [main]
+    paths: &native-inputs
+      - '.github/workflows/ios-native.yml'
+      - '.github/scripts/ios-native/**'
+      - 'ios/**'
+      - 'docs/**'
+      - 'LICENSE'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'scripts/build-ios-native-content.*'
+      - 'scripts/lib/ios-*'
+      - 'scripts/lib/md-utils.*'
+      - 'scripts/lib/markdown-links.*'
+      - 'scripts/lib/json-guards.*'
+      - 'website/audio/catalog.json'
   pull_request:
+    paths: *native-inputs
 
 permissions:
   contents: read

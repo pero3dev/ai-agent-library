@@ -55,7 +55,7 @@ Claude Codeで、そのディレクトリを追加して同じプラグインを
 
 このプラグインはローカルstdio専用です。Python実行ファイルは設定値から、スクリプトはインストール先の `${CLAUDE_PLUGIN_ROOT}` から解決します。ホストの作業ディレクトリやPATHにPythonを追加する設定には依存しません。接続できないときも参照資料によるレビューは可能ですが、取得失敗を最新情報の確認成功とは扱いません。
 
-更新するときは `claude plugin marketplace update ai-agent-library` と `claude plugin update ai-agent-library@ai-agent-library` を実行し、セッションを再起動します。専用venvはキャッシュの外にあるため、インストール先が移動してもPythonの設定値は保持できます。
+ローカルmarketplaceを使う場合は、そのリポジトリで先に `git pull --ff-only` を実行します。続いて `claude plugin marketplace update ai-agent-library` と `claude plugin update ai-agent-library@ai-agent-library` を実行し、セッションを再起動します。GitHubから直接導入した場合は、この2つのClaudeコマンドで更新できます。専用venvはキャッシュの外にあるため、インストール先が移動してもPythonの設定値は保持できます。
 
 ## Codexで同じスキルを使う
 

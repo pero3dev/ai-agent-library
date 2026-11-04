@@ -58,6 +58,8 @@ PR [#341](https://github.com/pero3dev/ai-agent-library/pull/341) は11必須チ�
 
 補足手順は、短い所有ディレクトリへ3,260ファイルをcloneした後、新しい隔離設定でlocal marketplace add→install→detailsを実行して確認した。導入時にGitの長いパス設定は追加していない。取得元は上記マージSHAで、19ファイル全byte一致、4スキル・MCP 1件、Python設定値、通常設定4ファイルのハッシュ不変を確認した。証拠は `issue335-windows-local-install-v3/` に保持する。Claudeモデルの発火はこの検証にも含まない。
 
+同じ所有cloneと隔離設定で `git pull --ff-only`、marketplace update、plugin updateも成功した。ローカルmarketplaceはフォルダーを直接参照するため、取得したリポジトリを先に更新し、新しいセッションで反映する手順もREADMEへ明記した。
+
 ## 一次情報
 
 2026-11-04 02:54〜03:07 UTCに公式資料とローカルCLI helpを照合した。

@@ -295,5 +295,95 @@
       "new install",
       "whole IOS-25"
     ]
+  },
+  "PR360_source0ac_CI_arrival_selector_2026_11_06": {
+    "source": "0ac77c593683ad2a172577ad5242d5e324b65a22",
+    "required_checks": {
+      "passed": 11
+    },
+    "Core": {
+      "total": 326,
+      "passed": 324,
+      "known_skips": 2,
+      "new_six_passed": true
+    },
+    "Native_UI_passed": 8,
+    "Native_Release_8_token_audit": "passed representative3 only",
+    "dedicated_passed": {
+      "revision": 1,
+      "missing": 1,
+      "restore": 1,
+      "dynamic_type": 1,
+      "rotation": 1
+    },
+    "Full_B_initial": {
+      "run": "https://github.com/pero3dev/ai-agent-library/actions/runs/42103982579",
+      "total": 8,
+      "passed": 7,
+      "failed": 1,
+      "leaf": "testFixtureBodyLinksShowFragmentFilenameFarAndDuplicateWitnesses",
+      "first_link": "近くの本文へ",
+      "phase": "heading passed then arrival paragraph guard",
+      "copy_UI_leaf": "passed",
+      "post_UI_copy_bytes_and_full_Release": "unaccepted",
+      "late_sequential_geometry_not_rescue": true,
+      "root_cause": "unproven"
+    },
+    "pure_parse": {
+      "calls": 1,
+      "selected_documents": 4,
+      "distinct_arrival_IDs": 3,
+      "source_link_and_marker_unique": true,
+      "first_target_matches_raw": true,
+      "fixtureSHA256": "8ae54acfdd1a4e1e4d4fc0d75fd5227e1f62ceb1ec0a2ff8f1d00208e805de4b",
+      "no_render_or_runtime": true
+    },
+    "correction_scope": "exact-ID positive lookup in one test only; same15s/fullvisible/hittable; original broad witness uniqueness plus exact ID/text/resultID postchecks",
+    "App_shared_helpers_other_UI_unchanged": true,
+    "source0ac_remaining": "FullA/SDK26/Runtime26 pending at composition",
+    "new_candidate_validation": "pending review/common/SDK/newhead allrelevant/required11/Ready2/ordinarymain",
+    "actual_normal_main": null,
+    "App": "0.2.33(35)",
+    "TODO": {
+      "rows": 32,
+      "checked": 16,
+      "criteria_unchanged": true
+    },
+    "device_VoiceOver_OSoffline_newinstall_wholeIOS25": "uncompleted"
+  },
+  "PR360_source0ac_fresh_toolbar_guard_2026_11_06": {
+    "source": "0ac77c593683ad2a172577ad5242d5e324b65a22",
+    "Full_A_initial": {
+      "total": 20,
+      "passed": 19,
+      "failed": 1,
+      "storage_case": "Passed87.322s",
+      "fresh_case": "Failed105.882s NativeReader489 Activationpointinvalid More beforetap",
+      "return_and_foreground_guards": "passed; wrongBack notproved",
+      "numeric_pregetter_frames": "absent",
+      "cause": "unproven"
+    },
+    "Full_UI_initial": "26/28 unaccepted; A/B two failures retained",
+    "SDK26_unsigned_arm64_Archive_Release_8_token_audit": "passed full199; no device runtime claim",
+    "Runtime26": "3 exact raw UI Passed; ownership-checking cleanup/completion steps succeeded; perUUID generated cleanup receipts not independently downloaded",
+    "fresh_guard_candidate": "fresh-only unique existing enabled Rootbar and More, finitepositive frames, fully inapp+bar; same15s then existingisHittable and actualonetap; alloriginalproofs retained",
+    "fresh_diagnostic": {
+      "timing": "PRE-isHittable from same guard values; no extra AX reads for logging",
+      "maximum_polls": 16,
+      "maximum_bytes_each": 2048,
+      "maximum_bytes_total": 32768,
+      "timing_impact": "explicit, no causal or runtime claim",
+      "coverage": "first16 observations only; later getters may be unlogged; polling continues full15s independently of log budget or encoding"
+    },
+    "App_shared_helpers_return_query_relaunch_and_gestures_unchanged": true,
+    "new_candidate_validation": "pending review/common/SDK/newhead allrelevant/required11/Ready2/ordinarymain",
+    "actual_normal_main": null,
+    "App": "0.2.33(35)",
+    "TODO": {
+      "rows": 32,
+      "checked": 16,
+      "criteria_unchanged": true
+    },
+    "device_VoiceOver_OSoffline_newinstall_wholeIOS25": "uncompleted"
   }
 }

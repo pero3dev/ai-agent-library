@@ -127,10 +127,83 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         // filtered list's separate More Actions sheet.
         XCTAssertFalse(app.staticTexts["library-filter-summary"].exists,
                        "The resumed library must remain unfiltered before the public capacity action")
-        let more = try singleHittableControl(
-            app.navigationBars.matching(identifier: "AI Agent Library").buttons.matching(
-                NSPredicate(format: "label == %@", "その他の操作")),
-            name: "unfiltered toolbar More Actions button")
+        func freshToolbarMore() throws -> XCUIElement {
+            let bars = app.navigationBars.matching(identifier: "AI Agent Library")
+            let bar = bars.firstMatch
+            let moreQuery = bars.buttons.matching(NSPredicate(format: "label == %@", "その他の操作"))
+            let actual = moreQuery.firstMatch
+            var positiveMore: XCUIElement?
+            var poll = 0
+
+            func finitePositive(_ frame: CGRect) -> Bool {
+                !frame.isNull && !frame.isInfinite && !frame.isEmpty &&
+                    frame.width > 0 && frame.height > 0 &&
+                    [frame.minX, frame.minY, frame.width, frame.height].allSatisfy(\.isFinite)
+            }
+            func frameNumbers(_ frame: CGRect?) -> Any {
+                guard let frame else { return NSNull() }
+                return [frame.minX, frame.minY, frame.width, frame.height].map { value -> Any in
+                    value.isFinite ? Double(value) as Any : NSNull()
+                }
+            }
+            func known<T>(_ value: T?) -> Any { value.map { $0 as Any } ?? NSNull() }
+
+            let available = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+                poll += 1
+                // Each AX value is read at most once in this sequential observation.
+                let appExists = self.app.exists
+                let barCount: Int? = appExists ? bars.count : nil
+                let barExists: Bool? = barCount == 1 ? bar.exists : nil
+                let moreCount: Int? = barExists == true ? moreQuery.count : nil
+                let moreExists: Bool? = moreCount == 1 ? actual.exists : nil
+                let enabled: Bool? = moreExists == true ? actual.isEnabled : nil
+                let appFrame: CGRect? = appExists ? self.app.frame : nil
+                let barFrame: CGRect? = barExists == true ? bar.frame : nil
+                let moreFrame: CGRect? = moreExists == true ? actual.frame : nil
+                let geometryReady: Bool
+                if let appFrame, let barFrame, let moreFrame,
+                   finitePositive(appFrame), finitePositive(barFrame), finitePositive(moreFrame) {
+                    geometryReady = appFrame.contains(barFrame) && appFrame.contains(moreFrame) &&
+                        barFrame.contains(moreFrame)
+                } else {
+                    geometryReady = false
+                }
+                let knownReady = appExists && barCount == 1 && barExists == true &&
+                    moreCount == 1 && moreExists == true && enabled == true && geometryReady
+                // Only the first 16 cached snapshots are logged; later getters may be unlogged.
+                // Logging adds timing overhead but never limits the 15-second readiness wait.
+                if poll <= 16 {
+                    let observation: [String: Any] = [
+                        "schema": 1, "phase": "fresh_more_pre_hittable", "poll": poll,
+                        "app_exists": appExists, "bar_count": known(barCount), "bar_exists": known(barExists),
+                        "more_count": known(moreCount), "more_exists": known(moreExists), "enabled": known(enabled),
+                        "app_frame": frameNumbers(appFrame), "bar_frame": frameNumbers(barFrame),
+                        "more_frame": frameNumbers(moreFrame), "geometry_ready": geometryReady,
+                        "will_read_hittable": knownReady, "hittable": "not_read"
+                    ]
+                    if let data = try? JSONSerialization.data(withJSONObject: observation, options: [.sortedKeys]),
+                       data.count <= 2000 {
+                        var line = data
+                        line.append(0x0a)
+                        try? FileHandle.standardOutput.write(contentsOf: line)
+                    } else {
+                        try? FileHandle.standardOutput.write(contentsOf: Data(
+                            "{\"schema\":1,\"phase\":\"fresh_more_pre_hittable\",\"diagnostic\":\"encoding_or_size_unavailable\"}\n".utf8))
+                    }
+                }
+                guard knownReady, actual.isHittable else { return false }
+                positiveMore = actual
+                return true
+            }, object: nil)
+            let result = XCTWaiter.wait(for: [available], timeout: 15)
+            XCTAssertEqual(result, .completed, "The unique root-toolbar More must be fully inside its visible bar")
+            guard result == .completed, let observedMore = positiveMore else {
+                throw NSError(domain: "PublishedReaderUITests", code: 2,
+                              userInfo: [NSLocalizedDescriptionKey: "Missing or ambiguous fully visible root-toolbar More"])
+            }
+            return observedMore
+        }
+        let more = try freshToolbarMore()
         more.tap()
         let storage = try singleHittableControl(app.buttons.matching(identifier: "library-storage-usage"),
                                                 name: "public storage capacity action")
@@ -1515,11 +1588,11 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         try openFixtureForBodyLinks()
         let reader = app.scrollViews["native-reader"]
         let fixtureBar = app.navigationBars["ネイティブ本文テスト専用記事"]
-        for (identifier, label, heading, witness) in [
-            ("native-text-paragraph-5422cd96391ab3acc78b0196", "近くの本文へ", "case-inline-01", "通常の文、斜体の文、太字の文"),
-            ("native-text-paragraph-15bc0b673273bb6dca3d00a2", "同じファイル名で近くの本文へ", "case-inline-01", "通常の文、斜体の文、太字の文"),
-            ("native-text-paragraph-584a2949a732810afaea162f", "末尾の到着地点へ", "case-end-01", "END-ARRIVAL"),
-            ("native-text-paragraph-7b03d67eb075781fbd15a853", "二つ目の同じ見出しへ", "同じ見出し-1", "DUPLICATE-SECOND")
+        for (identifier, label, heading, witness, arrivalID) in [
+            ("native-text-paragraph-5422cd96391ab3acc78b0196", "近くの本文へ", "case-inline-01", "通常の文、斜体の文、太字の文", "native-text-paragraph-64e5c4f0cbc277942047ab93"),
+            ("native-text-paragraph-15bc0b673273bb6dca3d00a2", "同じファイル名で近くの本文へ", "case-inline-01", "通常の文、斜体の文、太字の文", "native-text-paragraph-64e5c4f0cbc277942047ab93"),
+            ("native-text-paragraph-584a2949a732810afaea162f", "末尾の到着地点へ", "case-end-01", "END-ARRIVAL", "native-text-paragraph-c7455e927e3a9b39aa7e2c11"),
+            ("native-text-paragraph-7b03d67eb075781fbd15a853", "二つ目の同じ見出しへ", "同じ見出し-1", "DUPLICATE-SECOND", "native-text-paragraph-1310469af64afe3a8a66178a")
         ] {
             // Reset only before the next independent link operation. After the
             // tap, visibility must be achieved by nativeURL navigation itself.
@@ -1529,10 +1602,14 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
             XCTAssertTrue(fixtureBar.waitForExistence(timeout: 10))
             XCTAssertFalse(app.navigationBars["目次"].exists)
             requireHittable(app.staticTexts["native-heading-" + heading], inside: reader, fullyVisible: true)
+            let arrivalByID = reader.staticTexts.matching(identifier: arrivalID)
+            requireHittable(arrivalByID.firstMatch, inside: reader, fullyVisible: true)
             let arrival = reader.staticTexts.matching(NSPredicate(format:
                 "identifier BEGINSWITH %@ AND label CONTAINS %@", "native-text-", witness))
-            requireHittable(arrival.firstMatch, inside: reader, fullyVisible: true)
             XCTAssertEqual(arrival.count, 1, "The destination must expose its unique native paragraph witness")
+            XCTAssertEqual(arrivalByID.count, 1, "The arrival identifier must select exactly one paragraph")
+            XCTAssertTrue(arrivalByID.firstMatch.label.contains(witness), "The selected paragraph must contain the destination witness")
+            XCTAssertEqual(arrival.firstMatch.identifier, arrivalID, "The unique witness must be the selected arrival paragraph")
             XCTAssertFalse(hasVisibleFrame(link, inside: reader), "The tap must leave the source link list")
             capture("Fixture-body-link-" + label)
         }

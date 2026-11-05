@@ -1,5 +1,11 @@
 # iOS完成版に向けたTODO
 
+2026-11-06の[保存版なしの同梱起動回帰候補](../../records/2026-11-04/ios-fresh-bundled-launch.md)は、main0e018を取り込むMemory8仮tree d49aa731へ凍結Code8＋PBX4scalarを重ねるSource13／新規2の私有再結合である。Memoryの索引行・計画prefix・全内容とincoming9pathを保持し、actual通常Memory main／fresh head／公開操作はNULL・未実施のままとする。Node64は11月4日のcomponent63成功1knownskipだけを継承し、新common・4形式・最終全体IR・Swift／Core326／Full28（A20/B8）／Native8・実Release・新head CIは未受入。App0.2.33（35）とTODO32行16完了・全criteria、実機等とIOS-25全体の未完了を維持する。
+
+以下の段落は11月4日候補作成時点の履歴である。Node64の実結果は上記とリンク先の追補で区別する。
+
+IOS-25の[保存版なしの同梱起動回帰候補](../../records/2026-11-04/ios-fresh-bundled-launch.md)は、同じUUIDの空の保存先と読書suiteから同梱記事・検索・本文・しおり・復帰を確認する専用UI1件とCore6件を加える。Releaseの主実行画像とtop-level dylibでは、新DEBUG文字列8個の不在を上限付き読取で調べる。App候補0.2.33（35）、Core326／Full28（A20/B8）／Native8予定。Code6と監査R2の独立静的レビューはP1/P2=0、新Node64・Swift/SDK・実UI・実Release・通常main・実機は未完了。現行TODO32行16完了と全完了条件、IOS-25未完了を保つ。
+
 IOS-15の[AppMemory手動起動候補](../../records/2026-11-04/ios-app-memory-manual-dispatch.md)は、PR #352の既存head ee408へ取得済みmain0e018を取り込む通常merge候補を2026-11-06に準備した。Code4全文とmainの非所有pathを保持する。head44cdの必須11・自動9workflow成功と11月4日の同期記録は履歴で、ee408と新候補のCI成功には引き継がない。新しい共通・形式検査、最終独立レビュー、実headの必須11・関連CIと実manual Hosted・通常main統合は未実施である。App0.2.32（34）・TODO32行16完了と全criteriaを維持し、IOS-15全体・実機・製品budgetは未受入のままとする。
 
 IOS-21／25の[guard16通常preview](../../records/2026-11-04/ios-storage-scope-ui-regression.md)は、normal2／guard1／scope4／reader4／UI5＋PBX／記録4の6責務で同PR339を通常再検証する選択案である。397instrumentedの10成功／Runtime26失敗1を保持し、後刻positiveで15秒失敗を救済しない。unused app.frame取得を避けるguardfirstはsyntax-only確認で新Hosted効果未受入。Core320／Native8／Full27（旧26保持）とRuntime26を含むfresh全required／relevant・最新main確認前にmergeしない。実適用／commitsはNULL、App32／TODO16/32／criteriaと直後のpreview15履歴を維持する。

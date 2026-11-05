@@ -43,3 +43,13 @@ Node要件の追記の旧レビューはP1/P2=0で、Markdownと相対2linkの�
 同じCode9を含むSource13 tree `c62855c72ae01878bc69f684191dbecec906026f` の共通検査は1670件中1654成功・16skip・失敗0で終端した（log SHA256 `925a9a12a1b7731e28c5d4ae0ebd3264ee15f6d995f217e0277adb92dcde3c4e`）。その後のSource14はMarkdown4文書と新規相対link3件を追加確認した。これらを最終14pathの完全な共通再検査としては報告しない。今回の追記後のMarkdown・link・形式と差分独立レビューはRootが後続する。
 
 同じCode9の実iOS18.2 SDKでApp19fileのmodule生成、Core326／UI41method分の型検査は成功した（result SHA256 `0b517088cdce2992a083f41b46297f1fd979caf4edb72220a22d72da6b262543`）。これはtarget build・link・XCTest実行・resource／実Release監査の成功ではなく、先行xcodebuildの宛先不足exit70を成功へ変更しない。新head全体CI、Core326／Full28（A20/B8）／Native8の実行、実Releaseと実機・VoiceOver・OS通信オフ・新規installは未受入である。TODO32行16完了と全criteria、IOS-25／IOS-28全体の未完了を維持する。
+
+## PR #360初回CIと公開UI検査の訂正
+
+Source `95b7d3606425307d0255aa67e10c61913711d761` の初回CIでは、共通検査1670件中1654成功・16skip、Core326件中324成功・既知skip2（追加6件すべて成功）、Native UI8件、Full B8件が成功した。Full Aは20件中18成功・2失敗であり、Full全28件と新しい同梱起動ケースは未受入である。Native・Full B・SDK26のRelease文字列8種の監査成功は、それぞれの実行範囲に限り、Full AのReleaseはskipされた。Rotationの最初のruntime一覧読取timeoutと、条件を変えず1回だけ行った制御再検証の成功は別に保持する。
+
+[失敗したFull A](https://github.com/pero3dev/ai-agent-library/actions/runs/42086431944)の新ケースは、initial／resumeの証拠検査としおり・見出し復帰を通過し、一覧へ戻った後、More操作前の待ちで停止した。再起動後は絞り込みのない通常一覧なのに、検索中のsheet用ヘルパーを使う契約不一致があったため、公開toolbar Menuから容量画面を開く経路に訂正する。これは当該待ちの直接原因を証明したという意味ではない。
+
+既存の容量画面ケースは、初回の表示専用「合計」行への操作可能性確認で停止し、再確認ボタンや閉じる操作には達していない。タイムアウト後の別観測では表示条件を満たしたが、先の失敗を成功へ変更しない。この行の2つの確認だけを同じ15秒内の可視範囲・表示内容の検査へ訂正し、ボタンの操作可能性・実際の再確認・閉じる・絞り込みや読書記録の検査は維持する。情報不足は不合格とし、補正検索や待ち時間の延長、失敗後の救済は追加しない。
+
+この追補時点では、訂正候補の独立レビュー・完全な共通検査・SDK型検査と、新headの関連CI・必須11・Ready後policy・通常mainはこれから確認する。既存のApp動作と版0.2.33（35）、TODO32行16完了と全完了条件を保つ。実機・VoiceOver・最低iOS17の機能受入・実OSオフライン・新規インストールとIOS-25全体は未完了である。

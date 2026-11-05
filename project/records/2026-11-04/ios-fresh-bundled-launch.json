@@ -231,5 +231,69 @@
     "all_criteria_unchanged": true,
     "IOS25_complete": false,
     "IOS28_complete": false
+  },
+  "PR360_initial_CI_and_public_UI_correction_2026_11_06": {
+    "source": "95b7d3606425307d0255aa67e10c61913711d761",
+    "run_FullA": "https://github.com/pero3dev/ai-agent-library/actions/runs/42086431944",
+    "common": {
+      "total": 1670,
+      "passed": 1654,
+      "skipped": 16,
+      "failed": 0
+    },
+    "Core": {
+      "total": 326,
+      "passed": 324,
+      "skipped": 2,
+      "failed": 0,
+      "new_six_passed": true
+    },
+    "Native_UI": {
+      "passed": 8
+    },
+    "Full_UI": {
+      "A_passed": 18,
+      "A_failed": 2,
+      "B_passed": 8,
+      "accepted": false
+    },
+    "Release_scan_8_tokens": {
+      "Native": true,
+      "Full_B": true,
+      "SDK26": true,
+      "Full_A": "skipped"
+    },
+    "Rotation": {
+      "initial": "pre-UI inventory timeout",
+      "one_controlled_unchanged_retry": "passed",
+      "initial_failure_retained": true
+    },
+    "fresh_failure": "post-resume More readiness before tap; wrong filtered-sheet helper on unfiltered public Menu; exact readiness cause unproven",
+    "storage_failure": "initial display-only total activation-point check; after-timeout sequential observation not success; no refresh/close reached",
+    "correction_scope": "test-only fresh Menu route and two readonly total visible-geometry/label checks",
+    "bounds_retained": [
+      "15 second predicates",
+      "unknown false",
+      "unique actionable public controls",
+      "real refresh and close",
+      "no synthetic query or rescue",
+      "all data/filter/reading/capacity assertions"
+    ],
+    "new_candidate_validation": "pending independent review/common/SDK/new-head CI/normal merge",
+    "actual_normal_main": null,
+    "App": "0.2.33(35)",
+    "TODO": {
+      "rows": 32,
+      "checked": 16,
+      "criteria_unchanged": true
+    },
+    "unverified": [
+      "device",
+      "VoiceOver",
+      "minimum iOS17 functional acceptance",
+      "OS offline",
+      "new install",
+      "whole IOS-25"
+    ]
   }
 }

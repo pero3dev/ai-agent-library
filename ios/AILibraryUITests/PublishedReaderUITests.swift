@@ -122,10 +122,18 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         returnToLibrary()
 
         // An independent public metadata observation confirms no content copy was
-        // created by either load or by the reading-only actions above.
-        try openFilteredMoreActionsSheet()
-        let storage = app.buttons["library-storage-usage"]
-        requireHittable(storage)
+        // created by either load or by the reading-only actions above. Relaunch
+        // resets transient filters, so use the normal toolbar Menu, not the
+        // filtered list's separate More Actions sheet.
+        XCTAssertFalse(app.staticTexts["library-filter-summary"].exists,
+                       "The resumed library must remain unfiltered before the public capacity action")
+        let more = try singleHittableControl(
+            app.navigationBars.matching(identifier: "AI Agent Library").buttons.matching(
+                NSPredicate(format: "label == %@", "その他の操作")),
+            name: "unfiltered toolbar More Actions button")
+        more.tap()
+        let storage = try singleHittableControl(app.buttons.matching(identifier: "library-storage-usage"),
+                                                name: "public storage capacity action")
         storage.tap()
         XCTAssertTrue(app.navigationBars["保存コンテンツの容量"].waitForExistence(timeout: 10))
         XCTAssertTrue(app.staticTexts["保存コンテンツのフォルダはまだありません。"].waitForExistence(timeout: 15))
@@ -755,10 +763,20 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         let result = app.staticTexts.matching(NSPredicate(format: "label == %@ OR label == %@",
             "確認したファイルサイズ", "確認できた範囲のファイルサイズ")).firstMatch
         let refresh = app.buttons["storage-usage-refresh"]
+        // The total is a display-only LabeledContent, never an action target.
+        // Keep unknown geometry unsatisfied without asking for an activation point.
+        let waitForVisibleTotal = {
+            let visible = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+                guard self.hasVisibleFrameForPolling(total, inside: list) else { return false }
+                return total.label.contains("合計")
+            }, object: nil)
+            XCTAssertEqual(XCTWaiter.wait(for: [visible], timeout: 15), .completed,
+                           "The public storage total must be visible and contain its total label")
+        }
         XCTAssertTrue(list.waitForExistence(timeout: 10))
         XCTAssertTrue(total.waitForExistence(timeout: 15))
         XCTAssertTrue(result.waitForExistence(timeout: 10))
-        requireHittable(total, inside: list)
+        waitForVisibleTotal()
         XCTAssertTrue(total.label.contains("合計"))
         for _ in 0..<8 {
             if isHittableOnScreen(refresh, inside: list) { break }
@@ -781,12 +799,12 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         }
         waitForEnabledRefresh()
         for _ in 0..<8 {
-            if isHittableOnScreen(total, inside: list) { break }
+            if hasVisibleFrameForPolling(total, inside: list) { break }
             list.swipeDown(velocity: .slow)
         }
         XCTAssertTrue(total.waitForExistence(timeout: 15))
         XCTAssertTrue(result.waitForExistence(timeout: 10))
-        requireHittable(total, inside: list)
+        waitForVisibleTotal()
         XCTAssertTrue(total.label.contains("合計"))
         XCTAssertTrue(bar.buttons["storage-usage-close"].exists)
         capture("Storage-usage-recheck-results")

@@ -385,5 +385,60 @@
       "criteria_unchanged": true
     },
     "device_VoiceOver_OSoffline_newinstall_wholeIOS25": "uncompleted"
+  },
+  "PR360_source755_fresh_action_proof_2026_11_06": {
+    "source": "755d1c18f07c0dd51834585e20896da349c38638",
+    "closed_phase": {
+      "required11": true,
+      "Core": "326=324pass2knownskip/new6allpass",
+      "NativeUI": 8,
+      "FullA": "19pass1failed Fresh89.001s; Storage96.094s passed",
+      "FullB": "8pass/bodylink120.843s/copy374bytes/full199Release8",
+      "Full_total": "27/28 unaccepted",
+      "dedicated_and_Runtime26_SDK26": "passed scoped; perUUID Runtime raw cleanup receipts not downloaded"
+    },
+    "diagnostics": {
+      "samples": 14,
+      "UTF8bytes": 4887,
+      "first13": "counts1/exists/enabled/geometry alltrue",
+      "first13_hittable": false,
+      "hittable_false_is_dataflow_inference_not_logged_Bool": true,
+      "last14": "framesallzero",
+      "root_cause": "unproven",
+      "More_tap_reached": false
+    },
+    "coverage_revision": {
+      "removed": "More advisory isHittable prerequisite ONLY",
+      "retained": "same15s strictuniqueEnabled finitefullapp/bar geometry",
+      "replacement": "exact menu action preabsence -> one normal More.tap -> newly unique HITTABLE exact action/tap -> capacity/no-folder/total/close/count",
+      "menu_button_caption": "保存コンテンツの容量を確認",
+      "destination_title": "保存コンテンツの容量",
+      "no_coordinates_scroll_query_relaunch_retry": true,
+      "App_sharedhelpers_otherUI_unchanged": true,
+      "ID_declared_in_shared_Menu_and_sheet_builder": true,
+      "UIKit_ID_propagation": "unverified, no causal claim"
+    },
+    "diagnostic_revision": {
+      "phase": "fresh_more_readiness",
+      "false_hittable_read_metadata_removed": true,
+      "first16logs_optional_only": true,
+      "polling15s_continues": true,
+      "later_values_may_be_unlogged": true,
+      "timing_impact_explicit": true
+    },
+    "design_review": {
+      "conditional_sound": true,
+      "caption_P2_corrected_beforeimplementation": true,
+      "final_exact_IR_required": true
+    },
+    "new_candidate_validation": "pending finalIR/common/SDK/newhead related+required11/Ready2/ordinarymain",
+    "actual_normal_main": null,
+    "App": "0.2.33(35)",
+    "TODO": {
+      "rows": 32,
+      "checked": 16,
+      "criteria_unchanged": true
+    },
+    "device_VO_OS17_OSoffline_newinstall_wholeIOS25": "uncompleted"
   }
 }

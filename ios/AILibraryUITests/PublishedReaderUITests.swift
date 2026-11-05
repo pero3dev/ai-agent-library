@@ -170,16 +170,16 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
                 }
                 let knownReady = appExists && barCount == 1 && barExists == true &&
                     moreCount == 1 && moreExists == true && enabled == true && geometryReady
-                // Only the first 16 cached snapshots are logged; later getters may be unlogged.
+                // Only the first 16 cached readiness snapshots are logged; later samples may be unlogged.
                 // Logging adds timing overhead but never limits the 15-second readiness wait.
                 if poll <= 16 {
                     let observation: [String: Any] = [
-                        "schema": 1, "phase": "fresh_more_pre_hittable", "poll": poll,
+                        "schema": 1, "phase": "fresh_more_readiness", "poll": poll,
                         "app_exists": appExists, "bar_count": known(barCount), "bar_exists": known(barExists),
                         "more_count": known(moreCount), "more_exists": known(moreExists), "enabled": known(enabled),
                         "app_frame": frameNumbers(appFrame), "bar_frame": frameNumbers(barFrame),
                         "more_frame": frameNumbers(moreFrame), "geometry_ready": geometryReady,
-                        "will_read_hittable": knownReady, "hittable": "not_read"
+                        "ready_for_tap": knownReady, "hittable": "not_queried"
                     ]
                     if let data = try? JSONSerialization.data(withJSONObject: observation, options: [.sortedKeys]),
                        data.count <= 2000 {
@@ -188,10 +188,11 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
                         try? FileHandle.standardOutput.write(contentsOf: line)
                     } else {
                         try? FileHandle.standardOutput.write(contentsOf: Data(
-                            "{\"schema\":1,\"phase\":\"fresh_more_pre_hittable\",\"diagnostic\":\"encoding_or_size_unavailable\"}\n".utf8))
+                            "{\"schema\":1,\"phase\":\"fresh_more_readiness\",\"diagnostic\":\"encoding_or_size_unavailable\"}\n".utf8))
                     }
                 }
-                guard knownReady, actual.isHittable else { return false }
+                // Fresh-only contract: geometry permits one tap; the exact action below must then appear.
+                guard knownReady else { return false }
                 positiveMore = actual
                 return true
             }, object: nil)
@@ -204,9 +205,12 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
             return observedMore
         }
         let more = try freshToolbarMore()
+        let capacityActions = app.buttons.matching(
+            NSPredicate(format: "label == %@", "保存コンテンツの容量を確認"))
+        XCTAssertEqual(capacityActions.count, 0, "The exact capacity menu action must be absent before the More tap")
         more.tap()
-        let storage = try singleHittableControl(app.buttons.matching(identifier: "library-storage-usage"),
-                                                name: "public storage capacity action")
+        let storage = try singleHittableControl(capacityActions, name: "public storage capacity action")
+        XCTAssertEqual(storage.label, "保存コンテンツの容量を確認")
         storage.tap()
         XCTAssertTrue(app.navigationBars["保存コンテンツの容量"].waitForExistence(timeout: 10))
         XCTAssertTrue(app.staticTexts["保存コンテンツのフォルダはまだありません。"].waitForExistence(timeout: 15))

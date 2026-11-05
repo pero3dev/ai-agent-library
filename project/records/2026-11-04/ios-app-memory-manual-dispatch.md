@@ -29,3 +29,9 @@ AppSwift、PBX0.2.32（34）、全TODO32行16完了とcriteria、計測method/pr
 PR352のhead44cdでは、必須11と自動9workflowが初回成功した。PRイベントのMemory専用caseと3指標×3標本、CSVの整合を確認した範囲であり、実manual・性能目標・実機の受入とは分ける。
 
 並行するmain496の61pathを保持して通常merge commitで同期する。Code4のbefore/after全byteを保ち、索引は新しいiOS区分への1項目に合わせる。旧headの成功を同期後headの成功には数えず、新しい共通検査・必要CI・独立レビューを確認してからmainへ進める。App0.2.32（34）・TODO16/32と全完了条件を維持する。
+
+## 2026-11-06のmain同期候補
+
+PR #352の既存head `ee408b792048a7fe0e88cc52ac844f3e82df01e9` を第一親、取得済みmain `0e0181b90a7fdc6863c2a0aa9b252d60b59ec0e0` を第二親とする通常のmerge候補を準備する。共通祖先はmain496で、そこからmain側で変わった9pathを全て保持する。Code4の全文は既存headと一致し、索引はiOS区分の1項目、計画はMemoryの追記だけを加え、取り込み元の全文は逆変換で照合する。新しいcommitと実GitHubの更新は、この記録の作成時点では未実施である。
+
+head44cdの必須11・自動9workflow成功と11月4日の同期記録は作成時点の履歴として保持する。ee408のCI結果は未取得で、以前のPR取得値が44cdを示した状態をee408の検証には使わない。本候補に対する新しい共通検査・形式検査・独立レビュー・実headの必須11と関連CIは未実施であり、過去の成功を引き継がない。実workflow_dispatch Hosted・通常main統合・実機・IOS-15全体と製品budgetは引き続き未受入である。App0.2.32（34）、TODO32行16完了、全criteriaと計測条件を保持する。

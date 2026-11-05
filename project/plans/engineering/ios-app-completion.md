@@ -1,6 +1,6 @@
 # iOS完成版に向けたTODO
 
-IOS-15の[AppMemory手動起動候補](../../records/2026-11-04/ios-app-memory-manual-dispatch.md)を、Windows修正PR #350仮head45441584／treeff8bへCode4全文保持で静的再結合する。作者basefb／旧c2準備とNode54・D1・旧IR／形式の範囲を履歴として保つ。Code4→記録4の2責務、App32／TODO32行16完了と全criteria・計測method／capsは不変で、actualmain親・公開・strict TS／新CI／実Hosted／通常main／IOS-15全体・製品budgetは未受入。PR350の通常squashと同tree／全tuple確認後に親を結び直す。
+IOS-15の[AppMemory手動起動候補](../../records/2026-11-04/ios-app-memory-manual-dispatch.md)は、PR #352の既存head ee408へ取得済みmain0e018を取り込む通常merge候補を2026-11-06に準備した。Code4全文とmainの非所有pathを保持する。head44cdの必須11・自動9workflow成功と11月4日の同期記録は履歴で、ee408と新候補のCI成功には引き継がない。新しい共通・形式検査、最終独立レビュー、実headの必須11・関連CIと実manual Hosted・通常main統合は未実施である。App0.2.32（34）・TODO32行16完了と全criteriaを維持し、IOS-15全体・実機・製品budgetは未受入のままとする。
 
 IOS-21／25の[guard16通常preview](../../records/2026-11-04/ios-storage-scope-ui-regression.md)は、normal2／guard1／scope4／reader4／UI5＋PBX／記録4の6責務で同PR339を通常再検証する選択案である。397instrumentedの10成功／Runtime26失敗1を保持し、後刻positiveで15秒失敗を救済しない。unused app.frame取得を避けるguardfirstはsyntax-only確認で新Hosted効果未受入。Core320／Native8／Full27（旧26保持）とRuntime26を含むfresh全required／relevant・最新main確認前にmergeしない。実適用／commitsはNULL、App32／TODO16/32／criteriaと直後のpreview15履歴を維持する。
 

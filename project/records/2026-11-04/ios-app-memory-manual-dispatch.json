@@ -117,5 +117,29 @@
     "App": "0.2.32(34)",
     "TODO": "16/32 criteria unchanged",
     "actual_sync_commit": null
+  },
+  "main_sync_2026_11_06": {
+    "status": "private-normal-merge-candidate-new-head-CI-unrun",
+    "first_parent": "ee408b792048a7fe0e88cc52ac844f3e82df01e9",
+    "additional_parent": "0e0181b90a7fdc6863c2a0aa9b252d60b59ec0e0",
+    "ordered_merge_parents": [
+      "ee408b792048a7fe0e88cc52ac844f3e82df01e9",
+      "0e0181b90a7fdc6863c2a0aa9b252d60b59ec0e0"
+    ],
+    "merge_base": "496fd542d9ac2e1c3cad30b917d46c03213186b7",
+    "incoming_changed_paths": 9,
+    "incoming_all_paths_preserved": true,
+    "Code4_after_bytes_held": true,
+    "records_previous_fields_and_history_preserved": true,
+    "project_readme_unique_row_inverse": true,
+    "ios_plan_unique_prefix_inverse": true,
+    "old44_required11_and_automatic9": "historical-success-on44-only",
+    "ee408_CI": "not-obtained; stale PR snapshot at44 is not ee408 evidence",
+    "new_head_common_forms_independent_review_CI": "not-run",
+    "actual_sync_commit": null,
+    "external_mutation": "not-performed-at-record-preparation",
+    "App": "0.2.32(34)",
+    "TODO": "16/32 all criteria preserved",
+    "manual_Hosted_main_device_IOS15_productbudget_accepted": false
   }
 }

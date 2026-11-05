@@ -46,6 +46,95 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
                        "The actual app catalog must match the separately audited published bundle")
     }
 
+    private func requireFreshBundledLaunchProof(namespace: String, mode: String) throws {
+        let proof = element("uitest-fresh-bundled-launch-proof")
+        let ready = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            guard proof.exists, let raw = proof.value as? String,
+                  let data = raw.data(using: .utf8), data.count <= 1024,
+                  let value = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any] else { return false }
+            return value["status"] as? String == "passed"
+        }, object: nil)
+        XCTAssertEqual(XCTWaiter.wait(for: [ready], timeout: 10), .completed,
+                       "The probe must report captured filesystem/snapshot facts, not an offline launch flag")
+        let raw = try XCTUnwrap(proof.value as? String)
+        let data = try XCTUnwrap(raw.data(using: .utf8))
+        XCTAssertLessThanOrEqual(data.count, 1024)
+        let value = try XCTUnwrap(try JSONSerialization.jsonObject(with: data) as? [String: Any])
+        XCTAssertEqual(Set(value.keys), Set(["schemaVersion", "status", "mode", "namespaceID", "storageNamespace",
+                                            "readingSuite", "rootInitiallyAbsent", "readingInitiallyEmpty",
+                                            "selectedBundledRoot", "rootAbsentAfterLoad", "articleCount"]))
+        XCTAssertEqual(value["schemaVersion"] as? Int, 1)
+        XCTAssertEqual(value["status"] as? String, "passed")
+        XCTAssertEqual(value["mode"] as? String, mode)
+        XCTAssertEqual(value["namespaceID"] as? String, namespace)
+        XCTAssertEqual(value["storageNamespace"] as? String, "LibraryFreshBundle-" + namespace)
+        XCTAssertEqual(value["readingSuite"] as? String, "ailibrary-uitest-" + namespace)
+        XCTAssertEqual(value["rootInitiallyAbsent"] as? Bool, true)
+        XCTAssertEqual(value["readingInitiallyEmpty"] as? Bool, mode == "initial")
+        XCTAssertEqual(value["selectedBundledRoot"] as? Bool, true)
+        XCTAssertEqual(value["rootAbsentAfterLoad"] as? Bool, true)
+        XCTAssertEqual(value["articleCount"] as? Int, expectedPublishedCount)
+        let attachment = XCTAttachment(string: raw)
+        attachment.name = "Fresh-bundled-" + mode + "-proof"
+        attachment.lifetime = .keepAlways
+        add(attachment)
+    }
+
+    func testFreshStorageBundledLaunchAndRelaunchKeepReadingWithoutImport() throws {
+        // Base setup has launched the ordinary app. This case then uses a fresh
+        // content namespace and preferences suite, not a new install or OS offline.
+        app.terminate()
+        let namespace = UUID().uuidString
+        let suite = "ailibrary-uitest-" + namespace
+        app.launchEnvironment["AILIBRARY_UI_TEST_SUITE"] = suite
+        app.launchEnvironment["AILIBRARY_UI_TEST_FRESH_BUNDLE_UUID"] = namespace
+        app.launchEnvironment["AILIBRARY_UI_TEST_FRESH_BUNDLE_MODE"] = "initial"
+        for key in ["AILIBRARY_UI_TEST_READING_RECOVERY", "AILIBRARY_UI_TEST_READING_LEGACY",
+                    "AILIBRARY_UI_TEST_DYNAMIC_TYPE"] { app.launchEnvironment.removeValue(forKey: key) }
+        app.launch()
+        let count = app.staticTexts["library-article-count"]
+        XCTAssertTrue(count.waitForExistence(timeout: 45))
+        XCTAssertEqual(count.label, "全\(expectedPublishedCount)記事")
+        try requireFreshBundledLaunchProof(namespace: namespace, mode: "initial")
+        XCTAssertFalse(element("library-resume").exists)
+
+        // Public search, native body and reading state use the real full bundle.
+        open("Transformer アーキテクチャ詳解", articleID: "11-llm-internals/transformer-architecture")
+        XCTAssertTrue(app.buttons["しおりを追加"].waitForExistence(timeout: 10))
+        app.buttons["しおりを追加"].tap()
+        goToContents("自己注意の数式", headingID: "自己注意の数式")
+        returnToLibrary()
+        app.terminate()
+        XCTAssertEqual(app.launchEnvironment["AILIBRARY_UI_TEST_SUITE"], suite)
+        XCTAssertEqual(app.launchEnvironment["AILIBRARY_UI_TEST_FRESH_BUNDLE_UUID"], namespace)
+        app.launchEnvironment["AILIBRARY_UI_TEST_FRESH_BUNDLE_MODE"] = "resume"
+        app.launch()
+        XCTAssertTrue(count.waitForExistence(timeout: 45))
+        XCTAssertEqual(count.label, "全\(expectedPublishedCount)記事")
+        try requireFreshBundledLaunchProof(namespace: namespace, mode: "resume")
+        let resume = element("library-resume")
+        XCTAssertTrue(resume.waitForExistence(timeout: 10))
+        requireHittable(resume)
+        resume.tap()
+        XCTAssertTrue(app.buttons["しおりを削除"].waitForExistence(timeout: 10))
+        requireHittable(app.staticTexts["native-heading-自己注意の数式"],
+                        inside: app.scrollViews["native-reader"], fullyVisible: true)
+        returnToLibrary()
+
+        // An independent public metadata observation confirms no content copy was
+        // created by either load or by the reading-only actions above.
+        try openFilteredMoreActionsSheet()
+        let storage = app.buttons["library-storage-usage"]
+        requireHittable(storage)
+        storage.tap()
+        XCTAssertTrue(app.navigationBars["保存コンテンツの容量"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.staticTexts["保存コンテンツのフォルダはまだありません。"].waitForExistence(timeout: 15))
+        XCTAssertTrue(element("storage-usage-total").waitForExistence(timeout: 15))
+        closePublicSheet("保存コンテンツの容量")
+        XCTAssertTrue(count.waitForExistence(timeout: 10))
+        XCTAssertEqual(count.label, "全\(expectedPublishedCount)記事")
+    }
+
     func testChapter03LargeDiagramCanExpandAndShowSource() throws {
         // This phrase reaches the real large diagram without traversing the preceding long table.
         open("モデル選定ガイド", articleID: "03-implementation/model-selection", query: "データを外部 API に出せるか")

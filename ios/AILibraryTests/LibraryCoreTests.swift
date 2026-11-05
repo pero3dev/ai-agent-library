@@ -5631,3 +5631,174 @@ extension LibraryCoreTests {
         }
     }
 }
+
+
+#if DEBUG
+extension LibraryCoreTests {
+    private func freshBundledLaunchInput(mode: String = "initial", identifier: String = UUID().uuidString) -> [String: String] {
+        ["AILIBRARY_UI_TEST_FRESH_BUNDLE_UUID": identifier,
+         "AILIBRARY_UI_TEST_FRESH_BUNDLE_MODE": mode,
+         "AILIBRARY_UI_TEST_SUITE": "ailibrary-uitest-" + identifier]
+    }
+
+    func testFreshBundledRequestIsInactiveWithoutEitherExplicitField() throws {
+        XCTAssertNil(try UITestFreshBundledLaunchRequest.parse([:]))
+        XCTAssertNil(try UITestFreshBundledLaunchRequest.parse([
+            "AILIBRARY_UI_TEST_SUITE": "existing-ordinary-test-suite"]))
+    }
+
+    func testFreshBundledRequestRejectsMissingInvalidOrMismatchedBindings() throws {
+        let valid = freshBundledLaunchInput(identifier: "AAAAAAAA-AAAA-4AAA-8AAA-AAAAAAAAAAAA")
+        var variants: [[String: String]] = []
+        for key in ["AILIBRARY_UI_TEST_FRESH_BUNDLE_UUID", "AILIBRARY_UI_TEST_FRESH_BUNDLE_MODE"] {
+            var input = valid; input.removeValue(forKey: key); variants.append(input)
+        }
+        for identifier in [valid["AILIBRARY_UI_TEST_FRESH_BUNDLE_UUID"]!.lowercased(),
+                           " " + valid["AILIBRARY_UI_TEST_FRESH_BUNDLE_UUID"]!, "../LibraryContent", ""] {
+            var input = valid
+            input["AILIBRARY_UI_TEST_FRESH_BUNDLE_UUID"] = identifier
+            input["AILIBRARY_UI_TEST_SUITE"] = "ailibrary-uitest-" + identifier
+            variants.append(input)
+        }
+        for mode in ["", "first", "INITIAL"] {
+            var input = valid; input["AILIBRARY_UI_TEST_FRESH_BUNDLE_MODE"] = mode; variants.append(input)
+        }
+        var mismatched = valid
+        mismatched["AILIBRARY_UI_TEST_SUITE"] = "ailibrary-uitest-BBBBBBBB-BBBB-4BBB-8BBB-BBBBBBBBBBBB"
+        variants.append(mismatched)
+        for key in ["AILIBRARY_UI_TEST_READING_RECOVERY", "AILIBRARY_UI_TEST_READING_LEGACY",
+                    "AILIBRARY_UI_TEST_DYNAMIC_TYPE"] {
+            var input = valid; input[key] = "unexpected"; variants.append(input)
+        }
+        for input in variants {
+            XCTAssertThrowsError(try UITestFreshBundledLaunchRequest.parse(input)) {
+                XCTAssertEqual($0 as? UITestFreshBundledLaunchError, .invalidRequest)
+            }
+        }
+    }
+
+    func testFreshBundledPreparationNeverFallsBackWhenPreferencesAreUnavailable() throws {
+        let request = try XCTUnwrap(UITestFreshBundledLaunchRequest.parse(freshBundledLaunchInput()))
+        let bundle = try fixture("fresh-launch-unavailable-defaults")
+        var calls: [String] = []
+        XCTAssertThrowsError(try request.prepare(supportRoot: directory, bundledRoot: bundle, defaultsFactory: {
+            calls.append($0); return nil
+        })) {
+            XCTAssertEqual($0 as? UITestFreshBundledLaunchError, .preferencesUnavailable)
+        }
+        XCTAssertEqual(calls, [request.suiteName])
+        XCTAssertFalse(FileManager.default.fileExists(atPath: directory.appendingPathComponent(
+            UITestFreshBundledLaunchRequest.storagePrefix + request.namespaceID).path))
+    }
+
+    func testFreshBundledInitialPreparationAndObservationLeaveStorageAbsent() throws {
+        let request = try XCTUnwrap(UITestFreshBundledLaunchRequest.parse(freshBundledLaunchInput()))
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: request.suiteName))
+        defer { defaults.removePersistentDomain(forName: request.suiteName) }
+        let bundle = try fixture("fresh-launch-initial-bundle")
+        let context = try request.prepare(supportRoot: directory, bundledRoot: bundle, defaultsFactory: { _ in defaults })
+        XCTAssertTrue(context.defaults === defaults)
+        XCTAssertEqual(context.storageRoot.lastPathComponent,
+                       UITestFreshBundledLaunchRequest.storagePrefix + request.namespaceID)
+        XCTAssertTrue(try UITestFreshBundledLaunchContext.isAbsent(context.storageRoot))
+        let proof = try context.observation(snapshotRoot: bundle, articleCount: 1)
+        XCTAssertEqual(proof.status, "passed")
+        XCTAssertEqual(proof.mode, "initial")
+        XCTAssertEqual(proof.namespaceID, request.namespaceID)
+        XCTAssertEqual(proof.readingSuite, request.suiteName)
+        XCTAssertTrue(proof.rootInitiallyAbsent && proof.readingInitiallyEmpty)
+        XCTAssertTrue(proof.selectedBundledRoot && proof.rootAbsentAfterLoad)
+        XCTAssertEqual(proof.articleCount, 1)
+        XCTAssertLessThanOrEqual(proof.boundedJSON().utf8.count, 1024)
+        XCTAssertFalse(proof.boundedJSON().contains(directory.path))
+        XCTAssertTrue(try UITestFreshBundledLaunchContext.isAbsent(context.storageRoot))
+        XCTAssertTrue(defaults.persistentDomain(forName: request.suiteName)?.isEmpty ?? true)
+    }
+
+    func testFreshBundledPreparationPreservesExistingRootsAndUnexpectedReadingDomains() throws {
+        let request = try XCTUnwrap(UITestFreshBundledLaunchRequest.parse(freshBundledLaunchInput()))
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: request.suiteName))
+        defer { defaults.removePersistentDomain(forName: request.suiteName) }
+        let bundle = try fixture("fresh-launch-existing-bundle")
+        let context = try request.prepare(supportRoot: directory, bundledRoot: bundle, defaultsFactory: { _ in defaults })
+        try FileManager.default.createDirectory(at: context.storageRoot, withIntermediateDirectories: false)
+        let marker = context.storageRoot.appendingPathComponent("retain")
+        let bytes = Data("existing root is not reset".utf8)
+        try bytes.write(to: marker)
+        XCTAssertThrowsError(try request.prepare(supportRoot: directory, bundledRoot: bundle,
+                                                defaultsFactory: { _ in defaults })) {
+            XCTAssertEqual($0 as? UITestFreshBundledLaunchError, .storageNotAbsent)
+        }
+        XCTAssertEqual(try Data(contentsOf: marker), bytes)
+        defaults.set(Data("preexisting reading bytes".utf8), forKey: "library.reading.v1")
+        XCTAssertThrowsError(try request.prepare(supportRoot: directory, bundledRoot: bundle,
+                                                defaultsFactory: { _ in defaults })) {
+            XCTAssertEqual($0 as? UITestFreshBundledLaunchError, .nonEmptyInitialReading)
+        }
+        XCTAssertEqual(defaults.data(forKey: "library.reading.v1"), Data("preexisting reading bytes".utf8))
+        XCTAssertEqual(try Data(contentsOf: marker), bytes)
+
+        let linked = try XCTUnwrap(UITestFreshBundledLaunchRequest.parse(freshBundledLaunchInput()))
+        let linkedDefaults = try XCTUnwrap(UserDefaults(suiteName: linked.suiteName))
+        defer { linkedDefaults.removePersistentDomain(forName: linked.suiteName) }
+        let linkedContext = try linked.prepare(supportRoot: directory, bundledRoot: bundle,
+                                              defaultsFactory: { _ in linkedDefaults })
+        let manifest = try Data(contentsOf: bundle.appendingPathComponent("manifest.json"))
+        let link = directory.appendingPathComponent(linkedContext.storageRoot.lastPathComponent)
+        try FileManager.default.createSymbolicLink(at: link, withDestinationURL: bundle)
+        XCTAssertThrowsError(try linked.prepare(supportRoot: directory, bundledRoot: bundle,
+                                               defaultsFactory: { _ in linkedDefaults })) {
+            XCTAssertEqual($0 as? UITestFreshBundledLaunchError, .storageNotAbsent)
+        }
+        XCTAssertEqual(try Data(contentsOf: bundle.appendingPathComponent("manifest.json")), manifest)
+
+        let dangling = try XCTUnwrap(UITestFreshBundledLaunchRequest.parse(freshBundledLaunchInput()))
+        let danglingDefaults = try XCTUnwrap(UserDefaults(suiteName: dangling.suiteName))
+        defer { danglingDefaults.removePersistentDomain(forName: dangling.suiteName) }
+        let danglingContext = try dangling.prepare(supportRoot: directory, bundledRoot: bundle,
+                                                   defaultsFactory: { _ in danglingDefaults })
+        let danglingLink = directory.appendingPathComponent(danglingContext.storageRoot.lastPathComponent)
+        let missingTarget = directory.appendingPathComponent("fresh-launch-missing-symlink-target")
+        try FileManager.default.createSymbolicLink(at: danglingLink, withDestinationURL: missingTarget)
+        let destination = try FileManager.default.destinationOfSymbolicLink(atPath: danglingLink.path)
+        XCTAssertThrowsError(try dangling.prepare(supportRoot: directory, bundledRoot: bundle,
+                                                  defaultsFactory: { _ in danglingDefaults })) {
+            XCTAssertEqual($0 as? UITestFreshBundledLaunchError, .storageNotAbsent)
+        }
+        XCTAssertEqual(try FileManager.default.destinationOfSymbolicLink(atPath: danglingLink.path), destination)
+    }
+
+    func testFreshBundledResumeKeepsNamespacesAndRequiresActualBundleWithoutCopy() throws {
+        let input = freshBundledLaunchInput()
+        let initial = try XCTUnwrap(UITestFreshBundledLaunchRequest.parse(input))
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: initial.suiteName))
+        defer { defaults.removePersistentDomain(forName: initial.suiteName) }
+        let bundle = try fixture("fresh-launch-resume-bundle")
+        let before = try initial.prepare(supportRoot: directory, bundledRoot: bundle, defaultsFactory: { _ in defaults })
+        var resumeInput = input; resumeInput["AILIBRARY_UI_TEST_FRESH_BUNDLE_MODE"] = "resume"
+        let resume = try XCTUnwrap(UITestFreshBundledLaunchRequest.parse(resumeInput))
+        XCTAssertThrowsError(try resume.prepare(supportRoot: directory, bundledRoot: bundle,
+                                               defaultsFactory: { _ in defaults })) {
+            XCTAssertEqual($0 as? UITestFreshBundledLaunchError, .emptyResumeReading)
+        }
+        defaults.set(Data(#"{"bookmarks":["example"],"positions":{}}"#.utf8), forKey: "library.reading.v1")
+        let after = try resume.prepare(supportRoot: directory, bundledRoot: bundle, defaultsFactory: { _ in defaults })
+        XCTAssertEqual(before.storageRoot, after.storageRoot)
+        XCTAssertEqual(before.request.namespaceID, after.request.namespaceID)
+        XCTAssertEqual(before.request.suiteName, after.request.suiteName)
+        XCTAssertFalse(after.initialReadingEmpty)
+        let proof = try after.observation(snapshotRoot: bundle, articleCount: 1)
+        XCTAssertEqual(proof.status, "passed")
+        XCTAssertEqual(proof.mode, "resume")
+        XCTAssertFalse(proof.readingInitiallyEmpty)
+        let wrong = try after.observation(snapshotRoot: directory, articleCount: 1)
+        XCTAssertEqual(wrong.status, "failed")
+        XCTAssertFalse(wrong.selectedBundledRoot)
+        try FileManager.default.createDirectory(at: after.storageRoot, withIntermediateDirectories: false)
+        let copied = try after.observation(snapshotRoot: bundle, articleCount: 1)
+        XCTAssertEqual(copied.status, "failed")
+        XCTAssertFalse(copied.rootAbsentAfterLoad)
+        XCTAssertTrue(copied.selectedBundledRoot)
+    }
+}
+#endif

@@ -234,7 +234,11 @@ try {
   if (stage === 'prepare') {
     assert.match(expected, /^[0-9a-f]{40}$/);
     assert.match(process.env.GITHUB_RUN_ID!, /^[1-9][0-9]*$/); assert.match(process.env.GITHUB_RUN_ATTEMPT!, /^[1-9][0-9]*$/);
-    assert.ok(['push','pull_request'].includes(process.env.OBSERVATION_EVENT!));
+    assert.ok(['push','pull_request','workflow_dispatch'].includes(process.env.OBSERVATION_EVENT!));
+    if (process.env.OBSERVATION_EVENT === 'workflow_dispatch') {
+      assert.equal(process.env.OBSERVATION_SHA, expected, 'Dispatch SHA must equal expected source');
+      assert.equal(process.env.OBSERVATION_WORKFLOW_SHA, expected, 'Dispatch workflow SHA must equal expected source');
+    }
     const started = Date.now();
     json('budget.json', { schema_version: 1, started_epoch_ms: started, work_deadline_epoch_ms: started + 31 * 60000,
       work_minutes: 31, job_minutes: 40, reserved_postprocessing_minutes: 6, limits_are_resource_bounds: true });

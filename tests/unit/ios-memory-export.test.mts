@@ -529,6 +529,64 @@ test('producer provenance requires independent expected head while allowing PR s
   }
 })
 
+test('manual memory provenance binds source and workflow SHA without accepting other event kinds', () => {
+  const context = contextFixture()
+  context.github.event_name = 'workflow_dispatch'
+  context.github.sha = head
+  context.github.workflow_sha = head
+  context.github.workflow_ref = 'pero3dev/ai-agent-library/.github/workflows/ios-memory.yml@refs/heads/feature/memory-manual-dispatch'
+  const result = verifyMemoryProvenance(context, head)
+  assert.equal(result.status, 'producer-context-consistent')
+  assert.equal(result.official_workflow_API_verified, false)
+  assert.equal(result.runtime_checkout_cryptographically_verified, false)
+  for (const override of [
+    { sha: 'b'.repeat(40) }, { workflow_sha: 'b'.repeat(40) },
+    { event_name: 'workflow_run' }, { event_name: 'repository_dispatch' }, { event_name: 'pull_request_target' }
+  ]) {
+    const invalid = { ...context, github: { ...context.github, ...override } }
+    assert.throws(() => verifyMemoryProvenance(invalid, head))
+  }
+})
+
+test('memory prepare admits exact manual identity and refuses mismatches before creating budget', (t) => {
+  const directory = temporary(t)
+  const driver = fileURLToPath(new URL('../../.github/scripts/ios-memory/driver.mts', import.meta.url))
+  const emptyPath = path.join(directory, 'empty-bin')
+  mkdirSync(emptyPath)
+  const cases = [
+    { name: 'manual', event: 'workflow_dispatch', source: head, workflow: head, accepted: true },
+    { name: 'manual-source-mismatch', event: 'workflow_dispatch', source: 'b'.repeat(40), workflow: head, accepted: false },
+    { name: 'manual-workflow-mismatch', event: 'workflow_dispatch', source: head, workflow: 'b'.repeat(40), accepted: false },
+    { name: 'unsupported', event: 'workflow_run', source: head, workflow: head, accepted: false },
+    { name: 'existing-pr', event: 'pull_request', source: 'b'.repeat(40), workflow: 'c'.repeat(40), accepted: true },
+    { name: 'existing-push', event: 'push', source: head, workflow: 'b'.repeat(40), accepted: true }
+  ]
+  for (const entry of cases) {
+    const cwd = path.join(directory, entry.name)
+    const evidence = path.join(cwd, '.local/ios-memory/evidence')
+    mkdirSync(path.join(evidence, 'raw'), { recursive: true, mode: 0o700 })
+    const result = spawnSync(process.execPath, ['--experimental-strip-types', driver, 'prepare'], {
+      cwd, encoding: 'utf8', timeout: 10000, maxBuffer: 256 * 1024,
+      env: { ...process.env, PATH: emptyPath, NODE_OPTIONS: '', NODE_PATH: '',
+        EXPECTED_SOURCE_HEAD: head, OBSERVATION_EVENT: entry.event, OBSERVATION_SHA: entry.source,
+        OBSERVATION_WORKFLOW_SHA: entry.workflow,
+        OBSERVATION_WORKFLOW_REF: 'pero3dev/ai-agent-library/.github/workflows/ios-memory.yml@refs/heads/feature/memory-manual-dispatch',
+        GITHUB_REPOSITORY: 'pero3dev/ai-agent-library', GITHUB_RUN_ID: '123', GITHUB_RUN_ATTEMPT: '1' }
+    })
+    assert.equal(result.error, undefined, entry.name)
+    assert.equal(result.signal, null, entry.name)
+    assert.equal(result.status, entry.accepted ? 0 : 1, entry.name + ': ' + result.stderr)
+    assert.equal(existsSync(path.join(evidence, 'budget.json')), entry.accepted, entry.name)
+    const receipt = JSON.parse(readFileSync(path.join(evidence, 'stage-prepare.json'), 'utf8'))
+    assert.equal(receipt.status, entry.accepted ? 'passed' : 'failed', entry.name)
+    assert.equal(receipt.event_name, entry.event, entry.name)
+    if (entry.accepted) {
+      const environment = JSON.parse(readFileSync(path.join(evidence, 'environment.json'), 'utf8'))
+      assert.equal(environment.event_name, entry.event, entry.name)
+    }
+  }
+})
+
 test('command deadlines clamp every child to remaining shared budget and refuse exhausted time', () => {
   assert.equal(memoryCommandBudget(170000, 0), 60000)
   assert.equal(memoryCommandBudget(170000, 169950), 50)

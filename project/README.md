@@ -55,6 +55,7 @@
 
 ### iOS
 
+- [Appメモリ計測の手動起動](records/2026-11-04/ios-app-memory-manual-dispatch.md) — 対象ソースの照合と計測の検証範囲。
 - [native回帰の起動条件](records/2026-11-04/ios-native-path-filter.md) — 推移的入力の一覧と実PRでの条件検証。
 - [通常検証とguard順序のpreview16](records/2026-11-04/ios-storage-scope-ui-regression.md) — 2026-11-04の実施・検証記録。
 - [モーダル提示境界の診断](records/2026-11-04/ios-native-modal-presentation-boundaries.md) — 2026-11-04の実施・検証記録。

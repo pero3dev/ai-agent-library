@@ -1,5 +1,7 @@
 # iOS完成版に向けたTODO
 
+IOS-15の[AppMemory手動起動候補](../../records/2026-11-04/ios-app-memory-manual-dispatch.md)は、PR #352の既存head ee408へ取得済みmain0e018を取り込む通常merge候補を2026-11-06に準備した。Code4全文とmainの非所有pathを保持する。head44cdの必須11・自動9workflow成功と11月4日の同期記録は履歴で、ee408と新候補のCI成功には引き継がない。新しい共通・形式検査、最終独立レビュー、実headの必須11・関連CIと実manual Hosted・通常main統合は未実施である。App0.2.32（34）・TODO32行16完了と全criteriaを維持し、IOS-15全体・実機・製品budgetは未受入のままとする。
+
 IOS-21／25の[guard16通常preview](../../records/2026-11-04/ios-storage-scope-ui-regression.md)は、normal2／guard1／scope4／reader4／UI5＋PBX／記録4の6責務で同PR339を通常再検証する選択案である。397instrumentedの10成功／Runtime26失敗1を保持し、後刻positiveで15秒失敗を救済しない。unused app.frame取得を避けるguardfirstはsyntax-only確認で新Hosted効果未受入。Core320／Native8／Full27（旧26保持）とRuntime26を含むfresh全required／relevant・最新main確認前にmergeしない。実適用／commitsはNULL、App32／TODO16/32／criteriaと直後のpreview15履歴を維持する。
 
 IOS-21／25の[通常モード統合preview](../../records/2026-11-04/ios-storage-scope-ui-regression.md)は、ordinary main未採用のactual397（known82）へ通常flagfalseを先に重ね、Consol14の保存保護と容量UIを統合する私有15path／新規2のrecipeである。Core320／Native8／Full27、new whole IR／actual CIは未受入、同PRか別PRかも後続判断で公開／merge権限は解除しない。TODO16/32・全criteriaと旧記録を維持する。直後のConsol14案内は元候補の作成時点履歴である。

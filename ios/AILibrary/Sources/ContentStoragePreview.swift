@@ -125,12 +125,18 @@ enum ContentStoragePreviewScanner {
             // Foundation may shorten /private/tmp back to the /tmp symlink even
             // after resolvingSymlinksInPath. Admit the actual POSIX parent path;
             // never run realpath on the final root component itself.
+            var parentError: Int32 = 0
             let parent = root.deletingLastPathComponent().withUnsafeFileSystemRepresentation { path -> String? in
-                guard let path, let resolved = Darwin.realpath(path, nil) else { return nil }
+                guard let path else { return nil }
+                guard let resolved = Darwin.realpath(path, nil) else { parentError = errno; return nil }
                 defer { free(resolved) }
                 return String(validatingUTF8: resolved)
             }
             guard let parent, parent.utf8.count <= 4_096 else {
+                if parent == nil, parentError == ENOENT {
+                    return try scanMissingParent(root: root, advisoryUses: advisoryUses,
+                                                 beforeFinalObservation: beforeFinalObservation)
+                }
                 issues.insert(.unavailable)
                 return result(.unavailable, emptyPointer(.unreadable), advisoryUses)
             }
@@ -185,6 +191,86 @@ enum ContentStoragePreviewScanner {
             if selected.state != .observed { issues.insert(.pointerUnavailable) }
             if selected.state == .changed { issues.insert(.changed) }
             return result(.present, selected, advisoryUses)
+        }
+
+        // A missing parent is a valid first-use state. Only ENOENT prefixes are
+        // removed; a dangling alias or another lookup error cannot prove absence.
+        func scanMissingParent(root: URL, advisoryUses: [UUID: Int],
+                               beforeFinalObservation: (() throws -> Void)?) throws -> ContentStoragePreview {
+            let sourceParts = root.path.split(separator: "/").map(String.init)
+            guard sourceParts.count <= 64, !root.path.utf8.contains(0), let rootName = sourceParts.last else {
+                issues.insert(.unavailable); return result(.unavailable, emptyPointer(.unreadable), advisoryUses)
+            }
+            var components = Array(sourceParts.dropLast())
+            var missing: [String] = []
+            for _ in 0..<64 {
+                try checkCancellation()
+                let candidate = components.isEmpty ? "/" : "/" + components.joined(separator: "/")
+                var information = stat(), lookupError: Int32 = 0
+                let exists = candidate.withCString { path -> Bool in
+                    guard Darwin.lstat(path, &information) == 0 else { lookupError = errno; return false }
+                    return true
+                }
+                if exists {
+                    guard information.st_mode & S_IFMT == S_IFDIR || information.st_mode & S_IFMT == S_IFLNK else {
+                        issues.insert(.unavailable); return result(.unavailable, emptyPointer(.unreadable), advisoryUses)
+                    }
+                    try checkCancellation()
+                    let ancestor = candidate.withCString { path -> String? in
+                        guard let resolved = Darwin.realpath(path, nil) else { return nil }
+                        defer { free(resolved) }
+                        return String(validatingUTF8: resolved)
+                    }
+                    guard let ancestor else {
+                        issues.insert(.unavailable); return result(.unavailable, emptyPointer(.unreadable), advisoryUses)
+                    }
+                    // If the original parent has already appeared, do not switch
+                    // to a different observation path after the failed realpath.
+                    guard let firstMissing = missing.first else {
+                        issues.insert(.changed); return result(.unavailable, emptyPointer(.changed), advisoryUses)
+                    }
+                    let parts = ancestor.split(separator: "/").map(String.init)
+                    let suffix = missing + [rootName]
+                    let combined = (ancestor == "/" ? "" : ancestor) + "/" + suffix.joined(separator: "/")
+                    guard ancestor.hasPrefix("/"), parts.count + suffix.count <= 64, combined.utf8.count <= 4_096 else {
+                        issues.insert(.unavailable); return result(.unavailable, emptyPointer(.unreadable), advisoryUses)
+                    }
+                    try checkCancellation()
+                    var ancestorFD = Darwin.open("/", O_RDONLY | O_DIRECTORY | O_CLOEXEC | O_NOFOLLOW)
+                    guard ancestorFD >= 0 else {
+                        issues.insert(.unavailable); return result(.unavailable, emptyPointer(.unreadable), advisoryUses)
+                    }
+                    defer { Darwin.close(ancestorFD) }
+                    for part in parts {
+                        try checkCancellation()
+                        let next = openat(ancestorFD, part, O_RDONLY | O_DIRECTORY | O_CLOEXEC | O_NOFOLLOW)
+                        guard next >= 0 else {
+                            issues.insert(.unavailable); return result(.unavailable, emptyPointer(.unreadable), advisoryUses)
+                        }
+                        Darwin.close(ancestorFD); ancestorFD = next
+                    }
+                    try checkCancellation()
+                    try beforeFinalObservation?() // Same internal race seam, before the final absence observation.
+                    try checkCancellation()
+                    var final = stat(), finalError: Int32 = 0
+                    let appeared = firstMissing.withCString { name -> Bool in
+                        guard fstatat(ancestorFD, name, &final, AT_SYMLINK_NOFOLLOW) == 0 else {
+                            finalError = errno; return false
+                        }
+                        return true
+                    }
+                    if !appeared, finalError == ENOENT { return result(.absent, emptyPointer(.absent), advisoryUses) }
+                    if appeared {
+                        issues.insert(.changed); return result(.unavailable, emptyPointer(.changed), advisoryUses)
+                    }
+                    issues.insert(.unavailable); return result(.unavailable, emptyPointer(.unreadable), advisoryUses)
+                }
+                guard lookupError == ENOENT, let removed = components.popLast() else {
+                    issues.insert(.unavailable); return result(.unavailable, emptyPointer(.unreadable), advisoryUses)
+                }
+                missing.insert(removed, at: 0)
+            }
+            issues.insert(.unavailable); return result(.unavailable, emptyPointer(.unreadable), advisoryUses)
         }
 
         enum Scope: Equatable { case root, versions, contents }

@@ -55,6 +55,7 @@
 
 ### iOS
 
+- [保存版なしの同梱起動回帰候補](records/2026-11-04/ios-fresh-bundled-launch.md) — 隔離した空の保存先、読書位置の保持、Releaseの試験用文字列監査。
 - [Appメモリ計測の手動起動](records/2026-11-04/ios-app-memory-manual-dispatch.md) — 対象ソースの照合と計測の検証範囲。
 - [native回帰の起動条件](records/2026-11-04/ios-native-path-filter.md) — 推移的入力の一覧と実PRでの条件検証。
 - [通常検証とguard順序のpreview16](records/2026-11-04/ios-storage-scope-ui-regression.md) — 2026-11-04の実施・検証記録。

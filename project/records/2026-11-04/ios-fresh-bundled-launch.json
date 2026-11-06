@@ -1,0 +1,541 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-04",
+  "status": "prospective-node-component-accepted-ios-runtime-unrun",
+  "prospective_parent": "ee408b792048a7fe0e88cc52ac844f3e82df01e9",
+  "prospective_parent_tree": "e20b75e3caba4f721fc7f6f73764dfc8f63ba837",
+  "actual_main": null,
+  "actual_candidate_head": null,
+  "app_candidate": {
+    "marketing_version": "0.2.33",
+    "build": "35",
+    "PBX_scalar_changes": 4
+  },
+  "planned_roster": {
+    "Core_total": 326,
+    "Core_pass_if_known_skip_unchanged": 324,
+    "Core_known_skip": 2,
+    "Full_total": 28,
+    "reading_state": 20,
+    "content_copy": 8,
+    "Native_UI": 8,
+    "Node_component_target": 64
+  },
+  "feature_scope": {
+    "DEBUG_strict_UUID_mode_suite": true,
+    "ordinary_defaults_fallback_on_invalid": false,
+    "erase_existing_data": false,
+    "before_store_root_and_domain_capture": true,
+    "actual_snapshot_bundle_and_no_copy_observation": true,
+    "AX_filesystem_getter": false,
+    "same_UUID_two_process_reading_retention": true,
+    "Release_main_and_top_level_dylib_tokens": 8
+  },
+  "code_image_reader": {
+    "images": 16,
+    "per_image_bytes": 67108864,
+    "total_payload_bytes": 134217728,
+    "chunk_bytes": 65536,
+    "extra_EOF_bytes_per_image": 1,
+    "fixed_descriptor": true,
+    "general_MachO_or_all_debug_or_RSS_claim": false
+  },
+  "component_static_IR": {
+    "Code6": {
+      "P1": 0,
+      "P2": 0,
+      "manifest_SHA256": "5ee664383842dcf8f120ed99dac7ec3ebf70b421632a87755eef0a0d6ea2c829"
+    },
+    "ReleaseR2": {
+      "P1": 0,
+      "P2": 0,
+      "manifest_SHA256": "11f4a387bb0dd2379cb00941d7838996e8e836b6ccadc2adf5d820fdb3853c9f",
+      "R1_P2_resolved": "bounded fixed-descriptor streaming"
+    }
+  },
+  "unverified": [
+    "Swift syntax and typecheck",
+    "SDK build and XCTest",
+    "Simulator UI and AX evidence",
+    "actual Release code images",
+    "new head full CI and whole submission review",
+    "ordinary actual main binding",
+    "OS network-off",
+    "fresh installation",
+    "physical device and VoiceOver"
+  ],
+  "TODO": {
+    "rows": 32,
+    "done": 16,
+    "IOS25_complete": false,
+    "all_criteria_unchanged": true
+  },
+  "commit_plan": [
+    "Code8 plus PBX",
+    "Records4"
+  ],
+  "Node_component_supplement": {
+    "status": "component-accepted",
+    "tests": 64,
+    "pass": 63,
+    "known_skip": 1,
+    "fail": 0,
+    "Node_exit": 0,
+    "seconds": 0.711352833,
+    "result_SHA256": "00c561f5318dc32df4cb52ce4194944230aeeb5a70b0c959722144b747adb43d",
+    "stdout_SHA256": "ec8b893446a7c064a1b5ef4397ed9924c378773b45a54ae94e5f0eea0823ff86",
+    "input_MF": "a91265c65de461b98542d21936c95ff207296974303cf7ff821b86dd4cdd6748",
+    "PG_reaped_and_absent": true,
+    "source_and_input_pins_held": true,
+    "scope": "two Node targets; fake command/temporary app fixtures only",
+    "Swift_SDK_UI_actualRelease_CI_accepted": false
+  },
+  "rebind_preparation_2026_11_06": {
+    "date": "2026-11-06",
+    "state": "private-prospective-rebind-only",
+    "known_fetched_main": "0e0181b90a7fdc6863c2a0aa9b252d60b59ec0e0",
+    "known_Memory_PR352_head": "ee408b792048a7fe0e88cc52ac844f3e82df01e9",
+    "prospective_Memory_parent_tree": "d49aa7317db9c72d43bc737cedf46f03ad605214",
+    "actual_normal_Memory_main_commit": null,
+    "actual_fresh_candidate_head": null,
+    "Code8_and_PBX4scalars_exact": true,
+    "Memory8_entirety_preserved": true,
+    "incoming_main9_preserved": true,
+    "planned_Source_paths": 13,
+    "planned_new_paths": 2,
+    "historical_Node64_scope": "2026-11-04 component only: 63pass / 1knownskip / 0fail; not rerun here",
+    "actual_parent_raw_OID_tree_fullmap_bind_performed": false,
+    "candidate_execution_performed": false,
+    "fresh_full_common_performed": false,
+    "four_official_forms_performed": false,
+    "new_whole_independent_review_performed": false,
+    "new_head_CI_accepted": false,
+    "Swift_SDK_Core326_UI28_Native8_actual_Release_accepted": false,
+    "commit_created": false,
+    "pushed": false,
+    "PR_created": false,
+    "merged": false,
+    "OS_network_off_fresh_install_device_VoiceOver_accepted": false,
+    "TODO_rows_done_criteria_unchanged": true,
+    "IOS25_complete": false,
+    "Root_next": [
+      "Bind actual normally merged Memory main raw commit OID, tree and complete file tuples",
+      "Recreate and review the concrete fresh Source13 and all official forms",
+      "Run fresh full common checks and relevant new-head CI, Swift/UI/Release validation",
+      "Use the normal PR and merge process; preserve incomplete device and other criteria"
+    ]
+  },
+  "final_scope_extension": {
+    "date": "2026-11-06",
+    "state": "private-prospective-source14-documentation-extension-only",
+    "additional_path": "ios/README.md",
+    "reason": "Include the already-reviewed Node prerequisite clarification in the same documentation commit as fresh-bundle regression; avoid a separate all-iOS CI cycle for one small documentation change while retaining final new-head full CI.",
+    "partition": {
+      "Code9": 9,
+      "Docs5": 5,
+      "changed_paths": 14,
+      "new_paths": 2
+    },
+    "Node_prerequisite_before_blob": "3777a068058d1ad20f51a34985efc1ef643e4b63",
+    "Node_prerequisite_after_blob": "d06ba247be1ecd14bfe61c471fca50171c99c411",
+    "historical_Node_document_manifest_SHA256": "a11b38a8d77017ab0854a7dc3d1de2c0930577deb72aa4c11ba4bacccd8de31b",
+    "historical_Node_document_IR_SHA256": "b055a37f2c72138b7d1715fd950573f0c67347150ee48d62ab608ea0a7f22496",
+    "historical_Node_document_IR_P1": 0,
+    "historical_Node_document_IR_P2": 0,
+    "historical_Markdown_and_two_relative_links_scope": "Previous one-path documentation validation only; not final14 common or CI acceptance.",
+    "Code9_and_PBX4scalars_exact_Source13": true,
+    "project_README_and_plan_exact_Source13": true,
+    "prior_MD_prefix_and_JSON_values_preserved": true,
+    "Source13_Code9_common_at_preparation": "running; not accepted here and not a final14 fullcommon result",
+    "actual_normal_Memory_main_commit": null,
+    "actual_candidate_head": null,
+    "candidate_execution_performed": false,
+    "Node_npm_example_commands_executed": false,
+    "final14_Markdown_links_forms_performed": false,
+    "final14_full_common_accepted": false,
+    "new_head_full_CI_accepted": false,
+    "API_or_publication_performed": false,
+    "commit_created": false,
+    "pushed": false,
+    "PR_created": false,
+    "merged": false,
+    "SDK_UI_Release_runtime_accepted": false,
+    "TODO_rows": 32,
+    "TODO_done": 16,
+    "all_criteria_unchanged": true,
+    "IOS25_complete": false,
+    "IOS28_complete": false,
+    "Root_next": [
+      "Complete the currently running exact Code9/Source13 common scope without calling it final14 success",
+      "Run incremental final14 Markdown, links and official form checks",
+      "Bind actual normal Memory main raw OID, tree and complete file tuples",
+      "Perform final whole review and new-head full required/relevant CI before normal merge acceptance"
+    ]
+  },
+  "Root_validation_2026_11_06": {
+    "date": "2026-11-06",
+    "state": "actual-normal-Memory-main-bound-final-delta-unreviewed",
+    "actual_known_Memory_main": "acf82a3c456e7c060bc4b009d6f50424a717792e",
+    "actual_sole_parent": "0e0181b90a7fdc6863c2a0aa9b252d60b59ec0e0",
+    "actual_parent_tree": "d49aa7317db9c72d43bc737cedf46f03ad605214",
+    "actual_parent_files": 3290,
+    "actual_parent_raw_OID_tree_fullmap_message_verified": true,
+    "Root_main_proof_SHA256": "4b27ef02076ccd5536c0b8fe07e48013ad088c6571d61250d59b3404f10b81fb",
+    "Source13_common": {
+      "tree": "c62855c72ae01878bc69f684191dbecec906026f",
+      "tests": 1670,
+      "pass": 1654,
+      "skip": 16,
+      "fail": 0,
+      "log_SHA256": "925a9a12a1b7731e28c5d4ae0ebd3264ee15f6d995f217e0277adb92dcde3c4e",
+      "scope": "Exact historical Source13, not final14 fullcommon"
+    },
+    "Source14_incremental_docs": {
+      "source_tree": "b9338b61dad548e157fece7ae8708f5fdd54597a",
+      "Markdown_documents": 4,
+      "new_relative_links": 3,
+      "receipt_SHA256": "2edd38f8fadcf0a871233bfa0e51b63979085d9edc80d98ba4ecdb0cac65d81d",
+      "scope": "Before this final binding appendix; not final14 fullcommon"
+    },
+    "direct_SDK": {
+      "code9_tree": "35a2183c258985039bd3d8746e495ff13c5af9b6",
+      "SDK": "installed iPhoneSimulator18.2",
+      "App_module_files": 19,
+      "Core_methods_typechecked": 326,
+      "UI_methods_typechecked": 41,
+      "result_SHA256": "0b517088cdce2992a083f41b46297f1fd979caf4edb72220a22d72da6b262543",
+      "stage_exit_codes": [
+        0,
+        0,
+        0
+      ],
+      "target_build_link_XCTest_resources_actual_Release_accepted": false,
+      "prior_xcodebuild_exit70_retained": true
+    },
+    "old_private_unrun_fields_are_historical": true,
+    "Code9_unchanged": true,
+    "other_three_Docs5_byte_exact_Source14": true,
+    "final14_full_common_accepted": false,
+    "final_delta_Markdown_links_forms_review_performed": false,
+    "newhead_full_CI_accepted": false,
+    "Core_UI_Native_runtime_Release_device_accepted": false,
+    "actual_candidate_head": null,
+    "API_or_publication_performed": false,
+    "candidate_execution_performed": false,
+    "commit_created": false,
+    "pushed": false,
+    "PR_created": false,
+    "merged": false,
+    "TODO_rows": 32,
+    "TODO_done": 16,
+    "all_criteria_unchanged": true,
+    "IOS25_complete": false,
+    "IOS28_complete": false
+  },
+  "PR360_initial_CI_and_public_UI_correction_2026_11_06": {
+    "source": "95b7d3606425307d0255aa67e10c61913711d761",
+    "run_FullA": "https://github.com/pero3dev/ai-agent-library/actions/runs/42086431944",
+    "common": {
+      "total": 1670,
+      "passed": 1654,
+      "skipped": 16,
+      "failed": 0
+    },
+    "Core": {
+      "total": 326,
+      "passed": 324,
+      "skipped": 2,
+      "failed": 0,
+      "new_six_passed": true
+    },
+    "Native_UI": {
+      "passed": 8
+    },
+    "Full_UI": {
+      "A_passed": 18,
+      "A_failed": 2,
+      "B_passed": 8,
+      "accepted": false
+    },
+    "Release_scan_8_tokens": {
+      "Native": true,
+      "Full_B": true,
+      "SDK26": true,
+      "Full_A": "skipped"
+    },
+    "Rotation": {
+      "initial": "pre-UI inventory timeout",
+      "one_controlled_unchanged_retry": "passed",
+      "initial_failure_retained": true
+    },
+    "fresh_failure": "post-resume More readiness before tap; wrong filtered-sheet helper on unfiltered public Menu; exact readiness cause unproven",
+    "storage_failure": "initial display-only total activation-point check; after-timeout sequential observation not success; no refresh/close reached",
+    "correction_scope": "test-only fresh Menu route and two readonly total visible-geometry/label checks",
+    "bounds_retained": [
+      "15 second predicates",
+      "unknown false",
+      "unique actionable public controls",
+      "real refresh and close",
+      "no synthetic query or rescue",
+      "all data/filter/reading/capacity assertions"
+    ],
+    "new_candidate_validation": "pending independent review/common/SDK/new-head CI/normal merge",
+    "actual_normal_main": null,
+    "App": "0.2.33(35)",
+    "TODO": {
+      "rows": 32,
+      "checked": 16,
+      "criteria_unchanged": true
+    },
+    "unverified": [
+      "device",
+      "VoiceOver",
+      "minimum iOS17 functional acceptance",
+      "OS offline",
+      "new install",
+      "whole IOS-25"
+    ]
+  },
+  "PR360_source0ac_CI_arrival_selector_2026_11_06": {
+    "source": "0ac77c593683ad2a172577ad5242d5e324b65a22",
+    "required_checks": {
+      "passed": 11
+    },
+    "Core": {
+      "total": 326,
+      "passed": 324,
+      "known_skips": 2,
+      "new_six_passed": true
+    },
+    "Native_UI_passed": 8,
+    "Native_Release_8_token_audit": "passed representative3 only",
+    "dedicated_passed": {
+      "revision": 1,
+      "missing": 1,
+      "restore": 1,
+      "dynamic_type": 1,
+      "rotation": 1
+    },
+    "Full_B_initial": {
+      "run": "https://github.com/pero3dev/ai-agent-library/actions/runs/42103982579",
+      "total": 8,
+      "passed": 7,
+      "failed": 1,
+      "leaf": "testFixtureBodyLinksShowFragmentFilenameFarAndDuplicateWitnesses",
+      "first_link": "近くの本文へ",
+      "phase": "heading passed then arrival paragraph guard",
+      "copy_UI_leaf": "passed",
+      "post_UI_copy_bytes_and_full_Release": "unaccepted",
+      "late_sequential_geometry_not_rescue": true,
+      "root_cause": "unproven"
+    },
+    "pure_parse": {
+      "calls": 1,
+      "selected_documents": 4,
+      "distinct_arrival_IDs": 3,
+      "source_link_and_marker_unique": true,
+      "first_target_matches_raw": true,
+      "fixtureSHA256": "8ae54acfdd1a4e1e4d4fc0d75fd5227e1f62ceb1ec0a2ff8f1d00208e805de4b",
+      "no_render_or_runtime": true
+    },
+    "correction_scope": "exact-ID positive lookup in one test only; same15s/fullvisible/hittable; original broad witness uniqueness plus exact ID/text/resultID postchecks",
+    "App_shared_helpers_other_UI_unchanged": true,
+    "source0ac_remaining": "FullA/SDK26/Runtime26 pending at composition",
+    "new_candidate_validation": "pending review/common/SDK/newhead allrelevant/required11/Ready2/ordinarymain",
+    "actual_normal_main": null,
+    "App": "0.2.33(35)",
+    "TODO": {
+      "rows": 32,
+      "checked": 16,
+      "criteria_unchanged": true
+    },
+    "device_VoiceOver_OSoffline_newinstall_wholeIOS25": "uncompleted"
+  },
+  "PR360_source0ac_fresh_toolbar_guard_2026_11_06": {
+    "source": "0ac77c593683ad2a172577ad5242d5e324b65a22",
+    "Full_A_initial": {
+      "total": 20,
+      "passed": 19,
+      "failed": 1,
+      "storage_case": "Passed87.322s",
+      "fresh_case": "Failed105.882s NativeReader489 Activationpointinvalid More beforetap",
+      "return_and_foreground_guards": "passed; wrongBack notproved",
+      "numeric_pregetter_frames": "absent",
+      "cause": "unproven"
+    },
+    "Full_UI_initial": "26/28 unaccepted; A/B two failures retained",
+    "SDK26_unsigned_arm64_Archive_Release_8_token_audit": "passed full199; no device runtime claim",
+    "Runtime26": "3 exact raw UI Passed; ownership-checking cleanup/completion steps succeeded; perUUID generated cleanup receipts not independently downloaded",
+    "fresh_guard_candidate": "fresh-only unique existing enabled Rootbar and More, finitepositive frames, fully inapp+bar; same15s then existingisHittable and actualonetap; alloriginalproofs retained",
+    "fresh_diagnostic": {
+      "timing": "PRE-isHittable from same guard values; no extra AX reads for logging",
+      "maximum_polls": 16,
+      "maximum_bytes_each": 2048,
+      "maximum_bytes_total": 32768,
+      "timing_impact": "explicit, no causal or runtime claim",
+      "coverage": "first16 observations only; later getters may be unlogged; polling continues full15s independently of log budget or encoding"
+    },
+    "App_shared_helpers_return_query_relaunch_and_gestures_unchanged": true,
+    "new_candidate_validation": "pending review/common/SDK/newhead allrelevant/required11/Ready2/ordinarymain",
+    "actual_normal_main": null,
+    "App": "0.2.33(35)",
+    "TODO": {
+      "rows": 32,
+      "checked": 16,
+      "criteria_unchanged": true
+    },
+    "device_VoiceOver_OSoffline_newinstall_wholeIOS25": "uncompleted"
+  },
+  "PR360_source755_fresh_action_proof_2026_11_06": {
+    "source": "755d1c18f07c0dd51834585e20896da349c38638",
+    "closed_phase": {
+      "required11": true,
+      "Core": "326=324pass2knownskip/new6allpass",
+      "NativeUI": 8,
+      "FullA": "19pass1failed Fresh89.001s; Storage96.094s passed",
+      "FullB": "8pass/bodylink120.843s/copy374bytes/full199Release8",
+      "Full_total": "27/28 unaccepted",
+      "dedicated_and_Runtime26_SDK26": "passed scoped; perUUID Runtime raw cleanup receipts not downloaded"
+    },
+    "diagnostics": {
+      "samples": 14,
+      "UTF8bytes": 4887,
+      "first13": "counts1/exists/enabled/geometry alltrue",
+      "first13_hittable": false,
+      "hittable_false_is_dataflow_inference_not_logged_Bool": true,
+      "last14": "framesallzero",
+      "root_cause": "unproven",
+      "More_tap_reached": false
+    },
+    "coverage_revision": {
+      "removed": "More advisory isHittable prerequisite ONLY",
+      "retained": "same15s strictuniqueEnabled finitefullapp/bar geometry",
+      "replacement": "exact menu action preabsence -> one normal More.tap -> newly unique HITTABLE exact action/tap -> capacity/no-folder/total/close/count",
+      "menu_button_caption": "保存コンテンツの容量を確認",
+      "destination_title": "保存コンテンツの容量",
+      "no_coordinates_scroll_query_relaunch_retry": true,
+      "App_sharedhelpers_otherUI_unchanged": true,
+      "ID_declared_in_shared_Menu_and_sheet_builder": true,
+      "UIKit_ID_propagation": "unverified, no causal claim"
+    },
+    "diagnostic_revision": {
+      "phase": "fresh_more_readiness",
+      "false_hittable_read_metadata_removed": true,
+      "first16logs_optional_only": true,
+      "polling15s_continues": true,
+      "later_values_may_be_unlogged": true,
+      "timing_impact_explicit": true
+    },
+    "design_review": {
+      "conditional_sound": true,
+      "caption_P2_corrected_beforeimplementation": true,
+      "final_exact_IR_required": true
+    },
+    "new_candidate_validation": "pending finalIR/common/SDK/newhead related+required11/Ready2/ordinarymain",
+    "actual_normal_main": null,
+    "App": "0.2.33(35)",
+    "TODO": {
+      "rows": 32,
+      "checked": 16,
+      "criteria_unchanged": true
+    },
+    "device_VO_OS17_OSoffline_newinstall_wholeIOS25": "uncompleted"
+  },
+  "PR360_sourcee50_ordinary_more_sheet_2026_11_06": {
+    "state": "CANDIDATE_COMPOSITION_SNAPSHOT_NOT_NEW_SOURCE_ACCEPTANCE",
+    "base_source": "e50cbf37de73769cb545c5ea05df1f6884db82ff",
+    "base_tree": "e2a4a89ae7287b55b441d4237e52e86e7df5f931",
+    "actual_product_main": null,
+    "closed_CI": {
+      "workflow_success": 10,
+      "workflow_failure": 1,
+      "required_pass": 11,
+      "Core": "326=324pass+2knownskip/new6pass",
+      "Native_UI": 8,
+      "Full_A": "19pass1fail",
+      "Full_B": "8pass1executedjob; later successcarried",
+      "copy_bytes": 374,
+      "articles": 199,
+      "audio": 1,
+      "Release8": "B+Native+SDK accepted",
+      "dedicated": "revision/missing-restore/dynamic/rotation passed; Runtime26 exact3"
+    },
+    "Fresh_failure": {
+      "run": 42123066308,
+      "job": 127600587289,
+      "case": "PublishedReaderUITests/testFreshStorageBundledLaunchAndRelaunchKeepReadingWithoutImport()",
+      "seconds": "75.803",
+      "line": 211,
+      "readiness": "one cached sample; strictunique/exists/enabled/finitefullcontainment true; advisoryhittability notqueried",
+      "operation": "one test-code tap; framework internally attempted3; AX scroll-to-visible kAXErrorCannotComplete/hitpoint -1,-1",
+      "capacity_action_reached": false,
+      "Storage_separate": "passed81.890s",
+      "raw_SHA256": "e3adff6a64aee352a3b760e5c073afc88a2bacc9c6749244051bc13f68f3d80e",
+      "cause": "notestablished beyond actual AXaction failure"
+    },
+    "first_stops": "Native1 preUIinventorytimeout -> one controlled Native2pass; A1 nohostedrunner cancelled officialARMcapacity; first rerun403undispatched whileBactive; afterBterminal ONE actualA2 failure. Earliernegativephases retained.",
+    "design": "Both normal and fixture unfiltered toolbar More use ordinary Button to existing moreActionsSheet, sharing filtered open state. Same pending-cleared-before-open, onDismiss guard+clear-before-perform, allcapabilities/disabled/store/path guards; filterMenu unchanged; no test-only branch.",
+    "Fresh_contract": "Existing15s/geometry/oneordinarytap/preabsent→uniqueHITTABLEexactaction/capacity/no-copy/reading assertions retained; add unique operation-sheet bar/Close exists and sheetabsent afterexisting10s capacityarrival; no addedtap/query/relaunch/gesture/wait.",
+    "App_candidate": "0.2.34(36)",
+    "planned_commits": [
+      "Code3 product+Fresh+PBX",
+      "Docs3 recordMD/JSON+planprefix"
+    ],
+    "planned_PR360_total": {
+      "implementation": 10,
+      "docs_and_procedures": 5,
+      "paths": 15,
+      "new_paths": 2,
+      "files": 3292
+    },
+    "new_validation": "unaccepted atcandidatecomposition; no oldpass borrowing",
+    "TODO": "32rows/16done/allcriteria preserved; IOS15/25/28 and current device/VO/iOS17/install/offline incomplete"
+  },
+  "PR360_source788_missing_ancestor_preview_2026_11_06": {
+    "status": "CANDIDATE_COMPOSITION_SNAPSHOT_NOT_RUNTIME_ACCEPTANCE",
+    "base_source": "788b6efdc8bb16a4061ee7e44a17379305cd256a",
+    "base_tree": "fe16c91c781d6cd2853c4181a2547971c01354fd",
+    "actual_product_main": null,
+    "source788_CI": {
+      "required11": "success",
+      "Native": "Core326=324pass2knownskip/new6pass; UI8pass",
+      "FullA": "19pass1fail",
+      "FullB": "8pass/copy374/full199/audio1/Release8",
+      "SDK26": "unsignedarm64 App.34(36)/source37pins+Code3separateAPIbytes/Release8",
+      "dedicated": "revision/dynamic/rotation pass",
+      "Runtime26": "2pass1fail healthyLegacy/native-reader15swait atSwift720/44.379s",
+      "Fresh": "73.063s/Swift220 absent-caption15swait failed; source214-219passedbydataflow;221+notreached",
+      "cause": "unknown"
+    },
+    "missing_history": {
+      "initial": "F runner180s timedout+after-ui/finally get_app_container20s twice; completedleafunproved/entryunknown; Rblocked",
+      "cleanup": "ownedshutdown/delete/absentafterverified",
+      "controlled_recheck": "ONE Root same-source/sameconditions actualrecheck2 F1/R1passed/sentinel52Bpreserved/newowneddeleted",
+      "negative_retained": true,
+      "cause_established": false
+    },
+    "audit": {
+      "same_root": "App→Store→Repository→preview sameexplicitURL; no mkdir/write",
+      "gap": "realpath(parent) ENOENT returnsunavailable beforefinal-root ENOENT observation; legitimate missing ancestry unhandled; existingabsentCore hasexistingparentonly",
+      "actual_CI_parent_or_rootState": "notobserved; notclaimedcause",
+      "lowlevel_probe": "Darwinlibc only, notSwift/Core/UI; directmissingroot parentrealpathsuccess; missingparent/danglingparent bothENOENT distinguishedbylstat"
+    },
+    "design": "OnlyENOENT bounded/cancellable ancestorwalk; existingcanonicalFDchain nofollow; fstatatFIRST unresolvedcomponent provesENOENT; appeared/dangling/non-dir/othererror unavailable; validparentalias/successpath/bounds retained; no creation",
+    "Core": "Extend existingabsence methodonly; no methodcountchange; nestedabsence/alias/dangling/non-dir/bounds/cancel/race; EACCESnewfixture unreliable/omitted buterrorguardretained",
+    "Fresh_diagnostics": "Originalonequery/wait15 cachedBool thenfailure-onlyoneScreenshot+UTF8attachment<=32768B; AXdescriptionacquisitionunbounded/postwaitsequentialtimingimpact; no postwaitrescue/newacceptancequery/gestures",
+    "App_candidate": "0.2.34(36)",
+    "planned_commits": [
+      "Code3 scanner+existingCorecase+Freshfailurediagnostics",
+      "Docs3 recordMDJSON+planprefix"
+    ],
+    "planned_PR_total": {
+      "code": 12,
+      "docs": 5,
+      "paths": 17,
+      "new_paths": 2,
+      "files": 3292
+    },
+    "validation": "newIR/common/Core/SDK/UI/Release/CI/mainunaccepted; local4GiBfloorheld/resourcefallbacktoexactnewCI",
+    "TODO": "32/16/allcriteria unchanged; wholeIOS15/25/28 anddevicechecks incomplete"
+  }
+}

@@ -26,11 +26,15 @@
 
 基準PR作成時の記録では、外部音声metadataの時間境界とpackage間の画像cacheの分離を追加レビューで修正し、ソース版を0.2.3（5）へ進めました。当時の通常・fixtureのCoreSmokeとiOS SDKのテストターゲットcompile／Release buildを確認しています。追加したXCTestの実行と0.2.3の実機受入はその記録の時点で未実施です。ユーザーの指示に従い未完了として記録し、0.2.2の実機結果と区別しています。
 
-必要なものはリポジトリの要求を満たすNode.js、対応するMacとXcode、iOS 17以降のSimulatorまたはiPhoneです。プロジェクトのSwift言語モードは5、アプリに外部Swiftパッケージは使用しません。ストア配布のSDK要件とローカル試作の対応OSは別です。
+必要なものは[ルートのNode.js要件](../package.json)を満たすNode.js、対応するMacとXcode、iOS 17以降のSimulatorまたはiPhoneです。プロジェクトのSwift言語モードは5、アプリに外部Swiftパッケージは使用しません。ストア配布のSDK要件とローカル試作の対応OSは別です。
+
+標準版は[.node-version](../.node-version)を参照し、既存の対応版を選びます。依存の準備前に、以下の最初の2行で同じターミナルの実行ファイルと版を確認します。
 
 リポジトリのルートで実行します。
 
 ```bash
+command -v node
+node --version
 npm ci
 npm ci --prefix ios/tools --ignore-scripts
 # Chromeが導入済みの場合。専用の一時ブラウザーを起動します。

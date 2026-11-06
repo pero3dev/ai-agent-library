@@ -45,6 +45,99 @@ final class ContentStoragePreviewTests: XCTestCase {
         XCTAssertEqual(value.rootState, .absent); XCTAssertTrue(value.isComplete)
         XCTAssertEqual(value.observedLogicalBytes, 0); XCTAssertFalse(FileManager.default.fileExists(atPath: root.path))
         XCTAssertEqual(try inventory(parent), before)
+
+        let missingParents = [parent.appendingPathComponent("missing-parent/root"),
+                              parent.appendingPathComponent("missing-one/two/three/root")]
+        for missingRoot in missingParents {
+            let snapshot = try inventory(parent)
+            let missing = try ContentStoragePreviewScanner.scan(root: missingRoot, advisoryUses: [:])
+            XCTAssertEqual(missing.rootState, .absent); XCTAssertEqual(missing.pointerState, .absent)
+            XCTAssertTrue(missing.isComplete); XCTAssertEqual(missing.observedLogicalBytes, 0)
+            XCTAssertEqual(missing.regularFileCount, 0); XCTAssertEqual(missing.observedEntryCount, 0)
+            XCTAssertFalse(FileManager.default.fileExists(atPath: missingRoot.path))
+            XCTAssertFalse(FileManager.default.fileExists(atPath: missingRoot.deletingLastPathComponent().path))
+            XCTAssertEqual(try inventory(parent), snapshot)
+        }
+        XCTAssertFalse(FileManager.default.fileExists(atPath: parent.appendingPathComponent("missing-parent").path))
+        XCTAssertFalse(FileManager.default.fileExists(atPath: parent.appendingPathComponent("missing-one").path))
+
+        let aliasTarget = parent.appendingPathComponent("alias-target"), alias = parent.appendingPathComponent("valid-parent-alias")
+        try FileManager.default.createDirectory(at: aliasTarget, withIntermediateDirectories: false)
+        try FileManager.default.createSymbolicLink(at: alias, withDestinationURL: aliasTarget)
+        let aliasDestination = try FileManager.default.destinationOfSymbolicLink(atPath: alias.path)
+        let aliasBefore = try inventory(parent)
+        let aliased = try ContentStoragePreviewScanner.scan(root: alias.appendingPathComponent("missing-parent/root"), advisoryUses: [:])
+        XCTAssertEqual(aliased.rootState, .absent); XCTAssertTrue(aliased.isComplete)
+        XCTAssertEqual(aliased.observedLogicalBytes, 0)
+        XCTAssertFalse(FileManager.default.fileExists(atPath: aliasTarget.appendingPathComponent("missing-parent").path))
+        XCTAssertEqual(try inventory(parent), aliasBefore)
+        XCTAssertEqual(try FileManager.default.destinationOfSymbolicLink(atPath: alias.path), aliasDestination)
+
+        let dangling = parent.appendingPathComponent("dangling-parent"), missingTarget = parent.appendingPathComponent("missing-target")
+        try FileManager.default.createSymbolicLink(at: dangling, withDestinationURL: missingTarget)
+        let danglingDestination = try FileManager.default.destinationOfSymbolicLink(atPath: dangling.path)
+        let regular = parent.appendingPathComponent("regular-parent")
+        try Data("block".utf8).write(to: regular)
+        for invalidRoot in [dangling.appendingPathComponent("nested/root"),
+                            regular.appendingPathComponent("root"), regular.appendingPathComponent("nested/root")] {
+            let snapshot = try inventory(parent)
+            let invalid = try ContentStoragePreviewScanner.scan(root: invalidRoot, advisoryUses: [:])
+            XCTAssertEqual(invalid.rootState, .unavailable); XCTAssertFalse(invalid.isComplete)
+            XCTAssertEqual(invalid.observedLogicalBytes, 0); XCTAssertEqual(try inventory(parent), snapshot)
+        }
+        XCTAssertEqual(try FileManager.default.destinationOfSymbolicLink(atPath: dangling.path), danglingDestination)
+        XCTAssertFalse(FileManager.default.fileExists(atPath: missingTarget.path))
+
+        var excessive = parent
+        for index in 0..<65 { excessive.appendPathComponent("missing-\(index)") }
+        let excessiveBefore = try inventory(parent)
+        let excessiveValue = try ContentStoragePreviewScanner.scan(root: excessive.appendingPathComponent("root"), advisoryUses: [:])
+        XCTAssertEqual(excessiveValue.rootState, .unavailable); XCTAssertFalse(excessiveValue.isComplete)
+        XCTAssertEqual(excessiveValue.observedLogicalBytes, 0); XCTAssertEqual(try inventory(parent), excessiveBefore)
+        XCTAssertFalse(FileManager.default.fileExists(atPath: parent.appendingPathComponent("missing-0").path))
+
+        var deepTarget = parent.appendingPathComponent("canonical-depth")
+        while deepTarget.path.split(separator: "/").count < 64 { deepTarget.appendPathComponent("d") }
+        try FileManager.default.createDirectory(at: deepTarget, withIntermediateDirectories: true)
+        let deepAlias = parent.appendingPathComponent("deep-parent-alias")
+        try FileManager.default.createSymbolicLink(at: deepAlias, withDestinationURL: deepTarget)
+        let deepDestination = try FileManager.default.destinationOfSymbolicLink(atPath: deepAlias.path)
+        let deepBefore = try inventory(parent)
+        let deepValue = try ContentStoragePreviewScanner.scan(root: deepAlias.appendingPathComponent("missing/root"), advisoryUses: [:])
+        XCTAssertEqual(deepValue.rootState, .unavailable); XCTAssertFalse(deepValue.isComplete)
+        XCTAssertEqual(deepValue.observedLogicalBytes, 0); XCTAssertEqual(try inventory(parent), deepBefore)
+        XCTAssertFalse(FileManager.default.fileExists(atPath: deepTarget.appendingPathComponent("missing").path))
+        XCTAssertEqual(try FileManager.default.destinationOfSymbolicLink(atPath: deepAlias.path), deepDestination)
+
+        var checks = 0
+        let cancelledBefore = try inventory(parent)
+        XCTAssertThrowsError(try ContentStoragePreviewScanner.scan(root: parent.appendingPathComponent("cancel-parent/nested/root"),
+                                                                 advisoryUses: [:], checkCancellation: {
+            checks += 1; if checks == 4 { throw CancellationError() }
+        })) { XCTAssertTrue($0 is CancellationError) }
+        XCTAssertEqual(checks, 4); XCTAssertEqual(try inventory(parent), cancelledBefore)
+        XCTAssertFalse(FileManager.default.fileExists(atPath: parent.appendingPathComponent("cancel-parent").path))
+
+        let external = parent.appendingPathComponent("race-target")
+        try write(Data("external-keep".utf8), external.appendingPathComponent("outside.bin"))
+        let outsideBefore = try inventory(external)
+        for kind in ["directory", "regular", "symlink"] {
+            let appeared = parent.appendingPathComponent("appeared-" + kind)
+            let raceRoot = appeared.appendingPathComponent("nested/root")
+            var hookCalls = 0
+            let raced = try ContentStoragePreviewScanner.scan(root: raceRoot, advisoryUses: [:], beforeFinalObservation: {
+                hookCalls += 1
+                if kind == "directory" { try FileManager.default.createDirectory(at: appeared, withIntermediateDirectories: false) }
+                else if kind == "regular" { try Data("race".utf8).write(to: appeared) }
+                else { try FileManager.default.createSymbolicLink(at: appeared, withDestinationURL: external) }
+            })
+            XCTAssertEqual(hookCalls, 1); XCTAssertEqual(raced.rootState, .unavailable)
+            XCTAssertEqual(raced.pointerState, .changed); XCTAssertTrue(raced.issues.contains(.changed))
+            XCTAssertFalse(raced.isComplete); XCTAssertEqual(raced.observedLogicalBytes, 0)
+            XCTAssertFalse(FileManager.default.fileExists(atPath: raceRoot.path))
+            XCTAssertEqual(try inventory(external), outsideBefore)
+        }
+        XCTAssertEqual(try Data(contentsOf: parent.appendingPathComponent("sibling.txt")), Data("keep".utf8))
     }
 
     func testLogicalBytesAreCountedOnceAcrossCurrentPreviousAndLiveReferences() throws {

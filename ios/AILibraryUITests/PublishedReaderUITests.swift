@@ -46,6 +46,212 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
                        "The actual app catalog must match the separately audited published bundle")
     }
 
+    private func requireFreshBundledLaunchProof(namespace: String, mode: String) throws {
+        let proof = element("uitest-fresh-bundled-launch-proof")
+        let ready = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            guard proof.exists, let raw = proof.value as? String,
+                  let data = raw.data(using: .utf8), data.count <= 1024,
+                  let value = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any] else { return false }
+            return value["status"] as? String == "passed"
+        }, object: nil)
+        XCTAssertEqual(XCTWaiter.wait(for: [ready], timeout: 10), .completed,
+                       "The probe must report captured filesystem/snapshot facts, not an offline launch flag")
+        let raw = try XCTUnwrap(proof.value as? String)
+        let data = try XCTUnwrap(raw.data(using: .utf8))
+        XCTAssertLessThanOrEqual(data.count, 1024)
+        let value = try XCTUnwrap(try JSONSerialization.jsonObject(with: data) as? [String: Any])
+        XCTAssertEqual(Set(value.keys), Set(["schemaVersion", "status", "mode", "namespaceID", "storageNamespace",
+                                            "readingSuite", "rootInitiallyAbsent", "readingInitiallyEmpty",
+                                            "selectedBundledRoot", "rootAbsentAfterLoad", "articleCount"]))
+        XCTAssertEqual(value["schemaVersion"] as? Int, 1)
+        XCTAssertEqual(value["status"] as? String, "passed")
+        XCTAssertEqual(value["mode"] as? String, mode)
+        XCTAssertEqual(value["namespaceID"] as? String, namespace)
+        XCTAssertEqual(value["storageNamespace"] as? String, "LibraryFreshBundle-" + namespace)
+        XCTAssertEqual(value["readingSuite"] as? String, "ailibrary-uitest-" + namespace)
+        XCTAssertEqual(value["rootInitiallyAbsent"] as? Bool, true)
+        XCTAssertEqual(value["readingInitiallyEmpty"] as? Bool, mode == "initial")
+        XCTAssertEqual(value["selectedBundledRoot"] as? Bool, true)
+        XCTAssertEqual(value["rootAbsentAfterLoad"] as? Bool, true)
+        XCTAssertEqual(value["articleCount"] as? Int, expectedPublishedCount)
+        let attachment = XCTAttachment(string: raw)
+        attachment.name = "Fresh-bundled-" + mode + "-proof"
+        attachment.lifetime = .keepAlways
+        add(attachment)
+    }
+
+    func testFreshStorageBundledLaunchAndRelaunchKeepReadingWithoutImport() throws {
+        // Base setup has launched the ordinary app. This case then uses a fresh
+        // content namespace and preferences suite, not a new install or OS offline.
+        app.terminate()
+        let namespace = UUID().uuidString
+        let suite = "ailibrary-uitest-" + namespace
+        app.launchEnvironment["AILIBRARY_UI_TEST_SUITE"] = suite
+        app.launchEnvironment["AILIBRARY_UI_TEST_FRESH_BUNDLE_UUID"] = namespace
+        app.launchEnvironment["AILIBRARY_UI_TEST_FRESH_BUNDLE_MODE"] = "initial"
+        for key in ["AILIBRARY_UI_TEST_READING_RECOVERY", "AILIBRARY_UI_TEST_READING_LEGACY",
+                    "AILIBRARY_UI_TEST_DYNAMIC_TYPE"] { app.launchEnvironment.removeValue(forKey: key) }
+        app.launch()
+        let count = app.staticTexts["library-article-count"]
+        XCTAssertTrue(count.waitForExistence(timeout: 45))
+        XCTAssertEqual(count.label, "全\(expectedPublishedCount)記事")
+        try requireFreshBundledLaunchProof(namespace: namespace, mode: "initial")
+        XCTAssertFalse(element("library-resume").exists)
+
+        // Public search, native body and reading state use the real full bundle.
+        open("Transformer アーキテクチャ詳解", articleID: "11-llm-internals/transformer-architecture")
+        XCTAssertTrue(app.buttons["しおりを追加"].waitForExistence(timeout: 10))
+        app.buttons["しおりを追加"].tap()
+        goToContents("自己注意の数式", headingID: "自己注意の数式")
+        returnToLibrary()
+        app.terminate()
+        XCTAssertEqual(app.launchEnvironment["AILIBRARY_UI_TEST_SUITE"], suite)
+        XCTAssertEqual(app.launchEnvironment["AILIBRARY_UI_TEST_FRESH_BUNDLE_UUID"], namespace)
+        app.launchEnvironment["AILIBRARY_UI_TEST_FRESH_BUNDLE_MODE"] = "resume"
+        app.launch()
+        XCTAssertTrue(count.waitForExistence(timeout: 45))
+        XCTAssertEqual(count.label, "全\(expectedPublishedCount)記事")
+        try requireFreshBundledLaunchProof(namespace: namespace, mode: "resume")
+        let resume = element("library-resume")
+        XCTAssertTrue(resume.waitForExistence(timeout: 10))
+        requireHittable(resume)
+        resume.tap()
+        XCTAssertTrue(app.buttons["しおりを削除"].waitForExistence(timeout: 10))
+        requireHittable(app.staticTexts["native-heading-自己注意の数式"],
+                        inside: app.scrollViews["native-reader"], fullyVisible: true)
+        returnToLibrary()
+
+        // An independent public metadata observation confirms no content copy was
+        // created by either load or by the reading-only actions above. Relaunch
+        // resets transient filters, so open the shared More Actions sheet from
+        // the normal toolbar button while the library remains unfiltered.
+        XCTAssertFalse(app.staticTexts["library-filter-summary"].exists,
+                       "The resumed library must remain unfiltered before the public capacity action")
+        func freshToolbarMoreButton() throws -> XCUIElement {
+            let bars = app.navigationBars.matching(identifier: "AI Agent Library")
+            let bar = bars.firstMatch
+            let moreQuery = bars.buttons.matching(NSPredicate(format: "label == %@", "その他の操作"))
+            let actual = moreQuery.firstMatch
+            var positiveMore: XCUIElement?
+            var poll = 0
+
+            func finitePositive(_ frame: CGRect) -> Bool {
+                !frame.isNull && !frame.isInfinite && !frame.isEmpty &&
+                    frame.width > 0 && frame.height > 0 &&
+                    [frame.minX, frame.minY, frame.width, frame.height].allSatisfy(\.isFinite)
+            }
+            func frameNumbers(_ frame: CGRect?) -> Any {
+                guard let frame else { return NSNull() }
+                return [frame.minX, frame.minY, frame.width, frame.height].map { value -> Any in
+                    value.isFinite ? Double(value) as Any : NSNull()
+                }
+            }
+            func known<T>(_ value: T?) -> Any { value.map { $0 as Any } ?? NSNull() }
+
+            let available = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+                poll += 1
+                // Each AX value is read at most once in this sequential observation.
+                let appExists = self.app.exists
+                let barCount: Int? = appExists ? bars.count : nil
+                let barExists: Bool? = barCount == 1 ? bar.exists : nil
+                let moreCount: Int? = barExists == true ? moreQuery.count : nil
+                let moreExists: Bool? = moreCount == 1 ? actual.exists : nil
+                let enabled: Bool? = moreExists == true ? actual.isEnabled : nil
+                let appFrame: CGRect? = appExists ? self.app.frame : nil
+                let barFrame: CGRect? = barExists == true ? bar.frame : nil
+                let moreFrame: CGRect? = moreExists == true ? actual.frame : nil
+                let geometryReady: Bool
+                if let appFrame, let barFrame, let moreFrame,
+                   finitePositive(appFrame), finitePositive(barFrame), finitePositive(moreFrame) {
+                    geometryReady = appFrame.contains(barFrame) && appFrame.contains(moreFrame) &&
+                        barFrame.contains(moreFrame)
+                } else {
+                    geometryReady = false
+                }
+                let knownReady = appExists && barCount == 1 && barExists == true &&
+                    moreCount == 1 && moreExists == true && enabled == true && geometryReady
+                // Only the first 16 cached readiness snapshots are logged; later samples may be unlogged.
+                // Logging adds timing overhead but never limits the 15-second readiness wait.
+                if poll <= 16 {
+                    let observation: [String: Any] = [
+                        "schema": 1, "phase": "fresh_more_readiness", "poll": poll,
+                        "app_exists": appExists, "bar_count": known(barCount), "bar_exists": known(barExists),
+                        "more_count": known(moreCount), "more_exists": known(moreExists), "enabled": known(enabled),
+                        "app_frame": frameNumbers(appFrame), "bar_frame": frameNumbers(barFrame),
+                        "more_frame": frameNumbers(moreFrame), "geometry_ready": geometryReady,
+                        "ready_for_tap": knownReady, "hittable": "not_queried"
+                    ]
+                    if let data = try? JSONSerialization.data(withJSONObject: observation, options: [.sortedKeys]),
+                       data.count <= 2000 {
+                        var line = data
+                        line.append(0x0a)
+                        try? FileHandle.standardOutput.write(contentsOf: line)
+                    } else {
+                        try? FileHandle.standardOutput.write(contentsOf: Data(
+                            "{\"schema\":1,\"phase\":\"fresh_more_readiness\",\"diagnostic\":\"encoding_or_size_unavailable\"}\n".utf8))
+                    }
+                }
+                // Fresh-only contract: geometry permits one tap; the exact action below must then appear.
+                guard knownReady else { return false }
+                positiveMore = actual
+                return true
+            }, object: nil)
+            let result = XCTWaiter.wait(for: [available], timeout: 15)
+            XCTAssertEqual(result, .completed, "The unique root-toolbar More must be fully inside its visible bar")
+            guard result == .completed, let observedMore = positiveMore else {
+                throw NSError(domain: "PublishedReaderUITests", code: 2,
+                              userInfo: [NSLocalizedDescriptionKey: "Missing or ambiguous fully visible root-toolbar More"])
+            }
+            return observedMore
+        }
+        let more = try freshToolbarMoreButton()
+        let capacityActions = app.buttons.matching(
+            NSPredicate(format: "label == %@", "保存コンテンツの容量を確認"))
+        XCTAssertEqual(capacityActions.count, 0, "The exact capacity sheet action must be absent before the More tap")
+        more.tap()
+        let storage = try singleHittableControl(capacityActions, name: "public storage capacity action")
+        let actionBars = app.navigationBars.matching(identifier: "その他の操作")
+        XCTAssertEqual(actionBars.count, 1, "The ordinary More button must open one public actions sheet")
+        XCTAssertTrue(actionBars.firstMatch.buttons["閉じる"].exists)
+        XCTAssertEqual(storage.label, "保存コンテンツの容量を確認")
+        storage.tap()
+        XCTAssertTrue(app.navigationBars["保存コンテンツの容量"].waitForExistence(timeout: 10))
+        XCTAssertEqual(actionBars.count, 0, "The actions sheet must close before the capacity screen is presented")
+        let missingFolderVisible = app.staticTexts["保存コンテンツのフォルダはまだありません。"].waitForExistence(timeout: 15)
+        if !missingFolderVisible {
+            // Failure-only, later sequential observations may affect timing. They
+            // do not prove the state at timeout or its cause, or rescue this wait.
+            let screen = XCTAttachment(screenshot: app.screenshot())
+            screen.name = "Fresh-storage-missing-folder-failure"
+            screen.lifetime = .keepAlways
+            add(screen)
+
+            // This one AX read is itself unbounded; only its attachment is capped.
+            let rawHierarchy = app.debugDescription
+            let maxHierarchyBytes = 32 * 1024
+            let fullHeader = "Fresh storage failure AX; post-wait sequential; truncated=false\n"
+            let truncatedHeader = "Fresh storage failure AX; post-wait sequential; truncated=true\n"
+            let bodyBudget = maxHierarchyBytes - max(fullHeader.utf8.count, truncatedHeader.utf8.count)
+            let truncated = rawHierarchy.utf8.count > bodyBudget
+            var prefix = Data(rawHierarchy.utf8.prefix(bodyBudget))
+            // A UTF-8 prefix can end inside at most one four-byte scalar.
+            for _ in 0..<3 where String(data: prefix, encoding: .utf8) == nil {
+                prefix.removeLast()
+            }
+            let boundedHierarchy = String(data: prefix, encoding: .utf8)
+                ?? "[AX hierarchy UTF-8 prefix unavailable]"
+            let hierarchy = XCTAttachment(string: (truncated ? truncatedHeader : fullHeader) + boundedHierarchy)
+            hierarchy.name = "Fresh-storage-missing-folder-AX-prefix"
+            hierarchy.lifetime = .keepAlways
+            add(hierarchy)
+        }
+        XCTAssertTrue(missingFolderVisible)
+        XCTAssertTrue(element("storage-usage-total").waitForExistence(timeout: 15))
+        closePublicSheet("保存コンテンツの容量")
+        XCTAssertTrue(count.waitForExistence(timeout: 10))
+        XCTAssertEqual(count.label, "全\(expectedPublishedCount)記事")
+    }
+
     func testChapter03LargeDiagramCanExpandAndShowSource() throws {
         // This phrase reaches the real large diagram without traversing the preceding long table.
         open("モデル選定ガイド", articleID: "03-implementation/model-selection", query: "データを外部 API に出せるか")
@@ -666,10 +872,20 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         let result = app.staticTexts.matching(NSPredicate(format: "label == %@ OR label == %@",
             "確認したファイルサイズ", "確認できた範囲のファイルサイズ")).firstMatch
         let refresh = app.buttons["storage-usage-refresh"]
+        // The total is a display-only LabeledContent, never an action target.
+        // Keep unknown geometry unsatisfied without asking for an activation point.
+        let waitForVisibleTotal = {
+            let visible = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+                guard self.hasVisibleFrameForPolling(total, inside: list) else { return false }
+                return total.label.contains("合計")
+            }, object: nil)
+            XCTAssertEqual(XCTWaiter.wait(for: [visible], timeout: 15), .completed,
+                           "The public storage total must be visible and contain its total label")
+        }
         XCTAssertTrue(list.waitForExistence(timeout: 10))
         XCTAssertTrue(total.waitForExistence(timeout: 15))
         XCTAssertTrue(result.waitForExistence(timeout: 10))
-        requireHittable(total, inside: list)
+        waitForVisibleTotal()
         XCTAssertTrue(total.label.contains("合計"))
         for _ in 0..<8 {
             if isHittableOnScreen(refresh, inside: list) { break }
@@ -692,12 +908,12 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         }
         waitForEnabledRefresh()
         for _ in 0..<8 {
-            if isHittableOnScreen(total, inside: list) { break }
+            if hasVisibleFrameForPolling(total, inside: list) { break }
             list.swipeDown(velocity: .slow)
         }
         XCTAssertTrue(total.waitForExistence(timeout: 15))
         XCTAssertTrue(result.waitForExistence(timeout: 10))
-        requireHittable(total, inside: list)
+        waitForVisibleTotal()
         XCTAssertTrue(total.label.contains("合計"))
         XCTAssertTrue(bar.buttons["storage-usage-close"].exists)
         capture("Storage-usage-recheck-results")
@@ -1408,11 +1624,11 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         try openFixtureForBodyLinks()
         let reader = app.scrollViews["native-reader"]
         let fixtureBar = app.navigationBars["ネイティブ本文テスト専用記事"]
-        for (identifier, label, heading, witness) in [
-            ("native-text-paragraph-5422cd96391ab3acc78b0196", "近くの本文へ", "case-inline-01", "通常の文、斜体の文、太字の文"),
-            ("native-text-paragraph-15bc0b673273bb6dca3d00a2", "同じファイル名で近くの本文へ", "case-inline-01", "通常の文、斜体の文、太字の文"),
-            ("native-text-paragraph-584a2949a732810afaea162f", "末尾の到着地点へ", "case-end-01", "END-ARRIVAL"),
-            ("native-text-paragraph-7b03d67eb075781fbd15a853", "二つ目の同じ見出しへ", "同じ見出し-1", "DUPLICATE-SECOND")
+        for (identifier, label, heading, witness, arrivalID) in [
+            ("native-text-paragraph-5422cd96391ab3acc78b0196", "近くの本文へ", "case-inline-01", "通常の文、斜体の文、太字の文", "native-text-paragraph-64e5c4f0cbc277942047ab93"),
+            ("native-text-paragraph-15bc0b673273bb6dca3d00a2", "同じファイル名で近くの本文へ", "case-inline-01", "通常の文、斜体の文、太字の文", "native-text-paragraph-64e5c4f0cbc277942047ab93"),
+            ("native-text-paragraph-584a2949a732810afaea162f", "末尾の到着地点へ", "case-end-01", "END-ARRIVAL", "native-text-paragraph-c7455e927e3a9b39aa7e2c11"),
+            ("native-text-paragraph-7b03d67eb075781fbd15a853", "二つ目の同じ見出しへ", "同じ見出し-1", "DUPLICATE-SECOND", "native-text-paragraph-1310469af64afe3a8a66178a")
         ] {
             // Reset only before the next independent link operation. After the
             // tap, visibility must be achieved by nativeURL navigation itself.
@@ -1422,10 +1638,14 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
             XCTAssertTrue(fixtureBar.waitForExistence(timeout: 10))
             XCTAssertFalse(app.navigationBars["目次"].exists)
             requireHittable(app.staticTexts["native-heading-" + heading], inside: reader, fullyVisible: true)
+            let arrivalByID = reader.staticTexts.matching(identifier: arrivalID)
+            requireHittable(arrivalByID.firstMatch, inside: reader, fullyVisible: true)
             let arrival = reader.staticTexts.matching(NSPredicate(format:
                 "identifier BEGINSWITH %@ AND label CONTAINS %@", "native-text-", witness))
-            requireHittable(arrival.firstMatch, inside: reader, fullyVisible: true)
             XCTAssertEqual(arrival.count, 1, "The destination must expose its unique native paragraph witness")
+            XCTAssertEqual(arrivalByID.count, 1, "The arrival identifier must select exactly one paragraph")
+            XCTAssertTrue(arrivalByID.firstMatch.label.contains(witness), "The selected paragraph must contain the destination witness")
+            XCTAssertEqual(arrival.firstMatch.identifier, arrivalID, "The unique witness must be the selected arrival paragraph")
             XCTAssertFalse(hasVisibleFrame(link, inside: reader), "The tap must leave the source link list")
             capture("Fixture-body-link-" + label)
         }

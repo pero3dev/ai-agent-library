@@ -2,7 +2,8 @@
 // Read-only CI audit: the Release app must contain the exact generated normal package.
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { lstat, readFile, readdir } from 'node:fs/promises';
+import { lstat, open, readFile, readdir } from 'node:fs/promises';
+import { constants } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -24,6 +25,76 @@ async function regularFiles(directory: string, prefix: string = ''): Promise<str
     }
   }
   return files.sort();
+}
+
+
+const freshBundleDebugTokens = [
+  "AILIBRARY_UI_TEST_FRESH_BUNDLE_UUID",
+  "AILIBRARY_UI_TEST_FRESH_BUNDLE_MODE",
+  "LibraryFreshBundle-",
+  "uitest-fresh-bundled-launch-proof",
+  "同梱起動の試験証拠",
+  "Invalid isolated fresh bundled launch",
+  "Fresh bundled launch has no Application Support root",
+  "UITestFreshBundledLaunch"
+] as const;
+
+// Audit this target's executable and top-level code libraries. This checks the
+// fresh-launch DEBUG hooks; content integrity and Mach-O validation are separate.
+async function verifyFreshBundleTestHooksAbsent(app: string) {
+  const libraries = (await readdir(app, { withFileTypes: true }))
+    .filter((entry) => entry.name.endsWith('.dylib')).map((entry) => entry.name);
+  const images = ['AILibrary', ...libraries].sort();
+  assert.ok(images.length <= 16, 'Too many Release code images');
+  const forbidden = freshBundleDebugTokens.map((token) => ({ token, bytes: Buffer.from(token, 'utf8') }));
+  const overlap = Math.max(...forbidden.map(({ bytes }) => bytes.length)) - 1;
+  const identity = (info: import('node:fs').BigIntStats) =>
+    [info.dev, info.ino, info.mode, info.size, info.mtimeNs, info.ctimeNs];
+  let checkedCodeBytes = 0;
+  for (const name of images) {
+    const file = path.join(app, name);
+    const metadata = await lstat(file, { bigint: true });
+    assert.ok(metadata.isFile() && !metadata.isSymbolicLink(),
+      `Release code image must be a regular file: ${name}`);
+    assert.ok(metadata.size > 0n && metadata.size <= 64n * 1024n * 1024n,
+      `Release code image exceeds its size budget: ${name}`);
+    const expectedBytes = Number(metadata.size);
+    checkedCodeBytes += expectedBytes;
+    assert.ok(checkedCodeBytes <= 128 * 1024 * 1024, 'Release code images exceed their total budget');
+    const handle = await open(file, constants.O_RDONLY | (constants.O_NOFOLLOW ?? 0) | (constants.O_NONBLOCK ?? 0));
+    try {
+      const opened = await handle.stat({ bigint: true });
+      assert.ok(opened.isFile(), `Release code image is no longer regular: ${name}`);
+      assert.deepEqual(identity(opened), identity(metadata), `Release code image changed before audit: ${name}`);
+      const chunk = Buffer.alloc(64 * 1024);
+      let tail = Buffer.alloc(0);
+      let readBytes = 0;
+      // At most the pinned size plus one EOF-probe byte is ever requested.
+      // Read requests use a 64KiB buffer; only token overlap crosses chunks.
+      while (readBytes <= expectedBytes) {
+        const { bytesRead } = await handle.read(chunk, 0,
+          Math.min(chunk.length, expectedBytes + 1 - readBytes), null);
+        if (bytesRead === 0) break;
+        readBytes += bytesRead;
+        assert.ok(readBytes <= expectedBytes, `Release code image grew during audit: ${name}`);
+        const window = Buffer.concat([tail, chunk.subarray(0, bytesRead)]);
+        for (const { token, bytes } of forbidden) {
+          assert.ok(!window.includes(bytes),
+            `Release code image contains a fresh bundled launch test hook: ${name} (${token})`);
+        }
+        tail = Buffer.from(window.subarray(Math.max(0, window.length - overlap)));
+      }
+      assert.equal(readBytes, expectedBytes, `Release code image changed size during audit: ${name}`);
+      assert.deepEqual(identity(await handle.stat({ bigint: true })), identity(opened),
+        `Release code image changed during audit: ${name}`);
+      assert.deepEqual(identity(await lstat(file, { bigint: true })), identity(opened),
+        `Release code image path changed during audit: ${name}`);
+    } finally {
+      await handle.close();
+    }
+  }
+  return { fresh_bundle_test_hooks_absent: true, checked_code_images: images.length,
+    checked_code_bytes: checkedCodeBytes };
 }
 
 /** @param {string} appRoot @param {{sourceContentRoot?: string}} [options] */
@@ -66,9 +137,10 @@ export async function verifyReleasePackage(appRoot: string, { sourceContentRoot 
     assert.equal(sha256(data), expected, `Release SHA-256 mismatch: ${relative}`);
     verifiedBytes += data.length;
   }
+  const codeAudit = await verifyFreshBundleTestHooksAbsent(app);
   return { schema_version: 1, status: 'passed', native_schema_version: manifest.schema_version,
     revision: manifest.revision, articles: manifest.articles.length, audio: manifest.audio.length,
-    verified_files: entries.length, verified_bytes: verifiedBytes, test_content_absent: true };
+    verified_files: entries.length, verified_bytes: verifiedBytes, test_content_absent: true, ...codeAudit };
 }
 
 export async function runCli() {

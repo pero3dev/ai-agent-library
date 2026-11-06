@@ -217,7 +217,35 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
         storage.tap()
         XCTAssertTrue(app.navigationBars["保存コンテンツの容量"].waitForExistence(timeout: 10))
         XCTAssertEqual(actionBars.count, 0, "The actions sheet must close before the capacity screen is presented")
-        XCTAssertTrue(app.staticTexts["保存コンテンツのフォルダはまだありません。"].waitForExistence(timeout: 15))
+        let missingFolderVisible = app.staticTexts["保存コンテンツのフォルダはまだありません。"].waitForExistence(timeout: 15)
+        if !missingFolderVisible {
+            // Failure-only, later sequential observations may affect timing. They
+            // do not prove the state at timeout or its cause, or rescue this wait.
+            let screen = XCTAttachment(screenshot: app.screenshot())
+            screen.name = "Fresh-storage-missing-folder-failure"
+            screen.lifetime = .keepAlways
+            add(screen)
+
+            // This one AX read is itself unbounded; only its attachment is capped.
+            let rawHierarchy = app.debugDescription
+            let maxHierarchyBytes = 32 * 1024
+            let fullHeader = "Fresh storage failure AX; post-wait sequential; truncated=false\n"
+            let truncatedHeader = "Fresh storage failure AX; post-wait sequential; truncated=true\n"
+            let bodyBudget = maxHierarchyBytes - max(fullHeader.utf8.count, truncatedHeader.utf8.count)
+            let truncated = rawHierarchy.utf8.count > bodyBudget
+            var prefix = Data(rawHierarchy.utf8.prefix(bodyBudget))
+            // A UTF-8 prefix can end inside at most one four-byte scalar.
+            for _ in 0..<3 where String(data: prefix, encoding: .utf8) == nil {
+                prefix.removeLast()
+            }
+            let boundedHierarchy = String(data: prefix, encoding: .utf8)
+                ?? "[AX hierarchy UTF-8 prefix unavailable]"
+            let hierarchy = XCTAttachment(string: (truncated ? truncatedHeader : fullHeader) + boundedHierarchy)
+            hierarchy.name = "Fresh-storage-missing-folder-AX-prefix"
+            hierarchy.lifetime = .keepAlways
+            add(hierarchy)
+        }
+        XCTAssertTrue(missingFolderVisible)
         XCTAssertTrue(element("storage-usage-total").waitForExistence(timeout: 15))
         closePublicSheet("保存コンテンツの容量")
         XCTAssertTrue(count.waitForExistence(timeout: 10))

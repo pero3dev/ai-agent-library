@@ -1,5 +1,7 @@
 # iOS完成版に向けたTODO
 
+2026-11-06の[通常一覧の操作一覧への統一候補](../../records/2026-11-04/ios-fresh-bundled-launch.md#sourcee50の実タップ失敗と操作一覧の統一候補)は、e50のFull27/28とMore実タップのAX失敗を保持し、通常一覧も既存のボタン・操作一覧・閉鎖後dispatchへ揃える。Freshの元条件に操作一覧の表示・閉鎖確認を加え、App候補0.2.34（36）、Code3＋記録3を同PRへ追加する。新共通・SDK・実CI・通常mainは未受入、TODO32行16完了・全条件と実機等の未完了を維持する。
+
 2026-11-06の[保存版なしの同梱起動回帰候補](../../records/2026-11-04/ios-fresh-bundled-launch.md)は、main0e018を取り込むMemory8仮tree d49aa731へ凍結Code8＋PBX4scalarを重ねるSource13／新規2の私有再結合である。Memoryの索引行・計画prefix・全内容とincoming9pathを保持し、actual通常Memory main／fresh head／公開操作はNULL・未実施のままとする。Node64は11月4日のcomponent63成功1knownskipだけを継承し、新common・4形式・最終全体IR・Swift／Core326／Full28（A20/B8）／Native8・実Release・新head CIは未受入。App0.2.33（35）とTODO32行16完了・全criteria、実機等とIOS-25全体の未完了を維持する。
 
 以下の段落は11月4日候補作成時点の履歴である。Node64の実結果は上記とリンク先の追補で区別する。

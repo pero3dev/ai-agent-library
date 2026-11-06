@@ -440,5 +440,55 @@
       "criteria_unchanged": true
     },
     "device_VO_OS17_OSoffline_newinstall_wholeIOS25": "uncompleted"
+  },
+  "PR360_sourcee50_ordinary_more_sheet_2026_11_06": {
+    "state": "CANDIDATE_COMPOSITION_SNAPSHOT_NOT_NEW_SOURCE_ACCEPTANCE",
+    "base_source": "e50cbf37de73769cb545c5ea05df1f6884db82ff",
+    "base_tree": "e2a4a89ae7287b55b441d4237e52e86e7df5f931",
+    "actual_product_main": null,
+    "closed_CI": {
+      "workflow_success": 10,
+      "workflow_failure": 1,
+      "required_pass": 11,
+      "Core": "326=324pass+2knownskip/new6pass",
+      "Native_UI": 8,
+      "Full_A": "19pass1fail",
+      "Full_B": "8pass1executedjob; later successcarried",
+      "copy_bytes": 374,
+      "articles": 199,
+      "audio": 1,
+      "Release8": "B+Native+SDK accepted",
+      "dedicated": "revision/missing-restore/dynamic/rotation passed; Runtime26 exact3"
+    },
+    "Fresh_failure": {
+      "run": 42123066308,
+      "job": 127600587289,
+      "case": "PublishedReaderUITests/testFreshStorageBundledLaunchAndRelaunchKeepReadingWithoutImport()",
+      "seconds": "75.803",
+      "line": 211,
+      "readiness": "one cached sample; strictunique/exists/enabled/finitefullcontainment true; advisoryhittability notqueried",
+      "operation": "one test-code tap; framework internally attempted3; AX scroll-to-visible kAXErrorCannotComplete/hitpoint -1,-1",
+      "capacity_action_reached": false,
+      "Storage_separate": "passed81.890s",
+      "raw_SHA256": "e3adff6a64aee352a3b760e5c073afc88a2bacc9c6749244051bc13f68f3d80e",
+      "cause": "notestablished beyond actual AXaction failure"
+    },
+    "first_stops": "Native1 preUIinventorytimeout -> one controlled Native2pass; A1 nohostedrunner cancelled officialARMcapacity; first rerun403undispatched whileBactive; afterBterminal ONE actualA2 failure. Earliernegativephases retained.",
+    "design": "Both normal and fixture unfiltered toolbar More use ordinary Button to existing moreActionsSheet, sharing filtered open state. Same pending-cleared-before-open, onDismiss guard+clear-before-perform, allcapabilities/disabled/store/path guards; filterMenu unchanged; no test-only branch.",
+    "Fresh_contract": "Existing15s/geometry/oneordinarytap/preabsent→uniqueHITTABLEexactaction/capacity/no-copy/reading assertions retained; add unique operation-sheet bar/Close exists and sheetabsent afterexisting10s capacityarrival; no addedtap/query/relaunch/gesture/wait.",
+    "App_candidate": "0.2.34(36)",
+    "planned_commits": [
+      "Code3 product+Fresh+PBX",
+      "Docs3 recordMD/JSON+planprefix"
+    ],
+    "planned_PR360_total": {
+      "implementation": 10,
+      "docs_and_procedures": 5,
+      "paths": 15,
+      "new_paths": 2,
+      "files": 3292
+    },
+    "new_validation": "unaccepted atcandidatecomposition; no oldpass borrowing",
+    "TODO": "32rows/16done/allcriteria preserved; IOS15/25/28 and current device/VO/iOS17/install/offline incomplete"
   }
 }

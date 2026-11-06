@@ -123,11 +123,11 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
 
         // An independent public metadata observation confirms no content copy was
         // created by either load or by the reading-only actions above. Relaunch
-        // resets transient filters, so use the normal toolbar Menu, not the
-        // filtered list's separate More Actions sheet.
+        // resets transient filters, so open the shared More Actions sheet from
+        // the normal toolbar button while the library remains unfiltered.
         XCTAssertFalse(app.staticTexts["library-filter-summary"].exists,
                        "The resumed library must remain unfiltered before the public capacity action")
-        func freshToolbarMore() throws -> XCUIElement {
+        func freshToolbarMoreButton() throws -> XCUIElement {
             let bars = app.navigationBars.matching(identifier: "AI Agent Library")
             let bar = bars.firstMatch
             let moreQuery = bars.buttons.matching(NSPredicate(format: "label == %@", "その他の操作"))
@@ -204,15 +204,19 @@ final class PublishedReaderUITests: NativeReaderUITestCase {
             }
             return observedMore
         }
-        let more = try freshToolbarMore()
+        let more = try freshToolbarMoreButton()
         let capacityActions = app.buttons.matching(
             NSPredicate(format: "label == %@", "保存コンテンツの容量を確認"))
-        XCTAssertEqual(capacityActions.count, 0, "The exact capacity menu action must be absent before the More tap")
+        XCTAssertEqual(capacityActions.count, 0, "The exact capacity sheet action must be absent before the More tap")
         more.tap()
         let storage = try singleHittableControl(capacityActions, name: "public storage capacity action")
+        let actionBars = app.navigationBars.matching(identifier: "その他の操作")
+        XCTAssertEqual(actionBars.count, 1, "The ordinary More button must open one public actions sheet")
+        XCTAssertTrue(actionBars.firstMatch.buttons["閉じる"].exists)
         XCTAssertEqual(storage.label, "保存コンテンツの容量を確認")
         storage.tap()
         XCTAssertTrue(app.navigationBars["保存コンテンツの容量"].waitForExistence(timeout: 10))
+        XCTAssertEqual(actionBars.count, 0, "The actions sheet must close before the capacity screen is presented")
         XCTAssertTrue(app.staticTexts["保存コンテンツのフォルダはまだありません。"].waitForExistence(timeout: 15))
         XCTAssertTrue(element("storage-usage-total").waitForExistence(timeout: 15))
         closePublicSheet("保存コンテンツの容量")

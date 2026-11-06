@@ -238,6 +238,16 @@ struct LibraryView: View {
         #endif
     }
 
+    private func presentMoreActions() {
+        #if DEBUG
+        if recordsModalBoundaries {
+            modalBoundaryTrace.requests = ModalBoundaryTrace.next(modalBoundaryTrace.requests)
+        }
+        #endif
+        pendingMoreAction = nil
+        moreActionsPresented = true
+    }
+
     private func selectMoreAction(_ action: MoreAction, inSheet: Bool) {
         #if DEBUG
         if recordsModalBoundaries {
@@ -361,15 +371,7 @@ struct LibraryView: View {
                             .accessibilityIdentifier("library-filter-summary")
                         Button("絞り込みをすべて解除") { clearFilters() }
                             .accessibilityIdentifier("library-clear-filters")
-                        Button {
-                            #if DEBUG
-                            if recordsModalBoundaries {
-                                modalBoundaryTrace.requests = ModalBoundaryTrace.next(modalBoundaryTrace.requests)
-                            }
-                            #endif
-                            pendingMoreAction = nil
-                            moreActionsPresented = true
-                        } label: {
+                        Button(action: presentMoreActions) {
                             Label("その他の操作", systemImage: "ellipsis.circle")
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .contentShape(Rectangle())
@@ -492,7 +494,7 @@ struct LibraryView: View {
                 }
                 if !isFiltering {
                     ToolbarItem(placement: .topBarTrailing) {
-                        Menu { moreActions() } label: { Image(systemName: "ellipsis.circle") }
+                        Button(action: presentMoreActions) { Image(systemName: "ellipsis.circle") }
                             .accessibilityLabel("その他の操作")
                             #if DEBUG
                             .modifier(ModalBoundaryAccessibilityValue(value: modalBoundaryStatus))

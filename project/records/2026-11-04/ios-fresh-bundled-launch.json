@@ -503,7 +503,7 @@
       "FullB": "8pass/copy374/full199/audio1/Release8",
       "SDK26": "unsignedarm64 App.34(36)/source37pins+Code3separateAPIbytes/Release8",
       "dedicated": "revision/dynamic/rotation pass",
-      "Runtime26": "2pass1fail healthyLegacy/native-reader15swait atSwift720/44.379s",
+      "Runtime26": "2pass1fail healthyLegacy/native-reader20swait atSwift720/44.379s",
       "Fresh": "73.063s/Swift220 absent-caption15swait failed; source214-219passedbydataflow;221+notreached",
       "cause": "unknown"
     },

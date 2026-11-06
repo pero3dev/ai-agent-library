@@ -490,5 +490,52 @@
     },
     "new_validation": "unaccepted atcandidatecomposition; no oldpass borrowing",
     "TODO": "32rows/16done/allcriteria preserved; IOS15/25/28 and current device/VO/iOS17/install/offline incomplete"
+  },
+  "PR360_source788_missing_ancestor_preview_2026_11_06": {
+    "status": "CANDIDATE_COMPOSITION_SNAPSHOT_NOT_RUNTIME_ACCEPTANCE",
+    "base_source": "788b6efdc8bb16a4061ee7e44a17379305cd256a",
+    "base_tree": "fe16c91c781d6cd2853c4181a2547971c01354fd",
+    "actual_product_main": null,
+    "source788_CI": {
+      "required11": "success",
+      "Native": "Core326=324pass2knownskip/new6pass; UI8pass",
+      "FullA": "19pass1fail",
+      "FullB": "8pass/copy374/full199/audio1/Release8",
+      "SDK26": "unsignedarm64 App.34(36)/source37pins+Code3separateAPIbytes/Release8",
+      "dedicated": "revision/dynamic/rotation pass",
+      "Runtime26": "2pass1fail healthyLegacy/native-reader15swait atSwift720/44.379s",
+      "Fresh": "73.063s/Swift220 absent-caption15swait failed; source214-219passedbydataflow;221+notreached",
+      "cause": "unknown"
+    },
+    "missing_history": {
+      "initial": "F runner180s timedout+after-ui/finally get_app_container20s twice; completedleafunproved/entryunknown; Rblocked",
+      "cleanup": "ownedshutdown/delete/absentafterverified",
+      "controlled_recheck": "ONE Root same-source/sameconditions actualrecheck2 F1/R1passed/sentinel52Bpreserved/newowneddeleted",
+      "negative_retained": true,
+      "cause_established": false
+    },
+    "audit": {
+      "same_root": "App→Store→Repository→preview sameexplicitURL; no mkdir/write",
+      "gap": "realpath(parent) ENOENT returnsunavailable beforefinal-root ENOENT observation; legitimate missing ancestry unhandled; existingabsentCore hasexistingparentonly",
+      "actual_CI_parent_or_rootState": "notobserved; notclaimedcause",
+      "lowlevel_probe": "Darwinlibc only, notSwift/Core/UI; directmissingroot parentrealpathsuccess; missingparent/danglingparent bothENOENT distinguishedbylstat"
+    },
+    "design": "OnlyENOENT bounded/cancellable ancestorwalk; existingcanonicalFDchain nofollow; fstatatFIRST unresolvedcomponent provesENOENT; appeared/dangling/non-dir/othererror unavailable; validparentalias/successpath/bounds retained; no creation",
+    "Core": "Extend existingabsence methodonly; no methodcountchange; nestedabsence/alias/dangling/non-dir/bounds/cancel/race; EACCESnewfixture unreliable/omitted buterrorguardretained",
+    "Fresh_diagnostics": "Originalonequery/wait15 cachedBool thenfailure-onlyoneScreenshot+UTF8attachment<=32768B; AXdescriptionacquisitionunbounded/postwaitsequentialtimingimpact; no postwaitrescue/newacceptancequery/gestures",
+    "App_candidate": "0.2.34(36)",
+    "planned_commits": [
+      "Code3 scanner+existingCorecase+Freshfailurediagnostics",
+      "Docs3 recordMDJSON+planprefix"
+    ],
+    "planned_PR_total": {
+      "code": 12,
+      "docs": 5,
+      "paths": 17,
+      "new_paths": 2,
+      "files": 3292
+    },
+    "validation": "newIR/common/Core/SDK/UI/Release/CI/mainunaccepted; local4GiBfloorheld/resourcefallbacktoexactnewCI",
+    "TODO": "32/16/allcriteria unchanged; wholeIOS15/25/28 anddevicechecks incomplete"
   }
 }

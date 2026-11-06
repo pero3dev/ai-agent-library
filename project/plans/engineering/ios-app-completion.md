@@ -1,5 +1,7 @@
 # iOS完成版に向けたTODO
 
+2026-11-06の[保存先の親がない場合の容量表示候補](../../records/2026-11-04/ios-fresh-bundled-launch.md#source788の容量表示と親フォルダ不存在への対応候補)は、788のFull19/20とRuntime26の2/3・欠落検査の初回時間切れを保持し、容量scannerの不存在判定を上限付き・読取専用で補う。Moreから容量画面までは通過し、失敗後の合計等は未到達である。Core既存1メソッドの拡張とFresh失敗時診断を同PRへ追加し、App0.2.34（36）／TODO32行16完了と全条件を保つ。新CI・通常main・実機等は未受入とする。
+
 2026-11-06の[通常一覧の操作一覧への統一候補](../../records/2026-11-04/ios-fresh-bundled-launch.md#sourcee50の実タップ失敗と操作一覧の統一候補)は、e50のFull27/28とMore実タップのAX失敗を保持し、通常一覧も既存のボタン・操作一覧・閉鎖後dispatchへ揃える。Freshの元条件に操作一覧の表示・閉鎖確認を加え、App候補0.2.34（36）、Code3＋記録3を同PRへ追加する。新共通・SDK・実CI・通常mainは未受入、TODO32行16完了・全条件と実機等の未完了を維持する。
 
 2026-11-06の[保存版なしの同梱起動回帰候補](../../records/2026-11-04/ios-fresh-bundled-launch.md)は、main0e018を取り込むMemory8仮tree d49aa731へ凍結Code8＋PBX4scalarを重ねるSource13／新規2の私有再結合である。Memoryの索引行・計画prefix・全内容とincoming9pathを保持し、actual通常Memory main／fresh head／公開操作はNULL・未実施のままとする。Node64は11月4日のcomponent63成功1knownskipだけを継承し、新common・4形式・最終全体IR・Swift／Core326／Full28（A20/B8）／Native8・実Release・新head CIは未受入。App0.2.33（35）とTODO32行16完了・全criteria、実機等とIOS-25全体の未完了を維持する。

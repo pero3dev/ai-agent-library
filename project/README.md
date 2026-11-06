@@ -55,6 +55,7 @@
 
 ### iOS
 
+- [iOS自用候補のチェックポイント](records/2026-11-06/ios-personal-native-checkpoint.md) — 0.2.34（36）の採用main、検証範囲と未完了事項。
 - [保存版なしの同梱起動回帰候補](records/2026-11-04/ios-fresh-bundled-launch.md) — 隔離した空の保存先、読書位置の保持、Releaseの試験用文字列監査。
 - [Appメモリ計測の手動起動](records/2026-11-04/ios-app-memory-manual-dispatch.md) — 対象ソースの照合と計測の検証範囲。
 - [native回帰の起動条件](records/2026-11-04/ios-native-path-filter.md) — 推移的入力の一覧と実PRでの条件検証。

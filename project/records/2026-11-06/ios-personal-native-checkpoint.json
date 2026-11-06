@@ -1,0 +1,184 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-06",
+  "status": "PRODUCT_MAIN_ACCEPTED_DOC_CHECKPOINT_PUBLICATION_SEPARATE",
+  "product": {
+    "PR": 360,
+    "source": "15027b5b759385ad7df5f6812590faa1143e07a4",
+    "normal_main": "5494bad3c21687554b33366cb79f9592ef774dac",
+    "parent": "acf82a3c456e7c060bc4b009d6f50424a717792e",
+    "tree": "0172ebac5df378ef8bedd729f4115b451669c106",
+    "files": 3292,
+    "App": "0.2.34(36)",
+    "rawOID_parent_fullmap_canonical_message_verified": true,
+    "actual_main_proof_SHA256": "0d6714c7c585197a03ca0717081801204b08a4f930ca87b216e56a0d9371d914",
+    "source_CI_summary_SHA256": "b5b0bdb3666e3574b08fdb2bde3ef6ef79e82e9773c8f001307236acc32b71f9"
+  },
+  "adopted_scope": {
+    "use": "personal iPhone",
+    "minimum_OS_selected": "iOS17+",
+    "published_articles": 199,
+    "body": "SwiftUI native bundled",
+    "article_search_offline": true,
+    "account": false,
+    "audio": "existing1 streaming; background/lock while audio screen open; stop on close",
+    "updates": "rebuild bundle primary; trusted existing manual import auxiliary"
+  },
+  "source1502_CI": {
+    "workflow_counts": {
+      "PR": 9,
+      "PR_target": 2,
+      "success": 11
+    },
+    "required11_success": true,
+    "Ready_final_metadata_fresh_policy_success": [
+      42150460739,
+      42150460900
+    ],
+    "npm_ci_at_exact_source": "root and ios/tools --ignore-scripts completion verified",
+    "full_common_mac": {
+      "run": 42144686008,
+      "stages": 10,
+      "tests": 1670,
+      "passed": 1654,
+      "skipped": 16,
+      "failed": 0
+    },
+    "Linux_Node": {
+      "run": 42144686015,
+      "tests": 1670,
+      "passed": 1651,
+      "skipped": 19,
+      "failed": 0
+    },
+    "Windows_separate": {
+      "tests": 285,
+      "passed": 284,
+      "skipped": 1,
+      "failed": 0
+    },
+    "Core": {
+      "tests": 326,
+      "passed": 324,
+      "known_skip": 2,
+      "new6": "passed",
+      "expanded_existing_absence_test": "passed;53 static assertions"
+    },
+    "Native_UI8": "passed",
+    "published_UI": {
+      "A20": "passed",
+      "B8": "passed",
+      "copy_exact_UTF8_bytes": 374,
+      "catalogue_articles": 199,
+      "audio": 1,
+      "not_199_individual_UI_readings": true,
+      "copy_evidence_scope": {
+        "runtime": "public copyButton leaf Passed plus CI host destination validator374-byte equality and marker result",
+        "independent_clipboard_body_acquired_in_old_phase": false,
+        "expected_body_SHA_and_validator_file_SHA": "different evidence; never substitute the expected body hash for the validator file hash",
+        "old_unverified_validator_file_hash_label_adopted": false,
+        "current_main_B_independent_clipboard_body": "still pending/not accepted at composition"
+      }
+    },
+    "dedicated": {
+      "revision1": "passed",
+      "missing_initial1_restored1": "passed",
+      "DynamicType1": "passed",
+      "rotation1": "passed"
+    },
+    "Runtime26": {
+      "run": 42144686235,
+      "representative_cases": 3,
+      "passed": 3,
+      "OS": "iOS26.5 Simulator",
+      "cleanup": "guarded workflow step success; individual typed delete/absent-after receipt not independently acquired"
+    },
+    "SDK26": {
+      "run": 42144686571,
+      "Xcode": "26.6",
+      "SDK": "26.5",
+      "unsigned_generic_arm64_archive": true,
+      "articles": 199,
+      "audio": 1,
+      "App": "0.2.34(36)",
+      "Release": "bounded8 fresh-test tokens absent in checked code image; not all DEBUG behavior absence"
+    },
+    "compact4": "typed leaf/device/source/context/cleanup independently verified; not every raw local xcresult/create/delete argv acquired",
+    "source37_limit": "Fixed37 pins omit scanner, scanner tests, PublishedReaderUI, LibraryView and PBX; these5 current paths were separately API-bound, not source37-covered"
+  },
+  "historical_evidence": {
+    "record": "../2026-11-04/ios-fresh-bundled-launch.md",
+    "old_negative_sources": [
+      "95b",
+      "0ac",
+      "755",
+      "e50",
+      "2aec",
+      "788"
+    ],
+    "controlled_rechecks_preserved": true,
+    "new_success_erases_old_failure_or_proves_cause": false,
+    "source788_Runtime_wait_factfix": "native-reader20swait atSwift720; preceding Resume hittable15s was separate/successful",
+    "forensic_SHA256": "7a1dc85bf2bb916c7667f17d73b3b99b48155ba03af781632326ca6f0b164409",
+    "PR352_memory": {
+      "main": "acf82a3c456e7c060bc4b009d6f50424a717792e",
+      "manual_run": 42084876691,
+      "source7_bound": true,
+      "metrics": 3,
+      "samples_each": 3,
+      "unit": "kB",
+      "CSV_columns": 11,
+      "CSV_rows": 1,
+      "current_App_measurement_or_budget": false
+    }
+  },
+  "publication_snapshot": {
+    "product_main_push": "observing/unaccepted when composed; separate from source CI",
+    "actual_push_runs": {
+      "CI": 42150653498,
+      "Native": 42150653437,
+      "Full": 42150653422
+    },
+    "Memory": "push filter intersection0; not triggered, no new measurement/CSV; no manual dispatch",
+    "Memory_filter_proof_SHA256": "e334078cbeb240ff8daa8319152c138357438a04b984cd70143013ef1c237579",
+    "own_future_docs_head_PR_merge": "not self-stamped; external receipts track publication"
+  },
+  "docs_validation": {
+    "commits": [
+      "fact scalar15to20 in one existing JSON",
+      "checkpoint MD/JSON plus README row and plan prefix"
+    ],
+    "local_full_common": "unrun under4GiB floor; no old success substituted",
+    "scoped_lint_static_checks": "external validation receipt, not full common/XCTest",
+    "premerge_docs_CI": "combined lint/docs/harness configure8of10 common stages, not literal npm run check; future actual results must be checked",
+    "remaining2": "icon and articleTODO graph unchanged; impact analysis is not execution",
+    "final_docs_main_FullA": "literal full10 must be independently received after normal merge; not yet accepted"
+  },
+  "TODO": {
+    "rows": 32,
+    "done": 16,
+    "all_criteria_preserved": true,
+    "IOS15_complete": false,
+    "IOS25_complete": false,
+    "IOS28_complete": false
+  },
+  "workspace": {
+    "managed_current": "clean detached e617bcac093681aebdf935fe60ef586bb56f0e9b",
+    "adoption": "not performed; ONE switch only after final Docs normal main; outcome tracked externally",
+    "preexisting_Original_and_generated_data": "preserve; no task-authorized overwrite"
+  },
+  "incomplete": [
+    "physical-device current-version acceptance",
+    "VoiceOver current version",
+    "minimum iOS17 functional acceptance",
+    "actual OS offline/new install/upgrade retention",
+    "whole IOS15/25/28",
+    "performance baseline/budget adoption"
+  ],
+  "deferred": [
+    "Store/terms/payment/distribution",
+    "9-track audio catalogue acceptance",
+    "audio queue/download",
+    "independent network content updates"
+  ]
+}
